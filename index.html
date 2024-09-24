@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/src/assets/images/logo.svg" />
+    <title>%VITE_WEB_TITLE_EN_ABBREVIATION%</title>
+    <style>
+      .app-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: #fff;
+      }
+
+      .app-loading__logo {
+        margin-bottom: 30px;
+      }
+
+      .app-loading__logo img {
+        width: 90px;
+        vertical-align: bottom;
+      }
+
+      .app-loading__title {
+        font-size: 24px;
+        color: #333;
+        margin-top: 30px;
+      }
+
+      .dark .app-loading {
+        background: #222225;
+      }
+
+      .dark .app-loading__title {
+        color: #d0d0d0;
+      }
+
+      .loader {
+        width: 50px;
+        aspect-ratio: 1;
+        display: grid;
+        border: 4px solid #0000;
+        border-radius: 50%;
+        border-right-color: #3491FA;
+        animation: l15 1s infinite linear;
+      }
+      .loader::before,
+      .loader::after {
+        content: "";
+        grid-area: 1/1;
+        margin: 2px;
+        border: inherit;
+        border-radius: 50%;
+        animation: l15 2s infinite;
+      }
+      .loader::after {
+        margin: 8px;
+        animation-duration: 3s;
+      }
+      @keyframes l15{
+        100%{transform: rotate(1turn)}
+      }
+    </style>
+  </head>
+  <body class="dark:text-#e9e9e9 auto-bg">
+    <div id="app">
+      <div class="app-loading">
+        <div class="app-loading__logo">
+          <img src="/src/assets/images/logo.svg" alt="logo"/>
+        </div>
+        <div class="loader"></div>
+        <div class="app-loading__title">%VITE_WEB_TITLE_ZH%</div>
+        <div class="app-loading__title">%VITE_WEB_TITLE_EN%</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
