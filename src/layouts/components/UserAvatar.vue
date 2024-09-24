@@ -12,7 +12,6 @@
       <n-avatar round :size="36">{{userStore.username?userStore.username.charAt(0).toUpperCase():''}}</n-avatar>
       <div v-if="userStore.userInfo" class="ml-12 flex-col flex-shrink-0 items-center">
         <span class="text-14">{{ userStore.username }}</span>
-        <span class="text-12 opacity-50">[{{ userStore.role }}]</span>
       </div>
     </div>
   </n-dropdown>
