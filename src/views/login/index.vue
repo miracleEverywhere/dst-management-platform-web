@@ -5,9 +5,9 @@
       <ToggleTheme/>
     </div>
     <div class="m-auto max-w-900 min-w-345 f-c-c rounded-8 bg-opacity-20 bg-cover p-12 card-shadow auto-bg">
-      <div class="hidden w-400 px-20 py-35 md:block">
-        <img alt="login_banner" class="w-full" src="@/assets/images/logo_mvs.svg">
-      </div>
+<!--      <div class="hidden w-400 px-20 py-35 md:block">-->
+<!--        <img alt="login_banner" class="w-full" src="@/assets/images/logo_mvs.svg">-->
+<!--      </div>-->
 
       <div class="w-500 flex-col px-20 py-32">
         <h2 class="f-c-c text-24 text-#6a6a6a font-normal">

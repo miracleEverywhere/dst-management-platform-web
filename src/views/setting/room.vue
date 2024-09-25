@@ -1,6 +1,6 @@
 <template>
   <div>
-    user
+    <i class="i-ic:outline-live-help"></i>
   </div>
 </template>
 
