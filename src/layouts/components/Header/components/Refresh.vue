@@ -21,7 +21,7 @@ import { koiSessionStorage, koiLocalStorage } from "@/utils/storage.ts";
 const handleRefresh = () => {
   koiSessionStorage.clear();
   koiLocalStorage.clear();
-  koiMsgSuccess("刷新本地缓存成功🌻");
+  koiMsgSuccess("刷新本地缓存成功");
   // 必须使用这个把页面缓存刷掉
   window.location.replace(LOGIN_URL);
 };

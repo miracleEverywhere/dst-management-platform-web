@@ -26,7 +26,7 @@
           <span class="h-1px w-16 bg-gray-300 inline-block"></span>
         </div>
         <!-- 输入框盒子 -->
-        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="w-260px">
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="w-260px" :validate-on-rule-change="false">
           <el-form-item prop="username">
             <el-input type="text" :placeholder="$t('login.loginName')" :prefix-icon="User" v-model="loginForm.username" />
           </el-form-item>
@@ -61,8 +61,7 @@
 
 <script setup>
 import { User, Lock } from "@element-plus/icons-vue";
-// @ts-ignore
-import {ref, reactive, onMounted, onUnmounted, computed, watch, nextTick} from "vue";
+import {ref, reactive, computed} from "vue";
 import { koiMsgWarning, koiMsgError } from "@/utils/koi.ts";
 import { useRouter } from "vue-router";
 import authLogin from "@/assets/json/authLogin.json";
@@ -78,6 +77,7 @@ import Dark from "@/layouts/components/Header/components/Dark.vue";
 import { getLanguage } from "@/utils/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {SHA512} from "@/utils/tools.js";
+import loginApi from "@/api/login"
 
 // 标题语言切换
 const loginTitle = ref(settings.loginTitle);
@@ -126,14 +126,18 @@ const handleKoiLogin = () => {
       loading.value = true;
       try {
         // 1、执行登录接口
-        // const res: any = await koiLogin({ loginName, password, codeKey, securityCode });
+        const reqForm = {
+          username: loginForm.username,
+          password: password
+        }
+        const res = await loginApi.login.post({ loginForm: reqForm });
         // userStore.setToken(res.data.tokenValue);
         userStore.setToken(authLogin.data.tokenValue);
         // 2、添加动态路由 AND 用户按钮 AND 角色信息 AND 用户个人信息
         if (userStore?.token) {
           await initDynamicRouter();
         } else {
-          koiMsgWarning("请重新登录🌻");
+          koiMsgWarning("请重新登录");
           await router.replace(LOGIN_URL);
           return;
         }
@@ -157,11 +161,6 @@ const handleKoiLogin = () => {
   });
 };
 
-watch(computed(() => globalStore.language), () => {
-  nextTick(() => {
-    loginFormRef.value.clearValidate()
-  })
-})
 </script>
 
 <style lang="scss" scoped>

@@ -44,7 +44,7 @@ const tabsStore = defineStore("tabs", {
     async removeTab(tabPath: string, isCurrent: boolean = true, selectedPath?: string) {
       // 如果关闭的是首页，直接返回，不进行操作
       if (tabPath == HOME_URL) {
-        koiMsgWarning("首页禁止关闭🌻");
+        koiMsgWarning("首页禁止关闭");
         return;
       }
       const keepAliveStore = useKeepAliveStore();

@@ -62,7 +62,7 @@
         v-loading="loading"
         border
         :data="tableList"
-        empty-text="暂时没有数据哟🌻"
+        empty-text="暂时没有数据哟"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
@@ -117,7 +117,7 @@
         <el-table-column label="修改时间" prop="updateTime" width="180px" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="120" fixed="right">
           <template #default="{ row }">
-            <el-tooltip content="修改🌻" placement="top">
+            <el-tooltip content="修改" placement="top">
               <el-button
                 type="primary"
                 icon="Edit"
@@ -127,7 +127,7 @@
                 v-auth="['system:role:update']"
               ></el-button>
             </el-tooltip>
-            <el-tooltip content="删除🌻" placement="top">
+            <el-tooltip content="删除" placement="top">
               <el-button
                 type="danger"
                 icon="Delete"
@@ -227,62 +227,62 @@ const tableList = ref<any>([
   {
     postId: 1,
     postCode: "CEO",
-    postName: "董事长🌻",
+    postName: "董事长",
     sorted: 1,
     postStatus: "0",
-    createBy: "YU-ADMIN🌻",
+    createBy: "YU-ADMIN",
     createTime: "2023-08-22 12:00:00",
-    updateBy: "YU-ADMIN🌻",
+    updateBy: "YU-ADMIN",
     updateTime: "2023-08-22 12:00:00",
-    remark: "YU-ADMIN🌻"
+    remark: "YU-ADMIN"
   },
   {
     postId: 2,
     postCode: "PM",
-    postName: "项目经理🌻",
+    postName: "项目经理",
     sorted: 2,
     postStatus: "0",
-    createBy: "YU-ADMIN🌻",
+    createBy: "YU-ADMIN",
     createTime: "2023-08-22 12:00:00",
-    updateBy: "YU-ADMIN🌻",
+    updateBy: "YU-ADMIN",
     updateTime: "2023-08-22 12:00:00",
-    remark: "YU-ADMIN🌻"
+    remark: "YU-ADMIN"
   },
   {
     postId: 3,
     postCode: "HR",
-    postName: "人力资源🌻",
+    postName: "人力资源",
     sorted: 3,
     postStatus: "0",
-    createBy: "YU-ADMIN🌻",
+    createBy: "YU-ADMIN",
     createTime: "2023-08-22 12:00:00",
-    updateBy: "YU-ADMIN🌻",
+    updateBy: "YU-ADMIN",
     updateTime: "2023-08-22 12:00:00",
-    remark: "YU-ADMIN🌻"
+    remark: "YU-ADMIN"
   },
   {
     postId: 4,
     postCode: "NORMAL",
-    postName: "普通员工🌻",
+    postName: "普通员工",
     sorted: 4,
     postStatus: "0",
-    createBy: "YU-ADMIN🌻",
+    createBy: "YU-ADMIN",
     createTime: "2023-08-22 12:00:00",
-    updateBy: "YU-ADMIN🌻",
+    updateBy: "YU-ADMIN",
     updateTime: "2023-08-22 12:00:00",
-    remark: "YU-ADMIN🌻"
+    remark: "YU-ADMIN"
   },
   {
     postId: 5,
     postCode: "TECHNOLOGY",
-    postName: "技术岗位🌻",
+    postName: "技术岗位",
     sorted: 4,
     postStatus: "0",
-    createBy: "YU-ADMIN🌻",
+    createBy: "YU-ADMIN",
     createTime: "2023-08-22 12:00:00",
-    updateBy: "YU-ADMIN🌻",
+    updateBy: "YU-ADMIN",
     updateTime: "2023-08-22 12:00:00",
-    remark: "YU-ADMIN🌻"
+    remark: "YU-ADMIN"
   }
 ]);
 
@@ -337,7 +337,7 @@ const handleListPage = async () => {
   //   loading.value = false;
   // } catch (error) {
   //   console.log(error);
-  //   koiNoticeError("数据查询失败，请刷新重试🌻");
+  //   koiNoticeError("数据查询失败，请刷新重试");
   // }
 };
 
@@ -350,7 +350,7 @@ const handleTableData = async () => {
     total.value = res.data.total;
   } catch (error) {
     console.log(error);
-    koiNoticeError("数据查询失败，请刷新重试🌻");
+    koiNoticeError("数据查询失败，请刷新重试");
   }
 };
 
@@ -380,7 +380,7 @@ const handleSelectionChange = (selection: any) => {
 const handleAdd = () => {
   // 打开弹出框
   koiDrawerRef.value.koiOpen();
-  koiMsgSuccess("添加🌻");
+  koiMsgSuccess("添加");
   // 重置表单
   resetForm();
   // 标题
@@ -392,7 +392,7 @@ const handleAdd = () => {
 const handleEcho = async (id: any) => {
   console.log("回显数据ID", id);
   if (id == null || id == "") {
-    koiMsgWarning("请选择需要修改的数据🌻");
+    koiMsgWarning("请选择需要修改的数据");
     return;
   }
   try {
@@ -400,7 +400,7 @@ const handleEcho = async (id: any) => {
     console.log(res.data);
     form.value = res.data;
   } catch (error) {
-    koiNoticeError("数据获取失败，请刷新重试🌻");
+    koiNoticeError("数据获取失败，请刷新重试");
     console.log(error);
   }
 };
@@ -409,14 +409,14 @@ const handleEcho = async (id: any) => {
 const handleUpdate = async (row?: any) => {
   // 打开弹出框
   koiDrawerRef.value.koiOpen();
-  koiMsgSuccess("修改🌻");
+  koiMsgSuccess("修改");
   // 重置表单
   resetForm();
   // 标题
   title.value = "岗位修改";
   const postId = row ? row.postId : ids.value[0];
   if (postId == null || postId == "") {
-    koiMsgError("请选中需要修改的数据🌻");
+    koiMsgError("请选中需要修改的数据");
   }
   console.log(postId);
   // 回显数据
@@ -476,7 +476,7 @@ const handleConfirm = () => {
       if (form.value.postId != null && form.value.postId != "") {
         try {
           await update(form.value);
-          koiNoticeSuccess("修改成功🌻");
+          koiNoticeSuccess("修改成功");
           confirmLoading.value = false;
           koiDrawerRef.value.koiQuickClose();
           resetForm();
@@ -484,12 +484,12 @@ const handleConfirm = () => {
         } catch (error) {
           console.log(error);
           confirmLoading.value = false;
-          koiNoticeError("修改失败，请刷新重试🌻");
+          koiNoticeError("修改失败，请刷新重试");
         }
       } else {
         try {
           await add(form.value);
-          koiNoticeSuccess("添加成功🌻");
+          koiNoticeSuccess("添加成功");
           confirmLoading.value = false;
           koiDrawerRef.value.koiQuickClose();
           resetForm();
@@ -497,7 +497,7 @@ const handleConfirm = () => {
         } catch (error) {
           console.log(error);
           confirmLoading.value = false;
-          koiNoticeError("添加失败，请刷新重试🌻");
+          koiNoticeError("添加失败，请刷新重试");
         }
       }
 
@@ -505,14 +505,14 @@ const handleConfirm = () => {
       // setInterval(() => {
       //   loadingTime--;
       //   if (loadingTime === 0) {
-      //     koiNoticeSuccess("朕让你提交了么？信不信锤你🌻");
+      //     koiNoticeSuccess("朕让你提交了么？信不信锤你");
       //     confirmLoading.value = false;
       //     resetForm();
       //     koiDrawerRef.value.koiQuickClose();
       //   }
       // }, 1000);
     } else {
-      koiMsgError("验证失败，请检查填写内容🌻");
+      koiMsgError("验证失败，请检查填写内容");
       confirmLoading.value = false;
     }
   });
@@ -529,21 +529,21 @@ const handleSwitch = (row: any) => {
   koiMsgBox("确认要[" + text + "]-[" + row.postName + "]吗？")
     .then(async () => {
       if (!row.postId || !row.postStatus) {
-        koiMsgWarning("请选择需要修改的数据🌻");
+        koiMsgWarning("请选择需要修改的数据");
         return;
       }
       try {
         await updateStatus(row.postId, row.postStatus);
-        koiNoticeSuccess("修改成功🌻");
+        koiNoticeSuccess("修改成功");
       } catch (error) {
         console.log(error);
         handleTableData();
-        koiNoticeError("修改失败，请刷新重试🌻");
+        koiNoticeError("修改失败，请刷新重试");
       }
     })
     .catch(() => {
       // row.postStatus = row.postStatus == "0" ? "1" : "0";
-      koiMsgError("已取消🌻");
+      koiMsgError("已取消");
     });
 };
 
@@ -551,7 +551,7 @@ const handleSwitch = (row: any) => {
 const handleDelete = (row: any) => {
   const id = row.postId;
   if (id == null || id == "") {
-    koiMsgWarning("请选中需要删除的数据🌻");
+    koiMsgWarning("请选中需要删除的数据");
     return;
   }
   koiMsgBox("您确认需要删除岗位名称[" + row.postName + "]么？")
@@ -559,22 +559,22 @@ const handleDelete = (row: any) => {
       try {
         await deleteById(id);
         handleTableData();
-        koiNoticeSuccess("删除成功🌻");
+        koiNoticeSuccess("删除成功");
       } catch (error) {
         console.log(error);
         handleTableData();
-        koiNoticeError("删除失败，请刷新重试🌻");
+        koiNoticeError("删除失败，请刷新重试");
       }
     })
     .catch(() => {
-      koiMsgError("已取消🌻");
+      koiMsgError("已取消");
     });
 };
 
 /** 批量删除 */
 const handleBatchDelete = () => {
   if (ids.value.length == 0) {
-    koiMsgInfo("请选择需要删除的数据🌻");
+    koiMsgInfo("请选择需要删除的数据");
     return;
   }
   koiMsgBox("您确认需要进行批量删除么？")
@@ -583,15 +583,15 @@ const handleBatchDelete = () => {
         // console.log("ids", ids.value);
         await batchDelete(ids.value);
         handleTableData();
-        koiNoticeSuccess("批量删除成功🌻");
+        koiNoticeSuccess("批量删除成功");
       } catch (error) {
         console.log(error);
         handleTableData();
-        koiNoticeError("批量删除失败，请刷新重试🌻");
+        koiNoticeError("批量删除失败，请刷新重试");
       }
     })
     .catch(() => {
-      koiMsgError("已取消🌻");
+      koiMsgError("已取消");
     });
 };
 </script>

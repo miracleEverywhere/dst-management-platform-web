@@ -3,8 +3,10 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { koiMsgError } from "@/utils/koi.ts";
 import { LOGIN_URL } from "@/config/index.ts";
 import useUserStore from "@/stores/modules/user.ts";
+
 import { getToken } from "@/utils/storage.ts";
 import router from "@/routers/index.ts";
+import useGlobalStore from "@/stores/modules/global.ts";
 
 // axios配置
 const config = {
@@ -15,7 +17,7 @@ const config = {
 // 返回值类型
 export interface Result<T = any> {
   code: number;
-  msg: string;
+  message: string;
   data: T;
 }
 // 只有请求封装用的Yu，方便简写
@@ -34,17 +36,20 @@ class Yu {
     // @ts-ignore
     this.instance.interceptors.request.use(
       config => {
+        const globalStore = useGlobalStore()
+        config.headers!["X-I18n-Lang"] = globalStore.language
         // 获取token
         const token = getToken();
         // 如果实现挤下线功能，需要用户绑定一个uuid，uuid发生变化，后端将数据进行处理[直接使用Sa-Token框架也阔以]
         if (token) {
-          config.headers!["Authorization"] = "Bearer " + token;
+          config.headers!["Authorization"] = token;
+
         }
         return config;
       },
       (error: any) => {
         error.data = {};
-        error.data.msg = "服务器异常，请联系管理员🌻";
+        error.data.message = "服务器异常，请联系管理员";
         return error;
       }
     );
@@ -56,20 +61,20 @@ class Yu {
         const status = res.data.status || res.data.code; // 后端返回数据状态
         if (status == 200) {
           // 服务器连接状态，非后端返回的status 或者 code
-          // 这里的后端可能是code OR status 和 msg OR message需要看后端传递的是什么？
+          // 这里的后端可能是code OR status 和 message OR message需要看后端传递的是什么？
           // console.log("200状态", status);
           return res.data;
         } else if (status == 401) {
           // console.log("401状态", status);
           const userStore = useUserStore();
           userStore.setToken(""); // 清空token必须使用这个，不能使用session清空，因为登录的时候js会获取一遍token还会存在。
-          koiMsgError("登录身份过期，请重新登录🌻");
+          koiMsgError("登录身份过期，请重新登录");
           router.replace(LOGIN_URL);
           return Promise.reject(res.data);
         } else {
-          // console.log("后端返回数据：",res.data.msg)
-          koiMsgError(res.data.msg + "🌻" || "服务器偷偷跑到火星去玩了🌻");
-          return Promise.reject(res.data.msg + "🌻" || "服务器偷偷跑到火星去玩了🌻"); // 可以将异常信息延续到页面中处理，使用try{}catch(error){};
+          // console.log("后端返回数据：",res.data.message)
+          koiMsgError(res.data.message + "" || "服务器偷偷跑到火星去玩了");
+          return Promise.reject(res.data.message + "" || "服务器偷偷跑到火星去玩了"); // 可以将异常信息延续到页面中处理，使用try{}catch(error){};
         }
       },
       (error: any) => {
@@ -77,62 +82,10 @@ class Yu {
         // console.log("进入错误",error);
         error.data = {};
         if (error && error.response) {
-          switch (error.response.status) {
-            case 400:
-              error.data.msg = "错误请求🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 401:
-              error.data.msg = "未授权，请重新登录🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 403:
-              error.data.msg = "对不起，您没有权限访问🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 404:
-              error.data.msg = "请求错误,未找到请求路径🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 405:
-              error.data.msg = "请求方法未允许🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 408:
-              error.data.msg = "请求超时🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 500:
-              error.data.msg = "服务器又偷懒了，请重试🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 501:
-              error.data.msg = "网络未实现🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 502:
-              error.data.msg = "网络错误🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 503:
-              error.data.msg = "服务不可用🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 504:
-              error.data.msg = "网络超时🌻";
-              koiMsgError(error.data.msg);
-              break;
-            case 505:
-              error.data.msg = "http版本不支持该请求🌻";
-              koiMsgError(error.data.msg);
-              break;
-            default:
-              error.data.msg = `连接错误${error.response.status}`;
-              koiMsgError(error.data.msg);
-          }
+          koiMsgError(error.data.message);
         } else {
-          error.data.msg = "连接到服务器失败🌻";
-          koiMsgError(error.data.msg);
+          error.data.message = "连接到服务器失败";
+          koiMsgError(error.data.message);
         }
         return Promise.reject(error); // 将错误返回给 try{} catch(){} 中进行捕获，就算不进行捕获，上方 res.data.status != 200也会抛出提示。
       }

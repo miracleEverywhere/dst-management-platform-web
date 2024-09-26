@@ -65,7 +65,7 @@ const handleRefresh = () => {
 // 设置 Tab 标题
 const tabTitle = ref("");
 const handleUpdateTabTitle = () => {
-  if (!tabTitle.value) return koiMsgWarning("请输入标题🌻");
+  if (!tabTitle.value) return koiMsgWarning("请输入标题");
   tabsStore.setTabTitle(tabTitle.value);
 };
 

@@ -121,7 +121,7 @@ const removeTab = (fullPath: any) => {
   // 最后一个选项卡不被允许关闭
   const ObjectNumber = tabsStore.tabList.filter((item: any) => typeof item === "object").length;
   if (ObjectNumber == 1) {
-    koiMsgWarning("到我的底线了，哼🌻");
+    koiMsgWarning("到我的底线了，哼");
     return;
   }
   tabsStore.removeTab(fullPath as string, fullPath == route.fullPath, "NULL");
@@ -159,7 +159,7 @@ const handleTabsMenuParent = (value: any) => {
   if (tabMenuRef.value) {
     tabMenuRef.value.handleKoiMenuParent(value);
   } else {
-    koiMsgWarning("右键获取属性失败，请刷新页面重试🌻");
+    koiMsgWarning("右键获取属性失败，请刷新页面重试");
   }
 };
 
@@ -167,7 +167,7 @@ const handleTabsMenuChildren = (path: any, value: any) => {
   if (tabMenuRef.value) {
     tabMenuRef.value.handleKoiMenuChildren(path, value);
   } else {
-    koiMsgWarning("右键获取属性失败，请刷新页面重试🌻");
+    koiMsgWarning("右键获取属性失败，请刷新页面重试");
   }
 };
 </script>

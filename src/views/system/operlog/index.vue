@@ -61,7 +61,7 @@
         v-loading="loading"
         border
         :data="tableList"
-        empty-text="暂时没有数据哟🌻"
+        empty-text="暂时没有数据哟"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
@@ -131,7 +131,7 @@
         ></el-table-column>
         <el-table-column label="操作" align="center" width="120" fixed="right">
           <template #default="{ row }">
-            <el-tooltip content="删除🌻" placement="top">
+            <el-tooltip content="删除" placement="top">
               <el-button
                 type="danger"
                 icon="Delete"
@@ -141,7 +141,7 @@
                 v-auth="['system:role:delete']"
               ></el-button>
             </el-tooltip>
-            <el-tooltip content="查看🌻" placement="top">
+            <el-tooltip content="查看" placement="top">
               <el-button
                 type="primary"
                 icon="View"
@@ -221,7 +221,7 @@ const tableList = ref<any>([
     operLocation: "",
     operParam: '{"pageNo":1,"pageSize":10,"loginName":null,"ipAddress":null,"loginStatus":null,"beginTime":null,"endTime":null}',
     jsonResult:
-      '{"records":[{"loginId":1631503277759787010,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"99.88","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631504522339807234,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631521087655362562,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631545199358406657,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"lo',
+      '{"records":[{"loginId":1631503277759787010,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"99.88","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631504522339807234,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631521087655362562,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631545199358406657,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"lo',
     operStatus: "0",
     errorMsg: "",
     operTime: "2023-10-31 14:51:44",
@@ -240,7 +240,7 @@ const tableList = ref<any>([
     operLocation: "内网IP，无法获取位置",
     operParam: '{"pageNo":1,"pageSize":10,"loginName":null,"ipAddress":null,"loginStatus":null,"beginTime":null,"endTime":null}',
     jsonResult:
-      '{"records":[{"loginId":1631503277759787010,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"99.88","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631504522339807234,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631521087655362562,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631545199358406657,"loginName":"YU-ADMIN🌻","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"lo',
+      '{"records":[{"loginId":1631503277759787010,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"99.88","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631504522339807234,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631521087655362562,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"loginId":1631545199358406657,"loginName":"YU-ADMIN","deviceName":"Unknown","ipAddress":"127.0.0.1","loginAddress":"河南省 郑州市","browser":"iOS 11 (iPhone)","os":"Chrome Mobile","loginStatus":"0","message":"登录成功","loginTime":"2023-08-25 19:13:30"},{"lo',
     operStatus: "1",
     errorMsg: "",
     operTime: "2023-10-31 16:15:01",
@@ -317,7 +317,7 @@ const handleListPage = async () => {
   //   loading.value = false;
   // } catch (error) {
   //   console.log(error);
-  //   koiNoticeError("数据查询失败，请刷新重试🌻");
+  //   koiNoticeError("数据查询失败，请刷新重试");
   // }
 };
 
@@ -330,7 +330,7 @@ const handleTableData = async () => {
     total.value = res.data.total;
   } catch (error) {
     console.log(error);
-    koiNoticeError("数据查询失败，请刷新重试🌻");
+    koiNoticeError("数据查询失败，请刷新重试");
   }
 };
 
@@ -360,29 +360,29 @@ const handleSelectionChange = (selection: any) => {
 const handleDelete = (row: any) => {
   const id = row.operId;
   if (id == null || id == "") {
-    koiMsgWarning("请选中需要删除的数据🌻");
+    koiMsgWarning("请选中需要删除的数据");
   }
   koiMsgBox("您确认需要删除操作名称[" + row.operName + "]么？")
     .then(async () => {
       try {
         await deleteById(id);
         handleTableData();
-        koiNoticeSuccess("删除成功🌻");
+        koiNoticeSuccess("删除成功");
       } catch (error) {
         console.log(error);
         handleTableData();
-        koiNoticeError("删除失败，请刷新重试🌻");
+        koiNoticeError("删除失败，请刷新重试");
       }
     })
     .catch(() => {
-      koiMsgError("已取消🌻");
+      koiMsgError("已取消");
     });
 };
 
 /** 批量删除 */
 const handleBatchDelete = () => {
   if (ids.value.length == 0) {
-    koiMsgInfo("请选择需要删除的数据🌻");
+    koiMsgInfo("请选择需要删除的数据");
     return;
   }
   koiMsgBox("您确认需要进行批量删除么？")
@@ -391,15 +391,15 @@ const handleBatchDelete = () => {
         // console.log("ids", ids.value);
         await batchDelete(ids.value);
         handleTableData();
-        koiNoticeSuccess("批量删除成功🌻");
+        koiNoticeSuccess("批量删除成功");
       } catch (error) {
         console.log(error);
-        koiNoticeError("批量删除失败，请刷新重试🌻");
+        koiNoticeError("批量删除失败，请刷新重试");
         handleTableData();
       }
     })
     .catch(() => {
-      koiMsgError("已取消🌻");
+      koiMsgError("已取消");
     });
 };
 
@@ -407,7 +407,7 @@ const handleBatchDelete = () => {
 const handleView = async (row: any) => {
   const id = row.operId;
   if (!id) {
-    koiMsgError("请传递需要查询的条件🌻");
+    koiMsgError("请传递需要查询的条件");
   }
   // 重置表单
   resetForm();
@@ -419,7 +419,7 @@ const handleView = async (row: any) => {
     form.value = res.data;
   } catch (error) {
     console.log(error);
-    koiNoticeError("数据查询失败，请刷新重试🌻");
+    koiNoticeError("数据查询失败，请刷新重试");
   }
   koiDialogRef.value.koiOpen();
 };

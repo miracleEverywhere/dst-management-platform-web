@@ -12,10 +12,10 @@ const copy: Directive = {
     el.handleClickEl = async function () {
       try {
         await navigator.clipboard.writeText(el.copyData.toString());
-        ElMessage.success("复制成功🌻");
+        ElMessage.success("复制成功");
       } catch (error) {
         console.error("复制操作不被支持或失败: ", error);
-        ElMessage.error("复制失败🌻");
+        ElMessage.error("复制失败");
       }
     };
     el.addEventListener("click", el.handleClickEl);

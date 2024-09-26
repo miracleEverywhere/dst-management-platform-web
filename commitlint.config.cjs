@@ -85,8 +85,8 @@ module.exports = {
       // },
       // {
       //   value: "style",
-      //   name: "style:    🌻  Changes that do not affect the meaning of the code",
-      //   emoji: "🌻"
+      //   name: "style:      Changes that do not affect the meaning of the code",
+      //   emoji: ""
       // },
       // {
       //   value: "refactor",
@@ -142,7 +142,7 @@ module.exports = {
       { value: "feat", name: "特性:   👻  新增功能", emoji: "👻" },
       { value: "fix", name: "修复:   🌈  修复缺陷", emoji: "🌈" },
       { value: "docs", name: "文档:   🍊  文档变更", emoji: "🍊" },
-      { value: "style", name: "格式:   🌻  代码格式[不影响功能，例如空格、分号等格式修正]", emoji: "🌻" },
+      { value: "style", name: "格式:     代码格式[不影响功能，例如空格、分号等格式修正]", emoji: "" },
       { value: "refactor", name: "重构:   🎃  代码重构[不包括 bug 修复、功能新增]", emoji: "🎃" },
       { value: "perf", name: "性能:    ⚡️  性能优化", emoji: "⚡️" },
       { value: "test", name: "测试:   ✅  添加疏漏测试或已有测试改动", emoji: "✅" },

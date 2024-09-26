@@ -379,7 +379,7 @@ mittBus.on("handleThemeConfig", () => {
   right: 8px;
   bottom: 22px;
   font-size: 24px;
-  content: "🌻";
+  content: "";
   transform: scale(0); /* 初始状态下隐藏 */
 }
 .themeSelected {

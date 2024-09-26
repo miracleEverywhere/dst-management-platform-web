@@ -83,19 +83,19 @@ const koiClose = () => {
   koiMsgBox("您确认进行关闭么？")
     .then(() => {
       visible.value = false;
-      koiMsgWarning("已关闭🌻");
+      koiMsgWarning("已关闭");
     })
     .catch(() => {
       // 用户点击了取消按钮或关闭确认框
       // 执行取消操作或不做任何操作
-      koiMsgWarning("已取消🌻");
+      koiMsgWarning("已取消");
     });
 };
 
 // 确认提交后关闭弹窗
 const koiQuickClose = () => {
   visible.value = false;
-  koiMsgWarning("已提交🌻");
+  koiMsgWarning("已提交");
 };
 
 // 当前组件获取父组件传递的事件方法

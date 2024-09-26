@@ -9,7 +9,7 @@
         ref="koiMenuRef"
         v-model="searchMenu"
         value-key="path"
-        placeholder="菜单搜索：支持菜单名称、路径🌻"
+        placeholder="菜单搜索：支持菜单名称、路径"
         :fetch-suggestions="searchMenuList"
         @select="handleClickMenu"
         @click.stop

@@ -13,10 +13,10 @@
 import { koiMsgSuccess, koiMsgWarning } from "@/utils/koi.ts";
 
 const handleDebounce = () => {
-  koiMsgSuccess("防抖🌻");
+  koiMsgSuccess("防抖");
 };
 const handleThrottle = () => {
-  koiMsgWarning("节流🌻");
+  koiMsgWarning("节流");
 };
 </script>
 

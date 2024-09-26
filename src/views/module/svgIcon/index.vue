@@ -43,11 +43,11 @@ const copyData = ref<string>("主人，妲己永远陪在你身边👻");
 
 const handleCopy = () => {
   if (!isSupported) {
-    koiMsgError("您的浏览器不支持Clipboard API🌻");
+    koiMsgError("您的浏览器不支持Clipboard API");
     return;
   }
   if (!copyData.value) {
-    koiMsgWarning("请输入要复制的内容🌻");
+    koiMsgWarning("请输入要复制的内容");
     return;
   }
   copy(copyData.value);

@@ -62,7 +62,7 @@ watch(
 const handleDimension = (item: string) => {
   if (dimension.value === item) return;
   globalStore.setDimension(item);
-  koiMsgSuccess("配置成功🌻");
+  koiMsgSuccess("配置成功");
 };
 </script>
 
