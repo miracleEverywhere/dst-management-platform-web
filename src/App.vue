@@ -1,82 +1,68 @@
-<!--------------------------------
- - @Author: Ronnie Zhang
- - @LastEditor: Ronnie Zhang
- - @LastEditTime: 2023/12/16 18:49:42
- - @Email: zclzone@outlook.com
- - Copyright © 2023 Ronnie Zhang(大脸怪) | https://isme.top
- --------------------------------->
-
 <template>
-  <n-config-provider
-    class="wh-full"
-    :locale="locale"
-    :date-locale="dateLocale"
-    :theme="appStore.isDark ? darkTheme : undefined"
-    :theme-overrides="appStore.naiveThemeOverrides"
-  >
-    <router-view v-if="Layout" v-slot="{ Component, route: curRoute }">
-      <component :is="Layout">
-        <transition name="fade-slide" mode="out-in" appear>
-          <KeepAlive :include="keepAliveNames">
-            <component :is="Component" v-if="!tabStore.reloading" :key="curRoute.fullPath" />
-          </KeepAlive>
-        </transition>
-      </component>
-
-      <LayoutSetting v-if="layoutSettingVisible" class="fixed right-12 top-1/2 z-999" />
-    </router-view>
-  </n-config-provider>
+  <el-config-provider :locale="locale" :size="dimension">
+    <router-view></router-view>
+  </el-config-provider>
 </template>
 
-<script setup>
-import { LayoutSetting } from '@/components'
-import { useAppStore, useTabStore } from '@/store'
-import { darkTheme, dateZhCN, zhCN, dateEnUS, enUS } from 'naive-ui'
-import { layoutSettingVisible } from './settings'
-import {useI18n} from "vue-i18n";
+<script setup lang="ts">
+import { onMounted, nextTick, computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { getBrowserLang } from "@/utils/index.ts";
+import { useTheme } from "@/utils/theme.ts";
+import en from "element-plus/es/locale/lang/en";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+import { autoRefresh } from "@/utils/autoUpdate.ts";
 
+import useGlobalStore from "@/stores/modules/global.ts";
+const globalStore = useGlobalStore();
 
-const layouts = new Map()
-function getLayout(name) {
-  // 利用map将加载过的layout缓存起来，防止重新加载layout导致页面闪烁
-  if (layouts.get(name))
-    return layouts.get(name)
-  const layout = markRaw(defineAsyncComponent(() => import(`@/layouts/${name}/index.vue`)))
-  layouts.set(name, layout)
-  return layout
-}
+const dimension = computed(() => globalStore.dimension);
+const { initThemeConfig } = useTheme();
 
-const route = useRoute()
-const appStore = useAppStore()
-if (appStore.layout === 'default')
-  appStore.setLayout('')
-const Layout = computed(() => {
-  if (!route.matched?.length)
-    return null
-  return getLayout(route.meta?.layout || appStore.layout)
-})
-
-const tabStore = useTabStore()
-const keepAliveNames = computed(() => {
-  return tabStore.tabs.filter(item => item.keepAlive).map(item => item.name)
-})
-
-watchEffect(() => {
-  appStore.setThemeColor(appStore.primaryColor, appStore.isDark)
-})
-
-const i18n = useI18n()
-const locale = computed(() => {
-  if (appStore.language === "zh") return zhCN;
-  if (appStore.language === "en") return enUS;
-})
-const dateLocale = computed(() => {
-  if (appStore.language === "zh") return dateZhCN;
-  if (appStore.language === "en") return dateEnUS;
-})
-
+// 初始化语言
+const i18n = useI18n();
 onMounted(() => {
-  i18n.locale.value = appStore.language
-})
+  // 初始化主题配置
+  handleThemeConfig();
+  // 初始化语言配置
+  handleI18nConfig();
+  // 自动检测更新
+  handleAutoUpdate();
+  // 开发环境打印项目名称
+  console.log(
+    `%c KOI-ADMIN %c V1.0.0 `,
+    "padding: 2px 1px; border-radius: 3px 0 0 3px; color: #fff; background: #6169FF; font-weight: bold;",
+    "padding: 2px 1px; border-radius: 0 3px 3px 0; color: #fff; background: #42c02e; font-weight: bold;"
+  );
+});
 
+// 语言配置
+const locale = computed(() => {
+  if (globalStore.language == "zh") return zhCn;
+  if (globalStore.language == "en") return en;
+  return getBrowserLang() == "zh" ? zhCn : en;
+});
+
+// 初始化语言配置
+const handleI18nConfig = () => {
+  const language = globalStore.language ?? getBrowserLang();
+  i18n.locale.value = language;
+  globalStore.setGlobalState("language", language);
+};
+
+// 初始化主题配置
+const handleThemeConfig = () => {
+  nextTick(() => {
+    initThemeConfig();
+  });
+};
+
+// 自动检测更新
+const handleAutoUpdate = () => {
+  nextTick(() => {
+    if (import.meta.env.VITE_ENV === "production") autoRefresh();
+  });
+};
 </script>
+
+<style scoped></style>

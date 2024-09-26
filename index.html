@@ -2,84 +2,209 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/public/vite.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.png" />
-    <title>%VITE_WEB_TITLE_EN_ABBREVIATION%</title>
+    <title>%VITE_WEB_TITLE%</title>
+    <!-- 加载第一步开始 -->
     <style>
-      .app-loading {
-        position: absolute;
+      .preloader {
+        background: #5838fc;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
         top: 0;
+        z-index: 9999;
+      }
+
+      .loader-inner {
+        width: 70px;
+        height: 60px;
+        position: absolute;
         left: 0;
         right: 0;
+        top: 0;
         bottom: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        margin: auto;
+      }
+
+      .mask {
+        position: absolute;
+        border-radius: 2px;
+        overflow: hidden;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+
+      .plane {
         background: #fff;
+        width: 400%;
+        height: 100%;
+        position: absolute;
+        -webkit-transform: translate3d(0px, 0, 0);
+        transform: translate3d(0px, 0, 0);
+        /*transition: all 0.8s ease; */
+        z-index: 100;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
       }
 
-      .app-loading__logo {
-        margin-bottom: 30px;
+      .animation {
+        transition: all 0.3s ease;
       }
 
-      .app-loading__logo img {
-        width: 90px;
-        vertical-align: bottom;
+      #top .plane {
+        z-index: 2000;
+        -webkit-animation: trans1 1.3s ease-in infinite 0s backwards;
+        animation: trans1 1.3s ease-in infinite 0s backwards;
       }
 
-      .app-loading__title {
-        font-size: 24px;
-        color: #333;
-        margin-top: 30px;
+      #middle .plane {
+        -webkit-transform: translate3d(0px, 0, 0);
+        transform: translate3d(0px, 0, 0);
+        background: #fff;
+        -webkit-animation: trans2 1.3s linear infinite 0.3s backwards;
+        animation: trans2 1.3s linear infinite 0.3s backwards;
       }
 
-      .dark .app-loading {
-        background: #222225;
+      #bottom .plane {
+        z-index: 2000;
+        -webkit-animation: trans3 1.3s ease-out infinite 0.7s backwards;
+        animation: trans3 1.3s ease-out infinite 0.7s backwards;
       }
 
-      .dark .app-loading__title {
-        color: #d0d0d0;
+      #top {
+        width: 53px;
+        height: 20px;
+        left: 20px;
+        -webkit-transform: skew(-15deg, 0);
+        transform: skew(-15deg, 0);
+        z-index: 100;
       }
 
-      .loader {
-        width: 50px;
-        aspect-ratio: 1;
-        display: grid;
-        border: 4px solid #0000;
-        border-radius: 50%;
-        border-right-color: #3491FA;
-        animation: l15 1s infinite linear;
+      #middle {
+        width: 33px;
+        height: 20px;
+        left: 20px;
+        top: 15px;
+        -webkit-transform: skew(-15deg, 40deg);
+        transform: skew(-15deg, 40deg);
       }
-      .loader::before,
-      .loader::after {
-        content: "";
-        grid-area: 1/1;
-        margin: 2px;
-        border: inherit;
-        border-radius: 50%;
-        animation: l15 2s infinite;
+
+      #bottom {
+        width: 53px;
+        height: 20px;
+        top: 30px;
+        -webkit-transform: skew(-15deg, 0);
+        transform: skew(-15deg, 0);
       }
-      .loader::after {
-        margin: 8px;
-        animation-duration: 3s;
+
+      .preloader p {
+        color: #fff;
+        position: absolute;
+        left: -50px;
+        top: 60px;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 600;
+        font-style: italic;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin: 0;
+        width: 200px;
       }
-      @keyframes l15{
-        100%{transform: rotate(1turn)}
+
+      @-webkit-keyframes trans1 {
+        from {
+          -webkit-transform: translate3d(53px, 0, 0);
+          transform: translate3d(53px, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(-250px, 0, 0);
+          transform: translate3d(-250px, 0, 0);
+        }
+      }
+
+      @keyframes trans1 {
+        from {
+          -webkit-transform: translate3d(53px, 0, 0);
+          transform: translate3d(53px, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(-250px, 0, 0);
+          transform: translate3d(-250px, 0, 0);
+        }
+      }
+
+      @-webkit-keyframes trans2 {
+        from {
+          -webkit-transform: translate3d(-160px, 0, 0);
+          transform: translate3d(-160px, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(53px, 0, 0);
+          transform: translate3d(53px, 0, 0);
+        }
+      }
+
+      @keyframes trans2 {
+        from {
+          -webkit-transform: translate3d(-160px, 0, 0);
+          transform: translate3d(-160px, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(53px, 0, 0);
+          transform: translate3d(53px, 0, 0);
+        }
+      }
+
+      @-webkit-keyframes trans3 {
+        from {
+          -webkit-transform: translate3d(53px, 0, 0);
+          transform: translate3d(53px, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(-220px, 0, 0);
+          transform: translate3d(-220px, 0, 0);
+        }
+      }
+
+      @keyframes trans3 {
+        from {
+          -webkit-transform: translate3d(53px, 0, 0);
+          transform: translate3d(53px, 0, 0);
+        }
+        to {
+          -webkit-transform: translate3d(-220px, 0, 0);
+          transform: translate3d(-220px, 0, 0);
+        }
       }
     </style>
+    <!-- 加载第一步结束 -->
   </head>
-  <body class="dark:text-#e9e9e9 auto-bg">
+  <body>
     <div id="app">
-      <div class="app-loading">
-        <div class="app-loading__logo">
-          <img src="/src/assets/images/logo.svg" alt="logo"/>
+      <!-- 第二步开始 -->
+      <div class="preloader">
+        <div class="loader-inner">
+          <div id="top" class="mask">
+            <div class="plane"></div>
+          </div>
+          <div id="middle" class="mask">
+            <div class="plane"></div>
+          </div>
+          <div id="bottom" class="mask">
+            <div class="plane"></div>
+          </div>
+          <p>美好的事情即将发生，请耐心等待...</p>
         </div>
-        <div class="loader"></div>
-        <div class="app-loading__title">%VITE_WEB_TITLE_ZH%</div>
-        <div class="app-loading__title">%VITE_WEB_TITLE_EN%</div>
       </div>
+      <!-- 第二步结束 -->
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

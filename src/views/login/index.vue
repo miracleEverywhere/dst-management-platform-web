@@ -1,124 +1,197 @@
 <template>
-  <div class="wh-full flex-col">
-    <div style="display: flex; justify-content: right; font-size: 18px; margin-top: 10px">
-      <Language/>
-      <ToggleTheme/>
-    </div>
-    <div class="m-auto max-w-900 min-w-345 f-c-c rounded-8 bg-opacity-20 bg-cover p-12 card-shadow auto-bg">
-<!--      <div class="hidden w-400 px-20 py-35 md:block">-->
-<!--        <img alt="login_banner" class="w-full" src="@/assets/images/logo_mvs.svg">-->
-<!--      </div>-->
-
-      <div class="w-500 flex-col px-20 py-32">
-        <h2 class="f-c-c text-24 text-#6a6a6a font-normal">
-          <img alt="logo" class="mr-12 h-50" src="@/assets/images/logo.svg">
-          <span v-if="language==='zh'">{{ titleZH }}</span>
-          <span v-if="language==='en'">{{ titleEN }}</span>
-        </h2>
-        <n-input
-          v-model:value="loginInfo.username"
-          :maxlength="20"
-          autofocus
-          class="mt-32 h-40 items-center"
-          :placeholder="$t('global.plzInput')+' '+$t('global.username')"
-        >
-          <template #prefix>
-            <i class="i-fe:user mr-12 opacity-20"/>
-          </template>
-        </n-input>
-        <n-input
-          v-model:value="loginInfo.password"
-          :maxlength="20"
-          class="mt-20 h-40 items-center"
-          :placeholder="$t('global.plzInput')+' '+$t('global.password')"
-          show-password-on="mousedown"
-          type="password"
-          @keydown.enter="handleLogin()"
-        >
-          <template #prefix>
-            <i class="i-fe:lock mr-12 opacity-20"/>
-          </template>
-        </n-input>
-
-        <div class="mt-20 flex items-center">
-
-          <n-button
-            :loading="loading"
-            class="mt-20 h-40 flex-1 rounded-5 text-16"
-            type="primary"
-            @click="handleLogin()"
-          >
-            {{t('login.login')}}
-          </n-button>
-        </div>
+  <div class="h-full">
+    <el-row class="h-100%">
+      <div class="absolute top-10px right-10px flex flex-items-center">
+        <Language></Language>
+        <Dark></Dark>
       </div>
-    </div>
+      <el-col :lg="16" :md="12" :sm="15" :xs="0" class="flex items-center justify-center">
+        <div class="login-background w-85% h-100%"></div>
+        <div class="absolute text-center select-none">
+          <el-image class="w-400px h-360px mb-50px animate-float <md:hidden <lg:w-360px h-320px" :src="bg" />
+          <div class="font-bold text-3xl chroma-text mb-6px text-center <lg:text-2xl <md:hidden">
+            {{ $t("login.welcome") }} {{ loginTitle }}
+          </div>
+          <div class="chroma-text text-lg text-center <md:hidden">{{ $t("login.description") }}</div>
+        </div>
+
+      </el-col>
+      <el-col :lg="8" :md="12" :sm="9" :xs="24" class="dark:bg-#161616 bg-gray-100 flex items-center justify-center flex-col">
+        <div class="flex items-center">
+          <div class="ml-6px font-bold text-xl">{{ loginTitle }}</div>
+        </div>
+        <div class="flex items-center space-x-3 text-gray-400 mt-16px mb-16px">
+          <span class="h-1px w-16 bg-gray-300 inline-block"></span>
+          <span class="text-center">{{ $t("login.account") }}</span>
+          <span class="h-1px w-16 bg-gray-300 inline-block"></span>
+        </div>
+        <!-- 输入框盒子 -->
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="w-260px">
+          <el-form-item prop="username">
+            <el-input type="text" :placeholder="$t('login.loginName')" :prefix-icon="User" v-model="loginForm.username" />
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              type="password"
+              :placeholder="$t('login.password')"
+              show-password
+              :prefix-icon="Lock"
+              v-model="loginForm.password"
+            />
+          </el-form-item>
+          <!-- 登录按钮 -->
+          <el-form-item>
+            <el-button
+              type="primary"
+              v-if="!loading"
+              class="w-245px bg-[--el-color-primary]"
+              round
+              v-throttle:3000="handleKoiLogin"
+              >{{ $t("login.in") }}</el-button
+            >
+            <el-button type="primary" v-else class="w-245px bg-[--el-color-primary]" round :loading="loading">{{
+              $t("login.center")
+            }}</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script setup>
-import {useAuthStore, useAppStore} from '@/store'
-import {lStorage, SHA512, throttle} from '@/utils'
-import {useStorage} from '@vueuse/core'
-import api from './api'
-import {useRoute, useRouter} from "vue-router";
-import {ToggleTheme, Language} from '@/components'
-import { useI18n } from 'vue-i18n';
+import { User, Lock } from "@element-plus/icons-vue";
+// @ts-ignore
+import {ref, reactive, onMounted, onUnmounted, computed, watch, nextTick} from "vue";
+import { koiMsgWarning, koiMsgError } from "@/utils/koi.ts";
+import { useRouter } from "vue-router";
+import authLogin from "@/assets/json/authLogin.json";
+import useUserStore from "@/stores/modules/user.ts";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
+import { HOME_URL, LOGIN_URL } from "@/config/index.ts";
+import { initDynamicRouter } from "@/routers/modules/dynamicRouter.ts";
+import useTabsStore from "@/stores/modules/tabs.ts";
+import { getAssets } from "@/utils/index.ts";
+import settings from "@/settings";
+import Language from "@/layouts/components/Header/components/Language.vue";
+import Dark from "@/layouts/components/Header/components/Dark.vue";
+import { getLanguage } from "@/utils/index.ts";
+import useGlobalStore from "@/stores/modules/global.ts";
+import {SHA512} from "@/utils/tools.js";
 
-const authStore = useAuthStore()
-const appStore = useAppStore()
-const router = useRouter()
-const route = useRoute()
-const { t } = useI18n()
+// 标题语言切换
+const loginTitle = ref(settings.loginTitle);
+loginTitle.value = computed(() => {
+  return getLanguage(globalStore.language, settings.loginTitle, settings.loginEnTitle);
+});
 
-const titleZH = import.meta.env.VITE_WEB_TITLE_ZH
-const titleEN = import.meta.env.VITE_WEB_TITLE_EN
+const globalStore = useGlobalStore();
+const userStore = useUserStore();
+const tabsStore = useTabsStore();
+const keepAliveStore = useKeepAliveStore();
+const router = useRouter();
 
-const language = computed(() => appStore.language)
+/** 用户登录代码 */
+const logo = getAssets("images/logo/logo.webp");
+const bg = getAssets("images/login/bg.png");
+const loginFormRef = ref();
+const loading = ref(false);
 
-const loginInfo = ref({
-  username: '',
-  password: '',
+
+const loginForm = reactive({
+  username: "",
+  password: "",
+});
+
+const loginRules = computed(() => {
+  if (globalStore.language === "en") {
+    return reactive({
+      username: [{ required: true, message: "The user name cannot be empty", trigger: "blur" }],
+      password: [{ required: true, message: "The password cannot be empty", trigger: "blur" }],
+    });
+  } else {
+    return reactive({
+      username: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      password: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+    });
+  }
+});
+
+/** 登录 */
+const handleKoiLogin = () => {
+  if (!loginFormRef.value) return;
+  (loginFormRef.value).validate(async (valid, fields) => {
+    const password = SHA512(loginForm.password)
+    if (valid) {
+      loading.value = true;
+      try {
+        // 1、执行登录接口
+        // const res: any = await koiLogin({ loginName, password, codeKey, securityCode });
+        // userStore.setToken(res.data.tokenValue);
+        userStore.setToken(authLogin.data.tokenValue);
+        // 2、添加动态路由 AND 用户按钮 AND 角色信息 AND 用户个人信息
+        if (userStore?.token) {
+          await initDynamicRouter();
+        } else {
+          koiMsgWarning("请重新登录🌻");
+          await router.replace(LOGIN_URL);
+          return;
+        }
+        // 3、清空 tabs数据、keepAlive缓存数据
+        await tabsStore.setTab([]);
+        await keepAliveStore.setKeepAliveName([]);
+
+        // 4、跳转到首页
+        await router.replace(HOME_URL);
+      } catch (error) {
+        // 等待1秒关闭loading
+        let loadingTime = 1;
+        setInterval(() => {
+          loadingTime--;
+          if (loadingTime === 0) {
+            loading.value = false;
+          }
+        }, 1000);
+      }
+    }
+  });
+};
+
+watch(computed(() => globalStore.language), () => {
+  nextTick(() => {
+    loginFormRef.value.clearValidate()
+  })
 })
-
-const localLoginInfo = lStorage.get('loginInfo')
-if (localLoginInfo) {
-  loginInfo.value.username = localLoginInfo.username || ''
-  loginInfo.value.password = localLoginInfo.password || ''
-}
-
-const loading = ref(false)
-
-async function handleLogin(isQuick) {
-  const {username, password, captcha} = loginInfo.value
-  if (!username || !password)
-    return $message.warning(t('login.needUsernamePassword'))
-  try {
-    loading.value = true
-    const passwordSHA512 = SHA512(password.toString())
-    const loginForm = {
-      username: username,
-      password: passwordSHA512
-    }
-    const {data, message} = await api.login({loginForm: loginForm})
-    $message.success(message)
-    await onLoginSuccess(data)
-  } catch (error) {
-  }
-  loading.value = false
-}
-
-async function onLoginSuccess(data = {}) {
-  authStore.setToken(data)
-  try {
-    if (route.query.redirect) {
-      const path = route.query.redirect
-      delete route.query.redirect
-      await router.push({path, query: route.query})
-    } else {
-      await router.push('/')
-    }
-  } catch (e) {
-  }
-}
 </script>
+
+<style lang="scss" scoped>
+/** 备案号 */
+.beianhao {
+  position: absolute;
+  bottom: 10px;
+  left: auto;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.login-background {
+  background: linear-gradient(155deg, #07070915 12%, var(--el-color-primary) 36%, #07070915 76%);
+  filter: blur(100px);
+}
+
+.animate-float {
+  animation: float 5s linear 0ms infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+</style>
