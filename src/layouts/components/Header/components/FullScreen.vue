@@ -1,12 +1,13 @@
 <template>
   <!-- 全屏 -->
   <div class="hover:bg-[rgba(0,0,0,0.06)] koi-icon w-32px h-100% flex flex-justify-center flex-items-center" @click="toggle">
-    <el-tooltip :content="globalStore.isFullScreen === false ? $t('header.fullScreen') : $t('header.exitFullScreen')">
-      <el-icon class="koi-icon" :size="18">
-        <FullScreen v-if="!globalStore.isFullScreen" />
-        <CloseBold v-else />
-      </el-icon>
-    </el-tooltip>
+<!--    <el-tooltip :content="globalStore.isFullScreen === false ? $t('header.fullScreen') : $t('header.exitFullScreen')">-->
+<!--      -->
+<!--    </el-tooltip>-->
+    <el-icon class="koi-icon" :size="18">
+      <FullScreen v-if="!globalStore.isFullScreen" />
+      <CloseBold v-else />
+    </el-icon>
   </div>
 </template>
 

@@ -100,6 +100,7 @@ export function koiMsgSuccess(message: any, duration = 2000, type: MessageType =
     message,
     type,
     duration: duration,
+    plain: true,
     showClose: true,
     dangerouslyUseHTMLString: parseHtml
   });
@@ -111,6 +112,7 @@ export function koiMsgError(message: any, duration = 2000, type: MessageType = "
     message,
     type,
     duration: duration,
+    plain: true,
     showClose: true,
     dangerouslyUseHTMLString: parseHtml
   });
@@ -122,6 +124,7 @@ export function koiMsgWarning(message: any, duration = 2000, type: MessageType =
     message,
     type,
     duration: duration,
+    plain: true,
     showClose: true,
     dangerouslyUseHTMLString: parseHtml
   });
@@ -133,6 +136,7 @@ export function koiMsgInfo(message: any, duration = 2000, type: MessageType = "i
     message,
     type,
     duration: duration,
+    plain: true,
     showClose: true,
     dangerouslyUseHTMLString: parseHtml
   });

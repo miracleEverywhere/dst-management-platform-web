@@ -20,7 +20,7 @@ export default {
     language: "Language translation",
     fullScreen: "Full Screen",
     exitFullScreen: "Exit Full Screen",
-    personalCenter: "Personal Center",
+    personalCenter: "Profile",
     settings: "Settings",
     logout: "Log out"
   },

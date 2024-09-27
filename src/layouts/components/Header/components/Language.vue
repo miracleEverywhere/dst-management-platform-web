@@ -1,7 +1,7 @@
 <template>
   <div class="hover:bg-[rgba(0,0,0,0.06)] koi-icon w-32px h-100% flex flex-justify-center flex-items-center">
     <el-dropdown @command="handleChangeLanguage">
-      <i class="i-material-symbols:translate"></i>
+      <el-icon class="koi-icon" :size="20"><Translate /></el-icon>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item
@@ -23,6 +23,7 @@ import { useI18n } from "vue-i18n";
 import { ref, onMounted, watch, computed } from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
 import { LanguageType } from "@/stores/interface/index.ts";
+import Translate from "@/assets/icons/scIcons/Translate.vue"
 
 const i18n = useI18n();
 const globalStore = useGlobalStore();

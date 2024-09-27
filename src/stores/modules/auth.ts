@@ -1,10 +1,12 @@
 // 定义权限小仓库[选择式Api写法]
 import { defineStore } from "pinia";
 import { staticRouter } from "@/routers/modules/staticRouter";
-import authMenu from "@/assets/json/authMenu.json";
-import authUser from "@/assets/json/authUser.json";
+// import authMenu from "@/assets/json/authMenu.json";
+// import authUser from "@/assets/json/authUser.json";
 import { generateRoutes, generateFlattenRoutes } from "@/utils/filterRoute.ts";
 import { getShowStaticAndDynamicMenuList, getAllBreadcrumbList } from "@/utils/index.ts";
+// @ts-ignore
+import systemApi from "@/api/system"
 
 // 权限数据，不进行持久化。否则刷新浏览器无法获取新的数据。
 const authStore = defineStore("auth", {
@@ -22,11 +24,9 @@ const authStore = defineStore("auth", {
       // 按钮权限列表
       buttonList: [],
       // 用户信息
-      loginUser: {
-        userId: "",
-        loginName: "",
-        sex: "",
-        avatar: ""
+      userInfo: {
+        username: "",
+        nickname: "",
       }
     };
   },
@@ -35,20 +35,22 @@ const authStore = defineStore("auth", {
     // 获取后端菜单数据
     async listRouters() {
       // res.data是后端接口原始数据，进行扁平化路由数据。
-      this.menuList = generateFlattenRoutes(authMenu.data);
-      // 持久化递归菜单数据，左侧菜单栏渲染，这里的菜单将后端数据进行递归，需要将动态路由 isHide == 0 的隐藏菜单剔除，将静态路由 isHide == 0 的隐藏菜单剔除
-      this.recursiveMenuList = getShowStaticAndDynamicMenuList(staticRouter).concat(
-        generateRoutes(getShowStaticAndDynamicMenuList(authMenu.data), 0)
-      );
-      // 面包屑需要静态和动态所有的数据，无论是否隐藏
-      this.breadcrumbList = staticRouter.concat(generateRoutes(authMenu.data, 0));
+      // @ts-ignore
+      await systemApi.menu.get().then(response => {
+        this.menuList = generateFlattenRoutes(response.data);
+        this.recursiveMenuList = getShowStaticAndDynamicMenuList(staticRouter).concat(
+          generateRoutes(getShowStaticAndDynamicMenuList(response.data), 0)
+        );
+        this.breadcrumbList = staticRouter.concat(generateRoutes(response.data, 0));
+      })
     },
     // 获取角色数据 AND 按钮数据 AND 用户信息
     async getLoginUserInfo() {
-      console.log("用户信息数据", authUser.data);
-      this.roleList = authUser.data.roles;
-      this.buttonList = authUser.data.buttons;
-      this.loginUser = authUser.data.loginUser;
+      // @ts-ignore
+      await systemApi.userInfo.get().then(response => {
+        this.userInfo = response.data;
+      })
+
     }
   },
   // 计算属性，和vuex是使用一样，getters里面不是方法，是计算返回的结果值

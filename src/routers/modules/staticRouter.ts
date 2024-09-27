@@ -44,8 +44,8 @@ export const layoutRouter: RouteRecordRaw[] = [
         path: HOME_URL, // [唯一]
         component: () => import("@/views/home/index.vue"),
         meta: {
-          title: "主控台", // 标题
-          enName: "Master Station", // 英文名称
+          title: "首页", // 标题
+          enName: "Home", // 英文名称
           icon: "HomeFilled", // 图标
           isHide: "0", // 代表路由在菜单中是否隐藏，是否隐藏[0隐藏，1显示]
           isLink: "", // 是否外链[有值则是外链]
@@ -93,8 +93,8 @@ export const staticRouter: RouteRecordRaw[] = [
     path: HOME_URL, // [唯一]
     component: () => import("@/views/home/index.vue"),
     meta: {
-      title: "主控台", // 标题
-      enName: "Master Station", // 英文名称
+      title: "首页", // 标题
+      enName: "Home", // 英文名称
       icon: "HomeFilled", // 图标 HomeFilled
       isHide: "1", // 代表路由在菜单中是否隐藏，是否隐藏[0隐藏，1显示]
       isLink: "", // 是否外链[有值则是外链]
@@ -136,22 +136,22 @@ export const staticRouter: RouteRecordRaw[] = [
       //   "isAffix": "1",
       //   "redirect": ""
       // },
-      {
-        path: "/system/dict/data/:dictType", // 路由访问路径[唯一]
-        name: "dictDataPage", // 命名路由[唯一]
-        component: () => import("@/views/system/dict/data.vue"), // 一级路由，可以将子路由放置Main模块中
-        meta: {
-          title: "字典详情", // 标题
-          enName: "DictData Manage", // 英文名称
-          icon: "Flag", // 图标
-          isHide: "0", // 代表路由在菜单中是否隐藏，是否隐藏[0隐藏，1显示]
-          isLink: "", // 是否外链[有值则是外链]
-          isKeepAlive: "0", // 是否缓存路由数据[0是，1否]
-          isFull: "1", // 是否缓存全屏[0是，1否]
-          isAffix: "1", // 是否缓存固定路由[0是，1否]
-          activeMenu: "/system/dict/type" // 默认选中哪个路由
-        }
-      }
+      // {
+      //   path: "/system/dict/data/:dictType", // 路由访问路径[唯一]
+      //   name: "dictDataPage", // 命名路由[唯一]
+      //   component: () => import("@/views/system/dict/data.vue"), // 一级路由，可以将子路由放置Main模块中
+      //   meta: {
+      //     title: "字典详情", // 标题
+      //     enName: "DictData Manage", // 英文名称
+      //     icon: "Flag", // 图标
+      //     isHide: "0", // 代表路由在菜单中是否隐藏，是否隐藏[0隐藏，1显示]
+      //     isLink: "", // 是否外链[有值则是外链]
+      //     isKeepAlive: "0", // 是否缓存路由数据[0是，1否]
+      //     isFull: "1", // 是否缓存全屏[0是，1否]
+      //     isAffix: "1", // 是否缓存固定路由[0是，1否]
+      //     activeMenu: "/system/dict/type" // 默认选中哪个路由
+      //   }
+      // }
     ]
   }
   /** 系统管理 */

@@ -26,7 +26,8 @@
           <span class="h-1px w-16 bg-gray-300 inline-block"></span>
         </div>
         <!-- 输入框盒子 -->
-        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="w-260px" :validate-on-rule-change="false">
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="w-260px"
+                 :validate-on-rule-change="false" @keyup.enter="handleKoiLogin">
           <el-form-item prop="username">
             <el-input type="text" :placeholder="$t('login.loginName')" :prefix-icon="User" v-model="loginForm.username" />
           </el-form-item>
@@ -62,9 +63,8 @@
 <script setup>
 import { User, Lock } from "@element-plus/icons-vue";
 import {ref, reactive, computed} from "vue";
-import { koiMsgWarning, koiMsgError } from "@/utils/koi.ts";
+import {koiMsgWarning, koiMsgSuccess} from "@/utils/koi.ts";
 import { useRouter } from "vue-router";
-import authLogin from "@/assets/json/authLogin.json";
 import useUserStore from "@/stores/modules/user.ts";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import { HOME_URL, LOGIN_URL } from "@/config/index.ts";
@@ -77,7 +77,7 @@ import Dark from "@/layouts/components/Header/components/Dark.vue";
 import { getLanguage } from "@/utils/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {SHA512} from "@/utils/tools.js";
-import loginApi from "@/api/login"
+import systemApi from "@/api/system"
 
 // 标题语言切换
 const loginTitle = ref(settings.loginTitle);
@@ -130,9 +130,10 @@ const handleKoiLogin = () => {
           username: loginForm.username,
           password: password
         }
-        const res = await loginApi.login.post({ loginForm: reqForm });
+        const res = await systemApi.login.post({ loginForm: reqForm });
+        koiMsgSuccess(res.message)
         // userStore.setToken(res.data.tokenValue);
-        userStore.setToken(authLogin.data.tokenValue);
+        userStore.setToken(res.data.token);
         // 2、添加动态路由 AND 用户按钮 AND 角色信息 AND 用户个人信息
         if (userStore?.token) {
           await initDynamicRouter();

@@ -56,8 +56,6 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
     // 有Token访问当前页面
     if (userStore.token) {
       return next(from.fullPath);
-    } else {
-      koiMsgWarning("账号身份已过期，请重新登录");
     }
     // 没有Token重置路由到登陆页。
     resetRouter();

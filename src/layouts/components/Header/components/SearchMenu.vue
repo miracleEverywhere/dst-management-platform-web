@@ -1,9 +1,10 @@
 <template>
   <!-- 搜索菜单 -->
   <div class="search-menu hover:bg-[rgba(0,0,0,0.06)] w-32px h-100% flex flex-justify-center" @click="handleMenuOpen">
-    <el-tooltip :content="$t('header.searchMenu')">
-      <el-icon :size="20" class="koi-icon"><Search /></el-icon>
-    </el-tooltip>
+<!--    <el-tooltip :content="$t('header.searchMenu')">-->
+<!--      -->
+<!--    </el-tooltip>-->
+    <el-icon :size="20" class="koi-icon"><Search /></el-icon>
     <el-dialog class="search-dialog" v-model="isShowSearch" :width="600" :show-close="false" top="10vh">
       <el-input
         v-model="searchMenu"

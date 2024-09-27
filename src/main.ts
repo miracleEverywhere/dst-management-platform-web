@@ -32,6 +32,7 @@ import KoiComponents from "@/components/index.ts";
 import KoiDirectives from "@/directives/index";
 // uncoss防止覆盖ElementPlus 的 el-button的css，所有放置最下方
 import "uno.css";
+import * as scIcons from "@/assets/icons";
 
 // 创建app
 const app = createApp(App);
@@ -42,6 +43,10 @@ app.use(ElementPlus, {
 // 注册ElementPlus所有图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
+}
+//统一注册sc-icon图标
+for(let icon in scIcons){
+  app.component(`ScIcon${icon}`, scIcons[icon])
 }
 // 注册路由
 app.use(router);

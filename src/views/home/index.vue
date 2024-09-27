@@ -65,10 +65,7 @@ import KoiRightChart from "./components/KoiRightChart.vue";
 import KoiTimeline1 from "./components/KoiTimeline1.vue";
 import KoiTimeline2 from "./components/KoiTimeline2.vue";
 import { onMounted } from "vue";
-onMounted(() => {
-  // 时间问候语
-  koiNoticeSuccess(getDayText(), "欢迎回来~");
-});
+
 
 // 头像
 const avatar =
