@@ -97,7 +97,6 @@ const bg = getAssets("images/login/bg.png");
 const loginFormRef = ref();
 const loading = ref(false);
 
-
 const loginForm = reactive({
   username: "",
   password: "",
@@ -121,6 +120,7 @@ const loginRules = computed(() => {
 const handleKoiLogin = () => {
   if (!loginFormRef.value) return;
   (loginFormRef.value).validate(async (valid, fields) => {
+
     const password = SHA512(loginForm.password)
     if (valid) {
       loading.value = true;
@@ -137,6 +137,7 @@ const handleKoiLogin = () => {
         // 2、添加动态路由 AND 用户按钮 AND 角色信息 AND 用户个人信息
         if (userStore?.token) {
           await initDynamicRouter();
+
         } else {
           koiMsgWarning("请重新登录");
           await router.replace(LOGIN_URL);
@@ -145,7 +146,7 @@ const handleKoiLogin = () => {
         // 3、清空 tabs数据、keepAlive缓存数据
         await tabsStore.setTab([]);
         await keepAliveStore.setKeepAliveName([]);
-
+        globalStore.needUpdatePassword = loginForm.password === '123456';
         // 4、跳转到首页
         await router.replace(HOME_URL);
       } catch (error) {

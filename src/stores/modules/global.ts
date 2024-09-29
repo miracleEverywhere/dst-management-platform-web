@@ -42,7 +42,8 @@ const globalStore = defineStore("global", {
       // 侧边栏反转
       asideInverted: false,
       // 头部反转
-      headerInverted: false
+      headerInverted: false,
+      needUpdatePassword: false,
     };
   },
   actions: {

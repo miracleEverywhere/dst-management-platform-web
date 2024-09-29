@@ -55,9 +55,9 @@
   </div>
 </template>
 
-<script setup lang="ts" name="homePage">
+<script setup lang="ts" name="home">
 import { getDayText } from "@/utils/random.ts";
-import { koiNoticeSuccess } from "@/utils/koi.ts";
+import {koiNoticeSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import KoiCard from "./components/KoiCard.vue";
 import KoiTradeChart from "./components/KoiTradeChart.vue";
 import KoiLeftChart from "./components/KoiLeftChart.vue";
@@ -65,7 +65,16 @@ import KoiRightChart from "./components/KoiRightChart.vue";
 import KoiTimeline1 from "./components/KoiTimeline1.vue";
 import KoiTimeline2 from "./components/KoiTimeline2.vue";
 import { onMounted } from "vue";
+import useGlobalStore from "@/stores/modules/global.ts";
+import {useI18n} from "vue-i18n";
 
+const { t } = useI18n()
+const globalStore = useGlobalStore();
+onMounted(() => {
+  if (globalStore.needUpdatePassword) {
+    koiNoticeWarning(t('home.needUpdatePassword'), t('home.needUpdatePasswordTitle'), 8000)
+  }
+});
 
 // 头像
 const avatar =

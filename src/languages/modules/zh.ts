@@ -1,6 +1,7 @@
 export default {
   home: {
-    welcome: "欢迎使用"
+    needUpdatePassword: "当前密码较弱，请点击右上角 用户名-个人中心 修改密码！！！",
+    needUpdatePasswordTitle: "重要提示",
   },
   tabs: {
     refresh: "重新刷新",
@@ -37,5 +38,15 @@ export default {
     in: "登录",
     center: "登录中",
     beianhao: "网站备案号"
-  }
+  },
+  profile: {
+    plzInput: '请输入',
+    plzInputAgain: '请再次输入',
+    password: '密码',
+    passwordTwice: '确认密码',
+    passwordNotMatch: '两次输入密码不一致',
+    suggestedPassword: '建议包含英文、数字的8位以上密码',
+    passwordUpdated: "检测到用户密码更新，3秒后将退出本系统",
+    passwordUpdatedTitle: "系统提示",
+  },
 };

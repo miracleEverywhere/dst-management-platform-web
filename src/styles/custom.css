@@ -1,0 +1,29 @@
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bolder;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.page-div {
+  padding: 20px;
+  height: 100%
+}
+
+.fcc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fccw {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}

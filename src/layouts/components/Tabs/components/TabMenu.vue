@@ -1,31 +1,31 @@
 <template>
   <div class="tabs-card">
     <div @click="handleRefresh()" class="tab-menu-item c-#0C6ED0">
-      <el-icon class="m-r-2px"><Refresh /></el-icon>{{ $t("tabs.refresh") }}
+      {{ $t("tabs.refresh") }}
     </div>
     <br />
     <div @click="handleMaximize()" class="tab-menu-item c-#646cff">
-      <el-icon class="m-r-2px"><FullScreen /></el-icon>{{ $t("tabs.maximize") }}
+      {{ $t("tabs.maximize") }}
     </div>
     <br />
-    <div @click="handleCloseCurrentTab()" class="tab-menu-item c-#C93992">
-      <el-icon class="m-r-2px"><Close /></el-icon>{{ $t("tabs.closeCurrent") }}
-    </div>
-    <br />
+<!--    <div @click="handleCloseCurrentTab()" class="tab-menu-item c-#C93992">-->
+<!--      {{ $t("tabs.closeCurrent") }}-->
+<!--    </div>-->
+<!--    <br />-->
     <div @click="handleCloseOtherTabs()" class="tab-menu-item c-#DD5858">
-      <el-icon class="m-r-2px"><Star /></el-icon>{{ $t("tabs.closeOther") }}
+      {{ $t("tabs.closeOther") }}
     </div>
     <br />
     <div @click="handleCloseSideTabs('left')" class="tab-menu-item c-#31A24D">
-      <el-icon class="m-r-2px"><DArrowLeft /></el-icon>{{ $t("tabs.closeLeft") }}
+      {{ $t("tabs.closeLeft") }}
     </div>
     <br />
     <div @click="handleCloseSideTabs('right')" class="tab-menu-item c-#F77A05">
-      <el-icon class="m-r-2px"><DArrowRight /></el-icon>{{ $t("tabs.closeRight") }}
+      {{ $t("tabs.closeRight") }}
     </div>
     <br />
     <div icon="Remove" @click="handleCloseAllTabs()" class="tab-menu-item c-#7723B0">
-      <el-icon class="m-r-2px"><Remove /></el-icon>{{ $t("tabs.closeAll") }}
+      {{ $t("tabs.closeAll") }}
     </div>
   </div>
 </template>
@@ -183,9 +183,9 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: auto;
+  width: 100%;
   height: 10px;
-  padding: 8px 15px;
+  padding: 8px 5px;
   margin-top: 1px;
   font-size: var(--el-font-size-base);
   font-weight: 700;
