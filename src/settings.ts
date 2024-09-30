@@ -3,7 +3,7 @@ export default {
   /**
    * 网页标题
    */
-  logoTitle: import.meta.env.VITE_WEB_TITLE,
+  logoTitle: import.meta.env.VITE_LOGIN_TITLE,
 
   /**
    * 网页英文标题
