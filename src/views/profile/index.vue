@@ -2,15 +2,27 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
-        <el-card>
-          <div style="font-size: 28px;">{{ userInfo.nickname }}</div>
-          <div style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
+        <el-card style="min-height: 400px">
+          <template #header>
+            <div class="card-header">
+              {{t('profile.cardHeaderInfo')}}
+            </div>
+          </template>
+          <div class="parent">
+            <div class="child" style="font-size: 28px;">{{ userInfo.nickname }}</div>
+            <div class="child" style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
+          </div>
         </el-card>
 
       </el-col>
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
-        <el-card>
-          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-width="80">
+        <el-card style="min-height: 400px">
+          <template #header>
+            <div class="card-header">
+              {{t('profile.cardHeaderPassword')}}
+            </div>
+          </template>
+          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-width="80" style="margin-top: 20px">
             <el-form-item :label="$t('profile.password')" prop="password">
               <el-input v-model="updatePasswordForm.password" show-password></el-input>
               <sc-password-strength v-model="updatePasswordForm.password"></sc-password-strength>
@@ -19,7 +31,7 @@
             <el-form-item :label="$t('profile.passwordTwice')" prop="passwordTwice">
               <el-input v-model="updatePasswordForm.passwordTwice" show-password></el-input>
             </el-form-item>
-            <div style="display: flex; justify-content: flex-end; padding-top: 40px">
+            <div style="display: flex; justify-content: flex-end; padding-top: 80px">
               <el-button type="primary" @click="handleUpdatePassword">修改</el-button>
             </div>
           </el-form>
@@ -91,17 +103,16 @@ const handleUpdatePassword = () => {
 </script>
 
 <style scoped>
-.centered-content {
+.parent {
   display: flex;
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  height: 100%; /* 填充 el-aside 的高度 */
+  flex-direction: column; /* 使子元素纵向排列 */
+  align-items: center; /* 子元素水平居中 */
+  justify-content: center; /* 子元素垂直居中 */
+  margin-top: 50px;
 }
-
-.line-break {
-  display: flex;
-  flex-direction: column; /* 设置为垂直方向的列布局 */
-  align-items: center; /* 水平居中内部元素 */
-  text-align: center; /* 文字内容居中对齐 */
+.child {
+  width: 80%; /* 子元素的宽度 */
+  margin: 10px 0; /* 子元素之间的间距 */
+  text-align: center; /* 文本居中 */
 }
 </style>

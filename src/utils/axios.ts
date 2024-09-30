@@ -81,11 +81,11 @@ class Yu {
         // 处理网络错误，不是服务器响应的数据
         // console.log("进入错误",error);
         error.data = {};
-        if (error && error.response) {
-          koiMsgError(error.data.message);
+        if (error.data.message) {
+          koiMsgError(error.status + " " + error.data.message);
         } else {
           error.data.message = "连接到服务器失败";
-          koiMsgError(error.data.message);
+          koiMsgError(error.status + " " + error.data.message);
         }
         return Promise.reject(error); // 将错误返回给 try{} catch(){} 中进行捕获，就算不进行捕获，上方 res.data.status != 200也会抛出提示。
       }

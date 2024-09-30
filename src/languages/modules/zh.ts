@@ -40,6 +40,8 @@ export default {
     beianhao: "网站备案号"
   },
   profile: {
+    cardHeaderInfo: '个人信息',
+    cardHeaderPassword: '密码修改',
     plzInput: '请输入',
     plzInputAgain: '请再次输入',
     password: '密码',
