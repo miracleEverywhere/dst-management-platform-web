@@ -13,27 +13,11 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="10" style="margin-top: 20px">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 600px">
-          <room-base v-if="step===0"/>
-          <room-ground v-if="step===1"/>
-          <room-cave v-if="step===2"/>
-          <room-mod v-if="step===3"/>
-          <room-finish v-if="step===4"/>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 2px">
-        <el-card>
-          <div style="display: flex; justify-content: flex-end;">
-            <el-button v-if="step!==0" type="primary" @click="handlePrev">上一步</el-button>
-            <el-button v-if="step!==4" type="success" @click="handleNext">下一步</el-button>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+    <room-base v-if="step===0" v-model:step="step"/>
+    <room-ground v-if="step===1" v-model:step="step"/>
+    <room-cave v-if="step===2" v-model:step="step"/>
+    <room-mod v-if="step===3" v-model:step="step"/>
+    <room-finish v-if="step===4" v-model:step="step"/>
   </div>
 </template>
 
@@ -49,12 +33,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 const { isMobile } = useScreenStore();
 
 const step = ref(0)
-const handlePrev = () => {
-  step.value--
-}
-const handleNext = () => {
-  step.value++
-}
+
 </script>
 
 <style scoped>
