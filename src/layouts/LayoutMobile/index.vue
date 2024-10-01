@@ -5,6 +5,7 @@
         <SvgIcon name="koi-mobile-menu" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>
       </div>
       <div class="flex items-center">
+        <Language class="<md:visible"></Language>
         <!-- 明亮/暗黑模式图标 -->
         <Dark></Dark>
         <!-- 头像 AND 下拉折叠 -->
@@ -46,6 +47,7 @@ import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import useAuthStore from "@/stores/modules/auth.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
+import Language from "@/layouts/components/Header/components/Language.vue";
 
 const route = useRoute();
 const authStore = useAuthStore();

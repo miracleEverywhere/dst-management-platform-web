@@ -12,7 +12,7 @@ importers:
         specifier: ^2.3.1
         version: 2.3.1(vue@3.5.8(typescript@5.6.2))
       '@vueuse/core':
-        specifier: ^11.1.0
+        specifier: ^11.0.3
         version: 11.1.0(vue@3.5.8(typescript@5.6.2))
       animate.css:
         specifier: ^4.1.1
@@ -33,7 +33,7 @@ importers:
         specifier: ^5.5.1
         version: 5.5.1
       element-plus:
-        specifier: ^2.8.3
+        specifier: ^2.8.1
         version: 2.8.3(vue@3.5.8(typescript@5.6.2))
       js-cookie:
         specifier: ^3.0.5
@@ -48,16 +48,16 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2(typescript@5.6.2)(vue@3.5.8(typescript@5.6.2))
       pinia-plugin-persistedstate:
-        specifier: ^4.0.2
+        specifier: ^4.0.0
         version: 4.0.2(pinia@2.2.2(typescript@5.6.2)(vue@3.5.8(typescript@5.6.2)))(rollup@4.22.4)
       sortablejs:
         specifier: ^1.15.3
         version: 1.15.3
       vue:
-        specifier: ^3.5.8
+        specifier: ^3.5.2
         version: 3.5.8(typescript@5.6.2)
       vue-router:
-        specifier: ^4.4.5
+        specifier: ^4.4.3
         version: 4.4.5(vue@3.5.8(typescript@5.6.2))
       vue3-count-to:
         specifier: ^1.1.2
@@ -67,10 +67,10 @@ importers:
         specifier: ^7.25.1
         version: 7.25.1(@babel/core@7.25.2)(eslint@9.11.1(jiti@1.21.6))
       '@commitlint/cli':
-        specifier: ^19.5.0
+        specifier: ^19.4.1
         version: 19.5.0(@types/node@22.7.2)(typescript@5.6.2)
       '@commitlint/config-conventional':
-        specifier: ^19.5.0
+        specifier: ^19.4.1
         version: 19.5.0
       '@types/crypto-js':
         specifier: ^4.2.2
@@ -82,16 +82,16 @@ importers:
         specifier: ^1.15.8
         version: 1.15.8
       '@typescript-eslint/eslint-plugin':
-        specifier: ^8.7.0
+        specifier: ^8.4.0
         version: 8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2))(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2)
       '@typescript-eslint/parser':
-        specifier: ^8.7.0
+        specifier: ^8.4.0
         version: 8.7.0(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2)
       '@unocss/reset':
-        specifier: ^0.62.4
+        specifier: ^0.62.3
         version: 0.62.4
       '@vitejs/plugin-vue':
-        specifier: ^5.1.4
+        specifier: ^5.1.3
         version: 5.1.4(vite@5.4.8(@types/node@22.7.2)(sass@1.79.3))(vue@3.5.8(typescript@5.6.2))
       autoprefixer:
         specifier: ^10.4.20
@@ -103,7 +103,7 @@ importers:
         specifier: ^1.9.4
         version: 1.9.4
       eslint:
-        specifier: ^9.11.1
+        specifier: ^9.9.1
         version: 9.11.1(jiti@1.21.6)
       eslint-config-prettier:
         specifier: ^9.1.0
@@ -121,7 +121,7 @@ importers:
         specifier: ^9.28.0
         version: 9.28.0(eslint@9.11.1(jiti@1.21.6))
       husky:
-        specifier: ^9.1.6
+        specifier: ^9.1.5
         version: 9.1.6
       lint-staged:
         specifier: ^15.2.10
@@ -130,7 +130,7 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       postcss:
-        specifier: ^8.4.47
+        specifier: ^8.4.45
         version: 8.4.47
       postcss-html:
         specifier: ^1.7.0
@@ -142,10 +142,10 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
       sass:
-        specifier: ^1.79.3
+        specifier: ^1.78.0
         version: 1.79.3
       sass-loader:
-        specifier: ^16.0.2
+        specifier: ^16.0.1
         version: 16.0.2(sass@1.79.3)
       sharp:
         specifier: ^0.33.5
@@ -160,7 +160,7 @@ importers:
         specifier: ^9.0.5
         version: 9.0.5(stylelint@16.9.0(typescript@5.6.2))
       stylelint-config-recess-order:
-        specifier: ^5.1.1
+        specifier: ^5.1.0
         version: 5.1.1(stylelint@16.9.0(typescript@5.6.2))
       stylelint-config-recommended-scss:
         specifier: ^14.1.0
@@ -181,19 +181,19 @@ importers:
         specifier: ^6.0.4
         version: 6.0.4(stylelint@16.9.0(typescript@5.6.2))
       stylelint-scss:
-        specifier: ^6.7.0
+        specifier: ^6.5.1
         version: 6.7.0(stylelint@16.9.0(typescript@5.6.2))
       svgo:
         specifier: ^3.3.2
         version: 3.3.2
       typescript:
-        specifier: ^5.6.2
+        specifier: ^5.5.4
         version: 5.6.2
       unocss:
-        specifier: ^0.62.4
+        specifier: ^0.62.3
         version: 0.62.4(postcss@8.4.47)(rollup@4.22.4)(vite@5.4.8(@types/node@22.7.2)(sass@1.79.3))
       vite:
-        specifier: ^5.4.8
+        specifier: ^5.4.3
         version: 5.4.8(@types/node@22.7.2)(sass@1.79.3)
       vite-plugin-compression:
         specifier: ^0.5.1
