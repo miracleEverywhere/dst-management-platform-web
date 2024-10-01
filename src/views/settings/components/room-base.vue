@@ -1,7 +1,7 @@
 <template>
-  <el-row :gutter="10" style="margin-top: 20px">
-    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
-      <el-card :style="isMobile?'min-height: 400px':'min-height: 800px'">
+  <el-row :gutter="10" style="margin-top: 5px">
+    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <el-card shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
         <el-form ref="roomSettingFormRef" :model="roomSettingForm" :rules="roomSettingFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
           <el-form-item label="房间名" prop="name">
             <el-input v-model="roomSettingForm.name"></el-input>
@@ -17,7 +17,6 @@
           </el-form-item>
           <el-form-item label="回档天数" prop="backDays">
             <el-slider v-model="roomSettingForm.backDays" size="small" show-input  :min="5" :max="50"/>
-            <div class="el-form-item-msg">指可以回档的最大天数，设置为20则最多可回到20天前</div>
           </el-form-item>
           <el-form-item label="玩家投票" prop="vote">
             <el-switch v-model="roomSettingForm.vote" />
@@ -29,7 +28,7 @@
             <el-input v-model="roomSettingForm.token" show-password></el-input>
             <div class="el-form-item-msg">
               <el-link :underline="false" target="_blank"
-                       href="https://accounts.klei.com/account/game/servers?game=DontStarveTogether">如何获取游戏令牌</el-link>
+                       href="https://accounts.klei.com">点击获取游戏令牌</el-link>
             </div>
           </el-form-item>
         </el-form>
@@ -37,8 +36,8 @@
     </el-col>
   </el-row>
   <el-row :gutter="10">
-    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 2px">
-      <el-card>
+    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <el-card shadow="never">
         <div style="display: flex; justify-content: flex-end;">
           <el-button type="success" @click="handleNext">下一步</el-button>
         </div>

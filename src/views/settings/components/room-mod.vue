@@ -1,7 +1,7 @@
 <template>
-  <el-row :gutter="10" style="margin-top: 20px">
-    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
-      <el-card :style="isMobile?'min-height: 400px':'min-height: 800px'">
+  <el-row :gutter="10" style="margin-top: 5px">
+    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <el-card shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
         <el-form ref="roomModFormRef" :model="roomModForm" :rules="roomModFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
           <el-form-item label-position="top" prop="modSetting">
             <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :height="isMobile?320:700" style="width: 100%"></sc-code-editor>
@@ -11,8 +11,8 @@
     </el-col>
   </el-row>
   <el-row :gutter="10">
-    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 2px">
-      <el-card>
+    <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <el-card shadow="never">
         <div style="display: flex; justify-content: flex-end;">
           <el-button>如何获取</el-button>
           <el-button type="primary" @click="handlePrev">上一步</el-button>

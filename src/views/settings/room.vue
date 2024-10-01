@@ -2,7 +2,7 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
-        <el-card>
+        <el-card shadow="never">
           <el-steps :active="step" align-center finish-status="success">
             <el-step :title="isMobile?'房间':'房间设置'"/>
             <el-step :title="isMobile?'地面':'地面设置'"/>
