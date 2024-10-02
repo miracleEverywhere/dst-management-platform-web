@@ -22,7 +22,7 @@
               {{t('profile.cardHeaderPassword')}}
             </div>
           </template>
-          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-width="80" style="margin-top: 20px">
+          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-width="150" label-position="top" style="margin-top: 20px">
             <el-form-item :label="$t('profile.password')" prop="password">
               <el-input v-model="updatePasswordForm.password" show-password></el-input>
               <sc-password-strength v-model="updatePasswordForm.password"></sc-password-strength>
@@ -65,10 +65,10 @@ const updatePasswordForm = reactive({
 })
 const updatePasswordRules = {
   password: [
-    { required: true, message: t('profile.plzInput')+' '+t('profile.password')}
+    { required: true, message: t('profile.plzInputPassword')}
   ],
   passwordTwice: [
-    { required: true, message: t('profile.plzInputAgain')+' '+t('profile.password')},
+    { required: true, message: t('profile.plzInputAgainPassword')},
     { validator: (rule, value, callback) => {
         if (value !== updatePasswordForm.password) {
           callback(new Error(t('profile.passwordNotMatch')));

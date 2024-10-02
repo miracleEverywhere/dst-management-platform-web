@@ -4,11 +4,11 @@
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
         <el-card shadow="never">
           <el-steps :active="step" align-center finish-status="success">
-            <el-step :title="isMobile?'房间':'房间设置'"/>
-            <el-step :title="isMobile?'地面':'地面设置'"/>
-            <el-step :title="isMobile?'洞穴':'洞穴设置'"/>
-            <el-step :title="isMobile?'模组':'模组设置'"/>
-            <el-step :title="isMobile?'完成':'设置完成'"/>
+            <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')"/>
+            <el-step :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')"/>
+            <el-step :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')"/>
+            <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')"/>
+            <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"/>
           </el-steps>
         </el-card>
       </el-col>
@@ -16,33 +16,33 @@
     <el-row :gutter="10" style="margin-top: 5px">
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
         <el-card v-if="step===0" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'" >
-          <el-form ref="roomBaseFormRef" :model="roomBaseForm" :rules="roomBaseFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
-            <el-form-item label="房间名" prop="name">
+          <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :model="roomBaseForm" :rules="roomBaseFormRules" :label-width="isMobile?'70':'auto'" :size="isMobile?'small':'large'">
+            <el-form-item :label="$t('setting.baseForm.room')" prop="name">
               <el-input v-model="roomBaseForm.name"></el-input>
             </el-form-item>
-            <el-form-item label="房间描述" prop="description">
+            <el-form-item :label="$t('setting.baseForm.description')" prop="description">
               <el-input v-model="roomBaseForm.description"></el-input>
             </el-form-item>
-            <el-form-item label="玩家对战" prop="pvp">
+            <el-form-item :label="$t('setting.baseForm.pvp')" prop="pvp">
               <el-switch v-model="roomBaseForm.pvp" />
             </el-form-item>
-            <el-form-item label="玩家数量" prop="playerNum">
+            <el-form-item :label="$t('setting.baseForm.playerNum')" prop="playerNum">
               <el-slider v-model="roomBaseForm.playerNum" size="small" show-input :min="2" :max="100"/>
             </el-form-item>
-            <el-form-item label="回档天数" prop="backDays">
+            <el-form-item :label="$t('setting.baseForm.backDays')" prop="backDays">
               <el-slider v-model="roomBaseForm.backDays" size="small" show-input  :min="5" :max="50"/>
             </el-form-item>
-            <el-form-item label="玩家投票" prop="vote">
+            <el-form-item :label="$t('setting.baseForm.vote')" prop="vote">
               <el-switch v-model="roomBaseForm.vote" />
             </el-form-item>
-            <el-form-item label="房间密码" prop="password">
+            <el-form-item :label="$t('setting.baseForm.password')" prop="password">
               <el-input v-model="roomBaseForm.password" show-password></el-input>
             </el-form-item>
-            <el-form-item label="令牌" prop="token">
+            <el-form-item :label="$t('setting.baseForm.token')" prop="token">
               <el-input v-model="roomBaseForm.token" show-password></el-input>
               <div class="el-form-item-msg">
                 <el-link :underline="false" target="_blank"
-                         href="https://accounts.klei.com">点击获取游戏令牌</el-link>
+                         href="https://accounts.klei.com">{{t('setting.baseForm.tokenHelp')}}</el-link>
               </div>
             </el-form-item>
           </el-form>
@@ -71,8 +71,8 @@
         <el-card v-if="step===4" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
           <el-result
             icon="success"
-            title="Success Tip"
-            sub-title="Please follow the instructions"
+            :title="$t('setting.finish.title')"
+            :sub-title="$t('setting.finish.description')"
             style="margin-top: 20%"
           >
           </el-result>
@@ -83,11 +83,23 @@
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
         <el-card shadow="never">
           <div style="display: flex; justify-content: flex-end;">
-            <el-button v-if="step>0" @click="handlePrev">上一步</el-button>
-            <el-button v-if="step<4" type="primary" @click="handleNext">下一步</el-button>
-            <el-button v-if="step===4" type="success" @click="handleSave">仅保存</el-button>
-            <el-button v-if="step===4" type="warning" @click="handleSaveAndRestart">保存并重启</el-button>
-            <el-button v-if="step===4" type="danger" @click="handleGenerateNewWorld">生成新世界</el-button>
+            <el-button v-if="step>0" @click="handlePrev">{{t('setting.button.prev')}}</el-button>
+            <el-button v-if="step<4" type="primary" @click="handleNext">{{t('setting.button.next')}}</el-button>
+            <el-dropdown v-if="step===4" trigger="click" style="margin-left: 12px">
+              <el-button type="warning">
+                {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>{{t('setting.button.save')}}</el-dropdown-item>
+                  <el-dropdown-item>{{t('setting.button.saveAndRestart')}}</el-dropdown-item>
+                  <el-dropdown-item>{{t('setting.button.generateNewWorld')}}</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+<!--            <el-button v-if="step===4" type="success" @click="handleSave" :size="isMobile?'small':'default'">{{t('setting.button.save')}}</el-button>-->
+<!--            <el-button v-if="step===4" type="warning" @click="handleSaveAndRestart" :size="isMobile?'small':'default'">{{t('setting.button.saveAndRestart')}}</el-button>-->
+<!--            <el-button v-if="step===4" type="danger" @click="handleGenerateNewWorld" :size="isMobile?'small':'default'">{{t('setting.button.generateNewWorld')}}</el-button>-->
           </div>
         </el-card>
       </el-col>
@@ -102,7 +114,9 @@ import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
 import luaparse from 'luaparse'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
+import {useI18n} from "vue-i18n";
 
+const { t } = useI18n()
 
 onMounted(() => {
   handleGetCurrentRoomSetting()
@@ -128,7 +142,7 @@ const handleNext = () => {
           luaparse.parse(roomGroundForm.value.groundSetting);
           step.value++
         } catch (e) {
-          koiMsgError('lua语法校验失败')
+          koiMsgError(t('setting.luaError'))
         }
       }
     })
@@ -139,7 +153,7 @@ const handleNext = () => {
           luaparse.parse(roomCaveForm.value.caveSetting);
           step.value++
         } catch (e) {
-          koiMsgError('lua语法校验失败')
+          koiMsgError(t('setting.luaError'))
         }
       }
     })
@@ -150,7 +164,7 @@ const handleNext = () => {
           luaparse.parse(roomModForm.value.modSetting);
           step.value++
         } catch (e) {
-          koiMsgError('lua语法校验失败')
+          koiMsgError(t('setting.luaError'))
         }
       }
     })
@@ -169,8 +183,8 @@ const roomBaseForm = ref({
   token: '',
 })
 const roomBaseFormRules = {
-  name: [ { required: true, message: 'Please input Activity name', trigger: 'blur' } ],
-  token: [ { required: true, message: 'Please input Activity name', trigger: 'blur' } ],
+  name: [ { required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur' } ],
+  token: [ { required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur' } ],
 }
 
 const roomGroundFormRef = ref()
@@ -178,7 +192,7 @@ const roomGroundForm = ref({
   groundSetting: '',
 })
 const roomGroundFormRules = {
-  groundSetting: [ { required: true, message: 'Please input Activity name', trigger: 'blur' } ],
+  groundSetting: [ { required: true, message: t('setting.roomGroundFormRules.groundSetting'), trigger: 'blur' } ],
 }
 
 const roomCaveFormRef = ref()
@@ -186,7 +200,7 @@ const roomCaveForm = ref({
   caveSetting: '',
 })
 const roomCaveFormRules = {
-  caveSetting: [ { required: true, message: 'Please input Activity name', trigger: 'blur' } ],
+  caveSetting: [ { required: true, message: t('setting.roomCaveFormRules.caveSetting'), trigger: 'blur' } ],
 }
 
 const roomModFormRef = ref()
@@ -194,7 +208,7 @@ const roomModForm = ref({
   modSetting: '',
 })
 const roomModFormRules = {
-  modSetting: [ { required: true, message: 'Please input Activity name', trigger: 'blur' } ],
+  modSetting: [ { required: true, message: t('setting.roomModFormRules.modSetting'), trigger: 'blur' } ],
 }
 
 
