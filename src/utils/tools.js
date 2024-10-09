@@ -1,8 +1,4 @@
-import CryptoJS, {Hex} from 'crypto-js';
-
-export const SHA1 = (data) => {
-  return CryptoJS.SHA1(data).toString()
-}
+import CryptoJS from 'crypto-js';
 
 export const SHA512 = (data) => {
   return CryptoJS.SHA512(data).toString()
@@ -17,6 +13,35 @@ export const timestamp2time = (timestamp) => {
   const minutes = ('0' + date.getMinutes()).slice(-2);
   const seconds = ('0' + date.getSeconds()).slice(-2);
   return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+}
+
+export function seconds2Time(totalSeconds, language) {
+  const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60));
+  totalSeconds %= (365 * 24 * 60 * 60);
+  const days = Math.floor(totalSeconds / (24 * 60 * 60));
+  totalSeconds %= (24 * 60 * 60);
+  const hours = Math.floor(totalSeconds / (60 * 60));
+  totalSeconds %= (60 * 60);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const timeParts = [];
+
+  if (language === 'zh') {
+    if (years > 0) timeParts.push(`${years}年`);
+    if (days > 0) timeParts.push(`${days}天`);
+    if (hours > 0) timeParts.push(`${hours}时`);
+    if (minutes > 0) timeParts.push(`${minutes}分`);
+    if (seconds > 0) timeParts.push(`${seconds}秒`);
+  } else if (language === 'en') {
+    if (years > 0) timeParts.push(`${years} year${years > 1 ? 's' : ''}`);
+    if (days > 0) timeParts.push(`${days} day${days > 1 ? 's' : ''}`);
+    if (hours > 0) timeParts.push(`${hours} hour${hours > 1 ? 's' : ''}`);
+    if (minutes > 0) timeParts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+    if (seconds > 0) timeParts.push(`${seconds} second${seconds > 1 ? 's' : ''}`);
+  }
+
+  return timeParts.length > 0 ? timeParts.join(' ') : (language === 'zh' ? '0秒' : '0 seconds');
 }
 
 export const sleep = function (ms) {

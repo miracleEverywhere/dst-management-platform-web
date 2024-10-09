@@ -7,7 +7,7 @@
 <!--  </el-image>-->
   <el-dropdown class="m-l-10px" :hide-on-click="false" @command="handleCommand">
     <div class="koi-dropdown">
-      <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{userInfo.nickname}}</div>
+      <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{language==='zh'?userInfo.nickname:'Admin'}}</div>
       <el-icon><arrow-down /></el-icon>
     </div>
     <template #dropdown>
@@ -20,16 +20,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { koiSessionStorage, koiLocalStorage } from "@/utils/storage.ts";
 import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import useAuthStore from "@/stores/modules/auth.ts";
+import useGlobalStore from "@/stores/modules/global.ts";
 
 const router = useRouter();
 const authStore = useAuthStore()
 
 const userInfo = authStore.userInfo
+
+const globalStore = useGlobalStore()
+const language = computed(() => globalStore.language)
 
 // 退出登录
 const handleLayout = () => {
@@ -51,7 +55,6 @@ const handleLayout = () => {
 const handleCommand = (command: string | number) => {
   switch (command) {
     case "koiMine":
-      console.log(1)
       router.push("/profile");
       break;
     case "logout":

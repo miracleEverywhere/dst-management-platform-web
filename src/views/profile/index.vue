@@ -9,7 +9,7 @@
             </div>
           </template>
           <div class="parent">
-            <div class="child" style="font-size: 28px;">{{ userInfo.nickname }}</div>
+            <div class="child" style="font-size: 28px;">{{ language==='zh'?userInfo.nickname:'Admin' }}</div>
             <div class="child" style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
           </div>
         </el-card>
@@ -44,7 +44,7 @@
 
 <script setup>
 
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import useAuthStore from "@/stores/modules/auth.ts";
 import {useI18n} from "vue-i18n";
 import scPasswordStrength from "@/components/scPasswordStrength/index.vue";
@@ -53,10 +53,13 @@ import {SHA512, sleep} from "@/utils/tools.js";
 import {koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import {koiLocalStorage, koiSessionStorage} from "@/utils/storage.ts";
 import {LOGIN_URL} from "@/config/index.ts";
+import useGlobalStore from "@/stores/modules/global.ts";
 
 const authStore = useAuthStore()
 const { t } = useI18n()
 const userInfo = authStore.userInfo
+const globalStore = useGlobalStore();
+const language = computed(() => globalStore.language);
 
 const updatePasswordFormRef = ref()
 const updatePasswordForm = reactive({

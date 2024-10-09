@@ -15,7 +15,7 @@
     </el-row>
     <el-row :gutter="10" style="margin-top: 5px">
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <el-card v-if="step===0" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'" >
+        <el-card v-if="step===0" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'" >
           <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :model="roomBaseForm" :rules="roomBaseFormRules" :label-width="isMobile?'70':'auto'" :size="isMobile?'small':'large'">
             <el-form-item :label="$t('setting.baseForm.room')" prop="name">
               <el-input v-model="roomBaseForm.name"></el-input>
@@ -47,28 +47,28 @@
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===1" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
+        <el-card v-if="step===1" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
           <el-form ref="roomGroundFormRef" :model="roomGroundForm" :rules="roomGroundFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="groundSetting">
-              <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :height="isMobile?320:700" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===2" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
+        <el-card v-if="step===2" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
           <el-form ref="roomCaveFormRef" :model="roomCaveForm" :rules="roomCaveFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="caveSetting">
-              <sc-code-editor ref="editor" v-model="roomCaveForm.caveSetting" mode="lua" :height="isMobile?320:700" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomCaveForm.caveSetting" mode="lua" :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===3" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
+        <el-card v-if="step===3" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
           <el-form ref="roomModFormRef" :model="roomModForm" :rules="roomModFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="modSetting">
-              <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :height="isMobile?320:700" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===4" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 800px'">
+        <el-card v-if="step===4" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
           <el-result
             icon="success"
             :title="$t('setting.finish.title')"
@@ -97,9 +97,6 @@
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-<!--            <el-button v-if="step===4" type="success" @click="handleSave" :size="isMobile?'small':'default'">{{t('setting.button.save')}}</el-button>-->
-<!--            <el-button v-if="step===4" type="warning" @click="handleSaveAndRestart" :size="isMobile?'small':'default'">{{t('setting.button.saveAndRestart')}}</el-button>-->
-<!--            <el-button v-if="step===4" type="danger" @click="handleGenerateNewWorld" :size="isMobile?'small':'default'">{{t('setting.button.generateNewWorld')}}</el-button>-->
           </div>
         </el-card>
       </el-col>
