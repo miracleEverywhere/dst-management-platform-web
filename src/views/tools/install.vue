@@ -4,40 +4,40 @@
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24">
         <el-card shadow="never" :style="isMobile?'min-height: 300px':'min-height: 500px'" >
           <template #header>
-            <span class="card-header">系统信息</span>
+            <span class="card-header">{{t('tools.install.systemInfo')}}</span>
           </template>
           <el-descriptions border :column="1">
-            <el-descriptions-item label="架构">{{osInfo.Architecture}}</el-descriptions-item>
-            <el-descriptions-item label="系统类型">{{osInfo.OS}}</el-descriptions-item>
-            <el-descriptions-item label="系统名">{{osInfo.Platform}}</el-descriptions-item>
-            <el-descriptions-item label="系统版本">{{osInfo.PlatformVersion}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.architecture')">{{osInfo.Architecture}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.osType')">{{osInfo.OS}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.osName')">{{osInfo.Platform}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.osVersion')">{{osInfo.PlatformVersion}}</el-descriptions-item>
             <el-descriptions-item label="CPU">{{osInfo.CPUModel}}</el-descriptions-item>
-            <el-descriptions-item label="内存">{{(osInfo.MemorySize / (1024 ** 3)).toFixed(2)}} GB</el-descriptions-item>
-            <el-descriptions-item label="运行时间">{{osInfo.Uptime}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.memory')">{{(osInfo.MemorySize / (1024 ** 3)).toFixed(2)}} GB</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.uptime')">{{osInfo.Uptime}}</el-descriptions-item>
           </el-descriptions>
         </el-card>
       </el-col>
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" :style="isMobile?'margin-top: 20px':'margin-top: 0px'">
         <el-card shadow="never" :style="isMobile?'min-height: 300px':'min-height: 500px'" >
           <template #header>
-            <span class="card-header">安装检查</span>
+            <span class="card-header">{{$t('tools.install.installCheck')}}</span>
           </template>
           <el-result v-if="osInfo.Platform==='ubuntu'||osInfo.Platform==='centos'||osInfo.Platform==='rocky'"
             icon="success"
-            title="检查通过"
-            sub-title="请点击下方按钮进行安装"
+            :title="$t('tools.install.checkPass')"
+            :sub-title="$t('tools.install.checkPassDesc')"
           >
             <template #extra>
-              <el-button type="primary" :loading="installing" @click="handleInstall">Install</el-button>
+              <el-button type="primary" :loading="installing" @click="handleInstall">{{t('tools.install.install')}}</el-button>
             </template>
           </el-result>
           <el-result v-else
                      icon="warning"
-                     title="检查未通过"
-                     sub-title="检查未通过，可能出现安装失败"
+                     :title="$t('tools.install.checkNotPass')"
+                     :sub-title="$t('tools.install.checkNotPassDesc')"
           >
             <template #extra>
-              <el-button type="warning" :loading="installing" @click="handleInstall">Install</el-button>
+              <el-button type="warning" :loading="installing" @click="handleInstall">{{t('tools.install.install')}}</el-button>
             </template>
           </el-result>
         </el-card>
@@ -48,8 +48,8 @@
         <el-card shadow="never" style="min-height: 250px" >
           <template #header>
             <div class="card-header">
-              <span>安装进度</span>
-              <el-tag type="warning" style="font-weight: lighter">安装过程中请勿刷新或关闭页面</el-tag>
+              <span>{{t('tools.install.installProgress')}}</span>
+              <el-tag type="warning" style="font-weight: lighter">{{t('tools.install.noClose')}}</el-tag>
             </div>
 
           </template>

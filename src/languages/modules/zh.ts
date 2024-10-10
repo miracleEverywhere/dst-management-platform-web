@@ -100,4 +100,23 @@ export default {
     },
     luaError: 'lua语法校验失败',
   },
+  tools: {
+    install: {
+      systemInfo: '系统信息',
+      architecture: '架构',
+      osType: '系统类型',
+      osName: '系统名',
+      osVersion: '系统版本',
+      memory: '内存',
+      uptime: '运行时间',
+      installCheck: '安装检查',
+      checkPass: '检查通过',
+      checkPassDesc: '请点击下方按钮进行安装',
+      checkNotPass: '检查不通过',
+      checkNotPassDesc: '检查未通过，可能出现安装失败',
+      install: '安装',
+      installProgress: '安装进度',
+      noClose: '安装过程中请勿刷新或关闭页面',
+    },
+  },
 };

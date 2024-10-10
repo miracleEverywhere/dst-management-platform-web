@@ -98,4 +98,23 @@ export default {
     },
     luaError: 'Lua syntax validation failed',
   },
+  tools: {
+    install: {
+      systemInfo: 'System Info',
+      architecture: 'Architecture',
+      osType: 'OS Type',
+      osName: 'OS Name',
+      osVersion: 'OS Version',
+      memory: 'Memory',
+      uptime: 'Uptime',
+      installCheck: 'Install Check',
+      checkPass: 'Check Passed',
+      checkPassDesc: 'Please click the button below to proceed with the installation',
+      checkNotPass: 'Check Failed',
+      checkNotPassDesc: 'Check not passed, possible installation failure',
+      install: 'Install',
+      installProgress: 'Installation progress',
+      noClose: 'Do not refresh or close the page during installation',
+    },
+  },
 };
