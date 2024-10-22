@@ -1,7 +1,7 @@
 <template>
 </template>
 
-<script setup>
+<script setup name="toolsUpdate">
 </script>
 
 <style scoped>

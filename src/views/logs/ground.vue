@@ -1,7 +1,7 @@
 <template>
 </template>
 
-<script setup>
+<script setup name="logsGround">
 </script>
 
 <style scoped>

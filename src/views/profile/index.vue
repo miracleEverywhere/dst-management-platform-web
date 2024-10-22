@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="profile">
 
 import {computed, reactive, ref} from "vue";
 import useAuthStore from "@/stores/modules/auth.ts";

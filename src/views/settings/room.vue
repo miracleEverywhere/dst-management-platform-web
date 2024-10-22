@@ -85,15 +85,15 @@
           <div style="display: flex; justify-content: flex-end;">
             <el-button v-if="step>0" @click="handlePrev">{{t('setting.button.prev')}}</el-button>
             <el-button v-if="step<4" type="primary" @click="handleNext">{{t('setting.button.next')}}</el-button>
-            <el-dropdown v-if="step===4" trigger="click" style="margin-left: 12px">
+            <el-dropdown v-if="step===4" @command="handleCommand" trigger="click" style="margin-left: 12px">
               <el-button type="warning">
                 {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
               </el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item>{{t('setting.button.save')}}</el-dropdown-item>
-                  <el-dropdown-item>{{t('setting.button.saveAndRestart')}}</el-dropdown-item>
-                  <el-dropdown-item>{{t('setting.button.generateNewWorld')}}</el-dropdown-item>
+                  <el-dropdown-item command="save">{{t('setting.button.save')}}</el-dropdown-item>
+                  <el-dropdown-item command="saveAndRestart">{{t('setting.button.saveAndRestart')}}</el-dropdown-item>
+                  <el-dropdown-item command="generateNewWorld">{{t('setting.button.generateNewWorld')}}</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -104,7 +104,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="settingsRoom">
 import {onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
@@ -144,27 +144,27 @@ const handleNext = () => {
       }
     })
   } else if (step.value === 2) {
-    roomCaveFormRef.value.validate(valid => {
-      if (valid) {
-        try {
-          luaparse.parse(roomCaveForm.value.caveSetting);
-          step.value++
-        } catch (e) {
-          koiMsgError(t('setting.luaError'))
-        }
+    if (roomCaveForm.value) {
+      try {
+        luaparse.parse(roomCaveForm.value.caveSetting);
+        step.value++
+      } catch (e) {
+        koiMsgError(t('setting.luaError'))
       }
-    })
+    }else {
+      step.value++
+    }
   } else if (step.value === 3) {
-    roomModFormRef.value.validate(valid => {
-      if (valid) {
-        try {
-          luaparse.parse(roomModForm.value.modSetting);
-          step.value++
-        } catch (e) {
-          koiMsgError(t('setting.luaError'))
-        }
+    if (roomModForm.value) {
+      try {
+        luaparse.parse(roomModForm.value.modSetting);
+        step.value++
+      } catch (e) {
+        koiMsgError(t('setting.luaError'))
       }
-    })
+    }else {
+      step.value++
+    }
   }
 }
 
@@ -172,6 +172,7 @@ const roomBaseFormRef = ref()
 const roomBaseForm = ref({
   name: '',
   description: '',
+  gameMode: '',
   pvp: false,
   playerNum: 6,
   backDays: 10,
@@ -208,7 +209,6 @@ const roomModFormRules = {
   modSetting: [ { required: true, message: t('setting.roomModFormRules.modSetting'), trigger: 'blur' } ],
 }
 
-
 const handleGetCurrentRoomSetting = () => {
   settingApi.room.get().then(response => {
     roomBaseForm.value = response.data.base
@@ -218,6 +218,21 @@ const handleGetCurrentRoomSetting = () => {
   })
 }
 
+const handleCommand = (cmd) => {
+  switch(cmd)
+  {
+    case 'save':
+      handleSave()
+      break;
+    case 'saveAndRestart':
+      handleSaveAndRestart()
+      break;
+    case 'generateNewWorld':
+      handleGenerateNewWorld()
+      break;
+  }
+}
+
 const handleSave = () => {
   const reqForm = {
     base: roomBaseForm.value,
@@ -225,15 +240,31 @@ const handleSave = () => {
     cave: roomCaveForm.value.caveSetting,
     mod: roomModForm.value.modSetting
   }
-  settingApi.room.post(reqForm).then(response => {
+  settingApi.save.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   })
 }
 const handleSaveAndRestart = () => {
-
+  const reqForm = {
+    base: roomBaseForm.value,
+    ground: roomGroundForm.value.groundSetting,
+    cave: roomCaveForm.value.caveSetting,
+    mod: roomModForm.value.modSetting
+  }
+  settingApi.saveAndRestart.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+  })
 }
 const handleGenerateNewWorld = () => {
-
+  const reqForm = {
+    base: roomBaseForm.value,
+    ground: roomGroundForm.value.groundSetting,
+    cave: roomCaveForm.value.caveSetting,
+    mod: roomModForm.value.modSetting
+  }
+  settingApi.saveAndGenerate.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+  })
 }
 
 </script>

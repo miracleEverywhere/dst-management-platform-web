@@ -1,7 +1,7 @@
 <template>
 </template>
 
-<script setup>
+<script setup name="settingsPlayer">
 </script>
 
 <style scoped>

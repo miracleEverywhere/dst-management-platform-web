@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="toolsInstall">
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import toolsApi from "@/api/tools"

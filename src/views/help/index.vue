@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="help">
 </script>
 
 <style scoped>
