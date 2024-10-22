@@ -65,6 +65,13 @@ export default {
     baseForm: {
       room: '房间名',
       description: '房间描述',
+      gameMode: {
+        name: '游戏模式',
+        endless: '无尽',
+        survival: '生存',
+        lavaarena: '熔炉',
+        quagmire: '暴食'
+      },
       pvp: '玩家对战',
       playerNum: '玩家数量',
       backDays: '回档天数',
@@ -99,6 +106,7 @@ export default {
       modSetting: '请输入模组配置的lua格式内容'
     },
     luaError: 'lua语法校验失败',
+    cavesTip: '如果你不想创建洞穴，请保持下方输入框为空',
   },
   tools: {
     install: {

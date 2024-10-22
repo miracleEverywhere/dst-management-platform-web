@@ -43,7 +43,6 @@ import useGlobalStore from "@/stores/modules/global.ts";
 const route = useRoute();
 const authStore = useAuthStore();
 const globalStore = useGlobalStore();
-console.log("纵向布局左侧动态路由", authStore.showMenuList);
 // 动态绑定左侧菜单animate动画
 const menuAnimate = ref(settings.menuAnimate);
 const menuList = computed(() => authStore.showMenuList);
