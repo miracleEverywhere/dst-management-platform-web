@@ -88,6 +88,9 @@ export default {
       if (val !== this.coder.getValue()) {
         this.coder.setValue(val)
       }
+    },
+    theme(val) {
+      this.toggleTheme(val)
     }
   },
   mounted() {
@@ -105,7 +108,11 @@ export default {
     },
     formatStrInJson(strValue) {
       return JSON.stringify(JSON.parse(strValue), null, 4)
-    }
+    },
+    toggleTheme(theme) {
+      // 切换主题
+      this.coder.setOption("theme", theme);
+    },
   }
 }
 </script>

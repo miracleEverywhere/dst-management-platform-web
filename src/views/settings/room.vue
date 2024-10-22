@@ -16,12 +16,21 @@
     <el-row :gutter="10" style="margin-top: 5px">
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
         <el-card v-if="step===0" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'" >
-          <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :model="roomBaseForm" :rules="roomBaseFormRules" :label-width="isMobile?'70':'auto'" :size="isMobile?'small':'large'">
+          <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :model="roomBaseForm"
+                   :rules="roomBaseFormRules" :label-width="isMobile?'70':'auto'" :size="isMobile?'small':'large'">
             <el-form-item :label="$t('setting.baseForm.room')" prop="name">
               <el-input v-model="roomBaseForm.name"></el-input>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.description')" prop="description">
               <el-input v-model="roomBaseForm.description"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('setting.baseForm.gameMode.name')" prop="gameMode">
+              <el-radio-group v-model="roomBaseForm.gameMode">
+                <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless" />
+                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="endless" />
+                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="endless" />
+                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="endless" />
+              </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.pvp')" prop="pvp">
               <el-switch v-model="roomBaseForm.pvp" />
@@ -48,16 +57,21 @@
           </el-form>
         </el-card>
         <el-card v-if="step===1" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-form ref="roomGroundFormRef" :model="roomGroundForm" :rules="roomGroundFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
+          <el-form ref="roomGroundFormRef" :model="roomGroundForm" :rules="roomGroundFormRules"
+                   :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="groundSetting">
-              <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :theme="isDark?'darcula':'idea'"
+                              :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
         <el-card v-if="step===2" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-form ref="roomCaveFormRef" :model="roomCaveForm" :rules="roomCaveFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
+          <el-alert effect="dark" type="success" :closable="false">{{t('setting.cavesTip')}}</el-alert>
+          <el-form ref="roomCaveFormRef" :model="roomCaveForm" :rules="roomCaveFormRules"
+                   :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'" style="margin-top: 10px">
             <el-form-item label-position="top" prop="caveSetting">
-              <sc-code-editor ref="editor" v-model="roomCaveForm.caveSetting" mode="lua" :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomCaveForm.caveSetting" mode="lua" :theme="isDark?'darcula':'idea'"
+                              :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
@@ -105,13 +119,14 @@
 </template>
 
 <script setup name="settingsRoom">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
 import luaparse from 'luaparse'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
+import useGlobalStore from "@/stores/modules/global.ts";
 
 const { t } = useI18n()
 
@@ -120,6 +135,9 @@ onMounted(() => {
 })
 
 const { isMobile } = useScreenStore();
+
+const globalStore = useGlobalStore();
+const isDark = computed(() => globalStore.isDark);
 
 const step = ref(0)
 const handlePrev = () => {
