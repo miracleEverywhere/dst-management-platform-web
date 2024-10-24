@@ -58,11 +58,18 @@ export default {
     roomSetting: 'Room Setting',
     groundSetting: 'Ground Setting',
     caveSetting: 'Cave Setting',
-    modSetting: 'Room Setting',
+    modSetting: 'Mod Setting',
     finishSetting: 'Setting Finished',
     baseForm: {
       room: 'Room Name',
       description: 'Room Description',
+      gameMode: {
+        name: 'Game Mode',
+        endless: 'Endless',
+        survival: 'Survival',
+        lavaarena: 'Lava Arena',
+        quagmire: 'Quagmire'
+      },
       pvp: 'PVP',
       playerNum: 'Player Numbers',
       backDays: 'Rollback Days',
@@ -97,6 +104,7 @@ export default {
       modSetting: 'Please enter the MOD configuration in Lua format'
     },
     luaError: 'Lua syntax validation failed',
+    cavesTip: 'If you do not want to create a cave, please leave the input box below empty',
   },
   tools: {
     install: {

@@ -27,9 +27,9 @@
             <el-form-item :label="$t('setting.baseForm.gameMode.name')" prop="gameMode">
               <el-radio-group v-model="roomBaseForm.gameMode">
                 <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless" />
-                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="endless" />
-                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="endless" />
-                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="endless" />
+                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="endless1" />
+                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="endless2" />
+                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="endless3" />
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.pvp')" prop="pvp">
@@ -66,7 +66,7 @@
           </el-form>
         </el-card>
         <el-card v-if="step===2" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-alert effect="dark" type="success" :closable="false">{{t('setting.cavesTip')}}</el-alert>
+          <el-alert :effect="isDark?'light':'dark'" type="success" :closable="false">{{t('setting.cavesTip')}}</el-alert>
           <el-form ref="roomCaveFormRef" :model="roomCaveForm" :rules="roomCaveFormRules"
                    :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'" style="margin-top: 10px">
             <el-form-item label-position="top" prop="caveSetting">
@@ -87,7 +87,7 @@
             icon="success"
             :title="$t('setting.finish.title')"
             :sub-title="$t('setting.finish.description')"
-            style="margin-top: 20%"
+            :style="isMobile?'margin-top: 20%':'margin-top: 15%'"
           >
           </el-result>
         </el-card>
@@ -100,7 +100,7 @@
             <el-button v-if="step>0" @click="handlePrev">{{t('setting.button.prev')}}</el-button>
             <el-button v-if="step<4" type="primary" @click="handleNext">{{t('setting.button.next')}}</el-button>
             <el-dropdown v-if="step===4" @command="handleCommand" trigger="click" style="margin-left: 12px">
-              <el-button type="warning">
+              <el-button type="warning" :loading="loading">
                 {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
               </el-button>
               <template #dropdown>
@@ -133,6 +133,8 @@ const { t } = useI18n()
 onMounted(() => {
   handleGetCurrentRoomSetting()
 })
+
+const loading = ref(false)
 
 const { isMobile } = useScreenStore();
 
@@ -258,8 +260,12 @@ const handleSave = () => {
     cave: roomCaveForm.value.caveSetting,
     mod: roomModForm.value.modSetting
   }
+  loading.value = true
   settingApi.save.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
+    loading.value = false
+  }).finally(() => {
+    loading.value = false
   })
 }
 const handleSaveAndRestart = () => {
@@ -269,8 +275,12 @@ const handleSaveAndRestart = () => {
     cave: roomCaveForm.value.caveSetting,
     mod: roomModForm.value.modSetting
   }
+  loading.value = true
   settingApi.saveAndRestart.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
+    loading.value = false
+  }).finally(() => {
+    loading.value = false
   })
 }
 const handleGenerateNewWorld = () => {
@@ -280,8 +290,12 @@ const handleGenerateNewWorld = () => {
     cave: roomCaveForm.value.caveSetting,
     mod: roomModForm.value.modSetting
   }
+  loading.value = true
   settingApi.saveAndGenerate.post(reqForm).then(response => {
+    loading.value = false
     koiMsgSuccess(response.message)
+  }).finally(() => {
+    loading.value = false
   })
 }
 

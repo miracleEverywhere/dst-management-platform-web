@@ -17,7 +17,6 @@ export const initDynamicRouter = async () => {
     await authStore.getLoginUserInfo();
 
     // 2、判断当前用户是否拥有菜单权限
-    console.log("authStore.menuList", authStore.menuList);
     // Proxy对象转换为正常的JSON数据
     // const menuRouters = JSON.parse(JSON.stringify(authStore.menuList));
     if (authStore.menuList == null || authStore.menuList.length == 0) {
