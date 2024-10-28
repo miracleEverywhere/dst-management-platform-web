@@ -1,4 +1,5 @@
 import { reactive, onMounted } from "vue";
+// @ts-ignore
 import { listDataByType } from "@/api/system/dict/data/index.ts";
 
 export function useKoiDict(dictType: Array<string>) {

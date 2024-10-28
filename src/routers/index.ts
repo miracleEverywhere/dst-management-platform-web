@@ -5,7 +5,6 @@ import { RouteLocationNormalized, NavigationGuardNext } from "vue-router";
 import useUserStore from "@/stores/modules/user.ts";
 import useAuthStore from "@/stores/modules/auth.ts";
 import { LOGIN_URL, ROUTER_WHITE_LIST } from "@/config/index.ts";
-import { koiMsgWarning } from "@/utils/koi.ts";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 

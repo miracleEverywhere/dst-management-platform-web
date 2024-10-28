@@ -5,25 +5,36 @@
         <el-card shadow="never" style="min-height: 250px">
           <template #header>
             <div class="card-header">
-              room info
+              {{t('home.roomInfo')}}
             </div>
           </template>
           <el-descriptions :column="isMobile?1:2">
-            <el-descriptions-item label="Room Name">
-              {{roomInfo.roomSettingBase.name}}
+            <el-descriptions-item :label="$t('home.roomName')">
+              <el-button link type="primary" v-copy="roomInfo.roomSettingBase.name">
+                {{roomInfo.roomSettingBase.name}}
+                <el-icon style="margin-left: 3px"><DocumentCopy /></el-icon>
+              </el-button>
+
             </el-descriptions-item>
-            <el-descriptions-item label="cycles">
+            <el-descriptions-item :label="$t('home.cycles')">
               <el-tag>
                 {{roomInfo.seasonInfo.cycles}}
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="phase">
-              <el-tag>
-                {{roomInfo.seasonInfo.phase}}
+            <el-descriptions-item :label="$t('home.phase')">
+              <el-tag v-if="language==='en'">
+                {{roomInfo.seasonInfo.phase.en}}
+              </el-tag>
+              <el-tag v-if="language==='zh'">
+                {{roomInfo.seasonInfo.phase.zh}}
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="season">
-              <el-tag>{{roomInfo.seasonInfo.season}} {{getSeasonDays(roomInfo.seasonInfo.season)}}</el-tag>
+            <el-descriptions-item :label="$t('home.season')">
+              <el-tag v-if="language==='en'">{{roomInfo.seasonInfo.season.en}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}</el-tag>
+              <el-tag v-if="language==='zh'">{{roomInfo.seasonInfo.season.zh}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item :label="$t('home.mods')">
+              <el-tag>{{roomInfo.modsCount}}</el-tag>
             </el-descriptions-item>
           </el-descriptions>
         </el-card>
@@ -32,7 +43,7 @@
         <el-card shadow="never" style="min-height: 250px">
           <template #header>
             <div class="card-header">
-              sys info
+              {{t('home.sysInfo')}}
             </div>
           </template>
           <div class="fcc">
@@ -45,7 +56,7 @@
             <el-progress type="dashboard" :percentage="sysInfo.memory" :color="progressColors" style="margin-left: 10%">
               <template #default="{ percentage }">
                 <span class="percentage-value">{{ percentage.toFixed(1) }}</span>
-                <span class="percentage-label">Mem</span>
+                <span class="percentage-label">{{t('home.mem')}}</span>
               </template>
             </el-progress>
           </div>
@@ -58,48 +69,54 @@
         <el-card shadow="never" :style="isMobile?'min-height: 300px':'min-height: 400px'">
           <template #header>
             <div class="card-header">
-              control
+              {{t('home.control')}}
             </div>
           </template>
           <div>
             <el-form size="large" inline>
-              <el-form-item label="master">
-                <el-switch v-model="clusterStatus.master" :active-value="1" :inactive-value="0"
-                           inline-prompt active-text="运行中" inactive-text="已关闭"/>
+              <el-form-item :label="$t('home.master')">
+                <el-switch v-model="sysInfo.master" :active-value="1" :inactive-value="0"
+                           @change="masterCavesChange('master')" :loading="masterLoading"
+                           inline-prompt :active-text="$t('home.running')" :inactive-text="$t('home.terminated')"/>
               </el-form-item>
-              <el-form-item label="caves">
-                <el-switch v-model="clusterStatus.caves" :active-value="1" :inactive-value="0"
-                           inline-prompt active-text="运行中" inactive-text="已关闭"/>
+              <el-form-item :label="$t('home.caves')">
+                <el-switch v-model="sysInfo.caves" :active-value="1" :inactive-value="0"
+                           @change="masterCavesChange('caves')" :loading="cavesLoading"
+                           inline-prompt :active-text="$t('home.running')" :inactive-text="$t('home.terminated')"/>
               </el-form-item>
             </el-form>
             <el-form size="large">
-              <el-form-item label="rollback">
+              <el-form-item :label="$t('home.rollback')">
                 <el-col v-if="isMobile">
-                  <el-button link type="primary" @click="handleExec('rollback', 1)">1day</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 2)">2days</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 3)">3days</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 1)">1{{t('home.day')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
                 </el-col>
                 <el-col v-if="isMobile">
-                  <el-button link type="primary" @click="handleExec('rollback', 4)">4days</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 5)">5days</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 5)">5{{t('home.days')}}</el-button>
+                </el-col>
+                <el-col v-if="isMobile">
+
                 </el-col>
                 <el-col v-if="!isMobile">
-                  <el-button link type="primary" @click="handleExec('rollback', 1)">1day</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 2)">2days</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 3)">3days</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 4)">4days</el-button>
-                  <el-button link type="primary" @click="handleExec('rollback', 5)">5days</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 1)">1{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 5)">5{{t('home.days')}}</el-button>
                 </el-col>
               </el-form-item>
             </el-form>
             <el-form size="large">
               <el-form-item>
-                <el-button type="primary" size="default" @click="handleExec('restart', 0)">restart</el-button>
-                <el-button type="warning" size="default" @click="handleExec('update', 0)">update</el-button>
-
+                <el-button type="success" size="default" @click="handleExec('startup', 0)">{{t('home.startup')}}</el-button>
+                <el-button type="primary" size="default" @click="handleExec('restart', 0)">{{t('home.restart')}}</el-button>
+                <el-button type="warning" size="default" @click="handleExec('update', 0)">{{t('home.update')}}</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button type="danger" size="default" @click="handleExec('reset', 0)">reset</el-button>
+                <el-button type="warning" size="default" @click="handleExec('shutdown', 0)">{{t('home.shutdown')}}</el-button>
+                <el-button type="danger" size="default" @click="handleExec('reset', 0)">{{t('home.reset')}}</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -109,22 +126,28 @@
         <el-card shadow="never" :style="isMobile?'min-height: 300px':'min-height: 400px'">
           <template #header>
             <div class="card-header">
-              interface
+              {{t('home.interface')}}
             </div>
           </template>
           <div>
             <el-form label-position="top">
-              <el-form-item label="announcement">
-                <el-input>
+              <el-form-item :label="$t('home.announcement')">
+                <el-input v-model="announceForm.message" @keyup.enter="handleAnnounce">
                   <template #append>
-                    <el-button>send</el-button>
+                    <el-button :loading="announceLoading" @click="handleAnnounce">{{t('home.send')}}</el-button>
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label="console">
-                <el-input>
+              <el-form-item label="Console">
+                <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
+                  <template #prepend>
+                    <el-select v-model="consoleForm.world" style="width: 115px">
+                      <el-option :label="$t('home.master')" value="master" />
+                      <el-option :label="$t('home.caves')" value="caves" />
+                    </el-select>
+                  </template>
                   <template #append>
-                    <el-button>execute</el-button>
+                    <el-button :loading="consoleLoading" @click="handleConsole">{{t('home.execute')}}</el-button>
                   </template>
                 </el-input>
               </el-form-item>
@@ -142,6 +165,8 @@ import {useI18n} from "vue-i18n";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
+import { ElMessageBox } from 'element-plus'
+import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 
 
 onMounted(() => {
@@ -153,6 +178,7 @@ const { t } = useI18n()
 const { isMobile } = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
+const language = computed(() => globalStore.language);
 
 const loading = ref(false)
 
@@ -161,7 +187,7 @@ const roomInfo = ref({
 
   },
   seasonInfo: {
-    season: '',
+    season: {},
     cycles: 0,
     elapsedDays: 0,
     seasonLength: {
@@ -169,8 +195,10 @@ const roomInfo = ref({
       autumn: 20,
       spring: 20,
       winter: 15
-    }
-  }
+    },
+    phase: {}
+  },
+  modsCount: 0
 })
 const getRoomInfo = () => {
   homeApi.roomInfo.get().then(response => {
@@ -179,17 +207,18 @@ const getRoomInfo = () => {
 }
 
 const getSeasonDays = (season) => {
-  if (roomInfo.value.seasonInfo.elapsedDays) {
+  if (roomInfo.value.seasonInfo.cycles > -1) {
     return `(${roomInfo.value.seasonInfo.elapsedDays}/${roomInfo.value.seasonInfo.seasonLength[season]})`
   } else {
     return ''
   }
-
 }
 
 const sysInfo = ref({
   cpu: 0,
   memory: 0,
+  master: 0,
+  caves: 0,
 })
 const getSysInfo = () => {
   homeApi.sysInfo.get().then(response =>{
@@ -207,7 +236,9 @@ const progressColors = [
 let intervalId = null
 const startRequests = () => {
   intervalId = setInterval(() => {
-    getSysInfo()
+    if (!masterLoading.value && !cavesLoading.value) {
+      getSysInfo()
+    }
   }, 2000)
 }
 const cancelRequests = () => {
@@ -217,13 +248,129 @@ const cancelRequests = () => {
   }
 }
 
-const clusterStatus  = ref({
-  master: 1,
-  caves: 1,
-})
+const masterLoading = ref(false)
+const cavesLoading = ref(false)
+const masterCavesChange = (world) => {
+  const reqForm = {
+    type: 'masterSwitch',
+    info: sysInfo.value.master
+  }
+  if (world === 'master') {
+    const reqForm = {
+      type: 'masterSwitch',
+      info: sysInfo.value.master
+    }
+    masterLoading.value = true
+    homeApi.exec.post(reqForm).finally(() => {
+      masterLoading.value = false
+    })
+  } else {
+    const reqForm = {
+      type: 'cavesSwitch',
+      info: sysInfo.value.caves
+    }
+    cavesLoading.value = true
+    homeApi.exec.post(reqForm).finally(() => {
+      cavesLoading.value = false
+    })
+  }
+}
 
 const handleExec = (type, info) => {
+  const typeMap = {
+    startup: {
+      en: 'STARTUP',
+      zh: '启动'
+    },
+    rollback: {
+      en: 'ROLLBACK',
+      zh: '回档'
+    },
+    shutdown: {
+      en: 'SHUTDOWN',
+      zh: '关闭'
+    },
+    restart: {
+      en: 'RESTART',
+      zh: '重启'
+    },
+    update: {
+      en: 'UPDATE GAME',
+      zh: '更新游戏'
+    },
+    reset: {
+      en: 'RESET GAME',
+      zh: '重置游戏'
+    },
 
+  }
+  ElMessageBox.confirm(
+    language.value==='zh'?`将执行 ${typeMap[type]['zh']} 操作，是否继续？`:`The ${typeMap[type]['en']} operation will be performed. Do you want to continue?`,
+    language.value==='zh'?'请确认您的操作':'Please confirm your operation',
+    {
+      confirmButtonText: language.value==='zh'?'确定':'confirm',
+      cancelButtonText: language.value==='zh'?'取消':'cancel',
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          const reqForm = {
+            type: type,
+            info: info
+          }
+          homeApi.exec.post(reqForm).then(response => {
+            koiMsgSuccess(response.message)
+            done()
+          }).catch(() => {
+          }).finally(() => {
+            instance.confirmButtonLoading = false
+          })
+        } else {
+          done()
+        }
+      }
+    }
+  ).then(() => {
+  }).catch(() => {
+    koiMsgInfo(t('home.canceled'))
+  })
+}
+
+const announceLoading = ref(false)
+const announceForm = ref({
+  message: ''
+})
+const handleAnnounce = () => {
+  if (announceForm.value.message === '') {
+    koiMsgError(language.value==='zh'?'请输入要宣告的内容':'Please enter the content to be announced')
+    return
+  }
+  announceLoading.value = true
+  homeApi.interface.announce.post(announceForm.value).then(response => {
+    koiMsgSuccess(response.message)
+    announceForm.value.message = ''
+  }).finally(() => {
+    announceLoading.value = false
+  })
+}
+
+const consoleLoading = ref(false)
+const consoleForm = ref({
+  cmd: '',
+  world: 'master'
+})
+const handleConsole = () => {
+  if (consoleForm.value.cmd === '') {
+    koiMsgError(language.value==='zh'?'请输入要执行的命令':'Please enter the command to execute')
+    return
+  }
+  consoleLoading.value = true
+  homeApi.interface.console.post(consoleForm.value).then(response => {
+    koiMsgSuccess(response.message)
+    consoleForm.value.cmd = ''
+  }).finally(() => {
+    consoleLoading.value = false
+  })
 }
 
 

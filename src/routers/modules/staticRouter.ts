@@ -1,7 +1,11 @@
 import { RouteRecordRaw } from "vue-router";
 import { HOME_URL, LOGIN_URL } from "@/config";
+// @ts-ignore
 import Layout from "@/layouts/index.vue";
 
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
 /**
  * LayoutRouter[布局路由]
  */
@@ -41,7 +45,9 @@ export const layoutRouter: RouteRecordRaw[] = [
     redirect: HOME_URL, // path路径，<router-link name="/404"> 也是使用path进行跳转
     children: [
       {
+        name: "home",
         path: HOME_URL, // [唯一]
+        // @ts-ignore
         component: () => import("@/views/home/index.vue"),
         meta: {
           title: "首页", // 标题
@@ -59,6 +65,7 @@ export const layoutRouter: RouteRecordRaw[] = [
   {
     path: LOGIN_URL,
     name: "login",
+    // @ts-ignore
     component: () => import("@/views/login/index.vue"),
     meta: {
       title: "登录"
@@ -91,6 +98,7 @@ export const staticRouter: RouteRecordRaw[] = [
   /** 主控台 */
   {
     path: HOME_URL, // [唯一]
+    // @ts-ignore
     component: () => import("@/views/home/index.vue"),
     meta: {
       title: "首页", // 标题
@@ -216,6 +224,7 @@ export const staticRouter: RouteRecordRaw[] = [
   // }
 ];
 
+// @ts-ignore
 /**
  * errorRouter (错误页面路由)
  */
@@ -223,6 +232,7 @@ export const errorRouter = [
   {
     path: "/403",
     name: "403",
+    // @ts-ignore
     component: () => import("@/views/error/403.vue"),
     meta: {
       title: "403页面",
@@ -238,6 +248,7 @@ export const errorRouter = [
   {
     path: "/404",
     name: "404",
+    // @ts-ignore
     component: () => import("@/views/error/404.vue"),
     meta: {
       title: "404页面",
@@ -253,6 +264,7 @@ export const errorRouter = [
   {
     path: "/500",
     name: "500",
+    // @ts-ignore
     component: () => import("@/views/error/500.vue"),
     meta: {
       title: "500页面",
@@ -260,7 +272,7 @@ export const errorRouter = [
       icon: "WarningFilled", // 图标
       isHide: "1", // 代表路由在菜单中是否隐藏，是否隐藏[0隐藏，1显示]
       isLink: "1", // 是否外链[有值则是外链]
-      isKeepAlive: "0", // 是否缓存路由数据[0是，1否]
+      isKeepAlive: "1", // 是否缓存路由数据[0是，1否]
       isFull: "1", // 是否缓存全屏[0是，1否]
       isAffix: "1" // 是否缓存固定路由[0是，1否]
     }
@@ -268,6 +280,7 @@ export const errorRouter = [
   // 找不到path将跳转404页面
   {
     path: "/:pathMatch(.*)*",
+    // @ts-ignore
     component: () => import("@/views/error/404.vue")
   }
 ];

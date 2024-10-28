@@ -4,11 +4,11 @@
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
         <el-card shadow="never">
           <el-steps :active="step" align-center finish-status="success">
-            <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')"/>
-            <el-step :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')"/>
-            <el-step :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')"/>
-            <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')"/>
-            <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"/>
+            <el-step @click="handleStepClick(0)" :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')"/>
+            <el-step @click="handleStepClick(1)" :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')"/>
+            <el-step @click="handleStepClick(2)" :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')"/>
+            <el-step @click="handleStepClick(3)" :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')"/>
+            <el-step @click="handleStepClick(4)" :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"/>
           </el-steps>
         </el-card>
       </el-col>
@@ -27,9 +27,9 @@
             <el-form-item :label="$t('setting.baseForm.gameMode.name')" prop="gameMode">
               <el-radio-group v-model="roomBaseForm.gameMode">
                 <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless" />
-                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="endless1" />
-                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="endless2" />
-                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="endless3" />
+                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival" />
+                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="lavaarena" />
+                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire" />
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.pvp')" prop="pvp">
@@ -78,7 +78,8 @@
         <el-card v-if="step===3" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
           <el-form ref="roomModFormRef" :model="roomModForm" :rules="roomModFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="modSetting">
-              <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :theme="isDark?'darcula':'idea'"
+                              :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
@@ -142,6 +143,11 @@ const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 
 const step = ref(0)
+const handleStepClick = (goStep) => {
+  if (step.value > goStep) {
+    step.value = goStep
+  }
+}
 const handlePrev = () => {
   step.value--
 }

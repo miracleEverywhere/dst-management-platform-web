@@ -8,6 +8,7 @@ import throttle from "./modules/throttle";
 import throttleInput from "./modules/throttleInput";
 import adaptive from "./modules/adaptive";
 import adaptiveTree from "./modules/adaptiveTree";
+// @ts-ignore
 import copy from "./modules/copy";
 
 const directivesList: any = {

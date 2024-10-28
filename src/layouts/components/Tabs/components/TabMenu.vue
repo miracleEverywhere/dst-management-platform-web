@@ -134,14 +134,14 @@ const handleCloseSideTabs = (direction: any) => {
 };
 
 // 关闭当前选项卡
-const handleCloseCurrentTab = () => {
-  // console.log("关闭当前选项卡");
-  if (choosePath.value) {
-    tabsStore.removeTab(choosePath.value, true, route.fullPath);
-  } else {
-    tabsStore.removeTab(route.fullPath);
-  }
-};
+// const handleCloseCurrentTab = () => {
+//   // console.log("关闭当前选项卡");
+//   if (choosePath.value) {
+//     tabsStore.removeTab(choosePath.value, true, route.fullPath);
+//   } else {
+//     tabsStore.removeTab(route.fullPath);
+//   }
+// };
 
 // 关闭其他选项卡
 const handleCloseOtherTabs = () => {

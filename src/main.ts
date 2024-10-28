@@ -32,6 +32,7 @@ import KoiComponents from "@/components/index.ts";
 import KoiDirectives from "@/directives/index";
 // uncoss防止覆盖ElementPlus 的 el-button的css，所有放置最下方
 import "uno.css";
+// @ts-ignore
 import * as scIcons from "@/assets/icons";
 
 // 创建app
