@@ -25,7 +25,7 @@
               <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
                 {{roomInfo.seasonInfo.phase.en}}
               </el-tag>
-              <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.en==='获取失败'?'danger':'success'">
+              <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.zh==='获取失败'?'danger':'success'">
                 {{roomInfo.seasonInfo.phase.zh}}
               </el-tag>
             </el-descriptions-item>
