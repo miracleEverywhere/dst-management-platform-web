@@ -1,7 +1,11 @@
 import { ElMessage } from 'element-plus'
+import {computed} from "vue";
+import useGlobalStore from "@/stores/modules/global.ts";
 
 export default {
   mounted(el, binding) {
+    const globalStore = useGlobalStore();
+    const language = computed(() => globalStore.language);
     el.$value = binding.value
     el.handler = () => {
       const textarea = document.createElement('textarea')
@@ -14,7 +18,13 @@ export default {
       textarea.setSelectionRange(0, textarea.value.length)
       const result = document.execCommand('Copy')
       if (result) {
-        ElMessage.success({message: "复制成功", plain: true})
+        let message
+        if (language.value === 'zh') {
+          message = '复制成功'
+        } else {
+          message = 'Copy successful'
+        }
+        ElMessage.success({message: message, plain: true})
       }
       document.body.removeChild(textarea)
     }

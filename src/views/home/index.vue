@@ -17,24 +17,31 @@
 
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.cycles')">
-              <el-tag>
+              <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
                 {{roomInfo.seasonInfo.cycles}}
               </el-tag>
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.phase')">
-              <el-tag v-if="language==='en'">
+              <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
                 {{roomInfo.seasonInfo.phase.en}}
               </el-tag>
-              <el-tag v-if="language==='zh'">
+              <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.en==='获取失败'?'danger':'success'">
                 {{roomInfo.seasonInfo.phase.zh}}
               </el-tag>
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.season')">
-              <el-tag v-if="language==='en'">{{roomInfo.seasonInfo.season.en}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}</el-tag>
-              <el-tag v-if="language==='zh'">{{roomInfo.seasonInfo.season.zh}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}</el-tag>
+              <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                {{roomInfo.seasonInfo.season.en}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
+              </el-tag>
+              <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                {{roomInfo.seasonInfo.season.zh}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
+              </el-tag>
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.mods')">
               <el-tag>{{roomInfo.modsCount}}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item :label="$t('home.version')">
+              <el-tag :type="roomInfo.version.local===roomInfo.version.server?'success':'danger'">({{roomInfo.version.local}}/{{roomInfo.version.server}})</el-tag>
             </el-descriptions-item>
           </el-descriptions>
         </el-card>
@@ -198,7 +205,11 @@ const roomInfo = ref({
     },
     phase: {}
   },
-  modsCount: 0
+  modsCount: 0,
+  version: {
+    server: 0,
+    local: 0
+  }
 })
 const getRoomInfo = () => {
   homeApi.roomInfo.get().then(response => {

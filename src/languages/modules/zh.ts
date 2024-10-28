@@ -7,6 +7,7 @@ export default {
     phase: "阶段",
     season: "季节",
     mods: "模组数量",
+    version: "游戏版本",
     sysInfo: "系统信息",
     mem: "内存",
     control: "控制面板",

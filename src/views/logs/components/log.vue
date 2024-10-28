@@ -46,7 +46,7 @@ onMounted(() => {
 })
 
 const init = () => {
-  if (isMobile) {
+  if (isMobile.value) {
     logsForm.value.line = 20
   } else {
     logsForm.value.line = 25
