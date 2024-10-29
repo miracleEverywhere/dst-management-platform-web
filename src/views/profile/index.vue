@@ -2,21 +2,21 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 400px">
+        <el-card style="min-height: 500px">
           <template #header>
             <div class="card-header">
               {{t('profile.cardHeaderInfo')}}
             </div>
           </template>
           <div class="parent">
-            <div class="child" style="font-size: 28px;">{{ language==='zh'?userInfo.nickname:'Admin' }}</div>
+            <div class="child" style="font-size: 28px;">{{language==='zh'?'管理员':'Admin'}}</div>
             <div class="child" style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
           </div>
         </el-card>
 
       </el-col>
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 400px">
+        <el-card style="min-height: 500px">
           <template #header>
             <div class="card-header">
               {{t('profile.cardHeaderPassword')}}

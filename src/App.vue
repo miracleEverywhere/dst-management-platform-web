@@ -28,12 +28,6 @@ onMounted(() => {
   handleI18nConfig();
   // 自动检测更新
   handleAutoUpdate();
-  // 开发环境打印项目名称
-  console.log(
-    `%c DMP %c V1.0.0 `,
-    "padding: 2px 1px; border-radius: 3px 0 0 3px; color: #fff; background: #6169FF; font-weight: bold;",
-    "padding: 2px 1px; border-radius: 0 3px 3px 0; color: #fff; background: #42c02e; font-weight: bold;"
-  );
 });
 
 // 语言配置

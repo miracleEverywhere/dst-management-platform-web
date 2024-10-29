@@ -89,7 +89,7 @@ export function koiMsg(message: any, duration = 2000, type: MessageType = "info"
     message,
     type,
     duration: duration,
-    showClose: true,
+    showClose: false,
     dangerouslyUseHTMLString: parseHtml
   });
 }
@@ -101,7 +101,7 @@ export function koiMsgSuccess(message: any, duration = 2000, type: MessageType =
     type,
     duration: duration,
     plain: true,
-    showClose: true,
+    showClose: false,
     dangerouslyUseHTMLString: parseHtml
   });
 }
@@ -113,7 +113,7 @@ export function koiMsgError(message: any, duration = 2000, type: MessageType = "
     type,
     duration: duration,
     plain: true,
-    showClose: true,
+    showClose: false,
     dangerouslyUseHTMLString: parseHtml
   });
 }
@@ -125,7 +125,7 @@ export function koiMsgWarning(message: any, duration = 2000, type: MessageType =
     type,
     duration: duration,
     plain: true,
-    showClose: true,
+    showClose: false,
     dangerouslyUseHTMLString: parseHtml
   });
 }
@@ -137,7 +137,7 @@ export function koiMsgInfo(message: any, duration = 2000, type: MessageType = "i
     type,
     duration: duration,
     plain: true,
-    showClose: true,
+    showClose: false,
     dangerouslyUseHTMLString: parseHtml
   });
 }
