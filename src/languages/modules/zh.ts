@@ -1,5 +1,7 @@
 export default {
   home: {
+    updatePassword: "当前密码较弱，请及时修改",
+    updatePasswordTitle: "警告",
     canceled: "已取消操作",
     roomInfo: "房间信息",
     roomName: "房间名",
@@ -132,6 +134,21 @@ export default {
     },
     luaError: 'lua语法校验失败',
     cavesTip: '如果你不想创建洞穴，请保持下方输入框为空',
+    refresh: '刷新',
+    players: '玩家列表',
+    adminList: '管理员',
+    blockList: '黑名单',
+    whiteList: '白名单',
+    noPlayersFound: '没有发现玩家',
+    noAdminFound: '没有发现管理员',
+    noBlockFound: '没有发现黑名单',
+    noWhiteFound: '没有发现白名单',
+    tagCloseTip: '点击玩家UID后的 "x" 即可删除',
+    nickName: '名字',
+    addAdmin: '添加管理员',
+    addBlock: '添加黑名单',
+    addWhite: '添加白名单',
+    kick: '踢出玩家',
   },
   tools: {
     install: {

@@ -44,8 +44,8 @@
             <el-form-item :label="$t('setting.baseForm.vote')" prop="vote">
               <el-switch v-model="roomBaseForm.vote" />
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.password')" prop="password">
-              <el-input v-model="roomBaseForm.password" show-password></el-input>
+            <el-form-item :label="$t('setting.baseForm.password')">
+              <el-input v-model="roomBaseForm.password"></el-input>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.token')" prop="token">
               <el-input v-model="roomBaseForm.token" show-password></el-input>

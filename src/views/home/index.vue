@@ -172,11 +172,12 @@ import {useI18n} from "vue-i18n";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import { ElMessageBox } from 'element-plus'
+import {ElMessageBox, ElNotification} from 'element-plus'
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 
 
 onMounted(() => {
+  checkPassword()
   getRoomInfo()
   startRequests()
 })
@@ -186,6 +187,17 @@ const { isMobile } = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+
+const checkPassword = () => {
+  if (globalStore.needUpdatePassword) {
+    ElNotification({
+      title: t('home.updatePasswordTitle'),
+      message: t('home.updatePassword'),
+      type: 'warning',
+    })
+    globalStore.needUpdatePassword = false
+  }
+}
 
 const loading = ref(false)
 

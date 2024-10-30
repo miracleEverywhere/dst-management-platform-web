@@ -1,5 +1,7 @@
 export default {
   home: {
+    updatePassword: "The current password is weak, please change it promptly",
+    updatePasswordTitle: "Warning",
     canceled: "Operation has been canceled",
     roomInfo: "Room Info",
     roomName: "Room Name",
@@ -131,6 +133,21 @@ export default {
     },
     luaError: 'Lua syntax validation failed',
     cavesTip: 'If you do not want to create a cave, please leave the input box below empty',
+    refresh: 'Refresh',
+    players: 'Players',
+    adminList: 'Admin List',
+    blockList: 'Block List',
+    whiteList: 'White List',
+    noPlayersFound: 'No players found',
+    noAdminFound: 'No admin players found',
+    noBlockFound: 'No blocked players found',
+    noWhiteFound: 'No whitelist players found',
+    tagCloseTip: "Click the '×' after the player's UID to delete",
+    nickName: 'Nickname',
+    addAdmin: 'Add Admin List',
+    addBlock: 'Add to Block List',
+    addWhite: 'Add to White List',
+    kick: 'Kick Player',
   },
   tools: {
     install: {
