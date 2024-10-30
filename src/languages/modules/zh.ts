@@ -1,7 +1,7 @@
 export default {
   home: {
     updatePassword: "当前密码较弱，请及时修改",
-    updatePasswordTitle: "警告",
+    updatePasswordTitle: "系统提示",
     canceled: "已取消操作",
     roomInfo: "房间信息",
     roomName: "房间名",
@@ -133,7 +133,7 @@ export default {
       modSetting: '请输入模组配置的lua格式内容'
     },
     luaError: 'lua语法校验失败',
-    cavesTip: '如果你不想创建洞穴，请保持下方输入框为空',
+    cavesTip: '提示：如果你不想创建洞穴，请保持下方输入框为空',
     refresh: '刷新',
     players: '玩家列表',
     adminList: '管理员',
@@ -143,7 +143,7 @@ export default {
     noAdminFound: '没有发现管理员',
     noBlockFound: '没有发现黑名单',
     noWhiteFound: '没有发现白名单',
-    tagCloseTip: '点击玩家UID后的 "x" 即可删除',
+    tagCloseTip: '提示：点击玩家UID后的 "x" 即可删除',
     nickName: '名字',
     addAdmin: '添加管理员',
     addBlock: '添加黑名单',

@@ -1,7 +1,7 @@
 export default {
   home: {
     updatePassword: "The current password is weak, please change it promptly",
-    updatePasswordTitle: "Warning",
+    updatePasswordTitle: "System Prompt",
     canceled: "Operation has been canceled",
     roomInfo: "Room Info",
     roomName: "Room Name",
@@ -132,7 +132,7 @@ export default {
       modSetting: 'Please enter the MOD configuration in Lua format'
     },
     luaError: 'Lua syntax validation failed',
-    cavesTip: 'If you do not want to create a cave, please leave the input box below empty',
+    cavesTip: 'TIPS: If you do not want to create a cave, please leave the input box below empty',
     refresh: 'Refresh',
     players: 'Players',
     adminList: 'Admin List',
@@ -142,7 +142,7 @@ export default {
     noAdminFound: 'No admin players found',
     noBlockFound: 'No blocked players found',
     noWhiteFound: 'No whitelist players found',
-    tagCloseTip: "Click the '×' after the player's UID to delete",
+    tagCloseTip: "TIPS: Click the '×' after the player's UID to delete",
     nickName: 'Nickname',
     addAdmin: 'Add Admin List',
     addBlock: 'Add to Block List',

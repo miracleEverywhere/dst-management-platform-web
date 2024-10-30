@@ -1,5 +1,7 @@
 <template>
   <div class="header-right">
+    <Github/>
+    <Gitee/>
     <!-- 搜索菜单 -->
     <SearchMenu class="<md:visible"></SearchMenu>
     <!-- ElementPlus 尺寸配置 -->
@@ -28,6 +30,10 @@ import Dark from "@/layouts/components/Header/components/Dark.vue";
 // import Dimension from "@/layouts/components/Header/components/Dimension.vue";
 import Language from "@/layouts/components/Header/components/Language.vue";
 import SearchMenu from "@/layouts/components/Header/components/SearchMenu.vue";
+// ts-ignore
+import Gitee from "@/layouts/components/Header/components/Gitee.vue";
+// ts-ignore
+import Github from "@/layouts/components/Header/components/Github.vue";
 </script>
 
 <style lang="scss" scoped>
