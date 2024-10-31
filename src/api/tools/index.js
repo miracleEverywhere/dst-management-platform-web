@@ -19,5 +19,20 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  announce: {
+    url: `/tools/announce`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+    delete: async function(data){
+      return await http.delete(this.url, data);
+    },
+    put: async function(data){
+      return await http.put(this.url, data);
+    },
+  }
 
 }

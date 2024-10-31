@@ -104,8 +104,8 @@ class Yu {
     return this.instance.put(url, data);
   }
   // Delete请求  /yu/role/1
-  delete<T = Result>(url: string): Promise<T> {
-    return this.instance.delete(url);
+  delete<T = Result>(url: string, data?: object): Promise<T> {
+    return this.instance.delete(url, { headers: { 'Content-Type': 'application/json', }, data: data, });
   }
   // 图片上传
   upload<T = Result>(url: string, params?: object): Promise<T> {
