@@ -124,6 +124,9 @@
               <el-form-item>
                 <el-button type="warning" size="default" @click="handleExec('shutdown', 0)">{{t('home.shutdown')}}</el-button>
                 <el-button type="danger" size="default" @click="handleExec('reset', 0)">{{t('home.reset')}}</el-button>
+                <el-tooltip effect="light" :content="$t('home.deleteTips')" placement="top">
+                  <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{t('home.delete')}}</el-button>
+                </el-tooltip>
               </el-form-item>
             </el-form>
           </div>
@@ -325,7 +328,10 @@ const handleExec = (type, info) => {
       en: 'RESET GAME',
       zh: '重置游戏'
     },
-
+    delete: {
+      en: 'DELETE GAME',
+      zh: '删除世界'
+    },
   }
   ElMessageBox.confirm(
     language.value==='zh'?`将执行 ${typeMap[type]['zh']} 操作，是否继续？`:`The ${typeMap[type]['en']} operation will be performed. Do you want to continue?`,

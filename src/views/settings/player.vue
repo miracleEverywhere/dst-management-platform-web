@@ -18,7 +18,7 @@
                 <el-table-column prop="uid" label="UID"/>
                 <el-table-column prop="actions" :label="$t('setting.button.actions')">
                   <template #default="scope">
-                    <el-dropdown @command="handleCommand" trigger="click">
+                    <el-dropdown @command="handleCommand" trigger="hover">
                       <el-button link type="primary">
                         {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
                       </el-button>

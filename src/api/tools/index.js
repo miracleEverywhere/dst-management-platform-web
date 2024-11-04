@@ -33,6 +33,39 @@ export default {
     put: async function(data){
       return await http.put(this.url, data);
     },
+  },
+  update: {
+    url: `/tools/update`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+    put: async function(data){
+      return await http.put(this.url, data);
+    },
+  },
+  backup: {
+    url: `/tools/backup`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+    put: async function(data){
+      return await http.put(this.url, data);
+    },
+    delete: async function(data){
+      return await http.delete(this.url, data);
+    },
+  },
+  backupRestore: {
+    url: `/tools/backup/restore`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
+  multiDelete: {
+    url: `/tools/backup/multi`,
+    delete: async function(data){
+      return await http.delete(this.url, data);
+    },
   }
 
 }

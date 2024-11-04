@@ -26,7 +26,7 @@ import pinia from "./stores/index.ts";
 // 引入styles
 import "@/styles/index.scss";
 // 添加事件管理者'passive'，来阻止'touchstart'事件，让页面更加流畅。 解决chrome下的warning问题
-import "default-passive-events";
+// import "default-passive-events";
 // 引入全局组件配置
 import KoiComponents from "@/components/index.ts";
 // 引入全局自定义指令
