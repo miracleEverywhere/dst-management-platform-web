@@ -19,7 +19,7 @@
             <div style="line-height: 50px;">
               <span>{{ t('tools.backup.text1') }}</span>
               <el-time-picker v-model="backupSetting.time" :loading="loadingTime"
-                              style="width: 120px;margin: 0 8px" :clearable="false"
+                              style="width: 120px;margin: 0 8px" :clearable="false" :editable="false"
                               value-format="HH:mm:ss" @change="handleUpdate"/>
               <span>{{ t('tools.backup.text2') }}</span>
             </div>
@@ -36,6 +36,7 @@
               <span>{{ t('tools.backup.text5') }}</span>
             </div>
           </div>
+          <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false" style="margin-top: 20px">{{t('tools.backup.alert')}}</el-alert>
         </el-card>
       </el-col>
       <el-col :lg="12" :md="12" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
@@ -50,8 +51,13 @@
             <el-row>
               <el-table ref="tableRef" :data="backupFiles" border @selection-change="handleSelectionChange"
                         :max-height="isMobile?'min-height: 450px':'min-height: 650px'">
-                <el-table-column type="selection" width="55" />
-                <el-table-column :label="$t('tools.backup.tableName')" prop="name"></el-table-column>
+                <el-table-column type="selection" width="55" fixed="left"/>
+                <el-table-column :label="$t('tools.backup.tableName')" prop="name"/>
+                <el-table-column :label="$t('tools.backup.size')" prop="size">
+                  <template #default="scope">
+                    {{formatBytes(scope.row.size)}}
+                  </template>
+                </el-table-column>
                 <el-table-column :label="$t('tools.backup.tableCreateTime')" prop="createTime"/>
                 <el-table-column prop="actions" :label="$t('setting.button.actions')" width="150">
                   <template #default="scope">
@@ -235,6 +241,16 @@ const tableRef = ref()
 const multipleSelection = ref([])
 const handleSelectionChange = (val) => {
   multipleSelection.value = val
+}
+
+const formatBytes = (bytes) => {
+  if (bytes === 0) return '0 B';
+
+  const k = 1024;
+  const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 

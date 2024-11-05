@@ -12,7 +12,7 @@ import useGlobalStore from "@/stores/modules/global.ts";
 const config = {
   // 接口请求的地址
   baseURL: import.meta.env.VITE_WEB_BASE_API,
-  timeout: 10000
+  timeout: 600000
 };
 // 返回值类型
 export interface Result<T = any> {

@@ -221,12 +221,27 @@ export default {
       switchDisable: 'Disabled',
       processBar: 'Disk Usage: ',
       tableName: 'File Name',
+      size: 'File Size',
       tableCreateTime: 'Create Time',
       restore: 'Restore',
       delete: 'Delete',
       multiDelete: 'Multi-Delete',
       deleteTip: 'Please select at least one file.',
       timeChangeTip: 'Please select a time',
+      alert: 'The Auto-Update and Auto-Backup times cannot be the same, as this will overwrite the execution of one of the tasks',
+    },
+    mod: {
+      title: 'Mod',
+      alert: 'The installation process takes a long time, please be patient and do not leave or refresh the page',
+      resultInfo: {
+        title: 'Install Mods',
+        subtitle: 'If the game is missing a mod, please click the install button below',
+        button: 'Install',
+      },
+      resultSuccess: {
+        title: 'Installation complete',
+        subtitle: 'Please return to the main interface and manually restart the game',
+      },
     },
   },
   logs: {

@@ -12,7 +12,7 @@
             <div style="line-height: 50px;">
               <span>{{t('tools.update.text1')}}</span>
               <el-time-picker v-model="checkTime" :loading="loadingTime"
-                              style="width: 120px;margin: 0 8px" :clearable="false"
+                              style="width: 120px;margin: 0 8px" :clearable="false" :editable="false"
                               value-format="HH:mm:ss" @change="handleUpdate"/>
               <span>{{t('tools.update.text2')}}</span>
             </div>
@@ -33,6 +33,7 @@
             </div>
 
           </div>
+          <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false" style="margin-top: 20px">{{t('tools.backup.alert')}}</el-alert>
         </el-card>
       </el-col>
     </el-row>

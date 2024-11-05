@@ -66,6 +66,17 @@ export default {
     delete: async function(data){
       return await http.delete(this.url, data);
     },
+  },
+  mod: {
+    install: {
+      all: {
+        url: `/tools/mod/install/all`,
+        post: async function(data){
+          return await http.post(this.url, data);
+        },
+      }
+    }
+
   }
 
 }
