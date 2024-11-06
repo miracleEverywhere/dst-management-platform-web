@@ -27,3 +27,13 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+.code {
+  margin: 0 2px;
+  padding: 3px 4px;
+  border-radius: 3px;
+  font-family: Menlo, Monaco, Consolas, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+  font-size: 0.9em;
+  background-color: #f8f8fa;
+}
+
