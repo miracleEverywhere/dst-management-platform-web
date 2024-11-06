@@ -251,4 +251,24 @@ export default {
     manualPull: '手动拉取',
     manualPullTips: '使用手动拉取日志功能建议先关闭自动拉取',
   },
+  help: {
+    one: {
+      title: '欢迎加群讨论',
+      text1: '如果您遇到了任何问题，都可以在群中进行讨论，也可以提出一些改进项或功能',
+      text2: '如果您有什么好点子，也可以在在群中交流',
+      text3: '群号：733948644',
+    },
+    two: {
+      title: '服务器开启后没有模组',
+      text1: '目前饥荒的模组自动下载功能存在Bug，您需要手动替换 dst/bin/lib32/steamclient.so 和 dst/steamclient.so文件',
+      text3: '重新启动即可',
+    },
+    three: {
+      title: '如何开启熔炉',
+      text1: '首先在游戏模式中选择熔炉',
+      text2: '输入地面配置：',
+      text3: '保持洞穴配置为空',
+      text4: '输入模组配置',
+    },
+  },
 };

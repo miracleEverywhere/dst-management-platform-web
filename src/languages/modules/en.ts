@@ -250,4 +250,25 @@ export default {
     manualPull: 'Manual Pull',
     manualPullTips: 'It is recommended to first disable automatic log pulling when using the manual log pulling function',
   },
+  help: {
+    one: {
+      title: 'Welcome to join the group for discussion',
+      text1: 'If you encounter any issues, feel free to discuss them in the group. You can also propose improvements or new features.',
+      text2: 'If you have any good ideas, feel free to share them in the group.',
+      text3: 'Group number: 733948644',
+    },
+    two: {
+      title: 'The server is up but there are no mods',
+      text1: 'Currently, the automatic mod download feature in Don\'t Starve Together has a bug, so you need to manually replace the dst/bin/lib32/steamclient.so and dst/steamclient.so files.',
+      text2: '# 备份\ncd ~\nmv dst/bin/lib32/steamclient.so dst/bin/lib32/steamclient.so.bak\n mv dst/steamclient.so dst/steamclient.so.bak\n# 替换cp steamcmd/linux32/steamclient.so dst/bin/lib32/steamclient.so\n cp steamcmd/linux32/steamclient.so dst/steamclient.so\n',
+      text3: 'Restart it.',
+    },
+    three: {
+      title: 'How to create Lava Arena world',
+      text1: 'First, select the Lava Arena in the game mode.',
+      text2: 'Enter the Ground Configuration: ',
+      text3: 'Keep the Cave Configuration empty',
+      text4: 'Enter the Mod Configuration: ',
+    },
+  },
 };

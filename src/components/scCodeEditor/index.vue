@@ -31,6 +31,7 @@ import 'codemirror/addon/selection/active-line'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/lua/lua'
 import 'codemirror/mode/sql/sql'
+import 'codemirror/mode/shell/shell.js'
 
 export default {
   props: {
@@ -113,6 +114,9 @@ export default {
       // 切换主题
       this.coder.setOption("theme", theme);
     },
+    refresh() {
+      this.coder.refresh()
+    }
   }
 }
 </script>
