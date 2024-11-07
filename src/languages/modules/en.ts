@@ -246,7 +246,20 @@ export default {
     statistics: {
       player: {
         title: 'Player Count',
-        subtitle: 'Record every 30 seconds'
+        refresh: 'Refresh',
+        refreshSuccess: 'Refresh Success',
+
+      },
+      max: {
+        title: 'Statistics',
+        day: 'Day',
+        maxPlayer: 'Maximum number of players',
+        maxPlayerTimestamp: 'Corresponding time',
+        time: 'Time',
+      },
+      data: {
+        title: 'Data volume',
+        dataNum: 'Count',
       },
     },
   },

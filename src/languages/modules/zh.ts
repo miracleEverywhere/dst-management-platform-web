@@ -247,7 +247,20 @@ export default {
     statistics: {
       player: {
         title: '玩家人数',
-        subtitle: '每30秒记录一次，记录时长为24小时'
+        refresh: '刷新',
+        refreshSuccess: '刷新成功',
+
+      },
+      max: {
+        title: '玩家统计',
+        day: '天',
+        maxPlayer: '最大玩家数',
+        maxPlayerTimestamp: '对应时间',
+        time: '时间',
+      },
+      data: {
+        title: '数据量',
+        dataNum: '统计量',
       },
     },
   },
