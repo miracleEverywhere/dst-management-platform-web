@@ -46,9 +46,6 @@ const option = ref({
   title: {
     text: t('tools.statistics.player.title'),
     subtext: t('tools.statistics.player.subtitle'),
-    textStyle: {
-      fontFamily: 'KoiFont',
-    },
   },
   grid: {
     top: '80px'
