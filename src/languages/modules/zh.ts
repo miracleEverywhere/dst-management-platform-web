@@ -244,6 +244,12 @@ export default {
         subtitle: '请回到主界面手动重启游戏',
       },
     },
+    statistics: {
+      player: {
+        title: '玩家人数',
+        subtitle: '每30秒记录一次，记录时长为24小时'
+      },
+    },
   },
   logs: {
     logs: '日志',
@@ -260,7 +266,12 @@ export default {
     },
     two: {
       title: '服务器开启后没有模组',
-      text1: '目前饥荒的模组自动下载功能存在Bug，您需要手动替换 dst/bin/lib32/steamclient.so 和 dst/steamclient.so文件',
+      text1: '目前饥荒的模组自动下载功能存在Bug，您需要手动替换',
+      text1_1: 'dst/bin/lib32/steamclient.so',
+      text1_2: '和',
+      text1_3: 'dst/steamclient.so',
+      text1_4: '文件',
+      text2: '截止2024年11月7日，该问题仍存在',
       text3: '重新启动即可',
     },
     three: {

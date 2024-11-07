@@ -76,7 +76,12 @@ export default {
         },
       }
     }
-
-  }
+  },
+  statistics: {
+    url: `/tools/statistics`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
 
 }

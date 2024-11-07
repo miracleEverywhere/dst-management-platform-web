@@ -243,6 +243,12 @@ export default {
         subtitle: 'Please return to the main interface and manually restart the game',
       },
     },
+    statistics: {
+      player: {
+        title: 'Player Count',
+        subtitle: 'Record every 30 seconds'
+      },
+    },
   },
   logs: {
     logs: 'Logs',
@@ -259,8 +265,12 @@ export default {
     },
     two: {
       title: 'The server is up but there are no mods',
-      text1: 'Currently, the automatic mod download feature in Don\'t Starve Together has a bug, so you need to manually replace the dst/bin/lib32/steamclient.so and dst/steamclient.so files.',
-      text2: '# 备份\ncd ~\nmv dst/bin/lib32/steamclient.so dst/bin/lib32/steamclient.so.bak\n mv dst/steamclient.so dst/steamclient.so.bak\n# 替换cp steamcmd/linux32/steamclient.so dst/bin/lib32/steamclient.so\n cp steamcmd/linux32/steamclient.so dst/steamclient.so\n',
+      text1: 'Currently, the automatic mod download feature in Don\'t Starve Together has a bug, so you need to manually replace the ',
+      text1_1: 'dst/bin/lib32/steamclient.so',
+      text1_2: 'and',
+      text1_3: 'dst/steamclient.so',
+      text1_4: 'files.',
+      text2: 'As of November 7, 2024, the issue still persists',
       text3: 'Restart it.',
     },
     three: {
@@ -270,5 +280,6 @@ export default {
       text3: 'Keep the Cave Configuration empty',
       text4: 'Enter the Mod Configuration: ',
     },
+
   },
 };
