@@ -2,8 +2,8 @@
   <el-container class="layout-container">
     <el-header class="layout-header flex items-center flex-justify-between">
       <div class="w-30px flex items-center">
-<!--        <SvgIcon name="koi-mobile-menu" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>-->
-        <SvgIcon name="koi-menu-unfold-line" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>
+        <SvgIcon name="koi-mobile-menu" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>
+<!--        <SvgIcon name="koi-menu-unfold-line" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>-->
       </div>
       <div class="flex items-center">
         <Language class="<md:visible"></Language>
