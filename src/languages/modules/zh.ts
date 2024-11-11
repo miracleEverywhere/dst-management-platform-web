@@ -5,6 +5,8 @@ export default {
     canceled: "已取消操作",
     roomInfo: "房间信息",
     roomName: "房间名",
+    connectionCode: "直连代码",
+    copy: '点击复制',
     cycles: "天数",
     phase: "阶段",
     season: "季节",

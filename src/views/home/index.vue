@@ -16,6 +16,11 @@
               </el-button>
 
             </el-descriptions-item>
+            <el-descriptions-item :label="$t('home.connectionCode')">
+              <el-tooltip effect="light" :content="roomInfo.connectionCode" placement="top">
+              <el-button link v-copy="roomInfo.connectionCode" type="primary">{{t('home.copy')}}</el-button>
+              </el-tooltip>
+            </el-descriptions-item>
             <el-descriptions-item :label="$t('home.cycles')">
               <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
                 {{roomInfo.seasonInfo.cycles}}
@@ -224,7 +229,8 @@ const roomInfo = ref({
   version: {
     server: 0,
     local: 0
-  }
+  },
+  connectionCode: '',
 })
 const getRoomInfo = () => {
   homeApi.roomInfo.get().then(response => {

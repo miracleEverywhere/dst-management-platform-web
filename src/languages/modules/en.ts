@@ -5,6 +5,8 @@ export default {
     canceled: "Operation has been canceled",
     roomInfo: "Room Info",
     roomName: "Room Name",
+    connectionCode: "Connection Code",
+    copy: 'Click to copy',
     cycles: "Cycles",
     phase: "Phase",
     season: "Season",
