@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { koiSessionStorage, koiLocalStorage } from "@/utils/storage.ts";
-import { LOGIN_URL } from "@/config";
+// import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import useGlobalStore from "@/stores/modules/global.ts";
 
@@ -40,7 +40,8 @@ const handleLayout = () => {
   koiLocalStorage.remove("keepAlive");
   koiLocalStorage.remove("tabs");
   // 退出登录。必须使用replace把页面缓存刷掉。
-  window.location.replace(LOGIN_URL);
+  // window.location.replace(LOGIN_URL);
+  window.location.replace('/');
 };
 // 用户头像
 // const avatar = ref(
