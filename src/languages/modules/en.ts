@@ -201,7 +201,7 @@ export default {
     update: {
       title: 'Auto Update',
       text1: 'It will check for updates every day at ',
-      text2: '. If an update is required, it will be performed. If not, no action will be taken.',
+      text2: '. If an update is required, it will be performed. If no updates are available, it will restart the server to update the mod.',
       text3: 'This feature is currently ',
       text4: '',
       text5: 'Current version is:',
