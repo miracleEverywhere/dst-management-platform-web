@@ -162,6 +162,7 @@ export default {
       osType: '系统类型',
       osName: '系统名',
       osVersion: '系统版本',
+      cpuCore: '核心数',
       memory: '内存',
       uptime: '运行时间',
       installCheck: '安装检查',

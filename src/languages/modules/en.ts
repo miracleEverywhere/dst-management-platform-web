@@ -161,6 +161,7 @@ export default {
       osType: 'OS Type',
       osName: 'OS Name',
       osVersion: 'OS Version',
+      cpuCore: 'Cores',
       memory: 'Memory',
       uptime: 'Uptime',
       installCheck: 'Install Check',

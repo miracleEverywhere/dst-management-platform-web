@@ -72,7 +72,6 @@
               </template>
             </el-progress>
           </div>
-
         </el-card>
       </el-col>
     </el-row>

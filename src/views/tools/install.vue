@@ -12,6 +12,7 @@
             <el-descriptions-item :label="$t('tools.install.osName')">{{osInfo.Platform}}</el-descriptions-item>
             <el-descriptions-item :label="$t('tools.install.osVersion')">{{osInfo.PlatformVersion}}</el-descriptions-item>
             <el-descriptions-item label="CPU">{{osInfo.CPUModel}}</el-descriptions-item>
+            <el-descriptions-item :label="t('tools.install.cpuCore')">{{osInfo.CPUCores}}</el-descriptions-item>
             <el-descriptions-item :label="$t('tools.install.memory')">{{(osInfo.MemorySize / (1024 ** 3)).toFixed(2)}} GB</el-descriptions-item>
             <el-descriptions-item :label="$t('tools.install.uptime')">{{osInfo.Uptime}}</el-descriptions-item>
           </el-descriptions>
