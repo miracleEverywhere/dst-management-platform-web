@@ -265,6 +265,13 @@ export default {
         dataNum: 'Count',
       },
     },
+    keepalive: {
+      title: 'Keepalive',
+      text1: 'To prevent server failure due to issues such as module errors or process crashes, the server will be monitored every 30 minutes. ',
+      text2: 'If any FAILURE are detected, the server will automatically restart.',
+      text3: 'This feature is currently',
+      text4: '.',
+    }
   },
   logs: {
     logs: 'Logs',
