@@ -17,8 +17,8 @@
 
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.connectionCode')">
-              <el-tooltip effect="light" :content="roomInfo.connectionCode" placement="top">
-              <el-button link v-copy="roomInfo.connectionCode" type="primary">{{t('home.copy')}}</el-button>
+              <el-tooltip effect="light" :content="connectionCode" placement="top">
+              <el-button :disabled="connectionCode===''" link v-copy="connectionCode" :loading="connectionCodeLoading" type="primary">{{t('home.copy')}}</el-button>
               </el-tooltip>
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.cycles')">
@@ -46,7 +46,7 @@
               <el-tag>{{roomInfo.modsCount}}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item :label="$t('home.version')">
-              <el-tag :type="roomInfo.version.local===roomInfo.version.server?'success':'danger'">({{roomInfo.version.local}}/{{roomInfo.version.server}})</el-tag>
+              <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">({{version.local}}/{{version.server}})</el-tag>
             </el-descriptions-item>
           </el-descriptions>
         </el-card>
@@ -175,6 +175,7 @@
 
 <script setup>
 import homeApi from "@/api/home"
+import externalApi from "@/api/externalApi"
 import {useI18n} from "vue-i18n";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
@@ -186,6 +187,8 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 onMounted(() => {
   checkPassword()
   getRoomInfo()
+  getVersion()
+  getConnectionCode()
   startRequests()
 })
 
@@ -207,6 +210,32 @@ const checkPassword = () => {
 }
 
 const loading = ref(false)
+const versionLoading = ref(false)
+const connectionCodeLoading = ref(false)
+
+const version = ref({
+  server: 0,
+  local: 0
+})
+const connectionCode = ref('')
+
+const getVersion = () => {
+  versionLoading.value = true
+  externalApi.dstVersion.get().then(response =>{
+    version.value = response.data
+  }).finally(() => {
+    versionLoading.value = false
+  })
+}
+
+const getConnectionCode = () => {
+  connectionCodeLoading.value = true
+  externalApi.connectionCode.get().then(response =>{
+    connectionCode.value = response.data
+  }).finally(() => {
+    connectionCodeLoading.value = false
+  })
+}
 
 const roomInfo = ref({
   roomSettingBase: {
@@ -225,11 +254,6 @@ const roomInfo = ref({
     phase: {}
   },
   modsCount: 0,
-  version: {
-    server: 0,
-    local: 0
-  },
-  connectionCode: '',
 })
 const getRoomInfo = () => {
   homeApi.roomInfo.get().then(response => {
