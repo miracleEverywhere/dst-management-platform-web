@@ -9,24 +9,24 @@
             </div>
           </template>
           <el-descriptions :column="isMobile?1:2">
-            <el-descriptions-item :label="$t('home.roomName')">
+            <el-descriptions-item :label="t('home.roomName')">
               <el-button link type="primary" v-copy="roomInfo.roomSettingBase.name">
                 {{roomInfo.roomSettingBase.name}}
                 <el-icon style="margin-left: 3px"><DocumentCopy /></el-icon>
               </el-button>
 
             </el-descriptions-item>
-            <el-descriptions-item :label="$t('home.connectionCode')">
+            <el-descriptions-item :label="t('home.connectionCode')">
               <el-tooltip effect="light" :content="connectionCode" placement="top">
               <el-button :disabled="connectionCode===''" link v-copy="connectionCode" :loading="connectionCodeLoading" type="primary">{{t('home.copy')}}</el-button>
               </el-tooltip>
             </el-descriptions-item>
-            <el-descriptions-item :label="$t('home.cycles')">
+            <el-descriptions-item :label="t('home.cycles')">
               <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
                 {{roomInfo.seasonInfo.cycles}}
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item :label="$t('home.phase')">
+            <el-descriptions-item :label="t('home.phase')">
               <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
                 {{roomInfo.seasonInfo.phase.en}}
               </el-tag>
@@ -34,7 +34,7 @@
                 {{roomInfo.seasonInfo.phase.zh}}
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item :label="$t('home.season')">
+            <el-descriptions-item :label="t('home.season')">
               <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
                 {{roomInfo.seasonInfo.season.en}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
               </el-tag>
@@ -42,10 +42,11 @@
                 {{roomInfo.seasonInfo.season.zh}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item :label="$t('home.mods')">
+            <el-descriptions-item :label="t('home.mods')">
               <el-tag>{{roomInfo.modsCount}}</el-tag>
+              <el-button link type="primary" @click="handleOpenModDialog" style="margin-left: 10px">{{t('home.modsButton')}}</el-button>
             </el-descriptions-item>
-            <el-descriptions-item :label="$t('home.version')">
+            <el-descriptions-item :label="t('home.version')">
               <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">({{version.local}}/{{version.server}})</el-tag>
             </el-descriptions-item>
           </el-descriptions>
@@ -170,6 +171,32 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-dialog v-model="modInfoDialogVisible" :close-on-click-modal="false" :title="t('home.modsTable.title')" width="80%">
+      <el-table :data="modInfoList" tooltip-effect="light" v-loading="modInfoLoading" height="70vh"
+                border style="width: 100%" size="small">
+        <el-table-column prop="name" :label="t('home.modsTable.name')">
+          <template #default="scope">
+            <el-tag type="success" size="large">{{scope.row.name}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="preview_url" :label="t('home.modsTable.pics')">
+          <template #default="scope">
+            <el-image style="width: 100px; height: 100px" :src="scope.row.preview_url" fit="contain" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="size" :label="t('home.modsTable.size')">
+          <template #default="scope">
+            {{formatBytes(scope.row.size)}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="id" :label="t('home.modsTable.id')"/>
+        <el-table-column prop="tags" :label="t('home.modsTable.tags')">
+          <template #default="scope">
+            <el-tag v-for="item in scope.row.tags" style="margin: 0 5px 5px 0;">{{item.display_name}}</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -431,6 +458,28 @@ const handleConsole = () => {
   })
 }
 
+const modInfoDialogVisible = ref(false)
+const modInfoLoading = ref(false)
+const modInfoList = ref([])
+const handleOpenModDialog = () => {
+  modInfoDialogVisible.value = true
+  modInfoLoading.value = true
+  externalApi.modInfo.get().then(response => {
+    modInfoList.value = response.data
+  }).finally(() => {
+    modInfoLoading.value = false
+  })
+}
+
+const formatBytes = (bytes) => {
+  if (bytes === 0) return '0 B';
+
+  const k = 1024;
+  const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
 
 onBeforeUnmount(() => {
   cancelRequests();

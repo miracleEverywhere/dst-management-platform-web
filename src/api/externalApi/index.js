@@ -13,4 +13,10 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  modInfo: {
+    url: `/external/api/mod_info`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    }
+  },
 }
