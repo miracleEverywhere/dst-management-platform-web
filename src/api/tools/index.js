@@ -61,6 +61,12 @@ export default {
       return await http.post(this.url, data);
     },
   },
+  backupDownload: {
+    url: `/tools/backup/download`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
   multiDelete: {
     url: `/tools/backup/multi`,
     delete: async function(data){

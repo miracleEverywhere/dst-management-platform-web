@@ -59,8 +59,9 @@
                   </template>
                 </el-table-column>
                 <el-table-column :label="$t('tools.backup.tableCreateTime')" prop="createTime"/>
-                <el-table-column prop="actions" :label="$t('setting.button.actions')" width="150">
+                <el-table-column prop="actions" :label="$t('setting.button.actions')">
                   <template #default="scope">
+                    <el-button link type="primary" @click="handleDownload(scope.row)" :loading="downloadLoading">{{ t('tools.backup.download') }}</el-button>
                     <el-button link type="warning" @click="handleRestore(scope.row)">{{ t('tools.backup.restore') }}</el-button>
                     <el-button link type="danger" @click="handleDelete(scope.row)">{{ t('tools.backup.delete') }}</el-button>
                   </template>
@@ -82,6 +83,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {ElMessageBox} from "element-plus";
+import {saveFile} from "@/utils/tools.js";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -251,6 +253,16 @@ const formatBytes = (bytes) => {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+const downloadLoading = ref(false)
+const handleDownload = (row) => {
+  downloadLoading.value = true
+  toolsApi.backupDownload.post({filename: row.name}).then(async (response) => {
+    await saveFile(response.data, row.name)
+  }).finally(() => {
+    downloadLoading.value = false
+  })
 }
 
 

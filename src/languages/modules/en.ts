@@ -226,6 +226,7 @@ export default {
       tableName: 'File Name',
       size: 'File Size',
       tableCreateTime: 'Create Time',
+      download: 'Download',
       restore: 'Restore',
       delete: 'Delete',
       multiDelete: 'Multi-Delete',

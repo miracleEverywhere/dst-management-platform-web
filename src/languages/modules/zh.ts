@@ -227,6 +227,7 @@ export default {
       tableName: '文件名',
       size: '文件大小',
       tableCreateTime: '创建时间',
+      download: '下载',
       restore: '恢复',
       delete: '删除',
       multiDelete: '批量删除',
