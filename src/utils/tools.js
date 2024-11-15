@@ -97,3 +97,26 @@ export const validateRegExp = (string) => {
     return false; // 正则表达式非法
   }
 }
+
+export const saveFile = (base64Data, fileName) => {
+  // 解码 Base64 数据
+  const byteCharacters = atob(base64Data);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+
+  // 创建 Blob 对象
+  const blob = new Blob([byteArray], { type: 'application/octet-stream' });
+
+  // 适用于其他现代浏览器
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+}
