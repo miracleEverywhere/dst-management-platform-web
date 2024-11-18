@@ -175,13 +175,10 @@
       <el-table :data="modInfoList" tooltip-effect="light" v-loading="modInfoLoading" height="70vh"
                 border style="width: 100%" size="small">
         <el-table-column prop="name" :label="t('home.modsTable.name')">
-          <template #default="scope">
-            <el-tag type="success" size="large">{{scope.row.name}}</el-tag>
-          </template>
         </el-table-column>
-        <el-table-column prop="preview_url" :label="t('home.modsTable.pics')">
+        <el-table-column prop="preview_url" :label="t('home.modsTable.pics')" width="120px">
           <template #default="scope">
-            <el-image style="width: 100px; height: 100px" :src="scope.row.preview_url" fit="contain" />
+            <el-image style="width: 100px; height: 100px" :src="scope.row.preview_url" fit="fill"/>
           </template>
         </el-table-column>
         <el-table-column prop="size" :label="t('home.modsTable.size')">
