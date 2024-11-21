@@ -102,7 +102,7 @@ const getInfo = (refresh=false) => {
 }
 
 const playerStatisticsResult = ref({
-  num: 0,
+  num: -1,
   timestamp: 0,
   dataVolume: 0
 })
