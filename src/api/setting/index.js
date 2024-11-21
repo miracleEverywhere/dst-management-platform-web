@@ -76,5 +76,13 @@ export default {
       }
     },
   },
+  import: {
+    upload: {
+      url: `/setting/import/upload`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
+  },
 
 }
