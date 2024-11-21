@@ -17,7 +17,7 @@
         >
           <AsideSubMenu :menuList="menuList"></AsideSubMenu>
         </el-menu>
-        <div style="position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); color: var(--el-color-info);">
+        <div style="position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); color: var(--el-color-info);;font-size: 13px">
           Ver: {{settings.version}}
         </div>
       </el-scrollbar>
