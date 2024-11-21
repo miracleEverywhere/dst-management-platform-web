@@ -182,6 +182,7 @@ export default {
       install: '安装',
       installProgress: '安装进度',
       noClose: '安装过程中请勿刷新或关闭页面',
+      installTip: '如果安装完成后，首页无法获取饥荒版本，请手动执行manual_install.sh脚本，执行方法：cd && ./manual_install.sh',
     },
     announce: {
       title: '定时通知',

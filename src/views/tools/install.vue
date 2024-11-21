@@ -44,6 +44,11 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-row :gutter="20">
+      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 20px">
+        <el-alert :effect="isDark?'light':'dark'" type="success" :closable="false">{{t('tools.install.installTip')}}</el-alert>
+      </el-col>
+    </el-row>
     <el-row :gutter="20" v-if="installing">
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 20px">
         <el-card shadow="never" style="min-height: 250px" >
@@ -79,6 +84,7 @@ const { t } = useI18n()
 const globalStore = useGlobalStore()
 const language = computed(() => globalStore.language)
 const { isMobile } = useScreenStore();
+const isDark = computed(() => globalStore.isDark);
 
 const installing = ref(false)
 const percentage = ref(0)

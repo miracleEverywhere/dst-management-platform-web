@@ -181,6 +181,7 @@ export default {
       install: 'Install',
       installProgress: 'Installation progress',
       noClose: 'Do not refresh or close the page during installation',
+      installTip: 'After the installation is complete, if the DST version cannot be retrieved on the homepage, please manually execute the manual_install.sh script. Execution CMD: cd && ./manual_install.sh',
     },
     announce: {
       title: 'Auto Announce',
