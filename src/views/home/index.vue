@@ -112,7 +112,7 @@
 
                 </el-col>
                 <el-col v-if="!isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 1)">1{{t('home.days')}}</el-button>
+                  <el-button size="small" @click="handleExec('rollback', 1)">1{{t('home.day')}}</el-button>
                   <el-button size="small" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
                   <el-button size="small" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
                   <el-button size="small" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
