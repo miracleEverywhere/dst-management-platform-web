@@ -14,9 +14,11 @@
           </div>
           <div class="chroma-text text-lg text-center <md:hidden">{{ $t("login.description") }}</div>
         </div>
-
       </el-col>
       <el-col :lg="8" :md="12" :sm="9" :xs="24" class="dark:bg-#161616 bg-gray-100 flex items-center justify-center flex-col">
+        <div style="margin-bottom: -50px">
+          <el-image class="animate-float" :src="logo" style="width: 200px"/>
+        </div>
         <div class="flex items-center">
           <div class="ml-6px font-bold text-xl">{{ loginTitle }}</div>
         </div>
@@ -92,8 +94,9 @@ const keepAliveStore = useKeepAliveStore();
 const router = useRouter();
 
 /** 用户登录代码 */
-const logo = getAssets("images/logo/logo.webp");
+const logo = getAssets("images/logo/logo.svg");
 const bg = getAssets("images/login/bg.png");
+
 const loginFormRef = ref();
 const loading = ref(false);
 
