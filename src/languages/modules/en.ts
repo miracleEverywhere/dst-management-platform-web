@@ -162,6 +162,18 @@ export default {
     addBlock: 'Add to Block List',
     addWhite: 'Add to White List',
     kick: 'Kick Player',
+    import: {
+      title: 'Import',
+      text1: 'Before uploading the file, it is recommended to close the running server to avoid errors. An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',
+      text2: 'Please upload a compressed file (e.g., my_cluster.zip). The contents of the compressed file should be as follows, with the bold files being required. Automatic detection will be performed, and missing files will result in import failure.',
+      button: 'Upload',
+      dialog: {
+        title: 'Upload',
+        text1: 'Drop file here or ',
+        text2: 'click to upload',
+        tip: 'Please upload a .zip file',
+      },
+    },
   },
   tools: {
     install: {

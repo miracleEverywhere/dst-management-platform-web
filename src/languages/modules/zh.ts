@@ -163,6 +163,18 @@ export default {
     addBlock: '添加黑名单',
     addWhite: '添加白名单',
     kick: '踢出玩家',
+    import: {
+      title: '存档导入',
+      text1: '在上传文件前，建议关闭正在运行的服务器，避免造成错误。上传过程中会自动备份存档。上传完成后请手动启动服务器。',
+      text2: '请上传压缩文件(例如：my_cluster.zip)，压缩文件的内容如下，加粗文件为必须，会自动进行检测，如缺失会导致导入失败',
+      button: '上传存档',
+      dialog: {
+        title: '上传存档',
+        text1: '将文件拖放到此处',
+        text2: '或点击上传',
+        tip: '请上传.zip文件',
+      },
+    },
   },
   tools: {
     install: {
