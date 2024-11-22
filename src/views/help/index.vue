@@ -7,7 +7,7 @@
             <el-collapse v-model="activeName" accordion @change="collapseChange">
               <el-collapse-item name="1">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 12px">{{ t('help.one.title') }}</span>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.one.title') }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.one.text1') }}
@@ -25,7 +25,7 @@
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 12px">{{ t('help.two.title') }}</span>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.two.title') }}</span>
                 </template>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2') }}</p>
@@ -45,7 +45,7 @@
               </el-collapse-item>
               <el-collapse-item name="3">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 12px">{{ t('help.three.title') }}</span>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.three.title') }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.three.text1') }}
