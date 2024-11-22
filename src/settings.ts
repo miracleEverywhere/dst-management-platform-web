@@ -34,7 +34,8 @@ export default {
   /**
    * Logo地址
    */
-  logoUrl: "images/logo/favicon.ico",
+  // logoUrl: "images/logo/favicon.ico",
+  logoUrl: "images/logo/logo.svg",
 
   /**
    * 是否隐藏Logo和网页标题[true-显示，false-隐藏]
