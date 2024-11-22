@@ -74,7 +74,7 @@
       </el-col>
     </el-row>
 
-    <el-dialog v-model="uploadDialogVisible" :title="t('setting.import.dialog.title')">
+    <el-dialog v-model="uploadDialogVisible" :title="t('setting.import.dialog.title')" width="45%">
       <el-upload ref="uploadRef" :before-upload="checkUploadFile" :http-request="handleUpload" :limit="1" drag>
         <el-icon class="el-icon--upload">
           <upload-filled/>
