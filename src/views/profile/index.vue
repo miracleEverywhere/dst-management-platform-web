@@ -97,7 +97,7 @@ const handleUpdatePassword = () => {
         koiLocalStorage.remove("keepAlive");
         koiLocalStorage.remove("tabs");
         // 退出登录。必须使用replace把页面缓存刷掉。
-        window.location.replace(LOGIN_URL);
+        window.location.replace('/')
       })
     }
   })
