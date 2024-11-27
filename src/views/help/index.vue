@@ -75,7 +75,7 @@
                 </div>
                 <div style="line-height: 50px;">
                   {{ t('help.four.text2') }}
-                  <el-button type="primary" size="small" @click="handleDownloadLog" :loading="downloadLogLoading">
+                  <el-button size="small" @click="handleDownloadLog" :loading="downloadLogLoading">
                     {{ t('help.four.button') }}
                   </el-button>
                   {{ t('help.four.text3') }}
