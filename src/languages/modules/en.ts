@@ -326,6 +326,12 @@ export default {
       text3: 'Keep the Cave Configuration empty',
       text4: 'Enter the Mod Configuration: ',
     },
-
+    four: {
+      title: 'Encountered an issue? Start by downloading the logs',
+      text1: 'If you encounter simple problems, you may be able to describe them and others can provide solutions based on their experience. However, if you come across odd issues that leave everyone scratching their heads despite lengthy descriptions, then! We need the logs.',
+      text2: 'The DMP generates two types of logs: one is the request log, which can be viewed on the "Logs - DMP" page (provided that request logging is enabled), and the other is the runtime log, located at ~/dmpProcess.log. If you\'re a seasoned pro, you can try looking at the logs and resolving the issues yourself. If you\'re a newbie, just click this',
+      text3: 'button and toss the logs at me all at once!',
+      button: 'Download'
+    },
   },
 };

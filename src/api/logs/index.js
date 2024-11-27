@@ -13,4 +13,10 @@ export default {
       return await http.post(this.url, data);
     }
   },
+  processLog: {
+    url: `/logs/process_log`,
+    post: async function (data) {
+      return await http.post(this.url, data);
+    }
+  },
 }

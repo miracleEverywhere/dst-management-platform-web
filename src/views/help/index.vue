@@ -66,6 +66,21 @@
                                 :theme="isDark?'darcula':'idea'"
                                 mode="lua" style="width: 95%"></sc-code-editor>
               </el-collapse-item>
+              <el-collapse-item name="4">
+                <template #title>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.four.title') }}</span>
+                </template>
+                <div style="line-height: 50px;">
+                  {{ t('help.four.text1') }}
+                </div>
+                <div style="line-height: 50px;">
+                  {{ t('help.four.text2') }}
+                  <el-button type="primary" size="small" @click="handleDownloadLog" :loading="downloadLogLoading">
+                    {{ t('help.four.button') }}
+                  </el-button>
+                  {{ t('help.four.text3') }}
+                </div>
+              </el-collapse-item>
             </el-collapse>
           </div>
         </el-card>
@@ -80,6 +95,8 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import {computed, nextTick, ref} from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
+import logsApi from "@/api/logs"
+import {saveFile} from "@/utils/tools.js";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -290,6 +307,16 @@ const collapseChange = () => {
       threeCodeTwoRef.value.refresh()
     })
   }
+}
+
+const downloadLogLoading = ref(false)
+const handleDownloadLog = () => {
+  downloadLogLoading.value = true
+  logsApi.processLog.post().then(async (response) => {
+    await saveFile(response.data, 'logs.tgz')
+  }).finally(() => {
+    downloadLogLoading.value = false
+  })
 }
 </script>
 
