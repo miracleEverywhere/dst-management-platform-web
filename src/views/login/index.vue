@@ -17,7 +17,7 @@
       </el-col>
       <el-col :lg="8" :md="12" :sm="9" :xs="24" class="dark:bg-#161616 bg-gray-100 flex items-center justify-center flex-col">
         <div style="margin-bottom: -50px">
-          <el-image class="animate-float" :src="logo" style="width: 200px"/>
+          <el-image :src="logo" style="width: 200px"/>
         </div>
         <div class="flex items-center">
           <div class="ml-6px font-bold text-xl">{{ loginTitle }}</div>
@@ -44,17 +44,12 @@
           </el-form-item>
           <!-- 登录按钮 -->
           <el-form-item>
-            <el-button
-              type="primary"
-              v-if="!loading"
-              class="w-245px bg-[--el-color-primary]"
-              round
-              v-throttle:3000="handleKoiLogin"
-              >{{ $t("login.in") }}</el-button
-            >
-            <el-button type="primary" v-else class="w-245px bg-[--el-color-primary]" round :loading="loading">{{
-              $t("login.center")
-            }}</el-button>
+            <el-button type="primary" v-if="!loading" class="w-245px bg-[--el-color-primary]" round v-throttle:3000="handleKoiLogin">
+              {{ $t("login.in") }}
+            </el-button>
+            <el-button type="primary" v-else class="w-245px bg-[--el-color-primary]" round :loading="loading">
+              {{ $t("login.center") }}
+            </el-button>
           </el-form-item>
         </el-form>
       </el-col>
