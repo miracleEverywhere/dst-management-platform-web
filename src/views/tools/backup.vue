@@ -6,6 +6,9 @@
           <template #header>
             <div class="card-header">
               {{ t('tools.backup.title1') }}
+              <el-button type="primary" @click="handleManualBackup" :loading="manualBackupLoading">
+                {{ t('tools.backup.BackupImmediately') }}
+              </el-button>
             </div>
           </template>
           <div>
@@ -59,17 +62,29 @@
                   </template>
                 </el-table-column>
                 <el-table-column :label="$t('tools.backup.tableCreateTime')" prop="createTime"/>
-                <el-table-column prop="actions" :label="$t('setting.button.actions')" width="100px">
+                <el-table-column prop="actions" :label="$t('setting.button.actions')" width="120px">
                   <template #default="scope">
-                    <div>
-                      <el-button link type="primary" @click="handleDownload(scope.row)" :loading="downloadLoading">{{ t('tools.backup.download') }}</el-button>
-                    </div>
-                    <div>
-                      <el-button link type="warning" @click="handleRestore(scope.row)">{{ t('tools.backup.restore') }}</el-button>
-                    </div>
-                    <div>
-                      <el-button link type="danger" @click="handleDelete(scope.row)">{{ t('tools.backup.delete') }}</el-button>
-                    </div>
+<!--                    <div>-->
+<!--                      <el-button link type="primary" @click="handleDownload(scope.row)" :loading="downloadLoading">{{ t('tools.backup.download') }}</el-button>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                      <el-button link type="warning" @click="handleRestore(scope.row)">{{ t('tools.backup.restore') }}</el-button>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                      <el-button link type="danger" @click="handleDelete(scope.row)">{{ t('tools.backup.delete') }}</el-button>-->
+<!--                    </div>-->
+                    <el-dropdown @command="handleCommand" trigger="click">
+                      <el-button type="primary" link :loading="actionsLoading">
+                        {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                      </el-button>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item :command="{cmd: 'download', row: scope.row}">{{ t('tools.backup.download') }}</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'restore', row: scope.row}">{{ t('tools.backup.restore') }}</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{ t('tools.backup.delete') }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
                   </template>
                 </el-table-column>
               </el-table>
@@ -168,6 +183,8 @@ const handleDelete = (row) => {
   ).then(() => {
   }).catch(() => {
     koiMsgInfo(t('home.canceled'))
+  }).finally(() => {
+    actionsLoading.value = false
   })
 }
 
@@ -201,6 +218,8 @@ const handleRestore = (row) => {
   ).then(() => {
   }).catch(() => {
     koiMsgInfo(t('home.canceled'))
+  }).finally(() => {
+    actionsLoading.value = false
   })
 }
 
@@ -261,13 +280,43 @@ const formatBytes = (bytes) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-const downloadLoading = ref(false)
 const handleDownload = (row) => {
-  downloadLoading.value = true
   toolsApi.backupDownload.post({filename: row.name}).then(async (response) => {
     await saveFile(response.data, row.name)
   }).finally(() => {
-    downloadLoading.value = false
+    actionsLoading.value = false
+  })
+}
+
+const actionsLoading = ref(false)
+const handleCommand = (actions) => {
+  let cmd = actions.cmd
+  let row = actions.row
+  actionsLoading.value = true
+  switch(cmd) {
+    case 'download':
+      handleDownload(row)
+      break;
+    case 'restore':
+      handleRestore(row)
+      break;
+    case 'delete':
+      handleDelete(row)
+      break;
+    default:
+      actionsLoading.value = false
+      koiMsgError('error')
+  }
+}
+
+const manualBackupLoading = ref(false)
+const handleManualBackup = () => {
+  manualBackupLoading.value = true
+  toolsApi.backup.post().then(response => {
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    manualBackupLoading.value = false
+    getInfo()
   })
 }
 

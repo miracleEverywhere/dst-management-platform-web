@@ -252,6 +252,7 @@ export default {
       restore: 'Restore',
       delete: 'Delete',
       multiDelete: 'Multi-Delete',
+      BackupImmediately: 'Backup',
       deleteTip: 'Please select at least one file.',
       timeChangeTip: 'Please select a time',
       alert: 'The Auto-Update and Auto-Backup times cannot be the same, as this will overwrite the execution of one of the tasks',

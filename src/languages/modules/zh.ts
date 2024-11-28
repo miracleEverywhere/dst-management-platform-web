@@ -253,9 +253,11 @@ export default {
       restore: '恢复',
       delete: '删除',
       multiDelete: '批量删除',
+      BackupImmediately: '立即备份',
       deleteTip: '请至少选择一个文件',
       timeChangeTip: '请选择时间',
       alert: '定时更新和定时备份的时间不能相同，否则会覆盖其中一个任务的执行',
+
     },
     mod: {
       title: '模组',
