@@ -324,6 +324,47 @@ const handleGenerateNewWorld = () => {
 }
 
 const groundTabName = ref('Code')
+
+
+const aaa = () => {
+  const ast = luaparse.parse(roomGroundForm.value.groundSetting)
+// 提取 overrides 字段
+  const overridesTable = extractOverrides(ast);
+// 将 Lua 表转换为 JavaScript 对象
+  const overridesss = convertLuaTableToObject(overridesTable);
+  console.log(overridesss)
+}
+
+
+function extractOverrides(ast) {
+  // 找到 return 语句中的 overrides 字段
+  const returnStatement = ast.body[0]; // 假设只有一个 return 语句
+  const returnTable = returnStatement.arguments[0]; // return 语句的参数是一个表
+
+  // 遍历表中的字段，找到 overrides 字段
+  for (const field of returnTable.fields) {
+    // console.log(field)
+    if (field.key.type === 'Identifier' && field.key.name === 'overrides') {
+      console.log(field.value)
+      return field.value;
+    }
+  }
+
+  return null;
+}
+
+function convertLuaTableToObject(luaTable) {
+  const obj = {};
+  for (const field of luaTable.fields) {
+    const key = field.key.name;
+    const value = field.value.raw.replace(/"/g, '')
+    obj[key] = value
+  }
+
+  return obj;
+}
+
+
 </script>
 
 <style scoped>
