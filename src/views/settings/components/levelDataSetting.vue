@@ -48,7 +48,7 @@ const rightClick = () => {
 }
 
 const getImageUrl = (file) => {
-  return new URL('./groundImages/'+file, import.meta.url).href
+  return new URL('./gameSettingImages/'+file, import.meta.url).href
 }
 
 const handleSettingChange = () => {
