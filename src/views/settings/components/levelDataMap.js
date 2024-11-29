@@ -9,12 +9,12 @@ export const overrides = {
     }
   },
   angrybees: {
-    configs: ["never", "rare", "default", "often", "always"],
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
     modelValue: 'default',
     image: 'angrybees.png',
     i18n: {
-      zh: 'angrybees',
-      en: 'angrybees',
+      zh: '杀人蜂巢',
+      en: 'Killer Bee Hives',
     }
   },
   antliontribute: {
@@ -47,10 +47,28 @@ export const overrides = {
   basicresource_regrowth: {
     configs: ["never", "always"],
     modelValue: 'default',
-    image: 'bananabush_portalrate.png',
+    image: 'basicresource_regrowth.png',
     i18n: {
       zh: '基础资源',
       en: 'Basic Resource',
+    }
+  },
+  bats_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'bats_setting.png',
+    i18n: {
+      zh: '蝙蝠',
+      en: 'bianfu',
+    }
+  },
+  bearger: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'bearger.png',
+    i18n: {
+      zh: '熊獾',
+      en: 'bianfu',
     }
   },
 }
@@ -64,6 +82,10 @@ export const configsMap = {
     zh: '很少',
     en: 'Little'
   },
+  uncommon: {
+    zh: '较少',
+    en: 'Less'
+  },
   default: {
     zh: '默认',
     en: 'Default'
@@ -72,9 +94,17 @@ export const configsMap = {
     zh: '较多',
     en: 'More'
   },
+  mostly: {
+    zh: '很多',
+    en: 'Lots'
+  },
   always: {
     zh: '大量',
     en: 'Tons'
+  },
+  insane: {
+    zh: '疯狂',
+    en: 'Insane'
   },
   noseason: {
     zh: '无',
