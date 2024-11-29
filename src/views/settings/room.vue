@@ -68,11 +68,15 @@
               </el-form>
             </el-tab-pane>
             <el-tab-pane label="Visualization" name="Visualization">
-              <LevelDataSetting v-model="overrides.alternatehunt.modelValue"
-                                :i18n="overrides.alternatehunt.i18n"
-                                :configs="overrides.alternatehunt.configs"
-                                :image="overrides.alternatehunt.image"
-              />
+              <template v-for="(item, k) in overrides">
+                <LevelDataSetting v-model="item.modelValue"
+                                  :name="k"
+                                  :i18n="item.i18n"
+                                  :configs="item.configs"
+                                  :image="item.image"
+                />
+              </template>
+
             </el-tab-pane>
 
           </el-tabs>

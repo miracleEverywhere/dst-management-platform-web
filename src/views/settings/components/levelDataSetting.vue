@@ -17,16 +17,18 @@
 
 <script setup>
 import {ArrowLeftBold, ArrowRightBold} from '@element-plus/icons-vue'
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {configsMap} from "@/views/settings/components/levelDataMap.js"
+import {configsMap, overrides} from "@/views/settings/components/levelDataMap.js"
 
 const props = defineProps({
   configs: {type: Array, default: []},
   modelValue: {type: String, default: ''},
   image: {type: String, default: ''},
   i18n: {type: Object, default: {zh: '', en: ''}},
+  name: {type: String, default: ''},
 })
+
 
 const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
@@ -45,6 +47,7 @@ const leftClick = () => {
     rightClickDisabled.value = false
     setting.value = props.configs[index - 1]
   }
+  handleSettingChange()
 }
 const rightClick = () => {
   const index = props.configs.indexOf(setting.value)
@@ -55,10 +58,18 @@ const rightClick = () => {
     leftClickDisabled.value = false
     setting.value = props.configs[index + 1]
   }
+  handleSettingChange()
 }
 
 const getImageUrl = (file) => {
   return new URL('./groundImages/'+file, import.meta.url).href
+}
+
+const handleSettingChange = () => {
+  overrides[props.name].modelValue = setting.value
+  console.log(overrides)
+  //TODO 回写lua文件
+
 }
 
 </script>
