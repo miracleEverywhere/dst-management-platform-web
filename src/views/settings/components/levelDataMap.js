@@ -71,6 +71,105 @@ export const overrides = {
       en: 'bianfu',
     }
   },
+  beefalo: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'beefalo.png',
+    i18n: {
+      zh: '皮弗娄牛',
+      en: 'beefalo',
+    }
+  },
+  beefaloheat: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'beefaloheat.png',
+    i18n: {
+      zh: '皮弗娄牛交配频率',
+      en: 'beefaloheat',
+    }
+  },
+  beequeen: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'beequeen.png',
+    i18n: {
+      zh: '蜂王',
+      en: 'beequeen',
+    }
+  },
+  bees: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'bees.png',
+    i18n: {
+      zh: '蜜蜂蜂窝',
+      en: 'bees',
+    }
+  },
+  bees_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'bees_setting.png',
+    i18n: {
+      zh: '蜜蜂',
+      en: 'bees_setting',
+    }
+  },
+  berrybush: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'berrybush.png',
+    i18n: {
+      zh: '浆果丛',
+      en: 'berrybush',
+    }
+  },
+  birds: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'birds.png',
+    i18n: {
+      zh: '鸟',
+      en: 'birds',
+    }
+  },
+  boons: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'boons.png',
+    i18n: {
+      zh: '失败的冒险家',
+      en: 'boons',
+    }
+  },
+  branching: {
+    configs: ["never", "least", "default", "most", "random"],
+    modelValue: 'default',
+    image: 'branching.png',
+    i18n: {
+      zh: '分支',
+      en: 'branching',
+    }
+  },
+  brightmarecreatures: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'brightmarecreatures.png',
+    i18n: {
+      zh: '启蒙怪兽',
+      en: 'brightmarecreatures',
+    }
+  },
+  bunnymen_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'bunnymen_setting.png',
+    i18n: {
+      zh: '兔人',
+      en: 'bunnymen_setting',
+    }
+  },
 }
 
 export const configsMap = {
@@ -129,6 +228,14 @@ export const configsMap = {
   random: {
     zh: '随机',
     en: 'Random'
+  },
+  least: {
+    zh: '最少',
+    en: 'least'
+  },
+  most: {
+    zh: '最多',
+    en: 'most'
   },
 }
 

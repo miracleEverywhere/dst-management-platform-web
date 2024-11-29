@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex; align-items: center; margin: 5px">
     <el-image :src="getImageUrl(props.image)" fit="fill" style="width: 75px; height: 75px"/>
-    <div style="width: 120px">
+    <div style="width: 140px">
       <div class="fcc">
         <el-tag size="large">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
       </div>
