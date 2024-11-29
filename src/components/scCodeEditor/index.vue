@@ -8,7 +8,7 @@
 -->
 
 <template>
-  <div class="sc-code-editor" :style="{'height':_height}">
+  <div inert class="sc-code-editor" :style="{'height':_height}">
     <textarea ref="textarea" v-model="contentValue"></textarea>
   </div>
 </template>
