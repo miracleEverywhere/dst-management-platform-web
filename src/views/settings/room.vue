@@ -57,13 +57,25 @@
           </el-form>
         </el-card>
         <el-card v-if="step===1" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-form ref="roomGroundFormRef" :model="roomGroundForm" :rules="roomGroundFormRules"
-                   :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
-            <el-form-item label-position="top" prop="groundSetting">
-              <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :theme="isDark?'darcula':'idea'"
-                              :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
-            </el-form-item>
-          </el-form>
+          <el-tabs v-model="groundTabName">
+            <el-tab-pane label="Code" name="Code">
+              <el-form ref="roomGroundFormRef" :model="roomGroundForm" :rules="roomGroundFormRules"
+                       :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
+                <el-form-item label-position="top" prop="groundSetting">
+                  <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :theme="isDark?'darcula':'idea'"
+                                  :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="Visualization" name="Visualization">
+              <LevelDataSetting v-model="overrides.alternatehunt.modelValue"
+                                :i18n="overrides.alternatehunt.i18n"
+                                :configs="overrides.alternatehunt.configs"
+                                :image="overrides.alternatehunt.image"
+              />
+            </el-tab-pane>
+
+          </el-tabs>
         </el-card>
         <el-card v-if="step===2" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
           <el-alert :effect="isDark?'light':'dark'" type="success" :closable="false">{{t('setting.cavesTip')}}</el-alert>
@@ -128,6 +140,8 @@ import luaparse from 'luaparse'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
+import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
+import {overrides} from "@/views/settings/components/levelDataMap.js"
 
 const { t } = useI18n()
 
@@ -305,6 +319,7 @@ const handleGenerateNewWorld = () => {
   })
 }
 
+const groundTabName = ref('Code')
 </script>
 
 <style scoped>
