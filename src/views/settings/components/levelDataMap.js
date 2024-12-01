@@ -280,6 +280,16 @@ export const overrides = {
   },
   darkness: {
     configs: ["nonlethal", "default"],
+    customConfigsValue: {
+      nonlethal: {
+        zh: '非致命',
+        en: 'enabled'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
     modelValue: 'default',
     image: 'darkness.png',
     i18n: {
@@ -289,6 +299,48 @@ export const overrides = {
   },
   day: {
     configs: ["default", "longday", "longdusk", "longnight", "noday", "nodusk", "nonight", "onlyday", "onlydusk", "onlynight"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      longday: {
+        zh: '长 白天',
+        en: 'longday'
+      },
+      longdusk: {
+        zh: '长 黄昏',
+        en: 'longdusk'
+      },
+      longnight: {
+        zh: '长 夜晚',
+        en: 'longnight'
+      },
+      noday: {
+        zh: '无 白天',
+        en: 'noday'
+      },
+      nodusk: {
+        zh: '无 黄昏',
+        en: 'nodusk'
+      },
+      nonight: {
+        zh: '无 夜晚',
+        en: 'nonight'
+      },
+      onlyday: {
+        zh: '仅 白天',
+        en: 'onlyday'
+      },
+      onlydusk: {
+        zh: '仅 黄昏',
+        en: 'onlydusk'
+      },
+      onlynight: {
+        zh: '仅 夜晚',
+        en: 'onlynight'
+      },
+    },
     modelValue: 'default',
     image: 'day.png',
     i18n: {
@@ -343,6 +395,16 @@ export const overrides = {
   },
   dropeverythingondespawn: {
     configs: ["default", "always"],
+    customConfigsValue: {
+      "default": {
+        zh: '默认',
+        en: 'default'
+      },
+      "always": {
+        zh: '所有',
+        en: 'always'
+      },
+    },
     modelValue: 'default',
     image: 'dropeverythingondespawn.png',
     i18n: {
@@ -360,7 +422,33 @@ export const overrides = {
     }
   },
   extrastartingitems: {
-    configs: ["0", "5", "15", "20", "default", "none"],
+    configs: ["0", "5", "default", "15", "20", "none"],
+    customConfigsValue: {
+      "0": {
+        zh: '总是',
+        en: '0'
+      },
+      "5": {
+        zh: '第5天后',
+        en: '5'
+      },
+      "15": {
+        zh: '第15天后',
+        en: '15'
+      },
+      "20": {
+        zh: '第20天后',
+        en: '20'
+      },
+      default: {
+        zh: '第10天后',
+        en: 'default'
+      },
+      none: {
+        zh: '从不',
+        en: 'none'
+      },
+    },
     modelValue: 'default',
     image: 'extrastartingitems.png',
     i18n: {
@@ -375,6 +463,171 @@ export const overrides = {
     i18n: {
       zh: '恐怖之眼',
       en: 'eyeofterror',
+    }
+  },
+  fishschools: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'fishschools.png',
+    i18n: {
+      zh: '鱼群',
+      en: 'fishschools',
+    }
+  },
+  flint: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'flint.png',
+    i18n: {
+      zh: '燧石',
+      en: 'flint',
+    }
+  },
+  flowers: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'flowers.png',
+    i18n: {
+      zh: '花，邪恶花',
+      en: 'flowers',
+    }
+  },
+  flowers_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'flowers.png',
+    i18n: {
+      zh: '花',
+      en: 'flowers_regrowth',
+    }
+  },
+  frograin: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'frograin.png',
+    i18n: {
+      zh: '青蛙雨',
+      en: 'frograin',
+    }
+  },
+  frogs: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'frogs.png',
+    i18n: {
+      zh: '青蛙',
+      en: 'frogs',
+    }
+  },
+  fruitfly: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'fruitfly.png',
+    i18n: {
+      zh: '果蝇王',
+      en: 'fruitfly',
+    }
+  },
+  ghostenabled: {
+    configs: ["none", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '更改冒险家',
+        en: 'none'
+      },
+      always: {
+        zh: '变鬼魂',
+        en: 'always'
+      },
+    },
+    modelValue: 'always',
+    image: 'ghostenabled.png',
+    i18n: {
+      zh: '冒险家死亡',
+      en: 'ghostenabled',
+    }
+  },
+  ghostsanitydrain: {
+    configs: ["none", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'none'
+      },
+      always: {
+        zh: '启用',
+        en: 'always'
+      },
+    },
+    modelValue: 'always',
+    image: 'ghostsanitydrain.png',
+    i18n: {
+      zh: '鬼魂理智值惩罚',
+      en: 'ghostsanitydrain',
+    }
+  },
+  gnarwail: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'gnarwail.png',
+    i18n: {
+      zh: '一角鲸',
+      en: 'gnarwail',
+    }
+  },
+  goosemoose: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'goosemoose.png',
+    i18n: {
+      zh: '麋鹿鹅',
+      en: 'goosemoose',
+    }
+  },
+  grass: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'grass.png',
+    i18n: {
+      zh: '草',
+      en: 'grass',
+    }
+  },
+  grassgekkos: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'grassgekkos.png',
+    i18n: {
+      zh: '草壁虎转化',
+      en: 'grassgekkos',
+    }
+  },
+  hallowed_nights: {
+    configs: ["default", "enabled"],
+    modelValue: 'default',
+    image: 'hallowed_nights.png',
+    i18n: {
+      zh: '万圣夜',
+      en: 'hallowed_nights',
+    }
+  },
+  healthpenalty: {
+    configs: ["none", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'none'
+      },
+      always: {
+        zh: '启用',
+        en: 'always'
+      },
+    },
+    modelValue: 'default',
+    image: 'healthpenalty.png',
+    i18n: {
+      zh: '血量上限惩罚',
+      en: 'healthpenalty',
     }
   },
 }
@@ -463,66 +716,6 @@ export const configsMap = {
   enabled: {
     zh: '总是',
     en: 'enabled'
-  },
-  nonlethal: {
-    zh: '非致命',
-    en: 'enabled'
-  },
-  longday: {
-    zh: '长 白天',
-    en: 'longday'
-  },
-  longdusk: {
-    zh: '长 黄昏',
-    en: 'longdusk'
-  },
-  longnight: {
-    zh: '长 夜晚',
-    en: 'longnight'
-  },
-  noday: {
-    zh: '无 白天',
-    en: 'noday'
-  },
-  nodusk: {
-    zh: '无 黄昏',
-    en: 'nodusk'
-  },
-  nonight: {
-    zh: '无 夜晚',
-    en: 'nonight'
-  },
-  onlyday: {
-    zh: '仅 白天',
-    en: 'onlyday'
-  },
-  onlydusk: {
-    zh: '仅 黄昏',
-    en: 'onlydusk'
-  },
-  onlynight: {
-    zh: '仅 夜晚',
-    en: 'onlynight'
-  },
-  "0": {
-    zh: '总是',
-    en: '0'
-  },
-  "5": {
-    zh: '第5天后',
-    en: '5'
-  },
-  "15": {
-    zh: '第15天后',
-    en: '15'
-  },
-  "20": {
-    zh: '第20天后',
-    en: '20'
-  },
-  none: {
-    zh: '从不',
-    en: 'none'
   },
 }
 
