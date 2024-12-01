@@ -396,11 +396,11 @@ export const overrides = {
   dropeverythingondespawn: {
     configs: ["default", "always"],
     customConfigsValue: {
-      "default": {
+      default: {
         zh: '默认',
         en: 'default'
       },
-      "always": {
+      always: {
         zh: '所有',
         en: 'always'
       },
@@ -623,7 +623,7 @@ export const overrides = {
         en: 'always'
       },
     },
-    modelValue: 'default',
+    modelValue: 'always',
     image: 'healthpenalty.png',
     i18n: {
       zh: '血量上限惩罚',
