@@ -170,6 +170,213 @@ export const overrides = {
       en: 'bunnymen_setting',
     }
   },
+  butterfly: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'butterfly.png',
+    i18n: {
+      zh: '蝴蝶',
+      en: 'butterfly',
+    }
+  },
+  buzzard: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'buzzard.png',
+    i18n: {
+      zh: '秃鹫',
+      en: 'buzzard',
+    }
+  },
+  cactus: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'cactus.png',
+    i18n: {
+      zh: '仙人掌',
+      en: 'cactus',
+    }
+  },
+  cactus_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'cactus.png',
+    i18n: {
+      zh: '仙人掌',
+      en: 'cactus_regrowth',
+    }
+  },
+  carrot: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'carrot.png',
+    i18n: {
+      zh: '胡萝卜',
+      en: 'carrot',
+    }
+  },
+  carrots_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'carrot.png',
+    i18n: {
+      zh: '胡萝卜',
+      en: 'carrots_regrowth',
+    }
+  },
+  catcoon: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'catcoon.png',
+    i18n: {
+      zh: '空心树桩',
+      en: 'catcoon',
+    }
+  },
+  catcoons: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'catcoons.png',
+    i18n: {
+      zh: '浣猫',
+      en: 'catcoons',
+    }
+  },
+  chess: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'chess.png',
+    i18n: {
+      zh: '发条装置',
+      en: 'chess',
+    }
+  },
+  cookiecutters: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'cookiecutters.png',
+    i18n: {
+      zh: '饼干切割机',
+      en: 'cookiecutters',
+    }
+  },
+  crabking: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'crabking.png',
+    i18n: {
+      zh: '帝王蟹',
+      en: 'crabking',
+    }
+  },
+  crow_carnival: {
+    configs: ["never", "enabled"],
+    modelValue: 'default',
+    image: 'crow_carnival.png',
+    i18n: {
+      zh: '盛夏鸦年华',
+      en: 'crow_carnival',
+    }
+  },
+  darkness: {
+    configs: ["nonlethal", "default"],
+    modelValue: 'default',
+    image: 'darkness.png',
+    i18n: {
+      zh: '黑暗伤害',
+      en: 'darkness',
+    }
+  },
+  day: {
+    configs: ["default", "longday", "longdusk", "longnight", "noday", "nodusk", "nonight", "onlyday", "onlydusk", "onlynight"],
+    modelValue: 'default',
+    image: 'day.png',
+    i18n: {
+      zh: '昼夜选项',
+      en: 'day',
+    }
+  },
+  daywalker2: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'daywalker2.png',
+    i18n: {
+      zh: '拾荒疯猪',
+      en: 'daywalker2',
+    }
+  },
+  deciduousmonster: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'deciduousmonster.png',
+    i18n: {
+      zh: '毒桦栗树',
+      en: 'deciduousmonster',
+    }
+  },
+  deciduoustree_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'deciduoustree_regrowth.png',
+    i18n: {
+      zh: '桦栗树',
+      en: 'deciduoustree_regrowth',
+    }
+  },
+  deerclops: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'deerclops.png',
+    i18n: {
+      zh: '独眼巨鹿',
+      en: 'deerclops',
+    }
+  },
+  dragonfly: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'dragonfly.png',
+    i18n: {
+      zh: '龙蝇',
+      en: 'dragonfly',
+    }
+  },
+  dropeverythingondespawn: {
+    configs: ["default", "always"],
+    modelValue: 'default',
+    image: 'dropeverythingondespawn.png',
+    i18n: {
+      zh: '离开游戏后物品掉落',
+      en: 'dropeverythingondespawn',
+    }
+  },
+  evergreen_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'evergreen_regrowth.png',
+    i18n: {
+      zh: '常青树',
+      en: 'evergreen_regrowth',
+    }
+  },
+  extrastartingitems: {
+    configs: ["0", "5", "15", "20", "default", "none"],
+    modelValue: 'default',
+    image: 'extrastartingitems.png',
+    i18n: {
+      zh: '额外起始资源',
+      en: 'extrastartingitems',
+    }
+  },
+  eyeofterror: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'eyeofterror.png',
+    i18n: {
+      zh: '恐怖之眼',
+      en: 'eyeofterror',
+    }
+  },
 }
 
 export const configsMap = {
@@ -236,6 +443,86 @@ export const configsMap = {
   most: {
     zh: '最多',
     en: 'most'
+  },
+  veryslow: {
+    zh: '极慢',
+    en: 'veryslow'
+  },
+  slow: {
+    zh: '慢',
+    en: 'slow'
+  },
+  fast: {
+    zh: '快',
+    en: 'fast'
+  },
+  veryfast: {
+    zh: '极快',
+    en: 'veryfast'
+  },
+  enabled: {
+    zh: '总是',
+    en: 'enabled'
+  },
+  nonlethal: {
+    zh: '非致命',
+    en: 'enabled'
+  },
+  longday: {
+    zh: '长 白天',
+    en: 'longday'
+  },
+  longdusk: {
+    zh: '长 黄昏',
+    en: 'longdusk'
+  },
+  longnight: {
+    zh: '长 夜晚',
+    en: 'longnight'
+  },
+  noday: {
+    zh: '无 白天',
+    en: 'noday'
+  },
+  nodusk: {
+    zh: '无 黄昏',
+    en: 'nodusk'
+  },
+  nonight: {
+    zh: '无 夜晚',
+    en: 'nonight'
+  },
+  onlyday: {
+    zh: '仅 白天',
+    en: 'onlyday'
+  },
+  onlydusk: {
+    zh: '仅 黄昏',
+    en: 'onlydusk'
+  },
+  onlynight: {
+    zh: '仅 夜晚',
+    en: 'onlynight'
+  },
+  "0": {
+    zh: '总是',
+    en: '0'
+  },
+  "5": {
+    zh: '第5天后',
+    en: '5'
+  },
+  "15": {
+    zh: '第15天后',
+    en: '15'
+  },
+  "20": {
+    zh: '第20天后',
+    en: '20'
+  },
+  none: {
+    zh: '从不',
+    en: 'none'
   },
 }
 
