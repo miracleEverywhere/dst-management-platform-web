@@ -630,6 +630,24 @@ export const overrides = {
       en: 'healthpenalty',
     }
   },
+  hound_mounds: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'hound_mounds.png',
+    i18n: {
+      zh: '猎犬',
+      en: 'hound_mounds',
+    }
+  },
+  houndmound: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'houndmound.png',
+    i18n: {
+      zh: '猎犬丘',
+      en: 'houndmound',
+    }
+  },
 }
 
 export const configsMap = {
