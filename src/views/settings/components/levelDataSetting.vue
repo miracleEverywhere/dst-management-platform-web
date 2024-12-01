@@ -6,9 +6,9 @@
         <el-tag size="large">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
       </div>
       <div style="margin: 5px 0" class="fcc">
-        <el-button :icon="ArrowLeftBold" link :disabled="leftClickDisabled" @click="leftClick"></el-button>
-        <el-tag size="large" effect="plain" type="primary" style="margin: 0 5px">{{language==='zh'?configsMap[setting].zh:configsMap[setting].en}}</el-tag>
-        <el-button :icon="ArrowRightBold" link :disabled="rightClickDisabled" @click="rightClick"></el-button>
+        <el-button :icon="ArrowLeftBold" link type="primary" :disabled="leftClickDisabled" @click="leftClick"></el-button>
+        <el-tag size="large" effect="plain" type="primary" style="margin: 0 5px; width: 100px">{{language==='zh'?configsMap[setting].zh:configsMap[setting].en}}</el-tag>
+        <el-button :icon="ArrowRightBold" link type="primary" :disabled="rightClickDisabled" @click="rightClick"></el-button>
       </div>
     </div>
 
