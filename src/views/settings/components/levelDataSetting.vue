@@ -7,7 +7,7 @@
       </div>
       <div style="margin: 5px 0" class="fcc">
         <el-button :icon="ArrowLeftBold" link type="primary" :disabled="leftClickDisabled" @click="leftClick"></el-button>
-        <el-tag size="large" effect="plain" type="primary" style="margin: 0 5px; width: 100px">{{language==='zh'?configsMap[setting].zh:configsMap[setting].en}}</el-tag>
+        <el-tag size="large" effect="plain" type="primary" style="margin: 0 5px; width: 100px">{{getDisplayTagValue()}}</el-tag>
         <el-button :icon="ArrowRightBold" link type="primary" :disabled="rightClickDisabled" @click="rightClick"></el-button>
       </div>
     </div>
@@ -27,6 +27,7 @@ const props = defineProps({
   image: {type: String, default: ''},
   i18n: {type: Object, default: {zh: '', en: ''}},
   name: {type: String, default: ''},
+  customConfigsValue: {type: Object, default: {}},
 })
 
 
@@ -51,6 +52,20 @@ const getImageUrl = (file) => {
   return new URL('./gameSettingImages/'+file, import.meta.url).href
 }
 
+const getDisplayTagValue = () => {
+  let tagValue
+  if (Object.keys(props.customConfigsValue).length !== 0) {
+    tagValue = props.customConfigsValue[setting.value]
+  } else {
+    tagValue = configsMap[setting.value]
+  }
+  if (language.value === 'zh') {
+    return tagValue.zh
+  } else {
+    return tagValue.en
+  }
+}
+
 const handleSettingChange = () => {
   overrides[props.name].modelValue = setting.value
   //TODO 回写lua文件
@@ -62,8 +77,10 @@ watch(() => setting.value, (newValue, oldValue) => {
   const index = props.configs.indexOf(setting.value)
   if (index === 0) {
     leftClickDisabled.value = true
+    rightClickDisabled.value = false
   } else if (index === (props.configs.length - 1)) {
     rightClickDisabled.value = true
+    leftClickDisabled.value = false
   } else {
     leftClickDisabled.value = false
     rightClickDisabled.value = false

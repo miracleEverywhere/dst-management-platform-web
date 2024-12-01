@@ -74,7 +74,7 @@
                                   :i18n="item.i18n"
                                   :configs="item.configs"
                                   :image="item.image"
-                />
+                                  :customConfigsValue="item.customConfigsValue"/>
               </template>
 
             </el-tab-pane>
