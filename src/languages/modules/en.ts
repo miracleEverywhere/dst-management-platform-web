@@ -139,6 +139,7 @@ export default {
       masterPort: 'Please enter ground port',
       cavesPort: 'Please enter cave port',
     },
+    roomBaseFormPortToolTip: 'If you are unsure of the usage and purpose of this configuration item, please do not modify it arbitrarily',
     roomGroundFormRules: {
       groundSetting: 'Please enter the ground configuration in Lua format'
     },

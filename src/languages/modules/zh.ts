@@ -140,6 +140,7 @@ export default {
       masterPort: '请输入地面端口',
       cavesPort: '请输入洞穴端口',
     },
+    roomBaseFormPortToolTip: '如您不清楚该配置项的用法和作用，请不要随意修改',
     roomGroundFormRules: {
       groundSetting: '请输入地面配置的lua格式内容'
     },

@@ -24,11 +24,21 @@
             <el-form-item :label="$t('setting.baseForm.description')" prop="description">
               <el-input v-model="roomBaseForm.description"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.masterPort')" prop="masterPort">
+            <el-form-item prop="masterPort">
+              <template #label>
+                <el-tooltip effect="light" :content="t('setting.roomBaseFormPortToolTip')" placement="top">
+                  {{t('setting.baseForm.masterPort')}}
+                </el-tooltip>
+              </template>
               <el-input-number v-model="roomBaseForm.masterPort" controls-position="right" :min="1" :max="65535"
                                :size="isMobile?'small':'large'"></el-input-number>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.cavesPort')" prop="cavesPort">
+            <el-form-item prop="cavesPort">
+              <template #label>
+                <el-tooltip effect="light" :content="t('setting.roomBaseFormPortToolTip')" placement="top">
+                  {{t('setting.baseForm.cavesPort')}}
+                </el-tooltip>
+              </template>
               <el-input-number v-model="roomBaseForm.cavesPort" controls-position="right" :min="1" :max="65535"
                                :size="isMobile?'small':'large'"></el-input-number>
             </el-form-item>
