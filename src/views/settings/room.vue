@@ -109,9 +109,8 @@
           </el-form>
         </el-card>
         <el-card v-if="step===4" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <div>
-            <el-result icon="success" :title="$t('setting.finish.title')" :sub-title="$t('setting.finish.description')"
-                       :style="isMobile?'margin-top: 20%':'margin-top: 15%'"/>
+          <div class="fcc" :style="isMobile?'min-height: 360px':'min-height: 560px'">
+            <el-result icon="success" :title="$t('setting.finish.title')" :sub-title="$t('setting.finish.description')"/>
           </div>
         </el-card>
       </el-col>
