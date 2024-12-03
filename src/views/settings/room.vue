@@ -188,6 +188,10 @@ const handleNext = () => {
   if (step.value === 0) {
     roomBaseFormRef.value.validate(valid => {
       if (valid) {
+        if (roomBaseForm.value.masterPort === roomBaseForm.value.cavesPort) {
+          koiMsgError(t('setting.roomBaseFormRules.samePort'))
+          return
+        }
         step.value++
       }
     })

@@ -138,6 +138,7 @@ export default {
       token: 'Please enter room token',
       masterPort: 'Please enter ground port',
       cavesPort: 'Please enter cave port',
+      samePort: 'The ports for the Ground and the Cave cannot be the same',
     },
     roomBaseFormPortToolTip: 'If you are unsure of the usage and purpose of this configuration item, please do not modify it arbitrarily',
     roomGroundFormRules: {

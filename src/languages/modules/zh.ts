@@ -139,6 +139,7 @@ export default {
       token: '请输入令牌',
       masterPort: '请输入地面端口',
       cavesPort: '请输入洞穴端口',
+      samePort: '地面和洞穴的端口不能相同',
     },
     roomBaseFormPortToolTip: '如您不清楚该配置项的用法和作用，请不要随意修改',
     roomGroundFormRules: {
