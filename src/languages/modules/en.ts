@@ -104,6 +104,8 @@ export default {
     baseForm: {
       room: 'Room Name',
       description: 'Room Description',
+      masterPort: 'Ground Port',
+      cavesPort: 'Cave Port',
       gameMode: {
         name: 'Game Mode',
         endless: 'Endless',
@@ -133,7 +135,9 @@ export default {
     },
     roomBaseFormRules: {
       name: 'Please enter room name',
-      token: 'Please enter room token'
+      token: 'Please enter room token',
+      masterPort: 'Please enter ground port',
+      cavesPort: 'Please enter cave port',
     },
     roomGroundFormRules: {
       groundSetting: 'Please enter the ground configuration in Lua format'

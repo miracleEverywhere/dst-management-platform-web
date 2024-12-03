@@ -24,6 +24,14 @@
             <el-form-item :label="$t('setting.baseForm.description')" prop="description">
               <el-input v-model="roomBaseForm.description"></el-input>
             </el-form-item>
+            <el-form-item :label="$t('setting.baseForm.masterPort')" prop="masterPort">
+              <el-input-number v-model="roomBaseForm.masterPort" controls-position="right" :min="1" :max="65535"
+                               :size="isMobile?'small':'large'"></el-input-number>
+            </el-form-item>
+            <el-form-item :label="$t('setting.baseForm.cavesPort')" prop="cavesPort">
+              <el-input-number v-model="roomBaseForm.cavesPort" controls-position="right" :min="1" :max="65535"
+                               :size="isMobile?'small':'large'"></el-input-number>
+            </el-form-item>
             <el-form-item :label="$t('setting.baseForm.gameMode.name')" prop="gameMode">
               <el-radio-group v-model="roomBaseForm.gameMode">
                 <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless" />
@@ -92,7 +100,8 @@
           </el-form>
         </el-card>
         <el-card v-if="step===3" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-form ref="roomModFormRef" :model="roomModForm" :rules="roomModFormRules" :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
+          <el-form ref="roomModFormRef" :model="roomModForm" :rules="roomModFormRules" :label-width="isMobile?'70':'100'"
+                   :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="modSetting">
               <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :theme="isDark?'darcula':'idea'"
                               :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
@@ -100,13 +109,10 @@
           </el-form>
         </el-card>
         <el-card v-if="step===4" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-result
-            icon="success"
-            :title="$t('setting.finish.title')"
-            :sub-title="$t('setting.finish.description')"
-            :style="isMobile?'margin-top: 20%':'margin-top: 15%'"
-          >
-          </el-result>
+          <div>
+            <el-result icon="success" :title="$t('setting.finish.title')" :sub-title="$t('setting.finish.description')"
+                       :style="isMobile?'margin-top: 20%':'margin-top: 15%'"/>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -223,9 +229,13 @@ const roomBaseForm = ref({
   vote: true,
   password: '',
   token: '',
+  masterPort: 0,
+  cavesPort: 0,
 })
 const roomBaseFormRules = {
   name: [ { required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur' } ],
+  masterPort: [ { required: true, message: t('setting.roomBaseFormRules.masterPort'), trigger: 'blur' } ],
+  cavesPort: [ { required: true, message: t('setting.roomBaseFormRules.cavesPort'), trigger: 'blur' } ],
   token: [ { required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur' } ],
 }
 

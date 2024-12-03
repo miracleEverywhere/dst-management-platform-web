@@ -105,6 +105,8 @@ export default {
     baseForm: {
       room: '房间名',
       description: '房间描述',
+      masterPort: '地面端口',
+      cavesPort: '洞穴端口',
       gameMode: {
         name: '游戏模式',
         endless: '无尽',
@@ -134,7 +136,9 @@ export default {
     },
     roomBaseFormRules: {
       name: '请输入房间名',
-      token: '请输入令牌'
+      token: '请输入令牌',
+      masterPort: '请输入地面端口',
+      cavesPort: '请输入洞穴端口',
     },
     roomGroundFormRules: {
       groundSetting: '请输入地面配置的lua格式内容'
