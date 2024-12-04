@@ -1324,7 +1324,7 @@ export const overrides = {
         en: 'highly random'
       },
     },
-    modelValue: 'none',
+    modelValue: 'default',
     image: 'prefabswaps_start.png',
     i18n: {
       zh: '开始资源多样化',
@@ -1423,7 +1423,7 @@ export const overrides = {
         en: 'always'
       },
     },
-    modelValue: 'none',
+    modelValue: 'default',
     image: 'rifts_enabled.png',
     i18n: {
       zh: '荒野裂隙',
@@ -1749,7 +1749,7 @@ export const overrides = {
   summer: {
     configs: ["noseason", "veryshortseason", "shortseason", "default", "longseason", "verylongseason", "random",],
     modelValue: 'default',
-    image: 'spring.png',
+    image: 'summer.png',
     i18n: {
       zh: '夏',
       en: 'summer',
@@ -1847,6 +1847,322 @@ export const overrides = {
     i18n: {
       zh: '盒中泰拉',
       en: 'terrariumchest',
+    }
+  },
+  touchstone: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'touchstone.png',
+    i18n: {
+      zh: '试金石',
+      en: 'touchstone',
+    }
+  },
+  trees:{
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'trees.png',
+    i18n: {
+      zh: '树（所有）',
+      en: 'trees',
+    }
+  },
+  tumbleweed:{
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'tumbleweed.png',
+    i18n: {
+      zh: '风滚草',
+      en: 'tumbleweed',
+    }
+  },
+  twiggytrees_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'twiggytrees_regrowth.png',
+    i18n: {
+      zh: '多枝树',
+      en: 'twiggytrees_regrowth',
+    }
+  },
+  walrus:{
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'walrus.png',
+    i18n: {
+      zh: '海象营地',
+      en: 'walrus',
+    }
+  },
+  walrus_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'walrus_setting.png',
+    i18n: {
+      zh: '海象',
+      en: 'walrus_setting',
+    }
+  },
+  wasps: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'wasps.png',
+    i18n: {
+      zh: '杀人蜂',
+      en: 'wasps',
+    }
+  },
+  weather: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'weather.png',
+    i18n: {
+      zh: '雨',
+      en: 'weather',
+    }
+  },
+  wildfires:{
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'wildfires.png',
+    i18n: {
+      zh: '野火',
+      en: 'wildfires',
+    }
+  },
+  winter: {
+    configs: ["noseason", "veryshortseason", "shortseason", "default", "longseason", "verylongseason", "random",],
+    modelValue: 'default',
+    image: 'winter.png',
+    i18n: {
+      zh: '冬',
+      en: 'winter',
+    }
+  },
+  winterhounds:{
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'winterhounds.png',
+    i18n: {
+      zh: '冰猎犬群',
+      en: 'winterhounds',
+    }
+  },
+  winters_feast: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'winters_feast.png',
+    i18n: {
+      zh: '冬季盛宴',
+      en: 'winters_feast',
+    }
+  },
+  wobsters: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'wobsters.png',
+    i18n: {
+      zh: '龙虾',
+      en: 'wobsters',
+    }
+  },
+  world_size: {
+    configs: ["small", "medium", "default", "huge"],
+    customConfigsValue: {
+      small: {
+        zh: '小',
+        en: 'small'
+      },
+      medium: {
+        zh: '中',
+        en: 'medium'
+      },
+      default: {
+        zh: '大',
+        en: 'default'
+      },
+      huge: {
+        zh: '巨大',
+        en: 'huge'
+      },
+    },
+    modelValue: 'default',
+    image: 'world_size.png',
+    i18n: {
+      zh: '世界大小',
+      en: 'world_size',
+    }
+  },
+  year_of_the_beefalo: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_beefalo.png',
+    i18n: {
+      zh: '皮弗娄牛之年',
+      en: 'year_of_the_beefalo',
+    }
+  },
+  year_of_the_bunnyman: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_bunnyman.png',
+    i18n: {
+      zh: '兔人之年',
+      en: 'year_of_the_bunnyman',
+    }
+  },
+  year_of_the_carrat: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_carrat.png',
+    i18n: {
+      zh: '胡萝卜鼠之年',
+      en: 'year_of_the_carrat',
+    }
+  },
+  year_of_the_catcoon: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_catcoon.png',
+    i18n: {
+      zh: '浣猫之年',
+      en: 'year_of_the_catcoon',
+    }
+  },
+  year_of_the_dragonfly: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_dragonfly.png',
+    i18n: {
+      zh: '龙蝇之年',
+      en: 'year_of_the_dragonfly',
+    }
+  },
+  year_of_the_gobbler: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_gobbler.png',
+    i18n: {
+      zh: '火鸡之年',
+      en: 'year_of_the_gobbler',
+    }
+  },
+  year_of_the_pig: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_pig.png',
+    i18n: {
+      zh: '猪王之年',
+      en: 'year_of_the_pig',
+    }
+  },
+  year_of_the_varg: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_varg.png',
+    i18n: {
+      zh: '座狼之年',
+      en: 'year_of_the_varg',
     }
   },
 }
