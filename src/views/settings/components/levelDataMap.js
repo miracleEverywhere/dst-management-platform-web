@@ -1253,6 +1253,602 @@ export const overrides = {
       en: 'pigs_setting',
     }
   },
+  pirateraids: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'pirateraids.png',
+    i18n: {
+      zh: '月亮码头海盗',
+      en: 'pirateraids',
+    }
+  },
+  ponds: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'ponds.png',
+    i18n: {
+      zh: '池塘',
+      en: 'ponds',
+    }
+  },
+  portal_spawnrate: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'pirateraids.png',
+    i18n: {
+      zh: '传送频率',
+      en: 'portal_spawnrate',
+    }
+  },
+  portalresurection: {
+    configs: ["none", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'none'
+      },
+      always: {
+        zh: '启用',
+        en: 'always'
+      },
+    },
+    modelValue: 'none',
+    image: 'portalresurection.png',
+    i18n: {
+      zh: '传送频率',
+      en: 'portalresurection',
+    }
+  },
+  powder_monkey_portalrate: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'powder_monkey_portalrate.png',
+    i18n: {
+      zh: '火药猴',
+      en: 'powder_monkey_portalrate',
+    }
+  },
+  prefabswaps_start: {
+    configs: ["classic", "default", "highly random"],
+    customConfigsValue: {
+      classic: {
+        zh: '经典',
+        en: 'classic'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      "highly random": {
+        zh: '非常随机',
+        en: 'highly random'
+      },
+    },
+    modelValue: 'none',
+    image: 'prefabswaps_start.png',
+    i18n: {
+      zh: '开始资源多样化',
+      en: 'prefabswaps_start',
+    }
+  },
+  rabbits: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'rabbits.png',
+    i18n: {
+      zh: '兔洞',
+      en: 'rabbits',
+    }
+  },
+  rabbits_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'rabbits_setting.png',
+    i18n: {
+      zh: '兔子',
+      en: 'rabbits_setting',
+    }
+  },
+  reeds: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'reeds.png',
+    i18n: {
+      zh: '芦苇',
+      en: 'reeds',
+    }
+  },
+  reeds_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'reeds_regrowth.png',
+    i18n: {
+      zh: '芦苇',
+      en: 'reeds_regrowth',
+    }
+  },
+  regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'regrowth.png',
+    i18n: {
+      zh: '再生速度',
+      en: 'regrowth',
+    }
+  },
+  resettime: {
+    configs: ["none", "slow", "default", "fast", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'none'
+      },
+      slow: {
+        zh: '慢',
+        en: 'slow'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      fast: {
+        zh: '快',
+        en: 'fast'
+      },
+      always: {
+        zh: '立刻',
+        en: 'always'
+      },
+    },
+    modelValue: 'none',
+    image: 'resettime.png',
+    i18n: {
+      zh: '死亡重置倒计时',
+      en: 'resettime',
+    }
+  },
+  rifts_enabled: {
+    configs: ["never", "default", "always"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '自动检测',
+        en: 'default'
+      },
+      always: {
+        zh: '总是',
+        en: 'always'
+      },
+    },
+    modelValue: 'none',
+    image: 'rifts_enabled.png',
+    i18n: {
+      zh: '荒野裂隙',
+      en: 'rifts_enabled',
+    }
+  },
+  rifts_frequency: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'rifts_frequency.png',
+    i18n: {
+      zh: '荒野裂隙频率',
+      en: 'rifts_frequency',
+    }
+  },
+  roads:{
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'roads.png',
+    i18n: {
+      zh: '道路',
+      en: 'roads',
+    }
+  },
+  rock: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'rock.png',
+    i18n: {
+      zh: '巨石',
+      en: 'rock',
+    }
+  },
+  rock_ice: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'rock_ice.png',
+    i18n: {
+      zh: '迷你冰川',
+      en: 'rock_ice',
+    }
+  },
+  saltstack_regrowth:{
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'saltstack_regrowth.png',
+    i18n: {
+      zh: '盐堆',
+      en: 'saltstack_regrowth',
+    }
+  },
+  sapling: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'sapling.png',
+    i18n: {
+      zh: '树苗',
+      en: 'sapling',
+    }
+  },
+  season_start: {
+    configs: ["default", "winter", "spring", "summer", "autumn|spring", "winter|summer", "autumn|winter|spring|summer"],
+    customConfigsValue: {
+      default: {
+        zh: '秋',
+        en: 'default'
+      },
+      winter: {
+        zh: '冬',
+        en: 'winter'
+      },
+      spring: {
+        zh: '春',
+        en: 'spring'
+      },
+      summer: {
+        zh: '夏',
+        en: 'summer'
+      },
+      "autumn|spring": {
+        zh: '春或秋',
+        en: 'autumn|spring'
+      },
+      "winter|summer": {
+        zh: '冬季或夏季',
+        en: 'winter|summer'
+      },
+      "autumn|winter|spring|summer": {
+        zh: '随机',
+        en: 'autumn|winter|spring|summer'
+      },
+    },
+    modelValue: 'default',
+    image: 'season_start.png',
+    i18n: {
+      zh: '起始季节',
+      en: 'season_start',
+    }
+  },
+  seasonalstartingitems: {
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'seasonalstartingitems.png',
+    i18n: {
+      zh: '季节起始物品',
+      en: 'seasonalstartingitems',
+    }
+  },
+  shadowcreatures: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'shadowcreatures.png',
+    i18n: {
+      zh: '理智怪兽',
+      en: 'shadowcreatures',
+    }
+  },
+  sharkboi: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'sharkboi.png',
+    i18n: {
+      zh: '大霜鲨',
+      en: 'sharkboi',
+    }
+  },
+  sharks: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'sharks.png',
+    i18n: {
+      zh: '鲨鱼',
+      en: 'sharks',
+    }
+  },
+  spawnmode: {
+    configs: ["fixed", "scatter"],
+    customConfigsValue: {
+      fixed: {
+        zh: '绚丽之门',
+        en: 'fixed'
+      },
+      scatter: {
+        zh: '随机',
+        en: 'scatter'
+      },
+    },
+    modelValue: 'fixed',
+    image: 'spawnmode.png',
+    i18n: {
+      zh: '出生模式',
+      en: 'spawnmode',
+    }
+  },
+  spawnprotection:{
+    configs: ["never", "default", "always"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '自动检测',
+        en: 'default'
+      },
+      always: {
+        zh: '总是',
+        en: 'always'
+      },
+    },
+    modelValue: 'default',
+    image: 'spawnprotection.png',
+    i18n: {
+      zh: '防骚扰出生保护',
+      en: 'spawnprotection',
+    }
+  },
+  specialevent: {
+    configs: ["none", "default"],
+    customConfigsValue: {
+      none: {
+        zh: '无',
+        en: 'none'
+      },
+      default: {
+        zh: '自动',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'specialevent.png',
+    i18n: {
+      zh: '活动',
+      en: 'specialevent',
+    }
+  },
+  spider_warriors: {
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'spider_warriors.png',
+    i18n: {
+      zh: '蜘蛛战士',
+      en: 'spider_warriors',
+    }
+  },
+  spiderqueen: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'spiderqueen.png',
+    i18n: {
+      zh: '蜘蛛女王',
+      en: 'spiderqueen',
+    }
+  },
+  spiders:{
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'spiders.png',
+    i18n: {
+      zh: '蜘蛛巢',
+      en: 'spiders',
+    }
+  },
+  spiders_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'spiders_setting.png',
+    i18n: {
+      zh: '蜘蛛',
+      en: 'spiders_setting',
+    }
+  },
+  spring: {
+    configs: ["noseason", "veryshortseason", "shortseason", "default", "longseason", "verylongseason", "random",],
+    modelValue: 'default',
+    image: 'spring.png',
+    i18n: {
+      zh: '春',
+      en: 'spring',
+    }
+  },
+  squid: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'squid.png',
+    i18n: {
+      zh: '鱿鱼',
+      en: 'squid',
+    }
+  },
+  stageplays:{
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'stageplays.png',
+    i18n: {
+      zh: '舞台剧',
+      en: 'stageplays',
+    }
+  },
+  start_location: {
+    configs: ["plus", "default", "darkness"],
+    customConfigsValue: {
+      plus: {
+        zh: '额外资源',
+        en: 'plus'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      darkness: {
+        zh: '黑暗',
+        en: 'darkness'
+      },
+    },
+    modelValue: 'default',
+    image: 'start_location.png',
+    i18n: {
+      zh: '出生点',
+      en: 'start_location',
+    }
+  },
+  summer: {
+    configs: ["noseason", "veryshortseason", "shortseason", "default", "longseason", "verylongseason", "random",],
+    modelValue: 'default',
+    image: 'spring.png',
+    i18n: {
+      zh: '夏',
+      en: 'summer',
+    }
+  },
+  summerhounds: {
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'summerhounds.png',
+    i18n: {
+      zh: '火猎犬群',
+      en: 'summerhounds',
+    }
+  },
+  tallbirds: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'tallbirds.png',
+    i18n: {
+      zh: '高脚鸟',
+      en: 'tallbirds',
+    }
+  },
+  task_set: {
+    configs: ["default", "classic"],
+    customConfigsValue: {
+      default: {
+        zh: '联机版',
+        en: 'default'
+      },
+      classic: {
+        zh: '经典',
+        en: 'classic'
+      },
+    },
+    modelValue: 'default',
+    image: 'task_set.png',
+    i18n: {
+      zh: '生物群落',
+      en: 'task_set',
+    }
+  },
+  temperaturedamage:{
+    configs: ["nonlethal", "default"],
+    customConfigsValue: {
+      nonlethal: {
+        zh: '非致命',
+        en: 'nonlethal'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'temperaturedamage.png',
+    i18n: {
+      zh: '温度伤害',
+      en: 'temperaturedamage',
+    }
+  },
+  tentacles: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'tentacles.png',
+    i18n: {
+      zh: '触手',
+      en: 'tentacles',
+    }
+  },
+  terrariumchest: {
+    configs: ["never", "default"],
+    customConfigsValue: {
+      never: {
+        zh: '无',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'terrariumchest.png',
+    i18n: {
+      zh: '盒中泰拉',
+      en: 'terrariumchest',
+    }
+  },
 }
 
 export const configsMap = {
@@ -1346,46 +1942,20 @@ export const groundWorldSetting = {
   global: [
     'autumn',
   ],
-  events: [
-
-  ],
-  survivors: [
-
-  ],
-  world: [
-
-  ],
-  resourceRegrowth: [
-
-  ],
-  unnaturalPortalResource: [
-
-  ],
-  creatures: [
-
-  ],
-  hostileCreatures: [
-
-  ],
-  giants: [
-
-  ],
+  events: [],
+  survivors: [],
+  world: [],
+  resourceRegrowth: [],
+  unnaturalPortalResource: [],
+  creatures: [],
+  hostileCreatures: [],
+  giants: [],
 }
 
 export const groundWorldGeneration = {
-  global: [
-
-  ],
-  world: [
-
-  ],
-  resources: [
-
-  ],
-  creaturesAndSpawners: [
-
-  ],
-  hostileCreaturesAndSpawners: [
-
-  ],
+  global: [],
+  world: [],
+  resources: [],
+  creaturesAndSpawners: [],
+  hostileCreaturesAndSpawners: [],
 }
