@@ -59,7 +59,7 @@ export const overrides = {
     image: 'bats_setting.png',
     i18n: {
       zh: '蝙蝠',
-      en: 'bianfu',
+      en: 'bats_setting',
     }
   },
   bearger: {
@@ -68,7 +68,7 @@ export const overrides = {
     image: 'bearger.png',
     i18n: {
       zh: '熊獾',
-      en: 'bianfu',
+      en: 'bearger',
     }
   },
   beefalo: {
@@ -1207,10 +1207,10 @@ export const overrides = {
   penguins_moon: {
     configs: ["never", "default"],
     modelValue: 'default',
-    image: 'penguins.png',
+    image: 'penguins_moon.png',
     i18n: {
       zh: '月石企鸥',
-      en: 'penguins',
+      en: 'penguins_moon',
     }
   },
   perd: {
@@ -1292,7 +1292,7 @@ export const overrides = {
   portal_spawnrate: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
-    image: 'pirateraids.png',
+    image: 'portal_spawnrate.png',
     i18n: {
       zh: '传送频率',
       en: 'portal_spawnrate',
@@ -1451,7 +1451,7 @@ export const overrides = {
   rifts_frequency: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
-    image: 'rifts_frequency.png',
+    image: 'rifts_enabled.png',
     i18n: {
       zh: '荒野裂隙频率',
       en: 'rifts_frequency',
@@ -2286,8 +2286,8 @@ export const groundWorldRule = {
     'lessdamagetaken', 'temperaturedamage', 'hunger', 'darkness', 'shadowcreatures', 'brightmarecreatures',
   ],
   world: [
-    'hounds', 'winterhounds', 'summerhounds', 'weather', 'hunt', 'wildfires', 'lightning', 'frograin', 'lunarhail_frequency',
-    'petrification', 'meteorshowers', 'rifts_enabled', 'alternatehunt', 'rifts_frequency',
+    'hounds', 'winterhounds', 'summerhounds', 'lunarhail_frequency', 'petrification', 'meteorshowers', 'hunt', 'rifts_enabled',
+    'rifts_frequency', 'alternatehunt', 'wildfires', 'lightning', 'weather', 'frograin',
   ],
   resourceRegrowth: [
     'regrowth', 'flowers_regrowth', 'moon_tree_regrowth', 'saltstack_regrowth', 'reeds_regrowth', 'cactus_regrowth',

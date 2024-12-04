@@ -88,7 +88,7 @@
               </el-form>
             </el-tab-pane>
             <el-tab-pane label="Visualization" name="Visualization">
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.global')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.global')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.global">
                   <div>
@@ -102,7 +102,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.events')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.events')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.events">
                   <div>
@@ -116,7 +116,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.survivors')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.survivors')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.survivors">
                   <div>
@@ -130,7 +130,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.world')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.world')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.world">
                   <div>
@@ -144,7 +144,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.resourceRegrowth')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.resourceRegrowth')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.resourceRegrowth">
                   <div>
@@ -158,7 +158,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.unnaturalPortalResource')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.unnaturalPortalResource')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.unnaturalPortalResource">
                   <div>
@@ -172,7 +172,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.creatures')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.creatures')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.creatures">
                   <div>
@@ -186,7 +186,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.hostileCreatures')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.hostileCreatures')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.hostileCreatures">
                   <div>
@@ -200,7 +200,7 @@
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.giants')}}</el-divider>
+              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.giants')}}</el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.giants">
                   <div>
