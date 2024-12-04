@@ -1046,6 +1046,15 @@ export const overrides = {
       en: 'ocean_bullkelp',
     }
   },
+  ocean_otterdens: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'ocean_otterdens.png',
+    i18n: {
+      zh: '水獭掠夺者窝点',
+      en: 'ocean_otterdens',
+    }
+  },
   ocean_seastack: {
     configs: ["ocean_never", "ocean_rare", "ocean_uncommon", "ocean_default", "ocean_often", "ocean_mostly", "ocean_always", "ocean_insane"],
     customConfigsValue: {
@@ -1148,6 +1157,15 @@ export const overrides = {
     i18n: {
       zh: '龙虾窝',
       en: 'ocean_wobsterden',
+    }
+  },
+  otters_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'otters_setting.png',
+    i18n: {
+      zh: '水獭掠夺者',
+      en: 'otters_setting',
     }
   },
   palmcone_seed_portalrate: {
@@ -1295,7 +1313,7 @@ export const overrides = {
     modelValue: 'none',
     image: 'portalresurection.png',
     i18n: {
-      zh: '传送频率',
+      zh: '在绚丽之门复活',
       en: 'portalresurection',
     }
   },
@@ -1439,7 +1457,7 @@ export const overrides = {
       en: 'rifts_frequency',
     }
   },
-  roads:{
+  roads: {
     configs: ["never", "default"],
     customConfigsValue: {
       never: {
@@ -1476,7 +1494,7 @@ export const overrides = {
       en: 'rock_ice',
     }
   },
-  saltstack_regrowth:{
+  saltstack_regrowth: {
     configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
     modelValue: 'default',
     image: 'saltstack_regrowth.png',
@@ -1598,7 +1616,7 @@ export const overrides = {
       en: 'spawnmode',
     }
   },
-  spawnprotection:{
+  spawnprotection: {
     configs: ["never", "default", "always"],
     customConfigsValue: {
       never: {
@@ -1668,7 +1686,7 @@ export const overrides = {
       en: 'spiderqueen',
     }
   },
-  spiders:{
+  spiders: {
     configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
     modelValue: 'default',
     image: 'spiders.png',
@@ -1704,7 +1722,7 @@ export const overrides = {
       en: 'squid',
     }
   },
-  stageplays:{
+  stageplays: {
     configs: ["never", "default"],
     customConfigsValue: {
       never: {
@@ -1802,7 +1820,7 @@ export const overrides = {
       en: 'task_set',
     }
   },
-  temperaturedamage:{
+  temperaturedamage: {
     configs: ["nonlethal", "default"],
     customConfigsValue: {
       nonlethal: {
@@ -1858,7 +1876,7 @@ export const overrides = {
       en: 'touchstone',
     }
   },
-  trees:{
+  trees: {
     configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
     modelValue: 'default',
     image: 'trees.png',
@@ -1867,7 +1885,7 @@ export const overrides = {
       en: 'trees',
     }
   },
-  tumbleweed:{
+  tumbleweed: {
     configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
     modelValue: 'default',
     image: 'tumbleweed.png',
@@ -1885,7 +1903,7 @@ export const overrides = {
       en: 'twiggytrees_regrowth',
     }
   },
-  walrus:{
+  walrus: {
     configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
     modelValue: 'default',
     image: 'walrus.png',
@@ -1921,7 +1939,7 @@ export const overrides = {
       en: 'weather',
     }
   },
-  wildfires:{
+  wildfires: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
     image: 'wildfires.png',
@@ -1939,7 +1957,7 @@ export const overrides = {
       en: 'winter',
     }
   },
-  winterhounds:{
+  winterhounds: {
     configs: ["never", "default"],
     customConfigsValue: {
       never: {
@@ -2256,22 +2274,73 @@ export const configsMap = {
 
 export const groundWorldSetting = {
   global: [
-    'autumn',
+    'specialevent', 'autumn', 'winter', 'spring', 'summer', 'day', 'spawnmode', 'ghostenabled', 'portalresurection',
+    'ghostsanitydrain', 'resettime', 'beefaloheat', 'krampus'
   ],
-  events: [],
-  survivors: [],
-  world: [],
-  resourceRegrowth: [],
-  unnaturalPortalResource: [],
-  creatures: [],
-  hostileCreatures: [],
-  giants: [],
+  events: [
+    'crow_carnival', 'hallowed_nights', 'winters_feast', 'year_of_the_gobbler', 'year_of_the_varg', 'year_of_the_pig',
+    'year_of_the_carrat', 'year_of_the_beefalo', 'year_of_the_catcoon', 'year_of_the_bunnyman', 'year_of_the_dragonfly',
+  ],
+  survivors: [
+    'extrastartingitems', 'seasonalstartingitems', 'spawnprotection', 'dropeverythingondespawn', 'healthpenalty',
+    'lessdamagetaken', 'temperaturedamage', 'hunger', 'darkness', 'shadowcreatures', 'brightmarecreatures',
+  ],
+  world: [
+    'hounds', 'winterhounds', 'summerhounds', 'weather', 'hunt', 'wildfires', 'lightning', 'frograin', 'lunarhail_frequency',
+    'petrification', 'meteorshowers', 'rifts_enabled', 'alternatehunt', 'rifts_frequency',
+  ],
+  resourceRegrowth: [
+    'regrowth', 'flowers_regrowth', 'moon_tree_regrowth', 'saltstack_regrowth', 'reeds_regrowth', 'cactus_regrowth',
+    'twiggytrees_regrowth', 'evergreen_regrowth', 'deciduoustree_regrowth', 'carrots_regrowth', 'basicresource_regrowth',
+    'palmconetree_regrowth',
+  ],
+  unnaturalPortalResource: [
+    'lightcrab_portalrate', 'powder_monkey_portalrate', 'monkeytail_portalrate', 'bananabush_portalrate',
+    'portal_spawnrate', 'palmcone_seed_portalrate',
+  ],
+  creatures: [
+    'pigs_setting', 'birds', 'penguins', 'bunnymen_setting', 'rabbits_setting',
+    'catcoons', 'perd', 'bees_setting', 'butterfly', 'fishschools',
+    'moles_setting', 'wobsters', 'gnarwail', 'otters_setting', 'grassgekkos',
+  ],
+  hostileCreatures: [
+    'walrus_setting', 'hound_mounds', 'mosquitos', 'spiders_setting', 'bats_setting',
+    'frogs', 'merms', 'squid', 'sharks', 'wasps',
+    'lureplants', 'mutated_hounds', 'penguins_moon', 'moon_spider', 'spider_warriors',
+    'cookiecutters', 'pirateraids'
+  ],
+  giants: [
+    'bearger', 'beequeen', 'dragonfly', 'klaus', 'sharkboi',
+    'crabking', 'fruitfly', 'malbatross', 'goosemoose', 'eyeofterror',
+    'daywalker2', 'liefs', 'deciduousmonster', 'deerclops', 'antliontribute',
+    'spiderqueen',
+  ],
 }
 
 export const groundWorldGeneration = {
-  global: [],
-  world: [],
-  resources: [],
-  creaturesAndSpawners: [],
-  hostileCreaturesAndSpawners: [],
+  global: [
+    'season_start',
+  ],
+  world: [
+    'task_set', 'start_location', 'world_size', 'branching', 'loop',
+    'roads', 'touchstone', 'boons', 'prefabswaps_start', 'junkyard',
+    'stageplays', 'moon_fissure', 'terrariumchest',
+  ],
+  resources: [
+    'grass', 'rock', 'moon_tree', 'sapling', 'ponds',
+    'moon_starfish', 'moon_hotspring', 'flint', 'reeds', 'mushroom',
+    'cactus', 'moon_rock', 'berrybush', 'ocean_seastack', 'carrot',
+    'tumbleweed', 'ocean_bullkelp', 'marshbush', 'moon_sapling', 'meteorspawner',
+    'rock_ice', 'trees', 'palmconetree', 'moon_berrybush', 'flowers',
+    'moon_bullkelp',
+  ],
+  creaturesAndSpawners: [
+    'rabbits', 'pigs', 'buzzard', 'ocean_shoal', 'lightninggoat',
+    'moles', 'ocean_wobsterden', 'moon_fruitdragon', 'beefalo', 'catcoon',
+    'moon_carrot', 'bees', 'ocean_otterdens',
+  ],
+  hostileCreaturesAndSpawners: [
+    'ocean_waterplant', 'tentacles', 'houndmound', 'spiders', 'tallbirds',
+    'chess', 'walrus', 'angrybees', 'merm', 'moon_spiders',
+  ],
 }
