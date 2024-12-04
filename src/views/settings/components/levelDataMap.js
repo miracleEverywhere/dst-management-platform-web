@@ -648,6 +648,611 @@ export const overrides = {
       en: 'houndmound',
     }
   },
+  hounds: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'hounds.png',
+    i18n: {
+      zh: '猎犬袭击',
+      en: 'hounds',
+    }
+  },
+  hunger: {
+    configs: ["nonlethal", "default"],
+    customConfigsValue: {
+      nonlethal: {
+        zh: '非致命',
+        en: 'nonlethal'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+    },
+    modelValue: 'default',
+    image: 'hunger.png',
+    i18n: {
+      zh: '饥饿伤害',
+      en: 'hunger',
+    }
+  },
+  hunt: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'hunt.png',
+    i18n: {
+      zh: '狩猎',
+      en: 'hunt',
+    }
+  },
+  junkyard: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'junkyard.png',
+    i18n: {
+      zh: '垃圾场',
+      en: 'junkyard',
+    }
+  },
+  klaus: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'klaus.png',
+    i18n: {
+      zh: '克劳斯',
+      en: 'klaus',
+    }
+  },
+  krampus: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'krampus.png',
+    i18n: {
+      zh: '坎普斯',
+      en: 'krampus',
+    }
+  },
+  lessdamagetaken: {
+    configs: ["always", "none", "more"],
+    customConfigsValue: {
+      always: {
+        zh: '较少',
+        en: 'always'
+      },
+      none: {
+        zh: '默认',
+        en: 'none'
+      },
+      more: {
+        zh: '默认',
+        en: '较多'
+      },
+    },
+    modelValue: 'none',
+    image: 'lessdamagetaken.png',
+    i18n: {
+      zh: '受到的伤害',
+      en: 'lessdamagetaken',
+    }
+  },
+  liefs: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'liefs.png',
+    i18n: {
+      zh: '树精守卫',
+      en: 'liefs',
+    }
+  },
+  lightcrab_portalrate: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'lightcrab_portalrate.png',
+    i18n: {
+      zh: '发光蟹',
+      en: 'lightcrab_portalrate',
+    }
+  },
+  lightning: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'lightning.png',
+    i18n: {
+      zh: '闪电',
+      en: 'lightning',
+    }
+  },
+  lightninggoat: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'lightninggoat.png',
+    i18n: {
+      zh: '伏特羊',
+      en: 'lightninggoat',
+    }
+  },
+  loop: {
+    configs: ["never", "default", "always"],
+    customConfigsValue: {
+      never: {
+        zh: '从不',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      always: {
+        zh: '总是',
+        en: 'always'
+      },
+    },
+    modelValue: 'default',
+    image: 'loop.png',
+    i18n: {
+      zh: '环形',
+      en: 'loop',
+    }
+  },
+  lunarhail_frequency: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'lunarhail_frequency.png',
+    i18n: {
+      zh: '月亮冰雹',
+      en: 'lunarhail_frequency',
+    }
+  },
+  lureplants: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'lureplants.png',
+    i18n: {
+      zh: '食人花',
+      en: 'lureplants',
+    }
+  },
+  malbatross: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'malbatross.png',
+    i18n: {
+      zh: '邪天翁',
+      en: 'malbatross',
+    }
+  },
+  marshbush: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'marshbush.png',
+    i18n: {
+      zh: '尖刺灌木',
+      en: 'marshbush',
+    }
+  },
+  merm: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'merm.png',
+    i18n: {
+      zh: '漏雨的小屋',
+      en: 'merm',
+    }
+  },
+  merms: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'merms.png',
+    i18n: {
+      zh: '鱼人',
+      en: 'merms',
+    }
+  },
+  meteorshowers: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'meteorshowers.png',
+    i18n: {
+      zh: '流星频率',
+      en: 'meteorshowers',
+    }
+  },
+  meteorspawner: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'meteorspawner.png',
+    i18n: {
+      zh: '流星区域',
+      en: 'meteorspawner',
+    }
+  },
+  moles: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moles.png',
+    i18n: {
+      zh: '鼹鼠丘',
+      en: 'moles',
+    }
+  },
+  moles_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'moles_setting.png',
+    i18n: {
+      zh: '鼹鼠',
+      en: 'moles_setting',
+    }
+  },
+  monkeytail_portalrate: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'monkeytail_portalrate.png',
+    i18n: {
+      zh: '猴尾草',
+      en: 'monkeytail_portalrate',
+    }
+  },
+  moon_berrybush: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_berrybush.png',
+    i18n: {
+      zh: '石果灌木丛',
+      en: 'moon_berrybush',
+    }
+  },
+  moon_bullkelp: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_bullkelp.png',
+    i18n: {
+      zh: '海岸公牛海带',
+      en: 'moon_bullkelp',
+    }
+  },
+  moon_carrot: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_carrot.png',
+    i18n: {
+      zh: '胡萝卜鼠',
+      en: 'moon_carrot',
+    }
+  },
+  moon_fissure: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_fissure.png',
+    i18n: {
+      zh: '天体裂隙',
+      en: 'moon_fissure',
+    }
+  },
+  moon_fruitdragon: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_fruitdragon.png',
+    i18n: {
+      zh: '沙拉蝾螈',
+      en: 'moon_fruitdragon',
+    }
+  },
+  moon_hotspring: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_hotspring.png',
+    i18n: {
+      zh: '温泉',
+      en: 'moon_hotspring',
+    }
+  },
+  moon_rock: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_rock.png',
+    i18n: {
+      zh: '月亮石',
+      en: 'moon_rock',
+    }
+  },
+  moon_sapling: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_sapling.png',
+    i18n: {
+      zh: '月亮树苗',
+      en: 'moon_sapling',
+    }
+  },
+  moon_spider: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'moon_spider.png',
+    i18n: {
+      zh: '破碎蜘蛛',
+      en: 'moon_spider',
+    }
+  },
+  moon_spiders: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_spiders.png',
+    i18n: {
+      zh: '破碎蜘蛛洞',
+      en: 'moon_spiders',
+    }
+  },
+  moon_starfish: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_starfish.png',
+    i18n: {
+      zh: '海星',
+      en: 'moon_starfish',
+    }
+  },
+  moon_tree: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'moon_tree.png',
+    i18n: {
+      zh: '月树',
+      en: 'moon_tree',
+    }
+  },
+  moon_tree_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'moon_tree_regrowth.png',
+    i18n: {
+      zh: '月树',
+      en: 'moon_tree_regrowth',
+    }
+  },
+  mosquitos: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'mosquitos.png',
+    i18n: {
+      zh: '蚊子',
+      en: 'mosquitos',
+    }
+  },
+  mushroom: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'mushroom.png',
+    i18n: {
+      zh: '蘑菇',
+      en: 'mushroom',
+    }
+  },
+  mutated_hounds: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'mutated_hounds.png',
+    i18n: {
+      zh: '恐怖猎犬',
+      en: 'mutated_hounds',
+    }
+  },
+  ocean_bullkelp: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'ocean_bullkelp.png',
+    i18n: {
+      zh: '公牛海带',
+      en: 'ocean_bullkelp',
+    }
+  },
+  ocean_seastack: {
+    configs: ["ocean_never", "ocean_rare", "ocean_uncommon", "ocean_default", "ocean_often", "ocean_mostly", "ocean_always", "ocean_insane"],
+    customConfigsValue: {
+      ocean_never: {
+        zh: '无',
+        en: 'ocean_never'
+      },
+      ocean_rare: {
+        zh: '很少',
+        en: 'ocean_rare'
+      },
+      ocean_uncommon: {
+        zh: '较少',
+        en: 'ocean_uncommon'
+      },
+      ocean_default: {
+        zh: '默认',
+        en: 'ocean_default'
+      },
+      ocean_often: {
+        zh: '较多',
+        en: 'ocean_often'
+      },
+      ocean_mostly: {
+        zh: '很多',
+        en: 'ocean_mostly'
+      },
+      ocean_always: {
+        zh: '大量',
+        en: 'ocean_always'
+      },
+      ocean_insane: {
+        zh: '疯狂',
+        en: 'ocean_insane'
+      },
+    },
+    modelValue: 'ocean_default',
+    image: 'ocean_seastack.png',
+    i18n: {
+      zh: '海蚀柱',
+      en: 'ocean_seastack',
+    }
+  },
+  ocean_shoal: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'ocean_shoal.png',
+    i18n: {
+      zh: '鱼群',
+      en: 'ocean_shoal',
+    }
+  },
+  ocean_waterplant: {
+    configs: ["ocean_never", "ocean_rare", "ocean_uncommon", "ocean_default", "ocean_often", "ocean_mostly", "ocean_always", "ocean_insane"],
+    customConfigsValue: {
+      ocean_never: {
+        zh: '无',
+        en: 'ocean_never'
+      },
+      ocean_rare: {
+        zh: '很少',
+        en: 'ocean_rare'
+      },
+      ocean_uncommon: {
+        zh: '较少',
+        en: 'ocean_uncommon'
+      },
+      ocean_default: {
+        zh: '默认',
+        en: 'ocean_default'
+      },
+      ocean_often: {
+        zh: '较多',
+        en: 'ocean_often'
+      },
+      ocean_mostly: {
+        zh: '很多',
+        en: 'ocean_mostly'
+      },
+      ocean_always: {
+        zh: '大量',
+        en: 'ocean_always'
+      },
+      ocean_insane: {
+        zh: '疯狂',
+        en: 'ocean_insane'
+      },
+    },
+    modelValue: 'ocean_default',
+    image: 'ocean_waterplant.png',
+    i18n: {
+      zh: '海草',
+      en: 'ocean_waterplant',
+    }
+  },
+  ocean_wobsterden: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'ocean_wobsterden.png',
+    i18n: {
+      zh: '龙虾窝',
+      en: 'ocean_wobsterden',
+    }
+  },
+  palmcone_seed_portalrate: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'palmcone_seed_portalrate.png',
+    i18n: {
+      zh: '棕榈松果树芽',
+      en: 'palmcone_seed_portalrate',
+    }
+  },
+  palmconetree: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'palmconetree.png',
+    i18n: {
+      zh: '棕榈松果树',
+      en: 'palmconetree',
+    }
+  },
+  palmconetree_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'palmconetree_regrowth.png',
+    i18n: {
+      zh: '棕榈松果树',
+      en: 'palmconetree_regrowth',
+    }
+  },
+  penguins: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'penguins.png',
+    i18n: {
+      zh: '企鸥',
+      en: 'penguins',
+    }
+  },
+  penguins_moon: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'penguins.png',
+    i18n: {
+      zh: '月石企鸥',
+      en: 'penguins',
+    }
+  },
+  perd: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'perd.png',
+    i18n: {
+      zh: '火鸡',
+      en: 'perd',
+    }
+  },
+  petrification: {
+    configs: ["none", "few", "default", "many", "max"],
+    customConfigsValue: {
+      none: {
+        zh: '无',
+        en: 'none'
+      },
+      few: {
+        zh: '慢',
+        en: 'few'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      many: {
+        zh: '快',
+        en: 'many'
+      },
+      max: {
+        zh: '极快',
+        en: 'max'
+      },
+    },
+    modelValue: 'default',
+    image: 'petrification.png',
+    i18n: {
+      zh: '森林石化',
+      en: 'petrification',
+    }
+  },
+  pigs: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'pigs.png',
+    i18n: {
+      zh: '猪屋',
+      en: 'pigs',
+    }
+  },
+  pigs_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'pigs_setting.png',
+    i18n: {
+      zh: '猪',
+      en: 'pigs_setting',
+    }
+  },
 }
 
 export const configsMap = {
