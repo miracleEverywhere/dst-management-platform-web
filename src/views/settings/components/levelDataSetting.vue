@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; align-items: center; margin: 5px">
+  <div style="display: flex; align-items: center; margin: 5px; width:215px">
     <el-image :src="getImageUrl(props.image)" fit="fill" style="width: 75px; height: 75px"/>
     <div style="width: 140px">
       <div class="fcc">

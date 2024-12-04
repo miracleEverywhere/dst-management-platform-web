@@ -2272,7 +2272,7 @@ export const configsMap = {
   },
 }
 
-export const groundWorldSetting = {
+export const groundWorldRule = {
   global: [
     'specialevent', 'autumn', 'winter', 'spring', 'summer', 'day', 'spawnmode', 'ghostenabled', 'portalresurection',
     'ghostsanitydrain', 'resettime', 'beefaloheat', 'krampus'

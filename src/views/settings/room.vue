@@ -1,23 +1,23 @@
 <template>
   <div class="page-div">
     <el-row :gutter="10">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 10px">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
         <el-card shadow="never">
           <el-steps :active="step" align-center finish-status="success">
-            <el-step @click="handleStepClick(0)" :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')"/>
-            <el-step @click="handleStepClick(1)" :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')"/>
-            <el-step @click="handleStepClick(2)" :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')"/>
-            <el-step @click="handleStepClick(3)" :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')"/>
-            <el-step @click="handleStepClick(4)" :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"/>
+            <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')" @click="handleStepClick(0)"/>
+            <el-step :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')" @click="handleStepClick(1)"/>
+            <el-step :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')" @click="handleStepClick(2)"/>
+            <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')" @click="handleStepClick(3)"/>
+            <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')" @click="handleStepClick(4)"/>
           </el-steps>
         </el-card>
       </el-col>
     </el-row>
     <el-row :gutter="10" style="margin-top: 5px">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
-        <el-card v-if="step===0" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'" >
-          <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :model="roomBaseForm"
-                   :rules="roomBaseFormRules" :label-width="isMobile?'70':'auto'" :size="isMobile?'small':'large'">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
+        <el-card v-if="step===0" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+          <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
+                   :model="roomBaseForm" :rules="roomBaseFormRules" :size="isMobile?'small':'large'">
             <el-form-item :label="$t('setting.baseForm.room')" prop="name">
               <el-input v-model="roomBaseForm.name"></el-input>
             </el-form-item>
@@ -26,41 +26,41 @@
             </el-form-item>
             <el-form-item prop="masterPort">
               <template #label>
-                <el-tooltip effect="light" :content="t('setting.roomBaseFormPortToolTip')" placement="top">
-                  {{t('setting.baseForm.masterPort')}}
+                <el-tooltip :content="t('setting.roomBaseFormPortToolTip')" effect="light" placement="top">
+                  {{ t('setting.baseForm.masterPort') }}
                 </el-tooltip>
               </template>
-              <el-input-number v-model="roomBaseForm.masterPort" controls-position="right" :min="1" :max="65535"
-                               :size="isMobile?'small':'large'"></el-input-number>
+              <el-input-number v-model="roomBaseForm.masterPort" :max="65535" :min="1" :size="isMobile?'small':'large'"
+                               controls-position="right"></el-input-number>
             </el-form-item>
             <el-form-item prop="cavesPort">
               <template #label>
-                <el-tooltip effect="light" :content="t('setting.roomBaseFormPortToolTip')" placement="top">
-                  {{t('setting.baseForm.cavesPort')}}
+                <el-tooltip :content="t('setting.roomBaseFormPortToolTip')" effect="light" placement="top">
+                  {{ t('setting.baseForm.cavesPort') }}
                 </el-tooltip>
               </template>
-              <el-input-number v-model="roomBaseForm.cavesPort" controls-position="right" :min="1" :max="65535"
-                               :size="isMobile?'small':'large'"></el-input-number>
+              <el-input-number v-model="roomBaseForm.cavesPort" :max="65535" :min="1" :size="isMobile?'small':'large'"
+                               controls-position="right"></el-input-number>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.gameMode.name')" prop="gameMode">
               <el-radio-group v-model="roomBaseForm.gameMode">
-                <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless" />
-                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival" />
-                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="lavaarena" />
-                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire" />
+                <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless"/>
+                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival"/>
+                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
+                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.pvp')" prop="pvp">
-              <el-switch v-model="roomBaseForm.pvp" />
+              <el-switch v-model="roomBaseForm.pvp"/>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.playerNum')" prop="playerNum">
-              <el-slider v-model="roomBaseForm.playerNum" size="small" show-input :min="2" :max="100"/>
+              <el-slider v-model="roomBaseForm.playerNum" :max="100" :min="2" show-input size="small"/>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.backDays')" prop="backDays">
-              <el-slider v-model="roomBaseForm.backDays" size="small" show-input  :min="5" :max="50"/>
+              <el-slider v-model="roomBaseForm.backDays" :max="50" :min="5" show-input size="small"/>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.vote')" prop="vote">
-              <el-switch v-model="roomBaseForm.vote" />
+              <el-switch v-model="roomBaseForm.vote"/>
             </el-form-item>
             <el-form-item :label="$t('setting.baseForm.password')">
               <el-input v-model="roomBaseForm.password"></el-input>
@@ -68,78 +68,203 @@
             <el-form-item :label="$t('setting.baseForm.token')" prop="token">
               <el-input v-model="roomBaseForm.token" show-password></el-input>
               <div class="el-form-item-msg">
-                <el-link :underline="false" target="_blank"
-                         href="https://accounts.klei.com">{{t('setting.baseForm.tokenHelp')}}</el-link>
+                <el-link :underline="false" href="https://accounts.klei.com"
+                         target="_blank">{{ t('setting.baseForm.tokenHelp') }}
+                </el-link>
               </div>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===1" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
+        <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-tabs v-model="groundTabName">
             <el-tab-pane label="Code" name="Code">
-              <el-form ref="roomGroundFormRef" :model="roomGroundForm" :rules="roomGroundFormRules"
-                       :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'">
+              <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
+                       :rules="roomGroundFormRules" :size="isMobile?'small':'large'">
                 <el-form-item label-position="top" prop="groundSetting">
-                  <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" mode="lua" :theme="isDark?'darcula':'idea'"
-                                  :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+                  <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
+                                  :theme="isDark?'darcula':'idea'"
+                                  mode="lua" style="width: 100%"></sc-code-editor>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
             <el-tab-pane label="Visualization" name="Visualization">
-              <template v-for="(item, k) in overrides">
-                <LevelDataSetting v-model="item.modelValue"
-                                  :name="k"
-                                  :i18n="item.i18n"
-                                  :configs="item.configs"
-                                  :image="item.image"
-                                  :customConfigsValue="item.customConfigsValue"/>
-              </template>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.global')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.global">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.events')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.events">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.survivors')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.survivors">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.world')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.world">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.resourceRegrowth')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.resourceRegrowth">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.unnaturalPortalResource')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.unnaturalPortalResource">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.creatures')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.creatures">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.hostileCreatures')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.hostileCreatures">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center">{{t('setting.groundVisualizationRule')}} - {{t('setting.groundVisualizationRuleItem.giants')}}</el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldRule.giants">
+                  <div>
+                    <LevelDataSetting v-model="overrides[i].modelValue"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                    />
+                  </div>
+                </template>
+              </div>
 
             </el-tab-pane>
 
           </el-tabs>
         </el-card>
-        <el-card v-if="step===2" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-alert :effect="isDark?'light':'dark'" type="success" :closable="false">{{t('setting.cavesTip')}}</el-alert>
-          <el-form ref="roomCaveFormRef" :model="roomCaveForm" :rules="roomCaveFormRules"
-                   :label-width="isMobile?'70':'100'" :size="isMobile?'small':'large'" style="margin-top: 10px">
+        <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+          <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.cavesTip') }}</el-alert>
+          <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
+                   :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
             <el-form-item label-position="top" prop="caveSetting">
-              <sc-code-editor ref="editor" v-model="roomCaveForm.caveSetting" mode="lua" :theme="isDark?'darcula':'idea'"
-                              :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomCaveForm.caveSetting" :height="isMobile?320:500"
+                              :theme="isDark?'darcula':'idea'"
+                              mode="lua" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===3" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <el-form ref="roomModFormRef" :model="roomModForm" :rules="roomModFormRules" :label-width="isMobile?'70':'100'"
+        <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+          <el-form ref="roomModFormRef" :label-width="isMobile?'70':'100'" :model="roomModForm" :rules="roomModFormRules"
                    :size="isMobile?'small':'large'">
             <el-form-item label-position="top" prop="modSetting">
-              <sc-code-editor ref="editor" v-model="roomModForm.modSetting" mode="lua" :theme="isDark?'darcula':'idea'"
-                              :height="isMobile?320:500" style="width: 100%"></sc-code-editor>
+              <sc-code-editor ref="editor" v-model="roomModForm.modSetting" :height="isMobile?320:500"
+                              :theme="isDark?'darcula':'idea'"
+                              mode="lua" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===4" shadow="never" :style="isMobile?'min-height: 400px':'min-height: 600px'">
-          <div class="fcc" :style="isMobile?'min-height: 360px':'min-height: 560px'">
-            <el-result icon="success" :title="$t('setting.finish.title')" :sub-title="$t('setting.finish.description')"/>
+        <el-card v-if="step===4" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+          <div :style="isMobile?'min-height: 360px':'min-height: 560px'" class="fcc">
+            <el-result :sub-title="$t('setting.finish.description')" :title="$t('setting.finish.title')" icon="success"/>
           </div>
         </el-card>
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
         <el-card shadow="never">
           <div style="display: flex; justify-content: flex-end;">
-            <el-button v-if="step>0" @click="handlePrev">{{t('setting.button.prev')}}</el-button>
-            <el-button v-if="step<4" type="primary" @click="handleNext">{{t('setting.button.next')}}</el-button>
-            <el-dropdown v-if="step===4" @command="handleCommand" trigger="click" style="margin-left: 12px">
-              <el-button type="warning" :loading="loading">
-                {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+            <el-button v-if="step>0" @click="handlePrev">{{ t('setting.button.prev') }}</el-button>
+            <el-button v-if="step<4" type="primary" @click="handleNext">{{ t('setting.button.next') }}</el-button>
+            <el-dropdown v-if="step===4" style="margin-left: 12px" trigger="click" @command="handleCommand">
+              <el-button :loading="loading" type="warning">
+                {{ t('setting.button.actions') }}
+                <el-icon class="el-icon--right">
+                  <arrow-down/>
+                </el-icon>
               </el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item command="save">{{t('setting.button.save')}}</el-dropdown-item>
-                  <el-dropdown-item command="saveAndRestart">{{t('setting.button.saveAndRestart')}}</el-dropdown-item>
-                  <el-dropdown-item command="generateNewWorld">{{t('setting.button.generateNewWorld')}}</el-dropdown-item>
+                  <el-dropdown-item command="save">{{ t('setting.button.save') }}</el-dropdown-item>
+                  <el-dropdown-item command="saveAndRestart">{{ t('setting.button.saveAndRestart') }}</el-dropdown-item>
+                  <el-dropdown-item command="generateNewWorld">{{ t('setting.button.generateNewWorld') }}</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -150,7 +275,7 @@
   </div>
 </template>
 
-<script setup name="settingsRoom">
+<script name="settingsRoom" setup>
 import {computed, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
@@ -160,9 +285,9 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
-import {overrides} from "@/views/settings/components/levelDataMap.js"
+import {groundWorldRule, overrides} from "@/views/settings/components/levelDataMap.js"
 
-const { t } = useI18n()
+const {t} = useI18n()
 
 onMounted(() => {
   handleGetCurrentRoomSetting()
@@ -170,7 +295,7 @@ onMounted(() => {
 
 const loading = ref(false)
 
-const { isMobile } = useScreenStore();
+const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
@@ -214,7 +339,7 @@ const handleNext = () => {
       } catch (e) {
         koiMsgError(t('setting.luaError'))
       }
-    }else {
+    } else {
       step.value++
     }
   } else if (step.value === 3) {
@@ -225,7 +350,7 @@ const handleNext = () => {
       } catch (e) {
         koiMsgError(t('setting.luaError'))
       }
-    }else {
+    } else {
       step.value++
     }
   }
@@ -246,10 +371,10 @@ const roomBaseForm = ref({
   cavesPort: 0,
 })
 const roomBaseFormRules = {
-  name: [ { required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur' } ],
-  masterPort: [ { required: true, message: t('setting.roomBaseFormRules.masterPort'), trigger: 'blur' } ],
-  cavesPort: [ { required: true, message: t('setting.roomBaseFormRules.cavesPort'), trigger: 'blur' } ],
-  token: [ { required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur' } ],
+  name: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur'}],
+  masterPort: [{required: true, message: t('setting.roomBaseFormRules.masterPort'), trigger: 'blur'}],
+  cavesPort: [{required: true, message: t('setting.roomBaseFormRules.cavesPort'), trigger: 'blur'}],
+  token: [{required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur'}],
 }
 
 const roomGroundFormRef = ref()
@@ -257,7 +382,7 @@ const roomGroundForm = ref({
   groundSetting: '',
 })
 const roomGroundFormRules = {
-  groundSetting: [ { required: true, message: t('setting.roomGroundFormRules.groundSetting'), trigger: 'blur' } ],
+  groundSetting: [{required: true, message: t('setting.roomGroundFormRules.groundSetting'), trigger: 'blur'}],
 }
 
 const roomCaveFormRef = ref()
@@ -265,7 +390,7 @@ const roomCaveForm = ref({
   caveSetting: '',
 })
 const roomCaveFormRules = {
-  caveSetting: [ { required: true, message: t('setting.roomCaveFormRules.caveSetting'), trigger: 'blur' } ],
+  caveSetting: [{required: true, message: t('setting.roomCaveFormRules.caveSetting'), trigger: 'blur'}],
 }
 
 const roomModFormRef = ref()
@@ -273,7 +398,7 @@ const roomModForm = ref({
   modSetting: '',
 })
 const roomModFormRules = {
-  modSetting: [ { required: true, message: t('setting.roomModFormRules.modSetting'), trigger: 'blur' } ],
+  modSetting: [{required: true, message: t('setting.roomModFormRules.modSetting'), trigger: 'blur'}],
 }
 
 const handleGetCurrentRoomSetting = () => {
@@ -286,8 +411,7 @@ const handleGetCurrentRoomSetting = () => {
 }
 
 const handleCommand = (cmd) => {
-  switch(cmd)
-  {
+  switch (cmd) {
     case 'save':
       handleSave()
       break;
@@ -391,5 +515,9 @@ function convertLuaTableToObject(luaTable) {
 </script>
 
 <style scoped>
-
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
+  gap: 10px;
+}
 </style>
