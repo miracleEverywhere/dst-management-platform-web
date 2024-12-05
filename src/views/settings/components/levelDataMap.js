@@ -2580,8 +2580,23 @@ export const overrides = {
       en: 'wormattacks',
     }
   },
-  wormattacks_boss:{
-
+  wormlights:{
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'wormlights.png',
+    i18n: {
+      zh: '发光浆果',
+      en: 'wormlights',
+    }
+  },
+  worms: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'worms.png',
+    i18n: {
+      zh: '洞穴蠕虫',
+      en: 'worms',
+    }
   },
 }
 
