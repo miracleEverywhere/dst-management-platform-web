@@ -23,7 +23,7 @@ import {configsMap, overrides} from "@/views/settings/components/levelDataMap.js
 
 const props = defineProps({
   configs: {type: Array, default: []},
-  modelValue: {type: String, default: ''},
+  modelValue: {type: String, default: 'default'},
   image: {type: String, default: ''},
   i18n: {type: Object, default: {zh: '', en: ''}},
   name: {type: String, default: ''},
@@ -94,7 +94,7 @@ watch(() => setting.value, (newValue, oldValue) => {
     }
   }
   handleSettingChange()
-}, {immediate: true})
+}, {immediate: false})
 
 </script>
 

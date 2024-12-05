@@ -76,7 +76,7 @@
           </el-form>
         </el-card>
         <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-          <el-tabs v-model="groundTabName" @tab-click="handleTabClick">
+          <el-tabs v-model="groundTabName">
             <el-tab-pane label="Code" name="Code">
               <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                        :rules="roomGroundFormRules" :size="isMobile?'small':'large'">
@@ -453,7 +453,7 @@ const handleNext = () => {
     roomGroundFormRef.value.validate(valid => {
       if (valid) {
         try {
-          roomGroundForm.value.groundSetting = tmpGroundSetting.value
+          // roomGroundForm.value.groundSetting = tmpGroundSetting.value
           luaparse.parse(roomGroundForm.value.groundSetting);
           step.value++
         } catch (e) {
@@ -608,9 +608,9 @@ const getFieldValue = (field) => {
 }
 const generateOverridesObj = () => {
   const ast = luaparse.parse(roomGroundForm.value.groundSetting)
-// 提取 overrides 字段
+  // 提取 overrides 字段
   const overridesTable = extractOverrides(ast);
-// 将 Lua 表转换为 JavaScript 对象
+  // 将 Lua 表转换为 JavaScript 对象
   overridesObj.value = convertLuaTableToObject(overridesTable);
 }
 
@@ -643,46 +643,30 @@ function convertLuaTableToObject(luaTable) {
 const tmpGroundSetting = ref({})
 const handleTabClick = (tab, event) => {
   if (tab.paneName === 'Code') {
-    roomGroundForm.value.groundSetting = tmpGroundSetting.value
-    if (editorGroundSettingRef.value) {
-      editorGroundSettingRef.value.refresh()
-    }
+    // roomGroundForm.value.groundSetting = tmpGroundSetting.value
+    // if (editorGroundSettingRef.value) {
+    //   editorGroundSettingRef.value.refresh()
+    // }
   }
 }
 
 const handleModelValueChange = (data) => {
-  overridesObj.value[data.name] = data.value
-  tmpGroundSetting.value = insertOverridesToLuaScript(roomGroundForm.value.groundSetting, convertObjectToLuaTable(overridesObj.value))
-}
-
-const convertObjectToLuaTable = (obj) => {
-  let result = '{\n';
-  const keys = Object.keys(obj);
-
-  keys.forEach((key, index) => {
-    const value = obj[key];
-    if (typeof value === 'string') {
-      result += `    ${key}="${value}"`;
-    } else if (typeof value === 'object' && !Array.isArray(value)) {
-      result += `    ${key}=${convertObjectToLuaTable(value)}`;
-    } else {
-      result += `    ${key}=${value}`;
+  const key = data.name
+  const value = data.value
+  const ast = luaparse.parse(roomGroundForm.value.groundSetting)
+  // 提取 overrides 字段
+  const overridesTable = extractOverrides(ast);
+  // console.log(overridesTable)
+  for (let field of overridesTable.fields) {
+    if (field.key.name === key) {
+      field.value.raw = value
     }
+  }
+  console.log(luaparse.lex(ast))
 
-    if (index < keys.length - 1) {
-      result += ',\n';
-    } else {
-      result += '\n';
-    }
-  });
-
-  result += '  },\n';
-  return result;
+  // roomGroundForm.value.groundSetting = ''
 }
 
-const insertOverridesToLuaScript = (luaScript, overridesObj) => {
-  return luaScript.replace(/overrides=\{[\s\S]*playstyle/m, `overrides=${overridesObj}  playstyle`)
-}
 
 </script>
 
