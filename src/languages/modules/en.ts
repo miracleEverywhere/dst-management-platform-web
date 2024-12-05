@@ -164,7 +164,11 @@ export default {
     },
     groundVisualizationGeneration: '世界生成',
     groundVisualizationGenerationItem: {
-
+      global: '全局',
+      world: '世界',
+      resources: '资源',
+      creaturesAndSpawners: '生物以及刷新点',
+      hostileCreaturesAndSpawners: '敌对生物以及刷新点',
     },
     luaError: 'Lua syntax validation failed',
     cavesTip: 'TIPS: If you do not want to create a cave, please leave the input box below empty',

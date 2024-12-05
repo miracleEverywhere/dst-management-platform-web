@@ -250,6 +250,96 @@
                   </div>
                 </template>
               </div>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                {{ t('setting.groundVisualizationGenerationItem.global') }}
+              </el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldGeneration.global">
+                  <div>
+                    <LevelDataSetting v-model="overridesObj[i]"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                                      @changeModelValue="handleModelValueChange"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                {{ t('setting.groundVisualizationGenerationItem.world') }}
+              </el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldGeneration.world">
+                  <div>
+                    <LevelDataSetting v-model="overridesObj[i]"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                                      @changeModelValue="handleModelValueChange"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                {{ t('setting.groundVisualizationGenerationItem.resources') }}
+              </el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldGeneration.resources">
+                  <div>
+                    <LevelDataSetting v-model="overridesObj[i]"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                                      @changeModelValue="handleModelValueChange"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                {{ t('setting.groundVisualizationGenerationItem.creaturesAndSpawners') }}
+              </el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldGeneration.creaturesAndSpawners">
+                  <div>
+                    <LevelDataSetting v-model="overridesObj[i]"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                                      @changeModelValue="handleModelValueChange"
+                    />
+                  </div>
+                </template>
+              </div>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                {{ t('setting.groundVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
+              </el-divider>
+              <div class="item-container">
+                <template v-for="i in groundWorldGeneration.hostileCreaturesAndSpawners">
+                  <div>
+                    <LevelDataSetting v-model="overridesObj[i]"
+                                      :configs="overrides[i].configs"
+                                      :customConfigsValue="overrides[i].customConfigsValue"
+                                      :i18n="overrides[i].i18n"
+                                      :image="overrides[i].image"
+                                      :name="i"
+                                      @changeModelValue="handleModelValueChange"
+                    />
+                  </div>
+                </template>
+              </div>
 
             </el-tab-pane>
 
@@ -321,7 +411,7 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
-import {groundWorldRule, overrides} from "@/views/settings/components/levelDataMap.js"
+import {groundWorldRule,groundWorldGeneration, overrides} from "@/views/settings/components/levelDataMap.js"
 
 const {t} = useI18n()
 

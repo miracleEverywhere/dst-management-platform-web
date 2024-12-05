@@ -77,16 +77,21 @@ const handleSettingChange = () => {
 
 
 watch(() => setting.value, (newValue, oldValue) => {
-  const index = props.configs.indexOf(setting.value)
-  if (index === 0) {
+  if (props.configs.length === 1) {
     leftClickDisabled.value = true
-    rightClickDisabled.value = false
-  } else if (index === (props.configs.length - 1)) {
     rightClickDisabled.value = true
-    leftClickDisabled.value = false
   } else {
-    leftClickDisabled.value = false
-    rightClickDisabled.value = false
+    const index = props.configs.indexOf(setting.value)
+    if (index === 0) {
+      leftClickDisabled.value = true
+      rightClickDisabled.value = false
+    } else if (index === (props.configs.length - 1)) {
+      rightClickDisabled.value = true
+      leftClickDisabled.value = false
+    } else {
+      leftClickDisabled.value = false
+      rightClickDisabled.value = false
+    }
   }
   handleSettingChange()
 }, {immediate: true})

@@ -2183,6 +2183,440 @@ export const overrides = {
       en: 'year_of_the_varg',
     }
   },
+  acidrain_enabled: {
+    configs: ["none", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'none'
+      },
+      always: {
+        zh: '启用',
+        en: 'always'
+      },
+    },
+    modelValue: 'none',
+    image: 'acidrain_enabled.png',
+    i18n: {
+      zh: '酸雨',
+      en: 'acidrain_enabled',
+    }
+  },
+  atriumgate: {
+    configs: ["veryslow", "slow", "default", "fast", "veryfast"],
+    customConfigsValue: {
+      veryslow: {
+        zh: '极慢',
+        en: 'veryslow'
+      },
+      slow: {
+        zh: '慢',
+        en: 'slow'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      fast: {
+        zh: '快',
+        en: 'fast'
+      },
+      veryfast: {
+        zh: '极快',
+        en: 'veryfast'
+      },
+    },
+    modelValue: 'default',
+    image: 'atriumgate.png',
+    i18n: {
+      zh: '远古大门',
+      en: 'atriumgate',
+    }
+  },
+  banana: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'banana.png',
+    i18n: {
+      zh: '香蕉',
+      en: 'banana',
+    }
+  },
+  bats: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'bats.png',
+    i18n: {
+      zh: '蝙蝠',
+      en: 'bats',
+    }
+  },
+  bunnymen: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'bunnymen.png',
+    i18n: {
+      zh: '兔屋',
+      en: 'bunnymen',
+    }
+  },
+  cave_ponds: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'cave_ponds.png',
+    i18n: {
+      zh: '池塘',
+      en: 'cave_ponds',
+    }
+  },
+  cave_spiders: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'cave_spiders.png',
+    i18n: {
+      zh: '蛛网岩',
+      en: 'cave_spiders',
+    }
+  },
+  cavelight:{
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'cavelight.png',
+    i18n: {
+      zh: '洞穴光照',
+      en: 'cavelight',
+    }
+  },
+  daywalker: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'daywalker.png',
+    i18n: {
+      zh: '梦魇疯猪',
+      en: 'daywalker',
+    }
+  },
+  dustmoths: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'dustmoths.png',
+    i18n: {
+      zh: '尘蛾',
+      en: 'dustmoths',
+    }
+  },
+  earthquakes: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'earthquakes.png',
+    i18n: {
+      zh: '地震',
+      en: 'earthquakes',
+    }
+  },
+  fern: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'fern.png',
+    i18n: {
+      zh: '洞穴蕨类',
+      en: 'fern',
+    }
+  },
+  fissure: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'fissure.png',
+    i18n: {
+      zh: '梦魇裂隙',
+      en: 'fissure',
+    }
+  },
+  flower_cave: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'flower_cave.png',
+    i18n: {
+      zh: '荧光花',
+      en: 'flower_cave',
+    }
+  },
+  flower_cave_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'flower_cave_regrowth.png',
+    i18n: {
+      zh: '荧光花',
+      en: 'flower_cave_regrowth',
+    }
+  },
+  lichen: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'lichen.png',
+    i18n: {
+      zh: '苔藓',
+      en: 'lichen',
+    }
+  },
+  lightflier_flower_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'lightflier_flower_regrowth.png',
+    i18n: {
+      zh: '光虫花',
+      en: 'lightflier_flower_regrowth',
+    }
+  },
+  lightfliers: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'lightfliers.png',
+    i18n: {
+      zh: '球状光虫',
+      en: 'lightfliers',
+    }
+  },
+  molebats:{
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'molebats.png',
+    i18n: {
+      zh: '裸鼹蝠',
+      en: 'molebats',
+    }
+  },
+  monkey: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'monkey.png',
+    i18n: {
+      zh: '穴居猴桶',
+      en: 'monkey',
+    }
+  },
+  monkey_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'monkey_setting.png',
+    i18n: {
+      zh: '穴居猴',
+      en: 'monkey_setting',
+    }
+  },
+  mushgnome: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'mushgnome.png',
+    i18n: {
+      zh: '蘑菇地精',
+      en: 'mushgnome',
+    }
+  },
+  mushtree: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'mushtree.png',
+    i18n: {
+      zh: '蘑菇树',
+      en: 'mushtree',
+    }
+  },
+  mushtree_moon_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'mushtree_moon_regrowth.png',
+    i18n: {
+      zh: '月亮蘑菇树',
+      en: 'mushtree_moon_regrowth',
+    }
+  },
+  mushtree_regrowth: {
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'mushtree_regrowth.png',
+    i18n: {
+      zh: '蘑菇树',
+      en: 'mushtree_regrowth',
+    }
+  },
+  nightmarecreatures: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'nightmarecreatures.png',
+    i18n: {
+      zh: '遗迹梦魇',
+      en: 'nightmarecreatures',
+    }
+  },
+  rifts_enabled_cave: {
+    configs: ["never", "default", "always"],
+    customConfigsValue: {
+      never: {
+        zh: '极慢',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      always: {
+        zh: '快',
+        en: 'always'
+      },
+    },
+    modelValue: 'default',
+    image: 'rifts_enabled_cave.png',
+    i18n: {
+      zh: '荒野裂隙',
+      en: 'rifts_enabled_cave',
+    }
+  },
+  rifts_frequency_cave: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'rifts_frequency_cave.png',
+    i18n: {
+      zh: '荒野裂隙频率',
+      en: 'rifts_frequency_cave',
+    }
+  },
+  rocky: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'rocky.png',
+    i18n: {
+      zh: '石虾',
+      en: 'rocky',
+    }
+  },
+  rocky_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'rocky_setting.png',
+    i18n: {
+      zh: '石虾',
+      en: 'rocky_setting',
+    }
+  },
+  slurper: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'slurper.png',
+    i18n: {
+      zh: '啜食者',
+      en: 'slurper',
+    }
+  },
+  slurtles: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'slurtles.png',
+    i18n: {
+      zh: '蛞蝓龟窝',
+      en: 'slurtles',
+    }
+  },
+  slurtles_setting: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'slurtles_setting.png',
+    i18n: {
+      zh: '蛞蝓龟',
+      en: 'slurtles_setting',
+    }
+  },
+  snurtles: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'snurtles.png',
+    i18n: {
+      zh: '蜗牛龟',
+      en: 'snurtles',
+    }
+  },
+  spider_dropper: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'spider_dropper.png',
+    i18n: {
+      zh: '穴居悬蛛',
+      en: 'spider_dropper',
+    }
+  },
+  spider_hider: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'spider_hider.png',
+    i18n: {
+      zh: '洞穴蜘蛛',
+      en: 'spider_hider',
+    }
+  },
+  spider_spitter: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'spider_spitter.png',
+    i18n: {
+      zh: '喷射蜘蛛',
+      en: 'spider_spitter',
+    }
+  },
+  toadstool: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'toadstool.png',
+    i18n: {
+      zh: '毒菌蟾蜍',
+      en: 'toadstool',
+    }
+  },
+  wormattacks:{
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'wormattacks.png',
+    i18n: {
+      zh: '洞穴蠕虫攻击',
+      en: 'wormattacks',
+    }
+  },
+  wormattacks_boss:{
+
+  },
+}
+
+// 洞穴 - 世界生成 - 世界
+export const caveOverrideWorldGenerationWorld = {
+  start_location:{
+    configs: ["caves"],
+    customConfigsValue: {
+      caves: {
+        zh: '洞穴',
+        en: 'caves'
+      },
+    },
+    modelValue: 'caves',
+    image: 'start_location.png',
+    i18n: {
+      zh: '出生点',
+      en: 'start_location',
+    }
+  },
+  task_set:{
+    configs: ["cave_default"],
+    customConfigsValue: {
+      cave_default: {
+        zh: '地下',
+        en: 'cave_default'
+      },
+    },
+    modelValue: 'cave_default',
+    image: 'task_set.png',
+    i18n: {
+      zh: '生物群落',
+      en: 'task_set',
+    }
+  },
 }
 
 export const configsMap = {
