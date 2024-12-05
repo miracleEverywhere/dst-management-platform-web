@@ -17,7 +17,7 @@
 
 <script setup>
 import {ArrowLeftBold, ArrowRightBold} from '@element-plus/icons-vue'
-import {computed, ref, watch} from "vue";
+import {computed, ref, watch, defineEmits} from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {configsMap, overrides} from "@/views/settings/components/levelDataMap.js"
 
@@ -30,7 +30,7 @@ const props = defineProps({
   customConfigsValue: {type: Object, default: {}},
 })
 
-
+const emit = defineEmits(['changeModelValue']);
 
 const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
@@ -59,6 +59,7 @@ const getDisplayTagValue = () => {
   } else {
     tagValue = configsMap[setting.value]
   }
+  // console.log(props.modelValue)
   if (language.value === 'zh') {
     return tagValue.zh
   } else {
@@ -67,9 +68,11 @@ const getDisplayTagValue = () => {
 }
 
 const handleSettingChange = () => {
-  overrides[props.name].modelValue = setting.value
-  //TODO 回写lua文件
-
+  const emitData = {
+    name: props.name,
+    value: setting.value
+  }
+  emit('changeModelValue', emitData);
 }
 
 

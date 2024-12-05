@@ -150,6 +150,22 @@ export default {
     roomModFormRules: {
       modSetting: 'Please enter the MOD configuration in Lua format'
     },
+    groundVisualizationRule: '世界规则',
+    groundVisualizationRuleItem: {
+      global: '全局',
+      events: '活动',
+      survivors: '冒险家',
+      world: '世界',
+      resourceRegrowth: '资源再生',
+      unnaturalPortalResource: '非自然传送门资源',
+      creatures: '生物',
+      hostileCreatures: '敌对生物',
+      giants: '巨兽',
+    },
+    groundVisualizationGeneration: '世界生成',
+    groundVisualizationGenerationItem: {
+
+    },
     luaError: 'Lua syntax validation failed',
     cavesTip: 'TIPS: If you do not want to create a cave, please leave the input box below empty',
     refresh: 'Refresh',

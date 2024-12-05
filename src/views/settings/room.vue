@@ -76,140 +76,176 @@
           </el-form>
         </el-card>
         <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-          <el-tabs v-model="groundTabName">
+          <el-tabs v-model="groundTabName" @tab-click="handleTabClick">
             <el-tab-pane label="Code" name="Code">
               <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                        :rules="roomGroundFormRules" :size="isMobile?'small':'large'">
                 <el-form-item label-position="top" prop="groundSetting">
-                  <sc-code-editor ref="editor" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
+                  <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
                                   :theme="isDark?'darcula':'idea'"
                                   mode="lua" style="width: 100%"></sc-code-editor>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
             <el-tab-pane label="Visualization" name="Visualization">
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.global')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.global') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.global">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.events')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.events') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.events">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.survivors')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.survivors') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.survivors">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.world')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.world') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.world">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.resourceRegrowth')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.resourceRegrowth') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.resourceRegrowth">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.unnaturalPortalResource')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.unnaturalPortalResource') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.unnaturalPortalResource">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.creatures')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.creatures') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.creatures">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.hostileCreatures')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.hostileCreatures') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.hostileCreatures">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
               </div>
-              <el-divider content-position="center"><span style="font-weight: bolder">{{t('setting.groundVisualizationRule')}}</span> - {{t('setting.groundVisualizationRuleItem.giants')}}</el-divider>
+              <el-divider content-position="center"><span
+                style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                {{ t('setting.groundVisualizationRuleItem.giants') }}
+              </el-divider>
               <div class="item-container">
                 <template v-for="i in groundWorldRule.giants">
                   <div>
-                    <LevelDataSetting v-model="overrides[i].modelValue"
+                    <LevelDataSetting v-model="overridesObj[i]"
                                       :configs="overrides[i].configs"
                                       :customConfigsValue="overrides[i].customConfigsValue"
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      @changeModelValue="handleModelValueChange"
                     />
                   </div>
                 </template>
@@ -300,6 +336,8 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 
+const editorGroundSettingRef = ref()
+
 const step = ref(0)
 const handleStepClick = (goStep) => {
   if (step.value > goStep) {
@@ -317,6 +355,7 @@ const handleNext = () => {
           koiMsgError(t('setting.roomBaseFormRules.samePort'))
           return
         }
+        generateOverridesObj()
         step.value++
       }
     })
@@ -324,6 +363,7 @@ const handleNext = () => {
     roomGroundFormRef.value.validate(valid => {
       if (valid) {
         try {
+          roomGroundForm.value.groundSetting = tmpGroundSetting.value
           luaparse.parse(roomGroundForm.value.groundSetting);
           step.value++
         } catch (e) {
@@ -472,16 +512,17 @@ const handleGenerateNewWorld = () => {
 
 const groundTabName = ref('Code')
 
+const overridesObj = ref({})
+const getFieldValue = (field) => {
 
-const aaa = () => {
+}
+const generateOverridesObj = () => {
   const ast = luaparse.parse(roomGroundForm.value.groundSetting)
 // 提取 overrides 字段
   const overridesTable = extractOverrides(ast);
 // 将 Lua 表转换为 JavaScript 对象
-  const overridesss = convertLuaTableToObject(overridesTable);
-  console.log(overridesss)
+  overridesObj.value = convertLuaTableToObject(overridesTable);
 }
-
 
 function extractOverrides(ast) {
   // 找到 return 语句中的 overrides 字段
@@ -492,7 +533,6 @@ function extractOverrides(ast) {
   for (const field of returnTable.fields) {
     // console.log(field)
     if (field.key.type === 'Identifier' && field.key.name === 'overrides') {
-      console.log(field.value)
       return field.value;
     }
   }
@@ -504,13 +544,55 @@ function convertLuaTableToObject(luaTable) {
   const obj = {};
   for (const field of luaTable.fields) {
     const key = field.key.name;
-    const value = field.value.raw.replace(/"/g, '')
-    obj[key] = value
+    obj[key] = field.value.raw.replace(/"/g, '')
   }
 
   return obj;
 }
 
+const tmpGroundSetting = ref({})
+const handleTabClick = (tab, event) => {
+  if (tab.paneName === 'Code') {
+    roomGroundForm.value.groundSetting = tmpGroundSetting.value
+    if (editorGroundSettingRef.value) {
+      editorGroundSettingRef.value.refresh()
+    }
+  }
+}
+
+const handleModelValueChange = (data) => {
+  overridesObj.value[data.name] = data.value
+  tmpGroundSetting.value = insertOverridesToLuaScript(roomGroundForm.value.groundSetting, convertObjectToLuaTable(overridesObj.value))
+}
+
+const convertObjectToLuaTable = (obj) => {
+  let result = '{\n';
+  const keys = Object.keys(obj);
+
+  keys.forEach((key, index) => {
+    const value = obj[key];
+    if (typeof value === 'string') {
+      result += `    ${key}="${value}"`;
+    } else if (typeof value === 'object' && !Array.isArray(value)) {
+      result += `    ${key}=${convertObjectToLuaTable(value)}`;
+    } else {
+      result += `    ${key}=${value}`;
+    }
+
+    if (index < keys.length - 1) {
+      result += ',\n';
+    } else {
+      result += '\n';
+    }
+  });
+
+  result += '  },\n';
+  return result;
+}
+
+const insertOverridesToLuaScript = (luaScript, overridesObj) => {
+  return luaScript.replace(/overrides=\{[\s\S]*playstyle/m, `overrides=${overridesObj}  playstyle`)
+}
 
 </script>
 
