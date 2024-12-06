@@ -78,8 +78,10 @@
         <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-tabs v-model="groundTabName">
             <el-tab-pane label="Code" name="Code">
+              <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary" @click="handleImportLeveldataLua('master', 'endless')">标准无尽</el-button>
+              <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary" @click="handleImportLeveldataLua('master', 'survival')">标准生存</el-button>
               <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
-                       :rules="roomGroundFormRules" :size="isMobile?'small':'large'">
+                       :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
                 <el-form-item label-position="top" prop="groundSetting">
                   <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
                                   :theme="isDark?'darcula':'idea'"
@@ -87,7 +89,7 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="Visualization" name="Visualization">
+            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" label="Visualization" name="Visualization">
               <el-divider content-position="center"><span
                 style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
                 {{ t('setting.groundVisualizationRuleItem.global') }}
@@ -101,6 +103,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -119,6 +122,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -137,6 +141,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -155,6 +160,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -173,6 +179,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -191,6 +198,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -209,6 +217,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -227,6 +236,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -245,6 +255,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -263,6 +274,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -281,6 +293,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -299,6 +312,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -317,6 +331,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -335,6 +350,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleModelValueChange"
                     />
                   </div>
@@ -342,13 +358,16 @@
               </div>
 
             </el-tab-pane>
-
           </el-tabs>
         </el-card>
         <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-tabs v-model="cavesTabName">
             <el-tab-pane label="Code" name="Code">
               <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.cavesTip') }}</el-alert>
+              <div style="margin-top: 10px">
+                <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary" @click="handleImportLeveldataLua('caves', 'endless')">标准无尽</el-button>
+                <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary" @click="handleImportLeveldataLua('caves', 'survival')">标准生存</el-button>
+              </div>
               <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
                        :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
                 <el-form-item label-position="top" prop="caveSetting">
@@ -358,7 +377,7 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="Visualization" name="Visualization">
+            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" label="Visualization" name="Visualization">
               <el-divider content-position="center"><span
                 style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
                 {{ t('setting.cavesVisualizationRuleItem.world') }}
@@ -372,6 +391,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -390,6 +410,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -408,6 +429,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -426,6 +448,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -444,6 +467,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -462,6 +486,7 @@
                                       :i18n="caveOverrideWorldGenerationWorld[i].i18n"
                                       :image="caveOverrideWorldGenerationWorld[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -480,6 +505,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -498,6 +524,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -516,6 +543,7 @@
                                       :i18n="overrides[i].i18n"
                                       :image="overrides[i].image"
                                       :name="i"
+                                      :key="new Date().getTime()"
                                       @changeModelValue="handleCavesModelValueChange"
                     />
                   </div>
@@ -523,7 +551,6 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-
         </el-card>
         <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-form ref="roomModFormRef" :label-width="isMobile?'70':'100'" :model="roomModForm" :rules="roomModFormRules"
@@ -582,6 +609,7 @@ import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import {groundWorldGeneration, groundWorldRule, overrides, caveOverrideWorldGenerationWorld, cavesWorldRule, cavesWorldGeneration} from "@/views/settings/components/levelDataMap.js"
+import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
 
 const {t} = useI18n()
 
@@ -712,6 +740,27 @@ const roomModForm = ref({
 })
 const roomModFormRules = {
   modSetting: [{required: true, message: t('setting.roomModFormRules.modSetting'), trigger: 'blur'}],
+}
+
+const handleImportLeveldataLua = (world, mode) => {
+  if (world === 'master') {
+    if (mode === 'endless') {
+      roomGroundForm.value.groundSetting = endless.master
+    }
+    if (mode === 'survival') {
+      roomGroundForm.value.groundSetting = survival.master
+    }
+    generateGroundOverridesObj()
+  }
+  if (world === 'caves') {
+    if (mode === 'endless') {
+      roomCaveForm.value.caveSetting = endless.caves
+    }
+    if (mode === 'survival') {
+      roomCaveForm.value.caveSetting = survival.caves
+    }
+    generateCavesOverridesObj()
+  }
 }
 
 const handleGetCurrentRoomSetting = () => {
