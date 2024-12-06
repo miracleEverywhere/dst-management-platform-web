@@ -2287,6 +2287,15 @@ export const overrides = {
       en: 'cavelight',
     }
   },
+  chest_mimics: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'chest_mimics.png',
+    i18n: {
+      zh: '暴躁箱子',
+      en: 'chest_mimics',
+    }
+  },
   daywalker: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
@@ -2339,6 +2348,15 @@ export const overrides = {
     i18n: {
       zh: '荧光花',
       en: 'flower_cave',
+    }
+  },
+  itemmimics: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'itemmimics.png',
+    i18n: {
+      zh: '拟态蠕虫',
+      en: 'itemmimics',
     }
   },
   flower_cave_regrowth: {
@@ -2578,6 +2596,15 @@ export const overrides = {
     i18n: {
       zh: '洞穴蠕虫攻击',
       en: 'wormattacks',
+    }
+  },
+  wormattacks_boss: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'wormattacks_boss.png',
+    i18n: {
+      zh: '大蠕虫',
+      en: 'wormattacks_boss',
     }
   },
   wormlights: {
@@ -2904,11 +2931,26 @@ export const groundWorldGeneration = {
 }
 
 export const cavesWorldRule = {
-  world: [],
-  resourceRegrowth: [],
-  creatures: [],
-  hostileCreatures: [],
-  giants: [],
+  world: [
+    'weather', 'earthquakes', 'acidrain_enabled', 'wormattacks_boss',
+    'rifts_enabled_cave', 'atriumgate', 'wormattacks', 'rifts_frequency_cave',
+  ],
+  resourceRegrowth: [
+    'regrowth', 'lightflier_flower_regrowth', 'flower_cave_regrowth', 'mushtree_regrowth', 'mushtree_moon_regrowth',
+  ],
+  creatures: [
+    'pigs_setting', 'bunnymen_setting', 'dustmoths', 'rocky_setting',
+    'moles_setting', 'monkey_setting', 'slurtles_setting', 'snurtles', 'lightfliers',
+    'mushgnome', 'grassgekkos',
+  ],
+  hostileCreatures: [
+    'spiders_setting', 'bats_setting', 'merms', 'molebats',
+    'spider_spitter', 'itemmimics', 'chest_mimics', 'spider_hider',
+    'spider_dropper', 'spider_warriors', 'nightmarecreatures',
+  ],
+  giants: [
+    'fruitfly', 'liefs', 'daywalker', 'toadstool', 'spiderqueen',
+  ],
 }
 
 export const cavesWorldGeneration = {
