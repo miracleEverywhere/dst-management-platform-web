@@ -2632,6 +2632,115 @@ export const caveOverrideWorldGenerationWorld = {
       en: 'task_set',
     }
   },
+  world_size: {
+    configs: ["small", "medium", "default", "huge"],
+    customConfigsValue: {
+      small: {
+        zh: '小',
+        en: 'small'
+      },
+      medium: {
+        zh: '中',
+        en: 'medium'
+      },
+      default: {
+        zh: '大',
+        en: 'default'
+      },
+      huge: {
+        zh: '巨大',
+        en: 'huge'
+      },
+    },
+    modelValue: 'default',
+    image: 'world_size.png',
+    i18n: {
+      zh: '世界大小',
+      en: 'world_size',
+    }
+  },
+  branching: {
+    configs: ["never", "least", "default", "most", "random"],
+    modelValue: 'default',
+    image: 'branching.png',
+    i18n: {
+      zh: '分支',
+      en: 'branching',
+    }
+  },
+  loop: {
+    configs: ["never", "default", "always"],
+    customConfigsValue: {
+      never: {
+        zh: '从不',
+        en: 'never'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      always: {
+        zh: '总是',
+        en: 'always'
+      },
+    },
+    modelValue: 'default',
+    image: 'loop.png',
+    i18n: {
+      zh: '环形',
+      en: 'loop',
+    }
+  },
+  touchstone: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'touchstone.png',
+    i18n: {
+      zh: '试金石',
+      en: 'touchstone',
+    }
+  },
+  cavelight:{
+    configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
+    modelValue: 'default',
+    image: 'cavelight.png',
+    i18n: {
+      zh: '洞穴光照',
+      en: 'cavelight',
+    }
+  },
+  boons: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'boons.png',
+    i18n: {
+      zh: '失败的冒险家',
+      en: 'boons',
+    }
+  },
+  prefabswaps_start: {
+    configs: ["classic", "default", "highly random"],
+    customConfigsValue: {
+      classic: {
+        zh: '经典',
+        en: 'classic'
+      },
+      default: {
+        zh: '默认',
+        en: 'default'
+      },
+      "highly random": {
+        zh: '非常随机',
+        en: 'highly random'
+      },
+    },
+    modelValue: 'default',
+    image: 'prefabswaps_start.png',
+    i18n: {
+      zh: '开始资源多样化',
+      en: 'prefabswaps_start',
+    }
+  },
 }
 
 export const configsMap = {
