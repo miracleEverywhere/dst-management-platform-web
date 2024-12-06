@@ -2278,7 +2278,7 @@ export const overrides = {
       en: 'cave_spiders',
     }
   },
-  cavelight:{
+  cavelight: {
     configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
     modelValue: 'default',
     image: 'cavelight.png',
@@ -2377,7 +2377,7 @@ export const overrides = {
       en: 'lightfliers',
     }
   },
-  molebats:{
+  molebats: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
     image: 'molebats.png',
@@ -2571,7 +2571,7 @@ export const overrides = {
       en: 'toadstool',
     }
   },
-  wormattacks:{
+  wormattacks: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
     image: 'wormattacks.png',
@@ -2580,7 +2580,7 @@ export const overrides = {
       en: 'wormattacks',
     }
   },
-  wormlights:{
+  wormlights: {
     configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
     modelValue: 'default',
     image: 'wormlights.png',
@@ -2602,7 +2602,7 @@ export const overrides = {
 
 // 洞穴 - 世界生成 - 世界
 export const caveOverrideWorldGenerationWorld = {
-  start_location:{
+  start_location: {
     configs: ["caves"],
     customConfigsValue: {
       caves: {
@@ -2617,7 +2617,7 @@ export const caveOverrideWorldGenerationWorld = {
       en: 'start_location',
     }
   },
-  task_set:{
+  task_set: {
     configs: ["cave_default"],
     customConfigsValue: {
       cave_default: {
@@ -2700,7 +2700,7 @@ export const caveOverrideWorldGenerationWorld = {
       en: 'touchstone',
     }
   },
-  cavelight:{
+  cavelight: {
     configs: ["never", "veryslow", "slow", "default", "fast", "veryfast"],
     modelValue: 'default',
     image: 'cavelight.png',
@@ -2900,5 +2900,33 @@ export const groundWorldGeneration = {
   hostileCreaturesAndSpawners: [
     'ocean_waterplant', 'tentacles', 'houndmound', 'spiders', 'tallbirds',
     'chess', 'walrus', 'angrybees', 'merm', 'moon_spiders',
+  ],
+}
+
+export const cavesWorldRule = {
+  world: [],
+  resourceRegrowth: [],
+  creatures: [],
+  hostileCreatures: [],
+  giants: [],
+}
+
+export const cavesWorldGeneration = {
+  world: [
+    'task_set', 'start_location', 'world_size', 'branching', 'loop',
+    'touchstone', 'cavelight', 'boons', 'prefabswaps_start',
+  ],
+  resources: [
+    'grass', 'rock', 'sapling', 'ponds', 'flint', 'reeds',
+    'lichen', 'mushroom', 'banana', 'berrybush', 'flower_cave',
+    'mushtree', 'wormlights', 'marshbush', 'fern', 'trees',
+
+  ],
+  creaturesAndSpawners: [
+    'bunnymen', 'rocky', 'slurper', 'monkey', 'slurtles',
+  ],
+  hostileCreaturesAndSpawners: [
+    'bats', 'tentacles', 'cave_spiders', 'spiders',
+    'chess', 'fissure', 'worms',
   ],
 }
