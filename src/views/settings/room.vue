@@ -602,10 +602,22 @@ const editorCavesSettingRef = ref()
 const step = ref(0)
 const handleStepClick = (goStep) => {
   if (step.value > goStep) {
+    if (goStep === 1) {
+      generateGroundOverridesObj()
+    }
+    if (goStep === 2) {
+      generateCavesOverridesObj()
+    }
     step.value = goStep
   }
 }
 const handlePrev = () => {
+  if (step.value === 2) {
+    generateGroundOverridesObj()
+  }
+  if (step.value === 3) {
+    generateCavesOverridesObj()
+  }
   step.value--
 }
 const handleNext = () => {
