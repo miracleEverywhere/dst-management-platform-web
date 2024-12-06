@@ -454,7 +454,6 @@ const handleNext = () => {
     roomGroundFormRef.value.validate(valid => {
       if (valid) {
         try {
-          // roomGroundForm.value.groundSetting = tmpGroundSetting.value
           luaparse.parse(roomGroundForm.value.groundSetting);
           step.value++
         } catch (e) {
@@ -604,9 +603,7 @@ const handleGenerateNewWorld = () => {
 const groundTabName = ref('Code')
 
 const overridesObj = ref({})
-const getFieldValue = (field) => {
 
-}
 const generateOverridesObj = () => {
   const ast = luaparse.parse(roomGroundForm.value.groundSetting)
   // 提取 overrides 字段
@@ -639,16 +636,6 @@ function convertLuaTableToObject(luaTable) {
   }
 
   return obj;
-}
-
-const tmpGroundSetting = ref({})
-const handleTabClick = (tab, event) => {
-  if (tab.paneName === 'Code') {
-    // roomGroundForm.value.groundSetting = tmpGroundSetting.value
-    // if (editorGroundSettingRef.value) {
-    //   editorGroundSettingRef.value.refresh()
-    // }
-  }
 }
 
 const handleModelValueChange = (data) => {
