@@ -407,11 +407,12 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
 import luaparse from 'luaparse'
+import luamin from 'lua-format'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
-import {groundWorldRule,groundWorldGeneration, overrides} from "@/views/settings/components/levelDataMap.js"
+import {groundWorldGeneration, groundWorldRule, overrides} from "@/views/settings/components/levelDataMap.js"
 
 const {t} = useI18n()
 
@@ -659,12 +660,61 @@ const handleModelValueChange = (data) => {
   // console.log(overridesTable)
   for (let field of overridesTable.fields) {
     if (field.key.name === key) {
-      field.value.raw = value
+      field.value.raw = `"${value}"`
     }
   }
-  console.log(luaparse.lex(ast))
+  const luaScript = astToLua(ast)
+  roomGroundForm.value.groundSetting = luamin.Beautify(luaScript, {
+    RenameVariables: false,
+    RenameGlobals: false,
+    SolveMath: false
+  })
+  if (editorGroundSettingRef.value) {
+    editorGroundSettingRef.value.refresh()
+  }
+}
 
-  // roomGroundForm.value.groundSetting = ''
+
+function astToLua(astNode, indentLevel = 0) {
+  const indent = '    '.repeat(indentLevel);
+  switch (astNode.type) {
+    case 'Chunk':
+      return astNode.body.map(node => astToLua(node, indentLevel)).join('\n');
+    case 'LocalStatement':
+      return `${indent}local ${astNode.variables.map(astToLua).join(', ')} = ${astNode.init.map(astToLua).join(', ')}`;
+    case 'FunctionDeclaration':
+      return `${indent}function ${astToLua(astNode.identifier)}(${astNode.parameters.map(astToLua).join(', ')}) \n${astToLua(astNode.body, indentLevel + 1)}\n${indent}end`;
+    case 'ReturnStatement':
+      return `${indent}return ${astNode.arguments.map(astToLua).join(', ')}`;
+    case 'BinaryExpression':
+      return `${astToLua(astNode.left)} ${astNode.operator} ${astToLua(astNode.right)}`;
+    case 'CallStatement':
+      return `${indent}${astToLua(astNode.expression)}`;
+    case 'Identifier':
+      return astNode.name;
+    case 'StringLiteral':
+      return `${astNode.raw}`;
+    case 'NumericLiteral':
+      return astNode.raw;
+    case 'VarargLiteral':
+      return '...';
+    case 'TableConstructorExpression':
+      return `${indent}{ ${astNode.fields.map(field => astToLua(field, indentLevel + 1)).join(',\n' + indent)} }`;
+    case 'Field':
+      return astNode.key ? `${astToLua(astNode.key)} = ${astToLua(astNode.value)}` : astToLua(astNode.value);
+    case 'AssignmentStatement':
+      return `${indent}${astNode.variables.map(astToLua).join(', ')} = ${astNode.init.map(astToLua).join(', ')}`;
+    case 'CallExpression':
+      return `${astToLua(astNode.base)}(${astNode.arguments.map(astToLua).join(', ')})`;
+    case 'TableKeyString':
+      return `${astToLua(astNode.key)} = ${astToLua(astNode.value)}`;
+    case 'BooleanLiteral':
+      return astNode.raw;
+    case 'TableValue':
+      return astToLua(astNode.value);
+    default:
+      throw new Error(`Unsupported node type: ${astNode.type}`);
+  }
 }
 
 
