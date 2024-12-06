@@ -36,6 +36,7 @@
     "echarts": "^5.5.1",
     "element-plus": "^2.8.1",
     "js-cookie": "^3.0.5",
+    "lua-format": "^1.5.2",
     "luaparse": "^0.3.1",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
