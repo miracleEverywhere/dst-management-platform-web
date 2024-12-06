@@ -17,7 +17,7 @@
 
 <script setup>
 import {ArrowLeftBold, ArrowRightBold} from '@element-plus/icons-vue'
-import {computed, ref, watch, defineEmits} from "vue";
+import {computed, ref, watch, defineEmits, onMounted} from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {configsMap, overrides} from "@/views/settings/components/levelDataMap.js"
 
@@ -31,6 +31,13 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['changeModelValue']);
+
+onMounted(() => {
+  if (props.configs.length === 1) {
+    leftClickDisabled.value = true
+    rightClickDisabled.value = true
+  }
+})
 
 const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
