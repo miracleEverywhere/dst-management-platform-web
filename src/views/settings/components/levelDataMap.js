@@ -270,7 +270,7 @@ export const overrides = {
     }
   },
   crow_carnival: {
-    configs: ["never", "enabled"],
+    configs: ["default", "enabled"],
     modelValue: 'default',
     image: 'crow_carnival.png',
     i18n: {
