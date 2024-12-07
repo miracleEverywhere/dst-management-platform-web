@@ -35,6 +35,8 @@ import KoiDirectives from "@/directives/index";
 import "uno.css";
 // @ts-ignore
 import * as scIcons from "@/assets/icons";
+// @ts-ignore
+import click from '@/utils/click'
 
 // 创建app
 const app = createApp(App);
@@ -60,5 +62,6 @@ app.use(I18n);
 app.use(KoiComponents);
 // 注册全局自定义指令
 app.use(KoiDirectives);
+app.use(click)
 // 挂载
 app.mount("#app");
