@@ -18,10 +18,10 @@
         <el-card v-if="step===0" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
                    :model="roomBaseForm" :rules="roomBaseFormRules" :size="isMobile?'small':'large'">
-            <el-form-item :label="$t('setting.baseForm.room')" prop="name">
+            <el-form-item :label="t('setting.baseForm.room')" prop="name">
               <el-input v-model="roomBaseForm.name"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.description')" prop="description">
+            <el-form-item :label="t('setting.baseForm.description')" prop="description">
               <el-input v-model="roomBaseForm.description"></el-input>
             </el-form-item>
             <el-form-item prop="masterPort">
@@ -42,7 +42,7 @@
               <el-input-number v-model="roomBaseForm.cavesPort" :max="65535" :min="1" :size="isMobile?'small':'large'"
                                controls-position="right"></el-input-number>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.gameMode.name')" prop="gameMode">
+            <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode">
               <el-radio-group v-model="roomBaseForm.gameMode">
                 <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless"/>
                 <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival"/>
@@ -50,22 +50,22 @@
                 <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
               </el-radio-group>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.pvp')" prop="pvp">
+            <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp">
               <el-switch v-model="roomBaseForm.pvp"/>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.playerNum')" prop="playerNum">
+            <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum">
               <el-slider v-model="roomBaseForm.playerNum" :max="100" :min="2" show-input size="small"/>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.backDays')" prop="backDays">
+            <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays">
               <el-slider v-model="roomBaseForm.backDays" :max="50" :min="5" show-input size="small"/>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.vote')" prop="vote">
+            <el-form-item :label="t('setting.baseForm.vote')" prop="vote">
               <el-switch v-model="roomBaseForm.vote"/>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.password')">
+            <el-form-item :label="t('setting.baseForm.password')">
               <el-input v-model="roomBaseForm.password"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('setting.baseForm.token')" prop="token">
+            <el-form-item :label="t('setting.baseForm.token')" prop="token">
               <el-input v-model="roomBaseForm.token" show-password></el-input>
               <div class="el-form-item-msg">
                 <el-link :underline="false" href="https://accounts.klei.com"
