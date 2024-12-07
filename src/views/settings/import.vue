@@ -6,7 +6,7 @@
           <template #header>
             <div class="card-header">
               {{ t('setting.import.title') }}
-              <el-button type="primary" @click="helpDialogVisible=true">查看教程</el-button>
+              <el-button type="success" @click="helpDialogVisible=true">{{ t('setting.import.buttonHelp') }}</el-button>
             </div>
           </template>
           <div>
@@ -75,8 +75,9 @@
       </el-col>
     </el-row>
 
-    <el-dialog v-model="uploadDialogVisible" :title="t('setting.import.dialog.title')" width="45%">
-      <el-upload ref="uploadRef" :before-upload="checkUploadFile" :http-request="handleUpload" :limit="1" drag>
+    <el-dialog v-model="uploadDialogVisible" :title="t('setting.import.dialog.title')"
+               :close-on-press-escape="!uploadLoading" :show-close="!uploadLoading" :close-on-click-modal="!uploadLoading" width="45%">
+      <el-upload ref="uploadRef" v-loading="uploadLoading" :before-upload="checkUploadFile" :http-request="handleUpload" :limit="1" drag>
         <el-icon class="el-icon--upload">
           <upload-filled/>
         </el-icon>
@@ -91,7 +92,10 @@
       </el-upload>
     </el-dialog>
     <el-dialog v-model="helpDialogVisible" :title="t('setting.import.dialog2.title')" width="70%">
-      <el-image :src="helpGif" fit="fill" class="fcc"></el-image>
+      <el-alert :effect="isDark?'light':'dark'" type="error" :closable="false">
+        {{ t('setting.import.dialog2.text1') }}
+      </el-alert>
+      <el-image :src="helpGif" fit="fill" class="fcc" style="margin-top: 10px"></el-image>
     </el-dialog>
   </div>
 
@@ -114,6 +118,7 @@ const language = computed(() => globalStore.language);
 
 const helpDialogVisible = ref(false)
 
+const uploadLoading = ref(false)
 const uploadDialogVisible = ref(false)
 const uploadRef = ref()
 const openUploadDialog = () => {
@@ -133,12 +138,14 @@ const checkUploadFile = (param) => {
   }
 }
 const handleUpload = (param) => {
+  uploadLoading.value = true
   const formData = new FormData()
   formData.append('file', param.file)
   settingApi.import.upload.post(formData).then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     uploadDialogVisible.value = false
+    uploadLoading.value = false
   })
 }
 
