@@ -6,6 +6,7 @@
           <template #header>
             <div class="card-header">
               {{ t('setting.import.title') }}
+              <el-button type="primary" @click="helpDialogVisible=true">查看教程</el-button>
             </div>
           </template>
           <div>
@@ -89,6 +90,9 @@
         </template>
       </el-upload>
     </el-dialog>
+    <el-dialog v-model="helpDialogVisible" :title="t('setting.import.dialog2.title')" width="70%">
+      <el-image :src="helpGif" fit="fill" class="fcc"></el-image>
+    </el-dialog>
   </div>
 
 </template>
@@ -107,6 +111,8 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+
+const helpDialogVisible = ref(false)
 
 const uploadDialogVisible = ref(false)
 const uploadRef = ref()
@@ -138,6 +144,7 @@ const handleUpload = (param) => {
 
 const imageZip = new URL('./images/zip-image.png', import.meta.url).href
 const imageZipMaster = new URL('./images/zip-image-master.png', import.meta.url).href
+const helpGif = new URL('./images/help.gif', import.meta.url).href
 </script>
 
 <style scoped>
