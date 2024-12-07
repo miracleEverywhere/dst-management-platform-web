@@ -77,9 +77,15 @@
         </el-card>
         <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-tabs v-model="groundTabName">
-            <el-tab-pane label="Code" name="Code">
-              <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary" @click="handleImportLeveldataLua('master', 'endless')">标准无尽</el-button>
-              <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary" @click="handleImportLeveldataLua('master', 'survival')">标准生存</el-button>
+            <el-tab-pane :label="t('setting.tabCode')" name="Code">
+              <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
+                         @click="handleImportLeveldataLua('master', 'endless')">
+                {{t('setting.luaImportButton.endless')}}
+              </el-button>
+              <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
+                         @click="handleImportLeveldataLua('master', 'survival')">
+                {{t('setting.luaImportButton.survival')}}
+              </el-button>
               <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                        :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
                 <el-form-item label-position="top" prop="groundSetting">
@@ -89,7 +95,7 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" label="Visualization" name="Visualization">
+            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" :label="t('setting.tabVisualization')" name="Visualization">
               <el-divider content-position="center"><span
                 style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
                 {{ t('setting.groundVisualizationRuleItem.global') }}

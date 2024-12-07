@@ -86,7 +86,7 @@ export const overrides = {
     image: 'beefaloheat.png',
     i18n: {
       zh: '皮弗娄牛交配频率',
-      en: 'beefaloheat',
+      en: 'Beefalo Mating Frequency',
     }
   },
   beequeen: {
@@ -275,7 +275,7 @@ export const overrides = {
     image: 'crow_carnival.png',
     i18n: {
       zh: '盛夏鸦年华',
-      en: 'crow_carnival',
+      en: 'Midsummer Cawnival',
     }
   },
   darkness: {
@@ -287,7 +287,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -302,7 +302,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       longday: {
         zh: '长 白天',
@@ -345,7 +345,7 @@ export const overrides = {
     image: 'day.png',
     i18n: {
       zh: '昼夜选项',
-      en: 'day',
+      en: 'Day Type',
     }
   },
   daywalker2: {
@@ -398,18 +398,18 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       always: {
         zh: '所有',
-        en: 'always'
+        en: 'Everything'
       },
     },
     modelValue: 'default',
     image: 'dropeverythingondespawn.png',
     i18n: {
       zh: '离开游戏后物品掉落',
-      en: 'dropeverythingondespawn',
+      en: 'Drop Items On Disconnect',
     }
   },
   evergreen_regrowth: {
@@ -426,34 +426,34 @@ export const overrides = {
     customConfigsValue: {
       "0": {
         zh: '总是',
-        en: '0'
+        en: 'Always'
       },
       "5": {
         zh: '第5天后',
-        en: '5'
+        en: 'Day After 5'
       },
       "15": {
         zh: '第15天后',
-        en: '15'
+        en: 'Day After 15'
       },
       "20": {
         zh: '第20天后',
-        en: '20'
+        en: 'Day After 20'
       },
       default: {
         zh: '第10天后',
-        en: 'default'
+        en: 'Day After 10'
       },
       none: {
         zh: '从不',
-        en: 'none'
+        en: 'Never'
       },
     },
     modelValue: 'default',
     image: 'extrastartingitems.png',
     i18n: {
       zh: '额外起始资源',
-      en: 'extrastartingitems',
+      en: 'Extra Starting Resources',
     }
   },
   eyeofterror: {
@@ -544,7 +544,7 @@ export const overrides = {
     image: 'ghostenabled.png',
     i18n: {
       zh: '冒险家死亡',
-      en: 'ghostenabled',
+      en: 'Survivor Death',
     }
   },
   ghostsanitydrain: {
@@ -563,7 +563,7 @@ export const overrides = {
     image: 'ghostsanitydrain.png',
     i18n: {
       zh: '鬼魂理智值惩罚',
-      en: 'ghostsanitydrain',
+      en: 'Ghost Sanity Drain',
     }
   },
   gnarwail: {
@@ -608,7 +608,7 @@ export const overrides = {
     image: 'hallowed_nights.png',
     i18n: {
       zh: '万圣夜',
-      en: 'hallowed_nights',
+      en: 'Hallowed Nights',
     }
   },
   healthpenalty: {
@@ -666,7 +666,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -709,7 +709,7 @@ export const overrides = {
     image: 'krampus.png',
     i18n: {
       zh: '坎普斯',
-      en: 'krampus',
+      en: 'Krampii',
     }
   },
   lessdamagetaken: {
@@ -724,8 +724,8 @@ export const overrides = {
         en: 'none'
       },
       more: {
-        zh: '默认',
-        en: '较多'
+        zh: '较多',
+        en: 'more'
       },
     },
     modelValue: 'none',
@@ -780,7 +780,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       always: {
         zh: '总是',
@@ -1060,35 +1060,35 @@ export const overrides = {
     customConfigsValue: {
       ocean_never: {
         zh: '无',
-        en: 'ocean_never'
+        en: 'never'
       },
       ocean_rare: {
         zh: '很少',
-        en: 'ocean_rare'
+        en: 'rare'
       },
       ocean_uncommon: {
         zh: '较少',
-        en: 'ocean_uncommon'
+        en: 'uncommon'
       },
       ocean_default: {
         zh: '默认',
-        en: 'ocean_default'
+        en: 'Default'
       },
       ocean_often: {
         zh: '较多',
-        en: 'ocean_often'
+        en: 'often'
       },
       ocean_mostly: {
         zh: '很多',
-        en: 'ocean_mostly'
+        en: 'mostly'
       },
       ocean_always: {
         zh: '大量',
-        en: 'ocean_always'
+        en: 'always'
       },
       ocean_insane: {
         zh: '疯狂',
-        en: 'ocean_insane'
+        en: 'insane'
       },
     },
     modelValue: 'ocean_default',
@@ -1112,35 +1112,35 @@ export const overrides = {
     customConfigsValue: {
       ocean_never: {
         zh: '无',
-        en: 'ocean_never'
+        en: 'never'
       },
       ocean_rare: {
         zh: '很少',
-        en: 'ocean_rare'
+        en: 'rare'
       },
       ocean_uncommon: {
         zh: '较少',
-        en: 'ocean_uncommon'
+        en: 'uncommon'
       },
       ocean_default: {
         zh: '默认',
-        en: 'ocean_default'
+        en: 'Default'
       },
       ocean_often: {
         zh: '较多',
-        en: 'ocean_often'
+        en: 'often'
       },
       ocean_mostly: {
         zh: '很多',
-        en: 'ocean_mostly'
+        en: 'mostly'
       },
       ocean_always: {
         zh: '大量',
-        en: 'ocean_always'
+        en: 'always'
       },
       ocean_insane: {
         zh: '疯狂',
-        en: 'ocean_insane'
+        en: 'insane'
       },
     },
     modelValue: 'ocean_default',
@@ -1235,7 +1235,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       many: {
         zh: '快',
@@ -1314,7 +1314,7 @@ export const overrides = {
     image: 'portalresurection.png',
     i18n: {
       zh: '在绚丽之门复活',
-      en: 'portalresurection',
+      en: 'Revive At Florid Postern',
     }
   },
   powder_monkey_portalrate: {
@@ -1335,7 +1335,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       "highly random": {
         zh: '非常随机',
@@ -1407,7 +1407,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       fast: {
         zh: '快',
@@ -1422,7 +1422,7 @@ export const overrides = {
     image: 'resettime.png',
     i18n: {
       zh: '死亡重置倒计时',
-      en: 'resettime',
+      en: 'Death Reset timer',
     }
   },
   rifts_enabled: {
@@ -1434,7 +1434,7 @@ export const overrides = {
       },
       default: {
         zh: '自动检测',
-        en: 'default'
+        en: 'Default'
       },
       always: {
         zh: '总是',
@@ -1466,7 +1466,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1556,18 +1556,18 @@ export const overrides = {
     customConfigsValue: {
       never: {
         zh: '无',
-        en: 'never'
+        en: 'None'
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
     image: 'seasonalstartingitems.png',
     i18n: {
       zh: '季节起始物品',
-      en: 'seasonalstartingitems',
+      en: 'Seasonal Starting Items',
     }
   },
   shadowcreatures: {
@@ -1613,7 +1613,7 @@ export const overrides = {
     image: 'spawnmode.png',
     i18n: {
       zh: '出生模式',
-      en: 'spawnmode',
+      en: 'Spawn Mode',
     }
   },
   spawnprotection: {
@@ -1621,22 +1621,22 @@ export const overrides = {
     customConfigsValue: {
       never: {
         zh: '无',
-        en: 'never'
+        en: 'None'
       },
       default: {
         zh: '自动检测',
-        en: 'default'
+        en: 'Auto Detect'
       },
       always: {
         zh: '总是',
-        en: 'always'
+        en: 'Always'
       },
     },
     modelValue: 'default',
     image: 'spawnprotection.png',
     i18n: {
       zh: '防骚扰出生保护',
-      en: 'spawnprotection',
+      en: 'Griefer Spawn Protection',
     }
   },
   specialevent: {
@@ -1655,7 +1655,7 @@ export const overrides = {
     image: 'specialevent.png',
     i18n: {
       zh: '活动',
-      en: 'specialevent',
+      en: 'Events',
     }
   },
   spider_warriors: {
@@ -1667,7 +1667,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1710,7 +1710,7 @@ export const overrides = {
     image: 'spring.png',
     i18n: {
       zh: '春',
-      en: 'spring',
+      en: 'Spring',
     }
   },
   squid: {
@@ -1731,7 +1731,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1750,7 +1750,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       darkness: {
         zh: '黑暗',
@@ -1770,7 +1770,7 @@ export const overrides = {
     image: 'summer.png',
     i18n: {
       zh: '夏',
-      en: 'summer',
+      en: 'Summer',
     }
   },
   summerhounds: {
@@ -1782,7 +1782,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1829,7 +1829,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1857,7 +1857,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1954,7 +1954,7 @@ export const overrides = {
     image: 'winter.png',
     i18n: {
       zh: '冬',
-      en: 'winter',
+      en: 'Winter',
     }
   },
   winterhounds: {
@@ -1966,7 +1966,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
     },
     modelValue: 'default',
@@ -1981,7 +1981,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -1992,7 +1992,7 @@ export const overrides = {
     image: 'winters_feast.png',
     i18n: {
       zh: '冬季盛宴',
-      en: 'winters_feast',
+      en: 'Winter\'s Feast',
     }
   },
   wobsters: {
@@ -2036,7 +2036,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2047,7 +2047,7 @@ export const overrides = {
     image: 'year_of_the_beefalo.png',
     i18n: {
       zh: '皮弗娄牛之年',
-      en: 'year_of_the_beefalo',
+      en: 'Year Of The Beefalo',
     }
   },
   year_of_the_bunnyman: {
@@ -2055,7 +2055,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2066,7 +2066,7 @@ export const overrides = {
     image: 'year_of_the_bunnyman.png',
     i18n: {
       zh: '兔人之年',
-      en: 'year_of_the_bunnyman',
+      en: 'Year Of The Bunnyman',
     }
   },
   year_of_the_carrat: {
@@ -2074,7 +2074,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2085,7 +2085,7 @@ export const overrides = {
     image: 'year_of_the_carrat.png',
     i18n: {
       zh: '胡萝卜鼠之年',
-      en: 'year_of_the_carrat',
+      en: 'Year Of The Carrat',
     }
   },
   year_of_the_catcoon: {
@@ -2093,7 +2093,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2104,7 +2104,7 @@ export const overrides = {
     image: 'year_of_the_catcoon.png',
     i18n: {
       zh: '浣猫之年',
-      en: 'year_of_the_catcoon',
+      en: 'Year Of The Catcoon',
     }
   },
   year_of_the_dragonfly: {
@@ -2112,7 +2112,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2123,7 +2123,7 @@ export const overrides = {
     image: 'year_of_the_dragonfly.png',
     i18n: {
       zh: '龙蝇之年',
-      en: 'year_of_the_dragonfly',
+      en: 'Year Of The Dragonfly',
     }
   },
   year_of_the_gobbler: {
@@ -2131,7 +2131,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2142,7 +2142,7 @@ export const overrides = {
     image: 'year_of_the_gobbler.png',
     i18n: {
       zh: '火鸡之年',
-      en: 'year_of_the_gobbler',
+      en: 'Year Of The Gobbler',
     }
   },
   year_of_the_pig: {
@@ -2150,7 +2150,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2161,7 +2161,7 @@ export const overrides = {
     image: 'year_of_the_pig.png',
     i18n: {
       zh: '猪王之年',
-      en: 'year_of_the_pig',
+      en: 'Year Of The Pig King',
     }
   },
   year_of_the_varg: {
@@ -2169,7 +2169,7 @@ export const overrides = {
     customConfigsValue: {
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       enabled: {
         zh: '总是',
@@ -2180,7 +2180,7 @@ export const overrides = {
     image: 'year_of_the_varg.png',
     i18n: {
       zh: '座狼之年',
-      en: 'year_of_the_varg',
+      en: 'Year Of The Varg',
     }
   },
   acidrain_enabled: {
@@ -2215,7 +2215,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       fast: {
         zh: '快',
@@ -2476,7 +2476,7 @@ export const overrides = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       always: {
         zh: '快',
@@ -2704,7 +2704,7 @@ export const caveOverrideWorldGenerationWorld = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       always: {
         zh: '总是',
@@ -2754,7 +2754,7 @@ export const caveOverrideWorldGenerationWorld = {
       },
       default: {
         zh: '默认',
-        en: 'default'
+        en: 'Default'
       },
       "highly random": {
         zh: '非常随机',
@@ -2829,27 +2829,27 @@ export const configsMap = {
   },
   least: {
     zh: '最少',
-    en: 'least'
+    en: 'Least'
   },
   most: {
     zh: '最多',
-    en: 'most'
+    en: 'Most'
   },
   veryslow: {
     zh: '极慢',
-    en: 'veryslow'
+    en: 'Very Slow'
   },
   slow: {
     zh: '慢',
-    en: 'slow'
+    en: 'Slow'
   },
   fast: {
     zh: '快',
-    en: 'fast'
+    en: 'Fast'
   },
   veryfast: {
     zh: '极快',
-    en: 'veryfast'
+    en: 'Very Fast'
   },
   enabled: {
     zh: '总是',

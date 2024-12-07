@@ -150,6 +150,12 @@ export default {
     roomModFormRules: {
       modSetting: 'Please enter the MOD configuration in Lua format'
     },
+    tabCode: 'Config',
+    tabVisualization: 'Visualization',
+    luaImportButton: {
+      endless: 'Endless',
+      survival: 'Survival'
+    },
     groundVisualizationRule: 'World Settings',
     groundVisualizationRuleItem: {
       global: 'Global',

@@ -151,6 +151,12 @@ export default {
     roomModFormRules: {
       modSetting: '请输入模组配置的lua格式内容'
     },
+    tabCode: '配置文件',
+    tabVisualization: '可视化配置',
+    luaImportButton: {
+      endless: '标准无尽',
+      survival: '标准生存'
+    },
     groundVisualizationRule: '世界规则',
     groundVisualizationRuleItem: {
       global: '全局',
