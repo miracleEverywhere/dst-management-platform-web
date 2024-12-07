@@ -368,11 +368,17 @@
         </el-card>
         <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <el-tabs v-model="cavesTabName">
-            <el-tab-pane label="Code" name="Code">
+            <el-tab-pane :label="t('setting.tabCode')" name="Code">
               <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.cavesTip') }}</el-alert>
               <div style="margin-top: 10px">
-                <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary" @click="handleImportLeveldataLua('caves', 'endless')">标准无尽</el-button>
-                <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary" @click="handleImportLeveldataLua('caves', 'survival')">标准生存</el-button>
+                <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
+                           @click="handleImportLeveldataLua('caves', 'endless')">
+                  {{t('setting.luaImportButton.endless')}}
+                </el-button>
+                <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
+                           @click="handleImportLeveldataLua('caves', 'survival')">
+                  {{t('setting.luaImportButton.survival')}}
+                </el-button>
               </div>
               <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
                        :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
@@ -383,7 +389,7 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" label="Visualization" name="Visualization">
+            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" :label="t('setting.tabVisualization')" name="Visualization">
               <el-divider content-position="center"><span
                 style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
                 {{ t('setting.cavesVisualizationRuleItem.world') }}
