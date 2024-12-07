@@ -56,7 +56,7 @@ const rightClick = () => {
 }
 
 const getImageUrl = (file) => {
-  return new URL('./gameSettingImages/'+file, import.meta.url).href
+  return new URL(`./gameSettingImages/${file}`, import.meta.url).href
 }
 
 const getDisplayTagValue = () => {
