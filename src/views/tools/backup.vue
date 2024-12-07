@@ -53,7 +53,7 @@
           <div>
             <el-row>
               <el-table ref="tableRef" :data="backupFiles" border @selection-change="handleSelectionChange"
-                        :max-height="isMobile?'min-height: 450px':'min-height: 650px'">
+                        :max-height="isMobile?450:550">
                 <el-table-column type="selection" width="55" fixed="left"/>
                 <el-table-column :label="$t('tools.backup.tableName')" prop="name"/>
                 <el-table-column :label="$t('tools.backup.size')" prop="size">
