@@ -937,7 +937,7 @@ const handleCavesModelValueChange = (data) => {
   }
 }
 
-function astToLua(astNode, indentLevel = 0) {
+const astToLua = (astNode, indentLevel = 0) => {
   const indent = '    '.repeat(indentLevel);
   switch (astNode.type) {
     case 'Chunk':
