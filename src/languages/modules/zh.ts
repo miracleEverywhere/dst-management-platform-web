@@ -228,7 +228,8 @@ export default {
         tip: '请上传.zip文件',
       },
       dialog2: {
-        title: '压缩方式'
+        title: '压缩方式',
+        text1: '先进入存档文件夹，如图中为Cluser_6，再进行压缩操作',
       }
     },
   },

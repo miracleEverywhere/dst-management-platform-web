@@ -207,7 +207,8 @@ export default {
         tip: 'Please upload a .zip file',
       },
       dialog2: {
-        title: 'How to generate zip file'
+        title: 'How to generate zip file',
+        text1: 'First, enter the DST archive folder, in the figure it\'s Cluster_6, then perform the compression operation',
       }
     },
   },
