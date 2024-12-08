@@ -25,10 +25,11 @@
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.two.title') }}</span>
+                  <span style="font-weight: bolder; font-size: 16px; text-decoration: line-through;">{{ t('help.two.title') }}</span>
+                  <span style="font-weight: bolder; font-size: 16px;">{{ t('help.two.title_additional') }}</span>
                 </template>
                 <div class="tip custom-block">
-                  <p class="custom-block-title">{{ t('help.two.text2') }}</p>
+                  <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
                 </div>
                 <div style="line-height: 50px;">
                   {{ t('help.two.text1') }}
@@ -41,6 +42,10 @@
                                 mode="shell"></sc-code-editor>
                 <div style="line-height: 50px;">
                   {{ t('help.two.text3') }}
+                </div>
+                <div class="tip custom-block">
+                  <p class="custom-block-title" style="text-decoration: line-through;">{{ t('help.two.text2') }}</p>
+                  <p class="custom-block-title">{{ t('help.two.text2_1') }}</p>
                 </div>
               </el-collapse-item>
               <el-collapse-item name="3">
@@ -75,7 +80,7 @@
                 </div>
                 <div style="line-height: 50px;">
                   {{ t('help.four.text2') }}
-                  <el-button size="small" @click="handleDownloadLog" :loading="downloadLogLoading">
+                  <el-button size="small" type="success" @click="handleDownloadLog" :loading="downloadLogLoading">
                     {{ t('help.four.button') }}
                   </el-button>
                   {{ t('help.four.text3') }}
