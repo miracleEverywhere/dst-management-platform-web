@@ -371,12 +371,15 @@ export default {
     },
     two: {
       title: '服务器开启后没有模组',
+      title_additional: '（已修复）',
       text1: '目前饥荒的模组自动下载功能存在Bug，您需要手动替换',
       text1_1: 'dst/bin/lib32/steamclient.so',
       text1_2: '和',
       text1_3: 'dst/steamclient.so',
       text1_4: '文件',
       text2: '截止2024年11月7日，该问题仍存在',
+      text2_1: '截止2024年12月8日，该问题仍存在',
+      text2_2: '1.0.5版本后的DMP会自动替换这个文件，无需额外操作',
       text3: '重新启动即可',
     },
     three: {

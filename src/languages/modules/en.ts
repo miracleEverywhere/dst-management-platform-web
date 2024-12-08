@@ -349,12 +349,15 @@ export default {
     },
     two: {
       title: 'The server is up but there are no mods',
+      title_additional: '(Fixed)',
       text1: 'Currently, the automatic mod download feature in Don\'t Starve Together has a bug, so you need to manually replace the ',
       text1_1: 'dst/bin/lib32/steamclient.so',
       text1_2: 'and',
       text1_3: 'dst/steamclient.so',
       text1_4: 'files.',
       text2: 'As of November 7, 2024, the issue still persists',
+      text2_1: 'As of December 8, 2024, the issue still persists',
+      text2_2: 'After the 1.0.5 version, DMP will automatically replace this file without any additional operations required',
       text3: 'Restart it.',
     },
     three: {
