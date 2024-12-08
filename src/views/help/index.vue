@@ -43,10 +43,27 @@
                 <div style="line-height: 50px;">
                   {{ t('help.two.text3') }}
                 </div>
-                <div class="tip custom-block">
-                  <p class="custom-block-title" style="text-decoration: line-through;">{{ t('help.two.text2') }}</p>
-                  <p class="custom-block-title">{{ t('help.two.text2_1') }}</p>
+<!--                <div class="tip custom-block">-->
+<!--                  <p class="custom-block-title" style="text-decoration: line-through;">{{ t('help.two.text2') }}</p>-->
+<!--                  <p class="custom-block-title">{{ t('help.two.text2_1') }}</p>-->
+<!--                </div>-->
+                <div style="line-height: 50px;font-weight: bolder; font-size: 14px;">
+                  {{ t('help.two.timeline') }}
                 </div>
+                <el-timeline style="max-width: 600px">
+                  <el-timeline-item timestamp="2024-10-25" type="primary" size="large">
+                    {{ t('help.two.text2_4') }}
+                  </el-timeline-item>
+                  <el-timeline-item timestamp="2024-11-7" type="danger" size="large">
+                    {{ t('help.two.text2') }}
+                  </el-timeline-item>
+                  <el-timeline-item timestamp="2024-12-8" type="danger" size="large">
+                    {{ t('help.two.text2') }}
+                  </el-timeline-item>
+                  <el-timeline-item timestamp="2024-12-9" type="warning" size="large">
+                    {{ t('help.two.text2_3') }}
+                  </el-timeline-item>
+                </el-timeline>
               </el-collapse-item>
               <el-collapse-item name="3">
                 <template #title>
