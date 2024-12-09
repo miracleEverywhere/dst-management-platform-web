@@ -25,13 +25,14 @@
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px; text-decoration: line-through;">{{ t('help.two.title') }}</span>
-                  <span style="font-weight: bolder; font-size: 16px;">{{ t('help.two.title_additional') }}</span>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.two.title') }}</span>
+<!--                  <span style="font-weight: bolder; font-size: 16px;">{{ t('help.two.title_additional') }}</span>-->
                 </template>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
+                  <el-button type="primary" @click="handleReplaceSo">{{t('help.two.button_1')}}</el-button>
                 </div>
-                <div style="line-height: 50px;">
+                <div style="line-height: 50px;text-decoration: line-through;">
                   {{ t('help.two.text1') }}
                   <code>{{ t('help.two.text1_1') }}</code>
                   {{ t('help.two.text1_2') }}
@@ -40,13 +41,9 @@
                 </div>
                 <sc-code-editor ref="twoCodeRef" v-model="twoCode" :height="isMobile?200:200" :read-only="true" :theme="isDark?'darcula':'idea'"
                                 mode="shell"></sc-code-editor>
-                <div style="line-height: 50px;">
+                <div style="line-height: 50px;text-decoration: line-through;">
                   {{ t('help.two.text3') }}
                 </div>
-<!--                <div class="tip custom-block">-->
-<!--                  <p class="custom-block-title" style="text-decoration: line-through;">{{ t('help.two.text2') }}</p>-->
-<!--                  <p class="custom-block-title">{{ t('help.two.text2_1') }}</p>-->
-<!--                </div>-->
                 <div style="line-height: 50px;font-weight: bolder; font-size: 14px;">
                   {{ t('help.two.timeline') }}
                 </div>
@@ -118,7 +115,9 @@ import {computed, nextTick, ref} from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import logsApi from "@/api/logs"
+import toolsApi from "@/api/tools"
 import {saveFile} from "@/utils/tools.js";
+import {koiMsgSuccess} from "@/utils/koi.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -338,6 +337,12 @@ const handleDownloadLog = () => {
     await saveFile(response.data, 'logs.tgz')
   }).finally(() => {
     downloadLogLoading.value = false
+  })
+}
+
+const handleReplaceSo = () => {
+  toolsApi.replaceSo.post().then(response => {
+    koiMsgSuccess(response.message)
   })
 }
 </script>

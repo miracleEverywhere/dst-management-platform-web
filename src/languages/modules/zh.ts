@@ -378,11 +378,12 @@ export default {
       text1_3: 'dst/steamclient.so',
       text1_4: '文件',
       text2: '该问题仍存在',
-      text2_2: '1.0.5版本后的DMP会自动替换这个文件，无需额外操作',
+      text2_2: '点击替换按钮进行替换，替换前请确认饥荒已经完成安装，替换完成后需执行重启操作',
       text2_3: 'DMP-1.0.6修复此问题',
       text2_4: '问题出现',
       text3: '重新启动即可',
       timeline: '时间线',
+      button_1: '替换',
     },
     three: {
       title: '如何开启熔炉',

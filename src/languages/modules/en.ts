@@ -356,11 +356,12 @@ export default {
       text1_3: 'dst/steamclient.so',
       text1_4: 'files.',
       text2: 'The issue still persists',
-      text2_2: 'After the 1.0.5 version, DMP will automatically replace this file without any additional operations required',
+      text2_2: 'Click the replace button to perform the replacement, and ensure that DST is installed before proceeding, and a restart is required after the replacement is complete',
       text2_3: 'DMP-1.0.6 fixed this issue',
       text2_4: 'The issue occurs',
       text3: 'Restart it.',
       timeline: 'Timeline',
+      button_1: 'Replace',
     },
     three: {
       title: 'How to create Lava Arena world',
