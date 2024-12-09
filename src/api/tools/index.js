@@ -101,5 +101,10 @@ export default {
       return await http.put(this.url, data);
     },
   },
-
+  replaceSo: {
+    url: `/tools/replace_so`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
 }
