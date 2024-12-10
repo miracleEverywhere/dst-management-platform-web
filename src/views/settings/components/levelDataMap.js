@@ -45,8 +45,18 @@ export const overrides = {
     }
   },
   basicresource_regrowth: {
-    configs: ["never", "always"],
-    modelValue: 'default',
+    configs: ["none", "always"],
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'Disable'
+      },
+      always: {
+        zh: '启用',
+        en: 'Enable'
+      },
+    },
+    modelValue: 'none',
     image: 'basicresource_regrowth.png',
     i18n: {
       zh: '基础资源',
