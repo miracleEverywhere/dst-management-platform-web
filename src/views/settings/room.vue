@@ -95,7 +95,8 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" :label="t('setting.tabVisualization')" name="Visualization">
+            <el-tab-pane v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
+                         :label="t('setting.tabVisualization')" name="Visualization">
               <el-divider content-position="center"><span
                 style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
                 {{ t('setting.groundVisualizationRuleItem.global') }}
@@ -389,7 +390,8 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane v-if="roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival'" :label="t('setting.tabVisualization')" name="Visualization">
+            <el-tab-pane v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
+                         :label="t('setting.tabVisualization')" name="Visualization">
               <el-divider content-position="center"><span
                 style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
                 {{ t('setting.cavesVisualizationRuleItem.world') }}
@@ -676,7 +678,7 @@ const handleNext = () => {
     roomGroundFormRef.value.validate(valid => {
       if (valid) {
         try {
-          luaparse.parse(roomGroundForm.value.groundSetting);
+          luaparse.parse(roomGroundForm.value.groundSetting)
           generateCavesOverridesObj()
           step.value++
         } catch (e) {
@@ -727,6 +729,7 @@ const roomBaseFormRules = {
   name: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur'}],
   masterPort: [{required: true, message: t('setting.roomBaseFormRules.masterPort'), trigger: 'blur'}],
   cavesPort: [{required: true, message: t('setting.roomBaseFormRules.cavesPort'), trigger: 'blur'}],
+  gameMode: [{required: true, message: t('setting.roomBaseFormRules.gameMode'), trigger: 'change'}],
   token: [{required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur'}],
 }
 
@@ -850,6 +853,9 @@ const cavesTabName = ref('Code')
 const overridesObj = ref({})
 
 const generateGroundOverridesObj = () => {
+  if (roomGroundForm.value.groundSetting === '') {
+    return
+  }
   const ast = luaparse.parse(roomGroundForm.value.groundSetting)
   // 提取 overrides 字段
   const overridesTable = extractOverrides(ast);
@@ -858,6 +864,9 @@ const generateGroundOverridesObj = () => {
 }
 
 const generateCavesOverridesObj = () => {
+  if (roomCaveForm.value.caveSetting === '') {
+    return
+  }
   const ast = luaparse.parse(roomCaveForm.value.caveSetting)
   // 提取 overrides 字段
   const overridesTable = extractOverrides(ast);
