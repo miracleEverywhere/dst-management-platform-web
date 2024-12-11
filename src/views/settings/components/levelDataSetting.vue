@@ -49,6 +49,18 @@ onMounted(() => {
       leftClickDisabled.value = false
       rightClickDisabled.value = false
     }
+  } else {
+    const index = props.configs.indexOf(setting.value)
+    if (index === 0) {
+      leftClickDisabled.value = true
+      rightClickDisabled.value = false
+    } else if (index === (props.configs.length - 1)) {
+      rightClickDisabled.value = true
+      leftClickDisabled.value = false
+    } else {
+      leftClickDisabled.value = false
+      rightClickDisabled.value = false
+    }
   }
 })
 
