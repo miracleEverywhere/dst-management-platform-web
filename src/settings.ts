@@ -1,6 +1,6 @@
 // 用来配置项目的Logo、标题等设置
 export default {
-  version: '1.0.7',
+  version: '1.0.8',
   /**
    * 网页标题
    */
