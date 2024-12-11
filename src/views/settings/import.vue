@@ -95,7 +95,7 @@
       <el-alert :effect="isDark?'light':'dark'" type="error" :closable="false">
         {{ t('setting.import.dialog2.text1') }}
       </el-alert>
-      <el-image :src="helpGif" fit="fill" class="fcc" style="margin-top: 10px"></el-image>
+      <el-image :src="helpGif" fit="fill" loading="lazy" class="fcc" style="margin-top: 10px"></el-image>
     </el-dialog>
   </div>
 
