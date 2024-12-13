@@ -15,6 +15,12 @@
               </template>
               <el-table v-if="playersData" :data="playersData" border style="width: 100%" size="small">
                 <el-table-column prop="nickName" :label="$t('setting.nickName')"/>
+                <el-table-column prop="prefab" :label="$t('setting.role')">
+                  <template #default="scope">
+                    <span v-if="scope.row.prefab===''">{{t('setting.roleNoSelect')}}</span>
+                    <span v-else>{{scope.row.prefab}}</span>
+                  </template>
+                </el-table-column>
                 <el-table-column prop="uid" label="UID"/>
                 <el-table-column prop="actions" :label="$t('setting.button.actions')">
                   <template #default="scope">
