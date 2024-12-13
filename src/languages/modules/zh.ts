@@ -212,6 +212,8 @@ export default {
     noWhiteFound: '没有发现白名单',
     tagCloseTip: '提示：点击玩家UID后的 "x" 即可删除',
     nickName: '名字',
+    role: '角色',
+    roleNoSelect: '未选择',
     addAdmin: '添加管理员',
     addBlock: '添加黑名单',
     addWhite: '添加白名单',
