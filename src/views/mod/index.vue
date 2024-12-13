@@ -29,19 +29,27 @@
               <template v-if="clickedModID!==0">
                 <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
                   <el-form ref="modSettingFormRef" :size="isMobile?'small':'large'"
-
                            :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">
+                    <el-form-item label="ID">
+                      <el-tag>{{modConfigurations.id}}</el-tag>
+                    </el-form-item>
+                    <el-form-item label="Name">
+                      <el-tag type="info">{{modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].name}}</el-tag>
+                    </el-form-item>
                     <template v-for="item in modConfigurations.configOptions">
-                      <el-form-item :label="item.label">
-                        <el-select v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions">
-                          <template v-for="i in item.options">
-                            <el-option :label="i.description" :value="i.data"/>
-                          </template>
-                        </el-select>
-                      </el-form-item>
+                      <el-tooltip :show-after="500" effect="light" :content="item.hover" placement="top">
+                        <el-form-item :label="item.label">
+                          <el-select v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions[item.name]">
+                            <template v-for="i in item.options">
+                              <el-option :label="i.description" :value="i.data"/>
+                            </template>
+                          </el-select>
+                        </el-form-item>
+                      </el-tooltip>
                     </template>
                   </el-form>
-                  {{modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions}}
+                  <el-result v-if="modConfigurations.configOptions.length===0"
+                             icon="info" title="该模组无配置项"/>
                 </el-scrollbar>
               </template>
               <template v-if="clickedModID===0">
@@ -54,7 +62,7 @@
       </el-tab-pane>
       <el-tab-pane label="Download" name="Download">
       </el-tab-pane>
-      <el-tab-pane label="Subscription" name="Subscription">
+      <el-tab-pane label="Subscribe" name="Subscribe">
       </el-tab-pane>
     </el-tabs>
   </div>
