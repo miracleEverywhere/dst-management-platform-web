@@ -18,7 +18,7 @@
             </el-descriptions-item>
             <el-descriptions-item :label="t('home.connectionCode')">
               <el-tooltip effect="light" :content="connectionCode" placement="top">
-              <el-button :disabled="connectionCode===''" link v-copy="connectionCode" :loading="connectionCodeLoading" type="primary">{{t('home.copy')}}</el-button>
+                <el-button :disabled="connectionCode===''" link v-copy="connectionCode" :loading="connectionCodeLoading" type="primary">{{t('home.copy')}}</el-button>
               </el-tooltip>
             </el-descriptions-item>
             <el-descriptions-item :label="t('home.cycles')">
