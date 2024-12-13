@@ -32,7 +32,9 @@
                            :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">
                     <el-form-item label="ID">
                       <el-tag>{{modConfigurations.id}}</el-tag>
+                      <el-button @click="aaa">aaa</el-button>
                     </el-form-item>
+
                     <el-form-item label="Name">
                       <el-tag type="info">{{modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].name}}</el-tag>
                     </el-form-item>
@@ -115,6 +117,11 @@ const handleGetModConfigurations = () => {
   }).finally(() => {
     modConfigurationsLoading.value = false
   })
+}
+
+const aaa = () => {
+  const jsonString = JSON.stringify(modSettingFormat.value);
+  modApi.test.post({json: jsonString})
 }
 
 </script>
