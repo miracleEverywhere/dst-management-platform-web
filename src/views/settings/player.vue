@@ -17,7 +17,7 @@
                 <el-table-column prop="nickName" :label="$t('setting.nickName')"/>
                 <el-table-column prop="prefab" :label="$t('setting.role')">
                   <template #default="scope">
-                    <span v-if="scope.row.prefab===''">{{t('setting.roleNoSelect')}}</span>
+                    <span v-if="scope.row.prefab===''">{{t('setting.roleFail')}}</span>
                     <span v-else>{{scope.row.prefab}}</span>
                   </template>
                 </el-table-column>
