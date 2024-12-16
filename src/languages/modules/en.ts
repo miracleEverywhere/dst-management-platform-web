@@ -355,6 +355,18 @@ export default {
       text2: 'If any FAILURE are detected, the server will automatically restart.',
       text3: 'This feature is currently',
       text4: '.',
+    },
+    token: {
+      title: 'Create Token',
+      createButton: 'Create',
+      expiredTime: 'Expired Time:',
+      tip: {
+        tip1: 'The token will expire on',
+        tip2: '',
+        tip3: 'The DMP will not store the token, please keep it safe'
+
+      },
+      usage: 'Usage: Authorization is required, X-I18n-Lang is optional with a default value of zh',
     }
   },
   logs: {
