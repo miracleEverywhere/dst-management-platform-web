@@ -32,6 +32,7 @@ import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/lua/lua'
 import 'codemirror/mode/sql/sql'
 import 'codemirror/mode/shell/shell.js'
+import 'codemirror/mode/python/python.js'
 
 export default {
   props: {
