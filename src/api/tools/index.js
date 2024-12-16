@@ -107,4 +107,12 @@ export default {
       return await http.post(this.url, data);
     },
   },
+  token: {
+    create: {
+      url: `/tools/token`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
+    }
+  }
 }
