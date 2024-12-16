@@ -11,7 +11,7 @@
         <div style="display: flex; align-items: center">
           <span>{{ t('tools.token.expiredTime') }}</span>
           <el-date-picker v-model="apiForm.expiredTime" format="YYYY-MM-DD" size="large"
-                          style="width: 160px" type="date" value-format="x"/>
+                          style="width: 160px; margin-left: 5px" type="date" value-format="x"/>
         </div>
 
         <div v-if="token">
