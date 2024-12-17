@@ -28,11 +28,12 @@
             <el-card :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'" shadow="never">
               <template v-if="clickedModID!==0">
                 <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
-                  <el-form ref="modSettingFormRef" :size="isMobile?'small':'large'"
+                  <el-form v-if="modConfigurations.configOptions.length!==0" ref="modSettingFormRef" :size="isMobile?'small':'large'"
                            :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">
                     <el-form-item label="ID">
                       <el-tag>{{modConfigurations.id}}</el-tag>
                       <el-button @click="aaa">aaa</el-button>
+                      {{modConfigurations.configOptions.length}}
                     </el-form-item>
 
                     <el-form-item label="Name">
@@ -120,8 +121,7 @@ const handleGetModConfigurations = () => {
 }
 
 const aaa = () => {
-  const jsonString = JSON.stringify(modSettingFormat.value);
-  modApi.test.post({json: jsonString})
+  modApi.test.post({modFormattedData: modSettingFormat.value})
 }
 
 </script>
