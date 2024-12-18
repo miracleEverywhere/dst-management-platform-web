@@ -19,4 +19,10 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  modSearch: {
+    url: `/external/api/mod_search`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    }
+  },
 }
