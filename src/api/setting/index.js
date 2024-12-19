@@ -84,5 +84,25 @@ export default {
       }
     },
   },
+  mod: {
+    settingFormat: {
+      url: `/setting/mod/setting/format`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    },
+    configOptions: {
+      url: `/setting/mod/config_options`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    },
+    test: {
+      url: `/setting/mod/test`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
+  }
 
 }

@@ -1,6 +1,36 @@
 <template>
   <div class="page-div">
     <el-tabs v-model="activeTabName" @tab-click="handleTabClick">
+      <el-tab-pane label="Download" name="Download">
+        <el-card v-loading="modSearchLoading" style="height: 78vh" shadow="never">
+          <div>
+            <el-form ref="modSearchFormRef" :model="modSearchForm" :inline="true" @keyup.enter="handleModSearch">
+              <el-form-item>
+                <el-input v-model="modSearchForm.searchText" style="width: 40vw;"></el-input>
+                <el-button type="primary" @click="handleModSearch" style="margin-left: 10px">搜索</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div>
+            <el-scrollbar max-height="60vh">
+              <div class="item-container">
+                <template v-for="mod in modSearchData.rows">
+                  <mod-info :mod="mod"/>
+                </template>
+              </div>
+            </el-scrollbar>
+          </div>
+          <div class="card-footer" style="margin-top: 20px">
+            <el-pagination v-model:current-page="modSearchForm.page" :page-size="modSearchForm.pageSize"
+                           layout="total, prev, pager, next" :total="modSearchData.total"
+                           @size-change="handlePageSizeChange(modSearchForm.pageSize)"
+                           @current-change="handlePageChange(modSearchForm.page)"
+            />
+          </div>
+        </el-card>
+      </el-tab-pane>
+      <el-tab-pane label="Add" name="Add">
+      </el-tab-pane>
       <el-tab-pane label="Setting" name="Setting">
         <el-row :gutter="10">
           <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
@@ -63,26 +93,24 @@
               </template>
             </el-card>
           </el-col>
-
         </el-row>
-      </el-tab-pane>
-      <el-tab-pane label="Download" name="Download">
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
-<script name="mod" setup>
-import modApi from "@/api/mod"
-import externalApi from "@/api/externalApi"
+<script name="settingsMod" setup>
+import settingsApi from "@/api/setting/index.js"
+import externalApi from "@/api/externalApi/index.js"
 import {computed, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
+import modInfo from "./components/modInfo.vue"
 
 
 onMounted(async () => {
-  await handleGetModSetting()
+  await handleModSearch()
 })
 
 const {t} = useI18n()
@@ -90,15 +118,13 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 
-const activeTabName = ref('Setting')
+const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {
-  if (tab.paneName === "Download") {
-    const reqForm = {
-      page: 1,
-      pageSize: 20,
-      searchText: "",
-    }
-    externalApi.modSearch.get(reqForm)
+  if (tab.paneName === "Add") {
+
+  }
+  if (tab.paneName === "Setting") {
+    handleGetModSetting()
   }
 }
 
@@ -106,7 +132,7 @@ const modSettingFormat = ref([])
 const modSettingFormatLoading = ref(false)
 const handleGetModSetting = () => {
   modSettingFormatLoading.value = true
-  modApi.settingFormat.get().then(response => {
+  settingsApi.mod.settingFormat.get().then(response => {
     modSettingFormat.value = response.data
   }).finally(() => {
     modSettingFormatLoading.value = false
@@ -128,7 +154,7 @@ const modConfigurations = ref({
 })
 const handleGetModConfigurations = () => {
   modConfigurationsLoading.value = true
-  modApi.configOptions.get({id: clickedModID.value}).then(response => {
+  settingsApi.mod.configOptions.get({id: clickedModID.value}).then(response => {
     modConfigurations.value = response.data
   }).finally(() => {
     modConfigurationsLoading.value = false
@@ -136,10 +162,44 @@ const handleGetModConfigurations = () => {
 }
 
 const aaa = () => {
-  modApi.test.post({modFormattedData: modSettingFormat.value})
+  settingsApi.mod.test.post({modFormattedData: modSettingFormat.value})
+}
+
+const modSearchLoading = ref(false)
+const modSearchData = ref({
+  total: 0,
+  rows: [],
+})
+const modSearchFormRef = ref()
+const modSearchForm = ref({
+  page: 1,
+  pageSize: 20,
+  searchText: "",
+})
+
+const handleModSearch = () => {
+  modSearchLoading.value = true
+  externalApi.modSearch.get(modSearchForm.value).then(response => {
+    modSearchData.value.rows = response.data.rows
+    modSearchData.value.total = response.data.total
+  }).finally(() => {
+    modSearchLoading.value = false
+  })
+}
+
+const handlePageSizeChange = (pageSize) => {
+  handleModSearch()
+}
+const handlePageChange = (page) => {
+  handleModSearch()
 }
 
 </script>
 
 <style scoped>
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 10px;
+}
 </style>
