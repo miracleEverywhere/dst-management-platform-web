@@ -20,7 +20,10 @@
   <el-dialog v-model="dialogVisible" :title="props.mod.name" width="80vw">
     <div style="min-height: 50vh; margin-top: 20px">
       <el-descriptions :column="2" border :direction="isMobile?vertical:horizontal">
-        <el-descriptions-item :rowspan="isMobile?1:2" :width="140" label="Photo" align="center">
+        <el-descriptions-item :rowspan="isMobile?1:2" :width="140" align="center">
+          <template #label>
+            <el-icon><PictureFilled /></el-icon>
+          </template>
           <el-image :style="isMobile?'width: 60px; height: 60px':'width: 120px; height: 120px'" :src="123"/>
         </el-descriptions-item>
         <el-descriptions-item label="ID" align="center">
