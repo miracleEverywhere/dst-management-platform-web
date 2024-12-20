@@ -97,6 +97,12 @@ export default {
         return await http.get(this.url, data);
       }
     },
+    download: {
+      url: `/setting/mod/download`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
     test: {
       url: `/setting/mod/test`,
       post: async function (data) {
