@@ -102,7 +102,7 @@
 <script name="settingsMod" setup>
 import settingsApi from "@/api/setting/index.js"
 import externalApi from "@/api/externalApi/index.js"
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";

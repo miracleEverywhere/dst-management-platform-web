@@ -13,7 +13,7 @@
       </div>
       <div class="fcc">
         <el-button type="primary" size="small" @click="dialogVisible=true">详情</el-button>
-        <el-button type="success" size="small" :loading="downloadLoading" @click="downloadLoading=true">下载</el-button>
+        <el-button type="success" size="small" @click="handleDownload">下载</el-button>
       </div>
     </div>
   </div>
@@ -75,9 +75,11 @@
 </template>
 
 <script setup>
-import {computed, ref, watch, defineEmits, onMounted} from "vue";
+import {computed, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {formatBytes} from "@/utils/tools.js"
+import settingsApi from "@/api/setting"
+import {koiMsgSuccess} from "@/utils/koi.ts"
 
 
 const {isMobile} = useScreenStore();
@@ -103,7 +105,15 @@ const computedName = computed(() => {
 
 const dialogVisible = ref(false)
 
-const downloadLoading = ref(false)
+const handleDownload = () => {
+  const reqFrom = {
+    id: props.mod.id,
+    file_url: props.mod.file_url
+  }
+  settingsApi.mod.download.post(reqFrom).then(response => {
+    koiMsgSuccess(response.message)
+  })
+}
 
 </script>
 
