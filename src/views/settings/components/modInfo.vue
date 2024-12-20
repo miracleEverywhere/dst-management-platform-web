@@ -1,30 +1,33 @@
 <template>
-  <div style="display: flex; align-items: center; margin: 5px; width:320px">
-<!--    <el-image :src="props.mod.preview_url" fit="fill" style="width: 80px; height: 80px"/>-->
-    <el-image :src="123" fit="fill" style="width: 80px; height: 80px"/>
-    <div style="width: 240px">
-      <div class="fcc">
-        <el-tooltip effect="light" :show-after="500" :content="props.mod.name" placement="top">
-          <el-tag size="small">{{computedName}}</el-tag>
-        </el-tooltip>
-      </div>
-      <div style="margin: 5px 0" class="fcc">
-        <el-rate v-model="computedRate" :max="5" disabled allow-half show-score/>
-      </div>
-      <div class="fcc">
-        <el-button type="primary" size="small" @click="dialogVisible=true">详情</el-button>
-        <el-button type="success" size="small" @click="handleDownload">下载</el-button>
+  <el-card shadow="never">
+    <div style="display: flex; align-items: center; margin: 5px; width:280px">
+      <!--    <el-image :src="props.mod.preview_url" fit="fill" style="width: 80px; height: 80px"/>-->
+      <el-image :src="props.mod.preview_url" fit="fill" style="width: 80px; height: 80px"/>
+      <div style="width: 200px">
+        <div class="fcc">
+          <el-tooltip effect="light" :show-after="500" :content="props.mod.name" placement="top">
+            <el-tag size="small">{{computedName}}</el-tag>
+          </el-tooltip>
+        </div>
+        <div style="margin: 5px 0" class="fcc">
+          <el-rate v-model="computedRate" :max="5" disabled allow-half show-score/>
+        </div>
+        <div class="fcc">
+          <el-button type="primary" size="small" @click="dialogVisible=true">详情</el-button>
+          <el-button type="success" size="small" @click="handleDownload">下载</el-button>
+        </div>
       </div>
     </div>
-  </div>
+  </el-card>
+
   <el-dialog v-model="dialogVisible" :title="props.mod.name" width="80vw">
     <div style="min-height: 50vh; margin-top: 20px">
-      <el-descriptions :column="2" border :direction="isMobile?vertical:horizontal">
+      <el-descriptions :column="2" border :direction="isMobile?'vertical':'horizontal'">
         <el-descriptions-item :rowspan="isMobile?1:2" :width="140" align="center">
           <template #label>
             <el-icon><PictureFilled /></el-icon>
           </template>
-          <el-image :style="isMobile?'width: 60px; height: 60px':'width: 120px; height: 120px'" :src="123"/>
+          <el-image :style="isMobile?'width: 60px; height: 60px':'width: 120px; height: 120px'" :src="props.mod.preview_url"/>
         </el-descriptions-item>
         <el-descriptions-item label="ID" align="center">
           <el-tag type="info">{{props.mod.id}}</el-tag>
@@ -92,7 +95,7 @@ const props = defineProps({
 })
 
 const computedRate = computed(() => {
-  return (props.mod.vote_data.score * 5).toFixed(2)
+  return parseFloat((props.mod.vote_data.score * 5).toFixed(2))
 })
 
 const computedName = computed(() => {
