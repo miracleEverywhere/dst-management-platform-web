@@ -121,7 +121,7 @@ const isDark = computed(() => globalStore.isDark);
 const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {
   if (tab.paneName === "Add") {
-
+    externalApi.modInfoDownloaded.get()
   }
   if (tab.paneName === "Setting") {
     handleGetModSetting()

@@ -25,4 +25,10 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  modInfoDownloaded: {
+    url: `/external/api/downloaded/mod_info`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    }
+  },
 }
