@@ -104,7 +104,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {ElMessageBox} from "element-plus";
-import {saveFile} from "@/utils/tools.js";
+import {saveFile, formatBytes} from "@/utils/tools.js";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -268,16 +268,6 @@ const tableRef = ref()
 const multipleSelection = ref([])
 const handleSelectionChange = (val) => {
   multipleSelection.value = val
-}
-
-const formatBytes = (bytes) => {
-  if (bytes === 0) return '0 B';
-
-  const k = 1024;
-  const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 const handleDownload = (row) => {
