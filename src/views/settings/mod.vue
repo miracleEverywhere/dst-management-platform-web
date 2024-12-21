@@ -21,8 +21,9 @@
             </el-scrollbar>
           </div>
           <div class="card-footer" style="margin-top: 20px">
-            <el-pagination v-model:current-page="modSearchForm.page" :page-size="modSearchForm.pageSize"
-                           layout="total, prev, pager, next" :total="modSearchData.total"
+            <el-pagination v-model:current-page="modSearchForm.page" v-model:page-size="modSearchForm.pageSize"
+                           :page-sizes="[10, 20, 30, 40, 50, 100]"
+                           layout="total, sizes, prev, pager, next" :total="modSearchData.total"
                            @size-change="handlePageSizeChange(modSearchForm.pageSize)"
                            @current-change="handlePageChange(modSearchForm.page)"
             />
@@ -173,7 +174,7 @@ const modSearchData = ref({
 const modSearchFormRef = ref()
 const modSearchForm = ref({
   page: 1,
-  pageSize: 20,
+  pageSize: 30,
   searchText: "",
 })
 
