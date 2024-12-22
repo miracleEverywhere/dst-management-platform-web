@@ -31,6 +31,47 @@
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="Add" name="Add">
+        <el-row :gutter="10">
+          <el-col :span="24">
+            <el-card v-loading="downloadedModLoading" style="height: 70vh" shadow="never">
+              <template #header>
+                <div class="card-header">
+                  <span>已下载的模组</span>
+                  <el-tooltip effect="light" :show-after="500" content="该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面" placement="top">
+                    <el-button type="primary" :loading="syncModLoading" @click="handleSyncMod">
+                      同步
+                    </el-button>
+                  </el-tooltip>
+                </div>
+              </template>
+              <el-table :data="downloadedMod" border style="height: 55vh">
+                <el-table-column label="name" prop="name"/>
+                <el-table-column label="id" prop="id"/>
+                <el-table-column label="size">
+                  <template #default="scope">
+                    {{formatBytes(scope.row.size)}}
+                  </template>
+                </el-table-column>
+                <el-table-column label="action">
+                  <template #default="scope">
+                    <el-dropdown @command="handleCommand" trigger="click">
+                      <el-button type="primary" link :loading="actionsLoading">
+                        {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                      </el-button>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">启用</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'disable', row: scope.row}">禁用</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">删除</el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-card>
+          </el-col>
+        </el-row>
       </el-tab-pane>
       <el-tab-pane label="Setting" name="Setting">
         <el-row :gutter="10">
@@ -108,6 +149,8 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
+import {formatBytes} from "../../utils/tools.js";
+import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts"
 
 
 onMounted(async () => {
@@ -122,7 +165,7 @@ const isDark = computed(() => globalStore.isDark);
 const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {
   if (tab.paneName === "Add") {
-    externalApi.modInfoDownloaded.get()
+    handleGetDownloadedMod()
   }
   if (tab.paneName === "Setting") {
     handleGetModSetting()
@@ -193,6 +236,49 @@ const handlePageSizeChange = (pageSize) => {
 }
 const handlePageChange = (page) => {
   handleModSearch()
+}
+
+const downloadedMod = ref([])
+const downloadedModLoading = ref(false)
+const handleGetDownloadedMod = () => {
+  downloadedModLoading.value = true
+  externalApi.modInfoDownloaded.get().then(response => {
+    downloadedMod.value = response.data
+  }).finally(() => {
+    downloadedModLoading.value = false
+  })
+}
+
+const syncModLoading = ref(false)
+const handleSyncMod = () => {
+  syncModLoading.value = true
+  settingsApi.mod.sync.post().then(response => {
+    koiMsgSuccess(response.message)
+    handleGetDownloadedMod()
+  }).finally(() => {
+    syncModLoading.value = false
+  })
+}
+
+const actionsLoading = ref(false)
+const handleCommand = (actions) => {
+  let cmd = actions.cmd
+  let row = actions.row
+  actionsLoading.value = true
+  switch(cmd) {
+    case 'enable':
+      handleDownload(row)
+      break;
+    case 'disable':
+      handleRestore(row)
+      break;
+    case 'delete':
+      handleDelete(row)
+      break;
+    default:
+      actionsLoading.value = false
+      koiMsgError('error')
+  }
 }
 
 </script>
