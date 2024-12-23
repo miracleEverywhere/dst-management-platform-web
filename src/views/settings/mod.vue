@@ -37,16 +37,30 @@
               <template #header>
                 <div class="card-header">
                   <span>已下载的模组</span>
-                  <el-tooltip effect="light" :show-after="500" content="该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面" placement="top">
-                    <el-button type="primary" :loading="syncModLoading" @click="handleSyncMod">
-                      同步
-                    </el-button>
-                  </el-tooltip>
+                  <div>
+                    <el-button @click="handleGetDownloadedMod">刷新</el-button>
+                    <el-tooltip effect="light" :show-after="500" content="该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面" placement="top">
+                      <el-button type="primary" :loading="syncModLoading" @click="handleSyncMod">
+                        同步
+                      </el-button>
+                    </el-tooltip>
+                  </div>
+
                 </div>
               </template>
               <el-table :data="downloadedMod" border style="height: 55vh">
                 <el-table-column label="name" prop="name"/>
                 <el-table-column label="id" prop="id"/>
+                <el-table-column label="ugc">
+                  <template #default="scope">
+                    <el-tag v-if="scope.row.file_url===''" type="primary">
+                      是
+                    </el-tag>
+                    <el-tag v-else type="primary">
+                      否
+                    </el-tag>
+                  </template>
+                </el-table-column>
                 <el-table-column label="size">
                   <template #default="scope">
                     {{formatBytes(scope.row.size)}}
@@ -54,14 +68,13 @@
                 </el-table-column>
                 <el-table-column label="action">
                   <template #default="scope">
-                    <el-dropdown @command="handleCommand" trigger="click">
+                    <el-dropdown @command="handleModCommand" trigger="click">
                       <el-button type="primary" link :loading="actionsLoading">
                         {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
                       </el-button>
                       <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">启用</el-dropdown-item>
-                          <el-dropdown-item :command="{cmd: 'disable', row: scope.row}">禁用</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">添加</el-dropdown-item>
                           <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">删除</el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
@@ -78,26 +91,41 @@
           <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
             <el-card v-loading="modSettingFormatLoading" :style="isMobile?'height: 50vh':'height: 70vh'" shadow="never">
               <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
-                <template v-for="(mod, index) in modSettingFormat">
-                  <div style="display: flex">
-                    <div>
-                      <el-image :src="mod.preview_url" fit="fill" @click="handleModClick(mod.id)" style="width: 75px; height: 75px"/>
-                    </div>
-                    <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
-                      <el-button link type="primary" @click="handleModClick(mod.id)">{{ mod.name }}</el-button>
+                <template v-if="modSettingFormat">
+                  <template v-for="(mod, index) in modSettingFormat">
+                    <div style="display: flex">
                       <div>
-                        <el-tag v-if="mod.enable" type="success">启用</el-tag>
-                        <el-tag v-if="!mod.enable" type="info">禁用</el-tag>
+                        <el-image :src="mod.preview_url" fit="fill" @click="handleModClick(mod.id)" style="width: 75px; height: 75px"/>
+                      </div>
+                      <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
+                        <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">{{ mod.name }}</el-button>
+                        <div>
+                          <el-tag v-if="mod.enable" type="success">启用</el-tag>
+                          <el-tag v-if="!mod.enable" type="info">禁用</el-tag>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <el-divider v-if="index !== (modSettingFormat.length - 1)" />
+                    <el-divider v-if="index !== (modSettingFormat.length - 1)" />
+                  </template>
                 </template>
+                <template v-else>
+                  <div class="fcc" :style="isMobile?'height: 50vh':'height: 70vh'">
+                    <el-result icon="warning" title="服务器未添加模组"/>
+                  </div>
+                </template>
+
               </el-scrollbar>
             </el-card>
           </el-col>
           <el-col :lg="16" :md="16" :sm="24" :span="16" :xs="24">
-            <el-card :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'" shadow="never">
+            <el-card v-loading="modConfigurationsLoading" :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'" shadow="never">
+              <template #header>
+                <div class="card-header">
+                  <span>配置模组</span>
+                  <el-button type="danger" :disabled="clickedModID===0" :loading="buttonDisableModLoading"
+                             @click="handleModDisable">禁用模组</el-button>
+                </div>
+              </template>
               <template v-if="clickedModID!==0">
                 <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
                   <template v-if="modConfigurations.configOptions.length!==0">
@@ -105,16 +133,15 @@
                              :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">
                       <el-form-item label="ID">
                         <el-tag>{{modConfigurations.id}}</el-tag>
-                        <el-button @click="aaa">aaa</el-button>
                       </el-form-item>
-
                       <el-form-item label="Name">
                         <el-tag type="info">{{modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].name}}</el-tag>
                       </el-form-item>
                       <template v-for="item in modConfigurations.configOptions">
                         <el-tooltip :show-after="500" effect="light" :content="item.hover" placement="top">
                           <el-form-item :label="item.label">
-                            <el-select v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions[item.name]">
+                            <el-select v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions[item.name]"
+                                       @change="handleModConfigChange">
                               <template v-for="i in item.options">
                                 <el-option :label="i.description" :value="i.data"/>
                               </template>
@@ -125,13 +152,16 @@
                     </el-form>
                   </template>
                   <template v-if="modConfigurations.configOptions.length===0">
-                    <el-result icon="info" title="该模组无配置项"/>
+                    <div class="fcc" :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'">
+                      <el-result icon="info" title="该模组无配置项"/>
+                    </div>
                   </template>
-
                 </el-scrollbar>
               </template>
               <template v-if="clickedModID===0">
-                <el-result icon="info" title="请选择一个模组进行配置"/>
+                <div class="fcc" :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'">
+                  <el-result icon="info" title="请选择一个模组进行配置"/>
+                </div>
               </template>
             </el-card>
           </el-col>
@@ -176,6 +206,8 @@ const modSettingFormat = ref([])
 const modSettingFormatLoading = ref(false)
 const handleGetModSetting = () => {
   modSettingFormatLoading.value = true
+  clickedModID.value = 0
+  clickedModFileUrl.value = ""
   settingsApi.mod.settingFormat.get().then(response => {
     modSettingFormat.value = response.data
   }).finally(() => {
@@ -184,9 +216,11 @@ const handleGetModSetting = () => {
 }
 
 const clickedModID = ref(0)
+const clickedModFileUrl = ref("")
 // const clickedModSetting = ref({})
-const handleModClick = (modID) => {
+const handleModClick = (modID, modFileUrl) => {
   clickedModID.value = modID
+  clickedModFileUrl.value = modFileUrl
   // clickedModSetting.value = modSettingFormat.value.find(item => item.id === clickedModID.value).configurationOptions
   handleGetModConfigurations()
 }
@@ -205,8 +239,13 @@ const handleGetModConfigurations = () => {
   })
 }
 
-const aaa = () => {
-  settingsApi.mod.test.post({modFormattedData: modSettingFormat.value})
+const handleModConfigChange = () => {
+  modConfigurationsLoading.value = true
+  settingsApi.mod.configChange.post({modFormattedData: modSettingFormat.value}).then(response => {
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    modConfigurationsLoading.value = false
+  })
 }
 
 const modSearchLoading = ref(false)
@@ -261,24 +300,63 @@ const handleSyncMod = () => {
 }
 
 const actionsLoading = ref(false)
-const handleCommand = (actions) => {
+const handleModCommand = (actions) => {
   let cmd = actions.cmd
   let row = actions.row
   actionsLoading.value = true
   switch(cmd) {
     case 'enable':
-      handleDownload(row)
-      break;
-    case 'disable':
-      handleRestore(row)
+      handleModEnable(row)
       break;
     case 'delete':
-      handleDelete(row)
+      handleModDelete(row)
       break;
     default:
       actionsLoading.value = false
       koiMsgError('error')
   }
+}
+const handleModEnable = (row) => {
+  const isUgc = row.file_url === "";
+  const reqForm = {
+    isUgc: isUgc,
+    id: row.id
+  }
+  settingsApi.mod.enable.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+  }).finally(() =>{
+    actionsLoading.value = false
+  })
+}
+
+const handleModDelete = (row) => {
+  const isUgc = row.file_url === "";
+  const reqForm = {
+    isUgc: isUgc,
+    id: row.id
+  }
+  settingsApi.mod.delete.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+    handleGetDownloadedMod()
+  }).finally(() =>{
+    actionsLoading.value = false
+  })
+}
+
+const buttonDisableModLoading = ref(false)
+const handleModDisable = () => {
+  buttonDisableModLoading.value = true
+  const isUgc = clickedModFileUrl.value === "";
+  const reqForm = {
+    isUgc: isUgc,
+    id: clickedModID.value
+  }
+  settingsApi.mod.disable.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+    handleGetModSetting()
+  }).finally(() =>{
+    buttonDisableModLoading.value = false
+  })
 }
 
 </script>

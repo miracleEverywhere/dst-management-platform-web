@@ -109,8 +109,26 @@ export default {
         return await http.post(this.url, data);
       }
     },
-    test: {
-      url: `/setting/mod/test`,
+    delete: {
+      url: `/setting/mod/delete`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
+    enable: {
+      url: `/setting/mod/enable`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
+    disable: {
+      url: `/setting/mod/disable`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
+    configChange: {
+      url: `/setting/mod/config/change`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
