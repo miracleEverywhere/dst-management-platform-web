@@ -234,6 +234,55 @@ export default {
         text1: 'First, enter the DST archive folder, in the figure it\'s Cluster_6, then perform the compression operation',
       }
     },
+    mod: {
+      tab: {
+        download: 'Download Mod',
+        add: 'Add Mod',
+        setting: 'Configure Mod',
+      },
+      download: {
+        search: 'Search',
+        detail: 'Detail',
+        download: 'Download',
+        size: 'Mod Size',
+      },
+      add: {
+        header: {
+          title: 'Downloaded Mod',
+          refresh: 'Refresh',
+          sync: 'Sync',
+          syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
+        },
+        alert: 'Tip: Mod download speed depends on your network and mod size. Please be patient and do not download repeatedly',
+        table: {
+          name: 'Name',
+          size: 'Mod Size',
+          action: 'Actions',
+          enable: 'Enable',
+          delete: 'Delete',
+          ugc: {
+            yes: 'True',
+            no: 'False'
+          },
+        },
+      },
+      setting: {
+        left: {
+          enable: 'Enabled',
+          disable: 'Disabled',
+          result: 'The server has not added any mods',
+        },
+        right: {
+          header: {
+            title: 'Configure Mod',
+            disable: 'Disable',
+          },
+          result: 'This mod has no configuration options',
+          result2: 'Please select a mod to configure',
+          name: 'Name',
+        },
+      },
+    },
   },
   tools: {
     install: {

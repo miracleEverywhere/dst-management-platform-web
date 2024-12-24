@@ -13,8 +13,8 @@
           <el-rate v-model="computedRate" :max="5" disabled allow-half show-score/>
         </div>
         <div class="fcc">
-          <el-button type="primary" size="small" @click="dialogVisible=true">详情</el-button>
-          <el-button type="success" size="small" @click="handleDownload">下载</el-button>
+          <el-button type="primary" size="small" @click="dialogVisible=true">{{t('setting.mod.download.detail')}}</el-button>
+          <el-button type="success" size="small" @click="handleDownload">{{t('setting.mod.download.download')}}</el-button>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
         <el-descriptions-item label="ID" align="center">
           <el-tag type="info">{{props.mod.id}}</el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="size" align="center">
+        <el-descriptions-item :label="t('setting.mod.download.size')" align="center">
           <el-tag type="info">{{formatBytes(props.mod.size)}}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item align="center">
@@ -83,9 +83,11 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import {formatBytes} from "@/utils/tools.js"
 import settingsApi from "@/api/setting"
 import {koiMsgSuccess} from "@/utils/koi.ts"
+import {useI18n} from "vue-i18n";
 
 
 const {isMobile} = useScreenStore();
+const {t} = useI18n()
 
 const props = defineProps({
   mod: {

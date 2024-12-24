@@ -235,6 +235,55 @@ export default {
         text1: '先进入存档文件夹，如图中为Cluser_6，再进行压缩操作',
       }
     },
+    mod: {
+      tab: {
+        download: '下载模组',
+        add: '添加模组',
+        setting: '配置模组',
+      },
+      download: {
+        search: '搜索',
+        detail: '详情',
+        download: '下载',
+        size: '模组大小',
+      },
+      add: {
+        header: {
+          title: '已下载的模组',
+          refresh: '刷新',
+          sync: '同步',
+          syncTooltip: '该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面',
+        },
+        alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载',
+        table: {
+          name: '名称',
+          size: '模组大小',
+          action: '操作',
+          enable: '启用',
+          delete: '删除',
+          ugc: {
+            yes: '是',
+            no: '否'
+          },
+        },
+      },
+      setting: {
+        left: {
+          enable: '已启用',
+          disable: '已禁用',
+          result: '服务器未添加模组',
+        },
+        right: {
+          header: {
+            title: '配置模组',
+            disable: '禁用模组',
+          },
+          result: '该模组无配置项',
+          result2: '请选择一个模组进行配置',
+          name: '名称',
+        },
+      },
+    },
   },
   tools: {
     install: {
