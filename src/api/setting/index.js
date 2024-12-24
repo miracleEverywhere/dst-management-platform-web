@@ -8,6 +8,15 @@ export default {
       return await http.get(this.url, data);
     },
   },
+  multihost: {
+    url: `/setting/room/multihost`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
   save: {
     url: `/setting/room/save`,
     post: async function (data) {
