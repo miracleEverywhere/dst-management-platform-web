@@ -95,7 +95,7 @@
                   <template v-for="(mod, index) in modSettingFormat">
                     <div style="display: flex">
                       <div>
-                        <el-image :src="mod.preview_url" fit="fill" @click="handleModClick(mod.id)" style="width: 75px; height: 75px"/>
+                        <el-image :src="mod.preview_url" fit="fill" @click="handleModClick(mod.id, mod.file_url)" style="width: 75px; height: 75px"/>
                       </div>
                       <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
                         <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">{{ mod.name }}</el-button>
