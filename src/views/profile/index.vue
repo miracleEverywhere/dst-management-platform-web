@@ -32,7 +32,7 @@
               <el-input v-model="updatePasswordForm.passwordTwice" show-password></el-input>
             </el-form-item>
             <div style="display: flex; justify-content: flex-end; padding-top: 80px">
-              <el-button type="primary" @click="handleUpdatePassword">修改</el-button>
+              <el-button type="primary" @click="handleUpdatePassword">{{t('profile.update')}}</el-button>
             </div>
           </el-form>
         </el-card>
