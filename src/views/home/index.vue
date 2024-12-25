@@ -8,48 +8,54 @@
               {{t('home.roomInfo')}}
             </div>
           </template>
-          <el-descriptions :column="isMobile?1:2">
-            <el-descriptions-item :label="t('home.roomName')">
-              <el-button link type="primary" v-copy="roomInfo.roomSettingBase.name">
-                {{roomInfo.roomSettingBase.name}}
-                <el-icon style="margin-left: 3px"><DocumentCopy /></el-icon>
-              </el-button>
-
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('home.connectionCode')">
-              <el-tooltip effect="light" :content="connectionCode" placement="top">
-                <el-button :disabled="connectionCode===''" link v-copy="connectionCode" :loading="connectionCodeLoading" type="primary">{{t('home.copy')}}</el-button>
-              </el-tooltip>
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('home.cycles')">
-              <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
-                {{roomInfo.seasonInfo.cycles}}
-              </el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('home.phase')">
-              <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
-                {{roomInfo.seasonInfo.phase.en}}
-              </el-tag>
-              <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.zh==='获取失败'?'danger':'success'">
-                {{roomInfo.seasonInfo.phase.zh}}
-              </el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('home.season')">
-              <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
-                {{roomInfo.seasonInfo.season.en}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
-              </el-tag>
-              <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
-                {{roomInfo.seasonInfo.season.zh}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
-              </el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('home.mods')">
-              <el-tag>{{roomInfo.modsCount}}</el-tag>
-              <el-button link type="primary" @click="handleOpenModDialog" style="margin-left: 10px">{{t('home.modsButton')}}</el-button>
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('home.version')">
-              <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">({{version.local}}/{{version.server}})</el-tag>
-            </el-descriptions-item>
-          </el-descriptions>
+          <template v-if="roomInfo.roomSettingBase.name!==''">
+            <el-descriptions :column="isMobile?1:2">
+              <el-descriptions-item :label="t('home.roomName')">
+                <el-button link type="primary" v-copy="roomInfo.roomSettingBase.name">
+                  {{roomInfo.roomSettingBase.name}}
+                  <el-icon style="margin-left: 3px"><DocumentCopy /></el-icon>
+                </el-button>
+              </el-descriptions-item>
+              <el-descriptions-item :label="t('home.connectionCode')">
+                <el-tooltip effect="light" :content="connectionCode" placement="top">
+                  <el-button :disabled="connectionCode===''" link v-copy="connectionCode" :loading="connectionCodeLoading" type="primary">{{t('home.copy')}}</el-button>
+                </el-tooltip>
+              </el-descriptions-item>
+              <el-descriptions-item :label="t('home.cycles')">
+                <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                  {{roomInfo.seasonInfo.cycles}}
+                </el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item :label="t('home.phase')">
+                <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
+                  {{roomInfo.seasonInfo.phase.en}}
+                </el-tag>
+                <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.zh==='获取失败'?'danger':'success'">
+                  {{roomInfo.seasonInfo.phase.zh}}
+                </el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item :label="t('home.season')">
+                <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                  {{roomInfo.seasonInfo.season.en}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
+                </el-tag>
+                <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                  {{roomInfo.seasonInfo.season.zh}} {{getSeasonDays(roomInfo.seasonInfo.season.en)}}
+                </el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item :label="t('home.mods')">
+                <el-tag>{{roomInfo.modsCount}}</el-tag>
+                <el-button link type="primary" @click="handleOpenModDialog" style="margin-left: 10px">{{t('home.modsButton')}}</el-button>
+              </el-descriptions-item>
+              <el-descriptions-item :label="t('home.version')">
+                <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">({{version.local}}/{{version.server}})</el-tag>
+              </el-descriptions-item>
+            </el-descriptions>
+          </template>
+          <template v-if="roomInfo.roomSettingBase.name===''">
+            <div class="fcc" style="height: 150px">
+              <el-result icon="warning" :title="t('home.noServer')"/>
+            </div>
+          </template>
         </el-card>
       </el-col>
       <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
