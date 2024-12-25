@@ -91,7 +91,7 @@
           <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
             <el-card v-loading="modSettingFormatLoading" :style="isMobile?'height: 50vh':'height: 70vh'" shadow="never">
               <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
-                <template v-if="modSettingFormat">
+                <template v-if="modSettingFormat.length !== 0">
                   <template v-for="(mod, index) in modSettingFormat">
                     <div style="display: flex">
                       <div>
@@ -178,7 +178,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
-import {formatBytes} from "../../utils/tools.js";
+import {formatBytes} from "@/utils/tools.js";
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts"
 
 
