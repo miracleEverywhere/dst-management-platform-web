@@ -42,6 +42,8 @@ export default {
     announcement: "公告",
     send: "发送",
     execute: "执行",
+    noServer: "未发现存档",
+    noGame: "游戏未安装",
   },
   tabs: {
     refresh: "重新刷新",
@@ -90,6 +92,7 @@ export default {
     suggestedPassword: '建议包含英文、数字的8位以上密码',
     passwordUpdated: "检测到用户密码更新，3秒后将退出本系统",
     passwordUpdatedTitle: "系统提示",
+    update: '修改',
   },
   setting: {
     roomSettingMobile: '房间',

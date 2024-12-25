@@ -42,6 +42,8 @@ export default {
     announcement: "Announcement",
     send: "Send",
     execute: "Execute",
+    noServer: "No Game Server Found",
+    noGame: "Game NOT Installed",
   },
   tabs: {
     refresh: "Refresh",
@@ -89,6 +91,7 @@ export default {
     suggestedPassword: 'It is recommended to use a password that is at least 8 characters long and contains letters and numbers',
     passwordUpdated: "Password update detected. You will be logged out in 3 seconds",
     passwordUpdatedTitle: "System Prompt",
+    update: 'Update',
   },
   setting: {
     roomSettingMobile: 'Room',
