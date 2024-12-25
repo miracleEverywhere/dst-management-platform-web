@@ -709,9 +709,43 @@
                              @click="handleImportLeveldataLua('master', 'survival')">
                     {{t('setting.luaImportButton.survival')}}
                   </el-button>
+                  <el-form ref="multiHostFormRef" :model="multiHostForm" inline
+                           :label-width="isMobile?'70':'100'" label-position="top"
+                           :rules="multiHostFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [NETWORK] - server_port" placement="top">
+                      <el-form-item label-position="top" label="连接端口" prop="masterPort">
+                        <el-input v-model="multiHostForm.masterPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_port" placement="top">
+                      <el-form-item label-position="top" label="侦听端口" prop="shardMasterPort">
+                        <el-input v-model="multiHostForm.shardMasterPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_server_port" placement="top">
+                      <el-form-item label-position="top" label="Steam连接端口" prop="steamMasterPort">
+                        <el-input v-model="multiHostForm.steamMasterPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port" placement="top">
+                      <el-form-item label-position="top" label="Steam认证端口" prop="steamAuthenticationPort">
+                        <el-input v-model="multiHostForm.steamAuthenticationPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_ip" placement="top">
+                      <el-form-item label-position="top" label="Master IP" prop="shardMasterIp">
+                        <el-input v-model="multiHostForm.shardMasterIp" disabled size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - cluster_key" placement="top">
+                      <el-form-item label-position="top" label="认证密码" prop="clusterKey">
+                        <el-input v-model="multiHostForm.clusterKey" type="password" show-password size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                  </el-form>
                   <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                            :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-form-item label-position="top" prop="groundSetting">
+                    <el-form-item label-position="top" label="地面配置" prop="groundSetting">
                       <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
                                       :theme="isDark?'darcula':'idea'"
                                       mode="lua" style="width: 100%"></sc-code-editor>
@@ -993,8 +1027,7 @@
             <template v-else>
               <el-tabs v-model="cavesTabName">
                 <el-tab-pane :label="t('setting.tabCode')" name="Code">
-                  <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.cavesTip') }}</el-alert>
-                  <div style="margin-top: 10px">
+                  <div>
                     <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                                @click="handleImportLeveldataLua('caves', 'endless')">
                       {{t('setting.luaImportButton.endless')}}
@@ -1004,9 +1037,43 @@
                       {{t('setting.luaImportButton.survival')}}
                     </el-button>
                   </div>
+                  <el-form ref="multiHostFormRef" :model="multiHostForm" inline
+                           :label-width="isMobile?'70':'100'" label-position="top"
+                           :rules="multiHostFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [NETWORK] - server_port" placement="top">
+                      <el-form-item label-position="top" label="连接端口" prop="masterPort">
+                        <el-input v-model="multiHostForm.masterPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_port" placement="top">
+                      <el-form-item label-position="top" label="侦听端口" prop="shardMasterPort">
+                        <el-input v-model="multiHostForm.shardMasterPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_server_port" placement="top">
+                      <el-form-item label-position="top" label="Steam连接端口" prop="steamMasterPort">
+                        <el-input v-model="multiHostForm.steamMasterPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port" placement="top">
+                      <el-form-item label-position="top" label="Steam认证端口" prop="steamAuthenticationPort">
+                        <el-input v-model="multiHostForm.steamAuthenticationPort" type="number" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_ip" placement="top">
+                      <el-form-item label-position="top" label="Master IP" prop="shardMasterIp">
+                        <el-input v-model="multiHostForm.shardMasterIp" size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - cluster_key" placement="top">
+                      <el-form-item label-position="top" label="认证密码" prop="clusterKey">
+                        <el-input v-model="multiHostForm.clusterKey" type="password" show-password size="default"/>
+                      </el-form-item>
+                    </el-tooltip>
+                  </el-form>
                   <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
                            :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-form-item label-position="top" prop="caveSetting">
+                    <el-form-item label-position="top" label="洞穴配置" prop="caveSetting">
                       <sc-code-editor ref="editorCavesSettingRef" v-model="roomCaveForm.caveSetting" :height="isMobile?320:500"
                                       :theme="isDark?'darcula':'idea'"
                                       mode="lua" style="width: 100%"></sc-code-editor>
@@ -1306,6 +1373,18 @@ const handleNext = async () => {
         }
       })
     }
+    if (step.value === 1) {
+      multiHostFormRef.value.validate(valid => {
+        if (valid) {
+          try {
+            luaparse.parse(roomGroundForm.value.groundSetting)
+            step.value++
+          } catch (e) {
+            koiMsgError(t('setting.luaError'))
+          }
+        }
+      })
+    }
   } else {
     if (step.value === 0) {
       roomBaseFormRef.value.validate(valid => {
@@ -1411,6 +1490,16 @@ const handleImportLeveldataLua = (world, mode) => {
       roomGroundForm.value.groundSetting = survival.master
     }
     generateGroundOverridesObj()
+    if (isMultiHost.value) {
+      multiHostForm.value = {
+        masterPort: 11000,
+        shardMasterPort: 10888,
+        steamMasterPort: 27018,
+        steamAuthenticationPort: 8768,
+        shardMasterIp: '127.0.0.1',
+        clusterKey: undefined,
+      }
+    }
   }
   if (world === 'caves') {
     if (mode === 'endless') {
@@ -1420,6 +1509,16 @@ const handleImportLeveldataLua = (world, mode) => {
       roomCaveForm.value.caveSetting = survival.caves
     }
     generateCavesOverridesObj()
+    if (isMultiHost.value) {
+      multiHostForm.value = {
+        masterPort: 11001,
+        shardMasterPort: 10888,
+        steamMasterPort: 27017,
+        steamAuthenticationPort: 8767,
+        shardMasterIp: undefined,
+        clusterKey: undefined,
+      }
+    }
   }
 }
 
@@ -1655,6 +1754,32 @@ const multiHostIsMaster = ref(true)
 const clearSetting = () =>{
   roomGroundForm.value.groundSetting = ""
   roomCaveForm.value.caveSetting = ""
+  multiHostForm.value = {
+    masterPort: undefined,
+    shardMasterPort: undefined,
+    steamMasterPort: undefined,
+    steamAuthenticationPort: undefined,
+    shardMasterIp: undefined,
+    clusterKey: undefined,
+  }
+}
+
+const multiHostFormRef = ref()
+const multiHostForm = ref({
+  masterPort: undefined,
+  shardMasterPort: undefined,
+  steamMasterPort: undefined,
+  steamAuthenticationPort: undefined,
+  shardMasterIp: undefined,
+  clusterKey: undefined,
+})
+const multiHostFormRules = {
+  masterPort: [{required: true, message: '11', trigger: 'blur'}],
+  shardMasterPort: [{required: true, message: '11', trigger: 'blur'}],
+  steamMasterPort: [{required: true, message: '11', trigger: 'blur'}],
+  steamAuthenticationPort: [{required: true, message: '11', trigger: 'blur'}],
+  shardMasterIp: [{required: true, message: '11', trigger: 'blur'}],
+  clusterKey: [{required: true, message: '11', trigger: 'blur'}],
 }
 
 </script>
