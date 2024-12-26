@@ -722,7 +722,7 @@
                         <el-input v-model="roomBaseForm.shardMasterPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_server_port" placement="top">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port" placement="top">
                       <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')" prop="steamMasterPort">
                         <el-input v-model="roomBaseForm.steamMasterPort" type="number" size="default"/>
                       </el-form-item>
@@ -1050,7 +1050,7 @@
                         <el-input v-model="roomBaseForm.shardMasterPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_server_port" placement="top">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port" placement="top">
                       <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')" prop="steamMasterPort">
                         <el-input v-model="roomBaseForm.steamMasterPort" type="number" size="default"/>
                       </el-form-item>
