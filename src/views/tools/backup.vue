@@ -64,15 +64,6 @@
                 <el-table-column :label="$t('tools.backup.tableCreateTime')" prop="createTime"/>
                 <el-table-column prop="actions" :label="$t('setting.button.actions')" width="120px">
                   <template #default="scope">
-<!--                    <div>-->
-<!--                      <el-button link type="primary" @click="handleDownload(scope.row)" :loading="downloadLoading">{{ t('tools.backup.download') }}</el-button>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                      <el-button link type="warning" @click="handleRestore(scope.row)">{{ t('tools.backup.restore') }}</el-button>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                      <el-button link type="danger" @click="handleDelete(scope.row)">{{ t('tools.backup.delete') }}</el-button>-->
-<!--                    </div>-->
                     <el-dropdown @command="handleCommand" trigger="click">
                       <el-button type="primary" link :loading="actionsLoading">
                         {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
