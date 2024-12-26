@@ -106,23 +106,23 @@
             <el-form size="large">
               <el-form-item :label="$t('home.rollback')">
                 <el-col v-if="isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 1)">1{{t('home.day')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 1)">1{{t('home.day')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
                 </el-col>
                 <el-col v-if="isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 5)">5{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 5)">5{{t('home.days')}}</el-button>
                 </el-col>
                 <el-col v-if="isMobile">
 
                 </el-col>
                 <el-col v-if="!isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 1)">1{{t('home.day')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
-                  <el-button size="small" @click="handleExec('rollback', 5)">5{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 1)">1{{t('home.day')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 2)">2{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 3)">3{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 4)">4{{t('home.days')}}</el-button>
+                  <el-button size="small" :disabled="sysInfo.master===0" @click="handleExec('rollback', 5)">5{{t('home.days')}}</el-button>
                 </el-col>
               </el-form-item>
             </el-form>
@@ -163,8 +163,8 @@
                 <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
                   <template #prepend>
                     <el-select v-model="consoleForm.world" style="width: 115px">
-                      <el-option :label="$t('home.master')" value="master" />
-                      <el-option :label="$t('home.caves')" value="caves" />
+                      <el-option :disabled="sysInfo.master===0" :label="$t('home.master')" value="master" />
+                      <el-option :disabled="sysInfo.caves===0" :label="$t('home.caves')" value="caves" />
                     </el-select>
                   </template>
                   <template #append>
