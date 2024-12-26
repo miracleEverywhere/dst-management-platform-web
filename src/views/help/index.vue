@@ -100,6 +100,79 @@
                   {{ t('help.four.text3') }}
                 </div>
               </el-collapse-item>
+              <el-collapse-item name="5">
+                <template #title>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.five.title') }}</span>
+                </template>
+                <div style="line-height: 50px;">
+                  {{ t('help.five.text1') }}
+                </div>
+                <div style="line-height: 50px;">
+                  {{ t('help.five.text2') }}
+                </div>
+                <div style="line-height: 50px;">
+                  {{ t('help.five.text3') }}
+                </div>
+                <div class="tip custom-block">
+                  <p>
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip1') }}
+                    </span>
+                    {server.ini - [NETWORK] - server_port}
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip1_1') }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip2') }}
+                    </span>
+                    {cluster.ini - [SHARD] - master_port}
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip2_1') }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip3') }}
+                    </span>
+                    {server.ini - [STEAM] - server_master_port}
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip3_1') }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip4') }}
+                    </span>
+                    {server.ini - [STEAM] - authentication_port}
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip4_1') }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip5') }}
+                    </span>
+                    {cluster.ini - [SHARD] - master_ip}
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip5_1') }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip6') }}
+                    </span>
+                    {cluster.ini - [SHARD] - cluster_key}
+                    <span class="custom-block-title">
+                      {{ t('help.five.tip6_1') }}
+                    </span>
+                  </p>
+                </div>
+                <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false">
+                  {{ t('help.five.alert') }}
+                </el-alert>
+              </el-collapse-item>
             </el-collapse>
           </div>
         </el-card>
@@ -345,6 +418,7 @@ const handleReplaceSo = () => {
     koiMsgSuccess(response.message)
   })
 }
+
 </script>
 
 <style scoped>
