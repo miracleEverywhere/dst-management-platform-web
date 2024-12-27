@@ -19,4 +19,18 @@ export default {
       return await http.post(this.url, data);
     }
   },
+  historical: {
+    logFile: {
+      url: `/logs/historical/log_file`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    },
+    log: {
+      url: `/logs/historical/log`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    },
+  },
 }

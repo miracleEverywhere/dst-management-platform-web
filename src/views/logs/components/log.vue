@@ -3,7 +3,12 @@
     <template #header>
       <div class="card-header">
         {{t('logs.logs')}}
-        <div>
+        <div v-if="props.historical">
+          <el-select v-model="selectedFile" @change="getFileConnect" size="small" style="width: 10vw;font-weight: lighter">
+            <el-option v-for="item in fileList" :key="item.value" :label="item.label" :value="item.value"/>
+          </el-select>
+        </div>
+        <div v-if="!props.historical">
           <span style="font-weight: lighter;">{{t('logs.autoPull')}}</span>
           <el-switch v-model="autoPull" :active-value="1" :inactive-value="0" />
         </div>
@@ -11,7 +16,7 @@
     </template>
     <sc-code-editor ref="editor" v-model="logsValue" mode="javascript" :theme="isDark?'darcula':'idea'"
                     :height="isMobile?420:600" style="width: 100%"></sc-code-editor>
-    <template #footer>
+    <template v-if="!props.historical" #footer>
       <div class="card-footer">
         <el-input-number v-model="logsForm.line" controls-position="right" style="width: 100px;"/>
         <el-tooltip effect="light" :content="$t('logs.manualPullTips')" placement="top">
@@ -31,7 +36,8 @@ import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import logsApi from "@/api/logs"
 
 const props = defineProps({
-  type: String
+  type: String,
+  historical: Boolean
 })
 
 const { t } = useI18n()
@@ -41,8 +47,12 @@ const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
 onMounted(() => {
-  startRequests()
-  init()
+  if (props.historical) {
+    handleGetLogFile()
+  } else {
+    startRequests()
+    init()
+  }
 })
 
 const init = () => {
@@ -80,10 +90,37 @@ const cancelRequests = () => {
   }
 }
 
+const fileList = ref([
+
+])
+const selectedFile = ref('')
+const handleGetLogFile = () => {
+  const reqForm = {
+    type: props.type
+  }
+  logsApi.historical.logFile.get(reqForm).then(response => {
+    fileList.value = response.data
+  })
+}
+const getFileConnect = () =>{
+  const reqForm = {
+    file: selectedFile.value
+  }
+  logsApi.historical.log.get(reqForm).then(response => {
+    logsValue.value = response.data
+  })
+}
+
 onBeforeUnmount(() => {
   cancelRequests();
   window.removeEventListener('beforeunload', cancelRequests);
 })
+
+defineExpose({
+  cancelRequests,
+  startRequests
+});
+
 </script>
 
 <style scoped>
