@@ -4,7 +4,7 @@
       <div class="card-header">
         {{t('logs.logs')}}
         <div v-if="props.historical">
-          <el-select v-model="selectedFile" @change="getFileConnect" size="small" style="width: 10vw;font-weight: lighter">
+          <el-select v-model="selectedFile" @change="getFileConnect" size="default" style="width: 10vw;font-weight: lighter">
             <el-option v-for="item in fileList" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </div>
@@ -14,7 +14,7 @@
         </div>
       </div>
     </template>
-    <sc-code-editor ref="editor" v-model="logsValue" mode="javascript" :theme="isDark?'darcula':'idea'"
+    <sc-code-editor ref="editor" v-model="logsValue" v-loading="historicalLogLoading" mode="javascript" :theme="isDark?'darcula':'idea'"
                     :height="isMobile?420:600" style="width: 100%"></sc-code-editor>
     <template v-if="!props.historical" #footer>
       <div class="card-footer">
@@ -102,12 +102,16 @@ const handleGetLogFile = () => {
     fileList.value = response.data
   })
 }
+const historicalLogLoading = ref(false)
 const getFileConnect = () =>{
+  historicalLogLoading.value = true
   const reqForm = {
     file: selectedFile.value
   }
   logsApi.historical.log.get(reqForm).then(response => {
     logsValue.value = response.data
+  }).finally(() => {
+    historicalLogLoading.value = false
   })
 }
 
