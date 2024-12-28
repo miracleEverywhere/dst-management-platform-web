@@ -446,9 +446,13 @@ const handleAnnounce = () => {
 const consoleLoading = ref(false)
 const consoleForm = ref({
   cmd: '',
-  world: 'master'
+  world: ''
 })
 const handleConsole = () => {
+  if (consoleForm.value.world === '') {
+    koiMsgError(language.value==='zh'?'请选择地面或洞穴':'Please select a world from ground and cave')
+    return
+  }
   if (consoleForm.value.cmd === '') {
     koiMsgError(language.value==='zh'?'请输入要执行的命令':'Please enter the command to execute')
     return
