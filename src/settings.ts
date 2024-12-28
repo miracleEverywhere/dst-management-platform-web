@@ -1,6 +1,12 @@
 // 用来配置项目的Logo、标题等设置
 export default {
+  /**
+   * 版本
+   */
   version: '1.1.1',
+  /**
+   * 获取通知的url
+   */
   announceUrl: 'https://raw.githubusercontent.com/miracleEverywhere/dst-management-platform-announce/master/announce.json',
   /**
    * 网页标题
