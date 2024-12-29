@@ -1,19 +1,23 @@
 <template>
   <div class="search-menu hover:bg-[rgba(0,0,0,0.06)] w-32px h-100% flex flex-justify-center" @click="handleMessage">
-    <el-badge :hidden="badgeNum===0" :value="badgeNum" :max="99">
+    <el-badge :hidden="badgeNum===0" :value="badgeNum" :max="99" class="fcc">
       <el-icon :size="20" class="koi-icon">
         <ChatDotRound />
       </el-icon>
     </el-badge>
   </div>
-  <el-drawer v-model="messageVisible" :show-close="false" @closed="handleClose" :size="isMobile?'70%':'60%'">
+  <el-drawer v-model="messageVisible" :show-close="false" @closed="handleClose" :size="isMobile?'80%':'60%'">
     <template #default>
       <div>
         <el-scrollbar>
           <ul v-if="language==='zh'">
             <li v-for="item in messageList" v-bind:key="item.id">
-              <div>
+              <div style="display: flex; align-items: center;">
                 <el-tag :type="item.type==='update'?'success':'danger'" size="large" :effect="isDark?'dark':'light'">{{item.title.zh}}</el-tag>
+                <template v-if="item.type==='bug'&&item.fixed">
+                  <el-icon color="#67C23A" style="margin-left: 10px"><Select /></el-icon>
+                  <span style="color: #67C23A">已修复</span>
+                </template>
               </div>
               <div>
                 <template v-if="item.type==='update'">
@@ -32,8 +36,12 @@
           </ul>
           <ul v-if="language==='en'">
             <li v-for="item in messageList" v-bind:key="item.id">
-              <div>
+              <div style="display: flex; align-items: center;">
                 <el-tag :type="item.type==='update'?'success':'danger'" size="large" :effect="isDark?'dark':'light'">{{item.title.en}}</el-tag>
+                <template v-if="item.type==='bug'&&item.fixed">
+                  <el-icon color="#67C23A" style="margin-left: 10px"><Select /></el-icon>
+                  <span style="color: #67C23A">Fixed</span>
+                </template>
               </div>
               <div>
                 <template v-if="item.type==='update'">
@@ -68,7 +76,6 @@ import useGlobalStore from "@/stores/modules/global.ts";
 onMounted(async () => {
   await getMessage()
   await handleGetAnnouncedID()
-  maxAnnouncedID.value = Math.max(...messageList.value.map(item => item.id))
   badgeNum.value = maxAnnouncedID.value - announcedID.value
 })
 
@@ -89,8 +96,10 @@ const getMessage = async () =>{
     const response = await axios.get(settings.announceUrl);
     messageList.value = response.data.announce;
     messageList.value.reverse()
+    maxAnnouncedID.value = Math.max(...messageList.value.map(item => item.id))
   } catch (error) {
-    console.error('请求失败:', error);
+    messageList.value = []
+    maxAnnouncedID.value = 0
   }
 }
 
