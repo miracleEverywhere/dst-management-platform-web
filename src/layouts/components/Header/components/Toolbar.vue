@@ -31,11 +31,11 @@ import Dark from "@/layouts/components/Header/components/Dark.vue";
 // import Dimension from "@/layouts/components/Header/components/Dimension.vue";
 import Language from "@/layouts/components/Header/components/Language.vue";
 import SearchMenu from "@/layouts/components/Header/components/SearchMenu.vue";
-// ts-ignore
+// @ts-ignore
 import Gitee from "@/layouts/components/Header/components/Gitee.vue";
-// ts-ignore
+// @ts-ignore
 import Github from "@/layouts/components/Header/components/Github.vue";
-// ts-ignore
+// @ts-ignore
 import Message from "@/layouts/components/Header/components/Message.vue";
 </script>
 

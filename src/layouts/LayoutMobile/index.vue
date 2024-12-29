@@ -53,7 +53,7 @@ import { useRoute } from "vue-router";
 import useAuthStore from "@/stores/modules/auth.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import Language from "@/layouts/components/Header/components/Language.vue";
-// ts-ignore
+// @ts-ignore
 import Message from "@/layouts/components/Header/components/Message.vue";
 
 const route = useRoute();
