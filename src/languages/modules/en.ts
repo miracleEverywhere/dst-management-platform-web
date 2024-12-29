@@ -449,6 +449,8 @@ export default {
     autoPull: 'Auto Pull: ',
     manualPull: 'Manual Pull',
     manualPullTips: 'It is recommended to first disable automatic log pulling when using the manual log pulling function',
+    current: 'Current',
+    historical: 'Historical',
   },
   help: {
     one: {

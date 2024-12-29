@@ -450,6 +450,8 @@ export default {
     autoPull: '自动拉取：',
     manualPull: '手动拉取',
     manualPullTips: '使用手动拉取日志功能建议先关闭自动拉取',
+    current: '当前日志',
+    historical: '历史日志',
   },
   help: {
     one: {
