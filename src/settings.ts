@@ -7,7 +7,7 @@ export default {
   /**
    * 获取通知的url
    */
-  announceUrl: 'https://raw.githubusercontent.com/miracleEverywhere/dst-management-platform-announce/master/announce.json',
+  announceUrl: 'https://apifoxmock.com/m2/5691728-5372725-default/249539937',
   /**
    * 网页标题
    */
