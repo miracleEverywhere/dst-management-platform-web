@@ -14,6 +14,7 @@
     <Language class="<md:visible"></Language>
     <!-- 全屏图标 -->
     <FullScreen></FullScreen>
+    <Message></Message>
     <!-- 主题配置 -->
 <!--    <ThemeSetting class="<md:visible"></ThemeSetting>-->
     <!-- 头像 AND 下拉折叠 -->
@@ -34,6 +35,8 @@ import SearchMenu from "@/layouts/components/Header/components/SearchMenu.vue";
 import Gitee from "@/layouts/components/Header/components/Gitee.vue";
 // ts-ignore
 import Github from "@/layouts/components/Header/components/Github.vue";
+// ts-ignore
+import Message from "@/layouts/components/Header/components/Message.vue";
 </script>
 
 <style lang="scss" scoped>
