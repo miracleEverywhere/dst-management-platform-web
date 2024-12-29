@@ -3,10 +3,10 @@
     <el-row :gutter="10">
       <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
         <el-tabs v-model="activeTabName" @tab-change="handleTabChange">
-          <el-tab-pane label="caves" name="current">
+          <el-tab-pane :label="t('logs.current')" name="current">
             <log ref="logRef" type="caves"/>
           </el-tab-pane>
-          <el-tab-pane label="Historical" name="historical" :lazy="true">
+          <el-tab-pane :label="t('logs.historical')" name="historical" :lazy="true">
             <log ref="HistoricalLogRef" type="caves" :historical="true"/>
           </el-tab-pane>
         </el-tabs>
@@ -19,6 +19,9 @@
 <script setup>
 import log from "./components/log.vue"
 import {ref} from "vue";
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n()
 
 const activeTabName = ref('current')
 const handleTabChange = (name) => {
