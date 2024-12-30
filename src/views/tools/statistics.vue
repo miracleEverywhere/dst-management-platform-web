@@ -130,6 +130,23 @@ const option = ref({
     {
       data: [],
       type: 'line',
+      smooth: true,
+      areaStyle:{
+        color:{
+          //线性渐变
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: 'rgba(1, 255, 255, 0.8)', // 0% 处的颜色
+          }, {
+            offset: 1, color: 'rgba(1, 255, 255,0)', // 100% 处的颜色
+          }],
+          global: false, // 缺省为 false
+        },
+      },
     }
   ]
 })
