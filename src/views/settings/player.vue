@@ -63,7 +63,7 @@
                   <template v-for="uid in adminListData">
                     <el-tag size="large" closable @close="handleDeleteAdmin(uid)" :effect="isDark?'light':'dark'"
                             style="margin-right: 5px; margin-top: 5px">
-                      {{uid}}
+                      {{uid + getNickname(uid)}}
                     </el-tag>
                   </template>
                 </div>
@@ -87,7 +87,7 @@
                   <template v-for="uid in blockListData">
                     <el-tag size="large" closable @close="handleDeleteBlock(uid)" :effect="isDark?'light':'dark'"
                             style="margin-right: 5px; margin-top: 5px">
-                      {{uid}}
+                      {{uid + getNickname(uid)}}
                     </el-tag>
                   </template>
                 </div>
@@ -111,7 +111,7 @@
                   <template v-for="uid in whiteListData">
                     <el-tag size="large" closable @close="handleDeleteWhite(uid)" :effect="isDark?'light':'dark'"
                             style="margin-right: 5px; margin-top: 5px">
-                      {{uid}}
+                      {{uid + getNickname(uid)}}
                     </el-tag>
                   </template>
                 </div>
@@ -146,6 +146,7 @@ onMounted(() => {
 const getPlayerList = (tip=false) => {
   settingApi.player.list.get().then(response => {
     playersData.value = response.data.players
+    uidMap.value = response.data.uidMap
     adminListData.value = []
     for (let i of response.data.adminList) {
       if (i !== '') {
@@ -179,6 +180,7 @@ const getPlayerList = (tip=false) => {
 const activeTab = ref('players')
 
 const playersData = ref([])
+const uidMap = ref({})
 const adminListData = ref([])
 const blockListData = ref([])
 const whiteListData = ref([])
@@ -271,6 +273,18 @@ const handleKick = (uid) => {
   settingApi.player.kick.post({uid: uid}).then(response => {
     koiMsgSuccess(response.message)
   })
+}
+
+const getNickname = (uid) => {
+  if (uid in uidMap.value) {
+    return ' [' + uidMap.value[uid] + ']'
+  } else {
+    if (language.value === 'zh') {
+      return ' [暂未获取到]'
+    } else {
+      return ' [Not yet obtained]'
+    }
+  }
 }
 </script>
 
