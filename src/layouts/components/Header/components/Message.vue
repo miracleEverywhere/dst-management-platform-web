@@ -131,4 +131,7 @@ const handleClose = () =>{
     border-radius: 4px;
   }
 }
+ul {
+  list-style-type: none;
+}
 </style>
