@@ -15,6 +15,14 @@ export const timestamp2time = (timestamp) => {
   return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
 
+export const timestamp2timeWithoutDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const hours = ('0' + date.getHours()).slice(-2);
+  const minutes = ('0' + date.getMinutes()).slice(-2);
+  const seconds = ('0' + date.getSeconds()).slice(-2);
+  return hours + ':' + minutes + ':' + seconds;
+}
+
 export function seconds2Time(totalSeconds, language) {
   const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60));
   totalSeconds %= (365 * 24 * 60 * 60);
