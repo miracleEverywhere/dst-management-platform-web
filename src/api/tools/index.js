@@ -123,5 +123,11 @@ export default {
     post: async function(data){
       return await http.post(this.url, data);
     },
+  },
+  metrics: {
+    url: `/tools/metrics`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
   }
 }
