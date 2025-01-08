@@ -142,6 +142,14 @@ export default {
         return await http.post(this.url, data);
       }
     },
+  },
+  system: {
+    setting: {
+      url: `/setting/system/setting`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    }
   }
 
 }
