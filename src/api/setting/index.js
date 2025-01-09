@@ -148,6 +148,9 @@ export default {
       url: `/setting/system/setting`,
       get: async function (data) {
         return await http.get(this.url, data);
+      },
+      put: async function (data) {
+        return await http.put(this.url, data);
       }
     }
   }
