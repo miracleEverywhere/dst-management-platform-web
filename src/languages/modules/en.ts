@@ -309,6 +309,34 @@ export default {
         },
       },
     },
+    system: {
+      title: 'System Settings',
+      titleButton: 'Submit',
+      keepalive: {
+        divider: 'Keepalive',
+        title: 'Keepalive Check Frequency',
+        msg: 'Unit is minutes, default is 30 minutes. Do not change casually if you are not clear about the principle of keepalive'
+      },
+      playerList: {
+        divider: 'Player List',
+        title: 'Player list retrieval frequency',
+        msg: 'Unit in seconds, default is 30 seconds, the contradiction between log clutter and function implementation ^_^',
+      },
+      uidMap: {
+        divider: 'UID-Nickname Map Maintenance',
+        title: 'Maintenance Switch',
+        title2: 'Maintenance Frequency',
+        enable: 'On',
+        disable: 'Off',
+        msg: 'When disabled, player nicknames will no longer be displayed in the Settings-Player page',
+        msg2: 'Unit is minutes, default of 5 minutes, the contradiction between IO and functional implementation ^_^',
+      },
+      metrics: {
+        divider: 'Metrics',
+        title: 'Metrics Switch',
+        msg: 'Default is enabled, after turning it off, the Tools-Metrics page will no longer display any content',
+      }
+    },
   },
   tools: {
     install: {

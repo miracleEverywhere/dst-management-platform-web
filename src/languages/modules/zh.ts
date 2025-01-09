@@ -310,6 +310,34 @@ export default {
         },
       },
     },
+    system: {
+      title: '系统设置',
+      titleButton: '提交',
+      keepalive: {
+        divider: '自动保活',
+        title: '自动保活检测频率',
+        msg: '单位分钟，默认为30分钟，如果不清楚保活原理，请勿随意修改'
+      },
+      playerList: {
+        divider: '玩家列表',
+        title: '玩家列表获取频率',
+        msg: '单位秒，默认为30秒，日志杂乱度与功能实现的矛与盾^_^',
+      },
+      uidMap: {
+        divider: '昵称字典维护',
+        title: '玩家昵称字典维护开关',
+        title2: '玩家昵称字典写入频率',
+        enable: '开启',
+        disable: '关闭',
+        msg: '默认开启，关闭后，在设置-玩家的管理员黑名单白名单页面中将不再显示玩家昵称',
+        msg2: '单位分钟，默认为5分钟，磁盘IO与功能实现的矛与盾^_^',
+      },
+      metrics: {
+        divider: '系统监控',
+        title: '系统监控开关',
+        msg: '默认开启，关闭后，在工具-系统监控页面中将不再显示任何内容',
+      }
+    },
   },
   tools: {
     install: {
