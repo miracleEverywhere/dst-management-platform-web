@@ -20,12 +20,15 @@ import Tabs from "@/layouts/components/Tabs/index.vue";
 import { storeToRefs } from "pinia";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
+import {useScreenStore} from "@/hooks/screen";
 
 const globalStore = useGlobalStore();
 // 路由动画
 const { transition } = storeToRefs(globalStore);
 
 const keepAliveStore = useKeepAliveStore();
+
+const {isMobile} = useScreenStore();
 
 // 刷新当前路由页面缓存方法
 const isRouterShow = ref(true);
@@ -48,16 +51,17 @@ watch(
 
 /** 监听窗口大小变化，折叠侧边栏 */
 const screenWidth = ref(0);
-const showTabs = ref(true);
+const showTabs = ref(!isMobile.value);
 const listeningWindow = useDebounceFn(() => {
   screenWidth.value = document.body.clientWidth;
   if (!globalStore.isCollapse && screenWidth.value < 1200) globalStore.setGlobalState("isCollapse", true);
   if (globalStore.isCollapse && screenWidth.value > 1200) globalStore.setGlobalState("isCollapse", false);
-  if (screenWidth.value < 520) {
-    showTabs.value = false;
-  } else {
-    showTabs.value = true;
-  }
+  // if (screenWidth.value < 520) {
+  //   showTabs.value = false;
+  // } else {
+  //   showTabs.value = true;
+  // }
+  showTabs.value = !isMobile.value
 }, 100);
 window.addEventListener("resize", listeningWindow, false);
 onBeforeUnmount(() => {
