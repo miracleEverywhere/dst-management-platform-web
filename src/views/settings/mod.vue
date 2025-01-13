@@ -4,10 +4,20 @@
       <el-tab-pane :label="t('setting.mod.tab.download')" name="Download">
         <el-card v-loading="modSearchLoading" style="height: 78vh" shadow="never">
           <div>
-            <el-form ref="modSearchFormRef" :model="modSearchForm" :inline="true" @keyup.enter="handleModSearch">
+            <el-form ref="modSearchFormRef" :model="modSearchForm"
+                     :inline="true" @keyup.enter="handleModSearch">
               <el-form-item>
-                <el-input v-model="modSearchForm.searchText" style="width: 40vw;"></el-input>
-                <el-button type="primary" @click="handleModSearch" style="margin-left: 10px">{{t('setting.mod.download.search')}}</el-button>
+                <el-input v-model="modSearchForm.searchText" :style="isMobile?'width: 75vw;':'width: 50vw;'">
+                  <template #prepend>
+                    <el-select v-model="modSearchForm.searchType" style="width: 85px">
+                      <el-option :label="$t('setting.mod.download.searchTypeText')" value="text" />
+                      <el-option :label="$t('setting.mod.download.searchTypeId')" value="id" />
+                    </el-select>
+                  </template>
+                  <template #append>
+                    <el-button type="primary" @click="handleModSearch">{{t('setting.mod.download.search')}}</el-button>
+                  </template>
+                </el-input>
               </el-form-item>
             </el-form>
           </div>
@@ -179,7 +189,7 @@ import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
 import {formatBytes} from "@/utils/tools.js";
-import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts"
+import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts"
 
 
 onMounted(async () => {
@@ -190,6 +200,7 @@ const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
+const language = computed(() => globalStore.language);
 
 const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {
@@ -257,6 +268,7 @@ const modSearchForm = ref({
   page: 1,
   pageSize: 30,
   searchText: "",
+  searchType: "text",
 })
 
 const handleModSearch = () => {
@@ -264,6 +276,9 @@ const handleModSearch = () => {
   externalApi.modSearch.get(modSearchForm.value).then(response => {
     modSearchData.value.rows = response.data.rows
     modSearchData.value.total = response.data.total
+    if (modSearchForm.value.searchType === "id") {
+      koiMsgInfo(language.value==='zh'?'ID搜索不显示评分':'Search by ID will not display the vote data')
+    }
   }).finally(() => {
     modSearchLoading.value = false
   })

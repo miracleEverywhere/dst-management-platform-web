@@ -267,6 +267,8 @@ export default {
         setting: 'Configure Mod',
       },
       download: {
+        searchTypeText: "Name",
+        searchTypeId: "ID",
         search: 'Search',
         detail: 'Detail',
         download: 'Download',

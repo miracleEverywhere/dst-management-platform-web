@@ -268,6 +268,8 @@ export default {
         setting: '配置模组',
       },
       download: {
+        searchTypeText: "名称",
+        searchTypeId: "ID",
         search: '搜索',
         detail: '详情',
         download: '下载',
