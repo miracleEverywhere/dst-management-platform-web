@@ -542,6 +542,7 @@ export default {
       tip6: 'Authentication Password: ',
       tip6_1: 'The password for authentication between Ground and Cave needs to be consistent across both servers',
       alert: 'After completing the configuration, it is necessary to open the corresponding ports on the cloud server\'s management page; otherwise, connection failures may occur',
+      tip7: 'In Multi-host mode, the MOD configuration of the master host and the slave hosts must be consistent. If a new MOD is added to the master host, the same MOD should also be added to the remaining slave hosts',
     },
   },
 };

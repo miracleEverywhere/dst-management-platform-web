@@ -172,6 +172,9 @@
                 <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false">
                   {{ t('help.five.alert') }}
                 </el-alert>
+                <div class="tip custom-block">
+                  {{t('help.five.tip7')}}
+                </div>
               </el-collapse-item>
             </el-collapse>
           </div>
