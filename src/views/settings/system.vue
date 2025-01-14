@@ -130,7 +130,7 @@ import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {koiMsgSuccess, koiMsgInfo} from "@/utils/koi.ts";
+import {koiMsgSuccess, koiMsgInfo, koiNoticeInfo} from "@/utils/koi.ts";
 import _ from 'lodash'
 import {deepCopy} from "@/utils/tools.js";
 
@@ -216,6 +216,11 @@ const handleSubmit = () => {
         settingApi.system.setting.put(systemSettingForm.value).then(response => {
           handleGetSystemSetting()
           koiMsgSuccess(response.message)
+          if (systemSettingFormOld.value.bit64 !== systemSettingForm.value.bit64) {
+            const message = language.value==='zh'?'正在后台切换32/64，可依据CPU使用率判断是否执行完毕，执行完毕后重启游戏即可。':'The background switching 32-bit/64-bit task is in progress, and you can determine if it has completed based on the CPU usage. Once it\'s completed, you can restart the game.'
+            const title = language.value==='zh'?'系统提示':'Tip'
+            koiNoticeInfo(message, title, 10000)
+          }
         }).finally(() => {
           submitButtonLoading.value = false
         })
