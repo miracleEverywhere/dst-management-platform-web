@@ -84,7 +84,6 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-
               <el-divider content-position="left">{{t('setting.system.metrics.divider')}}</el-divider>
               <el-form-item :label="t('setting.system.metrics.title')" prop="sysMetricsGet.disable">
                 <el-row>
@@ -97,6 +96,22 @@
                   <el-col :span="24">
                     <div class="el-form-item-msg" style="color: #A8ABB2">
                       {{t('setting.system.metrics.msg')}}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-divider content-position="left">{{t('setting.system.bit64.divider')}}</el-divider>
+              <el-form-item :label="t('setting.system.bit64.title')" prop="bit64">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.bit64">
+                      <el-radio :value="true">{{t('setting.system.uidMap.enable')}}</el-radio>
+                      <el-radio :value="false">{{t('setting.system.uidMap.disable')}}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{t('setting.system.bit64.msg')}}
                     </div>
                   </el-col>
                 </el-row>
@@ -179,7 +194,8 @@ const systemSettingFormRules = {
   },
   sysMetricsGet: {
     disable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
-  }
+  },
+  bit64: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
 }
 
 const handleGetSystemSetting = () => {

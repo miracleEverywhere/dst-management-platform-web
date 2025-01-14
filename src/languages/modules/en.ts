@@ -322,7 +322,7 @@ export default {
       playerList: {
         divider: 'Player List',
         title: 'Player list retrieval frequency',
-        msg: 'Unit in seconds, default is 30 seconds, the contradiction between log clutter and function implementation ^_^',
+        msg: 'Unit in seconds, default is 30 seconds, the contradiction between log clutter and function implementation ^_^ (This feature affects keepalive and UID-Nickname map maintenance)',
       },
       uidMap: {
         divider: 'UID-Nickname Map Maintenance',
@@ -337,7 +337,12 @@ export default {
         divider: 'Metrics',
         title: 'Metrics Switch',
         msg: 'Default is enabled, after turning it off, the Tools-Metrics page will no longer display any content',
-      }
+      },
+      bit64: {
+        divider: '64-bit',
+        title: '64-bit',
+        msg: 'Default is disabled, Enabling this feature will enhance game performance, but it will increase memory usage',
+      },
     },
   },
   tools: {
