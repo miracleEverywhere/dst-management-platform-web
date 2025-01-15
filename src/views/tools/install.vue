@@ -38,7 +38,12 @@
                      :sub-title="$t('tools.install.checkNotPassDesc')"
           >
             <template #extra>
-              <el-button type="warning" :loading="installing" @click="handleInstall">{{t('tools.install.install')}}</el-button>
+              <div>
+                <el-button type="warning" :loading="installing" :disabled="osInfo.Platform==='darwin'" @click="handleInstall">{{t('tools.install.install')}}</el-button>
+              </div>
+              <div style="margin-top: 5px">
+                <el-text type="info">{{t('tools.install.macosTip')}}</el-text>
+              </div>
             </template>
           </el-result>
         </el-card>
