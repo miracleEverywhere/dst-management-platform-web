@@ -281,6 +281,7 @@ export default {
           refresh: '刷新',
           sync: '同步',
           syncTooltip: '该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面',
+          export: '导出',
         },
         alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载',
         table: {
@@ -365,6 +366,7 @@ export default {
       installProgress: '安装进度',
       noClose: '安装过程中请勿刷新或关闭页面',
       installTip: '如果安装完成后，首页无法获取饥荒版本，请手动执行manual_install.sh脚本，执行方法：cd && ./manual_install.sh',
+      macosTip: 'MacOS用户请使用脚本进行安装',
     },
     announce: {
       title: '定时通知',

@@ -280,6 +280,7 @@ export default {
           refresh: 'Refresh',
           sync: 'Sync',
           syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
+          export: 'Export',
         },
         alert: 'Tip: Mod download speed depends on your network and mod size. Please be patient and do not download repeatedly',
         table: {
@@ -364,6 +365,7 @@ export default {
       installProgress: 'Installation progress',
       noClose: 'Do not refresh or close the page during installation',
       installTip: 'After the installation is complete, if the DST version cannot be retrieved on the homepage, please manually execute the manual_install.sh script. Execution CMD: cd && ./manual_install.sh',
+      macosTip: 'For MacOS users, please use the manual script to install DST',
     },
     announce: {
       title: 'Auto Announce',
