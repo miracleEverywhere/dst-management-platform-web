@@ -54,7 +54,7 @@
                         {{t('setting.mod.add.header.sync')}}
                       </el-button>
                     </el-tooltip>
-                    <el-button v-if="OSPlatform==='darwin'" @click="handleMacOSExport">导出</el-button>
+                    <el-button v-if="OSPlatform==='darwin'" @click="handleMacOSExport" :loading="macOSExportButtonLoading" type="success">{{t('setting.mod.add.header.export')}}</el-button>
                   </div>
                 </div>
               </template>
@@ -97,7 +97,7 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane :label="t('setting.mod.tab.setting')" name="Setting">
+      <el-tab-pane v-if="!(OSPlatform==='darwin')" :label="t('setting.mod.tab.setting')" name="Setting">
         <el-row :gutter="10">
           <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
             <el-card v-loading="modSettingFormatLoading" :style="isMobile?'height: 50vh':'height: 70vh'" shadow="never">
@@ -382,10 +382,13 @@ const handleGetOSPlatform = () => {
     OSPlatform.value = response.data.Platform
   })
 }
-
+const macOSExportButtonLoading = ref(false)
 const handleMacOSExport = () => {
+  macOSExportButtonLoading.value = true
   settingsApi.mod.macosExport.post().then(response => {
     koiMsgSuccess(response.message)
+  }).finally(() => {
+    macOSExportButtonLoading.value = false
   })
 }
 
