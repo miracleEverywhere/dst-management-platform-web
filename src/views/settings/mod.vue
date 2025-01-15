@@ -54,6 +54,7 @@
                         {{t('setting.mod.add.header.sync')}}
                       </el-button>
                     </el-tooltip>
+                    <el-button v-if="OSPlatform==='darwin'" @click="handleMacOSExport">导出</el-button>
                   </div>
                 </div>
               </template>
@@ -183,6 +184,7 @@
 <script name="settingsMod" setup>
 import settingsApi from "@/api/setting/index.js"
 import externalApi from "@/api/externalApi/index.js"
+import toolsApi from "@/api/tools/index.js"
 import {computed, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
@@ -194,6 +196,7 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts"
 
 onMounted(async () => {
   await handleModSearch()
+  handleGetOSPlatform()
 })
 
 const {t} = useI18n()
@@ -370,6 +373,19 @@ const handleModDisable = () => {
     handleGetModSetting()
   }).finally(() =>{
     buttonDisableModLoading.value = false
+  })
+}
+
+const OSPlatform = ref("")
+const handleGetOSPlatform = () => {
+  toolsApi.osInfo.get().then(response => {
+    OSPlatform.value = response.data.Platform
+  })
+}
+
+const handleMacOSExport = () => {
+  settingsApi.mod.macosExport.post().then(response => {
+    koiMsgSuccess(response.message)
   })
 }
 

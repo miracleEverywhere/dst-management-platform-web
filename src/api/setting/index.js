@@ -142,6 +142,12 @@ export default {
         return await http.post(this.url, data);
       }
     },
+    macosExport: {
+      url: `/setting/mod/export/macos`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
   },
   system: {
     setting: {
