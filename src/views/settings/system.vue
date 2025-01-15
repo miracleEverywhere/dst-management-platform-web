@@ -104,7 +104,7 @@
               <el-form-item :label="t('setting.system.bit64.title')" prop="bit64">
                 <el-row>
                   <el-col :span="24">
-                    <el-radio-group v-model="systemSettingForm.bit64">
+                    <el-radio-group :disabled="OSPlatform==='darwin'" v-model="systemSettingForm.bit64">
                       <el-radio :value="true">{{t('setting.system.uidMap.enable')}}</el-radio>
                       <el-radio :value="false">{{t('setting.system.uidMap.disable')}}</el-radio>
                     </el-radio-group>
@@ -133,6 +133,7 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess, koiMsgInfo, koiNoticeInfo} from "@/utils/koi.ts";
 import _ from 'lodash'
 import {deepCopy} from "@/utils/tools.js";
+import toolsApi from "@/api/tools/index.js";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -142,6 +143,7 @@ const language = computed(() => globalStore.language);
 
 onMounted(() => {
   handleGetSystemSetting()
+  handleGetOSPlatform()
 })
 
 const systemSettingFormRef = ref()
@@ -226,6 +228,13 @@ const handleSubmit = () => {
         })
       }
     }
+  })
+}
+
+const OSPlatform = ref("")
+const handleGetOSPlatform = () => {
+  toolsApi.osInfo.get().then(response => {
+    OSPlatform.value = response.data.Platform
   })
 }
 </script>
