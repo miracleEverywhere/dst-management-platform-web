@@ -74,7 +74,7 @@
                 <el-switch v-model="roomBaseForm.vote"/>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.password')">
-                <el-input v-model="roomBaseForm.password"></el-input>
+                <el-input v-model="roomBaseForm.password" show-password autocomplete="new-password"></el-input>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.token')" prop="token">
                 <el-input v-model="roomBaseForm.token" show-password></el-input>
@@ -675,7 +675,7 @@
                 <el-switch v-model="roomBaseForm.vote"/>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.password')">
-                <el-input v-model="roomBaseForm.password"></el-input>
+                <el-input v-model="roomBaseForm.password" show-password autocomplete="new-password"></el-input>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.token')" prop="token">
                 <el-input v-model="roomBaseForm.token" show-password></el-input>
