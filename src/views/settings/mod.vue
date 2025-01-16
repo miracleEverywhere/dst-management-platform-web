@@ -274,7 +274,10 @@ const modSearchForm = ref({
   searchType: "text",
 })
 
-const handleModSearch = () => {
+const handleModSearch = (resetPage = true) => {
+  if (resetPage) {
+    modSearchForm.value.page = 1;
+  }
   modSearchLoading.value = true
   externalApi.modSearch.get(modSearchForm.value).then(response => {
     modSearchData.value.rows = response.data.rows
@@ -288,10 +291,10 @@ const handleModSearch = () => {
 }
 
 const handlePageSizeChange = (pageSize) => {
-  handleModSearch()
+  handleModSearch(false)
 }
 const handlePageChange = (page) => {
-  handleModSearch()
+  handleModSearch(false)
 }
 
 const downloadedMod = ref([])
