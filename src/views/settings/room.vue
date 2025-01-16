@@ -6,10 +6,12 @@
           <el-card shadow="never">
             <el-steps :active="step" align-center finish-status="success">
               <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')" @click="handleStepClick(0)"/>
-              <el-step :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')" @click="handleStepClick(1)"/>
+              <el-step :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')"
+                       @click="handleStepClick(1)"/>
               <el-step :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')" @click="handleStepClick(2)"/>
               <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')" @click="handleStepClick(3)"/>
-              <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')" @click="handleStepClick(4)"/>
+              <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"
+                       @click="handleStepClick(4)"/>
             </el-steps>
           </el-card>
         </el-col>
@@ -20,10 +22,12 @@
             <template #header>
               <div class="card-header">
                 <span>
-                  {{t('setting.roomSetting')}}
+                  {{ t('setting.roomSetting') }}
                 </span>
                 <div>
-                  <el-button link type="primary" @click="handleChangeMultiHost(true)">{{t('setting.baseForm.changeMultiHostMode')}}</el-button>
+                  <el-button link type="primary" @click="handleChangeMultiHost(true)">
+                    {{ t('setting.baseForm.changeMultiHostMode') }}
+                  </el-button>
                 </div>
               </div>
             </template>
@@ -91,11 +95,11 @@
               <el-tab-pane :label="t('setting.tabCode')" name="Code">
                 <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                            @click="handleImportLeveldataLua('master', 'endless')">
-                  {{t('setting.luaImportButton.endless')}}
+                  {{ t('setting.luaImportButton.endless') }}
                 </el-button>
                 <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
                            @click="handleImportLeveldataLua('master', 'survival')">
-                  {{t('setting.luaImportButton.survival')}}
+                  {{ t('setting.luaImportButton.survival') }}
                 </el-button>
                 <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                          :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
@@ -106,8 +110,9 @@
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
-                           :label="t('setting.tabVisualization')" name="Visualization">
+              <el-tab-pane
+                v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
+                :label="t('setting.tabVisualization')" name="Visualization">
                 <el-divider content-position="center"><span
                   style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
                   {{ t('setting.groundVisualizationRuleItem.global') }}
@@ -121,6 +126,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -140,6 +146,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -159,6 +166,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -178,6 +186,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -197,6 +206,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -216,6 +226,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -235,6 +246,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -254,6 +266,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -273,6 +286,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -292,6 +306,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -311,6 +326,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -330,6 +346,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -349,6 +366,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -368,6 +386,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
@@ -385,11 +404,11 @@
                 <div style="margin-top: 10px">
                   <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                              @click="handleImportLeveldataLua('caves', 'endless')">
-                    {{t('setting.luaImportButton.endless')}}
+                    {{ t('setting.luaImportButton.endless') }}
                   </el-button>
                   <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
                              @click="handleImportLeveldataLua('caves', 'survival')">
-                    {{t('setting.luaImportButton.survival')}}
+                    {{ t('setting.luaImportButton.survival') }}
                   </el-button>
                 </div>
                 <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
@@ -401,8 +420,9 @@
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
-                           :label="t('setting.tabVisualization')" name="Visualization">
+              <el-tab-pane
+                v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
+                :label="t('setting.tabVisualization')" name="Visualization">
                 <el-divider content-position="center"><span
                   style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
                   {{ t('setting.cavesVisualizationRuleItem.world') }}
@@ -416,6 +436,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -435,6 +456,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -454,6 +476,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -473,6 +496,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -492,6 +516,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -511,6 +536,7 @@
                                         :i18n="caveOverrideWorldGenerationWorld[i].i18n"
                                         :image="caveOverrideWorldGenerationWorld[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -530,6 +556,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -549,6 +576,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -568,6 +596,7 @@
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
@@ -628,7 +657,8 @@
               <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')" @click="handleStepClick(0)"/>
               <el-step :title="isMobile?$t('setting.worldSettingMobile'):$t('setting.worldSetting')" @click="handleStepClick(1)"/>
               <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')" @click="handleStepClick(3)"/>
-              <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')" @click="handleStepClick(2)"/>
+              <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"
+                       @click="handleStepClick(2)"/>
             </el-steps>
           </el-card>
         </el-col>
@@ -639,10 +669,12 @@
             <template #header>
               <div class="card-header">
                 <span>
-                  {{t('setting.roomSetting')}}
+                  {{ t('setting.roomSetting') }}
                 </span>
                 <div>
-                  <el-button link type="primary" @click="handleChangeMultiHost(false)">{{t('setting.baseForm.changeSingleHostMode')}}</el-button>
+                  <el-button link type="primary" @click="handleChangeMultiHost(false)">
+                    {{ t('setting.baseForm.changeSingleHostMode') }}
+                  </el-button>
                 </div>
               </div>
             </template>
@@ -692,8 +724,8 @@
               <div class="card-header">
                 <div>
                   <el-radio-group v-model="multiHostIsMaster" @change="clearSetting">
-                    <el-radio :value="true" size="small">{{t('setting.groundSettingMobile')}}</el-radio>
-                    <el-radio :value="false" size="small">{{t('setting.caveSettingMobile')}}</el-radio>
+                    <el-radio :value="true" size="small">{{ t('setting.groundSettingMobile') }}</el-radio>
+                    <el-radio :value="false" size="small">{{ t('setting.caveSettingMobile') }}</el-radio>
                   </el-radio-group>
                 </div>
               </div>
@@ -703,11 +735,11 @@
                 <el-tab-pane :label="t('setting.tabCode')" name="Code">
                   <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                              @click="handleImportLeveldataLua('master', 'endless')">
-                    {{t('setting.luaImportButton.endless')}}
+                    {{ t('setting.luaImportButton.endless') }}
                   </el-button>
                   <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
                              @click="handleImportLeveldataLua('master', 'survival')">
-                    {{t('setting.luaImportButton.survival')}}
+                    {{ t('setting.luaImportButton.survival') }}
                   </el-button>
                   <el-form ref="roomBaseFormRef" :model="roomBaseForm" inline
                            :label-width="isMobile?'70':'100'" label-position="top"
@@ -718,17 +750,22 @@
                       </el-form-item>
                     </el-tooltip>
                     <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.shardMasterPort')" prop="shardMasterPort">
+                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.shardMasterPort')"
+                                    prop="shardMasterPort">
                         <el-input v-model="roomBaseForm.shardMasterPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')" prop="steamMasterPort">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port"
+                                placement="top">
+                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')"
+                                    prop="steamMasterPort">
                         <el-input v-model="roomBaseForm.steamMasterPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamAuthenticationPort')" prop="steamAuthenticationPort">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port"
+                                placement="top">
+                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamAuthenticationPort')"
+                                    prop="steamAuthenticationPort">
                         <el-input v-model="roomBaseForm.steamAuthenticationPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
@@ -746,14 +783,16 @@
                   <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                            :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
                     <el-form-item label-position="top" :label="t('setting.roomWorldForm.groundSetting')" prop="groundSetting">
-                      <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
+                      <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting"
+                                      :height="isMobile?320:500"
                                       :theme="isDark?'darcula':'idea'"
                                       mode="lua" style="width: 100%"></sc-code-editor>
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
-                             :label="t('setting.tabVisualization')" name="Visualization">
+                <el-tab-pane
+                  v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
+                  :label="t('setting.tabVisualization')" name="Visualization">
                   <el-divider content-position="center"><span
                     style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
                     {{ t('setting.groundVisualizationRuleItem.global') }}
@@ -767,6 +806,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -786,6 +826,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -805,6 +846,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -824,6 +866,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -843,6 +886,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -862,6 +906,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -881,6 +926,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -900,6 +946,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -919,6 +966,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -938,6 +986,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -957,6 +1006,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -976,6 +1026,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -995,6 +1046,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -1014,6 +1066,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
@@ -1030,11 +1083,11 @@
                   <div>
                     <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                                @click="handleImportLeveldataLua('caves', 'endless')">
-                      {{t('setting.luaImportButton.endless')}}
+                      {{ t('setting.luaImportButton.endless') }}
                     </el-button>
                     <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
                                @click="handleImportLeveldataLua('caves', 'survival')">
-                      {{t('setting.luaImportButton.survival')}}
+                      {{ t('setting.luaImportButton.survival') }}
                     </el-button>
                   </div>
                   <el-form ref="roomBaseFormRef" :model="roomBaseForm" inline
@@ -1046,17 +1099,22 @@
                       </el-form-item>
                     </el-tooltip>
                     <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.shardMasterPort')" prop="shardMasterPort">
+                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.shardMasterPort')"
+                                    prop="shardMasterPort">
                         <el-input v-model="roomBaseForm.shardMasterPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')" prop="steamMasterPort">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port"
+                                placement="top">
+                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')"
+                                    prop="steamMasterPort">
                         <el-input v-model="roomBaseForm.steamMasterPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamAuthenticationPort')" prop="steamAuthenticationPort">
+                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port"
+                                placement="top">
+                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamAuthenticationPort')"
+                                    prop="steamAuthenticationPort">
                         <el-input v-model="roomBaseForm.steamAuthenticationPort" type="number" size="default"/>
                       </el-form-item>
                     </el-tooltip>
@@ -1080,8 +1138,9 @@
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
-                             :label="t('setting.tabVisualization')" name="Visualization">
+                <el-tab-pane
+                  v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
+                  :label="t('setting.tabVisualization')" name="Visualization">
                   <el-divider content-position="center"><span
                     style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
                     {{ t('setting.cavesVisualizationRuleItem.world') }}
@@ -1095,6 +1154,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1114,6 +1174,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1133,6 +1194,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1152,6 +1214,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1171,6 +1234,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1190,6 +1254,7 @@
                                           :i18n="caveOverrideWorldGenerationWorld[i].i18n"
                                           :image="caveOverrideWorldGenerationWorld[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1209,6 +1274,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1228,6 +1294,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1247,6 +1314,7 @@
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
@@ -1314,7 +1382,14 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
-import {groundWorldGeneration, groundWorldRule, overrides, caveOverrideWorldGenerationWorld, cavesWorldRule, cavesWorldGeneration} from "@/views/settings/components/levelDataMap.js"
+import {
+  groundWorldGeneration,
+  groundWorldRule,
+  overrides,
+  caveOverrideWorldGenerationWorld,
+  cavesWorldRule,
+  cavesWorldGeneration
+} from "@/views/settings/components/levelDataMap.js"
 import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
 
 const {t} = useI18n()
@@ -1733,7 +1808,7 @@ const handleCavesModelValueChange = (data) => {
   }
 }
 
-const astToLua = (astNode, indentLevel=0) => {
+const astToLua = (astNode, indentLevel = 0) => {
   const indent = '    '.repeat(indentLevel);
   switch (astNode.type) {
     case 'Chunk':
@@ -1782,7 +1857,7 @@ const getMultiHost = async () => {
   })
 }
 
-const handleChangeMultiHost = (v) =>{
+const handleChangeMultiHost = (v) => {
   settingApi.multihost.post({multiHost: !isMultiHost.value}).then(response => {
     isMultiHost.value = !isMultiHost.value
     if (v) {
@@ -1794,7 +1869,7 @@ const handleChangeMultiHost = (v) =>{
 
 const multiHostIsMaster = ref(true)
 
-const clearSetting = () =>{
+const clearSetting = () => {
   roomGroundForm.value.groundSetting = ""
   roomCaveForm.value.caveSetting = ""
 

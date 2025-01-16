@@ -3,7 +3,7 @@
     <el-image :src="getImageUrl(props.image)" fit="fill" style="width: 75px; height: 75px"/>
     <div style="width: 140px">
       <div class="fcc">
-        <el-tag size="large">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
+        <el-tag size="large" :type="modelValue===defaultModelValue?'primary':'warning'">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
       </div>
       <div style="margin: 5px 0" class="fcc">
         <el-button :icon="ArrowLeftBold" link type="primary" :disabled="leftClickDisabled" @click="leftClick"></el-button>
@@ -28,6 +28,7 @@ const props = defineProps({
   i18n: {type: Object, default: {zh: '', en: ''}},
   name: {type: String, default: ''},
   customConfigsValue: {type: Object, default: {}},
+  defaultModelValue: {type: String, default: 'default'},
 })
 
 const emit = defineEmits(['changeModelValue']);
