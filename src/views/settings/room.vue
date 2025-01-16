@@ -776,7 +776,7 @@
                     </el-tooltip>
                     <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - cluster_key" placement="top">
                       <el-form-item label-position="top" :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
-                        <el-input v-model="roomBaseForm.clusterKey" type="password" show-password size="default"/>
+                        <el-input v-model="roomBaseForm.clusterKey" type="password" show-password autocomplete="new-password" size="default"/>
                       </el-form-item>
                     </el-tooltip>
                   </el-form>
@@ -1125,7 +1125,7 @@
                     </el-tooltip>
                     <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - cluster_key" placement="top">
                       <el-form-item label-position="top" :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
-                        <el-input v-model="roomBaseForm.clusterKey" type="password" show-password size="default"/>
+                        <el-input v-model="roomBaseForm.clusterKey" type="password" show-password autocomplete="new-password" size="default"/>
                       </el-form-item>
                     </el-tooltip>
                   </el-form>
