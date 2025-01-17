@@ -148,6 +148,12 @@ export default {
         return await http.post(this.url, data);
       }
     },
+    update: {
+      url: `/setting/mod/update`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    }
   },
   system: {
     setting: {
