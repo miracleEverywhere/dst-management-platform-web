@@ -305,6 +305,7 @@ export default {
           header: {
             title: 'Configure Mod',
             disable: 'Disable',
+            update: "Update",
           },
           result: 'This mod has no configuration options',
           result2: 'Please select a mod to configure',

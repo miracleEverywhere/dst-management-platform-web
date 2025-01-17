@@ -132,13 +132,17 @@
               <template #header>
                 <div class="card-header">
                   <span>{{t('setting.mod.setting.right.header.title')}}</span>
-                  <el-button type="danger" :disabled="clickedModID===0" :loading="buttonDisableModLoading"
-                             @click="handleModDisable">{{t('setting.mod.setting.right.header.disable')}}</el-button>
+                  <div>
+                    <el-button type="primary" :disabled="clickedModID===0"
+                               :loading="modUpdateButtonLoading" @click="handleModUpdate">{{t('setting.mod.setting.right.header.update')}}</el-button>
+                    <el-button type="danger" :disabled="clickedModID===0" :loading="buttonDisableModLoading"
+                               @click="handleModDisable">{{t('setting.mod.setting.right.header.disable')}}</el-button>
+                  </div>
                 </div>
               </template>
               <template v-if="clickedModID!==0">
                 <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
-                  <template v-if="modConfigurations.configOptions.length!==0">
+                  <template v-if="modConfigurations.configOptions">
                     <el-form ref="modSettingFormRef" :size="isMobile?'small':'large'"
                              :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">
                       <el-form-item label="ID">
@@ -161,7 +165,7 @@
                       </template>
                     </el-form>
                   </template>
-                  <template v-if="modConfigurations.configOptions.length===0">
+                  <template v-else>
                     <div class="fcc" :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'">
                       <el-result icon="info" :title="t('setting.mod.setting.right.result')"/>
                     </div>
@@ -392,6 +396,21 @@ const handleMacOSExport = () => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     macOSExportButtonLoading.value = false
+  })
+}
+
+const modUpdateButtonLoading = ref(false)
+const handleModUpdate = () => {
+  modUpdateButtonLoading.value = true
+  const reqForm = {
+    isUgc: clickedModFileUrl.value === "",
+    id: clickedModID.value,
+    fileURL: clickedModFileUrl.value
+  }
+  settingsApi.mod.update.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    modUpdateButtonLoading.value = false
   })
 }
 

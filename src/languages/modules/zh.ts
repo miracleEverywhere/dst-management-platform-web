@@ -305,7 +305,8 @@ export default {
         right: {
           header: {
             title: '配置模组',
-            disable: '禁用模组',
+            disable: '禁用',
+            update: "更新",
           },
           result: '该模组无配置项',
           result2: '请选择一个模组进行配置',
