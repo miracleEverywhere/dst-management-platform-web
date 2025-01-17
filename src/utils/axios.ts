@@ -64,7 +64,7 @@ class Yu {
           // 这里的后端可能是code OR status 和 message OR message需要看后端传递的是什么？
           // console.log("200状态", status);
           return res.data;
-        } else if (status == 401) {
+        } else if (status == 401 || status == 420) {
           // console.log("401状态", status);
           const userStore = useUserStore();
           userStore.setToken(""); // 清空token必须使用这个，不能使用session清空，因为登录的时候js会获取一遍token还会存在。
