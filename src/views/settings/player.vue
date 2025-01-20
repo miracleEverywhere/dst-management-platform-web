@@ -21,6 +21,12 @@
                     <span v-else>{{scope.row.prefab}}</span>
                   </template>
                 </el-table-column>
+                <el-table-column prop="age" :label="$t('setting.age')">
+                  <template #default="scope">
+                    <el-tag v-if="scope.row.age" type="success">{{scope.row.age}}</el-tag>
+                    <el-tag v-else type="warning">{{t('setting.button.roleFail')}}</el-tag>
+                  </template>
+                </el-table-column>
                 <el-table-column prop="uid" label="UID"/>
                 <el-table-column prop="actions" :label="$t('setting.button.actions')">
                   <template #default="scope">

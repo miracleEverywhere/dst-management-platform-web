@@ -238,6 +238,7 @@ export default {
     tagCloseTip: "TIPS: Click the '×' after the player's UID to delete",
     nickName: 'Nickname',
     role: 'Role',
+    age: 'Days',
     roleFail: 'Fetch Failed',
     addAdmin: 'Add Admin List',
     addBlock: 'Add to Block List',

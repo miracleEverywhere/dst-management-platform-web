@@ -239,6 +239,7 @@ export default {
     tagCloseTip: '提示：点击玩家UID后的 "x" 即可删除',
     nickName: '名字',
     role: '角色',
+    age: '天数',
     roleFail: '获取失败',
     addAdmin: '添加管理员',
     addBlock: '添加黑名单',
