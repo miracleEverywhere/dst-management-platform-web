@@ -245,6 +245,7 @@ export default {
     addBlock: '添加黑名单',
     addWhite: '添加白名单',
     kick: '踢出玩家',
+    historyPlayer: '历史玩家',
     import: {
       title: '存档导入',
       text1: '上传过程中会自动备份存档。上传完成后请手动启动服务器。',

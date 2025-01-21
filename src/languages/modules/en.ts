@@ -244,6 +244,7 @@ export default {
     addBlock: 'Add to Block List',
     addWhite: 'Add to White List',
     kick: 'Kick Player',
+    historyPlayer: 'History Players',
     import: {
       title: 'Import',
       text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',
