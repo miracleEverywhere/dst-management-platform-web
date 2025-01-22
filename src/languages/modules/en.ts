@@ -491,6 +491,15 @@ export default {
     manualPullTips: 'It is recommended to first disable automatic log pulling when using the manual log pulling function',
     current: 'Current',
     historical: 'Historical',
+    clean: {
+      title: 'Clean Logs',
+      selectAll: 'Select All',
+      button: 'Clean',
+      refresh: 'Refresh',
+      type: 'Log Type',
+      size: 'Size',
+      num: 'File Count',
+    },
   },
   help: {
     one: {

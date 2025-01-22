@@ -492,6 +492,15 @@ export default {
     manualPullTips: '使用手动拉取日志功能建议先关闭自动拉取',
     current: '当前日志',
     historical: '历史日志',
+    clean: {
+      title: '日志清理',
+      selectAll: '全选',
+      button: '清理',
+      refresh: '刷新',
+      type: '日志类型',
+      size: '大小',
+      num: '文件数',
+    },
   },
   help: {
     one: {
