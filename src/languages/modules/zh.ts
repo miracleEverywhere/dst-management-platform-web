@@ -239,11 +239,13 @@ export default {
     tagCloseTip: '提示：点击玩家UID后的 "x" 即可删除',
     nickName: '名字',
     role: '角色',
+    age: '天数',
     roleFail: '获取失败',
     addAdmin: '添加管理员',
     addBlock: '添加黑名单',
     addWhite: '添加白名单',
     kick: '踢出玩家',
+    historyPlayer: '历史玩家',
     import: {
       title: '存档导入',
       text1: '上传过程中会自动备份存档。上传完成后请手动启动服务器。',
@@ -490,6 +492,15 @@ export default {
     manualPullTips: '使用手动拉取日志功能建议先关闭自动拉取',
     current: '当前日志',
     historical: '历史日志',
+    clean: {
+      title: '日志清理',
+      selectAll: '全选',
+      button: '清理',
+      refresh: '刷新',
+      type: '日志类型',
+      size: '大小',
+      num: '文件数',
+    },
   },
   help: {
     one: {

@@ -238,11 +238,13 @@ export default {
     tagCloseTip: "TIPS: Click the '×' after the player's UID to delete",
     nickName: 'Nickname',
     role: 'Role',
+    age: 'Days',
     roleFail: 'Fetch Failed',
     addAdmin: 'Add Admin List',
     addBlock: 'Add to Block List',
     addWhite: 'Add to White List',
     kick: 'Kick Player',
+    historyPlayer: 'History Players',
     import: {
       title: 'Import',
       text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',
@@ -489,6 +491,15 @@ export default {
     manualPullTips: 'It is recommended to first disable automatic log pulling when using the manual log pulling function',
     current: 'Current',
     historical: 'Historical',
+    clean: {
+      title: 'Clean Logs',
+      selectAll: 'Select All',
+      button: 'Clean',
+      refresh: 'Refresh',
+      type: 'Log Type',
+      size: 'Size',
+      num: 'File Count',
+    },
   },
   help: {
     one: {

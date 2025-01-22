@@ -33,4 +33,18 @@ export default {
       }
     },
   },
+  clean: {
+    status: {
+      url: `/logs/status`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    },
+    clean: {
+      url: `/logs/clean`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    }
+  },
 }

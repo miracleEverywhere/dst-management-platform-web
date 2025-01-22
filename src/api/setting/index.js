@@ -42,6 +42,12 @@ export default {
         return await http.get(this.url, data);
       },
     },
+    history: {
+      url: `/setting/player/list/history`,
+      get: async function(data){
+        return await http.get(this.url, data);
+      },
+    },
     addAdmin: {
       url: `/setting/player/add/admin`,
       post: async function (data) {
