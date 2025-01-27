@@ -21,6 +21,7 @@ export default {
       id: 'ID',
     },
     version: "Game version",
+    playerNum: 'Players',
     sysInfo: "Sys Info",
     mem: "Mem",
     control: "Control Panel",

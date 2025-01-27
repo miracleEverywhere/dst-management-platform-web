@@ -21,6 +21,7 @@ export default {
       id: 'ID',
     },
     version: "游戏版本",
+    playerNum: '在线玩家',
     sysInfo: "系统信息",
     mem: "内存",
     control: "控制面板",
