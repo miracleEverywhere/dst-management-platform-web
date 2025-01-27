@@ -49,6 +49,9 @@
               <el-descriptions-item :label="t('home.version')">
                 <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">({{version.local}}/{{version.server}})</el-tag>
               </el-descriptions-item>
+              <el-descriptions-item :label="t('home.playerNum')">
+                <el-tag type="primary">{{roomInfo.playerNum}}</el-tag>
+              </el-descriptions-item>
             </el-descriptions>
           </template>
           <template v-if="roomInfo.roomSettingBase.name===''">
@@ -285,6 +288,7 @@ const roomInfo = ref({
     phase: {}
   },
   modsCount: 0,
+  playerNum: 0,
 })
 const getRoomInfo = () => {
   homeApi.roomInfo.get().then(response => {
