@@ -289,6 +289,12 @@ export default {
         table: {
           name: 'Name',
           size: 'Mod Size',
+          downloadedReady: {
+            title: 'Status',
+            notUGC: 'NOT UGC MOD',
+            ready: 'Download Success',
+            notReady: 'Downloading or need to update',
+          },
           action: 'Actions',
           enable: 'Enable',
           delete: 'Delete',

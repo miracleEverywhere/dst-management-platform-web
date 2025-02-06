@@ -43,7 +43,7 @@
       <el-tab-pane :label="t('setting.mod.tab.add')" name="Add">
         <el-row :gutter="10">
           <el-col :span="24">
-            <el-card v-loading="downloadedModLoading" style="height: 70vh" shadow="never">
+            <el-card v-loading="downloadedModLoading" style="height: 75vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   <span>{{t('setting.mod.add.header.title')}}</span>
@@ -59,10 +59,10 @@
                 </div>
               </template>
               <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">{{ t('setting.mod.add.alert') }}</el-alert>
-              <el-table :data="downloadedMod" border style="height: 55vh; margin-top: 10px">
+              <el-table :data="downloadedMod" border style="height: 51vh; margin-top: 10px">
                 <el-table-column :label="t('setting.mod.add.table.name')" prop="name"/>
                 <el-table-column label="ID" prop="id"/>
-                <el-table-column label="UGC">
+                <!--el-table-column label="UGC">
                   <template #default="scope">
                     <el-tag v-if="scope.row.file_url===''" type="primary">
                       {{t('setting.mod.add.table.ugc.yes')}}
@@ -71,10 +71,27 @@
                       {{t('setting.mod.add.table.ugc.no')}}
                     </el-tag>
                   </template>
-                </el-table-column>
+                </el-table-column-->
                 <el-table-column :label="t('setting.mod.add.table.size')">
                   <template #default="scope">
                     {{formatBytes(scope.row.size)}}
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('setting.mod.add.table.downloadedReady.title')">
+                  <template #default="scope">
+                    <template v-if="scope.row.downloadedReady">
+                      <el-text type="success" size="small">
+                        {{t('setting.mod.add.table.downloadedReady.ready')}}
+                      </el-text>
+                    </template>
+                    <template v-if="!scope.row.downloadedReady">
+                      <el-text v-if="scope.row.file_url!==''" type="info" size="small">
+                        {{t('setting.mod.add.table.downloadedReady.notUGC')}}
+                      </el-text>
+                      <el-text v-else type="warning" size="small">
+                        {{t('setting.mod.add.table.downloadedReady.notReady')}}
+                      </el-text>
+                    </template>
                   </template>
                 </el-table-column>
                 <el-table-column :label="t('setting.mod.add.table.action')">
@@ -141,7 +158,7 @@
                 </div>
               </template>
               <template v-if="clickedModID!==0">
-                <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
+                <el-scrollbar :max-height="isMobile?'37vh':'57vh'">
                   <template v-if="modConfigurations.configOptions">
                     <el-form ref="modSettingFormRef" :size="isMobile?'small':'large'"
                              :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">

@@ -290,6 +290,12 @@ export default {
         table: {
           name: '名称',
           size: '模组大小',
+          downloadedReady: {
+            title: '状态',
+            notUGC: '非UGC模组',
+            ready: '下载完成',
+            notReady: '正在下载或需更新',
+          },
           action: '操作',
           enable: '启用',
           delete: '删除',
