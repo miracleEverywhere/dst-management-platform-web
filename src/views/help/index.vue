@@ -176,6 +176,28 @@
                   {{t('help.five.tip7')}}
                 </div>
               </el-collapse-item>
+              <el-collapse-item name="6">
+                <template #title>
+                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.six.title') }}</span>
+                </template>
+                <div style="line-height: 50px;">
+                  {{ t('help.six.text1') }}
+                  <code>{{ t('help.six.code1') }}</code>
+                  {{ t('help.six.text2') }}
+                  <code>{{ t('help.six.code2') }}</code>
+                  {{ t('help.six.text3') }}
+                </div>
+                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="isMobile?200:200" :read-only="true" :theme="isDark?'darcula':'idea'"
+                                mode="javascript"></sc-code-editor>
+                <div style="line-height: 50px;">
+                  {{ t('help.six.text4') }}
+                </div>
+                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="isMobile?200:200" :read-only="true" :theme="isDark?'darcula':'idea'"
+                                mode="javascript"></sc-code-editor>
+                <div style="line-height: 50px;">
+                  {{ t('help.six.text5') }}
+                </div>
+              </el-collapse-item>
             </el-collapse>
           </div>
         </el-card>
@@ -392,6 +414,14 @@ const threeCodeTwo = ref(`return {
     enabled=true
   }
 }`)
+const sixCodeOneRef = ref()
+const sixCodeOne = ref(`[ACCOUNT]
+encode_user_path = true
+`)
+const sixCodeTwoRef = ref()
+const sixCodeTwo = ref(`[ACCOUNT]
+encode_user_path = false
+`)
 
 const collapseChange = () => {
   if (activeName.value === '2') {
@@ -402,6 +432,11 @@ const collapseChange = () => {
     nextTick(() => {
       threeCodeOneRef.value.refresh()
       threeCodeTwoRef.value.refresh()
+    })
+  } else if (activeName.value === '6') {
+    nextTick(() => {
+      sixCodeOneRef.value.refresh()
+      sixCodeTwoRef.value.refresh()
     })
   }
 }

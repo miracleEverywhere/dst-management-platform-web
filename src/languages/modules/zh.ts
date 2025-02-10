@@ -572,5 +572,15 @@ export default {
       alert: '配置完成后需要到云服务器页面放开对应的端口，否则会出现连接失败的问题',
       tip7: '注意，多机器模式下，主节点与从节点的模组配置须一致，如果在主节点新增了一个模组，在剩余从节点也应该加上这个模组',
     },
+    six: {
+      title: '导入存档后需要重选角色',
+      text1: '先进入',
+      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/数字与字符/',
+      text2: '下，查看里面的文件夹是否为A7开头，如果是，则在',
+      code2: '.klei/DoNotStarveTogether/MyDediServer/Master/server.ini',
+      text3: '文件中添加或修改',
+      text4: '如果不是，则添加或修改',
+      text5: '重启游戏即可',
+    }
   },
 };
