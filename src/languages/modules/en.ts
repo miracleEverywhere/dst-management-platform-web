@@ -328,7 +328,9 @@ export default {
       keepalive: {
         divider: 'Keepalive',
         title: 'Keepalive Check Frequency',
-        msg: 'Unit is minutes, default is 30 minutes. Do not change casually if you are not clear about the principle of keepalive'
+        msg: 'Unit is minutes, default is 30 minutes. Do not change casually if you are not clear about the principle of keepalive',
+        title0: 'Keepalive Switch',
+        msg0: "When this switch is turned off, DMP will neither detect whether the DST is running properly nor automatically restart the DST server",
       },
       playerList: {
         divider: 'Player List',
@@ -353,6 +355,10 @@ export default {
         divider: '64-bit',
         title: '64-bit',
         msg: 'Default is disabled, Enabling this feature will enhance game performance, but it will increase memory usage',
+      },
+      tickRate: {
+        title: 'Tick Rate',
+        msg: 'The larger, the smoother, but it will result in higher bandwidth and CPU consumption',
       },
     },
   },

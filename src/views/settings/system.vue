@@ -16,6 +16,21 @@
                      :hide-required-asterisk="true"
                      :size="isMobile?'small':'large'">
               <el-divider content-position="left">{{t('setting.system.keepalive.divider')}}</el-divider>
+              <el-form-item :label="t('setting.system.keepalive.title0')" prop="keepaliveDisable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.keepaliveDisable">
+                      <el-radio :value="false">{{t('setting.system.uidMap.enable')}}</el-radio>
+                      <el-radio :value="true">{{t('setting.system.uidMap.disable')}}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{t('setting.system.keepalive.msg0')}}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
               <el-form-item :label="t('setting.system.keepalive.title')" prop="keepaliveFrequency">
                 <el-row>
                   <el-col :span="24">
@@ -116,6 +131,24 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <el-divider content-position="left">{{t('setting.system.tickRate.title')}}</el-divider>
+              <el-form-item label="Tick Rate" prop="tickRate">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.tickRate">
+                      <el-radio :value="15">15</el-radio>
+                      <el-radio :value="30">30</el-radio>
+                      <el-radio :value="45">45</el-radio>
+                      <el-radio :value="60">60</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{t('setting.system.tickRate.msg')}}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
             </el-form>
           </div>
         </el-card>
@@ -148,6 +181,7 @@ onMounted(() => {
 
 const systemSettingFormRef = ref()
 const systemSettingFormOld = ref({
+  keepaliveDisable: undefined,
   keepaliveFrequency: undefined,
   playerGetFrequency: undefined,
   UIDMaintain: {
@@ -159,8 +193,10 @@ const systemSettingFormOld = ref({
     frequency: undefined,
   },
   bit64: undefined,
+  tickRate: undefined,
 })
 const systemSettingForm = ref({
+  keepaliveDisable: undefined,
   keepaliveFrequency: undefined,
   playerGetFrequency: undefined,
   UIDMaintain: {
@@ -172,6 +208,7 @@ const systemSettingForm = ref({
     frequency: undefined,
   },
   bit64: undefined,
+  tickRate: undefined,
 })
 const checkFrequency = (rule, value, callback) => {
   if (!value) {
@@ -186,6 +223,7 @@ const checkFrequency = (rule, value, callback) => {
   callback()
 }
 const systemSettingFormRules = {
+  keepaliveDisable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
   keepaliveFrequency: [
     { validator: checkFrequency, trigger: 'blur' }
   ],
@@ -198,6 +236,7 @@ const systemSettingFormRules = {
     disable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
   },
   bit64: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+  tickRate: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
 }
 
 const handleGetSystemSetting = () => {
