@@ -573,10 +573,10 @@ export default {
       tip7: 'In Multi-host mode, the MOD configuration of the master host and the slave hosts must be consistent. If a new MOD is added to the master host, the same MOD should also be added to the remaining slave hosts',
     },
     six: {
-      title: 'Need to select newn character when imported DST game file',
+      title: 'Need to select new character when imported DST game file',
       text1: 'First, change director to',
-      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/{nums and alphabets}/',
-      text2: 'Check if the folders inside prefix with A7, and if it does, add or update the file',
+      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/{NUMBERS&ALPHABETS}/',
+      text2: ', check if the folders inside prefix with A7, and if it does, add or update the file',
       code2: '.klei/DoNotStarveTogether/MyDediServer/Master/server.ini',
       text3: ':',
       text4: 'if not, add or update:',

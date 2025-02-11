@@ -576,7 +576,7 @@ export default {
     six: {
       title: '导入存档后需要重选角色',
       text1: '先进入',
-      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/数字与字符/',
+      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/{数字与字符}/',
       text2: '下，查看里面的文件夹是否为A7开头，如果是，则在',
       code2: '.klei/DoNotStarveTogether/MyDediServer/Master/server.ini',
       text3: '文件中添加或修改',
