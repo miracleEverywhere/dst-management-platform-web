@@ -246,6 +246,7 @@ export default {
     addWhite: 'Add to White List',
     kick: 'Kick Player',
     historyPlayer: 'History Players',
+    historyPlayerTip: 'It refers to all player information recorded since the DMP was launched',
     import: {
       title: 'Import',
       text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',

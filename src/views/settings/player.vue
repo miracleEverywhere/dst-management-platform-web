@@ -129,7 +129,9 @@
             <el-card shadow="never" :style="isMobile?'min-height: 500px':'min-height: 700px'">
               <template #header>
                 <div class="card-header">
-                  {{t('setting.historyPlayer')}}
+                  <el-tooltip effect="light" :content="t('setting.historyPlayerTip')" placement="top">
+                    {{t('setting.historyPlayer')}}
+                  </el-tooltip>
                   <el-button size="default" @click="handleGetHistoryPlayer(true)">{{t('setting.refresh')}}</el-button>
                 </div>
               </template>
