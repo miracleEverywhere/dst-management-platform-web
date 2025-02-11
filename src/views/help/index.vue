@@ -18,10 +18,12 @@
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.one.text3') }}</p>
                 </div>
-                <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
-                          :preview-src-list="[image1]"
-                          :src="image1"
-                          :zoom-rate="1.2" fit="cover" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                <div style="width: 50vh; height: 70vh">
+                  <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
+                            :preview-src-list="[image1]"
+                            :src="image1"
+                            :zoom-rate="1.2" fit="contain" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                </div>
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
@@ -225,7 +227,7 @@ const isDark = computed(() => globalStore.isDark);
 
 const activeName = ref('0')
 
-const image1 = new URL('./images/1.png', import.meta.url).href
+const image1 = new URL('./images/1.jpg', import.meta.url).href
 
 const twoCodeRef = ref()
 const twoCode = ref('# 备份\ncd ~\nmv dst/bin/lib32/steamclient.so dst/bin/lib32/steamclient.so.bak\nmv dst/steamclient.so dst/steamclient.so.bak\n# 替换\ncp steamcmd/linux32/steamclient.so dst/bin/lib32/steamclient.so\ncp steamcmd/linux32/steamclient.so dst/steamclient.so\n')
