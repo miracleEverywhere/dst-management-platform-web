@@ -7,7 +7,11 @@
             <el-collapse v-model="activeName" accordion @change="collapseChange">
               <el-collapse-item name="1">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.one.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.one.title'))" effect="light"
+                              :content="t('help.one.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.one.text1') }}
@@ -27,8 +31,11 @@
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.two.title') }}</span>
-<!--                  <span style="font-weight: bolder; font-size: 16px;">{{ t('help.two.title_additional') }}</span>-->
+                  <el-tooltip v-if="needToolTip(t('help.two.title'))" effect="light"
+                              :content="t('help.two.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
                 </template>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
@@ -66,7 +73,11 @@
               </el-collapse-item>
               <el-collapse-item name="3">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.three.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.three.title'))" effect="light"
+                              :content="t('help.three.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.three.text1') }}
@@ -89,7 +100,11 @@
               </el-collapse-item>
               <el-collapse-item name="4">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.four.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.four.title'))" effect="light"
+                              :content="t('help.four.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.four.text1') }}
@@ -104,7 +119,11 @@
               </el-collapse-item>
               <el-collapse-item name="5">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.five.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.five.title'))" effect="light"
+                               :content="t('help.five.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.five.text1') }}
@@ -180,7 +199,11 @@
               </el-collapse-item>
               <el-collapse-item name="6">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.six.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.six.title'))" effect="light"
+                              :content="t('help.six.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
                 </template>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text1') }}
@@ -457,6 +480,25 @@ const handleReplaceSo = () => {
   toolsApi.replaceSo.post().then(response => {
     koiMsgSuccess(response.message)
   })
+}
+
+const optTitle = (title) => {
+  if (!isMobile.value) {
+    return title
+  }
+
+  if (title.length > 25) {
+    return title.substring(0, 25) + '...'
+  } else {
+    return title
+  }
+}
+
+const needToolTip = (title) => {
+  if (!isMobile.value) {
+    return false
+  }
+  return title.length > 25;
 }
 
 </script>
