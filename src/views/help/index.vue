@@ -2,7 +2,7 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+        <el-card style="min-height: 80vh" shadow="never">
           <div style="margin: 10px">
             <el-collapse v-model="activeName" accordion @change="collapseChange">
               <el-collapse-item name="1">
@@ -189,12 +189,12 @@
                   <code>{{ t('help.six.code2') }}</code>
                   {{ t('help.six.text3') }}
                 </div>
-                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="isMobile?200:200" :read-only="true" :theme="isDark?'darcula':'idea'"
+                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"
                                 mode="javascript"></sc-code-editor>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text4') }}
                 </div>
-                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="isMobile?200:200" :read-only="true" :theme="isDark?'darcula':'idea'"
+                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"
                                 mode="javascript"></sc-code-editor>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text5') }}
