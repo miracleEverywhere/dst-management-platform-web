@@ -13,6 +13,10 @@
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.one.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.one.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.one.text1') }}
                 </div>
@@ -37,6 +41,10 @@
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.two.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.two.title') }}
+                </div>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
                   <el-button type="primary" @click="handleReplaceSo">{{t('help.two.button_1')}}</el-button>
@@ -79,6 +87,10 @@
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.three.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.three.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.three.text1') }}
                 </div>
@@ -106,6 +118,10 @@
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.four.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.four.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.four.text1') }}
                 </div>
@@ -125,6 +141,10 @@
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.five.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.five.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.five.text1') }}
                 </div>
@@ -205,6 +225,10 @@
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.six.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.six.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text1') }}
                   <code>{{ t('help.six.code1') }}</code>
