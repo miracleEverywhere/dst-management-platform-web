@@ -575,7 +575,7 @@ export default {
     six: {
       title: 'Need to select new character when imported DST game file',
       text1: 'First, change director to',
-      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/{NUMBERS&ALPHABETS}/',
+      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/XXXXXX/',
       text2: ', check if the folders inside prefix with A7, and if it does, add or update the file',
       code2: '.klei/DoNotStarveTogether/MyDediServer/Master/server.ini',
       text3: ':',
