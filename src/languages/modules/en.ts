@@ -21,6 +21,7 @@ export default {
       id: 'ID',
     },
     version: "Game version",
+    playerNum: 'Players',
     sysInfo: "Sys Info",
     mem: "Mem",
     control: "Control Panel",
@@ -245,6 +246,7 @@ export default {
     addWhite: 'Add to White List',
     kick: 'Kick Player',
     historyPlayer: 'History Players',
+    historyPlayerTip: 'It refers to all player information recorded since the DMP was launched',
     import: {
       title: 'Import',
       text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',
@@ -288,6 +290,12 @@ export default {
         table: {
           name: 'Name',
           size: 'Mod Size',
+          downloadedReady: {
+            title: 'Status',
+            notUGC: 'NOT UGC MOD',
+            ready: 'Download Success',
+            notReady: 'Downloading or need to update',
+          },
           action: 'Actions',
           enable: 'Enable',
           delete: 'Delete',
@@ -321,7 +329,9 @@ export default {
       keepalive: {
         divider: 'Keepalive',
         title: 'Keepalive Check Frequency',
-        msg: 'Unit is minutes, default is 30 minutes. Do not change casually if you are not clear about the principle of keepalive'
+        msg: 'Unit is minutes, default is 30 minutes. Do not change casually if you are not clear about the principle of keepalive',
+        title0: 'Keepalive Switch',
+        msg0: "When this switch is turned off, DMP will neither detect whether the DST is running properly nor automatically restart the DST server",
       },
       playerList: {
         divider: 'Player List',
@@ -346,6 +356,10 @@ export default {
         divider: '64-bit',
         title: '64-bit',
         msg: 'Default is disabled, Enabling this feature will enhance game performance, but it will increase memory usage',
+      },
+      tickRate: {
+        title: 'Tick Rate',
+        msg: 'The larger, the smoother, but it will result in higher bandwidth and CPU consumption',
       },
     },
   },
@@ -558,5 +572,15 @@ export default {
       alert: 'After completing the configuration, it is necessary to open the corresponding ports on the cloud server\'s management page; otherwise, connection failures may occur',
       tip7: 'In Multi-host mode, the MOD configuration of the master host and the slave hosts must be consistent. If a new MOD is added to the master host, the same MOD should also be added to the remaining slave hosts',
     },
+    six: {
+      title: 'Need to select new character when imported DST game file',
+      text1: 'First, change director to',
+      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/XXXXXX/',
+      text2: ', check if the folders inside prefix with A7, and if it does, add or update the file',
+      code2: '.klei/DoNotStarveTogether/MyDediServer/Master/server.ini',
+      text3: ':',
+      text4: 'if not, add or update:',
+      text5: 'Restart game server.',
+    }
   },
 };

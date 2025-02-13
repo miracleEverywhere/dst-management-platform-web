@@ -21,6 +21,7 @@ export default {
       id: 'ID',
     },
     version: "游戏版本",
+    playerNum: '在线玩家',
     sysInfo: "系统信息",
     mem: "内存",
     control: "控制面板",
@@ -246,6 +247,7 @@ export default {
     addWhite: '添加白名单',
     kick: '踢出玩家',
     historyPlayer: '历史玩家',
+    historyPlayerTip: '指平台启动以来，记录到的所有玩家信息',
     import: {
       title: '存档导入',
       text1: '上传过程中会自动备份存档。上传完成后请手动启动服务器。',
@@ -289,6 +291,12 @@ export default {
         table: {
           name: '名称',
           size: '模组大小',
+          downloadedReady: {
+            title: '状态',
+            notUGC: '非UGC模组',
+            ready: '下载完成',
+            notReady: '正在下载或需更新',
+          },
           action: '操作',
           enable: '启用',
           delete: '删除',
@@ -322,7 +330,9 @@ export default {
       keepalive: {
         divider: '自动保活',
         title: '自动保活检测频率',
-        msg: '单位分钟，默认为30分钟，如果不清楚保活原理，请勿随意修改'
+        msg: '单位分钟，默认为30分钟，如果不清楚保活原理，请勿随意修改',
+        title0: '自动保活开关',
+        msg0: '关闭后不会自动启动失效的饥荒服务器',
       },
       playerList: {
         divider: '玩家列表',
@@ -347,6 +357,10 @@ export default {
         divider: '64位启动',
         title: '64位启动',
         msg: '默认关闭，开启后会提升游戏性能，但会增加内存占用，请酌情开启',
+      },
+      tickRate: {
+        title: '通信频率',
+        msg: '越大游戏越流畅，但会带来更高的带宽和CPU消耗',
       },
     },
   },
@@ -559,5 +573,15 @@ export default {
       alert: '配置完成后需要到云服务器页面放开对应的端口，否则会出现连接失败的问题',
       tip7: '注意，多机器模式下，主节点与从节点的模组配置须一致，如果在主节点新增了一个模组，在剩余从节点也应该加上这个模组',
     },
+    six: {
+      title: '导入存档后需要重选角色',
+      text1: '先进入',
+      code1: '.klei/DoNotStarveTogether/MyDediServer/Master/save/session/XXXXXX/',
+      text2: '下，查看里面的文件夹是否为A7开头，如果是，则在',
+      code2: '.klei/DoNotStarveTogether/MyDediServer/Master/server.ini',
+      text3: '文件中添加或修改',
+      text4: '如果不是，则添加或修改',
+      text5: '重启游戏即可',
+    }
   },
 };

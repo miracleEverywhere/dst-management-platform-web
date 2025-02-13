@@ -11,6 +11,9 @@
           <div class="parent">
             <div class="child" style="font-size: 28px;">{{language==='zh'?'管理员':'Admin'}}</div>
             <div class="child" style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
+            <div style="height: 35vh; width: 35vh">
+              <el-image :src="logo" fit="contain"></el-image>
+            </div>
           </div>
         </el-card>
 
@@ -103,6 +106,8 @@ const handleUpdatePassword = () => {
   })
 
 }
+
+const logo = new URL('./images/logo.svg', import.meta.url).href
 </script>
 
 <style scoped>

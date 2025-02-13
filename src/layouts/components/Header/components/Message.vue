@@ -21,8 +21,11 @@
               </div>
               <div>
                 <template v-if="item.type==='update'">
+                  <el-divider content-position="left">新功能</el-divider>
                   <p v-for="i in item.content.zh.feature" style="color: #606266">{{i}}</p>
+                  <el-divider content-position="left">Bug修复</el-divider>
                   <p v-for="i in item.content.zh.bug" style="color: #606266">{{i}}</p>
+                  <el-divider content-position="left">优化</el-divider>
                   <p v-for="i in item.content.zh.opt" style="color: #606266">{{i}}</p>
                 </template>
                 <template v-if="item.type==='bug'">
@@ -45,8 +48,11 @@
               </div>
               <div>
                 <template v-if="item.type==='update'">
+                  <el-divider content-position="left">Feature</el-divider>
                   <p v-for="i in item.content.en.feature" style="color: #606266">{{i}}</p>
+                  <el-divider content-position="left">Bug Fix</el-divider>
                   <p v-for="i in item.content.en.bug" style="color: #606266">{{i}}</p>
+                  <el-divider content-position="left">Optimization</el-divider>
                   <p v-for="i in item.content.en.opt" style="color: #606266">{{i}}</p>
                 </template>
                 <template v-if="item.type==='bug'">

@@ -2,13 +2,21 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+        <el-card style="min-height: 80vh" shadow="never">
           <div style="margin: 10px">
             <el-collapse v-model="activeName" accordion @change="collapseChange">
               <el-collapse-item name="1">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.one.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.one.title'))" effect="light"
+                              :content="t('help.one.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.one.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.one.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.one.text1') }}
                 </div>
@@ -18,16 +26,25 @@
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.one.text3') }}</p>
                 </div>
-                <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
-                          :preview-src-list="[image1]"
-                          :src="image1"
-                          :zoom-rate="1.2" fit="cover" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                <div style="width: 50vh; height: 70vh">
+                  <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
+                            :preview-src-list="[image1]"
+                            :src="image1"
+                            :zoom-rate="1.2" fit="contain" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                </div>
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.two.title') }}</span>
-<!--                  <span style="font-weight: bolder; font-size: 16px;">{{ t('help.two.title_additional') }}</span>-->
+                  <el-tooltip v-if="needToolTip(t('help.two.title'))" effect="light"
+                              :content="t('help.two.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.two.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.two.title') }}
+                </div>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
                   <el-button type="primary" @click="handleReplaceSo">{{t('help.two.button_1')}}</el-button>
@@ -64,8 +81,16 @@
               </el-collapse-item>
               <el-collapse-item name="3">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.three.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.three.title'))" effect="light"
+                              :content="t('help.three.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.three.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.three.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.three.text1') }}
                 </div>
@@ -87,8 +112,16 @@
               </el-collapse-item>
               <el-collapse-item name="4">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.four.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.four.title'))" effect="light"
+                              :content="t('help.four.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.four.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.four.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.four.text1') }}
                 </div>
@@ -102,8 +135,16 @@
               </el-collapse-item>
               <el-collapse-item name="5">
                 <template #title>
-                  <span style="font-weight: bolder; font-size: 16px">{{ t('help.five.title') }}</span>
+                  <el-tooltip v-if="needToolTip(t('help.five.title'))" effect="light"
+                               :content="t('help.five.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.five.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.five.title') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.five.text1') }}
                 </div>
@@ -176,6 +217,36 @@
                   {{t('help.five.tip7')}}
                 </div>
               </el-collapse-item>
+              <el-collapse-item name="6">
+                <template #title>
+                  <el-tooltip v-if="needToolTip(t('help.six.title'))" effect="light"
+                              :content="t('help.six.title')" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
+                </template>
+                <div v-if="needToolTip(t('help.six.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.six.title') }}
+                </div>
+                <div style="line-height: 50px;">
+                  {{ t('help.six.text1') }}
+                  <code>{{ t('help.six.code1') }}</code>
+                  {{ t('help.six.text2') }}
+                  <code>{{ t('help.six.code2') }}</code>
+                  {{ t('help.six.text3') }}
+                </div>
+                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"
+                                mode="javascript"></sc-code-editor>
+                <div style="line-height: 50px;">
+                  {{ t('help.six.text4') }}
+                </div>
+                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"
+                                mode="javascript"></sc-code-editor>
+                <div style="line-height: 50px;">
+                  {{ t('help.six.text5') }}
+                </div>
+              </el-collapse-item>
             </el-collapse>
           </div>
         </el-card>
@@ -203,7 +274,7 @@ const isDark = computed(() => globalStore.isDark);
 
 const activeName = ref('0')
 
-const image1 = new URL('./images/1.png', import.meta.url).href
+const image1 = new URL('./images/1.jpg', import.meta.url).href
 
 const twoCodeRef = ref()
 const twoCode = ref('# 备份\ncd ~\nmv dst/bin/lib32/steamclient.so dst/bin/lib32/steamclient.so.bak\nmv dst/steamclient.so dst/steamclient.so.bak\n# 替换\ncp steamcmd/linux32/steamclient.so dst/bin/lib32/steamclient.so\ncp steamcmd/linux32/steamclient.so dst/steamclient.so\n')
@@ -392,6 +463,14 @@ const threeCodeTwo = ref(`return {
     enabled=true
   }
 }`)
+const sixCodeOneRef = ref()
+const sixCodeOne = ref(`[ACCOUNT]
+encode_user_path = true
+`)
+const sixCodeTwoRef = ref()
+const sixCodeTwo = ref(`[ACCOUNT]
+encode_user_path = false
+`)
 
 const collapseChange = () => {
   if (activeName.value === '2') {
@@ -402,6 +481,11 @@ const collapseChange = () => {
     nextTick(() => {
       threeCodeOneRef.value.refresh()
       threeCodeTwoRef.value.refresh()
+    })
+  } else if (activeName.value === '6') {
+    nextTick(() => {
+      sixCodeOneRef.value.refresh()
+      sixCodeTwoRef.value.refresh()
     })
   }
 }
@@ -420,6 +504,25 @@ const handleReplaceSo = () => {
   toolsApi.replaceSo.post().then(response => {
     koiMsgSuccess(response.message)
   })
+}
+
+const optTitle = (title) => {
+  if (!isMobile.value) {
+    return title
+  }
+
+  if (title.length > 25) {
+    return title.substring(0, 25) + '...'
+  } else {
+    return title
+  }
+}
+
+const needToolTip = (title) => {
+  if (!isMobile.value) {
+    return false
+  }
+  return title.length > 25;
 }
 
 </script>

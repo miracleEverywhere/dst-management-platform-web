@@ -129,7 +129,13 @@
             <el-card shadow="never" :style="isMobile?'min-height: 500px':'min-height: 700px'">
               <template #header>
                 <div class="card-header">
-                  {{t('setting.historyPlayer')}}
+                  <el-tooltip effect="light" :content="t('setting.historyPlayerTip')" placement="top">
+                    <div class="fcc">
+                      {{t('setting.historyPlayer')}}
+                      <el-icon><QuestionLine/></el-icon>
+                    </div>
+
+                  </el-tooltip>
                   <el-button size="default" @click="handleGetHistoryPlayer(true)">{{t('setting.refresh')}}</el-button>
                 </div>
               </template>
@@ -186,6 +192,7 @@ import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess} from "@/utils/koi.ts";
+import {QuestionLine} from "@/assets/icons/index.js"
 
 const { t } = useI18n()
 const { isMobile } = useScreenStore();
