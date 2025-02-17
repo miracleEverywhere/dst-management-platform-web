@@ -1374,6 +1374,7 @@
 <script name="settingsRoom" setup>
 import {computed, inject, nextTick, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
+import { useRoute, useRouter } from "vue-router";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
 import luaparse from 'luaparse'
@@ -1381,6 +1382,7 @@ import luamin from 'lua-format'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import {
   groundWorldGeneration,
@@ -1405,6 +1407,21 @@ const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
+
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
 
 const editorGroundSettingRef = ref()
 const editorCavesSettingRef = ref()
@@ -1676,6 +1693,9 @@ const handleSave = () => {
     loading.value = false
   }).finally(() => {
     loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
   })
 }
 const handleSaveAndRestart = () => {
@@ -1691,6 +1711,9 @@ const handleSaveAndRestart = () => {
     loading.value = false
   }).finally(() => {
     loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
   })
 }
 const handleGenerateNewWorld = () => {
@@ -1706,6 +1729,9 @@ const handleGenerateNewWorld = () => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
   })
 }
 
