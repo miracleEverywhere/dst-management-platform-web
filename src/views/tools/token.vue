@@ -1,6 +1,6 @@
 <template>
   <div class="page-div">
-    <el-card shadow="never" style="height: 80vh">
+    <el-card shadow="never" style="min-height: 80vh">
       <template #header>
         <div class="card-header">
           <span>{{ t('tools.token.title') }}</span>
@@ -35,9 +35,9 @@
             <div>
               {{ t('tools.token.usage') }}
             </div>
-            <sc-code-editor ref="twoCodeRef" v-model="request" :height="isMobile?200:400" :read-only="true"
-                            :theme="isDark?'darcula':'idea'"
-                            mode="python" style="margin-top: 10px"></sc-code-editor>
+            <MdPreview :modelValue="requestPython"
+                       previewTheme="github"
+                       :theme="isDark?'dark':'light'"/>
           </div>
         </div>
 
@@ -56,7 +56,9 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 import {DocumentCopy} from "@element-plus/icons-vue";
 import {timestamp2time} from "@/utils/tools.js";
-import scCodeEditor from "@/components/scCodeEditor/index.vue";
+import { MdPreview } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
+
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -80,24 +82,26 @@ const handleCreateToken = () => {
   })
 }
 
-const request = `import requests
-
-url = "http://{ip}:{port}"
-token = "your token"
-# 中文
-lang = "zh"
-# English
-# lang = "en"
-
-payload = {}
-headers = {
-    'Authorization': token,
-    'X-I18n-Lang': lang
-}
-
-response = requests.request("GET", url, headers=headers, data=payload)
-
-print(response.text)`
+const requestPython = ref('```python\n' +
+  'import requests\n' +
+  '\n' +
+  'url = "http://{ip}:{port}"\n' +
+  'token = "your token"\n' +
+  '# 中文\n' +
+  'lang = "zh"\n' +
+  '# English\n' +
+  '# lang = "en"\n' +
+  '\n' +
+  'payload = {}\n' +
+  'headers = {\n' +
+  '    \'Authorization\': token,\n' +
+  '    \'X-I18n-Lang\': lang\n' +
+  '}\n' +
+  '\n' +
+  'response = requests.request("GET", url, headers=headers, data=payload)\n' +
+  '\n' +
+  'print(response.text)\n' +
+  '```');
 
 </script>
 
