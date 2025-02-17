@@ -2,13 +2,13 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 80vh" shadow="never">
+        <el-card shadow="never" style="min-height: 80vh">
           <div style="margin: 10px">
             <el-collapse v-model="activeName" accordion @change="collapseChange">
               <el-collapse-item name="1">
                 <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.one.title'))" effect="light"
-                              :content="t('help.one.title')" placement="top">
+                  <el-tooltip v-if="needToolTip(t('help.one.title'))" :content="t('help.one.title')"
+                              effect="light" placement="top">
                     <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.one.title')) }}</span>
@@ -35,8 +35,8 @@
               </el-collapse-item>
               <el-collapse-item name="2">
                 <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.two.title'))" effect="light"
-                              :content="t('help.two.title')" placement="top">
+                  <el-tooltip v-if="needToolTip(t('help.two.title'))" :content="t('help.two.title')"
+                              effect="light" placement="top">
                     <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.two.title')) }}</span>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
-                  <el-button type="primary" @click="handleReplaceSo">{{t('help.two.button_1')}}</el-button>
+                  <el-button type="primary" @click="handleReplaceSo">{{ t('help.two.button_1') }}</el-button>
                 </div>
                 <div style="line-height: 50px;text-decoration: line-through;">
                   {{ t('help.two.text1') }}
@@ -58,8 +58,8 @@
                 </div>
                 <MdPreview ref="twoCodeRef"
                            :modelValue="twoCode"
-                           previewTheme="github"
-                           :theme="isDark?'dark':'light'"/>
+                           :theme="isDark?'dark':'light'"
+                           previewTheme="github"/>
                 <div style="line-height: 50px;text-decoration: line-through;">
                   {{ t('help.two.text3') }}
                 </div>
@@ -67,24 +67,24 @@
                   {{ t('help.two.timeline') }}
                 </div>
                 <el-timeline style="max-width: 600px">
-                  <el-timeline-item timestamp="2024-10-25" type="primary" size="large">
+                  <el-timeline-item size="large" timestamp="2024-10-25" type="primary">
                     {{ t('help.two.text2_4') }}
                   </el-timeline-item>
-                  <el-timeline-item timestamp="2024-11-7" type="danger" size="large">
+                  <el-timeline-item size="large" timestamp="2024-11-7" type="danger">
                     {{ t('help.two.text2') }}
                   </el-timeline-item>
-                  <el-timeline-item timestamp="2024-12-8" type="danger" size="large">
+                  <el-timeline-item size="large" timestamp="2024-12-8" type="danger">
                     {{ t('help.two.text2') }}
                   </el-timeline-item>
-                  <el-timeline-item timestamp="2024-12-9" type="warning" size="large">
+                  <el-timeline-item size="large" timestamp="2024-12-9" type="warning">
                     {{ t('help.two.text2_3') }}
                   </el-timeline-item>
                 </el-timeline>
               </el-collapse-item>
               <el-collapse-item name="3">
                 <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.three.title'))" effect="light"
-                              :content="t('help.three.title')" placement="top">
+                  <el-tooltip v-if="needToolTip(t('help.three.title'))" :content="t('help.three.title')"
+                              effect="light" placement="top">
                     <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.three.title')) }}</span>
@@ -99,31 +99,31 @@
                 <div style="line-height: 50px;">
                   {{ t('help.three.text2') }}
                 </div>
-<!--                <sc-code-editor ref="threeCodeOneRef" v-model="threeCodeOne" :height="isMobile?320:500" :read-only="true"-->
-<!--                                :theme="isDark?'darcula':'idea'"-->
-<!--                                mode="lua" style="width: 95%"></sc-code-editor>-->
+                <!--                <sc-code-editor ref="threeCodeOneRef" v-model="threeCodeOne" :height="isMobile?320:500" :read-only="true"-->
+                <!--                                :theme="isDark?'darcula':'idea'"-->
+                <!--                                mode="lua" style="width: 95%"></sc-code-editor>-->
                 <MdPreview ref="threeCodeOneRef"
                            :modelValue="threeCodeOne"
-                           previewTheme="github"
-                           :theme="isDark?'dark':'light'"/>
+                           :theme="isDark?'dark':'light'"
+                           previewTheme="github"/>
                 <div style="line-height: 50px;">
                   {{ t('help.three.text3') }}
                 </div>
                 <div style="line-height: 50px;">
                   {{ t('help.three.text4') }}
                 </div>
-<!--                <sc-code-editor ref="threeCodeTwoRef" v-model="threeCodeTwo" :height="isMobile?320:500" :read-only="true"-->
-<!--                                :theme="isDark?'darcula':'idea'"-->
-<!--                                mode="lua" style="width: 95%"></sc-code-editor>-->
+                <!--                <sc-code-editor ref="threeCodeTwoRef" v-model="threeCodeTwo" :height="isMobile?320:500" :read-only="true"-->
+                <!--                                :theme="isDark?'darcula':'idea'"-->
+                <!--                                mode="lua" style="width: 95%"></sc-code-editor>-->
                 <MdPreview ref="threeCodeTwoRef"
                            :modelValue="threeCodeTwo"
-                           previewTheme="github"
-                           :theme="isDark?'dark':'light'"/>
+                           :theme="isDark?'dark':'light'"
+                           previewTheme="github"/>
               </el-collapse-item>
               <el-collapse-item name="4">
                 <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.four.title'))" effect="light"
-                              :content="t('help.four.title')" placement="top">
+                  <el-tooltip v-if="needToolTip(t('help.four.title'))" :content="t('help.four.title')"
+                              effect="light" placement="top">
                     <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.four.title')) }}</span>
@@ -137,7 +137,7 @@
                 </div>
                 <div style="line-height: 50px;">
                   {{ t('help.four.text2') }}
-                  <el-button size="small" type="success" @click="handleDownloadLog" :loading="downloadLogLoading">
+                  <el-button :loading="downloadLogLoading" size="small" type="success" @click="handleDownloadLog">
                     {{ t('help.four.button') }}
                   </el-button>
                   {{ t('help.four.text3') }}
@@ -145,8 +145,8 @@
               </el-collapse-item>
               <el-collapse-item name="5">
                 <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.five.title'))" effect="light"
-                               :content="t('help.five.title')" placement="top">
+                  <el-tooltip v-if="needToolTip(t('help.five.title'))" :content="t('help.five.title')"
+                              effect="light" placement="top">
                     <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
@@ -220,17 +220,17 @@
                     </span>
                   </p>
                 </div>
-                <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false">
+                <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
                   {{ t('help.five.alert') }}
                 </el-alert>
                 <div class="tip custom-block">
-                  {{t('help.five.tip7')}}
+                  {{ t('help.five.tip7') }}
                 </div>
               </el-collapse-item>
               <el-collapse-item name="6">
                 <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.six.title'))" effect="light"
-                              :content="t('help.six.title')" placement="top">
+                  <el-tooltip v-if="needToolTip(t('help.six.title'))" :content="t('help.six.title')"
+                              effect="light" placement="top">
                     <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
@@ -246,21 +246,21 @@
                   <code>{{ t('help.six.code2') }}</code>
                   {{ t('help.six.text3') }}
                 </div>
-<!--                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"-->
-<!--                                mode="javascript"></sc-code-editor>-->
+                <!--                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"-->
+                <!--                                mode="javascript"></sc-code-editor>-->
                 <MdPreview ref="sixCodeOneRef"
                            :modelValue="sixCodeOne"
-                           previewTheme="github"
-                           :theme="isDark?'dark':'light'"/>
+                           :theme="isDark?'dark':'light'"
+                           previewTheme="github"/>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text4') }}
                 </div>
-<!--                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"-->
-<!--                                mode="javascript"></sc-code-editor>-->
+                <!--                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"-->
+                <!--                                mode="javascript"></sc-code-editor>-->
                 <MdPreview ref="sixCodeTwoRef"
                            :modelValue="sixCodeTwo"
-                           previewTheme="github"
-                           :theme="isDark?'dark':'light'"/>
+                           :theme="isDark?'dark':'light'"
+                           previewTheme="github"/>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text5') }}
                 </div>
@@ -276,14 +276,13 @@
 <script name="help" setup>
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
-import {computed, nextTick, ref} from "vue";
+import {computed, ref} from "vue";
 import useGlobalStore from "@/stores/modules/global.ts";
-import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import logsApi from "@/api/logs"
 import toolsApi from "@/api/tools"
 import {saveFile} from "@/utils/tools.js";
 import {koiMsgSuccess} from "@/utils/koi.ts";
-import { MdPreview } from 'md-editor-v3';
+import {MdPreview} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 
 const {t} = useI18n()

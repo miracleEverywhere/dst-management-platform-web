@@ -36,8 +36,8 @@
               {{ t('tools.token.usage') }}
             </div>
             <MdPreview :modelValue="requestPython"
-                       previewTheme="github"
-                       :theme="isDark?'dark':'light'"/>
+                       :theme="isDark?'dark':'light'"
+                       previewTheme="github"/>
           </div>
         </div>
 
@@ -56,7 +56,7 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 import {DocumentCopy} from "@element-plus/icons-vue";
 import {timestamp2time} from "@/utils/tools.js";
-import { MdPreview } from 'md-editor-v3';
+import {MdPreview} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 
 

@@ -1,15 +1,15 @@
 <template>
   <div class="page-div">
     <el-row :gutter="10">
-      <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
+      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
         <el-card style="min-height: 500px">
           <template #header>
             <div class="card-header">
-              {{t('profile.cardHeaderInfo')}}
+              {{ t('profile.cardHeaderInfo') }}
             </div>
           </template>
           <div class="parent">
-            <div class="child" style="font-size: 28px;">{{language==='zh'?'管理员':'Admin'}}</div>
+            <div class="child" style="font-size: 28px;">{{ language === 'zh' ? '管理员' : 'Admin' }}</div>
             <div class="child" style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
             <div style="height: 35vh; width: 35vh">
               <el-image :src="logo" fit="contain"></el-image>
@@ -18,24 +18,25 @@
         </el-card>
 
       </el-col>
-      <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" style="margin-top: 10px">
+      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
         <el-card style="min-height: 500px">
           <template #header>
             <div class="card-header">
-              {{t('profile.cardHeaderPassword')}}
+              {{ t('profile.cardHeaderPassword') }}
             </div>
           </template>
-          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-width="150" label-position="top" style="margin-top: 20px">
+          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-position="top"
+                   label-width="150" style="margin-top: 20px">
             <el-form-item :label="$t('profile.password')" prop="password">
               <el-input v-model="updatePasswordForm.password" show-password></el-input>
               <sc-password-strength v-model="updatePasswordForm.password"></sc-password-strength>
-              <div class="el-form-item-msg">{{t('profile.suggestedPassword')}}</div>
+              <div class="el-form-item-msg">{{ t('profile.suggestedPassword') }}</div>
             </el-form-item>
             <el-form-item :label="$t('profile.passwordTwice')" prop="passwordTwice">
               <el-input v-model="updatePasswordForm.passwordTwice" show-password></el-input>
             </el-form-item>
             <div style="display: flex; justify-content: flex-end; padding-top: 80px">
-              <el-button type="primary" @click="handleUpdatePassword">{{t('profile.update')}}</el-button>
+              <el-button type="primary" @click="handleUpdatePassword">{{ t('profile.update') }}</el-button>
             </div>
           </el-form>
         </el-card>
@@ -45,7 +46,7 @@
   </div>
 </template>
 
-<script setup name="profile">
+<script name="profile" setup>
 
 import {computed, reactive, ref} from "vue";
 import useAuthStore from "@/stores/modules/auth.ts";
@@ -55,11 +56,10 @@ import systemApi from "@/api/system"
 import {SHA512, sleep} from "@/utils/tools.js";
 import {koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import {koiLocalStorage, koiSessionStorage} from "@/utils/storage.ts";
-import {LOGIN_URL} from "@/config/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 
 const authStore = useAuthStore()
-const { t } = useI18n()
+const {t} = useI18n()
 const userInfo = authStore.userInfo
 const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
@@ -71,17 +71,19 @@ const updatePasswordForm = reactive({
 })
 const updatePasswordRules = {
   password: [
-    { required: true, message: t('profile.plzInputPassword')}
+    {required: true, message: t('profile.plzInputPassword')}
   ],
   passwordTwice: [
-    { required: true, message: t('profile.plzInputAgainPassword')},
-    { validator: (rule, value, callback) => {
+    {required: true, message: t('profile.plzInputAgainPassword')},
+    {
+      validator: (rule, value, callback) => {
         if (value !== updatePasswordForm.password) {
           callback(new Error(t('profile.passwordNotMatch')));
-        }else{
+        } else {
           callback();
         }
-      }}
+      }
+    }
   ],
 }
 
@@ -118,6 +120,7 @@ const logo = new URL('./images/logo.svg', import.meta.url).href
   justify-content: center; /* 子元素垂直居中 */
   margin-top: 50px;
 }
+
 .child {
   width: 80%; /* 子元素的宽度 */
   margin: 10px 0; /* 子元素之间的间距 */

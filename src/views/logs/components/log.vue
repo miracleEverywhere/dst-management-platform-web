@@ -1,26 +1,27 @@
 <template>
-  <el-card shadow="never" :style="isMobile?'min-height: 500px':'min-height: 700px'">
+  <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
     <template #header>
       <div class="card-header">
-        {{t('logs.logs')}}
+        {{ t('logs.logs') }}
         <div v-if="props.historical">
-          <el-select v-model="selectedFile" @change="getFileConnect" size="default" style="width: 10vw;font-weight: lighter">
+          <el-select v-model="selectedFile" size="default" style="width: 10vw;font-weight: lighter" @change="getFileConnect">
             <el-option v-for="item in fileList" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </div>
         <div v-if="!props.historical">
-          <span style="font-weight: lighter;">{{t('logs.autoPull')}}</span>
-          <el-switch v-model="autoPull" :active-value="1" :inactive-value="0" />
+          <span style="font-weight: lighter;">{{ t('logs.autoPull') }}</span>
+          <el-switch v-model="autoPull" :active-value="1" :inactive-value="0"/>
         </div>
       </div>
     </template>
-    <sc-code-editor ref="editor" v-model="logsValue" v-loading="historicalLogLoading" mode="javascript" :theme="isDark?'darcula':'idea'"
-                    :height="isMobile?420:600" style="width: 100%"></sc-code-editor>
+    <sc-code-editor ref="editor" v-model="logsValue" v-loading="historicalLogLoading" :height="isMobile?420:600"
+                    :theme="isDark?'darcula':'idea'"
+                    mode="javascript" style="width: 100%"></sc-code-editor>
     <template v-if="!props.historical" #footer>
       <div class="card-footer">
         <el-input-number v-model="logsForm.line" controls-position="right" style="width: 100px;"/>
-        <el-tooltip effect="light" :content="$t('logs.manualPullTips')" placement="top">
-          <el-button type="primary" @click="handlePullLogs" style="margin-left: 10px">{{t('logs.manualPull')}}</el-button>
+        <el-tooltip :content="$t('logs.manualPullTips')" effect="light" placement="top">
+          <el-button style="margin-left: 10px" type="primary" @click="handlePullLogs">{{ t('logs.manualPull') }}</el-button>
         </el-tooltip>
       </div>
     </template>
@@ -40,8 +41,8 @@ const props = defineProps({
   historical: Boolean
 })
 
-const { t } = useI18n()
-const { isMobile } = useScreenStore();
+const {t} = useI18n()
+const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
@@ -90,9 +91,7 @@ const cancelRequests = () => {
   }
 }
 
-const fileList = ref([
-
-])
+const fileList = ref([])
 const selectedFile = ref('')
 const handleGetLogFile = () => {
   const reqForm = {
@@ -103,7 +102,7 @@ const handleGetLogFile = () => {
   })
 }
 const historicalLogLoading = ref(false)
-const getFileConnect = () =>{
+const getFileConnect = () => {
   historicalLogLoading.value = true
   const reqForm = {
     file: selectedFile.value

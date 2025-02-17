@@ -9,17 +9,18 @@
             </div>
           </template>
           <div>
-            <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false">{{t('tools.mod.alert')}}</el-alert>
-            <el-result v-if="!installed" icon="info" :title="t('tools.mod.resultInfo.title')">
+            <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">{{ t('tools.mod.alert') }}</el-alert>
+            <el-result v-if="!installed" :title="t('tools.mod.resultInfo.title')" icon="info">
               <template #sub-title>
-                <p>{{t('tools.mod.resultInfo.subtitle')}}</p>
+                <p>{{ t('tools.mod.resultInfo.subtitle') }}</p>
               </template>
               <template #extra>
-                <el-button type="primary" @click="handleInstall" :loading="loading">{{t('tools.mod.resultInfo.button')}}</el-button>
+                <el-button :loading="loading" type="primary" @click="handleInstall">{{ t('tools.mod.resultInfo.button') }}
+                </el-button>
               </template>
             </el-result>
-            <el-result v-if="installed" icon="success" :title="t('tools.mod.resultSuccess.title')"
-                       :sub-title="t('tools.mod.resultSuccess.subtitle')">
+            <el-result v-if="installed" :sub-title="t('tools.mod.resultSuccess.subtitle')" :title="t('tools.mod.resultSuccess.title')"
+                       icon="success">
               <template #extra>
 
               </template>
@@ -32,7 +33,7 @@
   </div>
 </template>
 
-<script setup name="toolsMod">
+<script name="toolsMod" setup>
 import {computed, onMounted, ref} from "vue";
 import toolsApi from "@/api/tools"
 import {useI18n} from "vue-i18n";

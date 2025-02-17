@@ -1,13 +1,13 @@
 <template>
   <div class="page-div">
     <el-row :gutter="10">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
         <el-tabs v-model="activeTabName" @tab-change="handleTabChange">
           <el-tab-pane :label="t('logs.current')" name="current">
             <log ref="logRef" type="chat"/>
           </el-tab-pane>
-          <el-tab-pane :label="t('logs.historical')" name="historical" :lazy="true">
-            <log ref="HistoricalLogRef" type="chat" :historical="true"/>
+          <el-tab-pane :label="t('logs.historical')" :lazy="true" name="historical">
+            <log ref="HistoricalLogRef" :historical="true" type="chat"/>
           </el-tab-pane>
         </el-tabs>
 
@@ -21,7 +21,7 @@ import log from "./components/log.vue"
 import {ref} from "vue";
 import {useI18n} from "vue-i18n";
 
-const { t } = useI18n()
+const {t} = useI18n()
 
 const activeTabName = ref('current')
 const handleTabChange = (name) => {

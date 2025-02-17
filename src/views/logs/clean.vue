@@ -2,19 +2,19 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" :style="isMobile?'min-height: 500px':'min-height: 700px'">
+        <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
           <template #header>
             <div class="card-header">
-              {{t('logs.clean.title')}}
+              {{ t('logs.clean.title') }}
               <div class="fcc">
                 <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" size="large"
-                             @change="handleCheckAllChange" style="margin-right: 10px">
-                  {{t('logs.clean.selectAll')}}
+                             style="margin-right: 10px" @change="handleCheckAllChange">
+                  {{ t('logs.clean.selectAll') }}
                 </el-checkbox>
-                <el-button @click="handleGetLogsInfo">{{t('logs.clean.refresh')}}</el-button>
-                <el-button type="danger" :loading="cleanButtonLoading"
+                <el-button @click="handleGetLogsInfo">{{ t('logs.clean.refresh') }}</el-button>
+                <el-button :loading="cleanButtonLoading" type="danger"
                            @click="handleCleanLogs">
-                  {{t('logs.clean.button')}}
+                  {{ t('logs.clean.button') }}
                 </el-button>
               </div>
             </div>
@@ -22,24 +22,24 @@
           <div>
             <el-checkbox-group v-model="cleanLogFileTypes" @change="handleCleanLogFileTypesChange">
               <el-checkbox v-for="logFileType in logFileTypes" :key="logFileType" :label="logFileType" :value="logFileType">
-                {{ logFileTypeMap[logFileType][language==='zh'?'zh':'en'] }}
+                {{ logFileTypeMap[logFileType][language === 'zh' ? 'zh' : 'en'] }}
               </el-checkbox>
             </el-checkbox-group>
-            <el-table ref="tableRef" :data="logsInfo" border
-                      v-loading="tableLoading" style="margin-top: 20px">
+            <el-table ref="tableRef" v-loading="tableLoading" :data="logsInfo"
+                      border style="margin-top: 20px">
               <el-table-column :label="t('logs.clean.type')" prop="name">
                 <template #default="scope">
-                  <el-tag type="primary">{{scope.row.name}}</el-tag>
+                  <el-tag type="primary">{{ scope.row.name }}</el-tag>
                 </template>
               </el-table-column>
               <el-table-column :label="t('logs.clean.size')" prop="size">
                 <template #default="scope">
-                  <el-tag type="success">{{formatBytes(scope.row.size)}}</el-tag>
+                  <el-tag type="success">{{ formatBytes(scope.row.size) }}</el-tag>
                 </template>
               </el-table-column>
               <el-table-column :label="t('logs.clean.num')" prop="num">
                 <template #default="scope">
-                  <el-tag type="info">{{scope.row.num}}</el-tag>
+                  <el-tag type="info">{{ scope.row.num }}</el-tag>
                 </template>
               </el-table-column>
             </el-table>
@@ -55,12 +55,12 @@ import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {computed, onMounted, ref} from "vue";
-import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import logsApi from "@/api/logs"
 import {formatBytes} from "@/utils/tools.js";
 
-const { t } = useI18n()
-const { isMobile } = useScreenStore();
+const {t} = useI18n()
+const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
@@ -119,7 +119,7 @@ const logFileTypeMap = {
 const cleanButtonLoading = ref(false)
 const handleCleanLogs = () => {
   if (cleanLogFileTypes.value.length === 0) {
-    koiMsgError(language.value === "zh"?"请至少选择一种日志":"Please select at least one type of log")
+    koiMsgError(language.value === "zh" ? "请至少选择一种日志" : "Please select at least one type of log")
     return
   }
   cleanButtonLoading.value = true

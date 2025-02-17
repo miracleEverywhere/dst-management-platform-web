@@ -2,20 +2,20 @@
   <div class="page-div">
     <el-tabs v-model="activeTabName" @tab-click="handleTabClick">
       <el-tab-pane :label="t('setting.mod.tab.download')" name="Download">
-        <el-card v-loading="modSearchLoading" style="height: 78vh" shadow="never">
+        <el-card v-loading="modSearchLoading" shadow="never" style="height: 78vh">
           <div>
-            <el-form ref="modSearchFormRef" :model="modSearchForm"
-                     :inline="true" @keyup.enter="handleModSearch">
+            <el-form ref="modSearchFormRef" :inline="true"
+                     :model="modSearchForm" @keyup.enter="handleModSearch">
               <el-form-item>
                 <el-input v-model="modSearchForm.searchText" :style="isMobile?'width: 75vw;':'width: 50vw;'">
                   <template #prepend>
                     <el-select v-model="modSearchForm.searchType" style="width: 85px">
-                      <el-option :label="$t('setting.mod.download.searchTypeText')" value="text" />
-                      <el-option :label="$t('setting.mod.download.searchTypeId')" value="id" />
+                      <el-option :label="$t('setting.mod.download.searchTypeText')" value="text"/>
+                      <el-option :label="$t('setting.mod.download.searchTypeId')" value="id"/>
                     </el-select>
                   </template>
                   <template #append>
-                    <el-button type="primary" @click="handleModSearch">{{t('setting.mod.download.search')}}</el-button>
+                    <el-button type="primary" @click="handleModSearch">{{ t('setting.mod.download.search') }}</el-button>
                   </template>
                 </el-input>
               </el-form-item>
@@ -33,7 +33,7 @@
           <div class="card-footer" style="margin-top: 20px">
             <el-pagination v-model:current-page="modSearchForm.page" v-model:page-size="modSearchForm.pageSize"
                            :page-sizes="[10, 20, 30, 40, 50, 100]"
-                           layout="total, sizes, prev, pager, next" :total="modSearchData.total"
+                           :total="modSearchData.total" layout="total, sizes, prev, pager, next"
                            @size-change="handlePageSizeChange(modSearchForm.pageSize)"
                            @current-change="handlePageChange(modSearchForm.page)"
             />
@@ -43,22 +43,28 @@
       <el-tab-pane :label="t('setting.mod.tab.add')" name="Add">
         <el-row :gutter="10">
           <el-col :span="24">
-            <el-card v-loading="downloadedModLoading" style="height: 75vh" shadow="never">
+            <el-card v-loading="downloadedModLoading" shadow="never" style="height: 75vh">
               <template #header>
                 <div class="card-header">
-                  <span>{{t('setting.mod.add.header.title')}}</span>
+                  <span>{{ t('setting.mod.add.header.title') }}</span>
                   <div>
-                    <el-button @click="handleGetDownloadedMod">{{t('setting.mod.add.header.refresh')}}</el-button>
-                    <el-tooltip effect="light" :show-after="500" :content="t('setting.mod.add.header.syncTooltip')" placement="top">
-                      <el-button type="primary" :loading="syncModLoading" @click="handleSyncMod">
-                        {{t('setting.mod.add.header.sync')}}
+                    <el-button @click="handleGetDownloadedMod">{{ t('setting.mod.add.header.refresh') }}</el-button>
+                    <el-tooltip :content="t('setting.mod.add.header.syncTooltip')" :show-after="500" effect="light"
+                                placement="top">
+                      <el-button :loading="syncModLoading" type="primary" @click="handleSyncMod">
+                        {{ t('setting.mod.add.header.sync') }}
                       </el-button>
                     </el-tooltip>
-                    <el-button v-if="OSPlatform==='darwin'" @click="handleMacOSExport" :loading="macOSExportButtonLoading" type="success">{{t('setting.mod.add.header.export')}}</el-button>
+                    <el-button v-if="OSPlatform==='darwin'" :loading="macOSExportButtonLoading" type="success"
+                               @click="handleMacOSExport">{{ t('setting.mod.add.header.export') }}
+                    </el-button>
                   </div>
                 </div>
               </template>
-              <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">{{ t('setting.mod.add.alert') }}</el-alert>
+              <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">{{
+                  t('setting.mod.add.alert')
+                }}
+              </el-alert>
               <el-table :data="downloadedMod" border style="height: 51vh; margin-top: 10px">
                 <el-table-column :label="t('setting.mod.add.table.name')" prop="name"/>
                 <el-table-column label="ID" prop="id"/>
@@ -74,36 +80,41 @@
                 </el-table-column-->
                 <el-table-column :label="t('setting.mod.add.table.size')">
                   <template #default="scope">
-                    {{formatBytes(scope.row.size)}}
+                    {{ formatBytes(scope.row.size) }}
                   </template>
                 </el-table-column>
                 <el-table-column :label="t('setting.mod.add.table.downloadedReady.title')">
                   <template #default="scope">
                     <template v-if="scope.row.downloadedReady">
-                      <el-text type="success" size="small">
-                        {{t('setting.mod.add.table.downloadedReady.ready')}}
+                      <el-text size="small" type="success">
+                        {{ t('setting.mod.add.table.downloadedReady.ready') }}
                       </el-text>
                     </template>
                     <template v-if="!scope.row.downloadedReady">
-                      <el-text v-if="scope.row.file_url!==''" type="info" size="small">
-                        {{t('setting.mod.add.table.downloadedReady.notUGC')}}
+                      <el-text v-if="scope.row.file_url!==''" size="small" type="info">
+                        {{ t('setting.mod.add.table.downloadedReady.notUGC') }}
                       </el-text>
-                      <el-text v-else type="warning" size="small">
-                        {{t('setting.mod.add.table.downloadedReady.notReady')}}
+                      <el-text v-else size="small" type="warning">
+                        {{ t('setting.mod.add.table.downloadedReady.notReady') }}
                       </el-text>
                     </template>
                   </template>
                 </el-table-column>
                 <el-table-column :label="t('setting.mod.add.table.action')">
                   <template #default="scope">
-                    <el-dropdown @command="handleModCommand" trigger="click">
-                      <el-button type="primary" link :loading="actionsLoading">
-                        {{t('setting.mod.add.table.action')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                    <el-dropdown trigger="click" @command="handleModCommand">
+                      <el-button :loading="actionsLoading" link type="primary">
+                        {{ t('setting.mod.add.table.action') }}
+                        <el-icon class="el-icon--right">
+                          <arrow-down/>
+                        </el-icon>
                       </el-button>
                       <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">{{t('setting.mod.add.table.enable')}}</el-dropdown-item>
-                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{t('setting.mod.add.table.delete')}}</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">{{ t('setting.mod.add.table.enable') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{ t('setting.mod.add.table.delete') }}
+                          </el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
                     </el-dropdown>
@@ -123,56 +134,64 @@
                   <template v-for="(mod, index) in modSettingFormat">
                     <div style="display: flex">
                       <div>
-                        <el-image :src="mod.preview_url" fit="fill" @click="handleModClick(mod.id, mod.file_url)" style="width: 75px; height: 75px"/>
+                        <el-image :src="mod.preview_url" fit="fill" style="width: 75px; height: 75px"
+                                  @click="handleModClick(mod.id, mod.file_url)"/>
                       </div>
                       <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
                         <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">{{ mod.name }}</el-button>
                         <div>
-                          <el-tag v-if="mod.enable" type="success">{{t('setting.mod.setting.left.enable')}}</el-tag>
-                          <el-tag v-if="!mod.enable" type="info">{{t('setting.mod.setting.left.disable')}}</el-tag>
+                          <el-tag v-if="mod.enable" type="success">{{ t('setting.mod.setting.left.enable') }}</el-tag>
+                          <el-tag v-if="!mod.enable" type="info">{{ t('setting.mod.setting.left.disable') }}</el-tag>
                         </div>
                       </div>
                     </div>
-                    <el-divider v-if="index !== (modSettingFormat.length - 1)" />
+                    <el-divider v-if="index !== (modSettingFormat.length - 1)"/>
                   </template>
                 </template>
                 <template v-else>
-                  <div class="fcc" :style="isMobile?'height: 50vh':'height: 70vh'">
-                    <el-result icon="warning" :title="t('setting.mod.setting.left.result')"/>
+                  <div :style="isMobile?'height: 50vh':'height: 70vh'" class="fcc">
+                    <el-result :title="t('setting.mod.setting.left.result')" icon="warning"/>
                   </div>
                 </template>
               </el-scrollbar>
             </el-card>
           </el-col>
           <el-col :lg="16" :md="16" :sm="24" :span="16" :xs="24">
-            <el-card v-loading="modConfigurationsLoading" :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'" shadow="never">
+            <el-card v-loading="modConfigurationsLoading" :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'"
+                     shadow="never">
               <template #header>
                 <div class="card-header">
-                  <span>{{t('setting.mod.setting.right.header.title')}}</span>
+                  <span>{{ t('setting.mod.setting.right.header.title') }}</span>
                   <div>
-                    <el-button type="primary" :disabled="clickedModID===0"
-                               :loading="modUpdateButtonLoading" @click="handleModUpdate">{{t('setting.mod.setting.right.header.update')}}</el-button>
-                    <el-button type="danger" :disabled="clickedModID===0" :loading="buttonDisableModLoading"
-                               @click="handleModDisable">{{t('setting.mod.setting.right.header.disable')}}</el-button>
+                    <el-button :disabled="clickedModID===0" :loading="modUpdateButtonLoading"
+                               type="primary" @click="handleModUpdate">
+                      {{ t('setting.mod.setting.right.header.update') }}
+                    </el-button>
+                    <el-button :disabled="clickedModID===0" :loading="buttonDisableModLoading" type="danger"
+                               @click="handleModDisable">{{ t('setting.mod.setting.right.header.disable') }}
+                    </el-button>
                   </div>
                 </div>
               </template>
               <template v-if="clickedModID!==0">
                 <el-scrollbar :max-height="isMobile?'37vh':'57vh'">
                   <template v-if="modConfigurations.configOptions">
-                    <el-form ref="modSettingFormRef" :size="isMobile?'small':'large'"
-                             :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'">
+                    <el-form ref="modSettingFormRef" :label-position="isMobile?'top':'left'"
+                             :label-width="isMobile?'70':'auto'" :size="isMobile?'small':'large'">
                       <el-form-item label="ID">
-                        <el-tag>{{modConfigurations.id}}</el-tag>
+                        <el-tag>{{ modConfigurations.id }}</el-tag>
                       </el-form-item>
                       <el-form-item :label="t('setting.mod.setting.right.name')">
-                        <el-tag type="info">{{modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].name}}</el-tag>
+                        <el-tag type="info">
+                          {{ modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].name }}
+                        </el-tag>
                       </el-form-item>
                       <template v-for="item in modConfigurations.configOptions">
-                        <el-tooltip :show-after="500" effect="light" :content="item.hover" placement="top">
+                        <el-tooltip :content="item.hover" :show-after="500" effect="light" placement="top">
                           <el-form-item :label="item.label">
-                            <el-select v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions[item.name]"
-                                       @change="handleModConfigChange">
+                            <el-select
+                              v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].configurationOptions[item.name]"
+                              @change="handleModConfigChange">
                               <template v-for="i in item.options">
                                 <el-option :label="i.description" :value="i.data"/>
                               </template>
@@ -183,15 +202,15 @@
                     </el-form>
                   </template>
                   <template v-else>
-                    <div class="fcc" :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'">
-                      <el-result icon="info" :title="t('setting.mod.setting.right.result')"/>
+                    <div :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'" class="fcc">
+                      <el-result :title="t('setting.mod.setting.right.result')" icon="info"/>
                     </div>
                   </template>
                 </el-scrollbar>
               </template>
               <template v-if="clickedModID===0">
-                <div class="fcc" :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'">
-                  <el-result icon="info" :title="t('setting.mod.setting.right.result2')"/>
+                <div :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'" class="fcc">
+                  <el-result :title="t('setting.mod.setting.right.result2')" icon="info"/>
                 </div>
               </template>
             </el-card>
@@ -304,7 +323,7 @@ const handleModSearch = (resetPage = true) => {
     modSearchData.value.rows = response.data.rows
     modSearchData.value.total = response.data.total
     if (modSearchForm.value.searchType === "id") {
-      koiMsgInfo(language.value==='zh'?'ID搜索不显示评分':'Search by ID will not display the vote data')
+      koiMsgInfo(language.value === 'zh' ? 'ID搜索不显示评分' : 'Search by ID will not display the vote data')
     }
   }).finally(() => {
     modSearchLoading.value = false
@@ -345,7 +364,7 @@ const handleModCommand = (actions) => {
   let cmd = actions.cmd
   let row = actions.row
   actionsLoading.value = true
-  switch(cmd) {
+  switch (cmd) {
     case 'enable':
       handleModEnable(row)
       break;
@@ -365,7 +384,7 @@ const handleModEnable = (row) => {
   }
   settingsApi.mod.enable.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
-  }).finally(() =>{
+  }).finally(() => {
     actionsLoading.value = false
   })
 }
@@ -379,7 +398,7 @@ const handleModDelete = (row) => {
   settingsApi.mod.delete.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     handleGetDownloadedMod()
-  }).finally(() =>{
+  }).finally(() => {
     actionsLoading.value = false
   })
 }
@@ -395,7 +414,7 @@ const handleModDisable = () => {
   settingsApi.mod.disable.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     handleGetModSetting()
-  }).finally(() =>{
+  }).finally(() => {
     buttonDisableModLoading.value = false
   })
 }

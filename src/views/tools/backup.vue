@@ -6,7 +6,7 @@
           <template #header>
             <div class="card-header">
               {{ t('tools.backup.title1') }}
-              <el-button type="primary" @click="handleManualBackup" :loading="manualBackupLoading">
+              <el-button :loading="manualBackupLoading" type="primary" @click="handleManualBackup">
                 {{ t('tools.backup.BackupImmediately') }}
               </el-button>
             </div>
@@ -14,23 +14,24 @@
           <div>
             <el-progress :percentage="parseFloat(diskUsage.toFixed(1))">
               <template #default="{ percentage }">
-                <span>{{t('tools.backup.processBar')}}{{percentage}}%</span>
+                <span>{{ t('tools.backup.processBar') }}{{ percentage }}%</span>
               </template>
             </el-progress>
           </div>
           <div style="margin-top: 20px">
             <div style="line-height: 50px;">
               <span>{{ t('tools.backup.text1') }}</span>
-              <el-time-picker v-model="backupSetting.time" :loading="loadingTime"
-                              style="width: 120px;margin: 0 8px" :clearable="false" :editable="false"
+              <el-time-picker v-model="backupSetting.time" :clearable="false"
+                              :editable="false" :loading="loadingTime" style="width: 120px;margin: 0 8px"
                               value-format="HH:mm:ss" @change="handleUpdate"/>
               <span>{{ t('tools.backup.text2') }}</span>
             </div>
             <div style="line-height: 50px;">
               <span>{{ t('tools.backup.text3') }}</span>
-              <el-switch v-model="backupSetting.enable" :loading="loadingEnable" :active-text="$t('tools.backup.switchEnable')" :inactive-text="$t('tools.backup.switchDisable')"
-                         inline-prompt @change="handleUpdate"
-                         style="margin: 0 8px;--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"/>
+              <el-switch v-model="backupSetting.enable" :active-text="$t('tools.backup.switchEnable')" :inactive-text="$t('tools.backup.switchDisable')"
+                         :loading="loadingEnable"
+                         inline-prompt style="margin: 0 8px;--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                         @change="handleUpdate"/>
             </div>
             <div style="line-height: 50px;">
               <span>{{ t('tools.backup.text4') }}</span>
@@ -39,7 +40,9 @@
               <span>{{ t('tools.backup.text5') }}</span>
             </div>
           </div>
-          <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false" style="margin-top: 20px">{{t('tools.backup.alert')}}</el-alert>
+          <el-alert :closable="false" :effect="isDark?'light':'dark'" style="margin-top: 20px" type="warning">
+            {{ t('tools.backup.alert') }}
+          </el-alert>
         </el-card>
       </el-col>
       <el-col :lg="12" :md="12" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
@@ -52,27 +55,39 @@
           </template>
           <div>
             <el-row>
-              <el-table ref="tableRef" :data="backupFiles" border @selection-change="handleSelectionChange"
-                        :max-height="isMobile?450:550">
-                <el-table-column type="selection" width="55" fixed="left"/>
+              <el-table ref="tableRef" :data="backupFiles" :max-height="isMobile?450:550" border
+                        @selection-change="handleSelectionChange">
+                <el-table-column fixed="left" type="selection" width="55"/>
                 <el-table-column :label="$t('tools.backup.tableName')" prop="name"/>
                 <el-table-column :label="$t('tools.backup.size')" prop="size">
                   <template #default="scope">
-                    {{formatBytes(scope.row.size)}}
+                    {{ formatBytes(scope.row.size) }}
                   </template>
                 </el-table-column>
                 <el-table-column :label="$t('tools.backup.tableCreateTime')" prop="createTime"/>
-                <el-table-column prop="actions" :label="$t('setting.button.actions')" width="120px">
+                <el-table-column :label="$t('setting.button.actions')" prop="actions" width="120px">
                   <template #default="scope">
-                    <el-dropdown @command="handleCommand" trigger="click">
-                      <el-button type="primary" link :loading="actionsLoading">
-                        {{t('setting.button.actions')}}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                    <el-dropdown trigger="click" @command="handleCommand">
+                      <el-button :loading="actionsLoading" link type="primary">
+                        {{ t('setting.button.actions') }}
+                        <el-icon class="el-icon--right">
+                          <arrow-down/>
+                        </el-icon>
                       </el-button>
                       <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item :command="{cmd: 'download', row: scope.row}">{{ t('tools.backup.download') }}</el-dropdown-item>
-                          <el-dropdown-item :command="{cmd: 'restore', row: scope.row}">{{ t('tools.backup.restore') }}</el-dropdown-item>
-                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{ t('tools.backup.delete') }}</el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'download', row: scope.row}">{{
+                              t('tools.backup.download')
+                            }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'restore', row: scope.row}">{{
+                              t('tools.backup.restore')
+                            }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{
+                              t('tools.backup.delete')
+                            }}
+                          </el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
                     </el-dropdown>
@@ -87,7 +102,7 @@
   </div>
 </template>
 
-<script setup name="toolsBackup">
+<script name="toolsBackup" setup>
 import {computed, onMounted, ref} from "vue";
 import toolsApi from "@/api/tools"
 import {useI18n} from "vue-i18n";
@@ -95,7 +110,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {ElMessageBox} from "element-plus";
-import {saveFile, formatBytes} from "@/utils/tools.js";
+import {formatBytes, saveFile} from "@/utils/tools.js";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -146,11 +161,11 @@ const handleUpdate = () => {
 
 const handleDelete = (row) => {
   ElMessageBox.confirm(
-    language.value==='zh'?`将执行删除操作，是否继续？`:`The DELETE operation will be performed. Do you want to continue?`,
-    language.value==='zh'?'请确认您的操作':'Please confirm your operation',
+    language.value === 'zh' ? `将执行删除操作，是否继续？` : `The DELETE operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
     {
-      confirmButtonText: language.value==='zh'?'确定':'confirm',
-      cancelButtonText: language.value==='zh'?'取消':'cancel',
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
       type: 'warning',
       beforeClose: (action, instance, done) => {
         if (action === 'confirm') {
@@ -181,11 +196,11 @@ const handleDelete = (row) => {
 
 const handleRestore = (row) => {
   ElMessageBox.confirm(
-    language.value==='zh'?`将执行恢复操作，是否继续？`:`The RESTORE operation will be performed. Do you want to continue?`,
-    language.value==='zh'?'请确认您的操作':'Please confirm your operation',
+    language.value === 'zh' ? `将执行恢复操作，是否继续？` : `The RESTORE operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
     {
-      confirmButtonText: language.value==='zh'?'确定':'confirm',
-      cancelButtonText: language.value==='zh'?'取消':'cancel',
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
       type: 'warning',
       beforeClose: (action, instance, done) => {
         if (action === 'confirm') {
@@ -220,11 +235,11 @@ const handleMultiDelete = () => {
     return
   }
   ElMessageBox.confirm(
-    language.value==='zh'?`将执行删除操作，是否继续？`:`The DELETE operation will be performed. Do you want to continue?`,
-    language.value==='zh'?'请确认您的操作':'Please confirm your operation',
+    language.value === 'zh' ? `将执行删除操作，是否继续？` : `The DELETE operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
     {
-      confirmButtonText: language.value==='zh'?'确定':'confirm',
-      cancelButtonText: language.value==='zh'?'取消':'cancel',
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
       type: 'warning',
       beforeClose: (action, instance, done) => {
         if (action === 'confirm') {
@@ -274,7 +289,7 @@ const handleCommand = (actions) => {
   let cmd = actions.cmd
   let row = actions.row
   actionsLoading.value = true
-  switch(cmd) {
+  switch (cmd) {
     case 'download':
       handleDownload(row)
       break;

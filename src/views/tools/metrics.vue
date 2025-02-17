@@ -7,7 +7,7 @@
             <div class="card-header">
               系统信息
               <div>
-                <el-select v-model="timeRange" @change="getMetrics(timeRange, false)" style="font-weight: lighter;width: 100px">
+                <el-select v-model="timeRange" style="font-weight: lighter;width: 100px" @change="getMetrics(timeRange, false)">
                   <el-option
                     v-for="item in selectOptions"
                     :key="item.value"
@@ -15,7 +15,9 @@
                     :value="item.value"
                   />
                 </el-select>
-                <el-button size="default" @click="getMetrics(timeRange, true)" style="margin-left: 5px">{{t('setting.refresh')}}</el-button>
+                <el-button size="default" style="margin-left: 5px" @click="getMetrics(timeRange, true)">
+                  {{ t('setting.refresh') }}
+                </el-button>
               </div>
             </div>
           </template>
@@ -31,7 +33,7 @@
   </div>
 </template>
 
-<script setup name="toolsMetrics">
+<script name="toolsMetrics" setup>
 import {computed, onMounted, ref} from "vue";
 import toolsApi from "@/api/tools"
 import {useI18n} from "vue-i18n";
@@ -41,8 +43,8 @@ import {koiMsgSuccess} from "@/utils/koi.ts";
 import ScEcharts from "@/components/scEcharts/index.vue";
 import {timestamp2timeWithoutDate} from "@/utils/tools.js";
 
-const { t } = useI18n()
-const { isMobile } = useScreenStore();
+const {t} = useI18n()
+const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
@@ -55,19 +57,19 @@ onMounted(() => {
 
 const selectOptions = [
   {
-    label: language.value==='zh'?'30分钟':'30 Minutes',
+    label: language.value === 'zh' ? '30分钟' : '30 Minutes',
     value: 30
   },
   {
-    label: language.value==='zh'?'60分钟':'60 Minutes',
+    label: language.value === 'zh' ? '60分钟' : '60 Minutes',
     value: 60
   },
   {
-    label: language.value==='zh'?'3小时':'3 Hours',
+    label: language.value === 'zh' ? '3小时' : '3 Hours',
     value: 180
   },
   {
-    label: language.value==='zh'?'6小时':'6 Hours',
+    label: language.value === 'zh' ? '6小时' : '6 Hours',
     value: 360
   },
 ]
@@ -97,7 +99,7 @@ const getMetrics = (timeRange, tip) => {
       netDownlinkOption.value.series[0].data.push(i.netDownlink.toFixed(2))
     }
     if (tip) {
-      koiMsgSuccess(language.value==='zh'?'刷新成功':'Refresh Success')
+      koiMsgSuccess(language.value === 'zh' ? '刷新成功' : 'Refresh Success')
     }
   })
 }
@@ -137,8 +139,8 @@ const cpuOption = ref({
           }
         }
       },
-      areaStyle:{
-        color:{
+      areaStyle: {
+        color: {
           //线性渐变
           type: 'linear',
           x: 0,
@@ -187,8 +189,8 @@ const memoryOption = ref({
           }
         }
       },
-      areaStyle:{
-        color:{
+      areaStyle: {
+        color: {
           //线性渐变
           type: 'linear',
           x: 0,
@@ -237,8 +239,8 @@ const netUplinkOption = ref({
           }
         }
       },
-      areaStyle:{
-        color:{
+      areaStyle: {
+        color: {
           //线性渐变
           type: 'linear',
           x: 0,
@@ -287,8 +289,8 @@ const netDownlinkOption = ref({
           }
         }
       },
-      areaStyle:{
-        color:{
+      areaStyle: {
+        color: {
           //线性渐变
           type: 'linear',
           x: 0,
