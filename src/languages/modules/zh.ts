@@ -290,6 +290,7 @@ export default {
           sync: '同步',
           syncTooltip: '该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面',
           export: '导出',
+          addClientDisabled: '禁本地',
         },
         alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载',
         table: {

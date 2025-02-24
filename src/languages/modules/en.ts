@@ -289,6 +289,7 @@ export default {
           sync: 'Sync',
           syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
           export: 'Export',
+          addClientDisabled: 'Disable Client MOD',
         },
         alert: 'Tip: Mod download speed depends on your network and mod size. Please be patient and do not download repeatedly',
         table: {

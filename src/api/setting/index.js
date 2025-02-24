@@ -165,6 +165,12 @@ export default {
       post: async function (data) {
         return await http.post(this.url, data);
       }
+    },
+    clintModsDisabled: {
+      url: `/setting/mod/clint_mods_disabled`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
     }
   },
   system: {

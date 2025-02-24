@@ -55,6 +55,12 @@
                         {{ t('setting.mod.add.header.sync') }}
                       </el-button>
                     </el-tooltip>
+                    <el-button :loading="addClientModsDisabledConfigButtonLoading"
+                               type="danger"
+                               :disabled="addClientModsDisabledConfigButtonDisable"
+                               @click="handleAddClientModsDisabledConfig">
+                      {{ t('setting.mod.add.header.addClientDisabled') }}
+                    </el-button>
                     <el-button v-if="OSPlatform==='darwin'" :loading="macOSExportButtonLoading" type="success"
                                @click="handleMacOSExport">{{ t('setting.mod.add.header.export') }}
                     </el-button>
@@ -132,19 +138,36 @@
               <el-scrollbar :max-height="isMobile?'45vh':'65vh'">
                 <template v-if="modSettingFormat">
                   <template v-for="(mod, index) in modSettingFormat">
-                    <div style="display: flex">
-                      <div>
-                        <el-image :src="mod.preview_url" fit="fill" style="width: 75px; height: 75px"
-                                  @click="handleModClick(mod.id, mod.file_url)"/>
-                      </div>
-                      <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
-                        <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">{{ mod.name }}</el-button>
+                    <template v-if="mod.id===1">
+                      <div style="display: flex">
                         <div>
-                          <el-tag v-if="mod.enable" type="success">{{ t('setting.mod.setting.left.enable') }}</el-tag>
-                          <el-tag v-if="!mod.enable" type="info">{{ t('setting.mod.setting.left.disable') }}</el-tag>
+                          <el-image :src="imageClientModsDisabled" fit="fill" style="width: 75px; height: 75px"
+                                    @click="handleModClick(mod.id, mod.file_url)"/>
+                        </div>
+                        <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
+                          <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">禁用客户端模组</el-button>
+                          <div>
+                            <el-tag v-if="mod.enable" type="success">{{ t('setting.mod.setting.left.enable') }}</el-tag>
+                            <el-tag v-if="!mod.enable" type="info">{{ t('setting.mod.setting.left.disable') }}</el-tag>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </template>
+                    <template v-else>
+                      <div style="display: flex">
+                        <div>
+                          <el-image :src="mod.preview_url" fit="fill" style="width: 75px; height: 75px"
+                                    @click="handleModClick(mod.id, mod.file_url)"/>
+                        </div>
+                        <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
+                          <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">{{ mod.name }}</el-button>
+                          <div>
+                            <el-tag v-if="mod.enable" type="success">{{ t('setting.mod.setting.left.enable') }}</el-tag>
+                            <el-tag v-if="!mod.enable" type="info">{{ t('setting.mod.setting.left.disable') }}</el-tag>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
                     <el-divider v-if="index !== (modSettingFormat.length - 1)"/>
                   </template>
                 </template>
@@ -173,7 +196,7 @@
                   </div>
                 </div>
               </template>
-              <template v-if="clickedModID!==0">
+              <template v-if="clickedModID>1">
                 <el-scrollbar :max-height="isMobile?'37vh':'57vh'">
                   <template v-if="modConfigurations.configOptions">
                     <el-form ref="modSettingFormRef" :label-position="isMobile?'top':'left'"
@@ -208,6 +231,21 @@
                   </template>
                 </el-scrollbar>
               </template>
+              <template v-if="clickedModID===1">
+                <div>
+                  <el-switch
+                    v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].enable"
+                    size="large"
+                    :loading="modConfigurationsLoading"
+                    @change="handleModConfigChange"
+                    :active-text="language==='zh'?'启用':'Enable'"
+                    :inactive-text="language==='zh'?'禁用':'Disable'"
+                  />
+                  <div v-if="language==='zh'" class="tip custom-block">如果启用此配置，则会禁用玩家的本地模组</div>
+                  <div v-else class="tip custom-block">If enable this configuration option, the game server will Disable player's client mods</div>
+                </div>
+
+              </template>
               <template v-if="clickedModID===0">
                 <div :style="isMobile?'height: 40vh; margin-top: 10px':'height: 60vh'" class="fcc">
                   <el-result :title="t('setting.mod.setting.right.result2')" icon="info"/>
@@ -236,6 +274,7 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts"
 
 onMounted(async () => {
   await handleModSearch()
+  await handleGetModSetting()
   handleGetOSPlatform()
 })
 
@@ -263,6 +302,11 @@ const handleGetModSetting = () => {
   clickedModFileUrl.value = ""
   settingsApi.mod.settingFormat.get().then(response => {
     modSettingFormat.value = response.data
+    for (let i of modSettingFormat.value) {
+      if (i.id === 1) {
+        addClientModsDisabledConfigButtonDisable.value = true
+      }
+    }
   }).finally(() => {
     modSettingFormatLoading.value = false
   })
@@ -447,6 +491,24 @@ const handleModUpdate = () => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     modUpdateButtonLoading.value = false
+  })
+}
+
+const imageClientModsDisabled = new URL('./images/clientModsDisabled.svg', import.meta.url).href
+const updateClientModsDisabledLoading = ref(false)
+const handleUpdateClientModsDisabled = () => {
+
+}
+
+const addClientModsDisabledConfigButtonDisable = ref(false)
+const addClientModsDisabledConfigButtonLoading = ref(false)
+const handleAddClientModsDisabledConfig = () => {
+  addClientModsDisabledConfigButtonLoading.value = true
+  settingsApi.mod.clintModsDisabled.post().then(response => {
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    addClientModsDisabledConfigButtonLoading.value = false
+    addClientModsDisabledConfigButtonDisable.value = true
   })
 }
 
