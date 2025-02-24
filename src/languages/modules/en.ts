@@ -247,6 +247,10 @@ export default {
     kick: 'Kick Player',
     historyPlayer: 'History Players',
     historyPlayerTip: 'It refers to all player information recorded since the DMP was launched',
+    blockListItems: {
+      uploadButton: 'Import',
+      tips: 'Please upload the Excel document. Column A contains the UIDs of blacklisted users, with one UID per row',
+    },
     import: {
       title: 'Import',
       text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',

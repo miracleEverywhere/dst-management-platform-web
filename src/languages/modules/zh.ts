@@ -248,6 +248,10 @@ export default {
     kick: '踢出玩家',
     historyPlayer: '历史玩家',
     historyPlayerTip: '指平台启动以来，记录到的所有玩家信息',
+    blockListItems: {
+      uploadButton: '导入',
+      tips: '请上传Excel文档，A列为黑名单用户的UID，每行一个',
+    },
     import: {
       title: '存档导入',
       text1: '上传过程中会自动备份存档。上传完成后请手动启动服务器。',

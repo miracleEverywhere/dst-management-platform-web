@@ -91,6 +91,7 @@
                 <div class="card-header">
                   {{ t('setting.blockList') }}
                   <div>
+                    <el-button type="success" @click="openBlockListDialog">{{t('setting.blockListItems.uploadButton')}}</el-button>
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
                 </div>
@@ -201,6 +202,25 @@
         </el-tabs>
       </el-col>
     </el-row>
+
+    <el-dialog v-model="blockListUploadVisible" :close-on-click-modal="!uploadLoading"
+               :close-on-press-escape="!uploadLoading" :show-close="!uploadLoading" :title="t('setting.blockListItems.uploadButton')"
+               width="45%">
+      <el-upload ref="uploadRef" v-loading="uploadLoading" :before-upload="checkUploadFile" :http-request="handleUpload"
+                 :limit="1" drag>
+        <el-icon class="el-icon--upload">
+          <upload-filled/>
+        </el-icon>
+        <div class="el-upload__text">
+          {{ t('setting.import.dialog.text1') }} <em>{{ t('setting.import.dialog.text2') }}</em>
+        </div>
+        <template #tip>
+          <div class="el-upload__tip">
+            {{ t('setting.blockListItems.tips') }}
+          </div>
+        </template>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -210,8 +230,9 @@ import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {QuestionLine} from "@/assets/icons/index.js"
+import {UploadFilled} from "@element-plus/icons-vue";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -394,6 +415,39 @@ const handleGetHistoryPlayer = (tip = false) => {
     }
   }).finally(() => {
     tableLoading.value = false
+  })
+}
+
+const uploadRef = ref()
+const blockListUploadVisible = ref(false)
+const uploadLoading = ref(false)
+const openBlockListDialog = () => {
+  if (uploadRef.value) {
+    // 清空上次上传的文件
+    uploadRef.value.clearFiles()
+  }
+  blockListUploadVisible.value = true
+  uploadLoading.value = false
+}
+const checkUploadFile = (param) => {
+  const zipPattern = /\.xls|xlsx$/i;
+  if (zipPattern.test(param.name)) {
+    return true
+  } else {
+    koiMsgError(language.value === 'zh' ? '请上传Excel文件' : 'Please upload a Excel file')
+    return false
+  }
+}
+const handleUpload = (param) => {
+  uploadLoading.value = true
+  const formData = new FormData()
+  formData.append('file', param.file)
+  settingApi.player.addBlockUpload.post(formData).then(response => {
+    getPlayerList()
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    blockListUploadVisible.value = false
+    uploadLoading.value = false
   })
 }
 </script>

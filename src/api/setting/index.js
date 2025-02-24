@@ -66,6 +66,12 @@ export default {
         return await http.post(this.url, data);
       }
     },
+    addBlockUpload: {
+      url: `/setting/player/add/block/upload`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
     deleteBlock: {
       url: `/setting/player/delete/block`,
       post: async function (data) {
