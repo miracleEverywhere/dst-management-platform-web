@@ -39,6 +39,7 @@
     "lodash": "^4.17.21",
     "lua-format": "^1.5.2",
     "luaparse": "^0.3.1",
+    "md-editor-v3": "^5.2.3",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.2.2",

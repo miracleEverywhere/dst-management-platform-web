@@ -26,7 +26,7 @@
             <el-tag type="success">{{ t('tools.statistics.max.day') }}</el-tag>
           </div>
           <div class="text-2xl">
-            <CountTo :startVal="0" :endVal="playerStatisticsResult.num" :duration="2000"/>
+            <CountTo :duration="2000" :endVal="playerStatisticsResult.num" :startVal="0"/>
           </div>
         </el-card>
       </el-col>
@@ -41,7 +41,7 @@
             <span class="text-sm">{{ t('tools.statistics.max.time') }}</span>
           </div>
           <div class="text-2xl">
-            {{timestamp2time(playerStatisticsResult.timestamp)}}
+            {{ timestamp2time(playerStatisticsResult.timestamp) }}
           </div>
         </el-card>
       </el-col>
@@ -56,7 +56,7 @@
             <span class="text-sm">{{ t('tools.statistics.data.dataNum') }}</span>
           </div>
           <div class="text-2xl">
-            <CountTo :startVal="0" :endVal="playerStatisticsResult.dataVolume" :duration="2000"/>
+            <CountTo :duration="2000" :endVal="playerStatisticsResult.dataVolume" :startVal="0"/>
           </div>
         </el-card>
       </el-col>
@@ -65,7 +65,7 @@
 </template>
 
 <script name="toolsStatistics" setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import toolsApi from "@/api/tools"
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
@@ -73,7 +73,7 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import ScEcharts from "@/components/scEcharts/index.vue";
 import {timestamp2time} from "@/utils/tools.js";
 import {koiMsgSuccess} from "@/utils/koi.ts";
-import { CountTo } from "vue3-count-to";
+import {CountTo} from "vue3-count-to";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -85,7 +85,7 @@ onMounted(() => {
   getInfo()
 })
 
-const getInfo = (refresh=false) => {
+const getInfo = (refresh = false) => {
   toolsApi.statistics.get().then(response => {
     for (let item of response.data) {
       option.value.xAxis.data.push(timestamp2time(item.timestamp))
@@ -131,8 +131,8 @@ const option = ref({
       data: [],
       type: 'line',
       smooth: true,
-      areaStyle:{
-        color:{
+      areaStyle: {
+        color: {
           //线性渐变
           type: 'linear',
           x: 0,

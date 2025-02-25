@@ -10,30 +10,33 @@
           </template>
           <div>
             <div style="line-height: 50px;">
-              <span>{{t('tools.update.text1')}}</span>
-              <el-time-picker v-model="checkTime" :loading="loadingTime"
-                              style="width: 120px;margin: 0 8px" :clearable="false" :editable="false"
+              <span>{{ t('tools.update.text1') }}</span>
+              <el-time-picker v-model="checkTime" :clearable="false"
+                              :editable="false" :loading="loadingTime" style="width: 120px;margin: 0 8px"
                               value-format="HH:mm:ss" @change="handleUpdate"/>
-              <span>{{t('tools.update.text2')}}</span>
+              <span>{{ t('tools.update.text2') }}</span>
             </div>
             <div style="line-height: 50px;">
-              <span>{{t('tools.update.text3')}}</span>
-              <el-switch v-model="checkEnable" :loading="loadingEnable" :active-text="$t('tools.update.switchEnable')" :inactive-text="$t('tools.update.switchDisable')"
-                         inline-prompt @change="handleUpdate"
-                         style="margin: 0 8px;--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"/>
-              <span>{{t('tools.update.text4')}}</span>
+              <span>{{ t('tools.update.text3') }}</span>
+              <el-switch v-model="checkEnable" :active-text="$t('tools.update.switchEnable')" :inactive-text="$t('tools.update.switchDisable')"
+                         :loading="loadingEnable"
+                         inline-prompt style="margin: 0 8px;--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                         @change="handleUpdate"/>
+              <span>{{ t('tools.update.text4') }}</span>
             </div>
             <div style="line-height: 50px;">
-              <span>{{t('tools.update.text5')}}</span>
+              <span>{{ t('tools.update.text5') }}</span>
               <el-tag :type="localVersion===serverVersion?'success':'warning'" style="margin: 0 8px">{{ localVersion }}</el-tag>
-              <span>{{t('tools.update.text6')}}</span>
-              <el-tag type="primary" style="margin: 0 8px">{{ serverVersion }}</el-tag>
-              <span v-if="localVersion===serverVersion">{{t('tools.update.text7')}}</span>
-              <span v-if="localVersion!==serverVersion">{{t('tools.update.text8')}}</span>
+              <span>{{ t('tools.update.text6') }}</span>
+              <el-tag style="margin: 0 8px" type="primary">{{ serverVersion }}</el-tag>
+              <span v-if="localVersion===serverVersion">{{ t('tools.update.text7') }}</span>
+              <span v-if="localVersion!==serverVersion">{{ t('tools.update.text8') }}</span>
             </div>
 
           </div>
-          <el-alert :effect="isDark?'light':'dark'" type="warning" :closable="false" style="margin-top: 20px">{{t('tools.backup.alert')}}</el-alert>
+          <el-alert :closable="false" :effect="isDark?'light':'dark'" style="margin-top: 20px" type="warning">
+            {{ t('tools.backup.alert') }}
+          </el-alert>
         </el-card>
       </el-col>
     </el-row>

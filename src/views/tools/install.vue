@@ -1,48 +1,51 @@
 <template>
   <div class="page-div">
     <el-row :gutter="20">
-      <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24">
-        <el-card shadow="never" :style="isMobile?'min-height: 300px':'min-height: 500px'" >
+      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+        <el-card :style="isMobile?'min-height: 300px':'min-height: 500px'" shadow="never">
           <template #header>
-            <span class="card-header">{{t('tools.install.systemInfo')}}</span>
+            <span class="card-header">{{ t('tools.install.systemInfo') }}</span>
           </template>
-          <el-descriptions border :column="1">
-            <el-descriptions-item :label="$t('tools.install.architecture')">{{osInfo.Architecture}}</el-descriptions-item>
-            <el-descriptions-item :label="$t('tools.install.osType')">{{osInfo.OS}}</el-descriptions-item>
-            <el-descriptions-item :label="$t('tools.install.osName')">{{osInfo.Platform}}</el-descriptions-item>
-            <el-descriptions-item :label="$t('tools.install.osVersion')">{{osInfo.PlatformVersion}}</el-descriptions-item>
-            <el-descriptions-item label="CPU">{{osInfo.CPUModel}}</el-descriptions-item>
-            <el-descriptions-item :label="t('tools.install.cpuCore')">{{osInfo.CPUCores}}</el-descriptions-item>
-            <el-descriptions-item :label="$t('tools.install.memory')">{{(osInfo.MemorySize / (1024 ** 3)).toFixed(2)}} GB</el-descriptions-item>
-            <el-descriptions-item :label="$t('tools.install.uptime')">{{osInfo.Uptime}}</el-descriptions-item>
+          <el-descriptions :column="1" border>
+            <el-descriptions-item :label="$t('tools.install.architecture')">{{ osInfo.Architecture }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.osType')">{{ osInfo.OS }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.osName')">{{ osInfo.Platform }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.osVersion')">{{ osInfo.PlatformVersion }}</el-descriptions-item>
+            <el-descriptions-item label="CPU">{{ osInfo.CPUModel }}</el-descriptions-item>
+            <el-descriptions-item :label="t('tools.install.cpuCore')">{{ osInfo.CPUCores }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.memory')">{{ (osInfo.MemorySize / (1024 ** 3)).toFixed(2) }} GB
+            </el-descriptions-item>
+            <el-descriptions-item :label="$t('tools.install.uptime')">{{ osInfo.Uptime }}</el-descriptions-item>
           </el-descriptions>
         </el-card>
       </el-col>
-      <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24" :style="isMobile?'margin-top: 20px':'margin-top: 0px'">
-        <el-card shadow="never" :style="isMobile?'min-height: 300px':'min-height: 500px'" >
+      <el-col :lg="12" :md="12" :sm="24" :span="12" :style="isMobile?'margin-top: 20px':'margin-top: 0px'" :xs="24">
+        <el-card :style="isMobile?'min-height: 300px':'min-height: 500px'" shadow="never">
           <template #header>
-            <span class="card-header">{{$t('tools.install.installCheck')}}</span>
+            <span class="card-header">{{ $t('tools.install.installCheck') }}</span>
           </template>
           <el-result v-if="osInfo.Platform==='ubuntu'||osInfo.Platform==='centos'||osInfo.Platform==='rocky'"
-            icon="success"
-            :title="$t('tools.install.checkPass')"
-            :sub-title="$t('tools.install.checkPassDesc')"
+                     :sub-title="$t('tools.install.checkPassDesc')"
+                     :title="$t('tools.install.checkPass')"
+                     icon="success"
           >
             <template #extra>
-              <el-button type="primary" :loading="installing" @click="handleInstall">{{t('tools.install.install')}}</el-button>
+              <el-button :loading="installing" type="primary" @click="handleInstall">{{ t('tools.install.install') }}</el-button>
             </template>
           </el-result>
           <el-result v-else
-                     icon="warning"
-                     :title="$t('tools.install.checkNotPass')"
                      :sub-title="$t('tools.install.checkNotPassDesc')"
+                     :title="$t('tools.install.checkNotPass')"
+                     icon="warning"
           >
             <template #extra>
               <div>
-                <el-button type="warning" :loading="installing" :disabled="osInfo.Platform==='darwin'" @click="handleInstall">{{t('tools.install.install')}}</el-button>
+                <el-button :disabled="osInfo.Platform==='darwin'" :loading="installing" type="warning" @click="handleInstall">
+                  {{ t('tools.install.install') }}
+                </el-button>
               </div>
               <div style="margin-top: 5px">
-                <el-text type="info">{{t('tools.install.macosTip')}}</el-text>
+                <el-text type="info">{{ t('tools.install.macosTip') }}</el-text>
               </div>
             </template>
           </el-result>
@@ -50,25 +53,25 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 20px">
-        <el-alert :effect="isDark?'light':'dark'" type="success" :closable="false">{{t('tools.install.installTip')}}</el-alert>
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 20px">
+        <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('tools.install.installTip') }}</el-alert>
       </el-col>
     </el-row>
-    <el-row :gutter="20" v-if="installing">
-      <el-col :span="24" :lg="24" :md="24" :sm="24" :xs="24" style="margin-top: 20px">
-        <el-card shadow="never" style="min-height: 250px" >
+    <el-row v-if="installing" :gutter="20">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 20px">
+        <el-card shadow="never" style="min-height: 250px">
           <template #header>
             <div class="card-header">
-              <span>{{t('tools.install.installProgress')}}</span>
-              <el-tag type="warning" style="font-weight: lighter">{{t('tools.install.noClose')}}</el-tag>
+              <span>{{ t('tools.install.installProgress') }}</span>
+              <el-tag style="font-weight: lighter" type="warning">{{ t('tools.install.noClose') }}</el-tag>
             </div>
 
           </template>
           <el-progress :percentage="percentage" :status="percentage===100?'success':''"
                        :stroke-width="15" striped striped-flow/>
           <div style="margin-top: 10px">
-            <span v-if="language==='zh'">{{installInfo.zh}}</span>
-            <span v-if="language==='en'">{{installInfo.en}}</span>
+            <span v-if="language==='zh'">{{ installInfo.zh }}</span>
+            <span v-if="language==='en'">{{ installInfo.en }}</span>
           </div>
         </el-card>
       </el-col>
@@ -76,7 +79,7 @@
   </div>
 </template>
 
-<script setup name="toolsInstall">
+<script name="toolsInstall" setup>
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import toolsApi from "@/api/tools"
@@ -85,10 +88,10 @@ import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 
-const { t } = useI18n()
+const {t} = useI18n()
 const globalStore = useGlobalStore()
 const language = computed(() => globalStore.language)
-const { isMobile } = useScreenStore();
+const {isMobile} = useScreenStore();
 const isDark = computed(() => globalStore.isDark);
 
 const installing = ref(false)

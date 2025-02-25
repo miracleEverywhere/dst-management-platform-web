@@ -8,7 +8,7 @@
       <el-col :lg="16" :md="12" :sm="15" :xs="0" class="flex items-center justify-center">
         <div class="login-background w-85% h-100%"></div>
         <div class="absolute text-center select-none">
-          <el-image class="w-400px h-360px mb-50px animate-float <md:hidden <lg:w-360px h-320px" :src="bg" />
+          <el-image :src="bg" class="w-400px h-360px mb-50px animate-float <md:hidden <lg:w-360px h-320px"/>
           <div class="font-bold text-3xl chroma-text mb-6px text-center <lg:text-2xl <md:hidden">
             {{ $t("login.welcome") }} {{ loginTitle }}
           </div>
@@ -28,26 +28,27 @@
           <span class="h-1px w-16 bg-gray-300 inline-block"></span>
         </div>
         <!-- 输入框盒子 -->
-        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="w-260px"
-                 :validate-on-rule-change="false" @keyup.enter="handleKoiLogin">
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" :validate-on-rule-change="false"
+                 class="w-260px" @keyup.enter="handleKoiLogin">
           <el-form-item prop="username">
-            <el-input type="text" :placeholder="$t('login.loginName')" :prefix-icon="User" v-model="loginForm.username" />
+            <el-input v-model="loginForm.username" :placeholder="$t('login.loginName')" :prefix-icon="User" type="text"/>
           </el-form-item>
           <el-form-item prop="password">
             <el-input
-              type="password"
-              :placeholder="$t('login.password')"
-              show-password
-              :prefix-icon="Lock"
               v-model="loginForm.password"
+              :placeholder="$t('login.password')"
+              :prefix-icon="Lock"
+              show-password
+              type="password"
             />
           </el-form-item>
           <!-- 登录按钮 -->
           <el-form-item>
-            <el-button type="primary" v-if="!loading" class="w-245px bg-[--el-color-primary]" round v-throttle:3000="handleKoiLogin">
+            <el-button v-if="!loading" v-throttle:3000="handleKoiLogin" class="w-245px bg-[--el-color-primary]" round
+                       type="primary">
               {{ $t("login.in") }}
             </el-button>
-            <el-button type="primary" v-else class="w-245px bg-[--el-color-primary]" round :loading="loading">
+            <el-button v-else :loading="loading" class="w-245px bg-[--el-color-primary]" round type="primary">
               {{ $t("login.center") }}
             </el-button>
           </el-form-item>
@@ -58,20 +59,19 @@
 </template>
 
 <script setup>
-import { User, Lock } from "@element-plus/icons-vue";
-import {ref, reactive, computed} from "vue";
-import {koiMsgWarning, koiMsgSuccess} from "@/utils/koi.ts";
-import { useRouter } from "vue-router";
+import {Lock, User} from "@element-plus/icons-vue";
+import {computed, reactive, ref} from "vue";
+import {koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts";
+import {useRouter} from "vue-router";
 import useUserStore from "@/stores/modules/user.ts";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import { HOME_URL, LOGIN_URL } from "@/config/index.ts";
-import { initDynamicRouter } from "@/routers/modules/dynamicRouter.ts";
+import {HOME_URL, LOGIN_URL} from "@/config/index.ts";
+import {initDynamicRouter} from "@/routers/modules/dynamicRouter.ts";
 import useTabsStore from "@/stores/modules/tabs.ts";
-import { getAssets } from "@/utils/index.ts";
+import {getAssets, getLanguage} from "@/utils/index.ts";
 import settings from "@/settings";
 import Language from "@/layouts/components/Header/components/Language.vue";
 import Dark from "@/layouts/components/Header/components/Dark.vue";
-import { getLanguage } from "@/utils/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {SHA512} from "@/utils/tools.js";
 import systemApi from "@/api/system"
@@ -103,13 +103,13 @@ const loginForm = reactive({
 const loginRules = computed(() => {
   if (globalStore.language === "en") {
     return reactive({
-      username: [{ required: true, message: "The user name cannot be empty", trigger: "blur" }],
-      password: [{ required: true, message: "The password cannot be empty", trigger: "blur" }],
+      username: [{required: true, message: "The user name cannot be empty", trigger: "blur"}],
+      password: [{required: true, message: "The password cannot be empty", trigger: "blur"}],
     });
   } else {
     return reactive({
-      username: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
-      password: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+      username: [{required: true, message: "用户名不能为空", trigger: "blur"}],
+      password: [{required: true, message: "密码不能为空", trigger: "blur"}],
     });
   }
 });
@@ -128,7 +128,7 @@ const handleKoiLogin = () => {
           username: loginForm.username,
           password: password
         }
-        const res = await systemApi.login.post({ loginForm: reqForm });
+        const res = await systemApi.login.post({loginForm: reqForm});
         koiMsgSuccess(res.message)
         // userStore.setToken(res.data.tokenValue);
         userStore.setToken(res.data.token);

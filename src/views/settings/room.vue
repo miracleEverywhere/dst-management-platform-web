@@ -78,7 +78,7 @@
                 <el-switch v-model="roomBaseForm.vote"/>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.password')">
-                <el-input v-model="roomBaseForm.password" show-password autocomplete="new-password"></el-input>
+                <el-input v-model="roomBaseForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.token')" prop="token">
                 <el-input v-model="roomBaseForm.token" show-password></el-input>
@@ -120,14 +120,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.global">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -140,14 +140,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.events">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -160,14 +160,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.survivors">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -180,14 +180,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.world">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -200,14 +200,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.resourceRegrowth">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -220,14 +220,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.unnaturalPortalResource">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -240,14 +240,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.creatures">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -260,14 +260,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.hostileCreatures">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -280,14 +280,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldRule.giants">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -300,14 +300,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldGeneration.global">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -320,14 +320,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldGeneration.world">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -340,14 +340,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldGeneration.resources">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -360,14 +360,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldGeneration.creaturesAndSpawners">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -380,14 +380,14 @@
                 <div class="item-container">
                   <template v-for="i in groundWorldGeneration.hostileCreaturesAndSpawners">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleModelValueChange"
                       />
                     </div>
@@ -430,14 +430,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldRule.world">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -450,14 +450,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldRule.resourceRegrowth">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -470,14 +470,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldRule.creatures">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -490,14 +490,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldRule.hostileCreatures">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -510,14 +510,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldRule.giants">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -530,14 +530,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldGeneration.world">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="caveOverrideWorldGenerationWorld[i].configs"
                                         :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="caveOverrideWorldGenerationWorld[i].i18n"
                                         :image="caveOverrideWorldGenerationWorld[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -550,14 +550,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldGeneration.resources">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -570,14 +570,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldGeneration.creaturesAndSpawners">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -590,14 +590,14 @@
                 <div class="item-container">
                   <template v-for="i in cavesWorldGeneration.hostileCreaturesAndSpawners">
                     <div>
-                      <LevelDataSetting v-model="overridesObj[i]"
+                      <LevelDataSetting :key="new Date().getTime()"
+                                        v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
+                                        :defaultModelValue="overrides[i].modelValue"
                                         :i18n="overrides[i].i18n"
                                         :image="overrides[i].image"
                                         :name="i"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :key="new Date().getTime()"
                                         @changeModelValue="handleCavesModelValueChange"
                       />
                     </div>
@@ -707,7 +707,7 @@
                 <el-switch v-model="roomBaseForm.vote"/>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.password')">
-                <el-input v-model="roomBaseForm.password" show-password autocomplete="new-password"></el-input>
+                <el-input v-model="roomBaseForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.token')" prop="token">
                 <el-input v-model="roomBaseForm.token" show-password></el-input>
@@ -741,48 +741,49 @@
                              @click="handleImportLeveldataLua('master', 'survival')">
                     {{ t('setting.luaImportButton.survival') }}
                   </el-button>
-                  <el-form ref="roomBaseFormRef" :model="roomBaseForm" inline
-                           :label-width="isMobile?'70':'100'" label-position="top"
-                           :rules="multiHostFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [NETWORK] - server_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.masterPort')" prop="masterPort">
-                        <el-input v-model="roomBaseForm.masterPort" type="number" size="default"/>
+                  <el-form ref="roomBaseFormRef" :label-width="isMobile?'70':'100'" :model="roomBaseForm"
+                           :rules="multiHostFormRules" :size="isMobile?'small':'large'"
+                           inline label-position="top" style="margin-top: 10px">
+                    <el-tooltip :show-after="500" content="server.ini - [NETWORK] - server_port" effect="light" placement="top">
+                      <el-form-item :label="t('setting.roomWorldForm.masterPort')" label-position="top" prop="masterPort">
+                        <el-input v-model="roomBaseForm.masterPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.shardMasterPort')"
+                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_port" effect="light" placement="top">
+                      <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')" label-position="top"
                                     prop="shardMasterPort">
-                        <el-input v-model="roomBaseForm.shardMasterPort" type="number" size="default"/>
+                        <el-input v-model="roomBaseForm.shardMasterPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port"
+                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - server_master_port" effect="light"
                                 placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')"
+                      <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')" label-position="top"
                                     prop="steamMasterPort">
-                        <el-input v-model="roomBaseForm.steamMasterPort" type="number" size="default"/>
+                        <el-input v-model="roomBaseForm.steamMasterPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port"
+                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - authentication_port" effect="light"
                                 placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamAuthenticationPort')"
+                      <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')" label-position="top"
                                     prop="steamAuthenticationPort">
-                        <el-input v-model="roomBaseForm.steamAuthenticationPort" type="number" size="default"/>
+                        <el-input v-model="roomBaseForm.steamAuthenticationPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_ip" placement="top">
-                      <el-form-item label-position="top" label="Master IP" prop="shardMasterIp">
+                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_ip" effect="light" placement="top">
+                      <el-form-item label="Master IP" label-position="top" prop="shardMasterIp">
                         <el-input v-model="roomBaseForm.shardMasterIp" disabled size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - cluster_key" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
-                        <el-input v-model="roomBaseForm.clusterKey" type="password" show-password autocomplete="new-password" size="default"/>
+                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - cluster_key" effect="light" placement="top">
+                      <el-form-item :label="t('setting.roomWorldForm.clusterKey')" label-position="top" prop="clusterKey">
+                        <el-input v-model="roomBaseForm.clusterKey" autocomplete="new-password" show-password size="default"
+                                  type="password"/>
                       </el-form-item>
                     </el-tooltip>
                   </el-form>
                   <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
                            :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-form-item label-position="top" :label="t('setting.roomWorldForm.groundSetting')" prop="groundSetting">
+                    <el-form-item :label="t('setting.roomWorldForm.groundSetting')" label-position="top" prop="groundSetting">
                       <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting"
                                       :height="isMobile?320:500"
                                       :theme="isDark?'darcula':'idea'"
@@ -800,14 +801,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.global">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -820,14 +821,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.events">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -840,14 +841,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.survivors">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -860,14 +861,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.world">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -880,14 +881,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.resourceRegrowth">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -900,14 +901,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.unnaturalPortalResource">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -920,14 +921,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.creatures">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -940,14 +941,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.hostileCreatures">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -960,14 +961,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldRule.giants">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -980,14 +981,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldGeneration.global">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -1000,14 +1001,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldGeneration.world">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -1020,14 +1021,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldGeneration.resources">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -1040,14 +1041,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldGeneration.creaturesAndSpawners">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -1060,14 +1061,14 @@
                   <div class="item-container">
                     <template v-for="i in groundWorldGeneration.hostileCreaturesAndSpawners">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleModelValueChange"
                         />
                       </div>
@@ -1090,48 +1091,49 @@
                       {{ t('setting.luaImportButton.survival') }}
                     </el-button>
                   </div>
-                  <el-form ref="roomBaseFormRef" :model="roomBaseForm" inline
-                           :label-width="isMobile?'70':'100'" label-position="top"
-                           :rules="multiHostFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [NETWORK] - server_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.cavesPort')" prop="cavesPort">
-                        <el-input v-model="roomBaseForm.cavesPort" type="number" size="default"/>
+                  <el-form ref="roomBaseFormRef" :label-width="isMobile?'70':'100'" :model="roomBaseForm"
+                           :rules="multiHostFormRules" :size="isMobile?'small':'large'"
+                           inline label-position="top" style="margin-top: 10px">
+                    <el-tooltip :show-after="500" content="server.ini - [NETWORK] - server_port" effect="light" placement="top">
+                      <el-form-item :label="t('setting.roomWorldForm.cavesPort')" label-position="top" prop="cavesPort">
+                        <el-input v-model="roomBaseForm.cavesPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_port" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.shardMasterPort')"
+                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_port" effect="light" placement="top">
+                      <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')" label-position="top"
                                     prop="shardMasterPort">
-                        <el-input v-model="roomBaseForm.shardMasterPort" type="number" size="default"/>
+                        <el-input v-model="roomBaseForm.shardMasterPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - server_master_port"
+                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - server_master_port" effect="light"
                                 placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamMasterPort')"
+                      <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')" label-position="top"
                                     prop="steamMasterPort">
-                        <el-input v-model="roomBaseForm.steamMasterPort" type="number" size="default"/>
+                        <el-input v-model="roomBaseForm.steamMasterPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="server.ini - [STEAM] - authentication_port"
+                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - authentication_port" effect="light"
                                 placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.steamAuthenticationPort')"
+                      <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')" label-position="top"
                                     prop="steamAuthenticationPort">
-                        <el-input v-model="roomBaseForm.steamAuthenticationPort" type="number" size="default"/>
+                        <el-input v-model="roomBaseForm.steamAuthenticationPort" size="default" type="number"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - master_ip" placement="top">
-                      <el-form-item label-position="top" label="Master IP" prop="shardMasterIp">
+                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_ip" effect="light" placement="top">
+                      <el-form-item label="Master IP" label-position="top" prop="shardMasterIp">
                         <el-input v-model="roomBaseForm.shardMasterIp" size="default"/>
                       </el-form-item>
                     </el-tooltip>
-                    <el-tooltip effect="light" :show-after="500" content="cluster.ini - [SHARD] - cluster_key" placement="top">
-                      <el-form-item label-position="top" :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
-                        <el-input v-model="roomBaseForm.clusterKey" type="password" show-password autocomplete="new-password" size="default"/>
+                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - cluster_key" effect="light" placement="top">
+                      <el-form-item :label="t('setting.roomWorldForm.clusterKey')" label-position="top" prop="clusterKey">
+                        <el-input v-model="roomBaseForm.clusterKey" autocomplete="new-password" show-password size="default"
+                                  type="password"/>
                       </el-form-item>
                     </el-tooltip>
                   </el-form>
                   <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
                            :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-form-item label-position="top" :label="t('setting.roomWorldForm.caveSetting')" prop="caveSetting">
+                    <el-form-item :label="t('setting.roomWorldForm.caveSetting')" label-position="top" prop="caveSetting">
                       <sc-code-editor ref="editorCavesSettingRef" v-model="roomCaveForm.caveSetting" :height="isMobile?320:500"
                                       :theme="isDark?'darcula':'idea'"
                                       mode="lua" style="width: 100%"></sc-code-editor>
@@ -1148,14 +1150,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldRule.world">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1168,14 +1170,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldRule.resourceRegrowth">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1188,14 +1190,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldRule.creatures">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1208,14 +1210,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldRule.hostileCreatures">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1228,14 +1230,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldRule.giants">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1248,14 +1250,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldGeneration.world">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="caveOverrideWorldGenerationWorld[i].configs"
                                           :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="caveOverrideWorldGenerationWorld[i].i18n"
                                           :image="caveOverrideWorldGenerationWorld[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1268,14 +1270,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldGeneration.resources">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1288,14 +1290,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldGeneration.creaturesAndSpawners">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1308,14 +1310,14 @@
                   <div class="item-container">
                     <template v-for="i in cavesWorldGeneration.hostileCreaturesAndSpawners">
                       <div>
-                        <LevelDataSetting v-model="overridesObj[i]"
+                        <LevelDataSetting :key="new Date().getTime()"
+                                          v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
+                                          :defaultModelValue="overrides[i].modelValue"
                                           :i18n="overrides[i].i18n"
                                           :image="overrides[i].image"
                                           :name="i"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :key="new Date().getTime()"
                                           @changeModelValue="handleCavesModelValueChange"
                         />
                       </div>
@@ -1374,6 +1376,7 @@
 <script name="settingsRoom" setup>
 import {computed, inject, nextTick, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
+import {useRoute, useRouter} from "vue-router";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
 import luaparse from 'luaparse'
@@ -1381,14 +1384,15 @@ import luamin from 'lua-format'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import {
+  caveOverrideWorldGenerationWorld,
+  cavesWorldGeneration,
+  cavesWorldRule,
   groundWorldGeneration,
   groundWorldRule,
-  overrides,
-  caveOverrideWorldGenerationWorld,
-  cavesWorldRule,
-  cavesWorldGeneration
+  overrides
 } from "@/views/settings/components/levelDataMap.js"
 import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
 
@@ -1405,6 +1409,21 @@ const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
+
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
 
 const editorGroundSettingRef = ref()
 const editorCavesSettingRef = ref()
@@ -1676,6 +1695,9 @@ const handleSave = () => {
     loading.value = false
   }).finally(() => {
     loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
   })
 }
 const handleSaveAndRestart = () => {
@@ -1691,6 +1713,9 @@ const handleSaveAndRestart = () => {
     loading.value = false
   }).finally(() => {
     loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
   })
 }
 const handleGenerateNewWorld = () => {
@@ -1706,6 +1731,9 @@ const handleGenerateNewWorld = () => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
   })
 }
 

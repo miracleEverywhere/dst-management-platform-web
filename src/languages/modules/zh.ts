@@ -237,7 +237,7 @@ export default {
     noAdminFound: '没有发现管理员',
     noBlockFound: '没有发现黑名单',
     noWhiteFound: '没有发现白名单',
-    tagCloseTip: '提示：点击玩家UID后的 "x" 即可删除',
+    tagCloseTip: '提示：点击玩家UID后的 "×" 即可删除',
     nickName: '名字',
     role: '角色',
     age: '天数',
@@ -248,6 +248,10 @@ export default {
     kick: '踢出玩家',
     historyPlayer: '历史玩家',
     historyPlayerTip: '指平台启动以来，记录到的所有玩家信息',
+    blockListItems: {
+      uploadButton: '导入',
+      tips: '请上传Excel文档，A列为黑名单用户的UID，每行一个',
+    },
     import: {
       title: '存档导入',
       text1: '上传过程中会自动备份存档。上传完成后请手动启动服务器。',
@@ -286,6 +290,7 @@ export default {
           sync: '同步',
           syncTooltip: '该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面',
           export: '导出',
+          addClientDisabled: '禁本地',
         },
         alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载',
         table: {
@@ -321,6 +326,7 @@ export default {
           result: '该模组无配置项',
           result2: '请选择一个模组进行配置',
           name: '名称',
+          clientModsDisabled: '禁用客户端模组',
         },
       },
     },
@@ -361,6 +367,12 @@ export default {
       tickRate: {
         title: '通信频率',
         msg: '越大游戏越流畅，但会带来更高的带宽和CPU消耗',
+      },
+      encodeUserPath: {
+        divider: '用户路径编码',
+        ground: '地面',
+        cave: '洞穴',
+        msg: '切换后会自动生成游戏配置文件，手动重启后即可生效',
       },
     },
   },
@@ -582,6 +594,9 @@ export default {
       text3: '文件中添加或修改',
       text4: '如果不是，则添加或修改',
       text5: '重启游戏即可',
+      text6: 'DMP建议的解决方案↓',
+      text7: '点击设置-系统，在用户路径编码中修改地面和洞穴的相关配置，提交后手动重启游戏即可',
+      text8: '临时解决方案(不建议)↓',
     }
   },
 };

@@ -17,9 +17,10 @@
             </div>
             <div style="line-height: 50px;">
               <span>{{ t('tools.keepalive.text3') }}</span>
-              <el-switch v-model="keepaliveEnable" :loading="loadingEnable" :active-text="$t('tools.update.switchEnable')" :inactive-text="$t('tools.update.switchDisable')"
-                         inline-prompt @change="handleUpdate"
-                         style="margin: 0 8px;--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"/>
+              <el-switch v-model="keepaliveEnable" :active-text="$t('tools.update.switchEnable')" :inactive-text="$t('tools.update.switchDisable')"
+                         :loading="loadingEnable"
+                         inline-prompt style="margin: 0 8px;--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                         @change="handleUpdate"/>
               <span>{{ t('tools.keepalive.text4') }}</span>
             </div>
           </div>
@@ -35,7 +36,7 @@ import toolsApi from "@/api/tools"
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgSuccess} from "@/utils/koi.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();

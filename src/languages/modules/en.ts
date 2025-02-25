@@ -247,6 +247,10 @@ export default {
     kick: 'Kick Player',
     historyPlayer: 'History Players',
     historyPlayerTip: 'It refers to all player information recorded since the DMP was launched',
+    blockListItems: {
+      uploadButton: 'Import',
+      tips: 'Please upload the Excel document. Column A contains the UIDs of blacklisted users, with one UID per row',
+    },
     import: {
       title: 'Import',
       text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',
@@ -285,6 +289,7 @@ export default {
           sync: 'Sync',
           syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
           export: 'Export',
+          addClientDisabled: 'Disable Client MOD',
         },
         alert: 'Tip: Mod download speed depends on your network and mod size. Please be patient and do not download repeatedly',
         table: {
@@ -320,6 +325,7 @@ export default {
           result: 'This mod has no configuration options',
           result2: 'Please select a mod to configure',
           name: 'Name',
+          clientModsDisabled: 'Client Mods Disabled',
         },
       },
     },
@@ -360,6 +366,12 @@ export default {
       tickRate: {
         title: 'Tick Rate',
         msg: 'The larger, the smoother, but it will result in higher bandwidth and CPU consumption',
+      },
+      encodeUserPath: {
+        divider: 'Encode User Path',
+        ground: 'Ground',
+        cave: 'Cave',
+        msg: 'After switching, the game configuration file will be automatically generated, and it will take effect after a manual restart',
       },
     },
   },
@@ -581,6 +593,9 @@ export default {
       text3: ':',
       text4: 'if not, add or update:',
       text5: 'Restart game server.',
+      text6: 'DMP\'s recommended solution is as follows: ↓',
+      text7: 'Click on Settings-System, modify the relevant configurations for the ground and caves in the user path encoding, and after submission, manually restart the game for the changes to take effect.',
+      text8: 'Temporary solution (not recommended) ↓',
     }
   },
 };

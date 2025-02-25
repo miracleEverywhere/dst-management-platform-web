@@ -15,7 +15,7 @@
             </div>
             <div>
               <el-row :gutter="20">
-                <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24">
+                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
                   <div class="tip custom-block">
                     <div>
                       <span class="bolder">{{ t('setting.import.text2') }}</span>
@@ -24,7 +24,7 @@
                     <div>├── adminlist.txt</div>
                     <div>├── blocklist.txt</div>
                     <div>├── Caves</div>
-                    <div><span class="tree-tab ">│</span>   ├── backup</div>
+                    <div><span class="tree-tab">│</span>   ├── backup</div>
                     <div><span class="tree-tab">│</span>   ├── leveldataoverride.lua</div>
                     <div><span class="tree-tab">│</span>   ├── modoverrides.lua</div>
                     <div><span class="tree-tab">│</span>   ├── save</div>
@@ -48,7 +48,7 @@
                     <div>└── whitelist.txt</div>
                   </div>
                 </el-col>
-                <el-col :span="12" :lg="12" :md="12" :sm="24" :xs="24">
+                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
                   <div>
                     <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
                               :preview-src-list="[imageZip]"
@@ -75,9 +75,11 @@
       </el-col>
     </el-row>
 
-    <el-dialog v-model="uploadDialogVisible" :title="t('setting.import.dialog.title')"
-               :close-on-press-escape="!uploadLoading" :show-close="!uploadLoading" :close-on-click-modal="!uploadLoading" width="45%">
-      <el-upload ref="uploadRef" v-loading="uploadLoading" :before-upload="checkUploadFile" :http-request="handleUpload" :limit="1" drag>
+    <el-dialog v-model="uploadDialogVisible" :close-on-click-modal="!uploadLoading"
+               :close-on-press-escape="!uploadLoading" :show-close="!uploadLoading" :title="t('setting.import.dialog.title')"
+               width="45%">
+      <el-upload ref="uploadRef" v-loading="uploadLoading" :before-upload="checkUploadFile" :http-request="handleUpload"
+                 :limit="1" drag>
         <el-icon class="el-icon--upload">
           <upload-filled/>
         </el-icon>
@@ -92,10 +94,10 @@
       </el-upload>
     </el-dialog>
     <el-dialog v-model="helpDialogVisible" :title="t('setting.import.dialog2.title')" width="70%">
-      <el-alert :effect="isDark?'light':'dark'" type="error" :closable="false">
+      <el-alert :closable="false" :effect="isDark?'light':'dark'" type="error">
         {{ t('setting.import.dialog2.text1') }}
       </el-alert>
-      <el-image :src="helpGif" fit="fill" loading="lazy" class="fcc" style="margin-top: 10px"></el-image>
+      <el-image :src="helpGif" class="fcc" fit="fill" loading="lazy" style="margin-top: 10px"></el-image>
     </el-dialog>
   </div>
 
