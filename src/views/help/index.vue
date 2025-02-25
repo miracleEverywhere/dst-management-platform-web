@@ -220,9 +220,9 @@
                     </span>
                   </p>
                 </div>
-                <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
+                <div  class="tip_warning">
                   {{ t('help.five.alert') }}
-                </el-alert>
+                </div>
                 <div class="tip custom-block">
                   {{ t('help.five.tip7') }}
                 </div>
