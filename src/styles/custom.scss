@@ -55,6 +55,13 @@ html.dark {
   border-left: 5px solid var(--el-color-primary);
   margin: 20px 0;
 }
+.tip_warning {
+  padding: 8px 16px;
+  background-color: #409eff1a;
+  border-radius: 4px;
+  border-left: 5px solid var(--el-color-warning);
+  margin: 20px 0;
+}
 .custom-block .custom-block-title {
   font-weight: 700;
 }
