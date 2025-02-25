@@ -366,6 +366,12 @@ export default {
         title: 'Tick Rate',
         msg: 'The larger, the smoother, but it will result in higher bandwidth and CPU consumption',
       },
+      encodeUserPath: {
+        divider: 'Encode User Path',
+        ground: 'Ground',
+        cave: 'Cave',
+        msg: 'After switching, the game configuration file will be automatically generated, and it will take effect after a manual restart',
+      },
     },
   },
   tools: {

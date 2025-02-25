@@ -150,6 +150,32 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <el-divider content-position="left">{{ t('setting.system.encodeUserPath.divider') }}</el-divider>
+              <el-form-item :label="t('setting.system.encodeUserPath.ground')" prop="encodeUserPath.ground">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.encodeUserPath.ground">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.encodeUserPath.cave')" prop="encodeUserPath.cave">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.encodeUserPath.cave">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.encodeUserPath.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
             </el-form>
           </div>
         </el-card>
@@ -195,6 +221,10 @@ const systemSettingFormOld = ref({
   },
   bit64: undefined,
   tickRate: undefined,
+  encodeUserPath: {
+    ground: false,
+    cave: false,
+  }
 })
 const systemSettingForm = ref({
   keepaliveDisable: undefined,
@@ -210,6 +240,10 @@ const systemSettingForm = ref({
   },
   bit64: undefined,
   tickRate: undefined,
+  encodeUserPath: {
+    ground: false,
+    cave: false,
+  }
 })
 const checkFrequency = (rule, value, callback) => {
   if (!value) {
@@ -238,6 +272,10 @@ const systemSettingFormRules = {
   },
   bit64: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
   tickRate: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+  encodeUserPath: {
+    ground: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+    cave: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+  }
 }
 
 const handleGetSystemSetting = () => {

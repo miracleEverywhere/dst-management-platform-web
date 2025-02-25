@@ -367,6 +367,12 @@ export default {
         title: '通信频率',
         msg: '越大游戏越流畅，但会带来更高的带宽和CPU消耗',
       },
+      encodeUserPath: {
+        divider: '用户路径编码',
+        ground: '地面',
+        cave: '洞穴',
+        msg: '切换后会自动生成游戏配置文件，手动重启后即可生效',
+      },
     },
   },
   tools: {
