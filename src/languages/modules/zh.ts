@@ -326,6 +326,7 @@ export default {
           result: '该模组无配置项',
           result2: '请选择一个模组进行配置',
           name: '名称',
+          clientModsDisabled: '禁用客户端模组',
         },
       },
     },

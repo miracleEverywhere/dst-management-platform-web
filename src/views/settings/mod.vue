@@ -145,7 +145,7 @@
                                     @click="handleModClick(mod.id, mod.file_url)"/>
                         </div>
                         <div style="display: flex;margin-left: 5px;flex-direction: column;justify-content: center">
-                          <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">禁用客户端模组</el-button>
+                          <el-button link type="primary" @click="handleModClick(mod.id, mod.file_url)">{{ t('setting.mod.setting.right.clientModsDisabled') }}</el-button>
                           <div>
                             <el-tag v-if="mod.enable" type="success">{{ t('setting.mod.setting.left.enable') }}</el-tag>
                             <el-tag v-if="!mod.enable" type="info">{{ t('setting.mod.setting.left.disable') }}</el-tag>
@@ -186,7 +186,7 @@
                 <div class="card-header">
                   <span>{{ t('setting.mod.setting.right.header.title') }}</span>
                   <div>
-                    <el-button :disabled="clickedModID===0" :loading="modUpdateButtonLoading"
+                    <el-button :disabled="clickedModID<2" :loading="modUpdateButtonLoading"
                                type="primary" @click="handleModUpdate">
                       {{ t('setting.mod.setting.right.header.update') }}
                     </el-button>
@@ -233,14 +233,6 @@
               </template>
               <template v-if="clickedModID===1">
                 <div>
-                  <el-switch
-                    v-model="modSettingFormat[modSettingFormat.findIndex(item => item.id === clickedModID)].enable"
-                    size="large"
-                    :loading="modConfigurationsLoading"
-                    @change="handleModConfigChange"
-                    :active-text="language==='zh'?'启用':'Enable'"
-                    :inactive-text="language==='zh'?'禁用':'Disable'"
-                  />
                   <div v-if="language==='zh'" class="tip custom-block">如果启用此配置，则会禁用玩家的本地模组</div>
                   <div v-else class="tip custom-block">If enable this configuration option, the game server will Disable player's client mods</div>
                 </div>
@@ -449,18 +441,28 @@ const handleModDelete = (row) => {
 
 const buttonDisableModLoading = ref(false)
 const handleModDisable = () => {
-  buttonDisableModLoading.value = true
-  const isUgc = clickedModFileUrl.value === "";
-  const reqForm = {
-    isUgc: isUgc,
-    id: clickedModID.value
+  if (clickedModID.value === 1) {
+    buttonDisableModLoading.value = true
+    settingsApi.mod.deleteClintModsDisabled.post().then(response => {
+      koiMsgSuccess(response.message)
+      handleGetModSetting()
+    }).finally(() => {
+      buttonDisableModLoading.value = false
+    })
+  } else {
+    buttonDisableModLoading.value = true
+    const isUgc = clickedModFileUrl.value === "";
+    const reqForm = {
+      isUgc: isUgc,
+      id: clickedModID.value
+    }
+    settingsApi.mod.disable.post(reqForm).then(response => {
+      koiMsgSuccess(response.message)
+      handleGetModSetting()
+    }).finally(() => {
+      buttonDisableModLoading.value = false
+    })
   }
-  settingsApi.mod.disable.post(reqForm).then(response => {
-    koiMsgSuccess(response.message)
-    handleGetModSetting()
-  }).finally(() => {
-    buttonDisableModLoading.value = false
-  })
 }
 
 const OSPlatform = ref("")
@@ -504,7 +506,7 @@ const addClientModsDisabledConfigButtonDisable = ref(false)
 const addClientModsDisabledConfigButtonLoading = ref(false)
 const handleAddClientModsDisabledConfig = () => {
   addClientModsDisabledConfigButtonLoading.value = true
-  settingsApi.mod.clintModsDisabled.post().then(response => {
+  settingsApi.mod.addClintModsDisabled.post().then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     addClientModsDisabledConfigButtonLoading.value = false

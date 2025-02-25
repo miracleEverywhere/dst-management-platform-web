@@ -325,6 +325,7 @@ export default {
           result: 'This mod has no configuration options',
           result2: 'Please select a mod to configure',
           name: 'Name',
+          clientModsDisabled: 'Client Mods Disabled',
         },
       },
     },
