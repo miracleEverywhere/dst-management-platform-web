@@ -239,6 +239,15 @@
                      style="line-height: 50px; font-weight: bold; color: #409EFF">
                   {{ t('help.six.title') }}
                 </div>
+                <div class="tip custom-block">
+                  {{ t('help.six.text6') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.six.text7') }}
+                </div>
+                <div class="tip_warning custom-block">
+                  {{ t('help.six.text8') }}
+                </div>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text1') }}
                   <code>{{ t('help.six.code1') }}</code>
@@ -246,8 +255,6 @@
                   <code>{{ t('help.six.code2') }}</code>
                   {{ t('help.six.text3') }}
                 </div>
-                <!--                <sc-code-editor ref="sixCodeOneRef" v-model="sixCodeOne" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"-->
-                <!--                                mode="javascript"></sc-code-editor>-->
                 <MdPreview ref="sixCodeOneRef"
                            :modelValue="sixCodeOne"
                            :theme="isDark?'dark':'light'"

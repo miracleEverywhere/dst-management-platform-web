@@ -592,6 +592,9 @@ export default {
       text3: ':',
       text4: 'if not, add or update:',
       text5: 'Restart game server.',
+      text6: 'DMP\'s recommended solution is as follows: ↓',
+      text7: 'Click on Settings-System, modify the relevant configurations for the ground and caves in the user path encoding, and after submission, manually restart the game for the changes to take effect.',
+      text8: 'Temporary solution (not recommended) ↓',
     }
   },
 };
