@@ -546,6 +546,8 @@ export default {
       text2_2: 'Click the replace button to perform the replacement, and ensure that DST is installed before proceeding, and a restart is required after the replacement is complete',
       text2_3: 'DMP-1.0.6 fixed this issue',
       text2_4: 'The issue occurs',
+      text2_5: 'DMP-1.1.9 will replace the so files when game server started',
+      text2_6: 'DMP will replace the so files automatically when game server started, including Start, Restart etc.',
       text3: 'Restart it.',
       timeline: 'Timeline',
       button_1: 'Replace',

@@ -45,6 +45,9 @@
                      style="line-height: 50px; font-weight: bold; color: #409EFF">
                   {{ t('help.two.title') }}
                 </div>
+                <div class="tip_success custom-block">
+                  <span class="custom-block-title">{{ t('help.two.text2_6') }}</span>
+                </div>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
                   <el-button type="primary" @click="handleReplaceSo">{{ t('help.two.button_1') }}</el-button>
@@ -78,6 +81,9 @@
                   </el-timeline-item>
                   <el-timeline-item size="large" timestamp="2024-12-9" type="warning">
                     {{ t('help.two.text2_3') }}
+                  </el-timeline-item>
+                  <el-timeline-item size="large" timestamp="2025-3-18" type="warning">
+                    {{ t('help.two.text2_5') }}
                   </el-timeline-item>
                 </el-timeline>
               </el-collapse-item>
