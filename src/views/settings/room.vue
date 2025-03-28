@@ -1614,7 +1614,7 @@ const handleImportLeveldataLua = (world, mode) => {
     if (mode === 'survival') {
       roomGroundForm.value.groundSetting = survival.master
     }
-    generateGroundOverridesObj()
+    // generateGroundOverridesObj()
     if (isMultiHost.value) {
       roomBaseForm.value.masterPort = 11000
       roomBaseForm.value.cavesPort = 0
@@ -1632,7 +1632,7 @@ const handleImportLeveldataLua = (world, mode) => {
     if (mode === 'survival') {
       roomCaveForm.value.caveSetting = survival.caves
     }
-    generateCavesOverridesObj()
+    // generateCavesOverridesObj()
     if (isMultiHost.value) {
       roomBaseForm.value.masterPort = 0
       roomBaseForm.value.cavesPort = 11001
