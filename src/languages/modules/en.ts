@@ -598,6 +598,12 @@ export default {
       text6: 'DMP\'s recommended solution is as follows: ↓',
       text7: 'Click on Settings-System, modify the relevant configurations for the ground and caves in the user path encoding, and after submission, manually restart the game for the changes to take effect.',
       text8: 'Temporary solution (not recommended) ↓',
+    },
+    seven: {
+      title: 'DST Management Platform App',
+      text1: 'The DST Management Platform App is now released! You can manage multiple Famine servers without having to switch back and forth on the web ~',
+      text2: 'The DST Management Platform App features a new UI design, which might just give you a fresh experience (*^▽^*)',
+      text3: 'Go download it on GitHub now (づ￣ 3￣)づ',
     }
   },
 };
