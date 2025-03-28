@@ -1409,6 +1409,7 @@ const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
+const language = computed(() => globalStore.language);
 
 const route = useRoute();
 const router = useRouter();
@@ -1742,7 +1743,11 @@ const cavesTabName = ref('Code')
 
 const handleGroundTabChange = (name) => {
   if (name === 'Visualization') {
-    generateGroundOverridesObj()
+    try {
+      generateGroundOverridesObj()
+    } catch {
+      koiMsgError(language.value==='zh'?'可视化配置加载失败':'Visualization load failed')
+    }
   }
   if (name === 'Code') {
     roomGroundForm.value.groundSetting = beautifyLua(roomGroundForm.value.groundSetting)
@@ -1756,7 +1761,11 @@ const handleGroundTabChange = (name) => {
 
 const handleCavesTabChange = (name) => {
   if (name === 'Visualization') {
-    generateCavesOverridesObj()
+    try {
+      generateCavesOverridesObj()
+    } catch {
+      koiMsgError(language.value==='zh'?'可视化配置加载失败':'Visualization load failed')
+    }
   }
   if (name === 'Code') {
     roomCaveForm.value.caveSetting = beautifyLua(roomCaveForm.value.caveSetting)
