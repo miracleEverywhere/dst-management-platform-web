@@ -3,7 +3,7 @@ export default {
   /**
    * 版本
    */
-  version: '1.1.10',
+  version: '1.2.0',
   /**
    * 获取通知的url
    */
