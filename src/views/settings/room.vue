@@ -91,7 +91,7 @@
             </el-form>
           </el-card>
           <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <el-tabs v-model="groundTabName">
+            <el-tabs v-model="groundTabName"  @tab-change="handleGroundTabChange">
               <el-tab-pane :label="t('setting.tabCode')" name="Code">
                 <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                            @click="handleImportLeveldataLua('master', 'endless')">
@@ -110,7 +110,7 @@
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane
+              <el-tab-pane lazy
                 v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
                 :label="t('setting.tabVisualization')" name="Visualization">
                 <el-divider content-position="center"><span
@@ -118,9 +118,9 @@
                   {{ t('setting.groundVisualizationRuleItem.global') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.global">
+                  <template v-for="(i, key) in groundWorldRule.global">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -138,9 +138,9 @@
                   {{ t('setting.groundVisualizationRuleItem.events') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.events">
+                  <template v-for="(i, key) in groundWorldRule.events">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -158,9 +158,9 @@
                   {{ t('setting.groundVisualizationRuleItem.survivors') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.survivors">
+                  <template v-for="(i, key) in groundWorldRule.survivors">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -178,9 +178,9 @@
                   {{ t('setting.groundVisualizationRuleItem.world') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.world">
+                  <template v-for="(i, key) in groundWorldRule.world">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -198,9 +198,9 @@
                   {{ t('setting.groundVisualizationRuleItem.resourceRegrowth') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.resourceRegrowth">
+                  <template v-for="(i, key) in groundWorldRule.resourceRegrowth">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -218,9 +218,9 @@
                   {{ t('setting.groundVisualizationRuleItem.unnaturalPortalResource') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.unnaturalPortalResource">
+                  <template v-for="(i, key) in groundWorldRule.unnaturalPortalResource">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -238,9 +238,9 @@
                   {{ t('setting.groundVisualizationRuleItem.creatures') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.creatures">
+                  <template v-for="(i, key) in groundWorldRule.creatures">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -258,9 +258,9 @@
                   {{ t('setting.groundVisualizationRuleItem.hostileCreatures') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.hostileCreatures">
+                  <template v-for="(i, key) in groundWorldRule.hostileCreatures">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -278,9 +278,9 @@
                   {{ t('setting.groundVisualizationRuleItem.giants') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldRule.giants">
+                  <template v-for="(i, key) in groundWorldRule.giants">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -298,9 +298,9 @@
                   {{ t('setting.groundVisualizationGenerationItem.global') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldGeneration.global">
+                  <template v-for="(i, key) in groundWorldGeneration.global">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -318,9 +318,9 @@
                   {{ t('setting.groundVisualizationGenerationItem.world') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldGeneration.world">
+                  <template v-for="(i, key) in groundWorldGeneration.world">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -338,9 +338,9 @@
                   {{ t('setting.groundVisualizationGenerationItem.resources') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldGeneration.resources">
+                  <template v-for="(i, key) in groundWorldGeneration.resources">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -358,9 +358,9 @@
                   {{ t('setting.groundVisualizationGenerationItem.creaturesAndSpawners') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldGeneration.creaturesAndSpawners">
+                  <template v-for="(i, key) in groundWorldGeneration.creaturesAndSpawners">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -378,9 +378,9 @@
                   {{ t('setting.groundVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in groundWorldGeneration.hostileCreaturesAndSpawners">
+                  <template v-for="(i, key) in groundWorldGeneration.hostileCreaturesAndSpawners">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -398,7 +398,7 @@
             </el-tabs>
           </el-card>
           <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <el-tabs v-model="cavesTabName">
+            <el-tabs v-model="cavesTabName" @tab-change="handleCavesTabChange">
               <el-tab-pane :label="t('setting.tabCode')" name="Code">
                 <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.cavesTip') }}</el-alert>
                 <div style="margin-top: 10px">
@@ -420,7 +420,7 @@
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane
+              <el-tab-pane lazy
                 v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
                 :label="t('setting.tabVisualization')" name="Visualization">
                 <el-divider content-position="center"><span
@@ -428,9 +428,9 @@
                   {{ t('setting.cavesVisualizationRuleItem.world') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldRule.world">
+                  <template v-for="(i, key) in cavesWorldRule.world">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -448,9 +448,9 @@
                   {{ t('setting.cavesVisualizationRuleItem.resourceRegrowth') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldRule.resourceRegrowth">
+                  <template v-for="(i, key) in cavesWorldRule.resourceRegrowth">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -468,9 +468,9 @@
                   {{ t('setting.cavesVisualizationRuleItem.creatures') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldRule.creatures">
+                  <template v-for="(i, key) in cavesWorldRule.creatures">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -488,9 +488,9 @@
                   {{ t('setting.cavesVisualizationRuleItem.hostileCreatures') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldRule.hostileCreatures">
+                  <template v-for="(i, key) in cavesWorldRule.hostileCreatures">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -508,9 +508,9 @@
                   {{ t('setting.cavesVisualizationRuleItem.giants') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldRule.giants">
+                  <template v-for="(i, key) in cavesWorldRule.giants">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -528,9 +528,9 @@
                   {{ t('setting.cavesVisualizationGenerationItem.world') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldGeneration.world">
+                  <template v-for="(i, key) in cavesWorldGeneration.world">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="caveOverrideWorldGenerationWorld[i].configs"
                                         :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
@@ -548,9 +548,9 @@
                   {{ t('setting.cavesVisualizationGenerationItem.resources') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldGeneration.resources">
+                  <template v-for="(i, key) in cavesWorldGeneration.resources">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -568,9 +568,9 @@
                   {{ t('setting.cavesVisualizationGenerationItem.creaturesAndSpawners') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldGeneration.creaturesAndSpawners">
+                  <template v-for="(i, key) in cavesWorldGeneration.creaturesAndSpawners">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -588,9 +588,9 @@
                   {{ t('setting.cavesVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
                 </el-divider>
                 <div class="item-container">
-                  <template v-for="i in cavesWorldGeneration.hostileCreaturesAndSpawners">
+                  <template v-for="(i, key) in cavesWorldGeneration.hostileCreaturesAndSpawners">
                     <div>
-                      <LevelDataSetting :key="new Date().getTime()"
+                      <LevelDataSetting :key="key"
                                         v-model="overridesObj[i]"
                                         :configs="overrides[i].configs"
                                         :customConfigsValue="overrides[i].customConfigsValue"
@@ -731,7 +731,7 @@
               </div>
             </template>
             <template v-if="multiHostIsMaster">
-              <el-tabs v-model="groundTabName">
+              <el-tabs v-model="groundTabName" @tab-change="handleGroundTabChange">
                 <el-tab-pane :label="t('setting.tabCode')" name="Code">
                   <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
                              @click="handleImportLeveldataLua('master', 'endless')">
@@ -791,7 +791,7 @@
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane
+                <el-tab-pane lazy
                   v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
                   :label="t('setting.tabVisualization')" name="Visualization">
                   <el-divider content-position="center"><span
@@ -799,9 +799,9 @@
                     {{ t('setting.groundVisualizationRuleItem.global') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.global">
+                    <template v-for="(i, key) in groundWorldRule.global">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -819,9 +819,9 @@
                     {{ t('setting.groundVisualizationRuleItem.events') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.events">
+                    <template v-for="(i, key) in groundWorldRule.events">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -839,9 +839,9 @@
                     {{ t('setting.groundVisualizationRuleItem.survivors') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.survivors">
+                    <template v-for="(i, key) in groundWorldRule.survivors">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -859,9 +859,9 @@
                     {{ t('setting.groundVisualizationRuleItem.world') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.world">
+                    <template v-for="(i, key) in groundWorldRule.world">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -879,9 +879,9 @@
                     {{ t('setting.groundVisualizationRuleItem.resourceRegrowth') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.resourceRegrowth">
+                    <template v-for="(i, key) in groundWorldRule.resourceRegrowth">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -899,9 +899,9 @@
                     {{ t('setting.groundVisualizationRuleItem.unnaturalPortalResource') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.unnaturalPortalResource">
+                    <template v-for="(i, key) in groundWorldRule.unnaturalPortalResource">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -919,9 +919,9 @@
                     {{ t('setting.groundVisualizationRuleItem.creatures') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.creatures">
+                    <template v-for="(i, key) in groundWorldRule.creatures">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -939,9 +939,9 @@
                     {{ t('setting.groundVisualizationRuleItem.hostileCreatures') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.hostileCreatures">
+                    <template v-for="(i, key) in groundWorldRule.hostileCreatures">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -959,9 +959,9 @@
                     {{ t('setting.groundVisualizationRuleItem.giants') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldRule.giants">
+                    <template v-for="(i, key) in groundWorldRule.giants">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -979,9 +979,9 @@
                     {{ t('setting.groundVisualizationGenerationItem.global') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldGeneration.global">
+                    <template v-for="(i, key) in groundWorldGeneration.global">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -999,9 +999,9 @@
                     {{ t('setting.groundVisualizationGenerationItem.world') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldGeneration.world">
+                    <template v-for="(i, key) in groundWorldGeneration.world">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1019,9 +1019,9 @@
                     {{ t('setting.groundVisualizationGenerationItem.resources') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldGeneration.resources">
+                    <template v-for="(i, key) in groundWorldGeneration.resources">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1039,9 +1039,9 @@
                     {{ t('setting.groundVisualizationGenerationItem.creaturesAndSpawners') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldGeneration.creaturesAndSpawners">
+                    <template v-for="(i, key) in groundWorldGeneration.creaturesAndSpawners">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1059,9 +1059,9 @@
                     {{ t('setting.groundVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in groundWorldGeneration.hostileCreaturesAndSpawners">
+                    <template v-for="(i, key) in groundWorldGeneration.hostileCreaturesAndSpawners">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1079,7 +1079,7 @@
               </el-tabs>
             </template>
             <template v-else>
-              <el-tabs v-model="cavesTabName">
+              <el-tabs v-model="cavesTabName" @tab-change="handleCavesTabChange">
                 <el-tab-pane :label="t('setting.tabCode')" name="Code">
                   <div>
                     <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
@@ -1140,7 +1140,7 @@
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane
+                <el-tab-pane lazy
                   v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
                   :label="t('setting.tabVisualization')" name="Visualization">
                   <el-divider content-position="center"><span
@@ -1148,9 +1148,9 @@
                     {{ t('setting.cavesVisualizationRuleItem.world') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldRule.world">
+                    <template v-for="(i, key) in cavesWorldRule.world">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1168,9 +1168,9 @@
                     {{ t('setting.cavesVisualizationRuleItem.resourceRegrowth') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldRule.resourceRegrowth">
+                    <template v-for="(i, key) in cavesWorldRule.resourceRegrowth">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1188,9 +1188,9 @@
                     {{ t('setting.cavesVisualizationRuleItem.creatures') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldRule.creatures">
+                    <template v-for="(i, key) in cavesWorldRule.creatures">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1208,9 +1208,9 @@
                     {{ t('setting.cavesVisualizationRuleItem.hostileCreatures') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldRule.hostileCreatures">
+                    <template v-for="(i, key) in cavesWorldRule.hostileCreatures">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1228,9 +1228,9 @@
                     {{ t('setting.cavesVisualizationRuleItem.giants') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldRule.giants">
+                    <template v-for="(i, key) in cavesWorldRule.giants">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1248,9 +1248,9 @@
                     {{ t('setting.cavesVisualizationGenerationItem.world') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldGeneration.world">
+                    <template v-for="(i, key) in cavesWorldGeneration.world">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="caveOverrideWorldGenerationWorld[i].configs"
                                           :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
@@ -1268,9 +1268,9 @@
                     {{ t('setting.cavesVisualizationGenerationItem.resources') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldGeneration.resources">
+                    <template v-for="(i, key) in cavesWorldGeneration.resources">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1288,9 +1288,9 @@
                     {{ t('setting.cavesVisualizationGenerationItem.creaturesAndSpawners') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldGeneration.creaturesAndSpawners">
+                    <template v-for="(i, key) in cavesWorldGeneration.creaturesAndSpawners">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1308,9 +1308,9 @@
                     {{ t('setting.cavesVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
                   </el-divider>
                   <div class="item-container">
-                    <template v-for="i in cavesWorldGeneration.hostileCreaturesAndSpawners">
+                    <template v-for="(i, key) in cavesWorldGeneration.hostileCreaturesAndSpawners">
                       <div>
-                        <LevelDataSetting :key="new Date().getTime()"
+                        <LevelDataSetting :key="key"
                                           v-model="overridesObj[i]"
                                           :configs="overrides[i].configs"
                                           :customConfigsValue="overrides[i].customConfigsValue"
@@ -1452,10 +1452,10 @@ const handlePrev = () => {
 
   } else {
     if (step.value === 2) {
-      generateGroundOverridesObj()
+      // generateGroundOverridesObj()
     }
     if (step.value === 3) {
-      generateCavesOverridesObj()
+      // generateCavesOverridesObj()
     }
   }
   step.value--
@@ -1472,10 +1472,10 @@ const handleNext = async () => {
       roomBaseFormRef.value.validate(valid => {
         if (valid) {
           if (multiHostIsMaster.value) {
-            generateGroundOverridesObj()
+            // generateGroundOverridesObj()
             step.value++
           } else {
-            generateCavesOverridesObj()
+            // generateCavesOverridesObj()
             step.value++
           }
         }
@@ -1512,7 +1512,7 @@ const handleNext = async () => {
             koiMsgError(t('setting.roomBaseFormRules.samePort'))
             return
           }
-          generateGroundOverridesObj()
+          // generateGroundOverridesObj()
           step.value++
         }
       })
@@ -1521,7 +1521,7 @@ const handleNext = async () => {
         if (valid) {
           try {
             luaparse.parse(roomGroundForm.value.groundSetting)
-            generateCavesOverridesObj()
+            // generateCavesOverridesObj()
             step.value++
           } catch (e) {
             koiMsgError(t('setting.luaError'))
@@ -1740,6 +1740,34 @@ const handleGenerateNewWorld = () => {
 const groundTabName = ref('Code')
 const cavesTabName = ref('Code')
 
+const handleGroundTabChange = (name) => {
+  if (name === 'Visualization') {
+    generateGroundOverridesObj()
+  }
+  if (name === 'Code') {
+    roomGroundForm.value.groundSetting = beautifyLua(roomGroundForm.value.groundSetting)
+    nextTick(() => {
+      if (editorGroundSettingRef.value) {
+        editorGroundSettingRef.value.refresh()
+      }
+    })
+  }
+}
+
+const handleCavesTabChange = (name) => {
+  if (name === 'Visualization') {
+    generateCavesOverridesObj()
+  }
+  if (name === 'Code') {
+    roomCaveForm.value.caveSetting = beautifyLua(roomCaveForm.value.caveSetting)
+    nextTick(() => {
+      if (editorCavesSettingRef.value) {
+        editorCavesSettingRef.value.refresh()
+      }
+    })
+  }
+}
+
 const overridesObj = ref({})
 
 const generateGroundOverridesObj = () => {
@@ -1790,6 +1818,24 @@ function convertLuaTableToObject(luaTable) {
   return obj;
 }
 
+const beautifyLua = (luaScript) => {
+  let removedWatermark = luamin.Beautify(luaScript, {
+    RenameVariables: false,
+    RenameGlobals: false,
+    SolveMath: false,
+  });
+  removedWatermark = removedWatermark.replace(/--\[\[\n\t.+\n\t.+\n--]]\n\n\n\n\n/g, "");
+  removedWatermark = removedWatermark.replace(/ = /g, "=");
+  removedWatermark = removedWatermark.replace(/\t/g, "  ");
+
+  removedWatermark = removedWatermark.replace(/overrides=\{ +(.+)\n/g, "overrides={\n    $1\n");
+  removedWatermark = removedWatermark.replace(/^(\w+)=(.+)\n/gm, "    $1=$2\n");
+  removedWatermark = removedWatermark.replace(/(.+)},\n/g, "$1\n  },\n");
+  removedWatermark = removedWatermark.replace(/^ +?\n/gm, "");
+
+  return removedWatermark;
+};
+
 const handleModelValueChange = (data) => {
   const key = data.name
   const value = data.value
@@ -1802,15 +1848,7 @@ const handleModelValueChange = (data) => {
       field.value.raw = `"${value}"`
     }
   }
-  const luaScript = astToLua(ast)
-  roomGroundForm.value.groundSetting = luamin.Beautify(luaScript, {
-    RenameVariables: false,
-    RenameGlobals: false,
-    SolveMath: false
-  })
-  if (editorGroundSettingRef.value) {
-    editorGroundSettingRef.value.refresh()
-  }
+  roomGroundForm.value.groundSetting = astToLua(ast)
 }
 
 const handleCavesModelValueChange = (data) => {
