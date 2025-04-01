@@ -1485,11 +1485,28 @@ const handleNext = async () => {
     if (step.value === 1) {
       roomBaseFormRef.value.validate(valid => {
         if (valid) {
-          try {
-            luaparse.parse(roomGroundForm.value.groundSetting)
-            step.value++
-          } catch (e) {
-            koiMsgError(t('setting.luaError'))
+          if (multiHostIsMaster.value) {
+            roomGroundFormRef.value.validate(groundValid => {
+              if (groundValid) {
+                try {
+                  luaparse.parse(roomGroundForm.value.groundSetting)
+                  step.value++
+                } catch (e) {
+                  koiMsgError(t('setting.luaError'))
+                }
+              }
+            })
+          } else {
+            roomCaveFormRef.value.validate(caveValid => {
+              if (caveValid) {
+                try {
+                  luaparse.parse(roomCaveForm.value.caveSetting)
+                  step.value++
+                } catch (e) {
+                  koiMsgError(t('setting.luaError'))
+                }
+              }
+            })
           }
         }
       })
@@ -1614,7 +1631,7 @@ const handleImportLeveldataLua = (world, mode) => {
     if (mode === 'survival') {
       roomGroundForm.value.groundSetting = survival.master
     }
-    generateGroundOverridesObj()
+    // generateGroundOverridesObj()
     if (isMultiHost.value) {
       roomBaseForm.value.masterPort = 11000
       roomBaseForm.value.cavesPort = 0
@@ -1632,7 +1649,7 @@ const handleImportLeveldataLua = (world, mode) => {
     if (mode === 'survival') {
       roomCaveForm.value.caveSetting = survival.caves
     }
-    generateCavesOverridesObj()
+    // generateCavesOverridesObj()
     if (isMultiHost.value) {
       roomBaseForm.value.masterPort = 0
       roomBaseForm.value.cavesPort = 11001
