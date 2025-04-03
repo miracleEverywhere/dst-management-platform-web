@@ -45,6 +45,9 @@
                      style="line-height: 50px; font-weight: bold; color: #409EFF">
                   {{ t('help.two.title') }}
                 </div>
+                <div class="tip_success custom-block">
+                  <span class="custom-block-title">{{ t('help.two.text2_6') }}</span>
+                </div>
                 <div class="tip custom-block">
                   <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
                   <el-button type="primary" @click="handleReplaceSo">{{ t('help.two.button_1') }}</el-button>
@@ -78,6 +81,9 @@
                   </el-timeline-item>
                   <el-timeline-item size="large" timestamp="2024-12-9" type="warning">
                     {{ t('help.two.text2_3') }}
+                  </el-timeline-item>
+                  <el-timeline-item size="large" timestamp="2025-3-18" type="warning">
+                    {{ t('help.two.text2_5') }}
                   </el-timeline-item>
                 </el-timeline>
               </el-collapse-item>
@@ -220,7 +226,7 @@
                     </span>
                   </p>
                 </div>
-                <div  class="tip_warning">
+                <div class="tip_warning">
                   {{ t('help.five.alert') }}
                 </div>
                 <div class="tip custom-block">
@@ -270,6 +276,41 @@
                            previewTheme="github"/>
                 <div style="line-height: 50px;">
                   {{ t('help.six.text5') }}
+                </div>
+              </el-collapse-item>
+              <el-collapse-item name="7">
+                <template #title>
+                  <el-tooltip v-if="needToolTip(t('help.seven.title'))" :content="t('help.seven.title')"
+                              effect="light" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
+                </template>
+                <div v-if="needToolTip(t('help.seven.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.six.title') }}
+                </div>
+                <div class="tip custom-block">
+                  <div style="display: flex; align-content: center">
+                    <el-icon :size="20" class="koi-icon">
+                      <sc-icon-github-fill/>
+                    </el-icon>
+                    <el-link href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
+                             target="_blank" :underline="false" style="margin-left: 5px"
+                    >
+                      https://github.com/miracleEverywhere/dst-management-platform-desktop
+                    </el-link>
+                  </div>
+
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.seven.text1') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.seven.text2') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.seven.text3') }}
                 </div>
               </el-collapse-item>
             </el-collapse>

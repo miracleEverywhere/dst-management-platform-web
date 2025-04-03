@@ -58,7 +58,8 @@
                     <el-button :loading="addClientModsDisabledConfigButtonLoading"
                                type="danger"
                                :disabled="addClientModsDisabledConfigButtonDisable"
-                               @click="handleAddClientModsDisabledConfig">
+                               @click="handleAddClientModsDisabledConfig"
+                    >
                       {{ t('setting.mod.add.header.addClientDisabled') }}
                     </el-button>
                     <el-button v-if="OSPlatform==='darwin'" :loading="macOSExportButtonLoading" type="success"
@@ -446,6 +447,7 @@ const handleModDisable = () => {
     settingsApi.mod.deleteClintModsDisabled.post().then(response => {
       koiMsgSuccess(response.message)
       handleGetModSetting()
+      addClientModsDisabledConfigButtonDisable.value = false
     }).finally(() => {
       buttonDisableModLoading.value = false
     })
