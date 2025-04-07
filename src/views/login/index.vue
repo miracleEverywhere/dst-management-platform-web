@@ -135,9 +135,8 @@ const handleKoiLogin = () => {
         // 2、添加动态路由 AND 用户按钮 AND 角色信息 AND 用户个人信息
         if (userStore?.token) {
           await initDynamicRouter();
-
         } else {
-          koiMsgWarning("请重新登录");
+          koiMsgWarning(globalStore.language==='zh'?'登录失败':'Login Failed');
           await router.replace(LOGIN_URL);
           return;
         }
