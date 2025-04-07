@@ -85,8 +85,10 @@ export default {
   profile: {
     cardHeaderInfo: '个人信息',
     cardHeaderPassword: '密码修改',
+    plzInputOldPassword: '请输入旧密码',
     plzInputPassword: '请输入密码',
     plzInputAgainPassword: '请再次输入密码',
+    oldPassword: '旧密码',
     password: '密码',
     passwordTwice: '确认密码',
     passwordNotMatch: '两次输入密码不一致',

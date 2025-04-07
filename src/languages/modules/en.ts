@@ -84,8 +84,10 @@ export default {
   profile: {
     cardHeaderInfo: 'User Info',
     cardHeaderPassword: 'Update Password',
+    plzInputOldPassword: 'Please enter old password',
     plzInputPassword: 'Please enter password',
     plzInputAgainPassword: 'Please enter password again',
+    oldPassword: 'Old Password',
     password: 'Password',
     passwordTwice: 'Confirm Password',
     passwordNotMatch: 'The passwords entered twice do not match',
