@@ -7,7 +7,7 @@
 <!--  </el-image>-->
   <el-dropdown class="m-l-10px" :hide-on-click="false" @command="handleCommand">
     <div class="koi-dropdown">
-      <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{language==='zh'?'管理员':'Admin'}}</div>
+      <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{authStore.userInfo.nickname}}</div>
       <el-icon><arrow-down /></el-icon>
     </div>
     <template #dropdown>
@@ -25,10 +25,13 @@ import { koiSessionStorage, koiLocalStorage } from "@/utils/storage.ts";
 // import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import useGlobalStore from "@/stores/modules/global.ts";
+import useAuthStore from "@/stores/modules/auth.ts"
 
 const router = useRouter();
 
 const globalStore = useGlobalStore()
+const authStore = useAuthStore()
+
 const language = computed(() => globalStore.language)
 
 // 退出登录
