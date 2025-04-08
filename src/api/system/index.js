@@ -26,4 +26,16 @@ export default {
       return await http.post(this.url, data);
     }
   },
+  userList: {
+    url: `/user/list`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
+  userCreate: {
+    url: `/user/create`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    }
+  },
 }
