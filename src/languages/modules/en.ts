@@ -95,6 +95,18 @@ export default {
     passwordUpdated: "Password update detected. You will be logged out in 3 seconds",
     passwordUpdatedTitle: "System Prompt",
     update: 'Update',
+    username: 'Username',
+    nickname: 'Nickname',
+    disabled: 'Status',
+    tip_1: 'Only the admin account has the permissions to create, disable, enable, and delete',
+    tip_2: 'When there is only one account, it cannot be disabled or deleted',
+    actions: {
+      create: 'Create',
+      update: 'Update',
+      delete: 'Delete',
+    },
+    accounts: 'Accounts',
+    accountTitle: 'Accounts Info'
   },
   setting: {
     roomSettingMobile: 'Room',

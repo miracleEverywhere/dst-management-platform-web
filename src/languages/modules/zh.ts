@@ -96,6 +96,18 @@ export default {
     passwordUpdated: "检测到用户密码更新，3秒后将退出本系统",
     passwordUpdatedTitle: "系统提示",
     update: '修改',
+    username: '用户名',
+    nickname: '用户昵称',
+    disabled: '账号状态',
+    tip_1: '仅admin账号拥有创建、禁用、启用和删除权限',
+    tip_2: '仅有一个账号时无法禁用和删除',
+    actions: {
+      create: '创建',
+      update: '修改',
+      delete: '删除',
+    },
+    accounts: '所有账号',
+    accountTitle: '账号信息'
   },
   setting: {
     roomSettingMobile: '房间',
