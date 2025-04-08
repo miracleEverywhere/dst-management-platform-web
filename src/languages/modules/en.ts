@@ -99,14 +99,21 @@ export default {
     nickname: 'Nickname',
     disabled: 'Status',
     tip_1: 'Only the admin account has the permissions to create, disable, enable, and delete',
-    tip_2: 'When there is only one account, it cannot be disabled or deleted',
+    tip_2: 'The admin account can NOT be deleted',
+    submit: 'Submit',
     actions: {
       create: 'Create',
       update: 'Update',
       delete: 'Delete',
     },
     accounts: 'Accounts',
-    accountTitle: 'Accounts Info'
+    accountTitle: 'Accounts Info',
+    formValidateMsg: {
+      username: 'please input the username',
+      nickname: 'please input the nickname',
+      password: 'please input the password',
+      disabled: '',
+    }
   },
   setting: {
     roomSettingMobile: 'Room',

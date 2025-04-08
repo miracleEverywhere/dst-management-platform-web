@@ -100,14 +100,21 @@ export default {
     nickname: '用户昵称',
     disabled: '账号状态',
     tip_1: '仅admin账号拥有创建、禁用、启用和删除权限',
-    tip_2: '仅有一个账号时无法禁用和删除',
+    tip_2: 'admin账号不可删除',
+    submit: '提交',
     actions: {
       create: '创建',
       update: '修改',
       delete: '删除',
     },
     accounts: '所有账号',
-    accountTitle: '账号信息'
+    accountTitle: '账号信息',
+    formValidateMsg: {
+      username: '请输入用户名',
+      nickname: '请输入用户昵称',
+      password: '请输入密码',
+      disabled: '',
+    }
   },
   setting: {
     roomSettingMobile: '房间',
