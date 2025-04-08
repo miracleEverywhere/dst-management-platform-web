@@ -1,15 +1,15 @@
 <template>
   <div class="page-div">
     <el-tabs v-model="activeTabName" @tab-change="handleTabChange">
-      <el-tab-pane label="个人信息" name="me">
+      <el-tab-pane :label="t('profile.cardHeaderInfo')" name="me">
         <el-row :gutter="10">
           <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
             <el-card shadow="never" style="min-height: 70vh">
               <template #header>
                 <div class="card-header">
-              <span>
-                个人信息
-              </span>
+                  <span>
+                    {{t('profile.cardHeaderInfo')}}
+                  </span>
                 </div>
               </template>
               <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh">
@@ -30,7 +30,7 @@
               <template #header>
                 <div class="card-header">
               <span>
-                密码修改
+                {{t('profile.cardHeaderPassword')}}
               </span>
                 </div>
               </template>
@@ -55,8 +55,69 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane label="所有账户" name="users">
-
+      <el-tab-pane :label="t('profile.accounts')" name="users">
+        <el-row :gutter="10">
+          <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
+            <el-card shadow="never" style="min-height: 70vh">
+              <template #header>
+                <div class="card-header">
+                  <span>
+                    {{t('profile.accountTitle')}}
+                  </span>
+                  <el-button type="success" :disabled="userInfo.username!=='admin'">
+                    {{ t('profile.actions.create') }}
+                  </el-button>
+                </div>
+              </template>
+              <div class="tip">
+                <div>
+                  {{t('profile.tip_1')}}
+                </div>
+                <div style="margin-top: 5px">
+                  {{t('profile.tip_2')}}
+                </div>
+              </div>
+              <el-table :data="userList" border>
+                <el-table-column :label="t('profile.username')" prop="username"/>
+                <el-table-column :label="t('profile.nickname')" prop="nickname"/>
+                <el-table-column :label="t('profile.disabled')">
+                  <template #default="scope">
+                    <el-tag v-if="!scope.row.disabled" type="success">
+                      {{language==='zh'?'启用':'Enabled'}}
+                    </el-tag>
+                    <el-tag v-if="scope.row.disabled" type="danger">
+                      {{language==='zh'?'禁用':'Disabled'}}
+                    </el-tag>
+                  </template>
+                </el-table-column>
+                <el-table-column :label="$t('setting.button.actions')" prop="actions">
+                  <template #default="scope">
+                    <el-dropdown trigger="hover" @command="handleCommand">
+                      <el-button link type="primary">
+                        {{ t('setting.button.actions') }}
+                        <el-icon class="el-icon--right">
+                          <arrow-down/>
+                        </el-icon>
+                      </el-button>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item command="update"
+                          >
+                            {{ t('profile.actions.update') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item command="delete" :disabled="userList.length===1"
+                          >
+                            {{ t('profile.actions.delete') }}
+                          </el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-card>
+          </el-col>
+        </el-row>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -140,9 +201,25 @@ const handleTabChange = (name) => {
 
   }
   if (activeTabName.value === 'users') {
-
+    handleGetUserList()
   }
   activeTabName.value = name
+}
+
+const userList = ref([])
+const handleGetUserList = () => {
+  systemApi.userList.get().then(response => {
+    userList.value = response.data
+  })
+}
+
+const handleCommand = (cmd) => {
+
+}
+
+const userDialogVisible = ref(false)
+const handleOpenUserCreateDialog = () => {
+
 }
 </script>
 
