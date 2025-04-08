@@ -32,10 +32,16 @@ export default {
       return await http.get(this.url, data);
     },
   },
-  userCreate: {
-    url: `/user/create`,
+  user: {
+    url: `/user`,
     post: async function(data){
       return await http.post(this.url, data);
-    }
+    },
+    put: async function(data){
+      return await http.put(this.url, data);
+    },
+    delete: async function(data){
+      return await http.delete(this.url, data);
+    },
   },
 }

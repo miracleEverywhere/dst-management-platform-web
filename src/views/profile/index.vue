@@ -64,7 +64,9 @@
                   <span>
                     {{t('profile.accountTitle')}}
                   </span>
-                  <el-button type="success" :disabled="userInfo.username!=='admin'">
+                  <el-button type="success" :disabled="userInfo.username!=='admin'"
+                             @click="handleOpenUserCreateDialog"
+                  >
                     {{ t('profile.actions.create') }}
                   </el-button>
                 </div>
@@ -90,10 +92,12 @@
                     </el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column :label="$t('setting.button.actions')" prop="actions">
+                <el-table-column :label="t('setting.button.actions')" prop="actions">
                   <template #default="scope">
-                    <el-dropdown trigger="hover" @command="handleCommand">
-                      <el-button link type="primary">
+                    <el-dropdown trigger="hover" @command="handleCommand"
+                                 :disabled="userInfo.username!=='admin'"
+                    >
+                      <el-button link type="primary" :disabled="userInfo.username!=='admin'">
                         {{ t('setting.button.actions') }}
                         <el-icon class="el-icon--right">
                           <arrow-down/>
@@ -101,11 +105,12 @@
                       </el-button>
                       <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item command="update"
+                          <el-dropdown-item :command="{type: 'update', data: scope.row}"
                           >
                             {{ t('profile.actions.update') }}
                           </el-dropdown-item>
-                          <el-dropdown-item command="delete" :disabled="userList.length===1"
+                          <el-dropdown-item :command="{type: 'delete', data: scope.row}"
+                                            :disabled="scope.row.username==='admin'"
                           >
                             {{ t('profile.actions.delete') }}
                           </el-dropdown-item>
@@ -120,6 +125,40 @@
         </el-row>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog v-model="userDialogVisible" width="60%">
+      <el-form ref="userDialogFormRef" :model="userDialogForm" label-width="100"
+               :rules="userDialogFormRules" :validate-on-rule-change="false"
+               style="margin-top: 20px"
+      >
+        <el-form-item v-if="dialogCreate" :label="t('profile.username')" prop="username">
+          <el-input v-model="userDialogForm.username"></el-input>
+        </el-form-item>
+        <el-form-item :label="t('profile.nickname')" prop="nickname">
+          <el-input v-model="userDialogForm.nickname"></el-input>
+        </el-form-item>
+        <el-form-item v-if="dialogCreate" :label="t('profile.password')" prop="password">
+          <el-input v-model="userDialogForm.password" autocomplete="new-password" show-password></el-input>
+          <sc-password-strength v-model="userDialogForm.password"></sc-password-strength>
+          <div class="el-form-item-msg">{{ t('profile.suggestedPassword') }}</div>
+        </el-form-item>
+        <el-form-item :label="t('profile.disabled')" prop="disabled">
+          <el-switch v-model="userDialogForm.disabled" :active-value="false" :inactive-value="true"
+                     :active-text="language==='zh'?'启用':'Enable'" inline-prompt
+                     :inactive-text="language==='zh'?'禁用':'Disable'"
+                     style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949">
+          </el-switch>
+        </el-form-item>
+        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+          <el-button v-if="dialogCreate" type="primary" :loading="dialogSubmitLoading" @click="handleCreateUser">
+            {{ t('profile.submit') }}
+          </el-button>
+          <el-button v-if="!dialogCreate" type="primary" :loading="dialogSubmitLoading" @click="handleUpdateUser">
+            {{ t('profile.submit') }}
+          </el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -129,10 +168,11 @@ import {computed, reactive, ref} from "vue";
 import useAuthStore from "@/stores/modules/auth.ts";
 import {useI18n} from "vue-i18n";
 import systemApi from "@/api/system"
-import {SHA512, sleep} from "@/utils/tools.js";
-import {koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
+import {deepCopy, SHA512, sleep} from "@/utils/tools.js";
+import {koiMsgInfo, koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import {koiLocalStorage, koiSessionStorage} from "@/utils/storage.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
+import {ElMessageBox} from "element-plus";
 
 const authStore = useAuthStore()
 const {t} = useI18n()
@@ -214,12 +254,124 @@ const handleGetUserList = () => {
 }
 
 const handleCommand = (cmd) => {
-
+  if (cmd.type === 'update') {
+    handleOpenUpdateUserDialog(deepCopy(cmd.data))
+    return
+  }
+  if (cmd.type === 'delete') {
+    handleDeleteUser(deepCopy(cmd.data))
+  }
 }
 
+const userDialogFormRef = ref()
+const userDialogForm = ref({
+  username: '',
+  nickname: '',
+  password: '',
+  disabled: false,
+})
+const userDialogFormRules = {
+  username: [
+    {required: true, message: t('profile.formValidateMsg.username')}
+  ],
+  nickname: [
+    {required: true, message: t('profile.formValidateMsg.nickname')}
+  ],
+  password: [
+    {required: true, message: t('profile.formValidateMsg.password')}
+  ],
+  disabled: [
+    {required: true, message: t('profile.formValidateMsg.disabled')}
+  ],
+}
 const userDialogVisible = ref(false)
+const dialogSubmitLoading = ref(false)
+const dialogCreate = ref(false)
 const handleOpenUserCreateDialog = () => {
-
+  if (userDialogFormRef.value) {
+    userDialogFormRef.value.resetFields()
+  }
+  dialogCreate.value = true
+  userDialogVisible.value = true
+}
+const handleCreateUser = () => {
+  userDialogFormRef.value.validate(valid => {
+    if (valid) {
+      dialogSubmitLoading.value = true
+      const reqForm = {
+        username: userDialogForm.value.username,
+        nickname: userDialogForm.value.nickname,
+        password: SHA512(userDialogForm.value.password),
+        disabled: userDialogForm.value.disabled,
+      }
+      systemApi.user.post(reqForm).then(response => {
+        userDialogVisible.value = false
+        koiMsgSuccess(response.message)
+        handleGetUserList()
+      }).finally(() => {
+        dialogSubmitLoading.value = false
+      })
+    }
+  })
+}
+const handleOpenUpdateUserDialog = (row) => {
+  userDialogForm.value = row
+  dialogCreate.value = false
+  userDialogVisible.value = true
+}
+const handleUpdateUser = () => {
+  userDialogFormRef.value.validate(valid => {
+    if (valid) {
+      dialogSubmitLoading.value = true
+      const reqForm = {
+        username: userDialogForm.value.username,
+        nickname: userDialogForm.value.nickname,
+        password: SHA512('nicai'),
+        disabled: userDialogForm.value.disabled,
+      }
+      systemApi.user.put(reqForm).then(response => {
+        userDialogVisible.value = false
+        koiMsgSuccess(response.message)
+        handleGetUserList()
+      }).finally(() => {
+        dialogSubmitLoading.value = false
+      })
+    }
+  })
+}
+const handleDeleteUser = (row) => {
+  ElMessageBox.confirm(
+    language.value === 'zh' ? `将执行 删除 操作，是否继续？` : `The DELETE operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
+    {
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          const reqForm = {
+            username: row.username,
+            nickname: row.nickname,
+            password: SHA512('nicai'),
+            disabled: row.disabled,
+          }
+          systemApi.user.delete(reqForm).then(response => {
+            koiMsgSuccess(response.message)
+            handleGetUserList()
+            done()
+          }).finally(() => {
+            instance.confirmButtonLoading = false
+          })
+        } else {
+          done()
+        }
+      }
+    }
+  ).then(() => {
+  }).catch(() => {
+    koiMsgInfo(t('home.canceled'))
+  })
 }
 </script>
 
