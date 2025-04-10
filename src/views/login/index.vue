@@ -67,7 +67,7 @@
       <template #header>
         {{ t("login.register") }}
       </template>
-      <div class="tip_warning">
+      <div class="tip">
         {{ t("login.registerTip") }}
       </div>
       <div class="tip_error">
