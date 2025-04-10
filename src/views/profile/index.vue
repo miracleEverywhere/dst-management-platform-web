@@ -126,7 +126,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog v-model="userDialogVisible" width="60%">
+    <el-dialog v-model="userDialogVisible" width="60%" @closed="clearUserForm">
       <el-form ref="userDialogFormRef" :model="userDialogForm" label-width="100"
                :rules="userDialogFormRules" :validate-on-rule-change="false"
                style="margin-top: 20px"
@@ -289,7 +289,7 @@ const dialogSubmitLoading = ref(false)
 const dialogCreate = ref(false)
 const handleOpenUserCreateDialog = () => {
   if (userDialogFormRef.value) {
-    userDialogFormRef.value.resetFields()
+    userDialogFormRef.value.clearValidate()
   }
   dialogCreate.value = true
   userDialogVisible.value = true
@@ -331,6 +331,9 @@ const handleUpdateUser = () => {
       }
       systemApi.user.put(reqForm).then(response => {
         userDialogVisible.value = false
+        if (userDialogFormRef.value) {
+          userDialogFormRef.value.resetFields()
+        }
         koiMsgSuccess(response.message)
         handleGetUserList()
       }).finally(() => {
@@ -372,6 +375,15 @@ const handleDeleteUser = (row) => {
   }).catch(() => {
     koiMsgInfo(t('home.canceled'))
   })
+}
+
+const clearUserForm = () => {
+  userDialogForm.value = {
+    username: '',
+    nickname: '',
+    password: '',
+    disabled: false,
+  }
 }
 </script>
 
