@@ -44,17 +44,57 @@
           </el-form-item>
           <!-- 登录按钮 -->
           <el-form-item>
-            <el-button v-if="!loading" v-throttle:3000="handleKoiLogin" class="w-245px bg-[--el-color-primary]" round
-                       type="primary">
+            <el-button v-if="!loading" v-throttle:3000="handleKoiLogin"
+                       round type="primary" style="width: 100%;"
+            >
               {{ $t("login.in") }}
             </el-button>
-            <el-button v-else :loading="loading" class="w-245px bg-[--el-color-primary]" round type="primary">
+            <el-button v-else :loading="loading"
+                       round type="primary" style="width: 100%;">
               {{ $t("login.center") }}
+            </el-button>
+
+          </el-form-item>
+          <el-form-item style="margin-top: -5%">
+            <el-button round @click="openRegisterDialog" style="width: 100%;">
+              {{ t("login.register") }}
             </el-button>
           </el-form-item>
         </el-form>
       </el-col>
     </el-row>
+    <el-dialog v-model="registerDialogVisible" width="60%" @closed="clearRegisterForm">
+      <template #header>
+        {{ t("login.register") }}
+      </template>
+      <div class="tip_warning">
+        {{ t("login.registerTip") }}
+      </div>
+      <div class="tip_error">
+        {{ t("login.registerTip2") }}
+      </div>
+      <el-form ref="registerFormRef" :model="registerForm" label-width="100"
+               :rules="registerFormRules" :validate-on-rule-change="false"
+               style="margin: 20px"
+      >
+        <el-form-item :label="t('profile.username')" prop="username">
+          <el-input v-model="registerForm.username"></el-input>
+        </el-form-item>
+        <el-form-item :label="t('profile.nickname')" prop="nickname">
+          <el-input v-model="registerForm.nickname"></el-input>
+        </el-form-item>
+        <el-form-item :label="t('profile.password')" prop="password">
+          <el-input v-model="registerForm.password" autocomplete="new-password" show-password></el-input>
+          <sc-password-strength v-model="registerForm.password"></sc-password-strength>
+          <div class="el-form-item-msg">{{ t('profile.suggestedPassword') }}</div>
+        </el-form-item>
+        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+          <el-button type="primary" :loading="registerLoading" @click="handleRegister">
+            {{ t('profile.submit') }}
+          </el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -75,13 +115,15 @@ import Dark from "@/layouts/components/Header/components/Dark.vue";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {SHA512} from "@/utils/tools.js";
 import systemApi from "@/api/system"
+import {useI18n} from "vue-i18n";
+import ScPasswordStrength from "@/components/scPasswordStrength/index.vue";
 
 // 标题语言切换
 const loginTitle = ref(settings.loginTitle);
 loginTitle.value = computed(() => {
   return getLanguage(globalStore.language, settings.loginTitle, settings.loginEnTitle);
 });
-
+const {t} = useI18n()
 const globalStore = useGlobalStore();
 const userStore = useUserStore();
 const tabsStore = useTabsStore();
@@ -159,6 +201,65 @@ const handleKoiLogin = () => {
     }
   });
 };
+
+const registerDialogVisible = ref(false)
+const registerFormRef = ref()
+const registerForm = ref({
+  username: '',
+  nickname: '',
+  role: "想什么呢",
+  password: '',
+  disabled: false,
+})
+const registerFormRules = {
+  username: [
+    {required: true, message: t('profile.formValidateMsg.username')}
+  ],
+  nickname: [
+    {required: true, message: t('profile.formValidateMsg.nickname')}
+  ],
+  password: [
+    {required: true, message: t('profile.formValidateMsg.password')}
+  ],
+  disabled: [
+    {required: true, message: t('profile.formValidateMsg.disabled')}
+  ],
+}
+const clearRegisterForm = () => {
+  registerForm.value = {
+    username: '',
+    nickname: '',
+    password: '',
+
+  }
+}
+const openRegisterDialog = () => {
+  if (registerFormRef.value) {
+    registerFormRef.value.clearValidate()
+  }
+  registerDialogVisible.value = true
+}
+const registerLoading = ref(false)
+const handleRegister = () => {
+  registerFormRef.value.validate(valid => {
+    if (valid) {
+      registerLoading.value = true
+      const reqForm = {
+        role: "想什么呢",
+        disabled: false,
+        username: registerForm.value.username,
+        nickname: registerForm.value.nickname,
+        password: SHA512(registerForm.value.password),
+      }
+      systemApi.register.post(reqForm).then(response => {
+        registerDialogVisible.value = false
+        koiMsgSuccess(response.message)
+      }).finally(() => {
+        registerLoading.value = false
+      })
+    }
+  })
+}
 
 </script>
 
