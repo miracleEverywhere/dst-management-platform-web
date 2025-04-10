@@ -80,7 +80,10 @@ export default {
     blur: "看不清，换一张",
     in: "登录",
     center: "登录中",
-    beianhao: "网站备案号"
+    beianhao: "网站备案号",
+    register: "注册",
+    registerTip: "仅可注册一次，注册账号拥有管理员权限，管理员账号可在个人中心创建非管理员账号",
+    registerTip2: "由于该页面可能暴露在公网，请务必设置强密码",
   },
   profile: {
     cardHeaderInfo: '个人信息',

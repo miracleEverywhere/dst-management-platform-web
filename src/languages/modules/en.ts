@@ -79,7 +79,10 @@ export default {
     blur: "I can't see it. Change it",
     in: "Log in",
     center: "Be logging in",
-    beianhao: "Website record number"
+    beianhao: "Website record number",
+    register: "Register",
+    registerTip: "Can only register once, the registered account has admin privileges, and the admin account can create non-admin accounts in the personal center page",
+    registerTip2: "Since this page may be exposed to the public network, be sure to set a strong password",
   },
   profile: {
     cardHeaderInfo: 'User Info',
