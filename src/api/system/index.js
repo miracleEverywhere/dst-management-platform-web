@@ -44,4 +44,10 @@ export default {
       return await http.delete(this.url, data);
     },
   },
+  register: {
+    url: `/register`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
 }
