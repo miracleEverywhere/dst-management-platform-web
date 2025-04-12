@@ -101,6 +101,7 @@ export default {
     username: 'Username',
     nickname: 'Nickname',
     disabled: 'Status',
+    role: 'Role',
     tip_1: 'Only the admin account has the permissions to create, disable, enable, and delete',
     tip_2: 'The admin account can NOT be deleted',
     submit: 'Submit',

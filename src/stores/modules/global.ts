@@ -45,6 +45,10 @@ const globalStore = defineStore("global", {
       headerInverted: false,
       // 是否需要提醒修改密码
       needUpdatePassword: false,
+      // 游戏集群
+      dstClusters: [],
+      // 选中的游戏集群
+      selectedDstCluster: "",
     };
   },
   actions: {

@@ -1,5 +1,6 @@
 <template>
   <div class="header-right">
+    <ClusterSelect/>
     <Github/>
     <Gitee/>
     <!-- 搜索菜单 -->
@@ -37,6 +38,8 @@ import Gitee from "@/layouts/components/Header/components/Gitee.vue";
 import Github from "@/layouts/components/Header/components/Github.vue";
 // @ts-ignore
 import Message from "@/layouts/components/Header/components/Message.vue";
+// @ts-ignore
+import ClusterSelect from "@/layouts/components/Header/components/ClusterSelect.vue";
 </script>
 
 <style lang="scss" scoped>

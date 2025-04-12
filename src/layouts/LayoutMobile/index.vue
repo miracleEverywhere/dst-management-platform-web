@@ -6,6 +6,7 @@
 <!--        <SvgIcon name="koi-menu-unfold-line" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>-->
       </div>
       <div class="flex items-center">
+        <ClusterSelect/>
         <Language class="<md:visible"></Language>
         <!-- 明亮/暗黑模式图标 -->
         <Dark></Dark>
@@ -55,7 +56,8 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import Language from "@/layouts/components/Header/components/Language.vue";
 // @ts-ignore
 import Message from "@/layouts/components/Header/components/Message.vue";
-
+// @ts-ignore
+import ClusterSelect from "@/layouts/components/Header/components/ClusterSelect.vue";
 const route = useRoute();
 const authStore = useAuthStore();
 const globalStore = useGlobalStore();

@@ -27,6 +27,7 @@ const authStore = defineStore("auth", {
       userInfo: {
         username: "",
         nickname: "",
+        role: "",
       }
     };
   },

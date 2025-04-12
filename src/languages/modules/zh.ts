@@ -102,6 +102,7 @@ export default {
     username: '用户名',
     nickname: '用户昵称',
     disabled: '账号状态',
+    role: '角色',
     tip_1: '仅admin账号拥有创建、禁用、启用和删除权限',
     tip_2: 'admin账号不可删除',
     submit: '提交',

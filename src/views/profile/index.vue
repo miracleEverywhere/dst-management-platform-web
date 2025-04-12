@@ -22,6 +22,9 @@
                 <div style="font-size: 24px; color: #909399; margin-top: 10px">
                   {{userInfo.username}}
                 </div>
+                <div style="font-size: 24px; color: #606266; margin-top: 10px">
+                  {{userInfo.role}}
+                </div>
               </div>
             </el-card>
           </el-col>
@@ -64,7 +67,7 @@
                   <span>
                     {{t('profile.accountTitle')}}
                   </span>
-                  <el-button type="success" :disabled="userInfo.username!=='admin'"
+                  <el-button type="success" :disabled="userInfo.role!=='admin'"
                              @click="handleOpenUserCreateDialog"
                   >
                     {{ t('profile.actions.create') }}
@@ -82,6 +85,13 @@
               <el-table :data="userList" border>
                 <el-table-column :label="t('profile.username')" prop="username"/>
                 <el-table-column :label="t('profile.nickname')" prop="nickname"/>
+                <el-table-column :label="t('profile.role')" prop="role">
+                  <template #default="scope">
+                    <el-tag type="primary">
+                      {{scope.row.role}}
+                    </el-tag>
+                  </template>
+                </el-table-column>
                 <el-table-column :label="t('profile.disabled')">
                   <template #default="scope">
                     <el-tag v-if="!scope.row.disabled" type="success">
@@ -95,9 +105,9 @@
                 <el-table-column :label="t('setting.button.actions')" prop="actions">
                   <template #default="scope">
                     <el-dropdown trigger="hover" @command="handleCommand"
-                                 :disabled="userInfo.username!=='admin'"
+                                 :disabled="userInfo.role!=='admin'"
                     >
-                      <el-button link type="primary" :disabled="userInfo.username!=='admin'">
+                      <el-button link type="primary" :disabled="userInfo.role!=='admin'">
                         {{ t('setting.button.actions') }}
                         <el-icon class="el-icon--right">
                           <arrow-down/>
@@ -110,7 +120,7 @@
                             {{ t('profile.actions.update') }}
                           </el-dropdown-item>
                           <el-dropdown-item :command="{type: 'delete', data: scope.row}"
-                                            :disabled="scope.row.username==='admin'"
+                                            :disabled="scope.row.role==='admin'"
                           >
                             {{ t('profile.actions.delete') }}
                           </el-dropdown-item>

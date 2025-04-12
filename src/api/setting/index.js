@@ -2,6 +2,12 @@ import http from "@/utils/axios.ts";
 
 
 export default {
+  clusters: {
+    url: `/setting/clusters`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
   room: {
     url: `/setting/room`,
     get: async function(data){
