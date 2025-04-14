@@ -8,6 +8,12 @@ export default {
       return await http.get(this.url, data);
     },
   },
+  cluster: {
+    url: `/setting/cluster`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
   room: {
     url: `/setting/room`,
     get: async function(data){
