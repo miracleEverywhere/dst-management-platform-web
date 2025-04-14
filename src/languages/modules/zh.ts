@@ -67,7 +67,10 @@ export default {
     settings: "设置",
     personalCenter: "个人中心",
     changePassword: "修改密码",
-    logout: "退出登录"
+    logout: "退出登录",
+    clusters: {
+      validateClusterName: '请输入集群名',
+    }
   },
   login: {
     welcome: "欢迎登录",
