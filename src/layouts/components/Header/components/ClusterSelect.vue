@@ -1,8 +1,10 @@
 <template>
   <div>
-    <el-select v-model="globalStore.selectedDstCluster" size="small" style="width: 100px" @change="handleClusterChange">
-      <el-option v-for="cluster in globalStore.dstClusters" v-if="globalStore.dstClusters" :label="cluster.clusterName"
-                 :value="cluster.clusterName">
+    <el-select v-model="globalStore.selectedDstCluster" size="small"
+               style="width: 100px">
+      <el-option v-for="cluster in globalStore.dstClusters"
+                 v-if="globalStore.dstClusters" :label="cluster"
+                 :value="cluster">
       </el-option>
       <el-option :value="null" label="新建" @click="handleClusterNew"/>
     </el-select>
@@ -45,16 +47,14 @@ const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
 const {t} = useI18n()
 
+
 const getClusters = () => {
   settingApi.clusters.get().then(response => {
     globalStore.dstClusters = response.data
+    if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
+      globalStore.selectedDstCluster = globalStore.dstClusters[0]
+    }
   })
-}
-
-const handleClusterChange = () => {
-  if (globalStore.selectedDstCluster !== null) {
-
-  }
 }
 
 const handleClusterNew = () => {
@@ -79,10 +79,11 @@ const handleCreate = () => {
         clusterName: clusterForm.value.clusterName
       }
       createLoading.value = true
-      setting.cluster.post(reqForm).then(response => {
+      setting.cluster.post(reqForm).then(async response => {
         newClusterDialog.value = false
         koiMsgSuccess(response.message)
-        getClusters()
+        await getClusters()
+        globalStore.selectedDstCluster = clusterForm.value.clusterName
       }).finally(() => {
         createLoading.value = false
       })
