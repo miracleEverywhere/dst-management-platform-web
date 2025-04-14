@@ -42,6 +42,8 @@ const handleLayout = () => {
   koiLocalStorage.remove("user");
   koiLocalStorage.remove("keepAlive");
   koiLocalStorage.remove("tabs");
+  globalStore.dstClusters = null;
+  globalStore.selectedDstCluster = null;
   // 退出登录。必须使用replace把页面缓存刷掉。
   // window.location.replace(LOGIN_URL);
   window.location.replace('/');
