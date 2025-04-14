@@ -556,6 +556,35 @@ export default {
       num: '文件数',
     },
   },
+  users: {
+    update: '修改',
+    username: '用户名',
+    nickname: '用户昵称',
+    disabled: '账号状态',
+    password: '密码',
+    role: '角色',
+    clusterPermission: '集群权限',
+    admin: '管理员',
+    tip_1: '仅admin角色的账号拥有创建、禁用、启用和删除权限',
+    tip_2: 'admin角色的账号不可删除',
+    tip_3: '此页面仅admin角色账号可见',
+    tip_4: '管理员可管理所有集群，非管理员仅可管理拥有权限的集群',
+    suggestedPassword: '建议包含英文、数字的8位以上密码',
+    submit: '提交',
+    actions: {
+      create: '创建',
+      update: '修改',
+      delete: '删除',
+    },
+    accounts: '所有账号',
+    accountTitle: '用户管理',
+    formValidateMsg: {
+      username: '请输入用户名',
+      nickname: '请输入用户昵称',
+      password: '请输入密码',
+      disabled: '',
+    }
+  },
   help: {
     one: {
       title: '欢迎加群讨论',

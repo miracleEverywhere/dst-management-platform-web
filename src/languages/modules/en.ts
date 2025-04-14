@@ -552,6 +552,34 @@ export default {
       num: 'File Count',
     },
   },
+  users: {
+    update: 'Update',
+    username: 'Username',
+    nickname: 'Nickname',
+    disabled: 'Status',
+    password: 'Password',
+    role: 'Role',
+    clusterPermission: 'Cluster Permission',
+    admin: 'Admin',
+    tip_1: 'Only the admin account has the permissions to create, disable, enable, and delete',
+    tip_2: 'The admin account can NOT be deleted',
+    tip_3: 'This page is only visible to accounts with the admin role',
+    suggestedPassword: 'It is recommended to use a password that is at least 8 characters long and contains letters and numbers',
+    submit: 'Submit',
+    actions: {
+      create: 'Create',
+      update: 'Update',
+      delete: 'Delete',
+    },
+    accounts: 'Accounts',
+    accountTitle: 'Accounts Info',
+    formValidateMsg: {
+      username: 'please input the username',
+      nickname: 'please input the nickname',
+      password: 'please input the password',
+      disabled: '',
+    }
+  },
   help: {
     one: {
       title: 'Welcome to join the group for discussion',
