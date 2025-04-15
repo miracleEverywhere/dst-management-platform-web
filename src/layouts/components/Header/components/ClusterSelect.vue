@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select v-model="globalStore.selectedDstCluster" size="small"
-               @change="handleClusterChange"
+               @visible-change="saveLastCluster"
                style="width: 100px">
       <el-option v-for="cluster in globalStore.dstClusters"
                  v-if="globalStore.dstClusters" :label="cluster"
@@ -9,7 +9,7 @@
       </el-option>
       <el-option :value="null" label="新建" @click="handleClusterNew"/>
     </el-select>
-    <el-dialog v-model="newClusterDialog" width="60%">
+    <el-dialog v-model="newClusterDialog" width="60%" @closed="handleDialogClose">
       <template #header>
         新建集群
       </template>
@@ -59,6 +59,14 @@ const getClusters = () => {
   })
 }
 
+const lastClusterName = ref("")
+
+const saveLastCluster = (visible) => {
+  if (visible) {
+    lastClusterName.value = globalStore.selectedDstCluster
+  }
+}
+
 const handleClusterNew = () => {
   newClusterDialog.value = true
 }
@@ -92,13 +100,13 @@ const handleCreate = () => {
     }
   })
 }
-const handleClusterChange = () => {
-  if (!globalStore.selectedDstCluster) {
+
+const handleDialogClose = () => {
+  if (globalStore.selectedDstCluster) {
     return
   }
-  router.go(0)
+  globalStore.selectedDstCluster = lastClusterName.value
 }
-
 </script>
 
 <style scoped>
