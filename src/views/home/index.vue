@@ -235,12 +235,14 @@
 import homeApi from "@/api/home"
 import externalApi from "@/api/externalApi"
 import {useI18n} from "vue-i18n";
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {ElMessageBox, ElNotification} from 'element-plus'
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {formatBytes} from "@/utils/tools.js"
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 
 onMounted(() => {

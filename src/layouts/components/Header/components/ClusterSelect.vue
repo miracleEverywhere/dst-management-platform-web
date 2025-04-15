@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import {computed, inject, nextTick, onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import settingApi from '@/api/setting'
 import useGlobalStore from "@/stores/modules/global.ts";
 import {useI18n} from "vue-i18n";
