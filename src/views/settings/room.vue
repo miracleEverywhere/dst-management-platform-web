@@ -1374,7 +1374,7 @@
 </template>
 
 <script name="settingsRoom" setup>
-import {computed, inject, nextTick, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
@@ -1989,6 +1989,14 @@ const multiHostFormRules = {
   shardMasterIp: [{required: true, message: t('setting.roomWorldFormRules.shardMasterIp'), trigger: 'blur'}],
   clusterKey: [{required: true, message: t('setting.roomWorldFormRules.clusterKey'), trigger: 'blur'}],
 }
+
+watch(() => globalStore.selectedDstCluster, (newValue, oldValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 
 </script>
 
