@@ -8,11 +8,11 @@
               {{ t('home.roomInfo') }}
             </div>
           </template>
-          <template v-if="roomInfo.roomSettingBase.name!==''">
+          <template v-if="roomInfo.clusterSetting.name!==''">
             <el-descriptions :column="isMobile?1:2">
               <el-descriptions-item :label="t('home.roomName')">
-                <el-button v-copy="roomInfo.roomSettingBase.name" link type="primary">
-                  {{ roomInfo.roomSettingBase.name }}
+                <el-button v-copy="roomInfo.clusterSetting.name" link type="primary">
+                  {{ roomInfo.clusterSetting.name }}
                   <el-icon style="margin-left: 3px">
                     <DocumentCopy/>
                   </el-icon>
@@ -61,7 +61,7 @@
               </el-descriptions-item>
             </el-descriptions>
           </template>
-          <template v-if="roomInfo.roomSettingBase.name===''">
+          <template v-if="roomInfo.clusterSetting.name===''">
             <div class="fcc" style="height: 150px">
               <el-result :title="t('home.noServer')" icon="warning"/>
             </div>
@@ -297,7 +297,7 @@ const getConnectionCode = () => {
 }
 
 const roomInfo = ref({
-  roomSettingBase: {},
+  clusterSetting: {},
   seasonInfo: {
     season: {},
     cycles: 0,
@@ -314,7 +314,7 @@ const roomInfo = ref({
   playerNum: 0,
 })
 const getRoomInfo = () => {
-  homeApi.roomInfo.get().then(response => {
+  homeApi.roomInfo.get({clusterName: globalStore.selectedDstCluster}).then(response => {
     roomInfo.value = response.data
   })
 }

@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-select v-model="globalStore.selectedDstCluster" size="small"
+               @change="handleClusterChange"
                style="width: 100px">
       <el-option v-for="cluster in globalStore.dstClusters"
                  v-if="globalStore.dstClusters" :label="cluster"
@@ -31,12 +32,13 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onMounted, ref} from "vue";
 import settingApi from '@/api/setting'
 import useGlobalStore from "@/stores/modules/global.ts";
 import {useI18n} from "vue-i18n";
 import setting from "@/api/setting";
 import {koiMsgSuccess} from "@/utils/koi.ts";
+import {useRouter} from "vue-router";
 
 
 onMounted(async () => {
@@ -46,7 +48,7 @@ onMounted(async () => {
 const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
 const {t} = useI18n()
-
+const router = useRouter();
 
 const getClusters = () => {
   settingApi.clusters.get().then(response => {
@@ -90,6 +92,13 @@ const handleCreate = () => {
     }
   })
 }
+const handleClusterChange = () => {
+  if (!globalStore.selectedDstCluster) {
+    return
+  }
+  router.go(0)
+}
+
 </script>
 
 <style scoped>
