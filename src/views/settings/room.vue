@@ -100,9 +100,9 @@
               </div>
             </div>
           </template>
-          <el-tabs v-model="worldTabName" editable type="card" @edit="handleWorldTabsEdit">
+          <el-tabs v-model="worldTabName" editable type="card" @edit="handleWorldTabsEdit" @tab-change="handleWorldTabsEditChange">
             <el-tab-pane v-for="(world, index) in worldForm" :key="world.name"
-                         label="World"
+                         :label="language==='zh'?'世界':'World'"
                          :name="world.name">
               <el-row>
                 <el-form :ref="(el) => (dynamicWorldRefs[`worldFormRef${index}`] = el)"
@@ -1108,7 +1108,8 @@ const beautifyLua = (luaScript) => {
 const handleModelValueChange = (data) => {
   const key = data.name
   const value = data.value
-  const ast = luaparse.parse(worldForm.value[worldTabIndex].levelData)
+  const ast = luaparse.parse(worldForm.value.find(world => world.name === worldTabName.value))
+  // const ast = luaparse.parse(worldForm.value[worldTabIndex.value].levelData)
   // 提取 overrides 字段
   const overridesTable = extractOverrides(ast);
   // console.log(overridesTable)
@@ -1117,7 +1118,8 @@ const handleModelValueChange = (data) => {
       field.value.raw = `"${value}"`
     }
   }
-  worldForm.value[worldTabIndex].levelData = astToLua(ast)
+  worldForm.value.find(world => world.name === worldTabName.value).levelData = astToLua(ast)
+  // worldForm.value[worldTabIndex.value].levelData = astToLua(ast)
 }
 
 const handleCavesModelValueChange = (data) => {
@@ -1257,22 +1259,24 @@ const worldFormRules = {
   steamAuthenticationPort: [{required: true, message: t('setting.roomWorldFormRules.steamAuthenticationPort'), trigger: 'blur'}],
   shardMasterIp: [{required: true, message: t('setting.roomWorldFormRules.shardMasterIp'), trigger: 'blur'}],
 }
-let worldTabIndex = worldForm.value.length - 1
+
+//这边的ref要改，彻底干掉index
+const worldTabIndex = ref(worldForm.value.length - 1)
 const dynamicWorldRefs = {}
-dynamicWorldRefs[`worldFormRef${worldTabIndex}`] = ref()
+dynamicWorldRefs[`worldFormRef${worldTabIndex.value}`] = ref()
 const handleWorldTabsEdit = (targetName, action) => {
   if (action === 'add') {
-    worldTabIndex = worldForm.value.length - 1
-    const newTabName = `World${++worldTabIndex}`
-    dynamicWorldRefs[`worldFormRef${worldTabIndex}`] = ref()
+    worldTabIndex.value = worldForm.value.length - 1
+    const newTabName = `World${++worldTabIndex.value}`
+    dynamicWorldRefs[`worldFormRef${worldTabIndex.value}`] = ref()
     worldForm.value.push({
       name: newTabName,
       isMaster: false,
       levelData: '',
-      serverPort: 11000 + worldTabIndex,
-      shardMasterPort: 10888 + worldTabIndex,
-      steamMasterPort: 27018 + worldTabIndex,
-      steamAuthenticationPort: 8768 + worldTabIndex,
+      serverPort: 11000 + worldTabIndex.value,
+      shardMasterPort: 10888 + worldTabIndex.value,
+      steamMasterPort: 27018 + worldTabIndex.value,
+      steamAuthenticationPort: 8768 + worldTabIndex.value,
       shardMasterIp: '127.0.0.1',
       clusterKey: undefined,
       encodeUserPath: true,
@@ -1294,27 +1298,31 @@ const handleWorldTabsEdit = (targetName, action) => {
 
     worldTabName.value = activeName
     worldForm.value = tabs.filter((tab) => tab.name !== targetName)
-    worldTabIndex--
+    // worldTabIndex.value--
   }
 }
 
 const worldLevelDataTabName = ref('Code')
 
 const handleCreateWorld = (cmd) => {
-  if (cmd.clusterType === 'endless') {
-    if (cmd.worldType === 'ground') {
-      worldForm.value[worldTabIndex].levelData = endless.master
-    }
-    if (cmd.worldType === 'cave') {
-      worldForm.value[worldTabIndex].levelData = endless.caves
-    }
-  }
-  if (cmd.clusterType === 'survival') {
-    if (cmd.worldType === 'ground') {
-      worldForm.value[worldTabIndex].levelData = survival.master
-    }
-    if (cmd.worldType === 'cave') {
-      worldForm.value[worldTabIndex].levelData = survival.caves
+  for (let world of worldForm.value) {
+    if (world.name === worldTabName.value) {
+      if (cmd.clusterType === 'endless') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = endless.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = endless.caves
+        }
+      }
+      if (cmd.clusterType === 'survival') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = survival.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = survival.caves
+        }
+      }
     }
   }
 }
@@ -1323,14 +1331,15 @@ const handleWorldTabChange = (name) => {
   if (name === 'Visualization') {
     overridesObj.value = {}
     try {
-      generateOverridesObj(worldForm.value[worldTabIndex].levelData)
+      console.log(worldForm.value.find(world => world.name === worldTabName.value))
+      generateOverridesObj(worldForm.value.find(world => world.name === worldTabName.value).levelData)
     } catch {
       koiMsgError(language.value==='zh'?'可视化配置加载失败':'Visualization load failed')
     }
   }
   if (name === 'Code') {
     nextTick(() => {
-      worldForm.value[worldTabIndex].levelData = beautifyLua(worldForm.value[worldTabIndex].levelData)
+      worldForm.value.find(world => world.name === worldTabName.value).levelData = beautifyLua(worldForm.value.find(world => world.name === worldTabName.value).levelData)
     })
   }
 }
@@ -1344,6 +1353,10 @@ const getWorldType = (levelData) => {
   } else {
     return ""
   }
+}
+
+const handleWorldTabsEditChange = (name) => {
+  console.log(name)
 }
 
 watch(() => globalStore.selectedDstCluster, (newValue, oldValue) => {

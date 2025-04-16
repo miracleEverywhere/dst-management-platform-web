@@ -92,11 +92,11 @@ const getDisplayTagValue = () => {
   } else {
     tagValue = configsMap[setting.value]
   }
-  // console.log(props.name)
+  // console.log(props.name, setting.value)
   if (language.value === 'zh') {
-    return tagValue.zh
+    return tagValue['zh']
   } else {
-    return tagValue.en
+    return tagValue['en']
   }
 }
 
