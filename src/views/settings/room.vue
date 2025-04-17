@@ -751,7 +751,6 @@ import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 const {t} = useI18n()
 
 onMounted(async () => {
-  await getMultiHost()
   await handleGetClusterSetting()
   generateWorldFormRefs()
 })
@@ -915,30 +914,17 @@ const handleImportLeveldataLua = (world, mode) => {
 }
 
 const handleGetClusterSetting = () => {
-  settingApi.room.get().then(response => {
-    clusterSettingForm.value = response.data.base
-    roomGroundForm.value.groundSetting = response.data.ground
-    roomCaveForm.value.caveSetting = response.data.cave
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingApi.cluster.get(reqForm).then(response => {
+    clusterSettingForm.value = response.data.clusterSetting
+    worldForm.value = response.data.worlds
     clusterModForm.value.mod = response.data.mod
-    if (roomGroundForm.value.groundSetting === "") {
-      isMaster.value = false
-    } else {
-      if (roomCaveForm.value.caveSetting === "") {
-        isMaster.value = true
-      } else {
-        isMaster.value = true
-      }
-    }
-    if (clusterSettingForm.value.masterPort === 0) {
-      clusterSettingForm.value.masterPort = 11000
-    }
-    if (clusterSettingForm.value.cavesPort === 0) {
-      clusterSettingForm.value.cavesPort = 11001
-    }
   })
 }
 
-const handleCommand = (cmd) => {
+const handleCommand = async (cmd) => {
   switch (cmd) {
     case 'save':
       handleSave()
@@ -953,6 +939,7 @@ const handleCommand = (cmd) => {
 }
 
 const handleSave = () => {
+  console.log(clusterModForm.value.mod)
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -960,7 +947,7 @@ const handleSave = () => {
     sysSetting: {},
   }
   loading.value = true
-  settingApi.cluster.put(reqForm).then(response => {
+  settingApi.cluster.save.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
   }).finally(() => {
@@ -970,15 +957,16 @@ const handleSave = () => {
     })
   })
 }
+
 const handleSaveAndRestart = () => {
   const reqForm = {
-    base: clusterSettingForm.value,
-    ground: roomGroundForm.value.groundSetting,
-    cave: roomCaveForm.value.caveSetting,
-    mod: clusterModForm.value.mod
+    clusterSetting: clusterSettingForm.value,
+    worlds: worldForm.value,
+    mod: clusterModForm.value.mod,
+    sysSetting: {},
   }
   loading.value = true
-  settingApi.saveAndRestart.post(reqForm).then(response => {
+  settingApi.cluster.saveRestart.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
   }).finally(() => {
@@ -1255,7 +1243,7 @@ const worldForm = ref([
     steamMasterPort: 27018,
     steamAuthenticationPort: 8768,
     shardMasterIp: '127.0.0.1',
-    clusterKey: undefined,
+    clusterKey: 'supersecretkey',
     encodeUserPath: true,
   }
 ])
@@ -1267,6 +1255,7 @@ const worldFormRules = {
   steamMasterPort: [{required: true, message: t('setting.roomWorldFormRules.steamMasterPort'), trigger: 'blur'}],
   steamAuthenticationPort: [{required: true, message: t('setting.roomWorldFormRules.steamAuthenticationPort'), trigger: 'blur'}],
   shardMasterIp: [{required: true, message: t('setting.roomWorldFormRules.shardMasterIp'), trigger: 'blur'}],
+  clusterKey: [{required: true, message: t('setting.roomWorldFormRules.clusterKey'), trigger: 'blur'}],
 }
 
 const worldTabIndex = ref(0)
@@ -1290,7 +1279,7 @@ const handleWorldTabsEdit = (targetName, action) => {
       steamMasterPort: 27018 + worldTabIndex.value,
       steamAuthenticationPort: 8768 + worldTabIndex.value,
       shardMasterIp: '127.0.0.1',
-      clusterKey: undefined,
+      clusterKey: 'supersecretkey',
       encodeUserPath: true,
     })
     worldTabName.value = newTabName

@@ -10,11 +10,23 @@ export default {
   },
   cluster: {
     url: `/setting/cluster`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
     post: async function(data){
       return await http.post(this.url, data);
     },
-    put: async function(data){
-      return await http.put(this.url, data);
+    save : {
+      url: `/setting/cluster/save`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
+    },
+    saveRestart : {
+      url: `/setting/cluster/save_restart`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
     },
   },
   room: {
