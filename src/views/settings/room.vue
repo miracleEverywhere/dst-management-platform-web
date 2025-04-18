@@ -810,6 +810,22 @@ const route = useRoute();
 const router = useRouter();
 const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage = inject("refresh")
+
+const debounce = (fn, delay) => {
+  let timer = null;
+  return (...args) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
+const debouncedRefresh = debounce((editor) => {
+  requestAnimationFrame(() => {
+    if (editor) {
+      editor.refresh();
+    }
+  });
+}, 100);
+
 const handleRefresh = () => {
   setTimeout(() => {
     route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
@@ -1035,7 +1051,7 @@ const beautifyLua = (luaScript) => {
   return removedWatermark;
 };
 
-const handleModelValueChange = (data) => {
+const handleModelValueChange = debounce((data) => {
   const key = data.name
   const value = data.value
   for (let world of worldForm.value) {
@@ -1052,8 +1068,7 @@ const handleModelValueChange = (data) => {
       break
     }
   }
-
-}
+}, 100)
 
 const astToLua = (astNode, indentLevel = 0) => {
   const indent = '    '.repeat(indentLevel);
