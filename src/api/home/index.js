@@ -14,6 +14,12 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  worldInfo: {
+    url: `/home/world_info`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    }
+  },
   exec: {
     url: `/home/exec`,
     post: async function(data){
