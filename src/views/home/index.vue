@@ -94,6 +94,31 @@
     </el-row>
     <el-row :gutter="10">
       <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
+        <el-card :style="isMobile?'min-height: 300px':'height: 400px'" shadow="never">
+          <template #header>
+            <div class="card-header">
+              世界信息
+            </div>
+          </template>
+          <el-table :data="worldInfo" border>
+            <el-table-column label="ID" prop="id">
+            </el-table-column>
+            <el-table-column label="世界名" prop="world">
+            </el-table-column>
+            <el-table-column label="类型" prop="type">
+            </el-table-column>
+            <el-table-column label="CPU" prop="cpu">
+            </el-table-column>
+            <el-table-column label="内存" prop="mem">
+            </el-table-column>
+            <el-table-column label="状态" prop="stat">
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
         <el-card :style="isMobile?'min-height: 300px':'min-height: 400px'" shadow="never">
           <template #header>
             <div class="card-header">
@@ -332,12 +357,26 @@ const getSeasonDays = (season) => {
 const sysInfo = ref({
   cpu: 0,
   memory: 0,
-  master: 0,
-  caves: 0,
 })
+const worldInfo = ref([{
+  id: '',
+  stat: 0,
+  world: '',
+  type: '',
+  cpu: '',
+  mem: '',
+}])
 const getSysInfo = () => {
   homeApi.sysInfo.get().then(response => {
     sysInfo.value = response.data
+  })
+}
+const getWorldInfo = () => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  homeApi.worldInfo.get(reqForm).then(response => {
+    worldInfo.value = response.data
   })
 }
 const progressColors = [
@@ -348,18 +387,22 @@ const progressColors = [
   {color: '#6f7ad3', percentage: 100},
 ]
 
-let intervalId = null
+let intervalSysId = null
+let intervalWorldId = null
 const startRequests = () => {
-  intervalId = setInterval(() => {
-    if (!masterLoading.value && !cavesLoading.value) {
-      getSysInfo()
-    }
+  intervalSysId = setInterval(() => {
+    getSysInfo()
   }, 2000)
+  intervalWorldId = setInterval(() => {
+    getWorldInfo()
+  }, 10000)
 }
 const cancelRequests = () => {
-  if (intervalId) {
-    clearInterval(intervalId)
-    intervalId = null
+  if (intervalSysId) {
+    clearInterval(intervalSysId)
+    clearInterval(intervalWorldId)
+    intervalSysId = null
+    intervalWorldId = null
   }
 }
 
