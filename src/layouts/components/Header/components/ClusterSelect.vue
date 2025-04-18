@@ -1,13 +1,13 @@
 <template>
   <div>
     <el-select v-model="globalStore.selectedDstCluster" size="small"
-               @visible-change="saveLastCluster"
+               @visible-change="saveLastCluster" :empty-values="[null]"
                style="width: 100px">
       <el-option v-for="cluster in globalStore.dstClusters"
                  v-if="globalStore.dstClusters" :label="cluster"
                  :value="cluster">
       </el-option>
-      <el-option :value="null" label="新建" @click="handleClusterNew"/>
+      <el-option value="" label="新建" @click="handleClusterNew"/>
     </el-select>
     <el-dialog v-model="newClusterDialog" width="60%" @closed="handleDialogClose">
       <template #header>
