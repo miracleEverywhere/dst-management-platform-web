@@ -4,10 +4,10 @@
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
         <el-card shadow="never">
           <el-steps :active="step" align-center finish-status="success">
-            <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')" @click="handleStepClick(0)"/>
-            <el-step :title="isMobile?$t('setting.worldSettingMobile'):$t('setting.worldSetting')" @click="handleStepClick(1)"/>
-            <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')" @click="handleStepClick(3)"/>
-            <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"
+            <el-step :title="isMobile?t('setting.roomSettingMobile'):t('setting.roomSetting')" @click="handleStepClick(0)"/>
+            <el-step :title="isMobile?t('setting.worldSettingMobile'):t('setting.worldSetting')" @click="handleStepClick(1)"/>
+            <el-step :title="isMobile?t('setting.modSettingMobile'):t('setting.modSetting')" @click="handleStepClick(3)"/>
+            <el-step :title="isMobile?t('setting.finishSettingMobile'):t('setting.finishSetting')"
                      @click="handleStepClick(2)"/>
           </el-steps>
         </el-card>
@@ -33,10 +33,10 @@
             </el-form-item>
             <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode">
               <el-radio-group v-model="clusterSettingForm.gameMode">
-                <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless"/>
-                <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival"/>
-                <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
-                <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
+                <el-radio :label="t('setting.baseForm.gameMode.endless')" value="endless"/>
+                <el-radio :label="t('setting.baseForm.gameMode.survival')" value="survival"/>
+                <el-radio :label="t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
+                <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
               </el-radio-group>
             </el-form-item>
             <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp">
@@ -102,7 +102,7 @@
           </template>
           <el-tabs v-model="worldTabName" editable type="card" @edit="handleWorldTabsEdit"
                    @tab-change="handleWorldTabsEditChange">
-            <el-tab-pane v-for="(world, index) in worldForm" :key="world.name"
+            <el-tab-pane v-for="world in worldForm" :key="world.name"
                          :label="language==='zh'?'世界':'World'"
                          :name="world.name">
               <el-row>
@@ -113,7 +113,7 @@
                          inline label-width="120px" style="margin-top: 10px">
                   <el-row>
                     <el-col :span="8" :xs="12">
-                      <el-form-item label="主节点" prop="isMaster">
+                      <el-form-item label="主世界" prop="isMaster">
                         <el-tooltip :show-after="100" content="注意！一个集群中只能有一个主节点" effect="light" placement="top">
                           <el-switch v-model="world.isMaster" :active-text="language==='zh'?'是':'Y'"
                                      :inactive-text="language==='zh'?'否':'N'"
@@ -124,7 +124,8 @@
                     </el-col>
                     <el-col :span="8" :xs="12">
                       <el-form-item label="用户路径编码" prop="encodeUserPath">
-                        <el-tooltip :show-after="100" content="是否存档数据的保存路径进行编码" effect="light" placement="top">
+                        <el-tooltip :show-after="100" content="是否对玩家存档数据的保存路径进行编码" effect="light"
+                                    placement="top">
                           <el-switch v-model="world.encodeUserPath" :active-text="language==='zh'?'是':'Y'"
                                      :inactive-text="language==='zh'?'否':'N'"
                                      inline-prompt
@@ -144,7 +145,8 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')"
                                     prop="shardMasterPort">
-                        <el-tooltip :show-after="100" content="cluster.ini -> [SHARD] -> master_port" effect="light"
+                        <el-tooltip :show-after="100" content="无特殊需求请勿更改，cluster.ini -> [SHARD] -> master_port"
+                                    effect="light"
                                     placement="top">
                           <el-input v-model="world.shardMasterPort" size="default" type="number"/>
                         </el-tooltip>
@@ -153,7 +155,8 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')"
                                     prop="steamMasterPort">
-                        <el-tooltip :show-after="100" content="server.ini -> [STEAM] -> server_master_port" effect="light"
+                        <el-tooltip :show-after="100" content="无特殊需求请勿更改，server.ini -> [STEAM] -> server_master_port"
+                                    effect="light"
                                     placement="top">
                           <el-input v-model="world.steamMasterPort" size="default" type="number"/>
                         </el-tooltip>
@@ -162,7 +165,8 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')"
                                     prop="steamAuthenticationPort">
-                        <el-tooltip :show-after="100" content="server.ini -> [STEAM] -> authentication_port" effect="light"
+                        <el-tooltip :show-after="100" content="无特殊需求请勿更改，server.ini -> [STEAM] -> authentication_port"
+                                    effect="light"
                                     placement="top">
                           <el-input v-model="world.steamAuthenticationPort" size="default" type="number"/>
                         </el-tooltip>
@@ -171,8 +175,8 @@
                   </el-row>
                   <el-row>
                     <el-col :span="8" :xs="24">
-                      <el-form-item label="Master IP" prop="shardMasterIp">
-                        <el-tooltip :show-after="100" content="主节点IP，如果主节点不再当前云服务器，则需要输入主节点的公网IP"
+                      <el-form-item label="主世界IP" prop="shardMasterIp">
+                        <el-tooltip :show-after="100" content="主世界IP，如果主世界不再当前云服务器，则需要输入主世界的公网IP"
                                     effect="light" placement="top">
                           <el-input v-model="world.shardMasterIp" :disabled="world.isMaster"
                                     size="default"/>
@@ -183,7 +187,7 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
                         <el-tooltip :show-after="100"
-                                    content="主节点和从节点进行交互的认证密码，如果所有节点在同一台云服务器上，则无需设置"
+                                    content="主世界和从世界进行交互的认证密码，所有世界的密码必须一致，否则会无法连接"
                                     effect="light" placement="top">
                           <el-input v-model="world.clusterKey" autocomplete="new-password" show-password size="default"
                                     type="password"/>
@@ -211,7 +215,7 @@
                   <el-tab-pane
                     v-if="(clusterSettingForm.gameMode==='endless'||clusterSettingForm.gameMode==='survival') && world.levelData!==''"
                     :label="t('setting.tabVisualization')" lazy name="Visualization">
-                    <template v-if="getWorldType(world.levelData)==='forest'">
+                    <template v-if="visualizationType==='forest' && Object.keys(overridesObj).length!==0">
                       <el-divider content-position="center"><span
                         style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
                         {{ t('setting.groundVisualizationRuleItem.global') }}
@@ -493,7 +497,7 @@
                         </template>
                       </div>
                     </template>
-                    <template v-if="getWorldType(world.levelData)==='cave'">
+                    <template v-if="visualizationType==='cave' && Object.keys(overridesObj).length!==0">
                       <el-divider content-position="center"><span
                         style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
                         {{ t('setting.cavesVisualizationRuleItem.world') }}
@@ -605,7 +609,7 @@
                                               v-model="overridesObj[i]"
                                               :configs="caveOverrideWorldGenerationWorld[i].configs"
                                               :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
-                                              :defaultModelValue="overrides[i].modelValue"
+                                              :defaultModelValue="caveOverrideWorldGenerationWorld[i].modelValue"
                                               :i18n="caveOverrideWorldGenerationWorld[i].i18n"
                                               :image="caveOverrideWorldGenerationWorld[i].image"
                                               :name="i"
@@ -682,6 +686,18 @@
           </el-tabs>
         </el-card>
         <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+          <div v-if="worldForm.length > 2" class="tip_warning">
+            <div style="display: flex; align-items: center">
+              <span>
+              检测到世界数大于2，请点击右侧按钮加入多层世界模组
+            </span>
+              <el-button size="small" style="margin-left: 5px"
+                         type="warning" @click="openMultiWorldModAddDialog"
+              >
+                多层世界
+              </el-button>
+            </div>
+          </div>
           <el-form :model="clusterModForm">
             <el-form-item>
               <sc-code-editor v-model="clusterModForm.mod" :height="isMobile?320:500"
@@ -692,7 +708,7 @@
         </el-card>
         <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <div :style="isMobile?'min-height: 360px':'min-height: 560px'" class="fcc">
-            <el-result :sub-title="$t('setting.finish.description')" :title="$t('setting.finish.title')" icon="success"/>
+            <el-result :sub-title="t('setting.finish.description')" :title="t('setting.finish.title')" icon="success"/>
           </div>
         </el-card>
       </el-col>
@@ -722,10 +738,37 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-dialog v-model="multiWorldModAddDialog" width="60%">
+      <template #header>
+        请输入世界对应的名字(将会在游戏中显示)
+      </template>
+      <el-form :model="multiWorldModForm" label-position="top">
+        <el-form-item v-for="(world, worldIndex) in worldForm">
+          <template #label>
+            <div style="display: flex; align-items: center">
+              <span style="margin-right: 5px">世界{{ worldIndex + 1 }}</span>
+              <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
+                地面
+              </el-tag>
+              <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
+                洞穴
+              </el-tag>
+            </div>
+          </template>
+          <el-input v-model="multiWorldModForm[`${worldIndex+1}`]" style="width: 100%"></el-input>
+        </el-form-item>
+        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+          <el-button type="primary" @click="handleGenerateModSetting">
+            生成配置
+          </el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script name="settingsRoom" setup>
+import {ArrowDown} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
@@ -777,9 +820,6 @@ const handleRefresh = () => {
     });
   }, 0);
 };
-
-const editorGroundSettingRef = ref()
-const editorCavesSettingRef = ref()
 
 const step = ref(0)
 const handleStepClick = (goStep) => {
@@ -842,7 +882,7 @@ const clusterSettingForm = ref({
   pvp: false,
   playerNum: 6,
   backDays: 10,
-  vote: true,
+  vote: false,
   password: '',
   token: '',
 })
@@ -854,64 +894,9 @@ const clusterSettingFormRules = {
   token: [{required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur'}],
 }
 
-const roomGroundFormRef = ref()
-const roomGroundForm = ref({
-  groundSetting: '',
-})
-const roomGroundFormRules = {
-  groundSetting: [{required: true, message: t('setting.roomGroundFormRules.groundSetting'), trigger: 'blur'}],
-}
-
-const roomCaveFormRef = ref()
-const roomCaveForm = ref({
-  caveSetting: '',
-})
-const roomCaveFormRules = {
-  caveSetting: [{required: true, message: t('setting.roomCaveFormRules.caveSetting'), trigger: 'blur'}],
-}
-
 const clusterModForm = ref({
   mod: '',
 })
-
-const handleImportLeveldataLua = (world, mode) => {
-  if (world === 'master') {
-    if (mode === 'endless') {
-      roomGroundForm.value.groundSetting = endless.master
-    }
-    if (mode === 'survival') {
-      roomGroundForm.value.groundSetting = survival.master
-    }
-    // generateGroundOverridesObj()
-    if (isMultiHost.value) {
-      clusterSettingForm.value.masterPort = 11000
-      clusterSettingForm.value.cavesPort = 0
-      clusterSettingForm.value.shardMasterPort = 10888
-      clusterSettingForm.value.steamMasterPort = 27018
-      clusterSettingForm.value.steamAuthenticationPort = 8768
-      clusterSettingForm.value.shardMasterIp = '127.0.0.1'
-      clusterSettingForm.value.clusterKey = undefined
-    }
-  }
-  if (world === 'caves') {
-    if (mode === 'endless') {
-      roomCaveForm.value.caveSetting = endless.caves
-    }
-    if (mode === 'survival') {
-      roomCaveForm.value.caveSetting = survival.caves
-    }
-    // generateCavesOverridesObj()
-    if (isMultiHost.value) {
-      clusterSettingForm.value.masterPort = 0
-      clusterSettingForm.value.cavesPort = 11001
-      clusterSettingForm.value.shardMasterPort = 10888
-      clusterSettingForm.value.steamMasterPort = 27019
-      clusterSettingForm.value.steamAuthenticationPort = 8769
-      clusterSettingForm.value.shardMasterIp = undefined
-      clusterSettingForm.value.clusterKey = undefined
-    }
-  }
-}
 
 const handleGetClusterSetting = () => {
   const reqForm = {
@@ -919,7 +904,22 @@ const handleGetClusterSetting = () => {
   }
   settingApi.cluster.get(reqForm).then(response => {
     clusterSettingForm.value = response.data.clusterSetting
-    worldForm.value = response.data.worlds
+    if (response.data.worlds) {
+      worldForm.value = response.data.worlds
+    } else {
+      worldForm.value = [{
+        name: 'World1',
+        isMaster: true,
+        levelData: '',
+        serverPort: 11001,
+        shardMasterPort: 10888,
+        steamMasterPort: 27018,
+        steamAuthenticationPort: 8768,
+        shardMasterIp: '127.0.0.1',
+        clusterKey: 'supersecretkey',
+        encodeUserPath: true,
+      }]
+    }
     clusterModForm.value.mod = response.data.mod
   })
 }
@@ -939,7 +939,6 @@ const handleCommand = async (cmd) => {
 }
 
 const handleSave = () => {
-  console.log(clusterModForm.value.mod)
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -977,61 +976,7 @@ const handleSaveAndRestart = () => {
   })
 }
 const handleGenerateNewWorld = () => {
-  const reqForm = {
-    base: clusterSettingForm.value,
-    ground: roomGroundForm.value.groundSetting,
-    cave: roomCaveForm.value.caveSetting,
-    mod: clusterModForm.value.mod
-  }
-  loading.value = true
-  settingApi.saveAndGenerate.post(reqForm).then(response => {
-    loading.value = false
-    koiMsgSuccess(response.message)
-  }).finally(() => {
-    loading.value = false
-    nextTick(() => {
-      handleRefresh()
-    })
-  })
-}
 
-const groundTabName = ref('Code')
-const cavesTabName = ref('Code')
-
-const handleGroundTabChange = (name) => {
-  if (name === 'Visualization') {
-    try {
-      generateOverridesObj()
-    } catch {
-      koiMsgError(language.value === 'zh' ? '可视化配置加载失败' : 'Visualization load failed')
-    }
-  }
-  if (name === 'Code') {
-    roomGroundForm.value.groundSetting = beautifyLua(roomGroundForm.value.groundSetting)
-    nextTick(() => {
-      if (editorGroundSettingRef.value) {
-        editorGroundSettingRef.value.refresh()
-      }
-    })
-  }
-}
-
-const handleCavesTabChange = (name) => {
-  if (name === 'Visualization') {
-    try {
-      generateCavesOverridesObj()
-    } catch {
-      koiMsgError(language.value === 'zh' ? '可视化配置加载失败' : 'Visualization load failed')
-    }
-  }
-  if (name === 'Code') {
-    roomCaveForm.value.caveSetting = beautifyLua(roomCaveForm.value.caveSetting)
-    nextTick(() => {
-      if (editorCavesSettingRef.value) {
-        editorCavesSettingRef.value.refresh()
-      }
-    })
-  }
 }
 
 const overridesObj = ref({})
@@ -1047,17 +992,6 @@ const generateOverridesObj = (levelData) => {
   overridesObj.value = convertLuaTableToObject(overridesTable);
 }
 
-const generateCavesOverridesObj = () => {
-  if (roomCaveForm.value.caveSetting === '') {
-    return
-  }
-  const ast = luaparse.parse(roomCaveForm.value.caveSetting)
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast);
-  // 将 Lua 表转换为 JavaScript 对象
-  overridesObj.value = convertLuaTableToObject(overridesTable);
-}
-
 function extractOverrides(ast) {
   // 找到 return 语句中的 overrides 字段
   const returnStatement = ast.body[0]; // 假设只有一个 return 语句
@@ -1065,7 +999,6 @@ function extractOverrides(ast) {
 
   // 遍历表中的字段，找到 overrides 字段
   for (const field of returnTable.fields) {
-    // console.log(field)
     if (field.key.type === 'Identifier' && field.key.name === 'overrides') {
       return field.value;
     }
@@ -1105,41 +1038,21 @@ const beautifyLua = (luaScript) => {
 const handleModelValueChange = (data) => {
   const key = data.name
   const value = data.value
-  const ast = luaparse.parse(worldForm.value.find(world => world.name === worldTabName.value))
-  // const ast = luaparse.parse(worldForm.value[worldTabIndex.value].levelData)
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast);
-  // console.log(overridesTable)
-  for (let field of overridesTable.fields) {
-    if (field.key.name === key) {
-      field.value.raw = `"${value}"`
+  for (let world of worldForm.value) {
+    if (world.name === worldTabName.value) {
+      const ast = luaparse.parse(world.levelData)
+      // 提取 overrides 字段
+      const overridesTable = extractOverrides(ast);
+      for (let field of overridesTable.fields) {
+        if (field.key.name === key) {
+          field.value.raw = `"${value}"`
+        }
+      }
+      world.levelData = astToLua(ast)
+      break
     }
   }
-  worldForm.value.find(world => world.name === worldTabName.value).levelData = astToLua(ast)
-  // worldForm.value[worldTabIndex.value].levelData = astToLua(ast)
-}
 
-const handleCavesModelValueChange = (data) => {
-  const key = data.name
-  const value = data.value
-  const ast = luaparse.parse(roomCaveForm.value.caveSetting)
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast);
-  // console.log(overridesTable)
-  for (let field of overridesTable.fields) {
-    if (field.key.name === key) {
-      field.value.raw = `"${value}"`
-    }
-  }
-  const luaScript = astToLua(ast)
-  roomCaveForm.value.caveSetting = luamin.Beautify(luaScript, {
-    RenameVariables: false,
-    RenameGlobals: false,
-    SolveMath: false
-  })
-  if (editorCavesSettingRef.value) {
-    editorCavesSettingRef.value.refresh()
-  }
 }
 
 const astToLua = (astNode, indentLevel = 0) => {
@@ -1177,6 +1090,8 @@ const astToLua = (astNode, indentLevel = 0) => {
       return `${astToLua(astNode.key)} = ${astToLua(astNode.value)}`;
     case 'BooleanLiteral':
       return astNode.raw;
+    case 'TableKey':
+      return `[${astToLua(astNode.key)}] = ${astToLua(astNode.value)}`;
     case 'TableValue':
       return astToLua(astNode.value);
     default:
@@ -1184,69 +1099,20 @@ const astToLua = (astNode, indentLevel = 0) => {
   }
 }
 
-const isMultiHost = ref(false)
-const getMultiHost = async () => {
-  await settingApi.multihost.get().then(response => {
-    isMultiHost.value = response.data
-  })
-}
-
-const handleChangeMultiHost = (v) => {
-  settingApi.multihost.post({multiHost: !isMultiHost.value}).then(response => {
-    isMultiHost.value = !isMultiHost.value
-    if (v) {
-      clearSetting()
-    }
-
-  })
-}
-
-const isMaster = ref(true)
-
-const clearSetting = () => {
-  roomGroundForm.value.groundSetting = ""
-  roomCaveForm.value.caveSetting = ""
-
-  clusterSettingForm.value.masterPort = undefined
-  clusterSettingForm.value.cavesPort = undefined
-  clusterSettingForm.value.shardMasterPort = undefined
-  clusterSettingForm.value.steamMasterPort = undefined
-  clusterSettingForm.value.steamAuthenticationPort = undefined
-  if (isMaster.value) {
-    clusterSettingForm.value.shardMasterIp = '127.0.0.1'
-  } else {
-    clusterSettingForm.value.shardMasterIp = undefined
-  }
-
-  clusterSettingForm.value.clusterKey = undefined
-
-}
-
-const multiHostFormRules = {
-  masterPort: [{required: true, message: t('setting.roomWorldFormRules.masterPort'), trigger: 'blur'}],
-  cavesPort: [{required: true, message: t('setting.roomWorldFormRules.cavesPort'), trigger: 'blur'}],
-  shardMasterPort: [{required: true, message: t('setting.roomWorldFormRules.shardMasterPort'), trigger: 'blur'}],
-  steamMasterPort: [{required: true, message: t('setting.roomWorldFormRules.steamMasterPort'), trigger: 'blur'}],
-  steamAuthenticationPort: [{required: true, message: t('setting.roomWorldFormRules.steamAuthenticationPort'), trigger: 'blur'}],
-  shardMasterIp: [{required: true, message: t('setting.roomWorldFormRules.shardMasterIp'), trigger: 'blur'}],
-  clusterKey: [{required: true, message: t('setting.roomWorldFormRules.clusterKey'), trigger: 'blur'}],
-}
-
-const worldTabName = ref('World0')
-const worldForm = ref([
-  {
-    name: 'World0',
-    isMaster: true,
-    levelData: '',
-    serverPort: 11000,
-    shardMasterPort: 10888,
-    steamMasterPort: 27018,
-    steamAuthenticationPort: 8768,
-    shardMasterIp: '127.0.0.1',
-    clusterKey: 'supersecretkey',
-    encodeUserPath: true,
-  }
-])
+const worldTabIndex = ref(1)
+const worldTabName = ref('World1')
+const worldForm = ref([{
+  name: 'World1',
+  isMaster: true,
+  levelData: '',
+  serverPort: 11001,
+  shardMasterPort: 10888,
+  steamMasterPort: 27018,
+  steamAuthenticationPort: 8768,
+  shardMasterIp: '127.0.0.1',
+  clusterKey: 'supersecretkey',
+  encodeUserPath: true,
+}])
 const worldFormRules = {
   isMaster: [{required: true, trigger: 'change'}],
   encodeUserPath: [{required: true, trigger: 'change'}],
@@ -1258,26 +1124,27 @@ const worldFormRules = {
   clusterKey: [{required: true, message: t('setting.roomWorldFormRules.clusterKey'), trigger: 'blur'}],
 }
 
-const worldTabIndex = ref(0)
 const dynamicWorldRefs = {}
 const generateWorldFormRefs = () => {
   for (let world of worldForm.value) {
-    dynamicWorldRefs[`World${worldTabIndex.value}`] = ref()
-    worldTabIndex.value++
+    const worldIndex = worldForm.value.length
+    worldTabIndex.value = worldIndex
+    dynamicWorldRefs[`World${worldIndex}`] = ref()
   }
 }
 const handleWorldTabsEdit = (targetName, action) => {
   if (action === 'add') {
-    const newTabName = `World${++worldTabIndex.value}`
+    worldTabIndex.value++
+    const newTabName = `World${worldTabIndex.value}`
     dynamicWorldRefs[newTabName] = ref()
     worldForm.value.push({
       name: newTabName,
       isMaster: false,
       levelData: '',
       serverPort: 11000 + worldTabIndex.value,
-      shardMasterPort: 10888 + worldTabIndex.value,
-      steamMasterPort: 27018 + worldTabIndex.value,
-      steamAuthenticationPort: 8768 + worldTabIndex.value,
+      shardMasterPort: 10887 + worldTabIndex.value,
+      steamMasterPort: 27017 + worldTabIndex.value,
+      steamAuthenticationPort: 8767 + worldTabIndex.value,
       shardMasterIp: '127.0.0.1',
       clusterKey: 'supersecretkey',
       encodeUserPath: true,
@@ -1298,6 +1165,7 @@ const handleWorldTabsEdit = (targetName, action) => {
     worldForm.value = tabs.filter((tab) => tab.name !== targetName)
     delete dynamicWorldRefs[targetName]
   }
+  worldLevelDataTabName.value = 'Code'
 }
 
 const worldLevelDataTabName = ref('Code')
@@ -1325,19 +1193,30 @@ const handleCreateWorld = (cmd) => {
   }
 }
 
-const handleWorldTabChange = (name) => {
+const visualizationType = ref('')
+
+const handleWorldTabChange = async (name) => {
   if (name === 'Visualization') {
-    overridesObj.value = {}
     try {
-      console.log(worldForm.value.find(world => world.name === worldTabName.value))
-      generateOverridesObj(worldForm.value.find(world => world.name === worldTabName.value).levelData)
+      for (let world of worldForm.value) {
+        if (world.name === worldTabName.value) {
+          visualizationType.value = getWorldType(world.levelData)
+          await generateOverridesObj(world.levelData)
+          break
+        }
+      }
     } catch {
       koiMsgError(language.value === 'zh' ? '可视化配置加载失败' : 'Visualization load failed')
     }
   }
   if (name === 'Code') {
-    nextTick(() => {
-      worldForm.value.find(world => world.name === worldTabName.value).levelData = beautifyLua(worldForm.value.find(world => world.name === worldTabName.value).levelData)
+    await nextTick(() => {
+      for (let world of worldForm.value) {
+        if (world.name === worldTabName.value) {
+          world.levelData = beautifyLua(world.levelData)
+          break
+        }
+      }
     })
   }
 }
@@ -1353,11 +1232,56 @@ const getWorldType = (levelData) => {
   }
 }
 
-const handleWorldTabsEditChange = (name) => {
-  console.log(name)
+const handleWorldTabsEditChange = () => {
+  worldLevelDataTabName.value = 'Code'
 }
 
-watch(() => globalStore.selectedDstCluster, (newValue, oldValue) => {
+const multiWorldModAddDialog = ref(false)
+const multiWorldModForm = ref({})
+const openMultiWorldModAddDialog = () => {
+  multiWorldModForm.value = {}
+  multiWorldModAddDialog.value = true
+}
+
+const handleGenerateModSetting = () => {
+  let worldName = ""
+  for (let key in multiWorldModForm.value) {
+    worldName = worldName + `["${key}"]="${multiWorldModForm.value[key]}",`
+  }
+
+  worldName = worldName.slice(0, -1)
+
+  let multiModSetting = `return {["workshop-1438233888"]={
+    configuration_options={
+      auto_balancing=true,
+      extra_worlds={},
+      ignore_sinkholes=false,
+      invisible_worlds={},
+      language="auto",
+      migration_postern=false,
+      no_bat=true,
+      population_limit={},
+      say_dest=true,
+      world_name={${worldName}},
+      world_prompt=true
+    },
+    enabled=true
+  }}`
+  const modAst = luaparse.parse(clusterModForm.value.mod)
+  const multiModSettingAst = luaparse.parse(multiModSetting)
+
+  for (const [i, v] of modAst.body[0].arguments[0].fields.entries()) {
+    if (v.key.raw === "\"workshop-1438233888\"") {
+      modAst.body[0].arguments[0].fields.splice(i, 1)
+    }
+  }
+
+  modAst.body[0].arguments[0].fields.push(multiModSettingAst.body[0].arguments[0].fields[0])
+  clusterModForm.value.mod = beautifyLua(astToLua(modAst))
+  multiWorldModAddDialog.value = false
+}
+
+watch(() => globalStore.selectedDstCluster, (newValue, _) => {
   if (newValue) {
     nextTick(() => {
       handleRefresh()
