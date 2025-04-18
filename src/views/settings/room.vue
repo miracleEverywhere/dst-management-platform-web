@@ -25,13 +25,14 @@
           </template>
           <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
                    :model="clusterSettingForm" :rules="clusterSettingFormRules" :size="isMobile?'small':'large'">
-            <el-form-item :label="t('setting.baseForm.room')" prop="name">
+            <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
               <el-input v-model="clusterSettingForm.name"></el-input>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.description')" prop="description">
+            <div v-if="!isMobile"></div>
+            <el-form-item :label="t('setting.baseForm.description')" prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
               <el-input v-model="clusterSettingForm.description"></el-input>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode">
+            <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
               <el-radio-group v-model="clusterSettingForm.gameMode">
                 <el-radio :label="t('setting.baseForm.gameMode.endless')" value="endless"/>
                 <el-radio :label="t('setting.baseForm.gameMode.survival')" value="survival"/>
@@ -39,22 +40,22 @@
                 <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
               </el-radio-group>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp">
+            <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
               <el-switch v-model="clusterSettingForm.pvp"/>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum">
+            <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
               <el-slider v-model="clusterSettingForm.playerNum" :max="100" :min="2" show-input size="small"/>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays">
+            <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
               <el-slider v-model="clusterSettingForm.backDays" :max="50" :min="5" show-input size="small"/>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.vote')" prop="vote">
+            <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
               <el-switch v-model="clusterSettingForm.vote"/>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.password')">
+            <el-form-item :label="t('setting.baseForm.password')" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
               <el-input v-model="clusterSettingForm.password" autocomplete="new-password" show-password></el-input>
             </el-form-item>
-            <el-form-item :label="t('setting.baseForm.token')" prop="token">
+            <el-form-item :label="t('setting.baseForm.token')" prop="token" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
               <el-input v-model="clusterSettingForm.token" show-password></el-input>
               <div class="el-form-item-msg">
                 <el-link :underline="false" href="https://accounts.klei.com"
@@ -700,13 +701,13 @@
           </div>
           <el-form :model="clusterModForm">
             <el-form-item>
-              <sc-code-editor v-model="clusterModForm.mod" :height="isMobile?320:500"
+              <sc-code-editor v-model="clusterModForm.mod" :height="isMobile?320:795"
                               :theme="isDark?'darcula':'idea'"
                               mode="lua" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
-        <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+        <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 935px'" shadow="never">
           <div :style="isMobile?'min-height: 360px':'min-height: 560px'" class="fcc">
             <el-result :sub-title="t('setting.finish.description')" :title="t('setting.finish.title')" icon="success"/>
           </div>
@@ -738,31 +739,33 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog v-model="multiWorldModAddDialog" width="60%">
+    <el-dialog v-model="multiWorldModAddDialog" width="50%">
       <template #header>
         请输入世界对应的名字(将会在游戏中显示)
       </template>
-      <el-form :model="multiWorldModForm" label-position="top">
-        <el-form-item v-for="(world, worldIndex) in worldForm">
-          <template #label>
-            <div style="display: flex; align-items: center">
-              <span style="margin-right: 5px">世界{{ worldIndex + 1 }}</span>
-              <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
-                地面
-              </el-tag>
-              <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
-                洞穴
-              </el-tag>
-            </div>
-          </template>
-          <el-input v-model="multiWorldModForm[`${worldIndex+1}`]" style="width: 100%"></el-input>
-        </el-form-item>
-        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
-          <el-button type="primary" @click="handleGenerateModSetting">
-            生成配置
-          </el-button>
-        </div>
-      </el-form>
+      <div style="margin: 50px">
+        <el-form :model="multiWorldModForm" label-position="top">
+          <el-form-item v-for="(world, worldIndex) in worldForm">
+            <template #label>
+              <div style="display: flex; align-items: center">
+                <span style="margin-right: 10px">世界{{ worldIndex + 1 }}</span>
+                <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
+                  地面
+                </el-tag>
+                <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
+                  洞穴
+                </el-tag>
+              </div>
+            </template>
+            <el-input v-model="multiWorldModForm[`${worldIndex+1}`]" style="width: 100%"></el-input>
+          </el-form-item>
+          <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+            <el-button type="primary" @click="handleGenerateModSetting">
+              生成配置
+            </el-button>
+          </div>
+        </el-form>
+      </div>
     </el-dialog>
   </div>
 </template>
