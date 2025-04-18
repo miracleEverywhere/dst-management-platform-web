@@ -55,7 +55,7 @@
             </el-button>
 
           </el-form-item>
-          <el-form-item style="margin-top: -5%">
+          <el-form-item style="margin-top: -3%">
             <el-button round @click="openRegisterDialog" style="width: 100%;">
               {{ t("login.register") }}
             </el-button>
