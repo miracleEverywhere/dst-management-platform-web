@@ -100,20 +100,46 @@
               世界信息
             </div>
           </template>
-          <el-table :data="worldInfo" border>
+          <el-table v-if="worldInfo" :data="worldInfo" border>
             <el-table-column label="ID" prop="id">
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.id}}</el-tag>
+              </template>
             </el-table-column>
             <el-table-column label="世界名" prop="world">
+              <template #default="scope">
+                <el-tag type="primary">{{scope.row.world}}</el-tag>
+              </template>
             </el-table-column>
             <el-table-column label="类型" prop="type">
+              <template #default="scope">
+                <el-tag v-if="scope.row.type==='forest'" type="success">地面</el-tag>
+                <el-tag v-if="scope.row.type==='cave'" type="warning">洞穴</el-tag>
+                <el-tag v-if="scope.row.type==='None'" type="danger">未识别</el-tag>
+              </template>
             </el-table-column>
             <el-table-column label="CPU" prop="cpu">
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.cpu}}%</el-tag>
+              </template>
             </el-table-column>
             <el-table-column label="内存" prop="mem">
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.mem}}%</el-tag>
+              </template>
             </el-table-column>
             <el-table-column label="状态" prop="stat">
+              <template #default="scope">
+                <el-switch v-model="scope.row.stat" inline-prompt
+                           active-text="运行中" inactive-text="已停止"
+                           :active-value="1" :inactive-value="0">
+                </el-switch>
+              </template>
             </el-table-column>
           </el-table>
+          <div v-else class="fcc" style="height: 300px">
+            <el-result title="未发现世界" icon="warning"/>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -275,6 +301,7 @@ onMounted(() => {
   getRoomInfo()
   getVersion()
   getConnectionCode()
+  getWorldInfo()
   startRequests()
 })
 
