@@ -66,7 +66,15 @@ export default {
     exitFullScreen: "Exit Full Screen",
     personalCenter: "Profile",
     settings: "Settings",
-    logout: "Log out"
+    logout: "Log out",
+    clusters: {
+      clusterName: 'Cluster Name',
+      clusterDisplayName: 'Cluster Display Name',
+      validateClusterName: 'Please input Cluster Name',
+      validateClusterDisplayName: 'Please input Cluster Display Name',
+      tipClusterName: 'Input English and numbers, i.e. .klei/DoNotStarveTogether/{Cluster Name}',
+      tipClusterDisplayName: 'The Cluster Display Name on the page is used as an identifier. If left blank, it will default to the Cluster Name',
+    }
   },
   login: {
     welcome: "Welcome to login",

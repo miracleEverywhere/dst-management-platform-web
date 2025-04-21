@@ -69,7 +69,12 @@ export default {
     changePassword: "修改密码",
     logout: "退出登录",
     clusters: {
+      clusterName: '集群名',
+      clusterDisplayName: '集群昵称',
       validateClusterName: '请输入集群名',
+      validateClusterDisplayName: '请输入集群昵称',
+      tipClusterName: '输入英文和数字，即.klei/DoNotStarveTogether/{集群名}',
+      tipClusterDisplayName: '在页面上显示的集群名，作为标识符使用，如不填则与集群名一致',
     }
   },
   login: {
