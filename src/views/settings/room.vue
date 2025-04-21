@@ -995,7 +995,22 @@ const handleSaveAndRestart = () => {
   })
 }
 const handleGenerateNewWorld = () => {
-
+  const reqForm = {
+    clusterSetting: clusterSettingForm.value,
+    worlds: worldForm.value,
+    mod: clusterModForm.value.mod,
+    sysSetting: {},
+  }
+  loading.value = true
+  settingApi.cluster.saveRegenerate.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+    loading.value = false
+  }).finally(() => {
+    loading.value = false
+    nextTick(() => {
+      handleRefresh()
+    })
+  })
 }
 
 const overridesObj = ref({})
