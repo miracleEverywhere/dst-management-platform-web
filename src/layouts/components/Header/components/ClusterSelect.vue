@@ -4,8 +4,8 @@
                @visible-change="saveLastCluster" :empty-values="[null]"
                style="width: 100px">
       <el-option v-for="cluster in globalStore.dstClusters"
-                 v-if="globalStore.dstClusters" :label="cluster"
-                 :value="cluster">
+                 v-if="globalStore.dstClusters" :label="cluster.clusterDisplayName"
+                 :value="cluster.clusterName">
       </el-option>
       <el-option value="" label="新建" @click="handleClusterNew"/>
     </el-select>
@@ -13,13 +13,23 @@
       <template #header>
         新建集群
       </template>
-      <el-form ref="clusterFormRef" :model="clusterForm"
+      <el-form ref="clusterFormRef" :model="clusterForm" label-position="top"
                :rules="clusterFormRules" :validate-on-rule-change="false">
-        <el-form-item prop="clusterName">
+        <el-form-item :label="t('header.clusters.clusterName')" prop="clusterName">
           <el-input v-model="clusterForm.clusterName"
                     :placeholder="t('header.clusters.validateClusterName')">
-
           </el-input>
+          <div class="el-form-item-msg" style="color: #909399">
+            {{ t('header.clusters.tipClusterName') }}
+          </div>
+        </el-form-item>
+        <el-form-item :label="t('header.clusters.clusterDisplayName')" prop="clusterDisplayName">
+          <el-input v-model="clusterForm.clusterDisplayName"
+                    :placeholder="t('header.clusters.validateClusterDisplayName')">
+          </el-input>
+          <div class="el-form-item-msg" style="color: #909399">
+            {{ t('header.clusters.tipClusterDisplayName') }}
+          </div>
         </el-form-item>
         <div style="display: flex; justify-content: flex-end; padding-top: 10px">
           <el-button type="primary" :loading="createLoading" @click="handleCreate">
@@ -54,7 +64,7 @@ const getClusters = () => {
   settingApi.clusters.get().then(response => {
     globalStore.dstClusters = response.data
     if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
-      globalStore.selectedDstCluster = globalStore.dstClusters[0]
+      globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
     }
   })
 }
@@ -74,7 +84,8 @@ const handleClusterNew = () => {
 const newClusterDialog = ref(false)
 const clusterFormRef = ref()
 const clusterForm = ref({
-  clusterName: ""
+  clusterName: "",
+  clusterDisplayName: "",
 })
 const clusterFormRules = {
   clusterName: [
@@ -86,7 +97,8 @@ const handleCreate = () => {
   clusterFormRef.value.validate(valid => {
     if (valid) {
       const reqForm = {
-        clusterName: clusterForm.value.clusterName
+        clusterName: clusterForm.value.clusterName,
+        clusterDisplayName: clusterForm.value.clusterDisplayName?clusterForm.value.clusterDisplayName:clusterForm.value.clusterName
       }
       createLoading.value = true
       setting.cluster.post(reqForm).then(async response => {
