@@ -28,6 +28,12 @@ export default {
         return await http.post(this.url, data);
       },
     },
+    saveRegenerate : {
+      url: `/setting/cluster/save_regenerate`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
+    },
   },
   room: {
     url: `/setting/room`,
