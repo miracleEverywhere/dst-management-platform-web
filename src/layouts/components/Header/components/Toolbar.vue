@@ -1,6 +1,6 @@
 <template>
   <div class="header-right">
-    <ClusterSelect/>
+    <ClusterSelect style="margin-right: 5px"/>
     <Github/>
     <Gitee/>
     <!-- 搜索菜单 -->
