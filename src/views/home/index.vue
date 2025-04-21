@@ -94,57 +94,6 @@
     </el-row>
     <el-row :gutter="10">
       <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 300px':'height: 400px'" shadow="never">
-          <template #header>
-            <div class="card-header">
-              世界信息
-            </div>
-          </template>
-          <el-table v-if="worldInfo" :data="worldInfo" border>
-            <el-table-column label="ID" prop="id">
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.id}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="世界名" prop="world">
-              <template #default="scope">
-                <el-tag type="primary">{{scope.row.world}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="类型" prop="type">
-              <template #default="scope">
-                <el-tag v-if="scope.row.type==='forest'" type="success">地面</el-tag>
-                <el-tag v-if="scope.row.type==='cave'" type="warning">洞穴</el-tag>
-                <el-tag v-if="scope.row.type==='None'" type="danger">未识别</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="CPU" prop="cpu">
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.cpu}}%</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="内存" prop="mem">
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.mem}}%</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="状态" prop="stat">
-              <template #default="scope">
-                <el-switch v-model="scope.row.stat" inline-prompt
-                           active-text="运行中" inactive-text="已停止"
-                           :active-value="1" :inactive-value="0">
-                </el-switch>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div v-else class="fcc" style="height: 300px">
-            <el-result title="未发现世界" icon="warning"/>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10">
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
         <el-card :style="isMobile?'min-height: 300px':'min-height: 400px'" shadow="never">
           <template #header>
             <div class="card-header">
@@ -152,18 +101,7 @@
             </div>
           </template>
           <div>
-            <el-form inline size="large">
-              <el-form-item :label="$t('home.master')">
-                <el-switch v-model="sysInfo.master" :active-text="$t('home.running')" :active-value="1"
-                           :inactive-text="$t('home.terminated')" :inactive-value="0"
-                           :loading="masterLoading" inline-prompt @change="masterCavesChange('master')"/>
-              </el-form-item>
-              <el-form-item :label="$t('home.caves')">
-                <el-switch v-model="sysInfo.caves" :active-text="$t('home.running')" :active-value="1"
-                           :inactive-text="$t('home.terminated')" :inactive-value="0"
-                           :loading="cavesLoading" inline-prompt @change="masterCavesChange('caves')"/>
-              </el-form-item>
-            </el-form>
+
             <el-form size="large">
               <el-form-item :label="$t('home.rollback')">
                 <el-col v-if="isMobile">
@@ -252,6 +190,79 @@
                 </el-input>
               </el-form-item>
             </el-form>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
+        <el-card :style="isMobile?'min-height: 300px':'height: 400px'" shadow="never">
+          <template #header>
+            <div class="card-header">
+              世界信息
+            </div>
+          </template>
+          <el-table v-if="worldInfo" :data="worldInfo" border>
+            <el-table-column label="ID" prop="id">
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.id}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="世界名" prop="world">
+              <template #default="scope">
+                <el-tag type="primary">{{scope.row.world}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="类型" prop="type">
+              <template #default="scope">
+                <el-tag v-if="scope.row.type==='forest'" type="success">地面</el-tag>
+                <el-tag v-if="scope.row.type==='cave'" type="warning">洞穴</el-tag>
+                <el-tag v-if="scope.row.type==='None'" type="danger">未识别</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="主节点" prop="isMaster">
+              <template #default="scope">
+                <el-tag v-if="scope.row.isMaster" type="primary">
+                  {{language==='zh'?'是':'Yes'}}
+                </el-tag>
+                <el-tag v-else type="info">
+                  {{language==='zh'?'否':'No'}}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="cpu">
+              <template #header>
+                <div class="fcc">
+                  <span>CPU</span>
+                  <el-tooltip content="指当前世界进程占用单核CPU百分比，粗略计算，仅供参考" effect="light" placement="top">
+                    <el-icon size="15" style="margin-left: 2px">
+                      <QuestionFilled/>
+                    </el-icon>
+                  </el-tooltip>
+                </div>
+              </template>
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.cpu}}%</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="内存" prop="mem">
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.mem}}%</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="状态" prop="stat">
+              <template #default="scope">
+                <el-switch v-model="scope.row.stat" inline-prompt
+                           active-text="运行中" inactive-text="已停止"
+                           :loading="worldSwitchLoading"
+                           @change="handleWorldSwitch(scope.row.world)"
+                >
+                </el-switch>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div v-else class="fcc" style="height: 300px">
+            <el-result title="未发现世界" icon="warning"/>
           </div>
         </el-card>
       </el-col>
@@ -387,7 +398,7 @@ const sysInfo = ref({
 })
 const worldInfo = ref([{
   id: '',
-  stat: 0,
+  stat: false,
   world: '',
   type: '',
   cpu: '',
@@ -421,7 +432,9 @@ const startRequests = () => {
     getSysInfo()
   }, 2000)
   intervalWorldId = setInterval(() => {
-    getWorldInfo()
+    if (globalStore.selectedDstCluster) {
+      getWorldInfo()
+    }
   }, 10000)
 }
 const cancelRequests = () => {
@@ -433,32 +446,19 @@ const cancelRequests = () => {
   }
 }
 
-const masterLoading = ref(false)
-const cavesLoading = ref(false)
-const masterCavesChange = (world) => {
+const worldSwitchLoading = ref(false)
+const handleWorldSwitch = (world) => {
   const reqForm = {
-    type: 'masterSwitch',
-    info: sysInfo.value.master
+    clusterName: globalStore.selectedDstCluster,
+    worldName: world,
+    type: 'worldSwitch',
+    extraData: "",
   }
-  if (world === 'master') {
-    const reqForm = {
-      type: 'masterSwitch',
-      info: sysInfo.value.master
-    }
-    masterLoading.value = true
-    homeApi.exec.post(reqForm).finally(() => {
-      masterLoading.value = false
-    })
-  } else {
-    const reqForm = {
-      type: 'cavesSwitch',
-      info: sysInfo.value.caves
-    }
-    cavesLoading.value = true
-    homeApi.exec.post(reqForm).finally(() => {
-      cavesLoading.value = false
-    })
-  }
+  worldSwitchLoading.value = true
+  homeApi.exec.post(reqForm).finally(() => {
+    worldSwitchLoading.value = false
+    getWorldInfo()
+  })
 }
 
 const handleExec = (type, info) => {
