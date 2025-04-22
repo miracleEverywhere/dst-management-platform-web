@@ -185,7 +185,6 @@ const handleKoiLogin = () => {
         // 3、清空 tabs数据、keepAlive缓存数据
         await tabsStore.setTab([]);
         await keepAliveStore.setKeepAliveName([]);
-        globalStore.needUpdatePassword = loginForm.password === '123456';
         // 4、跳转到首页
         await router.replace(HOME_URL);
       } catch (error) {
