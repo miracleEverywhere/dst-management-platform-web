@@ -43,8 +43,6 @@ const globalStore = defineStore("global", {
       asideInverted: false,
       // 头部反转
       headerInverted: false,
-      // 是否需要提醒修改密码
-      needUpdatePassword: false,
       // 游戏集群
       dstClusters: null,
       // 选中的游戏集群
