@@ -110,7 +110,9 @@
                      collapse-tags-tooltip
                      :max-collapse-tags="3"
                      :disabled="userDialogForm.role==='admin'">
-            <el-option v-for="i in globalStore.dstClusters" :label="i" :value="i"></el-option>
+            <el-option v-for="i in globalStore.dstClusters"
+                       :label="i.clusterDisplayName"
+                       :value="i.clusterName"></el-option>
           </el-select>
         </el-form-item>
         <el-row>
@@ -146,7 +148,7 @@
   </div>
 </template>
 
-<script name="users" setup>
+<script name="Users" setup>
 import useGlobalStore from "@/stores/modules/global.ts";
 import {computed, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
@@ -191,7 +193,7 @@ const userDialogForm = ref({
   nickname: '',
   password: '',
   disabled: false,
-  role: '',
+  role: 'Non-admin',
   clusterPermission: null,
 })
 const userDialogFormRules = {
@@ -228,6 +230,7 @@ const handleCreateUser = () => {
         password: SHA512(userDialogForm.value.password),
         disabled: userDialogForm.value.disabled,
         role: userDialogForm.value.role,
+        clusterPermission: userDialogForm.value.clusterPermission
       }
       systemApi.user.post(reqForm).then(response => {
         userDialogVisible.value = false
@@ -310,6 +313,8 @@ const clearUserForm = () => {
     nickname: '',
     password: '',
     disabled: false,
+    role: 'Non-admin',
+    clusterPermission: null,
   }
 }
 </script>
