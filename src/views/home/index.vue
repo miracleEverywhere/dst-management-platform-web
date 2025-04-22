@@ -101,43 +101,39 @@
             </div>
           </template>
           <div>
-
             <el-form size="large">
-              <el-form-item :label="$t('home.rollback')">
+              <el-form-item :label="t('home.rollback')">
                 <el-col v-if="isMobile">
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
+                  <el-button size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 2)">
+                  <el-button size="small" @click="handleExec('rollback', 2)">
                     2{{ t('home.days') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 3)">
+                  <el-button size="small" @click="handleExec('rollback', 3)">
                     3{{ t('home.days') }}
                   </el-button>
                 </el-col>
                 <el-col v-if="isMobile">
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 4)">
+                  <el-button size="small" @click="handleExec('rollback', 4)">
                     4{{ t('home.days') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 5)">
+                  <el-button size="small" @click="handleExec('rollback', 5)">
                     5{{ t('home.days') }}
                   </el-button>
                 </el-col>
-                <el-col v-if="isMobile">
-
-                </el-col>
                 <el-col v-if="!isMobile">
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
+                  <el-button size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 2)">
+                  <el-button size="small" @click="handleExec('rollback', 2)">
                     2{{ t('home.days') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 3)">
+                  <el-button size="small" @click="handleExec('rollback', 3)">
                     3{{ t('home.days') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 4)">
+                  <el-button size="small" @click="handleExec('rollback', 4)">
                     4{{ t('home.days') }}
                   </el-button>
-                  <el-button :disabled="sysInfo.master===0" size="small" @click="handleExec('rollback', 5)">
+                  <el-button size="small" @click="handleExec('rollback', 5)">
                     5{{ t('home.days') }}
                   </el-button>
                 </el-col>
@@ -152,7 +148,7 @@
               <el-form-item>
                 <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
                 <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
-                <el-tooltip :content="$t('home.deleteTips')" effect="light" placement="top">
+                <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
                   <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
                 </el-tooltip>
               </el-form-item>
@@ -169,7 +165,7 @@
           </template>
           <div>
             <el-form label-position="top">
-              <el-form-item :label="$t('home.announcement')">
+              <el-form-item :label="t('home.announcement')">
                 <el-input v-model="announceForm.message" @keyup.enter="handleAnnounce">
                   <template #append>
                     <el-button :loading="announceLoading" @click="handleAnnounce">{{ t('home.send') }}</el-button>
@@ -180,8 +176,8 @@
                 <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
                   <template #prepend>
                     <el-select v-model="consoleForm.world" style="width: 115px">
-                      <el-option :disabled="sysInfo.master===0" :label="$t('home.master')" value="master"/>
-                      <el-option :disabled="sysInfo.caves===0" :label="$t('home.caves')" value="caves"/>
+                      <el-option v-for="world in worldInfo" :disabled="!world.stat"
+                                 :label="world.world" :value="world.world"/>
                     </el-select>
                   </template>
                   <template #append>
@@ -232,22 +228,27 @@
             </el-table-column>
             <el-table-column prop="cpu">
               <template #header>
-                <div class="fcc">
+                <div style="display: flex; align-items: center">
                   <span>CPU</span>
-                  <el-tooltip content="指当前世界进程占用单核CPU百分比，粗略计算，仅供参考" effect="light" placement="top">
-                    <el-icon size="15" style="margin-left: 2px">
+                  <el-tooltip content="平均CPU使用率，计算周期为100毫秒，仅供参考" effect="light" placement="top">
+                    <el-icon size="14" style="margin-left: 2px">
                       <QuestionFilled/>
                     </el-icon>
                   </el-tooltip>
                 </div>
               </template>
               <template #default="scope">
-                <el-tag type="info">{{scope.row.cpu}}%</el-tag>
+                <el-tag type="info">{{scope.row.cpu.toFixed(2)}}%</el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="内存" prop="mem">
+            <el-table-column label="内存(%)" prop="mem">
               <template #default="scope">
-                <el-tag type="info">{{scope.row.mem}}%</el-tag>
+                <el-tag type="info">{{scope.row.mem.toFixed(2)}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="内存(MB)" prop="memSize">
+              <template #default="scope">
+                <el-tag type="info">{{scope.row.memSize.toFixed(0)}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column label="状态" prop="stat">
@@ -302,13 +303,12 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {ElMessageBox, ElNotification} from 'element-plus'
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
-import {formatBytes} from "@/utils/tools.js"
+import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 
 onMounted(() => {
-  checkPassword()
   getRoomInfo()
   getVersion()
   getConnectionCode()
@@ -321,17 +321,6 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
-
-const checkPassword = () => {
-  if (globalStore.needUpdatePassword) {
-    ElNotification({
-      title: t('home.updatePasswordTitle'),
-      message: t('home.updatePassword'),
-      type: 'warning',
-    })
-    globalStore.needUpdatePassword = false
-  }
-}
 
 const loading = ref(false)
 const versionLoading = ref(false)
@@ -401,8 +390,9 @@ const worldInfo = ref([{
   stat: false,
   world: '',
   type: '',
-  cpu: '',
-  mem: '',
+  cpu: 0,
+  mem: 0,
+  memSize: 0
 }])
 const getSysInfo = () => {
   homeApi.sysInfo.get().then(response => {
@@ -451,17 +441,18 @@ const handleWorldSwitch = (world) => {
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
     worldName: world,
-    type: 'worldSwitch',
+    type: 'switch',
     extraData: "",
   }
   worldSwitchLoading.value = true
-  homeApi.exec.post(reqForm).finally(() => {
+  homeApi.exec.post(reqForm).finally(async () => {
+    await getWorldInfo()
+    await sleep(1500)
     worldSwitchLoading.value = false
-    getWorldInfo()
   })
 }
 
-const handleExec = (type, info) => {
+const handleExec = (type, extraData) => {
   const typeMap = {
     startup: {
       en: 'STARTUP',
@@ -504,7 +495,9 @@ const handleExec = (type, info) => {
           instance.confirmButtonLoading = true
           const reqForm = {
             type: type,
-            info: info
+            extraData: extraData,
+            clusterName: globalStore.selectedDstCluster,
+            worldName: "",
           }
           homeApi.exec.post(reqForm).then(response => {
             koiMsgSuccess(response.message)
@@ -534,7 +527,13 @@ const handleAnnounce = () => {
     return
   }
   announceLoading.value = true
-  homeApi.interface.announce.post(announceForm.value).then(response => {
+  const reqForm = {
+    type: 'announce',
+    extraData: announceForm.value.message,
+    clusterName: globalStore.selectedDstCluster,
+    worldName: '',
+  }
+  homeApi.exec.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     announceForm.value.message = ''
   }).finally(() => {
@@ -557,7 +556,13 @@ const handleConsole = () => {
     return
   }
   consoleLoading.value = true
-  homeApi.interface.console.post(consoleForm.value).then(response => {
+  const reqForm = {
+    type: 'console',
+    extraData: consoleForm.value.cmd,
+    clusterName: globalStore.selectedDstCluster,
+    worldName: consoleForm.value.world,
+  }
+  homeApi.exec.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     consoleForm.value.cmd = ''
   }).finally(() => {
