@@ -1287,6 +1287,11 @@ const openMultiWorldModAddDialog = () => {
 }
 
 const handleGenerateModSetting = () => {
+  if (Object.keys(multiWorldModForm.value).length!==worldForm.value.length) {
+    koiMsgError(language.value === 'zh'?'世界名为必填项':'World name is required')
+    return
+  }
+
   let worldName = ""
   for (let key in multiWorldModForm.value) {
     worldName = worldName + `["${key}"]="${multiWorldModForm.value[key]}",`
