@@ -1,5 +1,6 @@
 <template>
   <div class="page-div">
+    {{worldPortFactor}}
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
         <el-card shadow="never">
@@ -808,6 +809,12 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const worldPortFactor = computed(() => {
+  const clusters = globalStore.dstClusters || []
+  const index = clusters.findIndex(c => c.clusterName === globalStore.selectedDstCluster)
+  return index !== -1 ? index : 0
+})
+
 
 const route = useRoute();
 const router = useRouter();
@@ -930,10 +937,10 @@ const handleGetClusterSetting = () => {
         name: 'World1',
         isMaster: true,
         levelData: '',
-        serverPort: 11001,
-        shardMasterPort: 10888,
-        steamMasterPort: 27018,
-        steamAuthenticationPort: 8768,
+        serverPort: 11001 + worldPortFactor.value * 10,
+        shardMasterPort: 10888 + worldPortFactor.value * 10,
+        steamMasterPort: 27018 + worldPortFactor.value * 10,
+        steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
         shardMasterIp: '127.0.0.1',
         clusterKey: 'supersecretkey',
         encodeUserPath: true,
@@ -1138,10 +1145,10 @@ const worldForm = ref([{
   name: 'World1',
   isMaster: true,
   levelData: '',
-  serverPort: 11001,
-  shardMasterPort: 10888,
-  steamMasterPort: 27018,
-  steamAuthenticationPort: 8768,
+  serverPort: 11001 + worldPortFactor.value * 10,
+  shardMasterPort: 10888 + worldPortFactor.value * 10,
+  steamMasterPort: 27018 + worldPortFactor.value * 10,
+  steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
   shardMasterIp: '127.0.0.1',
   clusterKey: 'supersecretkey',
   encodeUserPath: true,
@@ -1174,16 +1181,20 @@ const handleWorldTabsEdit = (targetName, action) => {
       name: newTabName,
       isMaster: false,
       levelData: '',
-      serverPort: 11000 + worldTabIndex.value,
-      shardMasterPort: 10887 + worldTabIndex.value,
-      steamMasterPort: 27017 + worldTabIndex.value,
-      steamAuthenticationPort: 8767 + worldTabIndex.value,
+      serverPort: 11000 + worldTabIndex.value + worldPortFactor.value * 10,
+      shardMasterPort: 10887 + worldTabIndex.value + worldPortFactor.value * 10,
+      steamMasterPort: 27017 + worldTabIndex.value + worldPortFactor.value * 10,
+      steamAuthenticationPort: 8767 + worldTabIndex.value + worldPortFactor.value * 10,
       shardMasterIp: '127.0.0.1',
       clusterKey: 'supersecretkey',
       encodeUserPath: true,
     })
     worldTabName.value = newTabName
   } else if (action === 'remove') {
+    if (worldForm.value.length === 1) {
+      koiMsgError(language.value === 'zh'?'每个房间至少含有一个世界':'Every room must include at least one world')
+      return
+    }
     const tabs = worldForm.value
     let activeName = worldTabName.value
     tabs.forEach((tab, index) => {
@@ -1314,7 +1325,7 @@ const handleGenerateModSetting = () => {
   multiWorldModAddDialog.value = false
 }
 
-watch(() => globalStore.selectedDstCluster, (newValue, _) => {
+watch(() => globalStore.selectedDstCluster, (newValue) => {
   if (newValue) {
     nextTick(() => {
       handleRefresh()
