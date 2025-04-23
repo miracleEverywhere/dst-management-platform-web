@@ -94,7 +94,7 @@
     </el-row>
     <el-row :gutter="10">
       <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 300px':'min-height: 400px'" shadow="never">
+        <el-card style="min-height: 300px" shadow="never">
           <template #header>
             <div class="card-header">
               {{ t('home.control') }}
@@ -157,7 +157,7 @@
         </el-card>
       </el-col>
       <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 300px':'min-height: 400px'" shadow="never">
+        <el-card style="min-height: 300px" shadow="never">
           <template #header>
             <div class="card-header">
               {{ t('home.interface') }}
@@ -603,7 +603,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('beforeunload', cancelRequests);
 })
 
-watch(() => globalStore.selectedDstCluster, (newValue, oldValue) => {
+watch(() => globalStore.selectedDstCluster, (newValue) => {
   if (newValue) {
     nextTick(() => {
       handleRefresh()
