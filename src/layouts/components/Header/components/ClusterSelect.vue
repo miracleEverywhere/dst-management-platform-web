@@ -114,7 +114,7 @@ const handleCreate = () => {
 }
 
 const handleDialogClose = () => {
-  if (globalStore.selectedDstCluster) {
+  if (globalStore.selectedDstCluster !== "") {
     return
   }
   globalStore.selectedDstCluster = lastClusterName.value
