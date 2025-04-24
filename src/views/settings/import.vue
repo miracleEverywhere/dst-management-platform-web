@@ -143,6 +143,7 @@ const handleUpload = (param) => {
   uploadLoading.value = true
   const formData = new FormData()
   formData.append('file', param.file)
+  formData.append('clusterName', globalStore.selectedDstCluster)
   settingApi.import.upload.post(formData).then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
