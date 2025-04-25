@@ -3,13 +3,29 @@
     <template #header>
       <div class="card-header">
         {{ t('logs.logs') }}
-        <div v-if="props.historical">
-          <el-select v-model="selectedFile" size="default" style="width: 10vw;font-weight: lighter" @change="getFileConnect">
+        <div v-if="props.historical" class="fcc">
+          <span v-if="props.type==='world'||props.type==='chat'"
+                style="font-weight: lighter; font-size: smaller">世界选择：</span>
+          <el-select v-if="props.type==='world'||props.type==='chat'"
+                     v-model="historicalLogsForm.worldName" @change="historicalWorldChange"
+                     style="width: 10vw; margin-right: 10px">
+            <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds"
+                       :label="world" :value="world"></el-option>
+          </el-select>
+          <span style="font-weight: lighter; font-size: smaller">日志文件：</span>
+          <el-select v-model="selectedFile" size="default" style="width: 15vw;font-weight: lighter" @change="getFileConnect">
             <el-option v-for="item in fileList" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </div>
-        <div v-if="!props.historical">
-          <span style="font-weight: lighter;">{{ t('logs.autoPull') }}</span>
+        <div v-if="!props.historical" class="fcc">
+          <span v-if="props.type==='world'||props.type==='chat'"
+                style="font-weight: lighter; font-size: smaller">世界选择：</span>
+          <el-select v-if="props.type==='world'||props.type==='chat'"
+                     v-model="logsForm.worldName" @change="logsValue=''"
+                     style="width: 10vw; margin-right: 10px">
+            <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds" :label="world" :value="world"></el-option>
+          </el-select>
+          <span style="font-weight: lighter; font-size: smaller">{{ t('logs.autoPull') }}</span>
           <el-switch v-model="autoPull" :active-value="1" :inactive-value="0"/>
         </div>
       </div>
@@ -33,12 +49,12 @@ import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeMount, onBeforeUnmount, onMounted, ref} from "vue";
 import logsApi from "@/api/logs"
 
 const props = defineProps({
   type: String,
-  historical: Boolean
+  historical: Boolean,
 })
 
 const {t} = useI18n()
@@ -47,12 +63,13 @@ const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
+
 onMounted(() => {
   if (props.historical) {
     handleGetLogFile()
   } else {
-    startRequests()
     init()
+    startRequests()
   }
 })
 
@@ -62,12 +79,15 @@ const init = () => {
   } else {
     logsForm.value.line = 25
   }
+  logsForm.value.worldName = globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || ""
 }
 
 const autoPull = ref(1)
 const logsForm = ref({
   line: 25,
-  type: props.type
+  type: props.type,
+  clusterName: globalStore.selectedDstCluster,
+  worldName: globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || ""
 })
 const logsValue = ref('')
 const handlePullLogs = () => {
@@ -93,15 +113,21 @@ const cancelRequests = () => {
 
 const fileList = ref([])
 const selectedFile = ref('')
+const historicalLogsForm = ref({
+  clusterName: globalStore.selectedDstCluster,
+  worldName: globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || "",
+  type: props.type
+})
 const handleGetLogFile = () => {
-  const reqForm = {
-    type: props.type
-  }
-  logsApi.historical.logFile.get(reqForm).then(response => {
+  logsApi.historical.logFile.get(historicalLogsForm.value).then(response => {
     fileList.value = response.data
   })
 }
 const historicalLogLoading = ref(false)
+const historicalWorldChange = () => {
+  handleGetLogFile()
+  selectedFile.value = ''
+}
 const getFileConnect = () => {
   historicalLogLoading.value = true
   const reqForm = {
