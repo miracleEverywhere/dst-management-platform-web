@@ -49,6 +49,7 @@ import {useI18n} from "vue-i18n";
 import setting from "@/api/setting";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 import {useRouter} from "vue-router";
+import homeApi from "@/api/home/index.js";
 
 
 onMounted(async () => {
