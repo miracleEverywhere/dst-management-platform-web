@@ -54,14 +54,20 @@
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {computed, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import logsApi from "@/api/logs"
 import {formatBytes} from "@/utils/tools.js";
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
@@ -73,14 +79,17 @@ const logsInfo = ref([])
 const tableLoading = ref(false)
 const handleGetLogsInfo = () => {
   tableLoading.value = true
-  logsApi.clean.status.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster
+  }
+  logsApi.clean.status.get(reqForm).then(response => {
     logsInfo.value = response.data
   }).finally(() => {
     tableLoading.value = false
   })
 }
 
-const logFileTypes = ['Ground', 'Cave', 'Chat', 'Access', 'Runtime']
+const logFileTypes = ['World', 'Chat', 'Access', 'Runtime']
 const cleanLogFileTypes = ref([])
 const handleCleanLogFileTypesChange = (value) => {
   const checkedCount = value.length
@@ -94,13 +103,9 @@ const handleCheckAllChange = (val) => {
   isIndeterminate.value = false
 }
 const logFileTypeMap = {
-  Ground: {
+  World: {
     zh: '地面日志',
-    en: 'Ground',
-  },
-  Cave: {
-    zh: '洞穴日志',
-    en: 'Cave',
+    en: 'World',
   },
   Chat: {
     zh: '聊天日志',
@@ -124,6 +129,7 @@ const handleCleanLogs = () => {
   }
   cleanButtonLoading.value = true
   const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
     logTypes: cleanLogFileTypes.value
   }
   logsApi.clean.clean.post(reqForm).then(response => {
@@ -133,6 +139,25 @@ const handleCleanLogs = () => {
     handleGetLogsInfo()
   })
 }
+
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 </script>
 
 <style scoped>
