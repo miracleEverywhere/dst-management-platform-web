@@ -343,7 +343,7 @@ const getVersion = () => {
 
 const getConnectionCode = () => {
   connectionCodeLoading.value = true
-  externalApi.connectionCode.get().then(response => {
+  externalApi.connectionCode.get({clusterName: globalStore.selectedDstCluster}).then(response => {
     connectionCode.value = response.data
   }).finally(() => {
     connectionCodeLoading.value = false

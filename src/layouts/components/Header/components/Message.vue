@@ -75,7 +75,7 @@ import {computed, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import axios from 'axios';
 import settings from "@/settings.ts";
-import toolsApi from "@/api/tools"
+import systemApi from "@/api/system"
 import {timestamp2time} from "@/utils/tools.js";
 import useGlobalStore from "@/stores/modules/global.ts";
 
@@ -113,7 +113,7 @@ const announcedID = ref(0)
 const maxAnnouncedID = ref(0)
 const badgeNum = ref(0)
 const handleGetAnnouncedID = async () => {
-  await toolsApi.announcedID.get().then(async response => {
+  await systemApi.announcedID.get().then(async response => {
     announcedID.value = response.data
   })
 }
@@ -122,7 +122,7 @@ const handleClose = () =>{
   if (badgeNum.value === 0) {
     return
   }
-  toolsApi.announcedID.post({id: maxAnnouncedID.value}).then(() => {
+  systemApi.announcedID.post({id: maxAnnouncedID.value}).then(() => {
     badgeNum.value = 0
   })
 }

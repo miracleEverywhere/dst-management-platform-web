@@ -50,4 +50,13 @@ export default {
       return await http.post(this.url, data);
     },
   },
+  announcedID: {
+    url: `/announce_id`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+  },
 }
