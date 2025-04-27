@@ -8,7 +8,7 @@
                 style="font-weight: lighter; font-size: smaller">世界选择：</span>
           <el-select v-if="props.type==='world'||props.type==='chat'"
                      v-model="historicalLogsForm.worldName" @change="historicalWorldChange"
-                     style="width: 10vw; margin-right: 10px">
+                     style="width: 10vw; margin-right: 10px; font-weight: lighter">
             <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds"
                        :label="world" :value="world"></el-option>
           </el-select>
@@ -22,7 +22,7 @@
                 style="font-weight: lighter; font-size: smaller">世界选择：</span>
           <el-select v-if="props.type==='world'||props.type==='chat'"
                      v-model="logsForm.worldName" @change="logsValue=''"
-                     style="width: 10vw; margin-right: 10px">
+                     style="width: 10vw; margin-right: 10px; font-weight: lighter">
             <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds" :label="world" :value="world"></el-option>
           </el-select>
           <span style="font-weight: lighter; font-size: smaller">{{ t('logs.autoPull') }}</span>
@@ -30,13 +30,13 @@
         </div>
       </div>
     </template>
-    <sc-code-editor ref="editor" v-model="logsValue" v-loading="historicalLogLoading" :height="isMobile?420:600"
+    <sc-code-editor ref="editor" v-model="logsValue" v-loading="historicalLogLoading" :height="isMobile?'55vh':'67vh'"
                     :theme="isDark?'darcula':'idea'"
                     mode="javascript" style="width: 100%"></sc-code-editor>
     <template v-if="!props.historical" #footer>
       <div class="card-footer">
         <el-input-number v-model="logsForm.line" controls-position="right" style="width: 100px;"/>
-        <el-tooltip :content="$t('logs.manualPullTips')" effect="light" placement="top">
+        <el-tooltip :content="t('logs.manualPullTips')" effect="light" placement="top">
           <el-button style="margin-left: 10px" type="primary" @click="handlePullLogs">{{ t('logs.manualPull') }}</el-button>
         </el-tooltip>
       </div>
@@ -49,7 +49,7 @@ import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
-import {computed, onBeforeMount, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import logsApi from "@/api/logs"
 
 const props = defineProps({
@@ -71,20 +71,28 @@ onMounted(() => {
     init()
     startRequests()
   }
+  windowHeight.value = window.innerHeight;
+  window.addEventListener("resize", () => {
+    windowHeight.value = window.innerHeight;
+  });
 })
 
 const init = () => {
-  if (isMobile.value) {
-    logsForm.value.line = 20
-  } else {
-    logsForm.value.line = 25
-  }
   logsForm.value.worldName = globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || ""
 }
 
+const windowHeight = ref(0)
+const line = computed(() => {
+  if (isMobile.value) {
+    return Math.floor((windowHeight.value * 0.55) / 21) - 1
+  } else {
+    return Math.floor((windowHeight.value * 0.67) / 21) - 1
+  }
+})
+
 const autoPull = ref(1)
 const logsForm = ref({
-  line: 25,
+  line: line,
   type: props.type,
   clusterName: globalStore.selectedDstCluster,
   worldName: globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || ""
