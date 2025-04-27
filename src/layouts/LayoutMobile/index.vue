@@ -6,7 +6,7 @@
 <!--        <SvgIcon name="koi-menu-unfold-line" width="30px" height="30px" @click="mobileDrawer = true"></SvgIcon>-->
       </div>
       <div class="flex items-center">
-        <ClusterSelect/>
+        <ClusterSelect style="margin-right: 7px"/>
         <Language class="<md:visible"></Language>
         <!-- 明亮/暗黑模式图标 -->
         <Dark></Dark>
