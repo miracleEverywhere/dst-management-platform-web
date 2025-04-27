@@ -76,10 +76,23 @@
                 <div style="margin-top: 20px">
                   <template v-for="uid in adminListData">
                     <el-tag :effect="isDark?'light':'dark'" closable size="large" style="margin-right: 5px; margin-top: 5px"
-                            @close="handleDeleteAdmin(uid)">
+                            @close="handlePlayerChange('admin','delete',uid)">
                       {{ uid + getNickname(uid) }}
                     </el-tag>
                   </template>
+                  <el-input
+                    v-if="InputVisible"
+                    ref="InputRef"
+                    v-model="InputValue"
+                    size="default"
+                    class="w-32"
+                    style="margin: 5px 5px 0 0"
+                    @keyup.enter="handleInputConfirm('admin')"
+                    @blur="handleInputConfirm('admin')"
+                  />
+                  <el-button v-else @click="showInput" style="margin: 5px 5px 0 0">
+                    {{language==='zh'?'+ 新增':'+ New'}}
+                  </el-button>
                 </div>
               </div>
               <el-result v-else :title="$t('setting.noAdminFound')" icon="warning" style="margin-top: 10%"></el-result>
@@ -102,10 +115,23 @@
                 <div style="margin-top: 20px">
                   <template v-for="uid in blockListData">
                     <el-tag :effect="isDark?'light':'dark'" closable size="large" style="margin-right: 5px; margin-top: 5px"
-                            @close="handleDeleteBlock(uid)">
+                            @close="handlePlayerChange('block','delete',uid)">
                       {{ uid + getNickname(uid) }}
                     </el-tag>
                   </template>
+                  <el-input
+                    v-if="InputVisible"
+                    ref="InputRef"
+                    v-model="InputValue"
+                    size="default"
+                    class="w-32"
+                    style="margin: 5px 5px 0 0"
+                    @keyup.enter="handleInputConfirm('block')"
+                    @blur="handleInputConfirm('block')"
+                  />
+                  <el-button v-else @click="showInput" style="margin: 5px 5px 0 0">
+                    {{language==='zh'?'+ 新增':'+ New'}}
+                  </el-button>
                 </div>
               </div>
               <el-result v-else :title="$t('setting.noBlockFound')" icon="warning" style="margin-top: 10%"></el-result>
@@ -124,13 +150,26 @@
               <div v-if="whiteListData.length > 0">
                 <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.tagCloseTip') }}
                 </el-alert>
-                <div style="margin-top: 20px">
+                <div style="margin-top: 20px;">
                   <template v-for="uid in whiteListData">
                     <el-tag :effect="isDark?'light':'dark'" closable size="large" style="margin-right: 5px; margin-top: 5px"
-                            @close="handleDeleteWhite(uid)">
+                            @close="handlePlayerChange('white','delete',uid)">
                       {{ uid + getNickname(uid) }}
                     </el-tag>
                   </template>
+                  <el-input
+                    v-if="InputVisible"
+                    ref="InputRef"
+                    v-model="InputValue"
+                    size="default"
+                    class="w-32"
+                    style="margin: 5px 5px 0 0"
+                    @keyup.enter="handleInputConfirm('white')"
+                    @blur="handleInputConfirm('white')"
+                  />
+                  <el-button v-else @click="showInput" style="margin: 5px 5px 0 0">
+                    {{language==='zh'?'+ 新增':'+ New'}}
+                  </el-button>
                 </div>
               </div>
               <el-result v-else :title="$t('setting.noWhiteFound')" icon="warning" style="margin-top: 10%"></el-result>
@@ -225,7 +264,7 @@
 </template>
 
 <script name="settingsPlayer" setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
@@ -233,10 +272,16 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {QuestionLine} from "@/assets/icons/index.js"
 import {UploadFilled} from "@element-plus/icons-vue";
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
@@ -245,7 +290,7 @@ onMounted(() => {
 })
 
 const getPlayerList = (tip = false) => {
-  settingApi.player.list.get().then(response => {
+  settingApi.player.list.get({clusterName: globalStore.selectedDstCluster}).then(response => {
     playersData.value = response.data.players
     uidMap.value = response.data.uidMap
     adminListData.value = []
@@ -313,13 +358,13 @@ const whiteDisable = (uid) => {
 const handleCommand = (cmd) => {
   switch (cmd.type) {
     case 'admin':
-      handleAddAdmin(cmd.uid)
+      handlePlayerChange(cmd.type,'add', cmd.uid)
       break;
     case 'block':
-      handleAddBlock(cmd.uid)
+      handlePlayerChange(cmd.type,'add', cmd.uid)
       break;
     case 'white':
-      handleAddWhite(cmd.uid)
+      handlePlayerChange(cmd.type,'add', cmd.uid)
       break;
     case 'kick':
       handleKick(cmd.uid)
@@ -327,8 +372,14 @@ const handleCommand = (cmd) => {
   }
 }
 
-const handleAddAdmin = (uid) => {
-  settingApi.player.addAdmin.post({uid: uid}).then(response => {
+const handlePlayerChange = (listName, type, uid) => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    listName: listName,
+    type: type,
+    uid: uid
+  }
+  settingApi.player.change.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     getPlayerList()
   })
@@ -450,6 +501,44 @@ const handleUpload = (param) => {
     uploadLoading.value = false
   })
 }
+
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+const InputVisible = ref(false)
+const InputRef = ref()
+const InputValue = ref('')
+
+const showInput = () => {
+  InputVisible.value = true
+  nextTick(() => {
+    InputRef.value.input.focus()
+  })
+}
+
+const handleInputConfirm = (listName) => {
+  if (InputValue.value) {
+    handlePlayerChange(listName, 'add', InputValue.value)
+  }
+  InputVisible.value = false
+  InputValue.value = ''
+}
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 </script>
 
 <style scoped>

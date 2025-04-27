@@ -81,44 +81,14 @@ export default {
         return await http.get(this.url, data);
       },
     },
-    addAdmin: {
-      url: `/setting/player/add/admin`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    deleteAdmin: {
-      url: `/setting/player/delete/admin`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    addBlock: {
-      url: `/setting/player/add/block`,
+    change: {
+      url: `/setting/player/change`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
     },
     addBlockUpload: {
       url: `/setting/player/add/block/upload`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    deleteBlock: {
-      url: `/setting/player/delete/block`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    addWhite: {
-      url: `/setting/player/add/white`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    deleteWhite: {
-      url: `/setting/player/delete/white`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
