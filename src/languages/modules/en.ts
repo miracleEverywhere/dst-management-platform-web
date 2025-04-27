@@ -279,7 +279,8 @@ export default {
     addWhite: 'Add to White List',
     kick: 'Kick Player',
     historyPlayer: 'History Players',
-    historyPlayerTip: 'It refers to all player information recorded since the DMP was launched',
+    historyPlayerTip: 'Refers to all player information recorded since the cluster was launched; note that historical player data is not shared between clusters',
+    historyClean: 'Clean',
     blockListItems: {
       uploadButton: 'Import',
       tips: 'Please upload the Excel document. Column A contains the UIDs of blacklisted users, with one UID per row',

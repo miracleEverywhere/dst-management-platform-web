@@ -188,7 +188,14 @@
                     </div>
 
                   </el-tooltip>
-                  <el-button size="default" @click="handleGetHistoryPlayer(true)">{{ t('setting.refresh') }}</el-button>
+                  <div>
+                    <el-button size="default" type="danger" @click="handleCleanHistoryPlayer">
+                      {{ t('setting.historyClean') }}
+                    </el-button>
+                    <el-button size="default" @click="handleGetHistoryPlayer(true)">
+                      {{ t('setting.refresh') }}
+                    </el-button>
+                  </div>
                 </div>
               </template>
               <el-table ref="tableRef" v-loading="tableLoading" :data="uids" :max-height="isMobile?450:550"
@@ -385,43 +392,12 @@ const handlePlayerChange = (listName, type, uid) => {
   })
 }
 
-const handleDeleteAdmin = (uid) => {
-  settingApi.player.deleteAdmin.post({uid: uid}).then(response => {
-    koiMsgSuccess(response.message)
-    getPlayerList()
-  })
-}
-
-const handleAddBlock = (uid) => {
-  settingApi.player.addBlock.post({uid: uid}).then(response => {
-    koiMsgSuccess(response.message)
-    getPlayerList()
-  })
-}
-
-const handleDeleteBlock = (uid) => {
-  settingApi.player.deleteBlock.post({uid: uid}).then(response => {
-    koiMsgSuccess(response.message)
-    getPlayerList()
-  })
-}
-
-const handleAddWhite = (uid) => {
-  settingApi.player.addWhite.post({uid: uid}).then(response => {
-    koiMsgSuccess(response.message)
-    getPlayerList()
-  })
-}
-
-const handleDeleteWhite = (uid) => {
-  settingApi.player.deleteWhite.post({uid: uid}).then(response => {
-    koiMsgSuccess(response.message)
-    getPlayerList()
-  })
-}
-
 const handleKick = (uid) => {
-  settingApi.player.kick.post({uid: uid}).then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    uid: uid
+  }
+  settingApi.player.kick.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   })
 }
@@ -449,7 +425,10 @@ const tableLoading = ref(false)
 const handleGetHistoryPlayer = (tip = false) => {
   tableLoading.value = true
   uids.value = []
-  settingApi.player.history.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingApi.player.history.get(reqForm).then(response => {
     for (let i of response.data) {
       if (i.uid.length === 11) {
         uids.value.push(i)
@@ -530,6 +509,17 @@ const handleInputConfirm = (listName) => {
   }
   InputVisible.value = false
   InputValue.value = ''
+}
+
+const handleCleanHistoryPlayer = () => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingApi.player.historyClean.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    handleGetHistoryPlayer(false)
+  })
 }
 
 watch(() => globalStore.selectedDstCluster, (newValue) => {

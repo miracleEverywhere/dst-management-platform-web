@@ -81,6 +81,12 @@ export default {
         return await http.get(this.url, data);
       },
     },
+    historyClean: {
+      url: `/setting/player/history/clean`,
+      post: async function (data) {
+        return await http.post(this.url, data);
+      }
+    },
     change: {
       url: `/setting/player/change`,
       post: async function (data) {

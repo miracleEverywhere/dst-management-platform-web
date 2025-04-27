@@ -280,7 +280,8 @@ export default {
     addWhite: '添加白名单',
     kick: '踢出玩家',
     historyPlayer: '历史玩家',
-    historyPlayerTip: '指平台启动以来，记录到的所有玩家信息',
+    historyPlayerTip: '指该集群启动以来，记录到的所有玩家信息；注意，集群之间的历史玩家信息不互通',
+    historyClean: '清空',
     blockListItems: {
       uploadButton: '导入',
       tips: '请上传Excel文档，A列为黑名单用户的UID，每行一个',
