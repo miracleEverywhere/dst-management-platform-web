@@ -576,7 +576,10 @@ const modInfoList = ref([])
 const handleOpenModDialog = () => {
   modInfoDialogVisible.value = true
   modInfoLoading.value = true
-  externalApi.modInfo.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  externalApi.modInfo.get(reqForm).then(response => {
     modInfoList.value = response.data
   }).finally(() => {
     modInfoLoading.value = false

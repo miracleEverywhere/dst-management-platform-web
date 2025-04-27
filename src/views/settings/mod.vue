@@ -293,7 +293,10 @@ const handleGetModSetting = () => {
   modSettingFormatLoading.value = true
   clickedModID.value = 0
   clickedModFileUrl.value = ""
-  settingsApi.mod.settingFormat.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingsApi.mod.settingFormat.get(reqForm).then(response => {
     modSettingFormat.value = response.data
     for (let i of modSettingFormat.value) {
       if (i.id === 1) {
@@ -322,7 +325,11 @@ const modConfigurations = ref({
 })
 const handleGetModConfigurations = () => {
   modConfigurationsLoading.value = true
-  settingsApi.mod.configOptions.get({id: clickedModID.value}).then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    id: clickedModID.value
+  }
+  settingsApi.mod.configOptions.get(reqForm).then(response => {
     modConfigurations.value = response.data
   }).finally(() => {
     modConfigurationsLoading.value = false
@@ -331,7 +338,11 @@ const handleGetModConfigurations = () => {
 
 const handleModConfigChange = () => {
   modConfigurationsLoading.value = true
-  settingsApi.mod.configChange.post({modFormattedData: modSettingFormat.value}).then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    modFormattedData: modSettingFormat.value
+  }
+  settingsApi.mod.configChange.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     modConfigurationsLoading.value = false
@@ -388,7 +399,10 @@ const handleGetDownloadedMod = () => {
 const syncModLoading = ref(false)
 const handleSyncMod = () => {
   syncModLoading.value = true
-  settingsApi.mod.sync.post().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingsApi.mod.sync.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     handleGetDownloadedMod()
   }).finally(() => {
@@ -416,6 +430,7 @@ const handleModCommand = (actions) => {
 const handleModEnable = (row) => {
   const isUgc = row.file_url === "";
   const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
     isUgc: isUgc,
     id: row.id
   }
@@ -455,6 +470,7 @@ const handleModDisable = () => {
     buttonDisableModLoading.value = true
     const isUgc = clickedModFileUrl.value === "";
     const reqForm = {
+      clusterName: globalStore.selectedDstCluster,
       isUgc: isUgc,
       id: clickedModID.value
     }
