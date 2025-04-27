@@ -104,7 +104,7 @@ const handleCheckAllChange = (val) => {
 }
 const logFileTypeMap = {
   World: {
-    zh: '地面日志',
+    zh: '世界日志',
     en: 'World',
   },
   Chat: {
