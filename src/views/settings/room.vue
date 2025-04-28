@@ -835,6 +835,15 @@ const debouncedRefresh = debounce((editor) => {
   });
 }, 100);
 
+const getClusters = () => {
+  settingApi.clusters.get().then(response => {
+    globalStore.dstClusters = response.data
+    if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
+      globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
+    }
+  })
+}
+
 const handleRefresh = () => {
   setTimeout(() => {
     route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
@@ -974,6 +983,7 @@ const handleSave = () => {
   settingApi.cluster.save.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
+    getClusters()
   }).finally(() => {
     loading.value = false
     nextTick(() => {
@@ -993,6 +1003,7 @@ const handleSaveAndRestart = () => {
   settingApi.cluster.saveRestart.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
+    getClusters()
   }).finally(() => {
     loading.value = false
     nextTick(() => {
@@ -1011,6 +1022,7 @@ const handleGenerateNewWorld = () => {
   settingApi.cluster.saveRegenerate.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
+    getClusters()
   }).finally(() => {
     loading.value = false
     nextTick(() => {
