@@ -105,16 +105,22 @@
 
 <script setup>
 import {useI18n} from "vue-i18n";
-import {computed, ref} from "vue";
+import {computed, inject, nextTick, ref, watch} from "vue";
 import {UploadFilled} from '@element-plus/icons-vue'
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import settingApi from "@/api/setting"
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
@@ -145,6 +151,7 @@ const handleUpload = (param) => {
   formData.append('file', param.file)
   formData.append('clusterName', globalStore.selectedDstCluster)
   settingApi.import.upload.post(formData).then(response => {
+    getClusters()
     koiMsgSuccess(response.message)
   }).finally(() => {
     uploadDialogVisible.value = false
@@ -152,9 +159,37 @@ const handleUpload = (param) => {
   })
 }
 
+const getClusters = () => {
+  settingApi.clusters.get().then(response => {
+    globalStore.dstClusters = response.data
+    if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
+      globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
+    }
+  })
+}
+
 const imageZip = new URL('./images/zip-image.png', import.meta.url).href
 const imageZipMaster = new URL('./images/zip-image-master.png', import.meta.url).href
 const helpGif = new URL('./images/help.gif', import.meta.url).href
+
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 </script>
 
 <style scoped>
