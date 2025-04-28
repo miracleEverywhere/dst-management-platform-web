@@ -2,7 +2,7 @@
   <div class="header-right">
     <ClusterSelect style="margin-right: 5px"/>
     <Github/>
-    <Gitee/>
+<!--    <Gitee/>-->
     <!-- 搜索菜单 -->
     <SearchMenu class="<md:visible"></SearchMenu>
     <!-- ElementPlus 尺寸配置 -->
