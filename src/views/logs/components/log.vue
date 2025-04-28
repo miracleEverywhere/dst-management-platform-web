@@ -1,5 +1,5 @@
 <template>
-  <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+  <el-card shadow="never">
     <template #header>
       <div class="card-header">
         {{ t('logs.logs') }}
@@ -35,7 +35,8 @@
                     mode="javascript" style="width: 100%"></sc-code-editor>
     <template v-if="!props.historical" #footer>
       <div class="card-footer">
-        <el-input-number v-model="logsForm.line" controls-position="right" style="width: 100px;"/>
+        <el-input-number v-model="logsForm.line" controls-position="right"
+                         @focus="manualLine=true" style="width: 100px;"/>
         <el-tooltip :content="t('logs.manualPullTips')" effect="light" placement="top">
           <el-button style="margin-left: 10px" type="primary" @click="handlePullLogs">{{ t('logs.manualPull') }}</el-button>
         </el-tooltip>
@@ -49,7 +50,7 @@ import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import logsApi from "@/api/logs"
 
 const props = defineProps({
@@ -66,39 +67,54 @@ const language = computed(() => globalStore.language);
 
 onMounted(() => {
   if (props.historical) {
-    handleGetLogFile()
+    handleGetLogFile();
   } else {
-    init()
-    startRequests()
+    init();
+    startRequests();
   }
+
   windowHeight.value = window.innerHeight;
   window.addEventListener("resize", () => {
     windowHeight.value = window.innerHeight;
   });
-})
+});
 
 const init = () => {
-  logsForm.value.worldName = globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || ""
-}
+  if (!globalStore.dstClusters || !globalStore.selectedDstCluster) return;
 
-const windowHeight = ref(0)
+  logsForm.value.worldName =
+    globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster)?.worlds?.[0] ??
+    null;
+};
+
+const windowHeight = ref(0);
+const manualLine = ref(false);
+
 const line = computed(() => {
-  if (isMobile.value) {
-    return Math.floor((windowHeight.value * 0.55) / 21) - 1
+  if (!manualLine.value) {
+    return isMobile.value
+      ? Math.floor((windowHeight.value * 0.55) / 21) - 1
+      : Math.floor((windowHeight.value * 0.67) / 21) - 1;
   } else {
-    return Math.floor((windowHeight.value * 0.67) / 21) - 1
+    return logsForm.value.line; // 手动模式，直接返回表单值
   }
-})
+});
 
-const autoPull = ref(1)
+// 同步 line computed 到 logsForm.value.line
+
+
+const autoPull = ref(1);
 const logsForm = ref({
-  line: line,
+  line: line.value, // 初始化为 computed 的当前值
   type: props.type,
   clusterName: globalStore.selectedDstCluster,
-  worldName: globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || ""
-})
+  worldName: null, // 先设为 null，init() 会更新
+});
 const logsValue = ref('')
 const handlePullLogs = () => {
+  if (!logsForm.value.worldName && (logsForm.value.type !== 'runtime' && logsForm.value.type !== 'access')) {
+    return
+  }
   logsApi.logValue.get(logsForm.value).then(response => {
     logsValue.value = response.data.join("\n")
   })
@@ -123,7 +139,7 @@ const fileList = ref([])
 const selectedFile = ref('')
 const historicalLogsForm = ref({
   clusterName: globalStore.selectedDstCluster,
-  worldName: globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds[0] || "",
+  worldName: globalStore.dstClusters?.find(cluster => cluster.clusterName === globalStore.selectedDstCluster)?.worlds?.[0] ?? null,
   type: props.type
 })
 const handleGetLogFile = () => {
@@ -158,6 +174,11 @@ defineExpose({
   startRequests
 });
 
+watch([line, manualLine], ([newLine, isManual]) => {
+  if (!isManual) {
+    logsForm.value.line = newLine;
+  }
+}, { immediate: true });
 </script>
 
 <style scoped>
