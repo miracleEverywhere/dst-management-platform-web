@@ -313,6 +313,11 @@
                   {{ t('help.seven.text3') }}
                 </div>
               </el-collapse-item>
+              <el-collapse-item name="8">
+                <template #title>
+                  路径说明
+                </template>
+              </el-collapse-item>
             </el-collapse>
           </div>
         </el-card>
