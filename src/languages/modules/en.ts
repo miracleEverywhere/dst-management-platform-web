@@ -407,6 +407,13 @@ export default {
         cave: 'Cave',
         msg: 'After switching, the game configuration file will be automatically generated, and it will take effect after a manual restart',
       },
+      autoUpdate: {
+        divider: 'Auto Update',
+        title: 'Auto Update Switch',
+        title2: 'Auto Update Time',
+        msg: 'Default is ON, DMP will check the game for updates at the scheduled time and automatically update if available',
+        msg2: 'It performs a daily check at this time',
+      },
     },
   },
   tools: {
