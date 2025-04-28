@@ -459,7 +459,10 @@ const buttonDisableModLoading = ref(false)
 const handleModDisable = () => {
   if (clickedModID.value === 1) {
     buttonDisableModLoading.value = true
-    settingsApi.mod.deleteClintModsDisabled.post().then(response => {
+    const reqForm = {
+      clusterName: globalStore.selectedDstCluster,
+    }
+    settingsApi.mod.deleteClintModsDisabled.post(reqForm).then(response => {
       koiMsgSuccess(response.message)
       handleGetModSetting()
       addClientModsDisabledConfigButtonDisable.value = false
@@ -503,6 +506,7 @@ const modUpdateButtonLoading = ref(false)
 const handleModUpdate = () => {
   modUpdateButtonLoading.value = true
   const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
     isUgc: clickedModFileUrl.value === "",
     id: clickedModID.value,
     fileURL: clickedModFileUrl.value
@@ -524,7 +528,10 @@ const addClientModsDisabledConfigButtonDisable = ref(false)
 const addClientModsDisabledConfigButtonLoading = ref(false)
 const handleAddClientModsDisabledConfig = () => {
   addClientModsDisabledConfigButtonLoading.value = true
-  settingsApi.mod.addClintModsDisabled.post().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingsApi.mod.addClintModsDisabled.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     addClientModsDisabledConfigButtonLoading.value = false
