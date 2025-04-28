@@ -1,273 +1,286 @@
 <template>
   <div class="page-div">
-    <el-row :gutter="10">
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" style="min-height: 250px">
-          <template #header>
-            <div class="card-header">
-              {{ t('home.roomInfo') }}
-            </div>
-          </template>
-          <template v-if="roomInfo.clusterSetting.name!==''">
-            <el-descriptions :column="isMobile?1:2">
-              <el-descriptions-item :label="t('home.roomName')">
-                <el-button v-copy="roomInfo.clusterSetting.name" link type="primary">
-                  {{ roomInfo.clusterSetting.name }}
-                  <el-icon style="margin-left: 3px">
-                    <DocumentCopy/>
-                  </el-icon>
-                </el-button>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.connectionCode')">
-                <el-tooltip :content="connectionCode" effect="light" placement="top">
-                  <el-button v-copy="connectionCode" :disabled="connectionCode===''" :loading="connectionCodeLoading" link
-                             type="primary">{{ t('home.copy') }}
+    <template v-if="globalStore.dstClusters">
+      <el-row :gutter="10">
+        <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
+          <el-card shadow="never" style="min-height: 250px">
+            <template #header>
+              <div class="card-header">
+                {{ t('home.roomInfo') }}
+              </div>
+            </template>
+            <template v-if="roomInfo.clusterSetting.name!==''">
+              <el-descriptions :column="isMobile?1:2">
+                <el-descriptions-item :label="t('home.roomName')">
+                  <el-button v-copy="roomInfo.clusterSetting.name" link type="primary">
+                    {{ roomInfo.clusterSetting.name }}
+                    <el-icon style="margin-left: 3px">
+                      <DocumentCopy/>
+                    </el-icon>
                   </el-button>
-                </el-tooltip>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.cycles')">
-                <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
-                  {{ roomInfo.seasonInfo.cycles }}
-                </el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.phase')">
-                <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
-                  {{ roomInfo.seasonInfo.phase.en }}
-                </el-tag>
-                <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.zh==='获取失败'?'danger':'success'">
-                  {{ roomInfo.seasonInfo.phase.zh }}
-                </el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.season')">
-                <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
-                  {{ roomInfo.seasonInfo.season.en }} {{ getSeasonDays(roomInfo.seasonInfo.season.en) }}
-                </el-tag>
-                <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
-                  {{ roomInfo.seasonInfo.season.zh }} {{ getSeasonDays(roomInfo.seasonInfo.season.en) }}
-                </el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.mods')">
-                <el-tag>{{ roomInfo.modsCount }}</el-tag>
-                <el-button link style="margin-left: 10px" type="primary" @click="handleOpenModDialog">{{ t('home.modsButton') }}
-                </el-button>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.version')">
-                <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">
-                  ({{ version.local }}/{{ version.server }})
-                </el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item :label="t('home.playerNum')">
-                <el-tag type="primary">{{ roomInfo.playerNum }}</el-tag>
-              </el-descriptions-item>
-            </el-descriptions>
-          </template>
-          <template v-if="roomInfo.clusterSetting.name===''">
-            <div class="fcc" style="height: 150px">
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.connectionCode')">
+                  <el-tooltip :content="connectionCode" effect="light" placement="top">
+                    <el-button v-copy="connectionCode" :disabled="connectionCode===''" :loading="connectionCodeLoading" link
+                               type="primary">{{ t('home.copy') }}
+                    </el-button>
+                  </el-tooltip>
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.cycles')">
+                  <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                    {{ roomInfo.seasonInfo.cycles }}
+                  </el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.phase')">
+                  <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.phase.en==='Failed to retrieve'?'danger':'success'">
+                    {{ roomInfo.seasonInfo.phase.en }}
+                  </el-tag>
+                  <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.phase.zh==='获取失败'?'danger':'success'">
+                    {{ roomInfo.seasonInfo.phase.zh }}
+                  </el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.season')">
+                  <el-tag v-if="language==='en'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                    {{ roomInfo.seasonInfo.season.en }} {{ getSeasonDays(roomInfo.seasonInfo.season.en) }}
+                  </el-tag>
+                  <el-tag v-if="language==='zh'" :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                    {{ roomInfo.seasonInfo.season.zh }} {{ getSeasonDays(roomInfo.seasonInfo.season.en) }}
+                  </el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.mods')">
+                  <el-tag>{{ roomInfo.modsCount }}</el-tag>
+                  <el-button link style="margin-left: 10px" type="primary" @click="handleOpenModDialog">{{ t('home.modsButton') }}
+                  </el-button>
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.version')">
+                  <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">
+                    ({{ version.local }}/{{ version.server }})
+                  </el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item :label="t('home.playerNum')">
+                  <el-tag type="primary">{{ roomInfo.playerNum }}</el-tag>
+                </el-descriptions-item>
+              </el-descriptions>
+            </template>
+            <template v-if="roomInfo.clusterSetting.name===''">
+              <div class="fcc" style="height: 150px">
+                <el-result :title="t('home.noServer')" icon="warning"/>
+              </div>
+            </template>
+          </el-card>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
+          <el-card shadow="never" style="min-height: 250px">
+            <template #header>
+              <div class="card-header">
+                {{ t('home.sysInfo') }}
+              </div>
+            </template>
+            <div class="fcc">
+              <el-progress :color="progressColors" :percentage="sysInfo.cpu" type="dashboard">
+                <template #default="{ percentage }">
+                  <span class="percentage-value">{{ percentage.toFixed(1) }}</span>
+                  <span class="percentage-label">CPU</span>
+                </template>
+              </el-progress>
+              <el-progress :color="progressColors" :percentage="sysInfo.memory" style="margin-left: 10%" type="dashboard">
+                <template #default="{ percentage }">
+                  <span class="percentage-value">{{ percentage.toFixed(1) }}</span>
+                  <span class="percentage-label">{{ t('home.mem') }}</span>
+                </template>
+              </el-progress>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="10">
+        <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
+          <el-card style="min-height: 300px" shadow="never">
+            <template #header>
+              <div class="card-header">
+                {{ t('home.control') }}
+              </div>
+            </template>
+            <div v-if="roomInfo.clusterSetting.name!==''">
+              <el-form size="large">
+                <el-form-item :label="t('home.rollback')">
+                  <el-col v-if="isMobile">
+                    <el-button size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 2)">
+                      2{{ t('home.days') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 3)">
+                      3{{ t('home.days') }}
+                    </el-button>
+                  </el-col>
+                  <el-col v-if="isMobile">
+                    <el-button size="small" @click="handleExec('rollback', 4)">
+                      4{{ t('home.days') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 5)">
+                      5{{ t('home.days') }}
+                    </el-button>
+                  </el-col>
+                  <el-col v-if="!isMobile">
+                    <el-button size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 2)">
+                      2{{ t('home.days') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 3)">
+                      3{{ t('home.days') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 4)">
+                      4{{ t('home.days') }}
+                    </el-button>
+                    <el-button size="small" @click="handleExec('rollback', 5)">
+                      5{{ t('home.days') }}
+                    </el-button>
+                  </el-col>
+                </el-form-item>
+              </el-form>
+              <el-form size="large">
+                <el-form-item>
+                  <el-button size="default" type="success" @click="handleExec('startup', 0)">{{ t('home.startup') }}</el-button>
+                  <el-button size="default" type="primary" @click="handleExec('restart', 0)">{{ t('home.restart') }}</el-button>
+                  <el-button size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
+                  <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
+                  <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
+                    <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
+                  </el-tooltip>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div v-if="roomInfo.clusterSetting.name===''" class="fcc" style="height: 150px">
               <el-result :title="t('home.noServer')" icon="warning"/>
             </div>
-          </template>
-        </el-card>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" style="min-height: 250px">
-          <template #header>
-            <div class="card-header">
-              {{ t('home.sysInfo') }}
+          </el-card>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
+          <el-card style="min-height: 300px" shadow="never">
+            <template #header>
+              <div class="card-header">
+                {{ t('home.interface') }}
+              </div>
+            </template>
+            <div v-if="roomInfo.clusterSetting.name!==''">
+              <el-form label-position="top">
+                <el-form-item :label="t('home.announcement')">
+                  <el-input v-model="announceForm.message" @keyup.enter="handleAnnounce">
+                    <template #append>
+                      <el-button :loading="announceLoading" @click="handleAnnounce">{{ t('home.send') }}</el-button>
+                    </template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item label="Console">
+                  <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
+                    <template #prepend>
+                      <el-select v-model="consoleForm.world" style="width: 115px">
+                        <el-option v-for="world in worldInfo" :disabled="!world.stat"
+                                   :label="world.world" :value="world.world"/>
+                      </el-select>
+                    </template>
+                    <template #append>
+                      <el-button :loading="consoleLoading" @click="handleConsole">{{ t('home.execute') }}</el-button>
+                    </template>
+                  </el-input>
+                </el-form-item>
+              </el-form>
             </div>
-          </template>
-          <div class="fcc">
-            <el-progress :color="progressColors" :percentage="sysInfo.cpu" type="dashboard">
-              <template #default="{ percentage }">
-                <span class="percentage-value">{{ percentage.toFixed(1) }}</span>
-                <span class="percentage-label">CPU</span>
-              </template>
-            </el-progress>
-            <el-progress :color="progressColors" :percentage="sysInfo.memory" style="margin-left: 10%" type="dashboard">
-              <template #default="{ percentage }">
-                <span class="percentage-value">{{ percentage.toFixed(1) }}</span>
-                <span class="percentage-label">{{ t('home.mem') }}</span>
-              </template>
-            </el-progress>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10">
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 300px" shadow="never">
-          <template #header>
-            <div class="card-header">
-              {{ t('home.control') }}
+            <div v-if="roomInfo.clusterSetting.name===''" class="fcc" style="height: 150px">
+              <el-result :title="t('home.noServer')" icon="warning"/>
             </div>
-          </template>
-          <div>
-            <el-form size="large">
-              <el-form-item :label="t('home.rollback')">
-                <el-col v-if="isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 2)">
-                    2{{ t('home.days') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 3)">
-                    3{{ t('home.days') }}
-                  </el-button>
-                </el-col>
-                <el-col v-if="isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 4)">
-                    4{{ t('home.days') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 5)">
-                    5{{ t('home.days') }}
-                  </el-button>
-                </el-col>
-                <el-col v-if="!isMobile">
-                  <el-button size="small" @click="handleExec('rollback', 1)">1{{ t('home.day') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 2)">
-                    2{{ t('home.days') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 3)">
-                    3{{ t('home.days') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 4)">
-                    4{{ t('home.days') }}
-                  </el-button>
-                  <el-button size="small" @click="handleExec('rollback', 5)">
-                    5{{ t('home.days') }}
-                  </el-button>
-                </el-col>
-              </el-form-item>
-            </el-form>
-            <el-form size="large">
-              <el-form-item>
-                <el-button size="default" type="success" @click="handleExec('startup', 0)">{{ t('home.startup') }}</el-button>
-                <el-button size="default" type="primary" @click="handleExec('restart', 0)">{{ t('home.restart') }}</el-button>
-                <el-button size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
-              </el-form-item>
-              <el-form-item>
-                <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
-                <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
-                <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
-                  <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
-                </el-tooltip>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 300px" shadow="never">
-          <template #header>
-            <div class="card-header">
-              {{ t('home.interface') }}
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="10">
+        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
+          <el-card :style="isMobile?'min-height: 300px':'height: 400px'" shadow="never">
+            <template #header>
+              <div class="card-header">
+                世界信息
+              </div>
+            </template>
+            <el-table v-if="worldInfo" :data="worldInfo" border>
+              <el-table-column label="ID" prop="id">
+                <template #default="scope">
+                  <el-tag type="info">{{scope.row.id}}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="世界名" prop="world">
+                <template #default="scope">
+                  <el-tag type="primary">{{scope.row.world}}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="类型" prop="type">
+                <template #default="scope">
+                  <el-tag v-if="scope.row.type==='forest'" type="success">地面</el-tag>
+                  <el-tag v-if="scope.row.type==='cave'" type="warning">洞穴</el-tag>
+                  <el-tag v-if="scope.row.type==='None'" type="danger">未识别</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="主节点" prop="isMaster">
+                <template #default="scope">
+                  <el-tag v-if="scope.row.isMaster" type="primary">
+                    {{language==='zh'?'是':'Yes'}}
+                  </el-tag>
+                  <el-tag v-else type="info">
+                    {{language==='zh'?'否':'No'}}
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="cpu">
+                <template #header>
+                  <div style="display: flex; align-items: center">
+                    <span>CPU</span>
+                    <el-tooltip content="平均CPU使用率，计算周期为100毫秒，仅供参考" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
+                <template #default="scope">
+                  <el-tag type="info">{{scope.row.cpu.toFixed(2)}}%</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="内存(%)" prop="mem">
+                <template #default="scope">
+                  <el-tag type="info">{{scope.row.mem.toFixed(2)}}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="内存(MB)" prop="memSize">
+                <template #default="scope">
+                  <el-tag type="info">{{scope.row.memSize.toFixed(0)}}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="状态" prop="stat">
+                <template #default="scope">
+                  <el-switch v-model="scope.row.stat" inline-prompt
+                             active-text="运行中" inactive-text="已停止"
+                             :loading="worldSwitchLoading"
+                             @change="handleWorldSwitch(scope.row.world)"
+                  >
+                  </el-switch>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div v-else class="fcc" style="height: 300px">
+              <el-result :title="t('home.noServer')" icon="warning"/>
             </div>
-          </template>
-          <div>
-            <el-form label-position="top">
-              <el-form-item :label="t('home.announcement')">
-                <el-input v-model="announceForm.message" @keyup.enter="handleAnnounce">
-                  <template #append>
-                    <el-button :loading="announceLoading" @click="handleAnnounce">{{ t('home.send') }}</el-button>
-                  </template>
-                </el-input>
-              </el-form-item>
-              <el-form-item label="Console">
-                <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
-                  <template #prepend>
-                    <el-select v-model="consoleForm.world" style="width: 115px">
-                      <el-option v-for="world in worldInfo" :disabled="!world.stat"
-                                 :label="world.world" :value="world.world"/>
-                    </el-select>
-                  </template>
-                  <template #append>
-                    <el-button :loading="consoleLoading" @click="handleConsole">{{ t('home.execute') }}</el-button>
-                  </template>
-                </el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10">
-      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 300px':'height: 400px'" shadow="never">
-          <template #header>
-            <div class="card-header">
-              世界信息
-            </div>
-          </template>
-          <el-table v-if="worldInfo" :data="worldInfo" border>
-            <el-table-column label="ID" prop="id">
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.id}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="世界名" prop="world">
-              <template #default="scope">
-                <el-tag type="primary">{{scope.row.world}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="类型" prop="type">
-              <template #default="scope">
-                <el-tag v-if="scope.row.type==='forest'" type="success">地面</el-tag>
-                <el-tag v-if="scope.row.type==='cave'" type="warning">洞穴</el-tag>
-                <el-tag v-if="scope.row.type==='None'" type="danger">未识别</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="主节点" prop="isMaster">
-              <template #default="scope">
-                <el-tag v-if="scope.row.isMaster" type="primary">
-                  {{language==='zh'?'是':'Yes'}}
-                </el-tag>
-                <el-tag v-else type="info">
-                  {{language==='zh'?'否':'No'}}
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="cpu">
-              <template #header>
-                <div style="display: flex; align-items: center">
-                  <span>CPU</span>
-                  <el-tooltip content="平均CPU使用率，计算周期为100毫秒，仅供参考" effect="light" placement="top">
-                    <el-icon size="14" style="margin-left: 2px">
-                      <QuestionFilled/>
-                    </el-icon>
-                  </el-tooltip>
-                </div>
-              </template>
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.cpu.toFixed(2)}}%</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="内存(%)" prop="mem">
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.mem.toFixed(2)}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="内存(MB)" prop="memSize">
-              <template #default="scope">
-                <el-tag type="info">{{scope.row.memSize.toFixed(0)}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="状态" prop="stat">
-              <template #default="scope">
-                <el-switch v-model="scope.row.stat" inline-prompt
-                           active-text="运行中" inactive-text="已停止"
-                           :loading="worldSwitchLoading"
-                           @change="handleWorldSwitch(scope.row.world)"
-                >
-                </el-switch>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div v-else class="fcc" style="height: 300px">
-            <el-result title="未发现世界" icon="warning"/>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </template>
+    <template v-else>
+      <div class="fcc" style="height: 67vh">
+        <el-result title="请创建集群后再使用本平台功能" icon="warning"/>
+      </div>
+    </template>
     <el-dialog v-model="modInfoDialogVisible" :close-on-click-modal="false" :title="t('home.modsTable.title')" width="80%">
       <el-table v-loading="modInfoLoading" :data="modInfoList" border height="70vh"
                 size="small" style="width: 100%" tooltip-effect="light">
@@ -400,6 +413,9 @@ const getSysInfo = () => {
   })
 }
 const getWorldInfo = () => {
+  if (roomInfo.value.clusterSetting.name === '') {
+    return
+  }
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
   }
