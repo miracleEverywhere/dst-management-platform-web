@@ -129,12 +129,12 @@ export const saveFile = (base64Data, fileName) => {
   window.URL.revokeObjectURL(url);
 }
 
-export const formatBytes = (bytes) => {
+export const formatBytes = (bytes, num=2) => {
   if (bytes === 0) return '0 B';
 
   const k = 1024;
   const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(num)) + ' ' + sizes[i];
 }
