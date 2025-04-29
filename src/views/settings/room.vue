@@ -874,7 +874,7 @@ const handleNext = async () => {
   }
   if (step.value === 1) {
     for (let key in dynamicWorldRefs) {
-      if (dynamicWorldRefs[key]) {
+      if (dynamicWorldRefs?.key) {
         await dynamicWorldRefs[key].validate()
       }
     }
@@ -940,7 +940,18 @@ const handleGetClusterSetting = () => {
     clusterSettingForm.value = response.data.clusterSetting
     if (response.data.worlds) {
       worldForm.value = response.data.worlds
+      let maxIndex = 1
+      for (let world of worldForm.value) {
+        let index = parseInt(world.name.replace('World', ''))
+        if (index > maxIndex) {
+          maxIndex = index
+        }
+      }
+      worldTabIndex.value = maxIndex
+      worldTabName.value = 'World' + maxIndex.toString()
     } else {
+      worldTabIndex.value = 1
+      worldTabName.value = 'World1'
       worldForm.value = [{
         name: 'World1',
         isMaster: true,
