@@ -130,7 +130,136 @@
               <div class="tip_success">
                 以下为集群设置，影响当前集群
               </div>
-
+              <el-divider content-position="left">{{ t('setting.system.autoRestart.divider') }}</el-divider>
+              <el-form-item :label="t('setting.system.autoRestart.title')"
+                            prop="sysSetting.autoRestart.enable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.autoRestart.enable">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.autoRestart.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.autoRestart.title2')"
+                            prop="sysSetting.autoRestart.time">
+                <el-row>
+                  <el-col :span="24">
+                    <el-time-picker v-model="systemSettingForm.sysSetting.autoRestart.time" :clearable="false"
+                                    :editable="false" style="width: 120px;margin: 0 8px"
+                                    value-format="HH:mm:ss"/>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.autoUpdate.msg2') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-divider content-position="left">{{ t('setting.system.autoBackup.divider') }}</el-divider>
+              <el-form-item :label="t('setting.system.autoBackup.title')"
+                            prop="sysSetting.autoBackup.enable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.autoBackup.enable">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.autoBackup.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.autoBackup.title2')"
+                            prop="sysSetting.autoBackup.time">
+                <el-row>
+                  <el-col :span="24">
+                    <el-time-picker v-model="systemSettingForm.sysSetting.autoBackup.time" :clearable="false"
+                                    :editable="false" style="width: 120px;margin: 0 8px"
+                                    value-format="HH:mm:ss"/>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.autoBackup.msg2') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-divider content-position="left">{{ t('setting.system.keepalive.divider') }}</el-divider>
+              <el-form-item :label="t('setting.system.keepalive.title0')" prop="sysSetting.keepalive.enable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.keepalive.enable">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.keepalive.msg0') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.keepalive.title')" prop="sysSetting.keepalive.frequency">
+                <el-row>
+                  <el-col :span="24">
+                    <el-input-number v-model="systemSettingForm.sysSetting.keepalive.frequency" controls-position="right">
+                      <template #suffix>
+                        <span v-if="language==='zh'">分钟</span>
+                        <span v-else>Minute</span>
+                      </template>
+                    </el-input-number>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.keepalive.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-divider content-position="left">{{ t('setting.system.bit64.divider') }}</el-divider>
+              <el-form-item :label="t('setting.system.bit64.title')" prop="sysSetting.bit64">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.bit64" :disabled="OSPlatform==='darwin'">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.bit64.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item label="Tick Rate" prop="sysSetting.tickRate">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.tickRate">
+                      <el-radio :value="15">15</el-radio>
+                      <el-radio :value="30">30</el-radio>
+                      <el-radio :value="45">45</el-radio>
+                      <el-radio :value="60">60</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.tickRate.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
             </el-form>
           </div>
         </el-card>

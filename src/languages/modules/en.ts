@@ -414,6 +414,20 @@ export default {
         msg: 'Default is ON, DMP will check the game for updates at the scheduled time and automatically update if available',
         msg2: 'It performs a daily check at this time',
       },
+      autoRestart: {
+        divider: 'Auto Restart',
+        title: 'Auto Restart Switch',
+        title2: 'Auto Restart Time',
+        msg: 'Default is ON, DMP will restart the game at the scheduled time and automatically update mods',
+        msg2: 'It performs a daily restart at this time',
+      },
+      autoBackup: {
+        divider: 'Auto Backup',
+        title: 'Auto Backup Switch',
+        title2: 'Auto Backup Time',
+        msg: 'Default is ON, DMP will backup the game at the scheduled time',
+        msg2: 'It performs a daily backup at this time',
+      },
     },
   },
   tools: {
