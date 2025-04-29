@@ -182,7 +182,14 @@
                       <template #prepend>
                         <el-select v-model="consoleForm.world" style="width: 115px">
                           <el-option v-for="world in worldInfo" :disabled="!world.stat"
-                                     :label="world.world" :value="world.world"/>
+                                     :label="world.world" :value="world.world">
+                            <div class="fcc">
+                              <span style="margin-right: 10px">{{ world.world }}</span>
+                              <el-tag v-if="world.type==='forest'" type="success">地面</el-tag>
+                              <el-tag v-if="world.type==='cave'" type="warning">洞穴</el-tag>
+                              <el-tag v-if="world.type==='None'" type="danger">未识别</el-tag>
+                            </div>
+                          </el-option>
                         </el-select>
                       </template>
                       <template #append>
