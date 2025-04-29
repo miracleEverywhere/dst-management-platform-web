@@ -256,14 +256,14 @@
                     <el-tag type="info">{{scope.row.cpu.toFixed(2)}}%</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="内存(%)" prop="mem">
+                <el-table-column label="内存(MiB)" prop="mem">
                   <template #default="scope">
-                    <el-tag type="info">{{scope.row.mem.toFixed(2)}}</el-tag>
+                    <el-tag type="info">{{scope.row.memSize.toFixed(0)}} [{{scope.row.mem.toFixed(0)}}%]</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="内存(MB)" prop="memSize">
+                <el-table-column label="磁盘" prop="diskUsed">
                   <template #default="scope">
-                    <el-tag type="info">{{scope.row.memSize.toFixed(0)}}</el-tag>
+                    <el-tag type="info">{{formatBytes(scope.row.diskUsed, 0)}}</el-tag>
                   </template>
                 </el-table-column>
                 <el-table-column label="状态" prop="stat">
@@ -422,7 +422,8 @@ const worldInfo = ref([{
   type: '',
   cpu: 0,
   mem: 0,
-  memSize: 0
+  memSize: 0,
+  diskUsed: 0,
 }])
 const getSysInfo = () => {
   homeApi.sysInfo.get().then(response => {
