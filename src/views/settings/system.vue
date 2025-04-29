@@ -429,7 +429,11 @@ const handleSubmit = () => {
         koiMsgInfo(language.value === 'zh' ? '配置未修改' : 'System settings not changes')
       } else {
         submitButtonLoading.value = true
-        settingApi.system.setting.put(systemSettingForm.value).then(response => {
+        const reqForm = {
+          clusterName: globalStore.selectedDstCluster,
+          settings: systemSettingForm.value,
+        }
+        settingApi.system.setting.put(reqForm).then(response => {
           handleGetSystemSetting()
           koiMsgSuccess(response.message)
           if (systemSettingFormOld.value.bit64 !== systemSettingForm.value.bit64) {
