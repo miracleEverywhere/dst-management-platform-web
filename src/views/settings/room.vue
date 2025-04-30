@@ -691,7 +691,7 @@
             <div style="display: flex; align-items: center">
               <span>
               检测到世界数大于2，请点击右侧按钮加入多层世界模组
-            </span>
+              </span>
               <el-button size="small" style="margin-left: 5px"
                          type="warning" @click="openMultiWorldModAddDialog"
               >
@@ -743,6 +743,9 @@
       <template #header>
         请输入世界对应的名字(将会在游戏中显示)
       </template>
+      <div class="tip_warning">
+        注意，多层世界模组为复杂模组，启用该模组会导致 "设置-模组" 页面不可用
+      </div>
       <div style="margin: 50px">
         <el-form :model="multiWorldModForm" label-position="top">
           <el-form-item v-for="(world, worldIndex) in worldForm">
@@ -1342,6 +1345,9 @@ const handleGenerateModSetting = () => {
     },
     enabled=true
   }}`
+  if (clusterModForm.value.mod === "") {
+    clusterModForm.value.mod = "return {}"
+  }
   const modAst = luaparse.parse(clusterModForm.value.mod)
   const multiModSettingAst = luaparse.parse(multiModSetting)
 
