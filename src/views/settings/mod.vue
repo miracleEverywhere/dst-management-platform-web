@@ -110,7 +110,7 @@
                 <el-table-column :label="t('setting.mod.add.table.action')">
                   <template #default="scope">
                     <el-dropdown trigger="click" @command="handleModCommand">
-                      <el-button :loading="actionsLoading" link type="primary">
+                      <el-button :disabled="noEdit" :loading="actionsLoading" link type="primary">
                         {{ t('setting.mod.add.table.action') }}
                         <el-icon class="el-icon--right">
                           <arrow-down/>
@@ -118,9 +118,9 @@
                       </el-button>
                       <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">{{ t('setting.mod.add.table.enable') }}
+                          <el-dropdown-item :disabled="noEdit" :command="{cmd: 'enable', row: scope.row}">{{ t('setting.mod.add.table.enable') }}
                           </el-dropdown-item>
-                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{ t('setting.mod.add.table.delete') }}
+                          <el-dropdown-item :disabled="noEdit" :command="{cmd: 'delete', row: scope.row}">{{ t('setting.mod.add.table.delete') }}
                           </el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
@@ -262,7 +262,7 @@ import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
 import {formatBytes} from "@/utils/tools.js";
-import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts"
+import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts"
 
 
 onMounted(async () => {
@@ -289,6 +289,7 @@ const handleTabClick = (tab, event) => {
 
 const modSettingFormat = ref([])
 const modSettingFormatLoading = ref(false)
+const noEdit = ref(false)
 const handleGetModSetting = () => {
   modSettingFormatLoading.value = true
   clickedModID.value = 0
@@ -297,6 +298,10 @@ const handleGetModSetting = () => {
     clusterName: globalStore.selectedDstCluster,
   }
   settingsApi.mod.settingFormat.get(reqForm).then(response => {
+    if (response.data === 5000) {
+      noEdit.value = true
+      koiMsgWarning(response.message)
+    }
     modSettingFormat.value = response.data
     for (let i of modSettingFormat.value) {
       if (i.id === 1) {
