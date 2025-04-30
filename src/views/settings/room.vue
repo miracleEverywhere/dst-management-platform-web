@@ -941,14 +941,18 @@ const handleGetClusterSetting = () => {
     if (response.data.worlds) {
       worldForm.value = response.data.worlds
       let maxIndex = 1
+      let minIndex = 999999
       for (let world of worldForm.value) {
         let index = parseInt(world.name.replace('World', ''))
         if (index > maxIndex) {
           maxIndex = index
         }
+        if (index < minIndex) {
+          minIndex = index
+        }
       }
       worldTabIndex.value = maxIndex
-      worldTabName.value = 'World' + maxIndex.toString()
+      worldTabName.value = 'World' + minIndex.toString()
     } else {
       worldTabIndex.value = 1
       worldTabName.value = 'World1'
