@@ -5,21 +5,21 @@
         {{ t('logs.logs') }}
         <div v-if="props.historical" class="fcc">
           <span v-if="props.type==='world'||props.type==='chat'"
-                style="font-weight: lighter; font-size: smaller">世界选择：</span>
+                style="font-weight: lighter; font-size: smaller">{{language==='zh'?'世界选择':'World'}}：</span>
           <el-select v-if="props.type==='world'||props.type==='chat'"
                      v-model="historicalLogsForm.worldName" @change="historicalWorldChange"
                      style="width: 10vw; margin-right: 10px; font-weight: lighter">
             <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds"
                        :label="world" :value="world"></el-option>
           </el-select>
-          <span style="font-weight: lighter; font-size: smaller">日志文件：</span>
+          <span style="font-weight: lighter; font-size: smaller">{{language==='zh'?'日志文件':'File'}}：</span>
           <el-select v-model="selectedFile" size="default" style="width: 15vw;font-weight: lighter" @change="getFileConnect">
             <el-option v-for="item in fileList" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </div>
         <div v-if="!props.historical" class="fcc">
           <span v-if="props.type==='world'||props.type==='chat'"
-                style="font-weight: lighter; font-size: smaller">世界选择：</span>
+                style="font-weight: lighter; font-size: smaller">{{language==='zh'?'世界选择':'World'}}：</span>
           <el-select v-if="props.type==='world'||props.type==='chat'"
                      v-model="logsForm.worldName" @change="logsValue=''"
                      style="width: 10vw; margin-right: 10px; font-weight: lighter">

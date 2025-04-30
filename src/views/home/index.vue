@@ -219,19 +219,25 @@
                     <el-tag type="info">{{scope.row.id}}</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="世界名" prop="world">
+                <el-table-column :label="t('home.worldName')" prop="world">
                   <template #default="scope">
                     <el-tag type="primary">{{scope.row.world}}</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="类型" prop="type">
+                <el-table-column :label="t('home.type')" prop="type">
                   <template #default="scope">
-                    <el-tag v-if="scope.row.type==='forest'" type="success">地面</el-tag>
-                    <el-tag v-if="scope.row.type==='cave'" type="warning">洞穴</el-tag>
-                    <el-tag v-if="scope.row.type==='None'" type="danger">未识别</el-tag>
+                    <el-tag v-if="scope.row.type==='forest'" type="success">
+                      {{language==='zh'?'地面':'Ground'}}
+                    </el-tag>
+                    <el-tag v-if="scope.row.type==='cave'" type="warning">
+                      {{language==='zh'?'洞穴':'Cave'}}
+                    </el-tag>
+                    <el-tag v-if="scope.row.type==='None'" type="danger">
+                      {{language==='zh'?'未识别':'Undefined'}}
+                    </el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="主节点" prop="isMaster">
+                <el-table-column :label="t('home.isMaster')" prop="isMaster">
                   <template #default="scope">
                     <el-tag v-if="scope.row.isMaster" type="primary">
                       {{language==='zh'?'是':'Yes'}}
@@ -256,20 +262,20 @@
                     <el-tag type="info">{{scope.row.cpu.toFixed(2)}}%</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="内存(MiB)" prop="mem">
+                <el-table-column :label="t('home.memory')+'(MiB)'" prop="mem">
                   <template #default="scope">
                     <el-tag type="info">{{scope.row.memSize.toFixed(0)}} [{{scope.row.mem.toFixed(0)}}%]</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="磁盘" prop="diskUsed">
+                <el-table-column :label="t('home.disk')" prop="diskUsed">
                   <template #default="scope">
                     <el-tag type="info">{{formatBytes(scope.row.diskUsed, 0)}}</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column label="状态" prop="stat">
+                <el-table-column :label="t('home.status')" prop="stat">
                   <template #default="scope">
                     <el-switch v-model="scope.row.stat" inline-prompt
-                               active-text="运行中" inactive-text="已停止"
+                               :active-text="t('home.running')" :inactive-text="t('home.terminated')"
                                :loading="worldSwitchLoading"
                                @change="handleWorldSwitch(scope.row.world)"
                     >

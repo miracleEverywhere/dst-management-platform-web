@@ -68,11 +68,11 @@
         <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
           <template #header>
             <div class="card-header">
-              <span>世界设置</span>
+              <span>{{t('setting.worldSetting')}}</span>
               <div>
                 <el-dropdown trigger="click" @command="handleCreateWorld">
                   <el-button :disabled="worldLevelDataTabName!=='Code'" type="success">
-                    一键带入
+                    {{t('setting.oneClick')}}
                     <el-icon class="el-icon--right">
                       <arrow-down/>
                     </el-icon>
@@ -81,19 +81,19 @@
                     <el-dropdown-menu>
                       <el-dropdown-item :command="{clusterType: 'endless', worldType: 'ground'}"
                                         :disabled="clusterSettingForm.gameMode!=='endless'">
-                        无尽-地面
+                        {{t('setting.endless')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'endless', worldType: 'cave'}"
                                         :disabled="clusterSettingForm.gameMode!=='endless'">
-                        无尽-洞穴
+                        {{t('setting.endless')}}-{{t('setting.caveSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'survival', worldType: 'ground'}"
                                         :disabled="clusterSettingForm.gameMode!=='survival'">
-                        生存-地面
+                        {{t('setting.survival')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'survival', worldType: 'cave'}"
                                         :disabled="clusterSettingForm.gameMode!=='survival'">
-                        生存-洞穴
+                        {{t('setting.survival')}}-{{t('setting.caveSettingMobile')}}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
@@ -114,8 +114,8 @@
                          inline label-width="120px" style="margin-top: 10px">
                   <el-row>
                     <el-col :span="8" :xs="12">
-                      <el-form-item label="主世界" prop="isMaster">
-                        <el-tooltip :show-after="100" content="注意！一个集群中只能有一个主节点" effect="light" placement="top">
+                      <el-form-item :label="t('setting.isMaster')" prop="isMaster">
+                        <el-tooltip :show-after="100" :content="t('setting.isMasterTip')" effect="light" placement="top">
                           <el-switch v-model="world.isMaster" :active-text="language==='zh'?'是':'Y'"
                                      :inactive-text="language==='zh'?'否':'N'"
                                      inline-prompt
@@ -124,8 +124,8 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="8" :xs="12">
-                      <el-form-item label="用户路径编码" prop="encodeUserPath">
-                        <el-tooltip :show-after="100" content="是否对玩家存档数据的保存路径进行编码" effect="light"
+                      <el-form-item :label="t('setting.system.encodeUserPath.divider')" prop="encodeUserPath">
+                        <el-tooltip :show-after="100" :content="t('setting.encodeUserPathTip')" effect="light"
                                     placement="top">
                           <el-switch v-model="world.encodeUserPath" :active-text="language==='zh'?'是':'Y'"
                                      :inactive-text="language==='zh'?'否':'N'"
@@ -135,8 +135,8 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="8" :xs="24">
-                      <el-form-item label="游戏端口" prop="serverPort">
-                        <el-tooltip :show-after="100" content="游戏暴露的udp端口" effect="light" placement="top">
+                      <el-form-item :label="t('setting.serverPort')" prop="serverPort">
+                        <el-tooltip :show-after="100" :content="t('setting.serverPortTip')" effect="light" placement="top">
                           <el-input v-model="world.serverPort" size="default" type="number"/>
                         </el-tooltip>
                       </el-form-item>
@@ -146,7 +146,7 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')"
                                     prop="shardMasterPort">
-                        <el-tooltip :show-after="100" content="无特殊需求请勿更改，cluster.ini -> [SHARD] -> master_port"
+                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，cluster.ini -> [SHARD] -> master_port'"
                                     effect="light"
                                     placement="top">
                           <el-input v-model="world.shardMasterPort" size="default" type="number"/>
@@ -156,7 +156,7 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')"
                                     prop="steamMasterPort">
-                        <el-tooltip :show-after="100" content="无特殊需求请勿更改，server.ini -> [STEAM] -> server_master_port"
+                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> server_master_port'"
                                     effect="light"
                                     placement="top">
                           <el-input v-model="world.steamMasterPort" size="default" type="number"/>
@@ -166,7 +166,7 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')"
                                     prop="steamAuthenticationPort">
-                        <el-tooltip :show-after="100" content="无特殊需求请勿更改，server.ini -> [STEAM] -> authentication_port"
+                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> authentication_port'"
                                     effect="light"
                                     placement="top">
                           <el-input v-model="world.steamAuthenticationPort" size="default" type="number"/>
@@ -176,8 +176,8 @@
                   </el-row>
                   <el-row>
                     <el-col :span="8" :xs="24">
-                      <el-form-item label="主世界IP" prop="shardMasterIp">
-                        <el-tooltip :show-after="100" content="主世界IP，如果主世界不再当前云服务器，则需要输入主世界的公网IP"
+                      <el-form-item :label="t('setting.shardMasterIp')" prop="shardMasterIp">
+                        <el-tooltip :show-after="100" :content="t('setting.shardMasterIpTip')"
                                     effect="light" placement="top">
                           <el-input v-model="world.shardMasterIp" :disabled="world.isMaster"
                                     size="default"/>
@@ -188,7 +188,7 @@
                     <el-col :span="8" :xs="24">
                       <el-form-item :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
                         <el-tooltip :show-after="100"
-                                    content="主世界和从世界进行交互的认证密码，所有世界的密码必须一致，否则会无法连接"
+                                    :content="t('setting.clusterKeyTip')"
                                     effect="light" placement="top">
                           <el-input v-model="world.clusterKey" autocomplete="new-password" show-password size="default"
                                     type="password"/>
@@ -200,7 +200,7 @@
               </el-row>
               <div style="width: 100%">
                 <el-tabs v-model="worldLevelDataTabName" @tab-change="handleWorldTabChange">
-                  <el-tab-pane label="配置文件" name="Code">
+                  <el-tab-pane :label="language==='zh'?'配置文件':'Code'" name="Code">
                     <div style="width: 100%">
                       <el-form :model="world">
                         <el-form-item>
@@ -690,12 +690,12 @@
           <div v-if="worldForm.length > 2" class="tip_warning">
             <div style="display: flex; align-items: center">
               <span>
-              检测到世界数大于2，请点击右侧按钮加入多层世界模组
+                {{t('setting.multiWorldTip')}}
               </span>
-              <el-button size="small" style="margin-left: 5px"
+              <el-button size="small" style="margin-left: 10px"
                          type="warning" @click="openMultiWorldModAddDialog"
               >
-                多层世界
+                {{language==='zh'?'多层世界':'Multi-world'}}
               </el-button>
             </div>
           </div>
@@ -741,30 +741,36 @@
     </el-row>
     <el-dialog v-model="multiWorldModAddDialog" width="50%">
       <template #header>
-        请输入世界对应的名字(将会在游戏中显示)
+        {{t('setting.multiWorldDialog.title')}}
       </template>
       <div class="tip_warning">
-        注意，多层世界模组为复杂模组，启用该模组会导致 "设置-模组" 页面不可用
+        {{t('setting.multiWorldDialog.tip')}}
       </div>
       <div style="margin: 50px">
-        <el-form :model="multiWorldModForm" label-position="top">
-          <el-form-item v-for="(world, worldIndex) in worldForm">
+        <el-form :model="multiWorldModNameForm" label-position="top">
+          <el-form-item v-for="world in worldForm">
             <template #label>
               <div style="display: flex; align-items: center">
-                <span style="margin-right: 10px">世界{{ worldIndex + 1 }}</span>
+                <span style="margin-right: 10px">{{ world.name }}</span>
                 <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
-                  地面
+                  {{language==='zh'?'地面':'Ground'}}
                 </el-tag>
                 <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
-                  洞穴
+                  {{language==='zh'?'洞穴':'Cave'}}
                 </el-tag>
               </div>
             </template>
-            <el-input v-model="multiWorldModForm[`${worldIndex+1}`]" style="width: 100%"></el-input>
+            <el-input v-model="multiWorldModNameForm[`${parseInt(world.name.replace('World', ''))}`]"
+                      :placeholder="t('setting.multiWorldDialog.placeholder1')"
+                      style="width: 60%"/>
+            <el-input v-model="multiWorldModNumForm[`${parseInt(world.name.replace('World', ''))}`]"
+                      :placeholder="t('setting.multiWorldDialog.placeholder2')"
+                      type="number"
+                      style="margin-left: 3%;width: 37%"/>
           </el-form-item>
           <div style="display: flex; justify-content: flex-end; padding-top: 10px">
             <el-button type="primary" @click="handleGenerateModSetting">
-              生成配置
+              {{language==='zh'?'生成配置':'Generate'}}
             </el-button>
           </div>
         </el-form>
@@ -1310,24 +1316,32 @@ const handleWorldTabsEditChange = () => {
 }
 
 const multiWorldModAddDialog = ref(false)
-const multiWorldModForm = ref({})
+const multiWorldModNameForm = ref({})
+const multiWorldModNumForm = ref({})
 const openMultiWorldModAddDialog = () => {
-  multiWorldModForm.value = {}
+  multiWorldModNameForm.value = {}
+  multiWorldModNumForm.value = {}
   multiWorldModAddDialog.value = true
 }
 
 const handleGenerateModSetting = () => {
-  if (Object.keys(multiWorldModForm.value).length!==worldForm.value.length) {
+  if (Object.keys(multiWorldModNameForm.value).length!==worldForm.value.length) {
     koiMsgError(language.value === 'zh'?'世界名为必填项':'World name is required')
     return
   }
 
   let worldName = ""
-  for (let key in multiWorldModForm.value) {
-    worldName = worldName + `["${key}"]="${multiWorldModForm.value[key]}",`
+  for (let key in multiWorldModNameForm.value) {
+    worldName = worldName + `["${key}"]="${multiWorldModNameForm.value[key]}",`
+  }
+
+  let worldNum = ""
+  for (let key in multiWorldModNumForm.value) {
+    worldNum = worldNum +`["${key}"]="${multiWorldModNumForm.value[key]}",`
   }
 
   worldName = worldName.slice(0, -1)
+  worldNum = worldNum.slice(0, -1)
 
   let multiModSetting = `return {["workshop-1438233888"]={
     configuration_options={
@@ -1338,7 +1352,7 @@ const handleGenerateModSetting = () => {
       language="auto",
       migration_postern=false,
       no_bat=true,
-      population_limit={},
+      population_limit={${worldNum}},
       say_dest=true,
       world_name={${worldName}},
       world_prompt=true

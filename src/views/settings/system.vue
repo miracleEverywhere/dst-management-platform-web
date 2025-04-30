@@ -17,7 +17,7 @@
                      :size="isMobile?'small':'large'"
                      label-position="top">
               <div class="tip_error">
-                以下为全局设置，影响所有集群，仅管理员可修改
+                {{t('setting.system.tip1')}}
               </div>
               <el-divider content-position="left">{{ t('setting.system.playerList.divider') }}</el-divider>
               <el-form-item :label="t('setting.system.playerList.title')"
@@ -128,7 +128,7 @@
                 </el-row>
               </el-form-item>
               <div class="tip_success">
-                以下为集群设置，影响当前集群
+                {{t('setting.system.tip2')}}
               </div>
               <el-divider content-position="left">{{ t('setting.system.autoRestart.divider') }}</el-divider>
               <el-form-item :label="t('setting.system.autoRestart.title')"
