@@ -555,12 +555,17 @@ export default {
     token: {
       title: 'Create Token',
       createButton: 'Create',
-      expiredTime: 'Expired Time:',
+      expiredTime: 'Please select expire time',
       tip: {
         tip1: 'The token will expire on',
         tip2: '',
         tip3: 'The DMP will not store the token, please keep it safe'
-
+      },
+      options: {
+        day: 'One Day',
+        month: 'One Month',
+        year: 'One Year',
+        forever: 'Forever'
       },
       usage: 'Usage: Authorization is required, X-I18n-Lang is optional with a default value of zh',
     }

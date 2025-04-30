@@ -4,22 +4,22 @@
       <template #header>
         <div class="card-header">
           <span>{{ t('tools.token.title') }}</span>
-          <el-button type="primary" @click="handleCreateToken">{{ t('tools.token.createButton') }}</el-button>
+          <div style="display: flex">
+            <el-select v-model="apiForm.expiredTime"
+                       :placeholder="t('tools.token.expiredTime')"
+                       style="width: 20vw; margin-right: 20px; font-weight: lighter">
+              <el-option :label="t('tools.token.options.day')" :value="24"/>
+              <el-option :label="t('tools.token.options.month')" :value="720"/>
+              <el-option :label="t('tools.token.options.year')" :value="8760"/>
+              <el-option :label="t('tools.token.options.forever')" :value="8751240"/>
+            </el-select>
+            <el-button type="primary" @click="handleCreateToken">{{ t('tools.token.createButton') }}</el-button>
+          </div>
         </div>
       </template>
       <div>
-        <div style="display: flex; align-items: center">
-          <span>{{ t('tools.token.expiredTime') }}</span>
-          <el-date-picker v-model="apiForm.expiredTime" format="YYYY-MM-DD" size="large"
-                          style="width: 160px; margin-left: 5px" type="date" value-format="x"/>
-        </div>
-
         <div v-if="token">
           <div class="tip custom-block">
-            <div>
-              {{ t('tools.token.tip.tip1') }} <span style="font-weight: bolder">{{ timestamp2time(apiForm.expiredTime) }}</span>
-              {{ t('tools.token.tip.tip2') }}
-            </div>
             <div style="margin-top: 5px">
               {{ t('tools.token.tip.tip3') }}
             </div>
@@ -53,9 +53,8 @@ import {computed, onMounted, ref} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {DocumentCopy} from "@element-plus/icons-vue";
-import {timestamp2time} from "@/utils/tools.js";
 import {MdPreview} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 
@@ -63,19 +62,24 @@ import 'md-editor-v3/lib/preview.css';
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const language = computed(() => globalStore.language);
 const isDark = computed(() => globalStore.isDark);
 
 onMounted(async () => {
-  apiForm.value.expiredTime = new Date().getTime()
+
 })
 
 const apiForm = ref({
-  expiredTime: 0
+  expiredTime: null
 })
 
 const token = ref('')
 
 const handleCreateToken = () => {
+  if (apiForm.value.expiredTime === null ) {
+    koiMsgError(language.value === 'zh'?'请选择过期时间':'Please select expire time')
+    return
+  }
   toolsApi.token.create.post(apiForm.value).then(response => {
     token.value = response.data
     koiMsgSuccess(response.message)

@@ -557,11 +557,17 @@ export default {
     token: {
       title: '创建令牌',
       createButton: '创建',
-      expiredTime: '过期时间：',
+      expiredTime: '请选择令牌过期时间',
       tip: {
         tip1: '该令牌将于',
         tip2: '过期',
         tip3: '系统不会存储该令牌，请妥善保存'
+      },
+      options: {
+        day: '一天',
+        month: '一月',
+        year: '一年',
+        forever: '永久'
       },
       usage: '使用方法，其中Authorization为必填，X-I18n-Lang为选填，默认值为zh',
     }
