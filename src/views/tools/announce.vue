@@ -74,14 +74,20 @@
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {computed, nextTick, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import toolsApi from "@/api/tools"
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {ElMessageBox} from "element-plus";
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
@@ -91,7 +97,10 @@ onMounted(() => {
 
 const announceData = ref([])
 const getAnnounceData = () => {
-  toolsApi.announce.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster
+  }
+  toolsApi.announce.get(reqForm).then(response => {
     announceData.value = response.data
   })
 }
@@ -141,7 +150,11 @@ const handleAnnounce = () => {
 const handleAnnouncePost = () => {
   announceFormRef.value.validate(valid => {
     if (valid) {
-      toolsApi.announce.post(announceForm.value).then(response => {
+      const reqForm = {
+        clusterName: globalStore.selectedDstCluster,
+        autoAnnounce: announceForm.value
+      }
+      toolsApi.announce.post(reqForm).then(response => {
         addDialogVisible.value = false
         koiMsgSuccess(response.message)
         getAnnounceData()
@@ -161,7 +174,11 @@ const handleAnnounceDelete = (form) => {
     }
   )
     .then(() => {
-      toolsApi.announce.delete(form).then(response => {
+      const reqForm = {
+        clusterName: globalStore.selectedDstCluster,
+        autoAnnounce: form
+      }
+      toolsApi.announce.delete(reqForm).then(response => {
         koiMsgSuccess(response.message)
         getAnnounceData()
       })
@@ -183,7 +200,11 @@ const openAnnounceUpdate = (row) => {
 const handleAnnouncePut = () => {
   announceFormRef.value.validate(valid => {
     if (valid) {
-      toolsApi.announce.put(announceForm.value).then(response => {
+      const reqForm = {
+        clusterName: globalStore.selectedDstCluster,
+        autoAnnounce: announceForm.value
+      }
+      toolsApi.announce.put(reqForm).then(response => {
         addDialogVisible.value = false
         koiMsgSuccess(response.message)
         getAnnounceData()
@@ -191,6 +212,25 @@ const handleAnnouncePut = () => {
     }
   })
 }
+
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 </script>
 
 <style scoped>
