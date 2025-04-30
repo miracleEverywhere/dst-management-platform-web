@@ -7,11 +7,11 @@
                  v-if="globalStore.dstClusters" :label="cluster.clusterDisplayName"
                  :value="cluster.clusterName">
       </el-option>
-      <el-option value="" label="新建" @click="handleClusterNew"/>
+      <el-option value="" :label="language==='zh'?'新建集群':'New Cluster'" @click="handleClusterNew"/>
     </el-select>
     <el-dialog v-model="newClusterDialog" width="60%" @closed="handleDialogClose">
       <template #header>
-        新建集群
+        {{language==='zh'?'新建集群':'New Cluster'}}
       </template>
       <el-form ref="clusterFormRef" :model="clusterForm" label-position="top"
                :rules="clusterFormRules" :validate-on-rule-change="false">
@@ -79,6 +79,9 @@ const saveLastCluster = (visible) => {
 }
 
 const handleClusterNew = () => {
+  if (clusterFormRef.value) {
+    clusterFormRef.value.clearValidate()
+  }
   newClusterDialog.value = true
 }
 
@@ -88,9 +91,22 @@ const clusterForm = ref({
   clusterName: "",
   clusterDisplayName: "",
 })
+const checkClusterName = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error(language.value === 'zh' ? '此条目为必填项' : 'Please input this item'));
+  }
+  if (!/^[a-zA-Z]/.test(value)) {
+    return callback(new Error(language.value === 'zh' ? '第一个字符必须是字母' : 'First character must be a letter'));
+  }
+  if (!/^[a-zA-Z0-9]+$/.test(value)) {
+    return callback(new Error(language.value === 'zh' ? '只能包含字母和数字' : 'Only letters and numbers are allowed'));
+  }
+
+  callback();
+};
 const clusterFormRules = {
   clusterName: [
-    {required: true, message: t('header.clusters.validateClusterName')}
+    {validator: checkClusterName}
   ],
 }
 const createLoading = ref(false)
