@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { koiSessionStorage, koiLocalStorage } from "@/utils/storage.ts";
 // import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
@@ -31,8 +30,6 @@ const router = useRouter();
 
 const globalStore = useGlobalStore()
 const authStore = useAuthStore()
-
-const language = computed(() => globalStore.language)
 
 // 退出登录
 const handleLayout = () => {
