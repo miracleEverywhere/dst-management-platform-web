@@ -26,6 +26,18 @@ export default {
       return await http.post(this.url, data);
     }
   },
+  allScreens: {
+    url: `/home/cluster/all_screens`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    }
+  },
+  screenKill: {
+    url: `/home/cluster/screen_kill`,
+    post: async function(data){
+      return await http.post(this.url, data);
+    }
+  },
   interface: {
     announce: {
       url: `/home/announce`,

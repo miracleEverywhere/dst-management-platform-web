@@ -210,7 +210,10 @@
             <el-card :style="isMobile?'min-height: 300px':'height: 400px'" shadow="never">
               <template #header>
                 <div class="card-header">
-                  世界信息
+                  <span>{{language==='zh'?'世界信息':'World Info'}}</span>
+                  <el-button link type="primary" @click="handleOpenAllScreensDialog">
+                    {{language==='zh'?'检查世界':'Check World'}}
+                  </el-button>
                 </div>
               </template>
               <el-table v-if="worldInfo" :data="worldInfo" border>
@@ -323,6 +326,29 @@
         <el-table-column :label="t('home.modsTable.tags')" prop="tags">
           <template #default="scope">
             <el-tag v-for="item in scope.row.tags" style="margin: 0 5px 5px 0;">{{ item.display_name }}</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
+    <el-dialog v-model="allScreensDialogVisible" width="60%">
+      <template #header>
+        {{t('home.screenDialog.title')}}
+      </template>
+      <div class="tip">
+        {{t('home.screenDialog.tip1')}}
+      </div>
+      <div class="tip_success">
+        {{t('home.screenDialog.tip2')}}
+      </div>
+      <el-table :data="allScreens" border>
+        <el-table-column :label="t('home.screenDialog.column1')" prop="screenName">
+          <template #default="scope">
+            <el-tag type="primary">{{scope.row.screenName}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column :label="t('home.screenDialog.column2')">
+          <template #default="scope">
+            <el-button type="danger" link @click="handleKillScreen(scope.row.screenName)">{{t('home.screenDialog.stop')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -623,6 +649,27 @@ const handleOpenModDialog = () => {
     modInfoList.value = response.data
   }).finally(() => {
     modInfoLoading.value = false
+  })
+}
+
+const allScreens = ref([])
+const allScreensDialogVisible = ref(false)
+const handleOpenAllScreensDialog = () => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  homeApi.allScreens.get(reqForm).then(response => {
+     allScreens.value = response.data
+    allScreensDialogVisible.value = true
+  })
+}
+const handleKillScreen = (screenName) => {
+  const reqForm = {
+    screenName: screenName
+  }
+  homeApi.screenKill.post(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+    handleOpenAllScreensDialog()
   })
 }
 
