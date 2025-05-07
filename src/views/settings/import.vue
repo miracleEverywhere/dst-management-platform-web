@@ -2,14 +2,14 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+        <el-card shadow="never">
           <template #header>
             <div class="card-header">
               {{ t('setting.import.title') }}
               <el-button type="success" @click="helpDialogVisible=true">{{ t('setting.import.buttonHelp') }}</el-button>
             </div>
           </template>
-          <div>
+          <div style="height: auto">
             <div style="line-height: 30px;">
               {{ t('setting.import.text1') }}
             </div>

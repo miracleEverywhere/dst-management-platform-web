@@ -24,13 +24,11 @@
               {{ t('tools.token.tip.tip3') }}
             </div>
           </div>
-
           <el-input v-model="token" style="max-width: 100%">
             <template #append>
               <el-button v-copy="token" :icon="DocumentCopy"/>
             </template>
           </el-input>
-
           <div style="margin-top: 20px">
             <div>
               {{ t('tools.token.usage') }}
@@ -40,8 +38,9 @@
                        previewTheme="github"/>
           </div>
         </div>
-
-
+        <div v-else style="height: 60vh" class="fcc">
+          <el-result :title="t('tools.token.tip.create')" icon="info"/>
+        </div>
       </div>
     </el-card>
   </div>

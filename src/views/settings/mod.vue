@@ -43,7 +43,7 @@
       <el-tab-pane :label="t('setting.mod.tab.add')" name="Add">
         <el-row :gutter="10">
           <el-col :span="24">
-            <el-card v-loading="downloadedModLoading" shadow="never" style="height: 75vh">
+            <el-card v-loading="downloadedModLoading" shadow="never" style="height: 78vh">
               <template #header>
                 <div class="card-header">
                   <span>{{ t('setting.mod.add.header.title') }}</span>
@@ -266,6 +266,10 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiMsgWarning} from "@/utils/koi
 
 
 onMounted(async () => {
+  windowHeight.value = window.innerHeight;
+  window.addEventListener("resize", () => {
+    windowHeight.value = window.innerHeight;
+  });
   await handleModSearch()
   await handleGetModSetting()
   handleGetOSPlatform()
@@ -276,6 +280,7 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const windowHeight = ref(0)
 
 const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {

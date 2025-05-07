@@ -4,7 +4,7 @@
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
         <el-tabs v-model="activeTab" @tab-click="handleTabClick">
           <el-tab-pane :label="$t('setting.players')" name="players">
-            <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+            <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.players') }}
@@ -61,7 +61,7 @@
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="$t('setting.adminList')" name="adminList">
-            <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+            <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.adminList') }}
@@ -99,7 +99,7 @@
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="$t('setting.blockList')" name="blockList">
-            <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+            <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.blockList') }}
@@ -138,7 +138,7 @@
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="$t('setting.whiteList')" name="whiteList">
-            <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+            <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.whiteList') }}
@@ -176,7 +176,7 @@
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="t('setting.historyPlayer')" name="history">
-            <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+            <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   <el-tooltip :content="t('setting.historyPlayerTip')" effect="light" placement="top">

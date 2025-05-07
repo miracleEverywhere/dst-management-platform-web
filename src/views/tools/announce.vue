@@ -2,7 +2,7 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 500px':'min-height: 700px'" shadow="never">
+        <el-card style="min-height: 70vh" shadow="never">
           <template #header>
             <div class="card-header">
               {{ t('tools.announce.title') }}
