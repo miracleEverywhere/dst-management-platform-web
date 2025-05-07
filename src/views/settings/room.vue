@@ -109,96 +109,76 @@
               <el-row>
                 <el-form :ref="(el) => (dynamicWorldRefs[world.name] = el)"
                          :label-position="isMobile||language==='en'?'top':'left'" :model="world"
-                         :rules="worldFormRules"
-                         :size="isMobile?'small':'large'"
+                         :rules="worldFormRules" :size="isMobile?'small':'large'"
                          inline label-width="120px" style="margin-top: 10px">
-                  <el-row>
-                    <el-col :span="8" :xs="12">
-                      <el-form-item :label="t('setting.isMaster')" prop="isMaster">
-                        <el-tooltip :show-after="100" :content="t('setting.isMasterTip')" effect="light" placement="top">
-                          <el-switch v-model="world.isMaster" :active-text="language==='zh'?'是':'Y'"
-                                     :inactive-text="language==='zh'?'否':'N'"
-                                     inline-prompt
-                          ></el-switch>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8" :xs="12">
-                      <el-form-item :label="t('setting.system.encodeUserPath.divider')" prop="encodeUserPath">
-                        <el-tooltip :show-after="100" :content="t('setting.encodeUserPathTip')" effect="light"
-                                    placement="top">
-                          <el-switch v-model="world.encodeUserPath" :active-text="language==='zh'?'是':'Y'"
-                                     :inactive-text="language==='zh'?'否':'N'"
-                                     inline-prompt
-                          ></el-switch>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8" :xs="24">
-                      <el-form-item :label="t('setting.serverPort')" prop="serverPort">
-                        <el-tooltip :show-after="100" :content="t('setting.serverPortTip')" effect="light" placement="top">
-                          <el-input v-model="world.serverPort" size="default" type="number"/>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row>
-                    <el-col :span="8" :xs="24">
-                      <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')"
-                                    prop="shardMasterPort">
-                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，cluster.ini -> [SHARD] -> master_port'"
-                                    effect="light"
-                                    placement="top">
-                          <el-input v-model="world.shardMasterPort" size="default" type="number"/>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8" :xs="24">
-                      <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')"
-                                    prop="steamMasterPort">
-                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> server_master_port'"
-                                    effect="light"
-                                    placement="top">
-                          <el-input v-model="world.steamMasterPort" size="default" type="number"/>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8" :xs="24">
-                      <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')"
-                                    prop="steamAuthenticationPort">
-                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> authentication_port'"
-                                    effect="light"
-                                    placement="top">
-                          <el-input v-model="world.steamAuthenticationPort" size="default" type="number"/>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row>
-                    <el-col :span="8" :xs="24">
-                      <el-form-item :label="t('setting.shardMasterIp')" prop="shardMasterIp">
-                        <el-tooltip :show-after="100" :content="t('setting.shardMasterIpTip')"
-                                    effect="light" placement="top">
-                          <el-input v-model="world.shardMasterIp" :disabled="world.isMaster"
-                                    size="default"/>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col v-if="!isMobile" :span="8"></el-col>
-                    <el-col :span="8" :xs="24">
-                      <el-form-item :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey">
-                        <el-tooltip :show-after="100"
-                                    :content="t('setting.clusterKeyTip')"
-                                    effect="light" placement="top">
-                          <el-input v-model="world.clusterKey" autocomplete="new-password" show-password size="default"
-                                    type="password"/>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
+                  <div style="display: flex; flex-wrap: wrap;">
+                    <el-form-item :label="t('setting.isMaster')" prop="isMaster" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.isMasterTip')" effect="light" placement="top">
+                        <el-switch v-model="world.isMaster" :active-text="language==='zh'?'是':'Y'"
+                                   :inactive-text="language==='zh'?'否':'N'"
+                                   inline-prompt
+                        ></el-switch>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.system.encodeUserPath.divider')" prop="encodeUserPath" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.encodeUserPathTip')" effect="light"
+                                  placement="top">
+                        <el-switch v-model="world.encodeUserPath" :active-text="language==='zh'?'是':'Y'"
+                                   :inactive-text="language==='zh'?'否':'N'"
+                                   inline-prompt
+                        ></el-switch>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.roomWorldForm.id')" prop="id" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.idTip')" effect="light" placement="top">
+                        <el-input v-model.number="world.id" :disabled="world.saved" size="default" type="number"/>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.serverPort')" prop="serverPort" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.serverPortTip')" effect="light" placement="top">
+                        <el-input v-model.number="world.serverPort" size="default" type="number"/>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')"
+                                  prop="shardMasterPort" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，cluster.ini -> [SHARD] -> master_port'"
+                                  effect="light" placement="top">
+                        <el-input v-model.number="world.shardMasterPort" size="default" type="number"/>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')"
+                                  prop="steamMasterPort" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> server_master_port'"
+                                  effect="light" placement="top">
+                        <el-input v-model.number="world.steamMasterPort" size="default" type="number"/>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')"
+                                  prop="steamAuthenticationPort" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> authentication_port'"
+                                  effect="light" placement="top">
+                        <el-input v-model.number="world.steamAuthenticationPort" size="default" type="number"/>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.shardMasterIp')" prop="shardMasterIp" style="width: 250px">
+                      <el-tooltip :show-after="100" :content="t('setting.shardMasterIpTip')"
+                                  effect="light" placement="top">
+                        <el-input v-model="world.shardMasterIp" :disabled="world.isMaster"
+                                  size="default"/>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-form-item :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey" style="width: 250px">
+                      <el-tooltip :show-after="100"
+                                  :content="t('setting.clusterKeyTip')"
+                                  effect="light" placement="top">
+                        <el-input v-model="world.clusterKey" autocomplete="new-password" show-password size="default"
+                                  type="password"/>
+                      </el-tooltip>
+                    </el-form-item>
+                  </div>
                 </el-form>
               </el-row>
-              <div style="width: 100%">
+              <div style="width: 99%">
                 <el-tabs v-model="worldLevelDataTabName" @tab-change="handleWorldTabChange">
                   <el-tab-pane :label="language==='zh'?'配置文件':'Code'" name="Code">
                     <div style="width: 100%">
@@ -823,7 +803,6 @@ const worldPortFactor = computed(() => {
   return index !== -1 ? index : 0
 })
 
-
 const route = useRoute();
 const router = useRouter();
 const keepAliveStore = useKeepAliveStore();
@@ -959,6 +938,7 @@ const handleGetClusterSetting = () => {
         if (index < minIndex) {
           minIndex = index
         }
+        world['saved'] = true
       }
       worldTabIndex.value = maxIndex
       worldTabName.value = 'World' + minIndex.toString()
@@ -966,6 +946,7 @@ const handleGetClusterSetting = () => {
       worldTabIndex.value = 1
       worldTabName.value = 'World1'
       worldForm.value = [{
+        id: 1,
         name: 'World1',
         isMaster: true,
         levelData: '',
@@ -976,6 +957,7 @@ const handleGetClusterSetting = () => {
         shardMasterIp: '127.0.0.1',
         clusterKey: 'supersecretkey',
         encodeUserPath: true,
+        saved: false
       }]
     }
     clusterModForm.value.mod = response.data.mod
@@ -1177,6 +1159,7 @@ const astToLua = (astNode, indentLevel = 0) => {
 const worldTabIndex = ref(1)
 const worldTabName = ref('World1')
 const worldForm = ref([{
+  id: 1,
   name: 'World1',
   isMaster: true,
   levelData: '',
@@ -1189,6 +1172,7 @@ const worldForm = ref([{
   encodeUserPath: true,
 }])
 const worldFormRules = {
+  id: [{required: true, message: t('setting.roomWorldFormRules.id'), trigger: 'blur'}],
   isMaster: [{required: true, trigger: 'change'}],
   encodeUserPath: [{required: true, trigger: 'change'}],
   serverPort: [{required: true, message: t('setting.roomWorldFormRules.masterPort'), trigger: 'blur'}],
@@ -1213,6 +1197,7 @@ const handleWorldTabsEdit = (targetName, action) => {
     const newTabName = `World${worldTabIndex.value}`
     dynamicWorldRefs[newTabName] = ref()
     worldForm.value.push({
+      id: worldTabIndex.value,
       name: newTabName,
       isMaster: false,
       levelData: '',

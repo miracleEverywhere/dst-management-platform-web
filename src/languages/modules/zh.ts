@@ -150,14 +150,15 @@ export default {
     oneClick: '一键带入',
     survival: '生存',
     endless: '无尽',
+    idTip: '世界ID，一个集群里的世界ID不能相同，已保存的世界ID禁止修改',
     isMaster: '主世界',
     isMasterTip: '注意！一个集群中只能有一个主节点',
     encodeUserPathTip: '是否对玩家存档数据的保存路径进行编码',
     serverPort: '游戏端口',
     serverPortTip: '游戏暴露的UDP端口',
-    noEdit: '无特殊需求请勿更改',
+    noEdit: '无特殊需求请勿更改，如果主世界不在当前云服务器，则需要输入主世界侦听端口',
     shardMasterIp: '主世界IP',
-    shardMasterIpTip: '主世界IP，如果主世界不再当前云服务器，则需要输入主世界的公网IP',
+    shardMasterIpTip: '主世界IP，如果主世界不在当前云服务器，则需要输入主世界的公网IP',
     clusterKeyTip:'主世界和从世界进行交互的认证密码，所有世界的密码必须一致，否则会无法连接',
     multiWorldTip: '检测到世界数大于2，请点击右侧按钮加入多层世界模组',
     multiWorldDialog: {
@@ -189,6 +190,7 @@ export default {
       tokenHelp: '点击获取游戏令牌',
     },
     roomWorldForm: {
+      id: '世界ID',
       masterPort: '连接端口',
       cavesPort: '连接端口',
       shardMasterPort: '侦听端口',
@@ -199,6 +201,7 @@ export default {
       caveSetting: '洞穴配置',
     },
     roomWorldFormRules: {
+      id: '请输入世界ID',
       masterPort: '请输入连接端口',
       cavesPort: '请输入连接端口',
       shardMasterPort: '请输入侦听端口',

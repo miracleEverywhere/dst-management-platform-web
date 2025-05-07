@@ -149,6 +149,7 @@ export default {
     oneClick: 'One Click Setting',
     survival: 'Survival',
     endless: 'Endless',
+    idTip: 'World ID, the world IDs within a cluster must not be the same, the saved world ID can NOT be changed',
     isMaster: 'isMaster',
     isMasterTip: 'Warning!! Cluster can include Only ONE master node',
     encodeUserPathTip: 'Whether to encode the save path of player archive data',
@@ -188,6 +189,7 @@ export default {
       tokenHelp: 'Click to obtain game token',
     },
     roomWorldForm: {
+      id: 'ID',
       masterPort: 'Connection Port',
       cavesPort: 'Connection Port',
       shardMasterPort: 'Listening Port',
@@ -198,6 +200,7 @@ export default {
       caveSetting: 'Cave Setting',
     },
     roomWorldFormRules: {
+      id: 'Please Input ID',
       masterPort: 'Please Input Connection Port',
       cavesPort: 'Please Input Connection Port',
       shardMasterPort: 'Please Input Listening Port',
