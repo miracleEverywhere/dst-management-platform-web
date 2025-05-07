@@ -589,7 +589,8 @@ export default {
       tip: {
         tip1: 'The token will expire on',
         tip2: '',
-        tip3: 'The DMP will not store the token, please keep it safe'
+        tip3: 'The DMP will not store the token, please keep it safe',
+        create: 'Click the "Create" button in the upper right corner to proceed.',
       },
       options: {
         day: 'One Day',
