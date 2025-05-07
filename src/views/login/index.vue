@@ -56,7 +56,7 @@
 
           </el-form-item>
           <el-form-item style="margin-top: -3%">
-            <el-button round @click="openRegisterDialog" style="width: 100%;">
+            <el-button v-if="!registerStatus" round @click="openRegisterDialog" style="width: 100%;">
               {{ t("login.register") }}
             </el-button>
           </el-form-item>
@@ -100,7 +100,7 @@
 
 <script setup>
 import {Lock, User} from "@element-plus/icons-vue";
-import {computed, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import {koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts";
 import {useRouter} from "vue-router";
 import useUserStore from "@/stores/modules/user.ts";
@@ -117,6 +117,10 @@ import {SHA512} from "@/utils/tools.js";
 import systemApi from "@/api/system"
 import {useI18n} from "vue-i18n";
 import ScPasswordStrength from "@/components/scPasswordStrength/index.vue";
+
+onMounted(() => {
+  getRegisterStatus()
+})
 
 // 标题语言切换
 const loginTitle = ref(settings.loginTitle);
@@ -257,6 +261,13 @@ const handleRegister = () => {
         registerLoading.value = false
       })
     }
+  })
+}
+
+const registerStatus = ref(true)
+const getRegisterStatus = () => {
+  systemApi.register.get().then(response => {
+    registerStatus.value = response.data
   })
 }
 

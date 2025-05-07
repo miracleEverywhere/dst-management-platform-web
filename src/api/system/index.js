@@ -46,6 +46,9 @@ export default {
   },
   register: {
     url: `/register`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
     post: async function(data){
       return await http.post(this.url, data);
     },
