@@ -878,7 +878,7 @@ const handleNext = async () => {
     }
     for (let i of worldForm.value) {
       if (i.levelData === '') {
-        koiMsgError('必填')
+        koiMsgError(language.value === 'zh' ? '请输入世界配置' : 'Please input world configure')
         return
       }
       try {
