@@ -116,7 +116,9 @@ const handlePullLogs = () => {
     return
   }
   logsApi.logValue.get(logsForm.value).then(response => {
-    logsValue.value = response.data.join("\n")
+    if (response.data !== null) {
+      logsValue.value = response.data.join("\n")
+    }
   })
 }
 
