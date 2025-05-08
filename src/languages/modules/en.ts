@@ -655,6 +655,14 @@ export default {
       disabled: '',
     }
   },
+  clusters: {
+    tip: 'This page is only visible to administrators and currently displays information related to all clusters',
+    table: {
+      name: 'Cluster Name',
+      displayName: 'Cluster Nickname',
+      world: 'Worlds',
+    },
+  },
   help: {
     one: {
       title: 'Welcome to join the group for discussion',

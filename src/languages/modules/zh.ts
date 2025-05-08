@@ -657,6 +657,14 @@ export default {
       disabled: '',
     }
   },
+  clusters: {
+    tip: '这个页面只有管理员能看到，目前展示所有集群的相关信息',
+    table: {
+      name: '集群名',
+      displayName: '集群昵称',
+      world: '世界',
+    },
+  },
   help: {
     one: {
       title: '欢迎加群讨论',
