@@ -656,11 +656,15 @@ export default {
     }
   },
   clusters: {
-    tip: 'This page is only visible to administrators and currently displays information related to all clusters',
+    tip1: 'This page is only visible to administrators and currently displays information of clusters',
+    tip2: 'Here are the port details of the cluster. Action required: Enable all listed UDP ports in your cloud security group',
+    tip3: 'Port conflict found!!! Check configurations',
     table: {
       name: 'Cluster Name',
       displayName: 'Cluster Nickname',
       world: 'Worlds',
+      port: 'Ports',
+      none: 'No port bound',
     },
   },
   help: {

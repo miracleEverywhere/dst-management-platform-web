@@ -1,28 +1,57 @@
 <template>
   <div class="page-div">
     <div class="tip_warning">
-      {{t('clusters.tip')}}
+      {{ t('clusters.tip1') }}
     </div>
-    <el-table :data="clusters" border>
+    <el-table :data="clustersInfo" v-loading="loading" border>
       <el-table-column :label="t('clusters.table.name')">
         <template #default="scope">
           <el-tag type="primary">
-            {{scope.row.clusterName}}
+            {{ scope.row.clusterName }}
           </el-tag>
         </template>
       </el-table-column>
       <el-table-column :label="t('clusters.table.displayName')">
         <template #default="scope">
           <el-tag type="success">
-            {{scope.row.clusterDisplayName}}
+            {{ scope.row.clusterDisplayName }}
           </el-tag>
         </template>
       </el-table-column>
       <el-table-column :label="t('clusters.table.world')">
         <template #default="scope">
-          <el-tag v-for="world in scope.row.worlds" type="info">
-            {{world}}
+          <el-tag type="info">
+            {{ scope.row.worlds?.length || 0 }}
           </el-tag>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <div class="tip_success" style="margin-top: 20px">
+      {{ t('clusters.tip2') }}
+    </div>
+    <div v-if="uniquePortNum!==allPortNum" class="tip_error" style="margin-top: 20px">
+      {{ t('clusters.tip3') }}
+    </div>
+    <el-table :data="clustersWorldPort" v-loading="loading" border>
+      <el-table-column :label="t('clusters.table.name')">
+        <template #default="scope">
+          <el-tag type="primary">
+            {{ scope.row.clusterName }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column :label="t('clusters.table.displayName')">
+        <template #default="scope">
+          <el-tag type="success">
+            {{ scope.row.clusterDisplayName }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column :label="t('clusters.table.port')">
+        <template #default="scope">
+          <span v-if="scope.row.worldPort">{{ scope.row.worldPort.join(', ') }}</span>
+          <el-tag v-else type="info">{{t('clusters.table.none')}}</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -30,7 +59,7 @@
 </template>
 
 <script name="Clusters" setup>
-import {inject, nextTick, onMounted, ref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {useRoute, useRouter} from "vue-router";
@@ -38,7 +67,8 @@ import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import settingApi from "@/api/setting/index.js";
 
 onMounted(() => {
-  getClusters()
+  getClustersInfo()
+  getClustersWorldPort()
 })
 
 const {t} = useI18n()
@@ -48,12 +78,46 @@ const router = useRouter();
 const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage = inject("refresh")
 
-const clusters = ref([])
-const getClusters = () => {
+const infoLoading = ref(false)
+const portLoading = ref(false)
+const loading = computed(() => {
+  return infoLoading.value || portLoading.value
+})
+
+
+const clustersInfo = ref([])
+const getClustersInfo = () => {
+  infoLoading.value = true
   settingApi.clusters.get().then(response => {
-    clusters.value = response.data
+    clustersInfo.value = response.data
+  }).finally(() => {
+    infoLoading.value = false
   })
 }
+
+const clustersWorldPort = ref([])
+const allPortNum = ref(0)
+const uniquePortNum = ref(0)
+const getClustersWorldPort = () => {
+  portLoading.value = true
+  settingApi.clustersWorldPort.get().then(response => {
+    clustersWorldPort.value = response.data
+    let ports = []
+    for (let cluster of clustersWorldPort.value) {
+      if (cluster.worldPort === null) {
+        continue
+      }
+      for (let port of cluster.worldPort) {
+        ports.push(port)
+      }
+    }
+    allPortNum.value = ports.length
+    uniquePortNum.value = new Set(ports).size
+  }).finally(() => {
+    portLoading.value = false
+  })
+}
+
 const handleRefresh = () => {
   setTimeout(() => {
     route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);

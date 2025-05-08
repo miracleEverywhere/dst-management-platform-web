@@ -8,6 +8,12 @@ export default {
       return await http.get(this.url, data);
     },
   },
+  clustersWorldPort: {
+    url: `/setting/clusters/world_port`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
   cluster: {
     url: `/setting/cluster`,
     get: async function(data){
@@ -199,5 +205,4 @@ export default {
       }
     }
   }
-
 }
