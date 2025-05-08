@@ -348,7 +348,7 @@
         </el-table-column>
         <el-table-column :label="t('home.screenDialog.column2')">
           <template #default="scope">
-            <el-button type="danger" link @click="handleKillScreen(scope.row.screenName)">{{t('home.screenDialog.stop')}}</el-button>
+            <el-button type="danger" size="small" @click="handleKillScreen(scope.row.screenName)">{{t('home.screenDialog.stop')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -664,12 +664,35 @@ const handleOpenAllScreensDialog = () => {
   })
 }
 const handleKillScreen = (screenName) => {
-  const reqForm = {
-    screenName: screenName
-  }
-  homeApi.screenKill.post(reqForm).then(response => {
-    koiMsgSuccess(response.message)
-    handleOpenAllScreensDialog()
+  ElMessageBox.confirm(
+    language.value === 'zh' ? `将执行 关闭进程 操作，是否继续？` : `The shutdown operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
+    {
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          const reqForm = {
+            screenName: screenName
+          }
+          homeApi.screenKill.post(reqForm).then(response => {
+            koiMsgSuccess(response.message)
+            handleOpenAllScreensDialog()
+            done()
+          }).catch(() => {
+          }).finally(() => {
+            instance.confirmButtonLoading = false
+          })
+        } else {
+          done()
+        }
+      }
+    }
+  ).then(() => {
+  }).catch(() => {
+    koiMsgInfo(t('home.canceled'))
   })
 }
 
