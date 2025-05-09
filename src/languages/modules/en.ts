@@ -751,6 +751,22 @@ export default {
       text1: 'The DST Management Platform App is now released! You can manage multiple Famine servers without having to switch back and forth on the web ~',
       text2: 'The DST Management Platform App features a new UI design, which might just give you a fresh experience (*^▽^*)',
       text3: 'Go download it on GitHub now (づ￣ 3￣)づ',
+    },
+    eight: {
+      title: 'Path description',
+      tip1: 'DMP Path',
+      tip2: 'DST Path',
+      dmp: {
+        accessLog: 'Access Log',
+        runtimeLog: 'Runtime Log',
+        backup: 'Backup',
+        uidMap: 'Nickname',
+        mod: 'Mod Download',
+      },
+      dst: {
+        config: 'DST Configs',
+        game: 'DST Game',
+      }
     }
   },
 };

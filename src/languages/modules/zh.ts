@@ -755,6 +755,22 @@ export default {
       text1: '饥荒管理平台App上线啦，可以管理多个饥荒服务器，不用在网页端切来切去~',
       text2: '饥荒管理平台App采用了新的UI，或许能给你不一样的体验哟(*^▽^*)',
       text3: '快去Github下载吧(づ￣ 3￣)づ',
+    },
+    eight: {
+      title: '路径说明',
+      tip1: '平台路径',
+      tip2: '游戏路径',
+      dmp: {
+        accessLog: '请求日志',
+        runtimeLog: '平台日志',
+        backup: '备份',
+        uidMap: '昵称字典',
+        mod: '平台模组下载',
+      },
+      dst: {
+        config: '游戏配置',
+        game: '游戏本体',
+      }
     }
   },
 };

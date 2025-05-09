@@ -149,146 +149,17 @@
                   {{ t('help.four.text3') }}
                 </div>
               </el-collapse-item>
-              <el-collapse-item name="5">
-                <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.five.title'))" :content="t('help.five.title')"
-                              effect="light" placement="top">
-                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
-                  </el-tooltip>
-                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.five.title')) }}</span>
-                </template>
-                <div v-if="needToolTip(t('help.five.title'))"
-                     style="line-height: 50px; font-weight: bold; color: #409EFF">
-                  {{ t('help.five.title') }}
-                </div>
-                <div style="line-height: 50px;">
-                  {{ t('help.five.text1') }}
-                </div>
-                <div style="line-height: 50px;">
-                  {{ t('help.five.text2') }}
-                </div>
-                <div style="line-height: 50px;">
-                  {{ t('help.five.text3') }}
-                </div>
-                <div class="tip custom-block">
-                  <p>
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip1') }}
-                    </span>
-                    {server.ini - [NETWORK] - server_port}
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip1_1') }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip2') }}
-                    </span>
-                    {cluster.ini - [SHARD] - master_port}
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip2_1') }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip3') }}
-                    </span>
-                    {server.ini - [STEAM] - server_master_port}
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip3_1') }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip4') }}
-                    </span>
-                    {server.ini - [STEAM] - authentication_port}
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip4_1') }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip5') }}
-                    </span>
-                    {cluster.ini - [SHARD] - master_ip}
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip5_1') }}
-                    </span>
-                  </p>
-                  <p>
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip6') }}
-                    </span>
-                    {cluster.ini - [SHARD] - cluster_key}
-                    <span class="custom-block-title">
-                      {{ t('help.five.tip6_1') }}
-                    </span>
-                  </p>
-                </div>
-                <div class="tip_warning">
-                  {{ t('help.five.alert') }}
-                </div>
-                <div class="tip custom-block">
-                  {{ t('help.five.tip7') }}
-                </div>
-              </el-collapse-item>
-              <el-collapse-item name="6">
-                <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.six.title'))" :content="t('help.six.title')"
-                              effect="light" placement="top">
-                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
-                  </el-tooltip>
-                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
-                </template>
-                <div v-if="needToolTip(t('help.six.title'))"
-                     style="line-height: 50px; font-weight: bold; color: #409EFF">
-                  {{ t('help.six.title') }}
-                </div>
-                <div class="tip custom-block">
-                  {{ t('help.six.text6') }}
-                </div>
-                <div style="line-height: 50px;font-weight: bolder">
-                  {{ t('help.six.text7') }}
-                </div>
-                <div class="tip_warning custom-block">
-                  {{ t('help.six.text8') }}
-                </div>
-                <div style="line-height: 50px;">
-                  {{ t('help.six.text1') }}
-                  <code>{{ t('help.six.code1') }}</code>
-                  {{ t('help.six.text2') }}
-                  <code>{{ t('help.six.code2') }}</code>
-                  {{ t('help.six.text3') }}
-                </div>
-                <MdPreview ref="sixCodeOneRef"
-                           :modelValue="sixCodeOne"
-                           :theme="isDark?'dark':'light'"
-                           previewTheme="github"/>
-                <div style="line-height: 50px;">
-                  {{ t('help.six.text4') }}
-                </div>
-                <!--                <sc-code-editor ref="sixCodeTwoRef" v-model="sixCodeTwo" :height="100" :read-only="true" :theme="isDark?'darcula':'idea'"-->
-                <!--                                mode="javascript"></sc-code-editor>-->
-                <MdPreview ref="sixCodeTwoRef"
-                           :modelValue="sixCodeTwo"
-                           :theme="isDark?'dark':'light'"
-                           previewTheme="github"/>
-                <div style="line-height: 50px;">
-                  {{ t('help.six.text5') }}
-                </div>
-              </el-collapse-item>
               <el-collapse-item name="7">
                 <template #title>
                   <el-tooltip v-if="needToolTip(t('help.seven.title'))" :content="t('help.seven.title')"
                               effect="light" placement="top">
-                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.six.title')) }}</span>
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
                   </el-tooltip>
                   <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
                 </template>
                 <div v-if="needToolTip(t('help.seven.title'))"
                      style="line-height: 50px; font-weight: bold; color: #409EFF">
-                  {{ t('help.six.title') }}
+                  {{ t('help.seven.title') }}
                 </div>
                 <div class="tip custom-block">
                   <div style="display: flex; align-content: center">
@@ -315,8 +186,48 @@
               </el-collapse-item>
               <el-collapse-item name="8">
                 <template #title>
-                  路径说明
+                  <el-tooltip v-if="needToolTip(t('help.eight.title'))" :content="t('help.eight.title')"
+                              effect="light" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.eight.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.eight.title')) }}</span>
                 </template>
+                <div v-if="needToolTip(t('help.eight.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.eight.title') }}
+                </div>
+                <el-form label-width="120" :label-position="isMobile?'top':'left'">
+                  <div class="tip custom-block">
+                    <span class="custom-block-title">{{ t('help.eight.tip1') }}</span>
+                  </div>
+                  <el-form-item :label="t('help.eight.dmp.accessLog')">
+                    <el-input v-model="eight.accessLog" disabled></el-input>
+                  </el-form-item>
+                  <el-form-item :label="t('help.eight.dmp.runtimeLog')">
+                    <el-input v-model="eight.runtimeLog" disabled></el-input>
+                  </el-form-item>
+                  <el-form-item :label="t('help.eight.dmp.backup')">
+                    <el-input v-model="eight.backup" disabled></el-input>
+                  </el-form-item>
+                  <el-form-item :label="t('help.eight.dmp.uidMap')">
+                    <el-input v-model="eight.uidMap" disabled></el-input>
+                  </el-form-item>
+                  <el-form-item :label="t('help.eight.dmp.mod')">
+                    <el-input v-model="eight.mod" disabled></el-input>
+                  </el-form-item>
+                  <div class="tip custom-block">
+                    <span class="custom-block-title">{{ t('help.eight.tip2') }}</span>
+                  </div>
+                  <el-form-item :label="t('help.eight.dst.config')">
+                    <el-input v-model="eight.config" disabled></el-input>
+                  </el-form-item>
+                  <el-form-item :label="t('help.eight.dst.game')">
+                    <el-input v-model="eight.game" disabled></el-input>
+                  </el-form-item>
+                  <el-form-item label="Steam">
+                    <el-input v-model="eight.steam" disabled></el-input>
+                  </el-form-item>
+                </el-form>
               </el-collapse-item>
             </el-collapse>
           </div>
@@ -399,6 +310,17 @@ const needToolTip = (title) => {
   }
   return title.length > 25;
 }
+
+const eight = ref({
+  accessLog: 'dmp.log',
+  runtimeLog: 'dmpProcess.log',
+  backup: 'dmp_files/backup/',
+  uidMap: 'dmp_files/uid_map/',
+  mod: 'dmp_files/mod/',
+  config: '~/.klei/DoNotStarveTogether/',
+  game: 'dst/',
+  steam: 'steamcmd/'
+})
 
 </script>
 
