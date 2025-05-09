@@ -13,8 +13,8 @@ export default {
       return await http.post(this.url, data);
     }
   },
-  processLog: {
-    url: `/logs/process_log`,
+  download: {
+    url: `/logs/download`,
     post: async function (data) {
       return await http.post(this.url, data);
     }

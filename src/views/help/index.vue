@@ -365,7 +365,10 @@ const collapseChange = () => {
 const downloadLogLoading = ref(false)
 const handleDownloadLog = () => {
   downloadLogLoading.value = true
-  logsApi.processLog.post().then(async (response) => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  logsApi.download.post(reqForm).then(async (response) => {
     await saveFile(response.data, 'logs.tgz')
   }).finally(() => {
     downloadLogLoading.value = false
