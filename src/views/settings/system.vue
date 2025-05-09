@@ -14,7 +14,7 @@
           <div>
             <el-form ref="systemSettingFormRef" :hide-required-asterisk="true"
                      :model="systemSettingForm" :rules="systemSettingFormRules"
-                     :size="isMobile?'small':'large'"
+                     :size="isMobile?'small':'large'" v-loading="loading"
                      label-position="top">
               <div class="tip_error">
                 {{t('setting.system.tip1')}}
@@ -123,6 +123,43 @@
                   <el-col :span="24">
                     <div class="el-form-item-msg" style="color: #A8ABB2">
                       {{ t('setting.system.autoUpdate.msg2') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-divider content-position="left">{{ t('setting.system.playerUpdateMod.divider') }}</el-divider>
+              <el-form-item :label="t('setting.system.uidMap.title')"
+                            prop="schedulerSetting.playerUpdateMod.disable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.schedulerSetting.playerUpdateMod.disable"
+                                    :disabled="userInfo.role!=='admin'">
+                      <el-radio :value="false">{{ t('setting.system.playerUpdateMod.enable') }}</el-radio>
+                      <el-radio :value="true">{{ t('setting.system.playerUpdateMod.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.playerUpdateMod.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.playerUpdateMod.title2')"
+                            prop="schedulerSetting.playerUpdateMod.frequency">
+                <el-row>
+                  <el-col :span="24">
+                    <el-input-number v-model="systemSettingForm.schedulerSetting.playerUpdateMod.frequency"
+                                     controls-position="right" :disabled="userInfo.role!=='admin'">
+                      <template #suffix>
+                        <span v-if="language==='zh'">分钟</span>
+                        <span v-else>Minute</span>
+                      </template>
+                    </el-input-number>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.playerUpdateMod.msg2') }}
                     </div>
                   </el-col>
                 </el-row>
@@ -330,6 +367,10 @@ const systemSettingFormOld = ref({
     autoUpdate: {
       enable: false,
       time: "",
+    },
+    playerUpdateMod: {
+      disable: false,
+      frequency: 0,
     }
   },
 })
@@ -363,6 +404,10 @@ const systemSettingForm = ref({
     autoUpdate: {
       enable: false,
       time: "",
+    },
+    playerUpdateMod: {
+      disable: false,
+      frequency: 0,
     }
   },
 })
@@ -411,13 +456,17 @@ const systemSettingFormRules = {
   },
 }
 
+const loading = ref(false)
 const handleGetSystemSetting = () => {
+  loading.value = true
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
   }
   settingApi.system.setting.get(reqForm).then(response => {
     systemSettingForm.value = response.data
     systemSettingFormOld.value = deepCopy(systemSettingForm.value)
+  }).finally(() => {
+    loading.value = false
   })
 }
 
