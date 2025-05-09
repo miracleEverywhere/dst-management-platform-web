@@ -353,6 +353,36 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+    <el-tour v-model="needTour">
+      <el-tour-step
+        :title="t('home.tour.one.title')"
+        :description="t('home.tour.one.desc')"
+      />
+      <el-tour-step
+        target="#tourUser"
+        :title="t('home.tour.two.title')"
+        :description="t('home.tour.two.desc')"
+      />
+      <el-tour-step
+        target="#tourClusterSelect"
+        :title="t('home.tour.three.title')"
+        :description="t('home.tour.three.desc')"
+      />
+      <el-tour-step
+        target="#tourMessage"
+        :title="t('home.tour.four.title')"
+        :description="t('home.tour.four.desc')"
+      />
+      <el-tour-step
+        target="#tourGithub"
+        :title="t('home.tour.five.title')"
+        :description="t('home.tour.five.desc')"
+      />
+      <el-tour-step
+        :title="t('home.tour.six.title')"
+        :description="t('home.tour.six.desc')"
+      />
+    </el-tour>
   </div>
 </template>
 
@@ -376,6 +406,7 @@ onMounted(() => {
   getConnectionCode()
   getWorldInfo()
   startRequests()
+  checkTour()
 })
 
 const {t} = useI18n()
@@ -383,6 +414,11 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const needTour = ref(false)
+
+const checkTour = () => {
+  needTour.value = (globalStore.dstClusters?.length || 0) === 0
+}
 
 const loading = ref(false)
 const versionLoading = ref(false)

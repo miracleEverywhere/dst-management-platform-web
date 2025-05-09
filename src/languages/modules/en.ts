@@ -59,6 +59,32 @@ export default {
       column2:'Action',
       stop: 'Stop',
     },
+    tour: {
+      one: {
+        title: 'Welcome~',
+        desc: 'Welcome to the Don\'t Starve Together Management Platform (DMP). A simple guide will now begin.',
+      },
+      two: {
+        title: 'Password',
+        desc: 'Click here to access your personal center where you can change your password or view your personal information.',
+      },
+      three: {
+        title: 'Cluster Selection/Creation',
+        desc: 'This refers to multi-room (cluster) management. Click this selector to switch cluster or create new ones.',
+      },
+      four: {
+        title: 'Update Overview',
+        desc: 'Update logs for all versions of DMP will be displayed here. If a new version is available, you\'ll be notified in this section.',
+      },
+      five: {
+        title: 'Hope you still remember',
+        desc: 'If you find DMP helpful after using it for a while, feel free to give it a star on Github~',
+      },
+      six: {
+        title: 'Get started now~',
+        desc: 'If you don\'t want to see this guide again, go create a cluster',
+      },
+    }
   },
   tabs: {
     refresh: "Refresh",

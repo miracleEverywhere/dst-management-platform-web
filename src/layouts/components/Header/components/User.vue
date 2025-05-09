@@ -5,7 +5,7 @@
 <!--      <el-image class="w-34px h-34px rounded-full select-none user-avatar" :src="errorAvatar"></el-image>-->
 <!--    </template>-->
 <!--  </el-image>-->
-  <el-dropdown class="m-l-10px" :hide-on-click="false" @command="handleCommand">
+  <el-dropdown id="tourUser" class="m-l-10px" :hide-on-click="false" @command="handleCommand">
     <div class="koi-dropdown">
       <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{authStore.userInfo.nickname}}</div>
       <el-icon><arrow-down /></el-icon>

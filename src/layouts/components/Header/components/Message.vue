@@ -1,5 +1,5 @@
 <template>
-  <div class="search-menu hover:bg-[rgba(0,0,0,0.06)] w-32px h-100% flex flex-justify-center" @click="handleMessage">
+  <div id="tourMessage" class="search-menu hover:bg-[rgba(0,0,0,0.06)] w-32px h-100% flex flex-justify-center" @click="handleMessage">
     <el-badge :hidden="badgeNum===0" :value="badgeNum" :max="99" class="fcc">
       <el-icon :size="20" class="koi-icon">
         <ChatDotRound />

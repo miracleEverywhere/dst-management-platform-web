@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="tourClusterSelect">
     <el-select v-model="globalStore.selectedDstCluster" size="small"
                @visible-change="saveLastCluster" :empty-values="[null]"
                style="width: 100px">
