@@ -956,7 +956,7 @@ const handleGetClusterSetting = () => {
       worldTabIndex.value = 1
       worldTabName.value = 'World1'
       worldForm.value = [{
-        id: 1,
+        id: 101,
         name: 'World1',
         isMaster: true,
         levelData: '',
@@ -1169,7 +1169,7 @@ const astToLua = (astNode, indentLevel = 0) => {
 const worldTabIndex = ref(1)
 const worldTabName = ref('World1')
 const worldForm = ref([{
-  id: 1,
+  id: 101,
   name: 'World1',
   isMaster: true,
   levelData: '',
@@ -1207,7 +1207,7 @@ const handleWorldTabsEdit = (targetName, action) => {
     const newTabName = `World${worldTabIndex.value}`
     dynamicWorldRefs[newTabName] = ref()
     worldForm.value.push({
-      id: worldTabIndex.value,
+      id: worldTabIndex.value + 100,
       name: newTabName,
       isMaster: false,
       levelData: '',
