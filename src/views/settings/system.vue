@@ -16,10 +16,16 @@
                      :model="systemSettingForm" :rules="systemSettingFormRules"
                      :size="isMobile?'small':'large'" v-loading="loading"
                      label-position="top">
-              <div class="tip_error">
+              <div class="tip_error" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip1')}}
               </div>
-              <el-divider content-position="left">{{ t('setting.system.playerList.divider') }}</el-divider>
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                    {{ t('setting.system.playerList.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.playerList.title')"
                             prop="schedulerSetting.playerGetFrequency">
                 <el-row>
@@ -39,7 +45,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.uidMap.divider') }}</el-divider>
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.uidMap.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.uidMap.title')"
                             prop="schedulerSetting.UIDMaintain.disable">
                 <el-row>
@@ -76,7 +88,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.metrics.divider') }}</el-divider>
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.metrics.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.metrics.title')"
                             prop="schedulerSetting.sysMetricsGet.disable">
                 <el-row>
@@ -94,7 +112,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.autoUpdate.divider') }}</el-divider>
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.autoUpdate.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.autoUpdate.title')"
                             prop="schedulerSetting.autoUpdate.enable">
                 <el-row>
@@ -127,7 +151,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.playerUpdateMod.divider') }}</el-divider>
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.playerUpdateMod.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.uidMap.title')"
                             prop="schedulerSetting.playerUpdateMod.disable">
                 <el-row>
@@ -164,10 +194,16 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <div class="tip_success">
+              <div class="tip_success" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip2')}}
               </div>
-              <el-divider content-position="left">{{ t('setting.system.autoRestart.divider') }}</el-divider>
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.autoRestart.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.autoRestart.title')"
                             prop="sysSetting.autoRestart.enable">
                 <el-row>
@@ -199,7 +235,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.autoBackup.divider') }}</el-divider>
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.autoBackup.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.autoBackup.title')"
                             prop="sysSetting.autoBackup.enable">
                 <el-row>
@@ -231,7 +273,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.keepalive.divider') }}</el-divider>
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.keepalive.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.keepalive.title0')" prop="sysSetting.keepalive.enable">
                 <el-row>
                   <el-col :span="24">
@@ -264,7 +312,13 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-divider content-position="left">{{ t('setting.system.bit64.divider') }}</el-divider>
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                {{ t('setting.system.bit64.divider') }}
+                  </div>
+                </template>
+              </el-alert>
               <el-form-item :label="t('setting.system.bit64.title')" prop="sysSetting.bit64">
                 <el-row>
                   <el-col :span="24">
