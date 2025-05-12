@@ -19,12 +19,16 @@
               <div class="tip_error" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip1')}}
               </div>
-              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="error" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+                <template #icon>
+                  <SetUp />
+                </template>
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                     {{ t('setting.system.playerList.divider') }}
                   </div>
                 </template>
+
               </el-alert>
               <el-form-item :label="t('setting.system.playerList.title')"
                             prop="schedulerSetting.playerGetFrequency">
@@ -45,11 +49,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.uidMap.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <SetUp />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.uidMap.title')"
@@ -88,11 +95,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.metrics.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <SetUp />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.metrics.title')"
@@ -112,11 +122,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.autoUpdate.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <SetUp />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.autoUpdate.title')"
@@ -151,11 +164,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.playerUpdateMod.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <SetUp />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.uidMap.title')"
@@ -197,11 +213,14 @@
               <div class="tip_success" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip2')}}
               </div>
-              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.autoRestart.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <Collection />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.autoRestart.title')"
@@ -235,11 +254,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.autoBackup.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <Collection />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.autoBackup.title')"
@@ -273,11 +295,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.keepalive.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <Collection />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.keepalive.title0')" prop="sysSetting.keepalive.enable">
@@ -312,11 +337,14 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" style="margin-bottom: 10px">
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.bit64.divider') }}
                   </div>
+                </template>
+                <template #icon>
+                  <Collection />
                 </template>
               </el-alert>
               <el-form-item :label="t('setting.system.bit64.title')" prop="sysSetting.bit64">
@@ -360,6 +388,7 @@
 </template>
 
 <script name="settingsSystem" setup>
+import { SetUp, Collection } from '@element-plus/icons-vue'
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
