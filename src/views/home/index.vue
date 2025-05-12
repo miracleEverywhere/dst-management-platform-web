@@ -353,7 +353,7 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-    <el-tour v-model="needTour">
+    <el-tour v-model="globalStore.needTour">
       <el-tour-step
         :title="t('home.tour.one.title')"
         :description="t('home.tour.one.desc')"
@@ -404,7 +404,7 @@ onMounted(() => {
   getRoomInfo()
   getVersion()
   getConnectionCode()
-  getWorldInfo()
+  getWorldInfo(false)
   startRequests()
   checkTour()
 })
@@ -414,10 +414,10 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
-const needTour = ref(false)
 
-const checkTour = () => {
-  needTour.value = (globalStore.dstClusters?.length || 0) === 0
+const checkTour = async () => {
+  await sleep(2000)
+  globalStore.needTour = (globalStore.dstClusters?.length || 0) === 0
 }
 
 const loading = ref(false)
@@ -439,8 +439,11 @@ const getVersion = () => {
   })
 }
 
-const getConnectionCode = () => {
+const getConnectionCode = async () => {
   connectionCodeLoading.value = true
+  if (!globalStore.selectedDstCluster) {
+    await sleep(1000)
+  }
   externalApi.connectionCode.get({clusterName: globalStore.selectedDstCluster}).then(response => {
     connectionCode.value = response.data
   }).finally(() => {
@@ -465,7 +468,10 @@ const roomInfo = ref({
   modsCount: 0,
   playerNum: 0,
 })
-const getRoomInfo = () => {
+const getRoomInfo = async () => {
+  if (!globalStore.selectedDstCluster) {
+    await sleep(1000)
+  }
   homeApi.roomInfo.get({clusterName: globalStore.selectedDstCluster}).then(response => {
     roomInfo.value = response.data
   })
@@ -498,9 +504,14 @@ const getSysInfo = () => {
     sysInfo.value = response.data
   })
 }
-const getWorldInfo = () => {
+const getWorldInfo = async (force = true) => {
   if (roomInfo.value.clusterSetting.name === '') {
     return
+  }
+  if (!force) {
+    if (!globalStore.selectedDstCluster) {
+      await sleep(1000)
+    }
   }
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
