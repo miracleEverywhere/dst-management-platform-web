@@ -1212,7 +1212,7 @@ const handleWorldTabsEdit = (targetName, action) => {
       isMaster: false,
       levelData: '',
       serverPort: 11000 + worldTabIndex.value + worldPortFactor.value * 10,
-      shardMasterPort: 10887 + worldTabIndex.value + worldPortFactor.value * 10,
+      shardMasterPort: 10888 + worldPortFactor.value * 10,
       steamMasterPort: 27017 + worldTabIndex.value + worldPortFactor.value * 10,
       steamAuthenticationPort: 8767 + worldTabIndex.value + worldPortFactor.value * 10,
       shardMasterIp: '127.0.0.1',

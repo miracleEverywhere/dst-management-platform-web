@@ -189,7 +189,7 @@ export default {
     encodeUserPathTip: 'Whether to encode the save path of player archive data',
     serverPort: 'Server Port',
     serverPortTip: 'The UDP port of Game server',
-    noEdit: 'Input Master Port',
+    noEdit: 'Input Master Port, all master ports in cluster must be same',
     shardMasterIp: 'Master World IP',
     shardMasterIpTip: 'Master world IP. If the Master world is not on the current cloud server, you need to enter the public IP of the Master world.',
     clusterKeyTip: 'The authentication password for interaction between the main world and sub-worlds. All worlds must use the same password; otherwise, connection will fail.',

@@ -190,7 +190,7 @@ export default {
     encodeUserPathTip: '是否对玩家存档数据的保存路径进行编码',
     serverPort: '游戏端口',
     serverPortTip: '游戏暴露的UDP端口',
-    noEdit: '请输入主节点端口',
+    noEdit: '请输入主节点端口，集群的主节点端口应全部一致',
     shardMasterIp: '主世界IP',
     shardMasterIpTip: '主世界IP，如果主世界不在当前云服务器，则需要输入主世界的公网IP',
     clusterKeyTip:'主世界和从世界进行交互的认证密码，所有世界的密码必须一致，否则会无法连接',
