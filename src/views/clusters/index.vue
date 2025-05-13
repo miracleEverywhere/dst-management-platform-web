@@ -30,9 +30,14 @@
     <div class="tip_success" style="margin-top: 20px">
       {{ t('clusters.tip2') }}
     </div>
-    <div v-if="uniquePortNum!==allPortNum" class="tip_error" style="margin-top: 20px">
-      {{ t('clusters.tip3') }}
-    </div>
+    <el-alert v-if="uniquePortNum!==allPortNum" :effect="isDark?'light':'dark'"
+              type="error" :closable="false" style="margin-bottom: 10px">
+      <template #title>
+        <div class="fcc" style="font-size: 20px">
+          {{ t('clusters.tip3') }}
+        </div>
+      </template>
+    </el-alert>
     <el-table :data="clustersWorldPort" v-loading="loading" border>
       <el-table-column :label="t('clusters.table.name')">
         <template #default="scope">
@@ -77,6 +82,7 @@ const route = useRoute();
 const router = useRouter();
 const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage = inject("refresh")
+const isDark = computed(() => globalStore.isDark);
 
 const infoLoading = ref(false)
 const portLoading = ref(false)
