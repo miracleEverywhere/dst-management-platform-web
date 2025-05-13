@@ -881,6 +881,10 @@ const handleNext = async () => {
         koiMsgError(language.value === 'zh' ? '请输入世界配置' : 'Please input world configure')
         return
       }
+      if (i.shardMasterPort !== worldForm.value[0].shardMasterPort) {
+        koiMsgError(language.value === 'zh' ? '主节点端口必须一致' : 'Master Port must be same')
+        return
+      }
       try {
         luaparse.parse(i.levelData)
       } catch (e) {
