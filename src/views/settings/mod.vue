@@ -48,22 +48,31 @@
                 <div class="card-header">
                   <span>{{ t('setting.mod.add.header.title') }}</span>
                   <div>
-                    <el-button @click="handleGetDownloadedMod">{{ t('setting.mod.add.header.refresh') }}</el-button>
+                    <el-button :size="isMobile?'small':'default'" @click="handleGetDownloadedMod">
+                      {{ t('setting.mod.add.header.refresh') }}
+                    </el-button>
                     <el-tooltip :content="t('setting.mod.add.header.syncTooltip')" :show-after="500" effect="light"
                                 placement="top">
-                      <el-button :loading="syncModLoading" type="primary" @click="handleSyncMod">
+                      <el-button :size="isMobile?'small':'default'"
+                                 :loading="syncModLoading"
+                                 type="primary" @click="handleSyncMod"
+                      >
                         {{ t('setting.mod.add.header.sync') }}
                       </el-button>
                     </el-tooltip>
-                    <el-button :loading="addClientModsDisabledConfigButtonLoading"
+                    <el-button :size="isMobile?'small':'default'"
+                               :loading="addClientModsDisabledConfigButtonLoading"
                                type="danger"
                                :disabled="addClientModsDisabledConfigButtonDisable"
                                @click="handleAddClientModsDisabledConfig"
                     >
                       {{ t('setting.mod.add.header.addClientDisabled') }}
                     </el-button>
-                    <el-button v-if="OSPlatform==='darwin'" :loading="macOSExportButtonLoading" type="success"
-                               @click="handleMacOSExport">{{ t('setting.mod.add.header.export') }}
+                    <el-button v-if="OSPlatform==='darwin'" :size="isMobile?'small':'default'"
+                               :loading="macOSExportButtonLoading" type="success"
+                               @click="handleMacOSExport"
+                    >
+                      {{ t('setting.mod.add.header.export') }}
                     </el-button>
                   </div>
                 </div>
@@ -181,7 +190,8 @@
             </el-card>
           </el-col>
           <el-col :lg="16" :md="16" :sm="24" :span="16" :xs="24">
-            <el-card v-loading="modConfigurationsLoading" :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'"
+            <el-card v-loading="modConfigurationsLoading"
+                     :style="isMobile?'height: 50vh; margin: 10px 0 30px 0':'height: 70vh'"
                      shadow="never">
               <template #header>
                 <div class="card-header">
