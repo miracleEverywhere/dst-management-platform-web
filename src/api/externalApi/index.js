@@ -31,4 +31,10 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  checkLobby: {
+    url: `/external/api/check/lobby`,
+    post: async function (data) {
+      return await http.post(this.url, data);
+    }
+  },
 }

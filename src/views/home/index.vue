@@ -334,13 +334,27 @@
       <template #header>
         {{t('home.screenDialog.title')}}
       </template>
-      <div class="tip">
+      <el-select v-model="selectRegions" multiple :disabled="lobbyCheckLoading"
+                 @change="handleCheckLobby"
+                 style="margin: 20px 0">
+        <el-option v-for="region in regions" :label="region.label" :value="region.value"></el-option>
+      </el-select>
+      <el-alert v-if="lobbyCheckLoading" :closable="false" type="info"  :effect="isDark?'light':'dark'">
+        {{t('home.screenDialog.tip3')}}
+      </el-alert>
+      <el-alert v-if="lobbyCheckResult&&!lobbyCheckLoading" :closable="false" type="success"  :effect="isDark?'light':'dark'">
+        {{t('home.screenDialog.tip4')}}
+      </el-alert>
+      <el-alert v-if="!lobbyCheckResult&&!lobbyCheckLoading" :closable="false" type="error"  :effect="isDark?'light':'dark'">
+        {{t('home.screenDialog.tip5')}}
+      </el-alert>
+      <div class="tip_warning">
         {{t('home.screenDialog.tip1')}}
       </div>
-      <div class="tip_success">
+      <div class="tip">
         {{t('home.screenDialog.tip2')}}
       </div>
-      <el-table :data="allScreens" border>
+      <el-table :data="allScreens" border v-loading="allScreensLoading">
         <el-table-column :label="t('home.screenDialog.column1')" prop="screenName">
           <template #default="scope">
             <el-tag type="primary">{{scope.row.screenName}}</el-tag>
@@ -699,16 +713,21 @@ const handleOpenModDialog = () => {
   })
 }
 
+const allScreensLoading = ref(false)
 const allScreens = ref([])
 const allScreensDialogVisible = ref(false)
 const handleOpenAllScreensDialog = () => {
+  allScreensDialogVisible.value = true
+  allScreensLoading.value = true
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
   }
   homeApi.allScreens.get(reqForm).then(response => {
      allScreens.value = response.data
-    allScreensDialogVisible.value = true
+  }).finally(() => {
+    allScreensLoading.value = false
   })
+  handleCheckLobby()
 }
 const handleKillScreen = (screenName) => {
   ElMessageBox.confirm(
@@ -740,6 +759,41 @@ const handleKillScreen = (screenName) => {
   ).then(() => {
   }).catch(() => {
     koiMsgInfo(t('home.canceled'))
+  })
+}
+
+const regions = [
+  {
+    label: 'ap-southeast-1',
+    value: 'ap-southeast-1',
+  },
+  {
+    label: 'ap-east-1',
+    value: 'ap-east-1',
+  },
+  {
+    label: 'us-east-1',
+    value: 'us-east-1',
+  },
+  {
+    label: 'eu-central-1',
+    value: 'eu-central-1',
+  },
+]
+const selectRegions = ref(['ap-southeast-1', 'ap-east-1'])
+const lobbyCheckResult = ref(false)
+const lobbyCheckLoading = ref(false)
+
+const handleCheckLobby = () => {
+  lobbyCheckLoading.value = true
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    regions: selectRegions.value
+  }
+  externalApi.checkLobby.post(reqForm).then(response => {
+    lobbyCheckResult.value = response.data
+  }).finally(() => {
+    lobbyCheckLoading.value = false
   })
 }
 
