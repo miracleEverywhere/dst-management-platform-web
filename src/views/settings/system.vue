@@ -174,7 +174,7 @@
                   <SetUp />
                 </template>
               </el-alert>
-              <el-form-item :label="t('setting.system.uidMap.title')"
+              <el-form-item :label="t('setting.system.playerUpdateMod.title')"
                             prop="schedulerSetting.playerUpdateMod.disable">
                 <el-row>
                   <el-col :span="24">
