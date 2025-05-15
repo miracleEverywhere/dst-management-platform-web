@@ -27,6 +27,7 @@ const authStore = defineStore("auth", {
       userInfo: {
         username: "",
         nickname: "",
+        role: "",
       }
     };
   },
@@ -62,7 +63,8 @@ const authStore = defineStore("auth", {
     // 菜单权限列表 ==> 左侧菜单栏渲染，这里的菜单将后端数据进行递归，需要将动态路由 isHide == 0 的隐藏菜单剔除, 将静态路由 isHide == 0 的隐藏菜单剔除
     showMenuList: state => state.recursiveMenuList,
     // 递归处理后的所有面包屑导航列表
-    getBreadcrumbList: state => getAllBreadcrumbList(state.breadcrumbList)
+    getBreadcrumbList: state => getAllBreadcrumbList(state.breadcrumbList),
+    getUserInfo: state => state.userInfo,
   }
 });
 

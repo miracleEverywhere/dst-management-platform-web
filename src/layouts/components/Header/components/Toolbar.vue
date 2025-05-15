@@ -1,7 +1,8 @@
 <template>
   <div class="header-right">
+    <ClusterSelect style="margin-right: 5px"/>
     <Github/>
-    <Gitee/>
+<!--    <Gitee/>-->
     <!-- 搜索菜单 -->
     <SearchMenu class="<md:visible"></SearchMenu>
     <!-- ElementPlus 尺寸配置 -->
@@ -37,6 +38,8 @@ import Gitee from "@/layouts/components/Header/components/Gitee.vue";
 import Github from "@/layouts/components/Header/components/Github.vue";
 // @ts-ignore
 import Message from "@/layouts/components/Header/components/Message.vue";
+// @ts-ignore
+import ClusterSelect from "@/layouts/components/Header/components/ClusterSelect.vue";
 </script>
 
 <style lang="scss" scoped>

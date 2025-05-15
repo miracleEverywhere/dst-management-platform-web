@@ -43,27 +43,36 @@
       <el-tab-pane :label="t('setting.mod.tab.add')" name="Add">
         <el-row :gutter="10">
           <el-col :span="24">
-            <el-card v-loading="downloadedModLoading" shadow="never" style="height: 75vh">
+            <el-card v-loading="downloadedModLoading" shadow="never" style="height: 78vh">
               <template #header>
                 <div class="card-header">
                   <span>{{ t('setting.mod.add.header.title') }}</span>
                   <div>
-                    <el-button @click="handleGetDownloadedMod">{{ t('setting.mod.add.header.refresh') }}</el-button>
+                    <el-button :size="isMobile?'small':'default'" @click="handleGetDownloadedMod">
+                      {{ t('setting.mod.add.header.refresh') }}
+                    </el-button>
                     <el-tooltip :content="t('setting.mod.add.header.syncTooltip')" :show-after="500" effect="light"
                                 placement="top">
-                      <el-button :loading="syncModLoading" type="primary" @click="handleSyncMod">
+                      <el-button :size="isMobile?'small':'default'"
+                                 :loading="syncModLoading"
+                                 type="primary" @click="handleSyncMod"
+                      >
                         {{ t('setting.mod.add.header.sync') }}
                       </el-button>
                     </el-tooltip>
-                    <el-button :loading="addClientModsDisabledConfigButtonLoading"
+                    <el-button :size="isMobile?'small':'default'"
+                               :loading="addClientModsDisabledConfigButtonLoading"
                                type="danger"
                                :disabled="addClientModsDisabledConfigButtonDisable"
                                @click="handleAddClientModsDisabledConfig"
                     >
                       {{ t('setting.mod.add.header.addClientDisabled') }}
                     </el-button>
-                    <el-button v-if="OSPlatform==='darwin'" :loading="macOSExportButtonLoading" type="success"
-                               @click="handleMacOSExport">{{ t('setting.mod.add.header.export') }}
+                    <el-button v-if="OSPlatform==='darwin'" :size="isMobile?'small':'default'"
+                               :loading="macOSExportButtonLoading" type="success"
+                               @click="handleMacOSExport"
+                    >
+                      {{ t('setting.mod.add.header.export') }}
                     </el-button>
                   </div>
                 </div>
@@ -110,7 +119,7 @@
                 <el-table-column :label="t('setting.mod.add.table.action')">
                   <template #default="scope">
                     <el-dropdown trigger="click" @command="handleModCommand">
-                      <el-button :loading="actionsLoading" link type="primary">
+                      <el-button :disabled="noEdit" :loading="actionsLoading" link type="primary">
                         {{ t('setting.mod.add.table.action') }}
                         <el-icon class="el-icon--right">
                           <arrow-down/>
@@ -118,9 +127,9 @@
                       </el-button>
                       <template #dropdown>
                         <el-dropdown-menu>
-                          <el-dropdown-item :command="{cmd: 'enable', row: scope.row}">{{ t('setting.mod.add.table.enable') }}
+                          <el-dropdown-item :disabled="noEdit" :command="{cmd: 'enable', row: scope.row}">{{ t('setting.mod.add.table.enable') }}
                           </el-dropdown-item>
-                          <el-dropdown-item :command="{cmd: 'delete', row: scope.row}">{{ t('setting.mod.add.table.delete') }}
+                          <el-dropdown-item :disabled="noEdit" :command="{cmd: 'delete', row: scope.row}">{{ t('setting.mod.add.table.delete') }}
                           </el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
@@ -181,7 +190,8 @@
             </el-card>
           </el-col>
           <el-col :lg="16" :md="16" :sm="24" :span="16" :xs="24">
-            <el-card v-loading="modConfigurationsLoading" :style="isMobile?'height: 50vh; margin-top: 10px':'height: 70vh'"
+            <el-card v-loading="modConfigurationsLoading"
+                     :style="isMobile?'height: 50vh; margin: 10px 0 30px 0':'height: 70vh'"
                      shadow="never">
               <template #header>
                 <div class="card-header">
@@ -262,10 +272,14 @@ import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
 import {formatBytes} from "@/utils/tools.js";
-import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts"
+import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts"
 
 
 onMounted(async () => {
+  windowHeight.value = window.innerHeight;
+  window.addEventListener("resize", () => {
+    windowHeight.value = window.innerHeight;
+  });
   await handleModSearch()
   await handleGetModSetting()
   handleGetOSPlatform()
@@ -276,6 +290,7 @@ const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const windowHeight = ref(0)
 
 const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {
@@ -289,11 +304,19 @@ const handleTabClick = (tab, event) => {
 
 const modSettingFormat = ref([])
 const modSettingFormatLoading = ref(false)
+const noEdit = ref(false)
 const handleGetModSetting = () => {
   modSettingFormatLoading.value = true
   clickedModID.value = 0
   clickedModFileUrl.value = ""
-  settingsApi.mod.settingFormat.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingsApi.mod.settingFormat.get(reqForm).then(response => {
+    if (response.data === 5000) {
+      noEdit.value = true
+      koiMsgWarning(response.message)
+    }
     modSettingFormat.value = response.data
     for (let i of modSettingFormat.value) {
       if (i.id === 1) {
@@ -322,7 +345,11 @@ const modConfigurations = ref({
 })
 const handleGetModConfigurations = () => {
   modConfigurationsLoading.value = true
-  settingsApi.mod.configOptions.get({id: clickedModID.value}).then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    id: clickedModID.value
+  }
+  settingsApi.mod.configOptions.get(reqForm).then(response => {
     modConfigurations.value = response.data
   }).finally(() => {
     modConfigurationsLoading.value = false
@@ -331,7 +358,11 @@ const handleGetModConfigurations = () => {
 
 const handleModConfigChange = () => {
   modConfigurationsLoading.value = true
-  settingsApi.mod.configChange.post({modFormattedData: modSettingFormat.value}).then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    modFormattedData: modSettingFormat.value
+  }
+  settingsApi.mod.configChange.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     modConfigurationsLoading.value = false
@@ -388,7 +419,10 @@ const handleGetDownloadedMod = () => {
 const syncModLoading = ref(false)
 const handleSyncMod = () => {
   syncModLoading.value = true
-  settingsApi.mod.sync.post().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingsApi.mod.sync.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     handleGetDownloadedMod()
   }).finally(() => {
@@ -416,6 +450,7 @@ const handleModCommand = (actions) => {
 const handleModEnable = (row) => {
   const isUgc = row.file_url === "";
   const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
     isUgc: isUgc,
     id: row.id
   }
@@ -444,7 +479,10 @@ const buttonDisableModLoading = ref(false)
 const handleModDisable = () => {
   if (clickedModID.value === 1) {
     buttonDisableModLoading.value = true
-    settingsApi.mod.deleteClintModsDisabled.post().then(response => {
+    const reqForm = {
+      clusterName: globalStore.selectedDstCluster,
+    }
+    settingsApi.mod.deleteClintModsDisabled.post(reqForm).then(response => {
       koiMsgSuccess(response.message)
       handleGetModSetting()
       addClientModsDisabledConfigButtonDisable.value = false
@@ -455,6 +493,7 @@ const handleModDisable = () => {
     buttonDisableModLoading.value = true
     const isUgc = clickedModFileUrl.value === "";
     const reqForm = {
+      clusterName: globalStore.selectedDstCluster,
       isUgc: isUgc,
       id: clickedModID.value
     }
@@ -487,6 +526,7 @@ const modUpdateButtonLoading = ref(false)
 const handleModUpdate = () => {
   modUpdateButtonLoading.value = true
   const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
     isUgc: clickedModFileUrl.value === "",
     id: clickedModID.value,
     fileURL: clickedModFileUrl.value
@@ -508,7 +548,10 @@ const addClientModsDisabledConfigButtonDisable = ref(false)
 const addClientModsDisabledConfigButtonLoading = ref(false)
 const handleAddClientModsDisabledConfig = () => {
   addClientModsDisabledConfigButtonLoading.value = true
-  settingsApi.mod.addClintModsDisabled.post().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+  }
+  settingsApi.mod.addClintModsDisabled.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   }).finally(() => {
     addClientModsDisabledConfigButtonLoading.value = false

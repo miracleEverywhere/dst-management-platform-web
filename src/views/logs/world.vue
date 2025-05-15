@@ -4,10 +4,10 @@
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
         <el-tabs v-model="activeTabName" @tab-change="handleTabChange">
           <el-tab-pane :label="t('logs.current')" name="current">
-            <log ref="logRef" type="chat"/>
+            <log ref="logRef" type="world"/>
           </el-tab-pane>
           <el-tab-pane :label="t('logs.historical')" :lazy="true" name="historical">
-            <log ref="HistoricalLogRef" :historical="true" type="chat"/>
+            <log ref="HistoricalLogRef" :historical="true" type="world"/>
           </el-tab-pane>
         </el-tabs>
 

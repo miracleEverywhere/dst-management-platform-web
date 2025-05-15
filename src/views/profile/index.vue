@@ -2,31 +2,44 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 500px">
+        <el-card shadow="never" style="min-height: 70vh">
           <template #header>
             <div class="card-header">
-              {{ t('profile.cardHeaderInfo') }}
+                  <span>
+                    {{t('profile.cardHeaderInfo')}}
+                  </span>
             </div>
           </template>
-          <div class="parent">
-            <div class="child" style="font-size: 28px;">{{ language === 'zh' ? '管理员' : 'Admin' }}</div>
-            <div class="child" style="font-size: 14px; color: #73767a; margin-top: 5px">{{ userInfo.username }}</div>
-            <div style="height: 35vh; width: 35vh">
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh">
+            <div  style="height: 12vh; width: 35vh">
               <el-image :src="logo" fit="contain"></el-image>
+            </div>
+            <div style="font-size: 32px; font-weight: 800;">
+              {{userInfo.nickname}}
+            </div>
+            <div style="font-size: 24px; color: #909399; margin-top: 10px">
+              {{userInfo.username}}
+            </div>
+            <div style="font-size: 24px; color: #606266; margin-top: 10px">
+              {{userInfo.role}}
             </div>
           </div>
         </el-card>
-
       </el-col>
       <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card style="min-height: 500px">
+        <el-card shadow="never" style="min-height: 70vh">
           <template #header>
             <div class="card-header">
-              {{ t('profile.cardHeaderPassword') }}
+              <span>
+                {{t('profile.cardHeaderPassword')}}
+              </span>
             </div>
           </template>
           <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-position="top"
                    label-width="150" style="margin-top: 20px">
+            <el-form-item :label="$t('profile.oldPassword')" prop="oldPassword">
+              <el-input v-model="updatePasswordForm.oldPassword" show-password></el-input>
+            </el-form-item>
             <el-form-item :label="$t('profile.password')" prop="password">
               <el-input v-model="updatePasswordForm.password" show-password></el-input>
               <sc-password-strength v-model="updatePasswordForm.password"></sc-password-strength>
@@ -35,28 +48,27 @@
             <el-form-item :label="$t('profile.passwordTwice')" prop="passwordTwice">
               <el-input v-model="updatePasswordForm.passwordTwice" show-password></el-input>
             </el-form-item>
-            <div style="display: flex; justify-content: flex-end; padding-top: 80px">
+            <div style="display: flex; justify-content: flex-end; padding-top: 10px">
               <el-button type="primary" @click="handleUpdatePassword">{{ t('profile.update') }}</el-button>
             </div>
           </el-form>
         </el-card>
-
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script name="profile" setup>
-
+import ScPasswordStrength from "@/components/scPasswordStrength/index.vue"
 import {computed, reactive, ref} from "vue";
 import useAuthStore from "@/stores/modules/auth.ts";
 import {useI18n} from "vue-i18n";
-import scPasswordStrength from "@/components/scPasswordStrength/index.vue";
 import systemApi from "@/api/system"
-import {SHA512, sleep} from "@/utils/tools.js";
-import {koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
+import {deepCopy, SHA512, sleep} from "@/utils/tools.js";
+import {koiMsgInfo, koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import {koiLocalStorage, koiSessionStorage} from "@/utils/storage.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
+import {ElMessageBox} from "element-plus";
 
 const authStore = useAuthStore()
 const {t} = useI18n()
@@ -66,10 +78,14 @@ const language = computed(() => globalStore.language);
 
 const updatePasswordFormRef = ref()
 const updatePasswordForm = reactive({
+  oldPassword: '',
   password: '',
   passwordTwice: ''
 })
 const updatePasswordRules = {
+  oldPassword: [
+    {required: true, message: t('profile.plzInputOldPassword')}
+  ],
   password: [
     {required: true, message: t('profile.plzInputPassword')}
   ],
@@ -90,7 +106,12 @@ const updatePasswordRules = {
 const handleUpdatePassword = () => {
   updatePasswordFormRef.value.validate(valid => {
     if (valid) {
-      systemApi.updatePassword.post({password: SHA512(updatePasswordForm.password)}).then(async response => {
+      const reqForm = {
+        username: userInfo.username,
+        oldPassword: SHA512(updatePasswordForm.oldPassword),
+        password: SHA512(updatePasswordForm.password),
+      }
+      systemApi.updatePassword.post(reqForm).then(async response => {
         koiMsgSuccess(response.message)
         await sleep(1000)
         koiNoticeWarning(t('profile.passwordUpdated'), t('profile.passwordUpdatedTitle'), 3000)
@@ -106,7 +127,6 @@ const handleUpdatePassword = () => {
       })
     }
   })
-
 }
 
 const logo = new URL('./images/logo.svg', import.meta.url).href

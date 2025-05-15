@@ -1,87 +1,63 @@
 <template>
   <div class="page-div">
-    <template v-if="!isMultiHost">
-      <el-row :gutter="10">
-        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-          <el-card shadow="never">
-            <el-steps :active="step" align-center finish-status="success">
-              <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')" @click="handleStepClick(0)"/>
-              <el-step :title="isMobile?$t('setting.groundSettingMobile'):$t('setting.groundSetting')"
-                       @click="handleStepClick(1)"/>
-              <el-step :title="isMobile?$t('setting.caveSettingMobile'):$t('setting.caveSetting')" @click="handleStepClick(2)"/>
-              <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')" @click="handleStepClick(3)"/>
-              <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"
-                       @click="handleStepClick(4)"/>
-            </el-steps>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10" style="margin-top: 5px">
-        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
-          <el-card v-if="step===0" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <template #header>
-              <div class="card-header">
-                <span>
-                  {{ t('setting.roomSetting') }}
-                </span>
-                <div>
-                  <el-button link type="primary" @click="handleChangeMultiHost(true)">
-                    {{ t('setting.baseForm.changeMultiHostMode') }}
-                  </el-button>
-                </div>
-              </div>
-            </template>
-            <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
-                     :model="roomBaseForm" :rules="roomBaseFormRules" :size="isMobile?'small':'large'">
-              <el-form-item :label="t('setting.baseForm.room')" prop="name">
-                <el-input v-model="roomBaseForm.name"></el-input>
+    <el-row :gutter="10">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
+        <el-card shadow="never">
+          <el-steps :active="step" align-center finish-status="success">
+            <el-step :title="isMobile?t('setting.roomSettingMobile'):t('setting.roomSetting')" @click="handleStepClick(0)"/>
+            <el-step :title="isMobile?t('setting.worldSettingMobile'):t('setting.worldSetting')" @click="handleStepClick(1)"/>
+            <el-step :title="isMobile?t('setting.modSettingMobile'):t('setting.modSetting')" @click="handleStepClick(3)"/>
+            <el-step :title="isMobile?t('setting.finishSettingMobile'):t('setting.finishSetting')"
+                     @click="handleStepClick(2)"/>
+          </el-steps>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10" style="margin-top: 5px">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
+        <el-card v-if="step===0" shadow="never">
+          <template #header>
+            <div class="card-header">
+              <span>
+                {{ t('setting.roomSetting') }}
+              </span>
+            </div>
+          </template>
+          <el-scrollbar :height="windowHeight - 450">
+            <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
+                     :model="clusterSettingForm" :rules="clusterSettingFormRules" :size="isMobile?'small':'large'">
+              <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <el-input v-model="clusterSettingForm.name"></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.description')" prop="description">
-                <el-input v-model="roomBaseForm.description"></el-input>
+              <div v-if="!isMobile"></div>
+              <el-form-item :label="t('setting.baseForm.description')" prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <el-input v-model="clusterSettingForm.description"></el-input>
               </el-form-item>
-              <el-form-item prop="masterPort">
-                <template #label>
-                  <el-tooltip :content="t('setting.roomBaseFormPortToolTip')" effect="light" placement="top">
-                    {{ t('setting.baseForm.masterPort') }}
-                  </el-tooltip>
-                </template>
-                <el-input-number v-model="roomBaseForm.masterPort" :max="65535" :min="1" :size="isMobile?'small':'large'"
-                                 controls-position="right"></el-input-number>
-              </el-form-item>
-              <el-form-item prop="cavesPort">
-                <template #label>
-                  <el-tooltip :content="t('setting.roomBaseFormPortToolTip')" effect="light" placement="top">
-                    {{ t('setting.baseForm.cavesPort') }}
-                  </el-tooltip>
-                </template>
-                <el-input-number v-model="roomBaseForm.cavesPort" :max="65535" :min="1" :size="isMobile?'small':'large'"
-                                 controls-position="right"></el-input-number>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode">
-                <el-radio-group v-model="roomBaseForm.gameMode">
-                  <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless"/>
-                  <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival"/>
-                  <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
-                  <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
+              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <el-radio-group v-model="clusterSettingForm.gameMode">
+                  <el-radio :label="t('setting.baseForm.gameMode.endless')" value="endless"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.survival')" value="survival"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp">
-                <el-switch v-model="roomBaseForm.pvp"/>
+              <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <el-switch v-model="clusterSettingForm.pvp"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum">
-                <el-slider v-model="roomBaseForm.playerNum" :max="100" :min="2" show-input size="small"/>
+              <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <el-slider v-model="clusterSettingForm.playerNum" :max="100" :min="2" show-input size="small"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays">
-                <el-slider v-model="roomBaseForm.backDays" :max="50" :min="5" show-input size="small"/>
+              <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <el-slider v-model="clusterSettingForm.backDays" :max="50" :min="5" show-input size="small"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.vote')" prop="vote">
-                <el-switch v-model="roomBaseForm.vote"/>
+              <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                <el-switch v-model="clusterSettingForm.vote"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.password')">
-                <el-input v-model="roomBaseForm.password" autocomplete="new-password" show-password></el-input>
+              <el-form-item :label="t('setting.baseForm.password')" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+                <el-input v-model="clusterSettingForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.token')" prop="token">
-                <el-input v-model="roomBaseForm.token" show-password></el-input>
+              <el-form-item :label="t('setting.baseForm.token')" prop="token" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+                <el-input v-model="clusterSettingForm.token" show-password></el-input>
                 <div class="el-form-item-msg">
                   <el-link :underline="false" href="https://accounts.klei.com"
                            target="_blank">{{ t('setting.baseForm.tokenHelp') }}
@@ -89,1292 +65,707 @@
                 </div>
               </el-form-item>
             </el-form>
-          </el-card>
-          <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <el-tabs v-model="groundTabName"  @tab-change="handleGroundTabChange">
-              <el-tab-pane :label="t('setting.tabCode')" name="Code">
-                <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
-                           @click="handleImportLeveldataLua('master', 'endless')">
-                  {{ t('setting.luaImportButton.endless') }}
-                </el-button>
-                <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
-                           @click="handleImportLeveldataLua('master', 'survival')">
-                  {{ t('setting.luaImportButton.survival') }}
-                </el-button>
-                <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
-                         :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                  <el-form-item label-position="top" prop="groundSetting">
-                    <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting" :height="isMobile?320:500"
-                                    :theme="isDark?'darcula':'idea'"
-                                    mode="lua" style="width: 100%"></sc-code-editor>
-                  </el-form-item>
-                </el-form>
-              </el-tab-pane>
-              <el-tab-pane lazy
-                v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
-                :label="t('setting.tabVisualization')" name="Visualization">
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.global') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.global">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
+          </el-scrollbar>
+        </el-card>
+        <el-card v-if="step===1" shadow="never">
+          <template #header>
+            <div class="card-header">
+              <span>{{t('setting.worldSetting')}}</span>
+              <div>
+                <el-dropdown trigger="click" @command="handleCreateWorld">
+                  <el-button :disabled="worldLevelDataTabName!=='Code'" type="success">
+                    {{t('setting.oneClick')}}
+                    <el-icon class="el-icon--right">
+                      <arrow-down/>
+                    </el-icon>
+                  </el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item :command="{clusterType: 'endless', worldType: 'ground'}"
+                                        :disabled="clusterSettingForm.gameMode!=='endless'">
+                        {{t('setting.endless')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'endless', worldType: 'cave'}"
+                                        :disabled="clusterSettingForm.gameMode!=='endless'">
+                        {{t('setting.endless')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'survival', worldType: 'ground'}"
+                                        :disabled="clusterSettingForm.gameMode!=='survival'">
+                        {{t('setting.survival')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'survival', worldType: 'cave'}"
+                                        :disabled="clusterSettingForm.gameMode!=='survival'">
+                        {{t('setting.survival')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
                   </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.events') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.events">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
+                </el-dropdown>
+              </div>
+            </div>
+          </template>
+          <el-scrollbar :height="windowHeight - 450">
+            <el-tabs v-model="worldTabName" editable type="card" @edit="handleWorldTabsEdit"
+                     @tab-change="handleWorldTabsEditChange">
+              <el-tab-pane v-for="world in worldForm" :key="world.name"
+                           :label="language==='zh'?'世界':'World'"
+                           :name="world.name">
+                <el-row>
+                  <el-form :ref="(el) => (dynamicWorldRefs[world.name] = el)"
+                           :label-position="isMobile||language==='en'?'top':'left'" :model="world"
+                           :rules="worldFormRules" :size="isMobile?'small':'large'"
+                           inline label-width="120px" style="margin-top: 10px">
+                    <div style="display: flex; flex-wrap: wrap;">
+                      <el-form-item :label="t('setting.isMaster')" prop="isMaster" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.isMasterTip')" effect="light" placement="top">
+                          <el-switch v-model="world.isMaster" :active-text="language==='zh'?'是':'Y'"
+                                     :inactive-text="language==='zh'?'否':'N'"
+                                     inline-prompt
+                          ></el-switch>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.system.encodeUserPath.divider')" prop="encodeUserPath" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.encodeUserPathTip')" effect="light"
+                                    placement="top">
+                          <el-switch v-model="world.encodeUserPath" :active-text="language==='zh'?'是':'Y'"
+                                     :inactive-text="language==='zh'?'否':'N'"
+                                     inline-prompt
+                          ></el-switch>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.roomWorldForm.id')" prop="id" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.idTip')" effect="light" placement="top">
+                          <el-input v-model.number="world.id" :disabled="world.saved" size="default" type="number"/>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.serverPort')" prop="serverPort" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.serverPortTip')" effect="light" placement="top">
+                          <el-input v-model.number="world.serverPort" size="default" type="number"/>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')"
+                                    prop="shardMasterPort" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，cluster.ini -> [SHARD] -> master_port'"
+                                    effect="light" placement="top">
+                          <el-input v-model.number="world.shardMasterPort" size="default" type="number"/>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')"
+                                    prop="steamMasterPort" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> server_master_port'"
+                                    effect="light" placement="top">
+                          <el-input v-model.number="world.steamMasterPort" size="default" type="number"/>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')"
+                                    prop="steamAuthenticationPort" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.noEdit')+'，server.ini -> [STEAM] -> authentication_port'"
+                                    effect="light" placement="top">
+                          <el-input v-model.number="world.steamAuthenticationPort" size="default" type="number"/>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.shardMasterIp')" prop="shardMasterIp" style="width: 250px">
+                        <el-tooltip :show-after="100" :content="t('setting.shardMasterIpTip')"
+                                    effect="light" placement="top">
+                          <el-input v-model="world.shardMasterIp" :disabled="world.isMaster"
+                                    size="default"/>
+                        </el-tooltip>
+                      </el-form-item>
+                      <el-form-item :label="t('setting.roomWorldForm.clusterKey')" prop="clusterKey" style="width: 250px">
+                        <el-tooltip :show-after="100"
+                                    :content="t('setting.clusterKeyTip')"
+                                    effect="light" placement="top">
+                          <el-input v-model="world.clusterKey" autocomplete="new-password" show-password size="default"
+                                    type="password"/>
+                        </el-tooltip>
+                      </el-form-item>
                     </div>
-                  </template>
+                  </el-form>
+                </el-row>
+                <div style="width: 99%">
+                  <el-tabs v-model="worldLevelDataTabName" @tab-change="handleWorldTabChange">
+                    <el-tab-pane :label="language==='zh'?'配置文件':'Code'" name="Code">
+                      <div style="width: 100%">
+                        <el-form :model="world">
+                          <el-form-item>
+                            <sc-code-editor v-model="world.levelData"
+                                            :height="windowHeight * 0.5"
+                                            :theme="isDark?'darcula':'idea'"
+                                            mode="lua" style="width: 100%">
+                            </sc-code-editor>
+                          </el-form-item>
+                        </el-form>
+                      </div>
+                    </el-tab-pane>
+                    <el-tab-pane
+                      v-if="(clusterSettingForm.gameMode==='endless'||clusterSettingForm.gameMode==='survival') && world.levelData!==''"
+                      :label="t('setting.tabVisualization')" lazy name="Visualization">
+                      <template v-if="visualizationType==='forest' && Object.keys(overridesObj).length!==0">
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.global') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.global">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.events') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.events">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.survivors') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.survivors">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.world') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.world">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.resourceRegrowth') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.resourceRegrowth">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.unnaturalPortalResource') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.unnaturalPortalResource">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.creatures') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.creatures">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.hostileCreatures') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.hostileCreatures">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.giants') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.giants">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                          {{ t('setting.groundVisualizationGenerationItem.global') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldGeneration.global">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                          {{ t('setting.groundVisualizationGenerationItem.world') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldGeneration.world">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                          {{ t('setting.groundVisualizationGenerationItem.resources') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldGeneration.resources">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                          {{ t('setting.groundVisualizationGenerationItem.creaturesAndSpawners') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldGeneration.creaturesAndSpawners">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
+                          {{ t('setting.groundVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldGeneration.hostileCreaturesAndSpawners">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                      </template>
+                      <template v-if="visualizationType==='cave' && Object.keys(overridesObj).length!==0">
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
+                          {{ t('setting.cavesVisualizationRuleItem.world') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldRule.world">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
+                          {{ t('setting.cavesVisualizationRuleItem.resourceRegrowth') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldRule.resourceRegrowth">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
+                          {{ t('setting.cavesVisualizationRuleItem.creatures') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldRule.creatures">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
+                          {{ t('setting.cavesVisualizationRuleItem.hostileCreatures') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldRule.hostileCreatures">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
+                          {{ t('setting.cavesVisualizationRuleItem.giants') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldRule.giants">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
+                          {{ t('setting.cavesVisualizationGenerationItem.world') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldGeneration.world">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="caveOverrideWorldGenerationWorld[i].configs"
+                                                :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
+                                                :defaultModelValue="caveOverrideWorldGenerationWorld[i].modelValue"
+                                                :i18n="caveOverrideWorldGenerationWorld[i].i18n"
+                                                :image="caveOverrideWorldGenerationWorld[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
+                          {{ t('setting.cavesVisualizationGenerationItem.resources') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldGeneration.resources">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
+                          {{ t('setting.cavesVisualizationGenerationItem.creaturesAndSpawners') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldGeneration.creaturesAndSpawners">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
+                          {{ t('setting.cavesVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldGeneration.hostileCreaturesAndSpawners">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i].configs"
+                                                :customConfigsValue="overrides[i].customConfigsValue"
+                                                :defaultModelValue="overrides[i].modelValue"
+                                                :i18n="overrides[i].i18n"
+                                                :image="overrides[i].image"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                      </template>
+                    </el-tab-pane>
+                  </el-tabs>
                 </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.survivors') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.survivors">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.world') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.world">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.resourceRegrowth') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.resourceRegrowth">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.unnaturalPortalResource') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.unnaturalPortalResource">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.creatures') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.creatures">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.hostileCreatures') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.hostileCreatures">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                  {{ t('setting.groundVisualizationRuleItem.giants') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldRule.giants">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                  {{ t('setting.groundVisualizationGenerationItem.global') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldGeneration.global">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                  {{ t('setting.groundVisualizationGenerationItem.world') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldGeneration.world">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                  {{ t('setting.groundVisualizationGenerationItem.resources') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldGeneration.resources">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                  {{ t('setting.groundVisualizationGenerationItem.creaturesAndSpawners') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldGeneration.creaturesAndSpawners">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                  {{ t('setting.groundVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in groundWorldGeneration.hostileCreaturesAndSpawners">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-
               </el-tab-pane>
             </el-tabs>
-          </el-card>
-          <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <el-tabs v-model="cavesTabName" @tab-change="handleCavesTabChange">
-              <el-tab-pane :label="t('setting.tabCode')" name="Code">
-                <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.cavesTip') }}</el-alert>
-                <div style="margin-top: 10px">
-                  <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
-                             @click="handleImportLeveldataLua('caves', 'endless')">
-                    {{ t('setting.luaImportButton.endless') }}
-                  </el-button>
-                  <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
-                             @click="handleImportLeveldataLua('caves', 'survival')">
-                    {{ t('setting.luaImportButton.survival') }}
-                  </el-button>
-                </div>
-                <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
-                         :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                  <el-form-item label-position="top" prop="caveSetting">
-                    <sc-code-editor ref="editorCavesSettingRef" v-model="roomCaveForm.caveSetting" :height="isMobile?320:500"
-                                    :theme="isDark?'darcula':'idea'"
-                                    mode="lua" style="width: 100%"></sc-code-editor>
-                  </el-form-item>
-                </el-form>
-              </el-tab-pane>
-              <el-tab-pane lazy
-                v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
-                :label="t('setting.tabVisualization')" name="Visualization">
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                  {{ t('setting.cavesVisualizationRuleItem.world') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldRule.world">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                  {{ t('setting.cavesVisualizationRuleItem.resourceRegrowth') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldRule.resourceRegrowth">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                  {{ t('setting.cavesVisualizationRuleItem.creatures') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldRule.creatures">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                  {{ t('setting.cavesVisualizationRuleItem.hostileCreatures') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldRule.hostileCreatures">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                  {{ t('setting.cavesVisualizationRuleItem.giants') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldRule.giants">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                  {{ t('setting.cavesVisualizationGenerationItem.world') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldGeneration.world">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="caveOverrideWorldGenerationWorld[i].configs"
-                                        :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="caveOverrideWorldGenerationWorld[i].i18n"
-                                        :image="caveOverrideWorldGenerationWorld[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                  {{ t('setting.cavesVisualizationGenerationItem.resources') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldGeneration.resources">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                  {{ t('setting.cavesVisualizationGenerationItem.creaturesAndSpawners') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldGeneration.creaturesAndSpawners">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-                <el-divider content-position="center"><span
-                  style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                  {{ t('setting.cavesVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
-                </el-divider>
-                <div class="item-container">
-                  <template v-for="(i, key) in cavesWorldGeneration.hostileCreaturesAndSpawners">
-                    <div>
-                      <LevelDataSetting :key="key"
-                                        v-model="overridesObj[i]"
-                                        :configs="overrides[i].configs"
-                                        :customConfigsValue="overrides[i].customConfigsValue"
-                                        :defaultModelValue="overrides[i].modelValue"
-                                        :i18n="overrides[i].i18n"
-                                        :image="overrides[i].image"
-                                        :name="i"
-                                        @changeModelValue="handleCavesModelValueChange"
-                      />
-                    </div>
-                  </template>
-                </div>
-              </el-tab-pane>
-            </el-tabs>
-          </el-card>
-          <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <el-form ref="roomModFormRef" :label-width="isMobile?'70':'100'" :model="roomModForm" :rules="roomModFormRules"
-                     :size="isMobile?'small':'large'">
-              <el-form-item label-position="top" prop="modSetting">
-                <sc-code-editor ref="editor" v-model="roomModForm.modSetting" :height="isMobile?320:500"
-                                :theme="isDark?'darcula':'idea'"
-                                mode="lua" style="width: 100%"></sc-code-editor>
-              </el-form-item>
-            </el-form>
-          </el-card>
-          <el-card v-if="step===4" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <div :style="isMobile?'min-height: 360px':'min-height: 560px'" class="fcc">
-              <el-result :sub-title="$t('setting.finish.description')" :title="$t('setting.finish.title')" icon="success"/>
+          </el-scrollbar>
+        </el-card>
+        <el-card v-if="step===2" shadow="never">
+          <div v-if="worldForm.length > 2" class="tip_warning">
+            <div style="display: flex; align-items: center">
+              <span>
+                {{t('setting.multiWorldTip')}}
+              </span>
+              <el-button size="small" style="margin-left: 10px"
+                         type="warning" @click="openMultiWorldModAddDialog"
+              >
+                {{language==='zh'?'多层世界':'Multi-world'}}
+              </el-button>
             </div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10">
-        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
-          <el-card shadow="never">
-            <div style="display: flex; justify-content: flex-end;">
-              <el-button v-if="step>0" @click="handlePrev">{{ t('setting.button.prev') }}</el-button>
-              <el-button v-if="step<4" type="primary" @click="handleNext">{{ t('setting.button.next') }}</el-button>
-              <el-dropdown v-if="step===4" style="margin-left: 12px" trigger="click" @command="handleCommand">
-                <el-button :loading="loading" type="warning">
-                  {{ t('setting.button.actions') }}
-                  <el-icon class="el-icon--right">
-                    <arrow-down/>
-                  </el-icon>
-                </el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item command="save">{{ t('setting.button.save') }}</el-dropdown-item>
-                    <el-dropdown-item command="saveAndRestart">{{ t('setting.button.saveAndRestart') }}</el-dropdown-item>
-                    <el-dropdown-item command="generateNewWorld">{{ t('setting.button.generateNewWorld') }}</el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </template>
-    <template v-if="isMultiHost">
-      <el-row :gutter="10">
-        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-          <el-card shadow="never">
-            <el-steps :active="step" align-center finish-status="success">
-              <el-step :title="isMobile?$t('setting.roomSettingMobile'):$t('setting.roomSetting')" @click="handleStepClick(0)"/>
-              <el-step :title="isMobile?$t('setting.worldSettingMobile'):$t('setting.worldSetting')" @click="handleStepClick(1)"/>
-              <el-step :title="isMobile?$t('setting.modSettingMobile'):$t('setting.modSetting')" @click="handleStepClick(3)"/>
-              <el-step :title="isMobile?$t('setting.finishSettingMobile'):$t('setting.finishSetting')"
-                       @click="handleStepClick(2)"/>
-            </el-steps>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10" style="margin-top: 5px">
-        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
-          <el-card v-if="step===0" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <template #header>
-              <div class="card-header">
-                <span>
-                  {{ t('setting.roomSetting') }}
-                </span>
-                <div>
-                  <el-button link type="primary" @click="handleChangeMultiHost(false)">
-                    {{ t('setting.baseForm.changeSingleHostMode') }}
-                  </el-button>
-                </div>
+          </div>
+          <el-form :model="clusterModForm">
+            <el-form-item>
+              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 400"
+                              :theme="isDark?'darcula':'idea'"
+                              mode="lua" style="width: 100%"></sc-code-editor>
+            </el-form-item>
+          </el-form>
+        </el-card>
+        <el-card v-if="step===3" shadow="never">
+          <div :style="{height: `${windowHeight - 400}px`}" class="fcc">
+            <el-result :sub-title="t('setting.finish.description')" :title="t('setting.finish.title')" icon="success"/>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
+        <el-card shadow="never">
+          <div style="display: flex; justify-content: flex-end;">
+            <el-button v-if="step>0" @click="handlePrev">{{ t('setting.button.prev') }}</el-button>
+            <el-button v-if="step<3" type="primary" @click="handleNext">{{ t('setting.button.next') }}</el-button>
+            <el-dropdown v-if="step===3" style="margin-left: 12px" trigger="click" @command="handleCommand">
+              <el-button :loading="loading" type="warning">
+                {{ t('setting.button.actions') }}
+                <el-icon class="el-icon--right">
+                  <arrow-down/>
+                </el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="save">{{ t('setting.button.save') }}</el-dropdown-item>
+                  <el-dropdown-item command="saveAndRestart">{{ t('setting.button.saveAndRestart') }}</el-dropdown-item>
+                  <el-dropdown-item command="generateNewWorld">{{ t('setting.button.generateNewWorld') }}</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-dialog v-model="multiWorldModAddDialog" width="50%">
+      <template #header>
+        {{t('setting.multiWorldDialog.title')}}
+      </template>
+      <div class="tip_warning">
+        {{t('setting.multiWorldDialog.tip')}}
+      </div>
+      <div style="margin: 50px">
+        <el-form :model="multiWorldModNameForm" label-position="top">
+          <el-form-item v-for="world in worldForm">
+            <template #label>
+              <div style="display: flex; align-items: center">
+                <span style="margin-right: 10px">{{ world.name }}</span>
+                <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
+                  {{language==='zh'?'地面':'Ground'}}
+                </el-tag>
+                <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
+                  {{language==='zh'?'洞穴':'Cave'}}
+                </el-tag>
               </div>
             </template>
-            <el-form ref="roomBaseFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
-                     :model="roomBaseForm" :rules="roomBaseFormRules" :size="isMobile?'small':'large'">
-              <el-form-item :label="t('setting.baseForm.room')" prop="name">
-                <el-input v-model="roomBaseForm.name"></el-input>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.description')" prop="description">
-                <el-input v-model="roomBaseForm.description"></el-input>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode">
-                <el-radio-group v-model="roomBaseForm.gameMode">
-                  <el-radio :label="$t('setting.baseForm.gameMode.endless')" value="endless"/>
-                  <el-radio :label="$t('setting.baseForm.gameMode.survival')" value="survival"/>
-                  <el-radio :label="$t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
-                  <el-radio :label="$t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp">
-                <el-switch v-model="roomBaseForm.pvp"/>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum">
-                <el-slider v-model="roomBaseForm.playerNum" :max="100" :min="2" show-input size="small"/>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays">
-                <el-slider v-model="roomBaseForm.backDays" :max="50" :min="5" show-input size="small"/>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.vote')" prop="vote">
-                <el-switch v-model="roomBaseForm.vote"/>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.password')">
-                <el-input v-model="roomBaseForm.password" autocomplete="new-password" show-password></el-input>
-              </el-form-item>
-              <el-form-item :label="t('setting.baseForm.token')" prop="token">
-                <el-input v-model="roomBaseForm.token" show-password></el-input>
-                <div class="el-form-item-msg">
-                  <el-link :underline="false" href="https://accounts.klei.com"
-                           target="_blank">{{ t('setting.baseForm.tokenHelp') }}
-                  </el-link>
-                </div>
-              </el-form-item>
-            </el-form>
-          </el-card>
-          <el-card v-if="step===1" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <template #header>
-              <div class="card-header">
-                <div>
-                  <el-radio-group v-model="multiHostIsMaster" @change="clearSetting">
-                    <el-radio :value="true" size="small">{{ t('setting.groundSettingMobile') }}</el-radio>
-                    <el-radio :value="false" size="small">{{ t('setting.caveSettingMobile') }}</el-radio>
-                  </el-radio-group>
-                </div>
-              </div>
-            </template>
-            <template v-if="multiHostIsMaster">
-              <el-tabs v-model="groundTabName" @tab-change="handleGroundTabChange">
-                <el-tab-pane :label="t('setting.tabCode')" name="Code">
-                  <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
-                             @click="handleImportLeveldataLua('master', 'endless')">
-                    {{ t('setting.luaImportButton.endless') }}
-                  </el-button>
-                  <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
-                             @click="handleImportLeveldataLua('master', 'survival')">
-                    {{ t('setting.luaImportButton.survival') }}
-                  </el-button>
-                  <el-form ref="roomBaseFormRef" :label-width="isMobile?'70':'100'" :model="roomBaseForm"
-                           :rules="multiHostFormRules" :size="isMobile?'small':'large'"
-                           inline label-position="top" style="margin-top: 10px">
-                    <el-tooltip :show-after="500" content="server.ini - [NETWORK] - server_port" effect="light" placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.masterPort')" label-position="top" prop="masterPort">
-                        <el-input v-model="roomBaseForm.masterPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_port" effect="light" placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')" label-position="top"
-                                    prop="shardMasterPort">
-                        <el-input v-model="roomBaseForm.shardMasterPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - server_master_port" effect="light"
-                                placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')" label-position="top"
-                                    prop="steamMasterPort">
-                        <el-input v-model="roomBaseForm.steamMasterPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - authentication_port" effect="light"
-                                placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')" label-position="top"
-                                    prop="steamAuthenticationPort">
-                        <el-input v-model="roomBaseForm.steamAuthenticationPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_ip" effect="light" placement="top">
-                      <el-form-item label="Master IP" label-position="top" prop="shardMasterIp">
-                        <el-input v-model="roomBaseForm.shardMasterIp" disabled size="default"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - cluster_key" effect="light" placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.clusterKey')" label-position="top" prop="clusterKey">
-                        <el-input v-model="roomBaseForm.clusterKey" autocomplete="new-password" show-password size="default"
-                                  type="password"/>
-                      </el-form-item>
-                    </el-tooltip>
-                  </el-form>
-                  <el-form ref="roomGroundFormRef" :label-width="isMobile?'70':'100'" :model="roomGroundForm"
-                           :rules="roomGroundFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-form-item :label="t('setting.roomWorldForm.groundSetting')" label-position="top" prop="groundSetting">
-                      <sc-code-editor ref="editorGroundSettingRef" v-model="roomGroundForm.groundSetting"
-                                      :height="isMobile?320:500"
-                                      :theme="isDark?'darcula':'idea'"
-                                      mode="lua" style="width: 100%"></sc-code-editor>
-                    </el-form-item>
-                  </el-form>
-                </el-tab-pane>
-                <el-tab-pane lazy
-                  v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomGroundForm.groundSetting!==''"
-                  :label="t('setting.tabVisualization')" name="Visualization">
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.global') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.global">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.events') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.events">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.survivors') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.survivors">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.world') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.world">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.resourceRegrowth') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.resourceRegrowth">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.unnaturalPortalResource') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.unnaturalPortalResource">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.creatures') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.creatures">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.hostileCreatures') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.hostileCreatures">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
-                    {{ t('setting.groundVisualizationRuleItem.giants') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldRule.giants">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                    {{ t('setting.groundVisualizationGenerationItem.global') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldGeneration.global">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                    {{ t('setting.groundVisualizationGenerationItem.world') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldGeneration.world">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                    {{ t('setting.groundVisualizationGenerationItem.resources') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldGeneration.resources">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                    {{ t('setting.groundVisualizationGenerationItem.creaturesAndSpawners') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldGeneration.creaturesAndSpawners">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
-                    {{ t('setting.groundVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in groundWorldGeneration.hostileCreaturesAndSpawners">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-
-                </el-tab-pane>
-              </el-tabs>
-            </template>
-            <template v-else>
-              <el-tabs v-model="cavesTabName" @tab-change="handleCavesTabChange">
-                <el-tab-pane :label="t('setting.tabCode')" name="Code">
-                  <div>
-                    <el-button v-if="roomBaseForm.gameMode==='endless'" type="primary"
-                               @click="handleImportLeveldataLua('caves', 'endless')">
-                      {{ t('setting.luaImportButton.endless') }}
-                    </el-button>
-                    <el-button v-if="roomBaseForm.gameMode==='survival'" type="primary"
-                               @click="handleImportLeveldataLua('caves', 'survival')">
-                      {{ t('setting.luaImportButton.survival') }}
-                    </el-button>
-                  </div>
-                  <el-form ref="roomBaseFormRef" :label-width="isMobile?'70':'100'" :model="roomBaseForm"
-                           :rules="multiHostFormRules" :size="isMobile?'small':'large'"
-                           inline label-position="top" style="margin-top: 10px">
-                    <el-tooltip :show-after="500" content="server.ini - [NETWORK] - server_port" effect="light" placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.cavesPort')" label-position="top" prop="cavesPort">
-                        <el-input v-model="roomBaseForm.cavesPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_port" effect="light" placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.shardMasterPort')" label-position="top"
-                                    prop="shardMasterPort">
-                        <el-input v-model="roomBaseForm.shardMasterPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - server_master_port" effect="light"
-                                placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.steamMasterPort')" label-position="top"
-                                    prop="steamMasterPort">
-                        <el-input v-model="roomBaseForm.steamMasterPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="server.ini - [STEAM] - authentication_port" effect="light"
-                                placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.steamAuthenticationPort')" label-position="top"
-                                    prop="steamAuthenticationPort">
-                        <el-input v-model="roomBaseForm.steamAuthenticationPort" size="default" type="number"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - master_ip" effect="light" placement="top">
-                      <el-form-item label="Master IP" label-position="top" prop="shardMasterIp">
-                        <el-input v-model="roomBaseForm.shardMasterIp" size="default"/>
-                      </el-form-item>
-                    </el-tooltip>
-                    <el-tooltip :show-after="500" content="cluster.ini - [SHARD] - cluster_key" effect="light" placement="top">
-                      <el-form-item :label="t('setting.roomWorldForm.clusterKey')" label-position="top" prop="clusterKey">
-                        <el-input v-model="roomBaseForm.clusterKey" autocomplete="new-password" show-password size="default"
-                                  type="password"/>
-                      </el-form-item>
-                    </el-tooltip>
-                  </el-form>
-                  <el-form ref="roomCaveFormRef" :label-width="isMobile?'70':'100'" :model="roomCaveForm"
-                           :rules="roomCaveFormRules" :size="isMobile?'small':'large'" style="margin-top: 10px">
-                    <el-form-item :label="t('setting.roomWorldForm.caveSetting')" label-position="top" prop="caveSetting">
-                      <sc-code-editor ref="editorCavesSettingRef" v-model="roomCaveForm.caveSetting" :height="isMobile?320:500"
-                                      :theme="isDark?'darcula':'idea'"
-                                      mode="lua" style="width: 100%"></sc-code-editor>
-                    </el-form-item>
-                  </el-form>
-                </el-tab-pane>
-                <el-tab-pane lazy
-                  v-if="(roomBaseForm.gameMode==='endless'||roomBaseForm.gameMode==='survival') && roomCaveForm.caveSetting!==''"
-                  :label="t('setting.tabVisualization')" name="Visualization">
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                    {{ t('setting.cavesVisualizationRuleItem.world') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldRule.world">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                    {{ t('setting.cavesVisualizationRuleItem.resourceRegrowth') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldRule.resourceRegrowth">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                    {{ t('setting.cavesVisualizationRuleItem.creatures') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldRule.creatures">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                    {{ t('setting.cavesVisualizationRuleItem.hostileCreatures') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldRule.hostileCreatures">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
-                    {{ t('setting.cavesVisualizationRuleItem.giants') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldRule.giants">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                    {{ t('setting.cavesVisualizationGenerationItem.world') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldGeneration.world">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="caveOverrideWorldGenerationWorld[i].configs"
-                                          :customConfigsValue="caveOverrideWorldGenerationWorld[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="caveOverrideWorldGenerationWorld[i].i18n"
-                                          :image="caveOverrideWorldGenerationWorld[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                    {{ t('setting.cavesVisualizationGenerationItem.resources') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldGeneration.resources">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                    {{ t('setting.cavesVisualizationGenerationItem.creaturesAndSpawners') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldGeneration.creaturesAndSpawners">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                  <el-divider content-position="center"><span
-                    style="font-weight: bolder">{{ t('setting.cavesVisualizationGeneration') }}</span> -
-                    {{ t('setting.cavesVisualizationGenerationItem.hostileCreaturesAndSpawners') }}
-                  </el-divider>
-                  <div class="item-container">
-                    <template v-for="(i, key) in cavesWorldGeneration.hostileCreaturesAndSpawners">
-                      <div>
-                        <LevelDataSetting :key="key"
-                                          v-model="overridesObj[i]"
-                                          :configs="overrides[i].configs"
-                                          :customConfigsValue="overrides[i].customConfigsValue"
-                                          :defaultModelValue="overrides[i].modelValue"
-                                          :i18n="overrides[i].i18n"
-                                          :image="overrides[i].image"
-                                          :name="i"
-                                          @changeModelValue="handleCavesModelValueChange"
-                        />
-                      </div>
-                    </template>
-                  </div>
-                </el-tab-pane>
-              </el-tabs>
-            </template>
-          </el-card>
-          <el-card v-if="step===2" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <el-form ref="roomModFormRef" :label-width="isMobile?'70':'100'" :model="roomModForm" :rules="roomModFormRules"
-                     :size="isMobile?'small':'large'">
-              <el-form-item label-position="top" prop="modSetting">
-                <sc-code-editor ref="editor" v-model="roomModForm.modSetting" :height="isMobile?320:500"
-                                :theme="isDark?'darcula':'idea'"
-                                mode="lua" style="width: 100%"></sc-code-editor>
-              </el-form-item>
-            </el-form>
-          </el-card>
-          <el-card v-if="step===3" :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
-            <div :style="isMobile?'min-height: 360px':'min-height: 560px'" class="fcc">
-              <el-result :sub-title="$t('setting.finish.description')" :title="$t('setting.finish.title')" icon="success"/>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10">
-        <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24">
-          <el-card shadow="never">
-            <div style="display: flex; justify-content: flex-end;">
-              <el-button v-if="step>0" @click="handlePrev">{{ t('setting.button.prev') }}</el-button>
-              <el-button v-if="step<3" type="primary" @click="handleNext">{{ t('setting.button.next') }}</el-button>
-              <el-dropdown v-if="step===3" style="margin-left: 12px" trigger="click" @command="handleCommand">
-                <el-button :loading="loading" type="warning">
-                  {{ t('setting.button.actions') }}
-                  <el-icon class="el-icon--right">
-                    <arrow-down/>
-                  </el-icon>
-                </el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item command="save">{{ t('setting.button.save') }}</el-dropdown-item>
-                    <el-dropdown-item command="saveAndRestart">{{ t('setting.button.saveAndRestart') }}</el-dropdown-item>
-                    <el-dropdown-item command="generateNewWorld">{{ t('setting.button.generateNewWorld') }}</el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </template>
+            <el-input v-model="multiWorldModNameForm[`${parseInt(world.name.replace('World', ''))}`]"
+                      :placeholder="t('setting.multiWorldDialog.placeholder1')"
+                      style="width: 60%"/>
+            <el-input v-model="multiWorldModNumForm[`${parseInt(world.name.replace('World', ''))}`]"
+                      :placeholder="t('setting.multiWorldDialog.placeholder2')"
+                      type="number"
+                      style="margin-left: 3%;width: 37%"/>
+          </el-form-item>
+          <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+            <el-button type="primary" @click="handleGenerateModSetting">
+              {{language==='zh'?'生成配置':'Generate'}}
+            </el-button>
+          </div>
+        </el-form>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script name="settingsRoom" setup>
-import {computed, inject, nextTick, onMounted, ref} from "vue";
+import {ArrowDown} from "@element-plus/icons-vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
@@ -1385,7 +776,7 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
+import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
 import {
   caveOverrideWorldGenerationWorld,
   cavesWorldGeneration,
@@ -1393,28 +784,64 @@ import {
   groundWorldGeneration,
   groundWorldRule,
   overrides
-} from "@/views/settings/components/levelDataMap.js"
-import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
+} from "@/views/settings/components/levelDataMap.js";
+import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 
 const {t} = useI18n()
 
 onMounted(async () => {
-  await getMultiHost()
-  await handleGetCurrentRoomSetting()
+  windowHeight.value = window.innerHeight;
+  window.addEventListener("resize", () => {
+    windowHeight.value = window.innerHeight;
+  });
+  await handleGetClusterSetting()
+  generateWorldFormRefs()
 })
 
 const loading = ref(false)
+
+const windowHeight = ref(0)
 
 const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const worldPortFactor = computed(() => {
+  const clusters = globalStore.dstClusters || []
+  const index = clusters.findIndex(c => c.clusterName === globalStore.selectedDstCluster)
+  return index !== -1 ? index : 0
+})
 
 const route = useRoute();
 const router = useRouter();
 const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage = inject("refresh")
+
+const debounce = (fn, delay) => {
+  let timer = null;
+  return (...args) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
+const debouncedRefresh = debounce((editor) => {
+  requestAnimationFrame(() => {
+    if (editor) {
+      editor.refresh();
+    }
+  });
+}, 100);
+
+const getClusters = () => {
+  settingApi.clusters.get().then(response => {
+    globalStore.dstClusters = response.data
+    if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
+      globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
+    }
+  })
+}
+
 const handleRefresh = () => {
   setTimeout(() => {
     route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
@@ -1426,172 +853,76 @@ const handleRefresh = () => {
   }, 0);
 };
 
-const editorGroundSettingRef = ref()
-const editorCavesSettingRef = ref()
-
 const step = ref(0)
 const handleStepClick = (goStep) => {
-  if (isMultiHost.value) {
-    if (step.value > goStep) {
-      step.value = goStep
-    }
-  } else {
-    if (step.value > goStep) {
-      if (goStep === 1) {
-        generateGroundOverridesObj()
-      }
-      if (goStep === 2) {
-        generateCavesOverridesObj()
-      }
-      step.value = goStep
-    }
+  if (step.value > goStep) {
+    step.value = goStep
   }
-
 }
 const handlePrev = () => {
-  if (isMultiHost.value) {
-
-  } else {
-    if (step.value === 2) {
-      // generateGroundOverridesObj()
-    }
-    if (step.value === 3) {
-      // generateCavesOverridesObj()
-    }
-  }
   step.value--
 }
 const handleNext = async () => {
-  if (isMultiHost.value) {
-    if (step.value === 0) {
-      if (roomGroundForm.value.groundSetting !== "" && roomCaveForm.value.caveSetting !== "") {
-        await handleChangeMultiHost(false)
-        step.value = 0
-        koiMsgError("检测到刷新页面，已重置为单节点服务器")
+  if (step.value === 0) {
+    clusterSettingFormRef.value.validate(valid => {
+      if (valid) {
+        step.value++
+      }
+    })
+  }
+  if (step.value === 1) {
+    for (let key in dynamicWorldRefs) {
+      if (dynamicWorldRefs?.key) {
+        await dynamicWorldRefs[key].validate()
+      }
+    }
+    for (let i of worldForm.value) {
+      if (i.levelData === '') {
+        koiMsgError(language.value === 'zh' ? '请输入世界配置' : 'Please input world configure')
         return
       }
-      roomBaseFormRef.value.validate(valid => {
-        if (valid) {
-          if (multiHostIsMaster.value) {
-            // generateGroundOverridesObj()
-            step.value++
-          } else {
-            // generateCavesOverridesObj()
-            step.value++
-          }
-        }
-      })
-    }
-    if (step.value === 1) {
-      roomBaseFormRef.value.validate(valid => {
-        if (valid) {
-          if (multiHostIsMaster.value) {
-            roomGroundFormRef.value.validate(groundValid => {
-              if (groundValid) {
-                try {
-                  luaparse.parse(roomGroundForm.value.groundSetting)
-                  step.value++
-                } catch (e) {
-                  koiMsgError(t('setting.luaError'))
-                }
-              }
-            })
-          } else {
-            roomCaveFormRef.value.validate(caveValid => {
-              if (caveValid) {
-                try {
-                  luaparse.parse(roomCaveForm.value.caveSetting)
-                  step.value++
-                } catch (e) {
-                  koiMsgError(t('setting.luaError'))
-                }
-              }
-            })
-          }
-        }
-      })
-    }
-    if (step.value === 2) {
-      if (roomModForm.value) {
-        try {
-          luaparse.parse(roomModForm.value.modSetting);
-          step.value++
-        } catch (e) {
-          koiMsgError(t('setting.luaError'))
-        }
+      if (i.shardMasterPort !== worldForm.value[0].shardMasterPort) {
+        koiMsgError(language.value === 'zh' ? '主节点端口必须一致' : 'Master Port must be same')
+        return
+      }
+      try {
+        luaparse.parse(i.levelData)
+      } catch (e) {
+        koiMsgError(t('setting.luaError'))
+        return
       }
     }
-
-  } else {
-    if (step.value === 0) {
-      roomBaseFormRef.value.validate(valid => {
-        if (valid) {
-          if (roomBaseForm.value.masterPort === roomBaseForm.value.cavesPort) {
-            koiMsgError(t('setting.roomBaseFormRules.samePort'))
-            return
-          }
-          // generateGroundOverridesObj()
-          step.value++
-        }
-      })
-    } else if (step.value === 1) {
-      roomGroundFormRef.value.validate(valid => {
-        if (valid) {
-          try {
-            luaparse.parse(roomGroundForm.value.groundSetting)
-            // generateCavesOverridesObj()
-            step.value++
-          } catch (e) {
-            koiMsgError(t('setting.luaError'))
-          }
-        }
-      })
-    } else if (step.value === 2) {
-      if (roomCaveForm.value) {
-        try {
-          luaparse.parse(roomCaveForm.value.caveSetting);
-          step.value++
-        } catch (e) {
-          koiMsgError(t('setting.luaError'))
-        }
-      } else {
+    step.value++
+    return
+  }
+  if (step.value === 2) {
+    if (clusterModForm.value) {
+      try {
+        luaparse.parse(clusterModForm.value.mod);
         step.value++
+      } catch (e) {
+        koiMsgError(t('setting.luaError'))
       }
-    } else if (step.value === 3) {
-      if (roomModForm.value) {
-        try {
-          luaparse.parse(roomModForm.value.modSetting);
-          step.value++
-        } catch (e) {
-          koiMsgError(t('setting.luaError'))
-        }
-      } else {
-        step.value++
-      }
+    } else {
+      step.value++
     }
   }
 }
 
-const roomBaseFormRef = ref()
-const roomBaseForm = ref({
+const clusterSettingFormRef = ref()
+const clusterSettingForm = ref({
+  clusterName: globalStore.selectedDstCluster,
   name: '',
   description: '',
   gameMode: '',
   pvp: false,
   playerNum: 6,
   backDays: 10,
-  vote: true,
+  vote: false,
   password: '',
   token: '',
-  masterPort: 0,
-  cavesPort: 0,
-  shardMasterPort: undefined,
-  steamMasterPort: undefined,
-  steamAuthenticationPort: undefined,
-  shardMasterIp: undefined,
-  clusterKey: undefined,
 })
-const roomBaseFormRules = {
+const clusterSettingFormRules = {
   name: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur'}],
   masterPort: [{required: true, message: t('setting.roomBaseFormRules.masterPort'), trigger: 'blur'}],
   cavesPort: [{required: true, message: t('setting.roomBaseFormRules.cavesPort'), trigger: 'blur'}],
@@ -1599,94 +930,55 @@ const roomBaseFormRules = {
   token: [{required: true, message: t('setting.roomBaseFormRules.token'), trigger: 'blur'}],
 }
 
-const roomGroundFormRef = ref()
-const roomGroundForm = ref({
-  groundSetting: '',
+const clusterModForm = ref({
+  mod: '',
 })
-const roomGroundFormRules = {
-  groundSetting: [{required: true, message: t('setting.roomGroundFormRules.groundSetting'), trigger: 'blur'}],
-}
 
-const roomCaveFormRef = ref()
-const roomCaveForm = ref({
-  caveSetting: '',
-})
-const roomCaveFormRules = {
-  caveSetting: [{required: true, message: t('setting.roomCaveFormRules.caveSetting'), trigger: 'blur'}],
-}
-
-const roomModFormRef = ref()
-const roomModForm = ref({
-  modSetting: '',
-})
-const roomModFormRules = {
-  modSetting: [{required: true, message: t('setting.roomModFormRules.modSetting'), trigger: 'blur'}],
-}
-
-const handleImportLeveldataLua = (world, mode) => {
-  if (world === 'master') {
-    if (mode === 'endless') {
-      roomGroundForm.value.groundSetting = endless.master
-    }
-    if (mode === 'survival') {
-      roomGroundForm.value.groundSetting = survival.master
-    }
-    // generateGroundOverridesObj()
-    if (isMultiHost.value) {
-      roomBaseForm.value.masterPort = 11000
-      roomBaseForm.value.cavesPort = 0
-      roomBaseForm.value.shardMasterPort = 10888
-      roomBaseForm.value.steamMasterPort = 27018
-      roomBaseForm.value.steamAuthenticationPort = 8768
-      roomBaseForm.value.shardMasterIp = '127.0.0.1'
-      roomBaseForm.value.clusterKey = undefined
-    }
+const handleGetClusterSetting = () => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
   }
-  if (world === 'caves') {
-    if (mode === 'endless') {
-      roomCaveForm.value.caveSetting = endless.caves
-    }
-    if (mode === 'survival') {
-      roomCaveForm.value.caveSetting = survival.caves
-    }
-    // generateCavesOverridesObj()
-    if (isMultiHost.value) {
-      roomBaseForm.value.masterPort = 0
-      roomBaseForm.value.cavesPort = 11001
-      roomBaseForm.value.shardMasterPort = 10888
-      roomBaseForm.value.steamMasterPort = 27019
-      roomBaseForm.value.steamAuthenticationPort = 8769
-      roomBaseForm.value.shardMasterIp = undefined
-      roomBaseForm.value.clusterKey = undefined
-    }
-  }
-}
-
-const handleGetCurrentRoomSetting = () => {
-  settingApi.room.get().then(response => {
-    roomBaseForm.value = response.data.base
-    roomGroundForm.value.groundSetting = response.data.ground
-    roomCaveForm.value.caveSetting = response.data.cave
-    roomModForm.value.modSetting = response.data.mod
-    if (roomGroundForm.value.groundSetting === "") {
-      multiHostIsMaster.value = false
-    } else {
-      if (roomCaveForm.value.caveSetting === "") {
-        multiHostIsMaster.value = true
-      } else {
-        multiHostIsMaster.value = true
+  settingApi.cluster.get(reqForm).then(response => {
+    clusterSettingForm.value = response.data.clusterSetting
+    if (response.data.worlds) {
+      worldForm.value = response.data.worlds
+      let maxIndex = 1
+      let minIndex = 999999
+      for (let world of worldForm.value) {
+        let index = parseInt(world.name.replace('World', ''))
+        if (index > maxIndex) {
+          maxIndex = index
+        }
+        if (index < minIndex) {
+          minIndex = index
+        }
+        world['saved'] = true
       }
+      worldTabIndex.value = maxIndex
+      worldTabName.value = 'World' + minIndex.toString()
+    } else {
+      worldTabIndex.value = 1
+      worldTabName.value = 'World1'
+      worldForm.value = [{
+        id: 101,
+        name: 'World1',
+        isMaster: true,
+        levelData: '',
+        serverPort: 11001 + worldPortFactor.value * 10,
+        shardMasterPort: 10888 + worldPortFactor.value * 10,
+        steamMasterPort: 27018 + worldPortFactor.value * 10,
+        steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
+        shardMasterIp: '127.0.0.1',
+        clusterKey: 'supersecretkey',
+        encodeUserPath: true,
+        saved: false
+      }]
     }
-    if (roomBaseForm.value.masterPort === 0) {
-      roomBaseForm.value.masterPort = 11000
-    }
-    if (roomBaseForm.value.cavesPort === 0) {
-      roomBaseForm.value.cavesPort = 11001
-    }
+    clusterModForm.value.mod = response.data.mod
   })
 }
 
-const handleCommand = (cmd) => {
+const handleCommand = async (cmd) => {
   switch (cmd) {
     case 'save':
       handleSave()
@@ -1702,15 +994,16 @@ const handleCommand = (cmd) => {
 
 const handleSave = () => {
   const reqForm = {
-    base: roomBaseForm.value,
-    ground: roomGroundForm.value.groundSetting,
-    cave: roomCaveForm.value.caveSetting,
-    mod: roomModForm.value.modSetting
+    clusterSetting: clusterSettingForm.value,
+    worlds: worldForm.value,
+    mod: clusterModForm.value.mod,
+    sysSetting: {},
   }
   loading.value = true
-  settingApi.save.post(reqForm).then(response => {
+  settingApi.cluster.save.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
+    getClusters()
   }).finally(() => {
     loading.value = false
     nextTick(() => {
@@ -1718,17 +1011,19 @@ const handleSave = () => {
     })
   })
 }
+
 const handleSaveAndRestart = () => {
   const reqForm = {
-    base: roomBaseForm.value,
-    ground: roomGroundForm.value.groundSetting,
-    cave: roomCaveForm.value.caveSetting,
-    mod: roomModForm.value.modSetting
+    clusterSetting: clusterSettingForm.value,
+    worlds: worldForm.value,
+    mod: clusterModForm.value.mod,
+    sysSetting: {},
   }
   loading.value = true
-  settingApi.saveAndRestart.post(reqForm).then(response => {
+  settingApi.cluster.saveRestart.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
     loading.value = false
+    getClusters()
   }).finally(() => {
     loading.value = false
     nextTick(() => {
@@ -1738,15 +1033,16 @@ const handleSaveAndRestart = () => {
 }
 const handleGenerateNewWorld = () => {
   const reqForm = {
-    base: roomBaseForm.value,
-    ground: roomGroundForm.value.groundSetting,
-    cave: roomCaveForm.value.caveSetting,
-    mod: roomModForm.value.modSetting
+    clusterSetting: clusterSettingForm.value,
+    worlds: worldForm.value,
+    mod: clusterModForm.value.mod,
+    sysSetting: {},
   }
   loading.value = true
-  settingApi.saveAndGenerate.post(reqForm).then(response => {
-    loading.value = false
+  settingApi.cluster.saveRegenerate.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
+    loading.value = false
+    getClusters()
   }).finally(() => {
     loading.value = false
     nextTick(() => {
@@ -1755,63 +1051,13 @@ const handleGenerateNewWorld = () => {
   })
 }
 
-const groundTabName = ref('Code')
-const cavesTabName = ref('Code')
-
-const handleGroundTabChange = (name) => {
-  if (name === 'Visualization') {
-    try {
-      generateGroundOverridesObj()
-    } catch {
-      koiMsgError(language.value==='zh'?'可视化配置加载失败':'Visualization load failed')
-    }
-  }
-  if (name === 'Code') {
-    roomGroundForm.value.groundSetting = beautifyLua(roomGroundForm.value.groundSetting)
-    nextTick(() => {
-      if (editorGroundSettingRef.value) {
-        editorGroundSettingRef.value.refresh()
-      }
-    })
-  }
-}
-
-const handleCavesTabChange = (name) => {
-  if (name === 'Visualization') {
-    try {
-      generateCavesOverridesObj()
-    } catch {
-      koiMsgError(language.value==='zh'?'可视化配置加载失败':'Visualization load failed')
-    }
-  }
-  if (name === 'Code') {
-    roomCaveForm.value.caveSetting = beautifyLua(roomCaveForm.value.caveSetting)
-    nextTick(() => {
-      if (editorCavesSettingRef.value) {
-        editorCavesSettingRef.value.refresh()
-      }
-    })
-  }
-}
-
 const overridesObj = ref({})
 
-const generateGroundOverridesObj = () => {
-  if (roomGroundForm.value.groundSetting === '') {
+const generateOverridesObj = (levelData) => {
+  if (levelData === '') {
     return
   }
-  const ast = luaparse.parse(roomGroundForm.value.groundSetting)
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast);
-  // 将 Lua 表转换为 JavaScript 对象
-  overridesObj.value = convertLuaTableToObject(overridesTable);
-}
-
-const generateCavesOverridesObj = () => {
-  if (roomCaveForm.value.caveSetting === '') {
-    return
-  }
-  const ast = luaparse.parse(roomCaveForm.value.caveSetting)
+  const ast = luaparse.parse(levelData)
   // 提取 overrides 字段
   const overridesTable = extractOverrides(ast);
   // 将 Lua 表转换为 JavaScript 对象
@@ -1825,7 +1071,6 @@ function extractOverrides(ast) {
 
   // 遍历表中的字段，找到 overrides 字段
   for (const field of returnTable.fields) {
-    // console.log(field)
     if (field.key.type === 'Identifier' && field.key.name === 'overrides') {
       return field.value;
     }
@@ -1862,43 +1107,24 @@ const beautifyLua = (luaScript) => {
   return removedWatermark;
 };
 
-const handleModelValueChange = (data) => {
+const handleModelValueChange = debounce((data) => {
   const key = data.name
   const value = data.value
-  const ast = luaparse.parse(roomGroundForm.value.groundSetting)
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast);
-  // console.log(overridesTable)
-  for (let field of overridesTable.fields) {
-    if (field.key.name === key) {
-      field.value.raw = `"${value}"`
+  for (let world of worldForm.value) {
+    if (world.name === worldTabName.value) {
+      const ast = luaparse.parse(world.levelData)
+      // 提取 overrides 字段
+      const overridesTable = extractOverrides(ast);
+      for (let field of overridesTable.fields) {
+        if (field.key.name === key) {
+          field.value.raw = `"${value}"`
+        }
+      }
+      world.levelData = astToLua(ast)
+      break
     }
   }
-  roomGroundForm.value.groundSetting = astToLua(ast)
-}
-
-const handleCavesModelValueChange = (data) => {
-  const key = data.name
-  const value = data.value
-  const ast = luaparse.parse(roomCaveForm.value.caveSetting)
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast);
-  // console.log(overridesTable)
-  for (let field of overridesTable.fields) {
-    if (field.key.name === key) {
-      field.value.raw = `"${value}"`
-    }
-  }
-  const luaScript = astToLua(ast)
-  roomCaveForm.value.caveSetting = luamin.Beautify(luaScript, {
-    RenameVariables: false,
-    RenameGlobals: false,
-    SolveMath: false
-  })
-  if (editorCavesSettingRef.value) {
-    editorCavesSettingRef.value.refresh()
-  }
-}
+}, 100)
 
 const astToLua = (astNode, indentLevel = 0) => {
   const indent = '    '.repeat(indentLevel);
@@ -1935,6 +1161,8 @@ const astToLua = (astNode, indentLevel = 0) => {
       return `${astToLua(astNode.key)} = ${astToLua(astNode.value)}`;
     case 'BooleanLiteral':
       return astNode.raw;
+    case 'TableKey':
+      return `[${astToLua(astNode.key)}] = ${astToLua(astNode.value)}`;
     case 'TableValue':
       return astToLua(astNode.value);
     default:
@@ -1942,53 +1170,218 @@ const astToLua = (astNode, indentLevel = 0) => {
   }
 }
 
-const isMultiHost = ref(false)
-const getMultiHost = async () => {
-  await settingApi.multihost.get().then(response => {
-    isMultiHost.value = response.data
-  })
-}
-
-const handleChangeMultiHost = (v) => {
-  settingApi.multihost.post({multiHost: !isMultiHost.value}).then(response => {
-    isMultiHost.value = !isMultiHost.value
-    if (v) {
-      clearSetting()
-    }
-
-  })
-}
-
-const multiHostIsMaster = ref(true)
-
-const clearSetting = () => {
-  roomGroundForm.value.groundSetting = ""
-  roomCaveForm.value.caveSetting = ""
-
-  roomBaseForm.value.masterPort = undefined
-  roomBaseForm.value.cavesPort = undefined
-  roomBaseForm.value.shardMasterPort = undefined
-  roomBaseForm.value.steamMasterPort = undefined
-  roomBaseForm.value.steamAuthenticationPort = undefined
-  if (multiHostIsMaster.value) {
-    roomBaseForm.value.shardMasterIp = '127.0.0.1'
-  } else {
-    roomBaseForm.value.shardMasterIp = undefined
-  }
-
-  roomBaseForm.value.clusterKey = undefined
-
-}
-
-const multiHostFormRules = {
-  masterPort: [{required: true, message: t('setting.roomWorldFormRules.masterPort'), trigger: 'blur'}],
-  cavesPort: [{required: true, message: t('setting.roomWorldFormRules.cavesPort'), trigger: 'blur'}],
+const worldTabIndex = ref(1)
+const worldTabName = ref('World1')
+const worldForm = ref([{
+  id: 101,
+  name: 'World1',
+  isMaster: true,
+  levelData: '',
+  serverPort: 11001 + worldPortFactor.value * 10,
+  shardMasterPort: 10888 + worldPortFactor.value * 10,
+  steamMasterPort: 27018 + worldPortFactor.value * 10,
+  steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
+  shardMasterIp: '127.0.0.1',
+  clusterKey: 'supersecretkey',
+  encodeUserPath: true,
+}])
+const worldFormRules = {
+  id: [{required: true, message: t('setting.roomWorldFormRules.id'), trigger: 'blur'}],
+  isMaster: [{required: true, trigger: 'change'}],
+  encodeUserPath: [{required: true, trigger: 'change'}],
+  serverPort: [{required: true, message: t('setting.roomWorldFormRules.masterPort'), trigger: 'blur'}],
   shardMasterPort: [{required: true, message: t('setting.roomWorldFormRules.shardMasterPort'), trigger: 'blur'}],
   steamMasterPort: [{required: true, message: t('setting.roomWorldFormRules.steamMasterPort'), trigger: 'blur'}],
   steamAuthenticationPort: [{required: true, message: t('setting.roomWorldFormRules.steamAuthenticationPort'), trigger: 'blur'}],
   shardMasterIp: [{required: true, message: t('setting.roomWorldFormRules.shardMasterIp'), trigger: 'blur'}],
   clusterKey: [{required: true, message: t('setting.roomWorldFormRules.clusterKey'), trigger: 'blur'}],
 }
+
+const dynamicWorldRefs = {}
+const generateWorldFormRefs = () => {
+  for (let world of worldForm.value) {
+    const worldIndex = worldForm.value.length
+    worldTabIndex.value = worldIndex
+    dynamicWorldRefs[`World${worldIndex}`] = ref()
+  }
+}
+const handleWorldTabsEdit = (targetName, action) => {
+  if (action === 'add') {
+    worldTabIndex.value++
+    const newTabName = `World${worldTabIndex.value}`
+    dynamicWorldRefs[newTabName] = ref()
+    worldForm.value.push({
+      id: worldTabIndex.value + 100,
+      name: newTabName,
+      isMaster: false,
+      levelData: '',
+      serverPort: 11000 + worldTabIndex.value + worldPortFactor.value * 10,
+      shardMasterPort: 10888 + worldPortFactor.value * 10,
+      steamMasterPort: 27017 + worldTabIndex.value + worldPortFactor.value * 10,
+      steamAuthenticationPort: 8767 + worldTabIndex.value + worldPortFactor.value * 10,
+      shardMasterIp: '127.0.0.1',
+      clusterKey: 'supersecretkey',
+      encodeUserPath: true,
+    })
+    worldTabName.value = newTabName
+  } else if (action === 'remove') {
+    if (worldForm.value.length === 1) {
+      koiMsgError(language.value === 'zh'?'每个房间至少含有一个世界':'Every room must include at least one world')
+      return
+    }
+    const tabs = worldForm.value
+    let activeName = worldTabName.value
+    tabs.forEach((tab, index) => {
+      if (tab.name === targetName) {
+        const nextTab = tabs[index + 1] || tabs[index - 1]
+        if (nextTab) {
+          activeName = nextTab.name
+        }
+      }
+    })
+    worldTabName.value = activeName
+    worldForm.value = tabs.filter((tab) => tab.name !== targetName)
+    delete dynamicWorldRefs[targetName]
+  }
+  worldLevelDataTabName.value = 'Code'
+}
+
+const worldLevelDataTabName = ref('Code')
+
+const handleCreateWorld = (cmd) => {
+  for (let world of worldForm.value) {
+    if (world.name === worldTabName.value) {
+      if (cmd.clusterType === 'endless') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = endless.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = endless.caves
+        }
+      }
+      if (cmd.clusterType === 'survival') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = survival.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = survival.caves
+        }
+      }
+    }
+  }
+}
+
+const visualizationType = ref('')
+
+const handleWorldTabChange = async (name) => {
+  if (name === 'Visualization') {
+    try {
+      for (let world of worldForm.value) {
+        if (world.name === worldTabName.value) {
+          visualizationType.value = getWorldType(world.levelData)
+          await generateOverridesObj(world.levelData)
+          break
+        }
+      }
+    } catch {
+      koiMsgError(language.value === 'zh' ? '可视化配置加载失败' : 'Visualization load failed')
+    }
+  }
+  if (name === 'Code') {
+    await nextTick(() => {
+      for (let world of worldForm.value) {
+        if (world.name === worldTabName.value) {
+          world.levelData = beautifyLua(world.levelData)
+          break
+        }
+      }
+    })
+  }
+}
+
+const getWorldType = (levelData) => {
+  const regex = /location\s*=\s*"([^"]*)"/;
+  const match = levelData.match(regex);
+
+  if (match) {
+    return match[1]
+  } else {
+    return ""
+  }
+}
+
+const handleWorldTabsEditChange = () => {
+  worldLevelDataTabName.value = 'Code'
+}
+
+const multiWorldModAddDialog = ref(false)
+const multiWorldModNameForm = ref({})
+const multiWorldModNumForm = ref({})
+const openMultiWorldModAddDialog = () => {
+  multiWorldModNameForm.value = {}
+  multiWorldModNumForm.value = {}
+  multiWorldModAddDialog.value = true
+}
+
+const handleGenerateModSetting = () => {
+  if (Object.keys(multiWorldModNameForm.value).length!==worldForm.value.length) {
+    koiMsgError(language.value === 'zh'?'世界名为必填项':'World name is required')
+    return
+  }
+
+  let worldName = ""
+  for (let key in multiWorldModNameForm.value) {
+    worldName = worldName + `["${key}"]="${multiWorldModNameForm.value[key]}",`
+  }
+
+  let worldNum = ""
+  for (let key in multiWorldModNumForm.value) {
+    worldNum = worldNum +`["${key}"]="${multiWorldModNumForm.value[key]}",`
+  }
+
+  worldName = worldName.slice(0, -1)
+  worldNum = worldNum.slice(0, -1)
+
+  let multiModSetting = `return {["workshop-1438233888"]={
+    configuration_options={
+      auto_balancing=true,
+      extra_worlds={},
+      ignore_sinkholes=false,
+      invisible_worlds={},
+      language="auto",
+      migration_postern=false,
+      no_bat=true,
+      population_limit={${worldNum}},
+      say_dest=true,
+      world_name={${worldName}},
+      world_prompt=true
+    },
+    enabled=true
+  }}`
+  if (clusterModForm.value.mod === "") {
+    clusterModForm.value.mod = "return {}"
+  }
+  const modAst = luaparse.parse(clusterModForm.value.mod)
+  const multiModSettingAst = luaparse.parse(multiModSetting)
+
+  for (const [i, v] of modAst.body[0].arguments[0].fields.entries()) {
+    if (v.key.raw === "\"workshop-1438233888\"") {
+      modAst.body[0].arguments[0].fields.splice(i, 1)
+    }
+  }
+
+  modAst.body[0].arguments[0].fields.push(multiModSettingAst.body[0].arguments[0].fields[0])
+  clusterModForm.value.mod = beautifyLua(astToLua(modAst))
+  multiWorldModAddDialog.value = false
+}
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 
 </script>
 

@@ -2,14 +2,14 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card :style="isMobile?'min-height: 400px':'min-height: 600px'" shadow="never">
+        <el-card shadow="never">
           <template #header>
             <div class="card-header">
               {{ t('setting.import.title') }}
               <el-button type="success" @click="helpDialogVisible=true">{{ t('setting.import.buttonHelp') }}</el-button>
             </div>
           </template>
-          <div>
+          <div style="height: auto">
             <div style="line-height: 30px;">
               {{ t('setting.import.text1') }}
             </div>
@@ -105,16 +105,22 @@
 
 <script setup>
 import {useI18n} from "vue-i18n";
-import {computed, ref} from "vue";
+import {computed, inject, nextTick, ref, watch} from "vue";
 import {UploadFilled} from '@element-plus/icons-vue'
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import settingApi from "@/api/setting"
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
@@ -143,7 +149,9 @@ const handleUpload = (param) => {
   uploadLoading.value = true
   const formData = new FormData()
   formData.append('file', param.file)
+  formData.append('clusterName', globalStore.selectedDstCluster)
   settingApi.import.upload.post(formData).then(response => {
+    getClusters()
     koiMsgSuccess(response.message)
   }).finally(() => {
     uploadDialogVisible.value = false
@@ -151,9 +159,37 @@ const handleUpload = (param) => {
   })
 }
 
+const getClusters = () => {
+  settingApi.clusters.get().then(response => {
+    globalStore.dstClusters = response.data
+    if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
+      globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
+    }
+  })
+}
+
 const imageZip = new URL('./images/zip-image.png', import.meta.url).href
 const imageZipMaster = new URL('./images/zip-image-master.png', import.meta.url).href
 const helpGif = new URL('./images/help.gif', import.meta.url).href
+
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 </script>
 
 <style scoped>

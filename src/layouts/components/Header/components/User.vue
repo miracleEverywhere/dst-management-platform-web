@@ -5,9 +5,9 @@
 <!--      <el-image class="w-34px h-34px rounded-full select-none user-avatar" :src="errorAvatar"></el-image>-->
 <!--    </template>-->
 <!--  </el-image>-->
-  <el-dropdown class="m-l-10px" :hide-on-click="false" @command="handleCommand">
+  <el-dropdown id="tourUser" class="m-l-10px" :hide-on-click="false" @command="handleCommand">
     <div class="koi-dropdown">
-      <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{language==='zh'?'管理员':'Admin'}}</div>
+      <div class="max-w-113px text-14px m-r-6px line-clamp-1 select-none">{{authStore.userInfo.nickname}}</div>
       <el-icon><arrow-down /></el-icon>
     </div>
     <template #dropdown>
@@ -20,16 +20,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { koiSessionStorage, koiLocalStorage } from "@/utils/storage.ts";
 // import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import useGlobalStore from "@/stores/modules/global.ts";
+import useAuthStore from "@/stores/modules/auth.ts"
 
 const router = useRouter();
 
 const globalStore = useGlobalStore()
-const language = computed(() => globalStore.language)
+const authStore = useAuthStore()
 
 // 退出登录
 const handleLayout = () => {
@@ -39,6 +39,8 @@ const handleLayout = () => {
   koiLocalStorage.remove("user");
   koiLocalStorage.remove("keepAlive");
   koiLocalStorage.remove("tabs");
+  globalStore.dstClusters = null;
+  globalStore.selectedDstCluster = null;
   // 退出登录。必须使用replace把页面缓存刷掉。
   // window.location.replace(LOGIN_URL);
   window.location.replace('/');

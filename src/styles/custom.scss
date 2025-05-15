@@ -62,7 +62,13 @@ html.dark {
   border-left: 5px solid #E6A23C;
   margin: 20px 0;
 }
-
+.tip_error {
+  padding: 8px 16px;
+  background-color: #F56C6C1A;
+  border-radius: 4px;
+  border-left: 5px solid #F56C6C;
+  margin: 20px 0;
+}
 .tip_success {
   padding: 8px 16px;
   background-color: #67C23A1A;

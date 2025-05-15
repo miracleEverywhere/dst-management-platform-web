@@ -2,7 +2,7 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <log type="dmp"/>
+        <log type="access"/>
       </el-col>
     </el-row>
   </div>

@@ -2,6 +2,45 @@ import http from "@/utils/axios.ts";
 
 
 export default {
+  clusters: {
+    url: `/setting/clusters`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
+  clustersWorldPort: {
+    url: `/setting/clusters/world_port`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
+  cluster: {
+    url: `/setting/cluster`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+    post: async function(data){
+      return await http.post(this.url, data);
+    },
+    save : {
+      url: `/setting/cluster/save`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
+    },
+    saveRestart : {
+      url: `/setting/cluster/save_restart`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
+    },
+    saveRegenerate : {
+      url: `/setting/cluster/save_regenerate`,
+      post: async function(data){
+        return await http.post(this.url, data);
+      },
+    },
+  },
   room: {
     url: `/setting/room`,
     get: async function(data){
@@ -48,44 +87,20 @@ export default {
         return await http.get(this.url, data);
       },
     },
-    addAdmin: {
-      url: `/setting/player/add/admin`,
+    historyClean: {
+      url: `/setting/player/history/clean`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
     },
-    deleteAdmin: {
-      url: `/setting/player/delete/admin`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    addBlock: {
-      url: `/setting/player/add/block`,
+    change: {
+      url: `/setting/player/change`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
     },
     addBlockUpload: {
       url: `/setting/player/add/block/upload`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    deleteBlock: {
-      url: `/setting/player/delete/block`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    addWhite: {
-      url: `/setting/player/add/white`,
-      post: async function (data) {
-        return await http.post(this.url, data);
-      }
-    },
-    deleteWhite: {
-      url: `/setting/player/delete/white`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
@@ -190,5 +205,4 @@ export default {
       }
     }
   }
-
 }

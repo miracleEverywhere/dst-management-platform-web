@@ -1,5 +1,5 @@
 <template>
-  <div class="search-menu hover:bg-[rgba(0,0,0,0.06)] w-32px h-100% flex flex-justify-center" @click="handleGithub">
+  <div id="tourGithub" class="search-menu hover:bg-[rgba(0,0,0,0.06)] w-32px h-100% flex flex-justify-center" @click="handleGithub">
     <el-icon :size="20" class="koi-icon">
       <sc-icon-github-fill/>
     </el-icon>

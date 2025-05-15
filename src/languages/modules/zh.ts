@@ -45,6 +45,49 @@ export default {
     execute: "执行",
     noServer: "未发现存档",
     noGame: "游戏未安装",
+    worldName: '世界名',
+    type: '类型',
+    isMaster: '主节点',
+    memory: '内存',
+    disk: '磁盘',
+    status: '状态',
+    screenDialog: {
+      title: '正在运行的饥荒程序',
+      tip1: '由于无法预知的异常情况(房间设置中删除世界后，平台未能成功关闭对应的饥荒程序等)，可能会存在异常运行的进程，导致额外资源占用，平台提供该页面进行手动停止',
+      tip2:'名称格式为：DST_集群名_世界ID',
+      tip3:'正在从饥荒大厅中查询结果，请稍后',
+      tip4:'已在饥荒大厅中查询到对应房间，检查通过',
+      tip5:'未在饥荒大厅中查询到对应房间，检查未通过，请在上面的下拉菜单中增加查询地区或检查主世界是否启动成功',
+      column1: '名称',
+      column2:'操作',
+      stop: '停止',
+    },
+    tour: {
+      one: {
+        title: '欢迎~',
+        desc: '欢迎使用饥荒管理平台(DMP)，下面将开始一个简单的引导',
+      },
+      two: {
+        title: '修改密码',
+        desc: '点击这里，进入个人中心即可修改密码或查看个人信息',
+      },
+      three: {
+        title: '集群选择/创建',
+        desc: '也就是多房间(集群)管理，点击这个下拉菜单即可实现集群切换和创建',
+      },
+      four: {
+        title: '更新总览',
+        desc: 'DMP各个版本的更新记录，如果有新的版本会在这里提醒哟',
+      },
+      five: {
+        title: '希望还记得',
+        desc: '如果一段时间后，你觉得DMP还不错的话，就去这里点个星星吧~',
+      },
+      six: {
+        title: '开始使用吧~',
+        desc: '如果你不想再弹出我(你看到的这个引导)，就去创建一个集群吧',
+      },
+    }
   },
   tabs: {
     refresh: "重新刷新",
@@ -67,7 +110,15 @@ export default {
     settings: "设置",
     personalCenter: "个人中心",
     changePassword: "修改密码",
-    logout: "退出登录"
+    logout: "退出登录",
+    clusters: {
+      clusterName: '集群名',
+      clusterDisplayName: '集群昵称',
+      validateClusterName: '请输入集群名',
+      validateClusterDisplayName: '请输入集群昵称',
+      tipClusterName: '输入英文和数字，即.klei/DoNotStarveTogether/集群名',
+      tipClusterDisplayName: '在页面上显示的集群名，作为标识符使用，如不填则与集群名一致',
+    }
   },
   login: {
     welcome: "欢迎登录",
@@ -80,13 +131,18 @@ export default {
     blur: "看不清，换一张",
     in: "登录",
     center: "登录中",
-    beianhao: "网站备案号"
+    beianhao: "网站备案号",
+    register: "注册",
+    registerTip: "仅可注册一次，注册账号拥有管理员权限，管理员账号可在个人中心创建非管理员账号",
+    registerTip2: "由于该页面可能暴露在公网，请务必设置强密码",
   },
   profile: {
     cardHeaderInfo: '个人信息',
     cardHeaderPassword: '密码修改',
+    plzInputOldPassword: '请输入旧密码',
     plzInputPassword: '请输入密码',
     plzInputAgainPassword: '请再次输入密码',
+    oldPassword: '旧密码',
     password: '密码',
     passwordTwice: '确认密码',
     passwordNotMatch: '两次输入密码不一致',
@@ -94,6 +150,26 @@ export default {
     passwordUpdated: "检测到用户密码更新，3秒后将退出本系统",
     passwordUpdatedTitle: "系统提示",
     update: '修改',
+    username: '用户名',
+    nickname: '用户昵称',
+    disabled: '账号状态',
+    role: '角色',
+    tip_1: '仅admin账号拥有创建、禁用、启用和删除权限',
+    tip_2: 'admin账号不可删除',
+    submit: '提交',
+    actions: {
+      create: '创建',
+      update: '修改',
+      delete: '删除',
+    },
+    accounts: '所有账号',
+    accountTitle: '账号信息',
+    formValidateMsg: {
+      username: '请输入用户名',
+      nickname: '请输入用户昵称',
+      password: '请输入密码',
+      disabled: '',
+    }
   },
   setting: {
     roomSettingMobile: '房间',
@@ -108,6 +184,26 @@ export default {
     worldSetting: '世界设置',
     modSetting: '模组设置',
     finishSetting: '设置完成',
+    oneClick: '一键带入',
+    survival: '生存',
+    endless: '无尽',
+    idTip: '世界ID，一个集群里的世界ID不能相同，已保存的世界ID禁止修改',
+    isMaster: '主世界',
+    isMasterTip: '注意！一个集群中只能有一个主节点',
+    encodeUserPathTip: '是否对玩家存档数据的保存路径进行编码',
+    serverPort: '游戏端口',
+    serverPortTip: '游戏暴露的UDP端口',
+    noEdit: '请输入主节点端口，集群的主节点端口应全部一致',
+    shardMasterIp: '主世界IP',
+    shardMasterIpTip: '主世界IP，如果主世界不在当前云服务器，则需要输入主世界的公网IP',
+    clusterKeyTip:'主世界和从世界进行交互的认证密码，所有世界的密码必须一致，否则会无法连接',
+    multiWorldTip: '检测到世界数大于2，请点击右侧按钮加入多层世界模组',
+    multiWorldDialog: {
+      title: '请输入世界对应的名字和对应的最大玩家数(将会在游戏中显示)',
+      tip: '注意，多层世界模组为复杂模组，启用该模组会导致 "设置-模组" 页面不可用',
+      placeholder1:'请输入世界名，例如：米奇妙妙屋',
+      placeholder2:'请输入该世界的最大玩家数',
+    },
     baseForm: {
       changeSingleHostMode: '切换为单机器模式',
       changeMultiHostMode: '切换为多机器模式',
@@ -131,9 +227,10 @@ export default {
       tokenHelp: '点击获取游戏令牌',
     },
     roomWorldForm: {
+      id: '世界ID',
       masterPort: '连接端口',
       cavesPort: '连接端口',
-      shardMasterPort: '侦听端口',
+      shardMasterPort: '主节点端口',
       steamMasterPort: 'Steam连接端口',
       steamAuthenticationPort: 'Steam认证端口',
       clusterKey: '认证密码',
@@ -141,9 +238,10 @@ export default {
       caveSetting: '洞穴配置',
     },
     roomWorldFormRules: {
+      id: '请输入世界ID',
       masterPort: '请输入连接端口',
       cavesPort: '请输入连接端口',
-      shardMasterPort: '请输入侦听端口',
+      shardMasterPort: '请输入主节点端口',
       steamMasterPort: '请输入Steam连接端口',
       steamAuthenticationPort: '请输入Steam认证端口',
       clusterKey: '请输入认证密码',
@@ -247,7 +345,8 @@ export default {
     addWhite: '添加白名单',
     kick: '踢出玩家',
     historyPlayer: '历史玩家',
-    historyPlayerTip: '指平台启动以来，记录到的所有玩家信息',
+    historyPlayerTip: '指该集群启动以来，记录到的所有玩家信息；注意，集群之间的历史玩家信息不互通',
+    historyClean: '清空',
     blockListItems: {
       uploadButton: '导入',
       tips: '请上传Excel文档，A列为黑名单用户的UID，每行一个',
@@ -336,14 +435,14 @@ export default {
       keepalive: {
         divider: '自动保活',
         title: '自动保活检测频率',
-        msg: '单位分钟，默认为30分钟，如果不清楚保活原理，请勿随意修改',
+        msg: '单位分钟，默认为30分钟，即每30分钟检测一次世界是否正常，如果异常则会重启对应的世界，对其他正常运行的世界无影响',
         title0: '自动保活开关',
-        msg0: '关闭后不会自动启动失效的饥荒服务器',
+        msg0: '关闭后不会处理失效的世界',
       },
       playerList: {
         divider: '玩家列表',
         title: '玩家列表获取频率',
-        msg: '单位秒，默认为30秒，日志杂乱度与功能实现的矛与盾^_^（此功能影响自动保活和昵称字典维护）',
+        msg: '单位秒，默认为30秒，间隔越小，平台更新游戏玩家信息越及时，但会带来额外的性能消耗和更乱的世界日志',
       },
       uidMap: {
         divider: '昵称字典维护',
@@ -351,8 +450,17 @@ export default {
         title2: '玩家昵称字典写入频率',
         enable: '开启',
         disable: '关闭',
-        msg: '默认开启，关闭后，在设置-玩家的管理员黑名单白名单页面中将不再显示玩家昵称',
-        msg2: '单位分钟，默认为5分钟，磁盘IO与功能实现的矛与盾^_^',
+        msg: '默认开启，关闭后，在设置-玩家的管理员黑名单白名单页面中将不再显示玩家昵称，历史玩家信息也不会再新增',
+        msg2: '单位分钟，默认为5分钟，即更新昵称字典的间隔',
+      },
+      playerUpdateMod: {
+        divider: '玩家更新模组',
+        title: '玩家更新模组开关',
+        title2: '玩家更新模组检查频率',
+        enable: '开启',
+        disable: '关闭',
+        msg: '默认开启，开启后游戏中的玩家可在聊天框中控制服务器进行模组更新',
+        msg2: '单位分钟，默认为10分钟，即发现有模组需要更新后，每10分钟提示一次（太频繁可能会很讨厌',
       },
       metrics: {
         divider: '系统监控',
@@ -366,7 +474,7 @@ export default {
       },
       tickRate: {
         title: '通信频率',
-        msg: '越大游戏越流畅，但会带来更高的带宽和CPU消耗',
+        msg: '越大游戏越流畅，但会带来更高的带宽和CPU消耗（需要客户端同时配置',
       },
       encodeUserPath: {
         divider: '用户路径编码',
@@ -374,6 +482,29 @@ export default {
         cave: '洞穴',
         msg: '切换后会自动生成游戏配置文件，手动重启后即可生效',
       },
+      autoUpdate: {
+        divider: '自动更新',
+        title: '自动更新开关',
+        title2: '自动更新检查时间',
+        msg: '默认开启，会在指定的时间检查游戏是否有更新，如果有则会自动更新',
+        msg2: '每天会在该时间进行检查',
+      },
+      autoRestart: {
+        divider: '自动重启',
+        title: '自动重启开关',
+        title2: '自动重启时间',
+        msg: '默认开启，会在指定的时间重启服务器，自动更新模组',
+        msg2: '每天会在该时间进行重启',
+      },
+      autoBackup: {
+        divider: '自动备份',
+        title: '自动备份开关',
+        title2: '自动备份时间',
+        msg: '默认开启，会在指定的时间备份服务器，备份路径为~/dmp_files/backup/{集群名}',
+        msg2: '每天会在该时间进行自动备份',
+      },
+      tip1: '以下为全局设置，影响所有集群，仅管理员可修改',
+      tip2:'以下为集群设置，影响当前集群',
     },
   },
   tools: {
@@ -502,11 +633,18 @@ export default {
     token: {
       title: '创建令牌',
       createButton: '创建',
-      expiredTime: '过期时间：',
+      expiredTime: '请选择令牌过期时间',
       tip: {
         tip1: '该令牌将于',
         tip2: '过期',
-        tip3: '系统不会存储该令牌，请妥善保存'
+        tip3: '系统不会存储该令牌，请妥善保存',
+        create: '点击右上角创建按钮进行创建',
+      },
+      options: {
+        day: '一天',
+        month: '一月',
+        year: '一年',
+        forever: '永久'
       },
       usage: '使用方法，其中Authorization为必填，X-I18n-Lang为选填，默认值为zh',
     }
@@ -526,6 +664,47 @@ export default {
       type: '日志类型',
       size: '大小',
       num: '文件数',
+    },
+  },
+  users: {
+    update: '修改',
+    username: '用户名',
+    nickname: '用户昵称',
+    disabled: '账号状态',
+    password: '密码',
+    role: '角色',
+    clusterPermission: '集群权限',
+    admin: '管理员',
+    tip_1: '仅admin角色的账号拥有创建、禁用、启用和删除权限',
+    tip_2: 'admin角色的账号不可删除',
+    tip_3: '此页面仅admin角色账号可见',
+    tip_4: '管理员可管理所有集群，非管理员仅可管理拥有权限的集群',
+    suggestedPassword: '建议包含英文、数字的8位以上密码',
+    submit: '提交',
+    actions: {
+      create: '创建',
+      update: '修改',
+      delete: '删除',
+    },
+    accounts: '所有账号',
+    accountTitle: '用户管理',
+    formValidateMsg: {
+      username: '请输入用户名',
+      nickname: '请输入用户昵称',
+      password: '请输入密码',
+      disabled: '',
+    }
+  },
+  clusters: {
+    tip1: '这个页面只有管理员能看到，目前展示集群的相关信息',
+    tip2: '以下是集群的端口信息，需要在云服务器安全组开通以下所有UDP端口',
+    tip3: '发现端口冲突！！！请仔细检查',
+    table: {
+      name: '集群名',
+      displayName: '集群昵称',
+      world: '世界',
+      port: '端口',
+      none: '无端口暴露',
     },
   },
   help: {
@@ -574,7 +753,7 @@ export default {
       text3: '在世界设置中，需要输入多条配置，下面是各个配置的对应关系。',
       tip1: '连接端口：',
       tip1_1: '默认：地面11000，洞穴11001',
-      tip2: '侦听端口：',
+      tip2: '主节点端口：',
       tip2_1: '默认：10888',
       tip3: 'Steam连接端口：',
       tip3_1: '默认：地面27018，洞穴27019',
@@ -605,6 +784,31 @@ export default {
       text1: '饥荒管理平台App上线啦，可以管理多个饥荒服务器，不用在网页端切来切去~',
       text2: '饥荒管理平台App采用了新的UI，或许能给你不一样的体验哟(*^▽^*)',
       text3: '快去Github下载吧(づ￣ 3￣)づ',
-    }
+    },
+    eight: {
+      title: '路径说明',
+      tip1: '平台路径',
+      tip2: '游戏路径',
+      dmp: {
+        accessLog: '请求日志',
+        runtimeLog: '平台日志',
+        backup: '备份',
+        uidMap: '昵称字典',
+        mod: '平台模组下载',
+      },
+      dst: {
+        config: '游戏配置',
+        game: '游戏本体',
+      }
+    },
+    nine: {
+      title: '多台服务器开服教程',
+      text1: '如果单台服务器开启地面洞穴两个世界，可能会有资源瓶颈，造成游戏内卡顿，如果你拥有两台服务器，便可以使用两台服务器开启一个房间',
+      text2: '首先需要在两台服务器上部署饥荒管理平台，创建集群(建议集群名一致)，然后进入设置-房间页面，在①房间设置的配置保持一致',
+      text3: '在②中配置不同的世界，需要注意的是，整个房间只能有一个主世界，剩余的为从世界，且每个世界的世界ID必须不同，从世界中配置"主世界IP"为主世界服务器的公网IP，主节点端口和认证密码需要相同，具体可参考下图进行配置',
+      text4: '主世界配置：',
+      text5: '从世界配置：',
+      tip1: '多层世界也是一样的配置，但是需要手动在③中配置多层世界模组',
+    },
   },
 };

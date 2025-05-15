@@ -65,7 +65,7 @@
 </template>
 
 <script name="toolsStatistics" setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import toolsApi from "@/api/tools"
 import {useI18n} from "vue-i18n";
 import {useScreenStore} from "@/hooks/screen/index.ts";
@@ -74,10 +74,16 @@ import ScEcharts from "@/components/scEcharts/index.vue";
 import {timestamp2time} from "@/utils/tools.js";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 import {CountTo} from "vue3-count-to";
+import {useRoute, useRouter} from "vue-router";
+import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const route = useRoute();
+const router = useRouter();
+const keepAliveStore = useKeepAliveStore();
+const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 
@@ -86,7 +92,10 @@ onMounted(() => {
 })
 
 const getInfo = (refresh = false) => {
-  toolsApi.statistics.get().then(response => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster
+  }
+  toolsApi.statistics.get(reqForm).then(response => {
     for (let item of response.data) {
       option.value.xAxis.data.push(timestamp2time(item.timestamp))
       option.value.series[0].data.push(item.num)
@@ -150,6 +159,25 @@ const option = ref({
     }
   ]
 })
+
+const handleRefresh = () => {
+  setTimeout(() => {
+    route.meta.isKeepAlive && keepAliveStore.removeKeepAliveName(route.name);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      route.meta.isKeepAlive && keepAliveStore.addKeepAliveName(route.name);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+watch(() => globalStore.selectedDstCluster, (newValue) => {
+  if (newValue) {
+    nextTick(() => {
+      handleRefresh()
+    })
+  }
+}, {immediate: false})
 </script>
 
 <style scoped>
