@@ -229,6 +229,61 @@
                   </el-form-item>
                 </el-form>
               </el-collapse-item>
+              <el-collapse-item name="9">
+                <template #title>
+                  <el-tooltip v-if="needToolTip(t('help.nine.title'))" :content="t('help.nine.title')"
+                              effect="light" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.nine.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.nine.title')) }}</span>
+                </template>
+                <div v-if="needToolTip(t('help.nine.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.nine.title') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.nine.text1') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.nine.text2') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.nine.text3') }}
+                </div>
+                <div class="tip">
+                  {{ t('help.nine.tip1') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.nine.text4') }}
+                </div>
+                <div v-if="!isDark">
+                  <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
+                            :preview-src-list="[image2]"
+                            :src="image2"
+                            :zoom-rate="1.2" fit="contain" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                </div>
+                <div v-if="isDark">
+                  <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
+                            :preview-src-list="[image4]"
+                            :src="image4"
+                            :zoom-rate="1.2" fit="contain" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.nine.text5') }}
+                </div>
+                <div v-if="!isDark">
+                  <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
+                            :preview-src-list="[image3]"
+                            :src="image3"
+                            :zoom-rate="1.2" fit="contain" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                </div>
+                <div v-if="isDark">
+                  <el-image :hide-on-click-modal="true" :initial-index="4" :max-scale="7" :min-scale="0.2"
+                            :preview-src-list="[image5]"
+                            :src="image5"
+                            :zoom-rate="1.2" fit="contain" style="margin-top: 10px; margin-bottom: 10px"></el-image>
+                </div>
+              </el-collapse-item>
             </el-collapse>
           </div>
         </el-card>
@@ -258,6 +313,10 @@ const isDark = computed(() => globalStore.isDark);
 const activeName = ref('0')
 
 const image1 = new URL('./images/1.jpg', import.meta.url).href
+const image2 = new URL('./images/master-light.png', import.meta.url).href
+const image3 = new URL('./images/slave-light.png', import.meta.url).href
+const image4 = new URL('./images/master-dark.png', import.meta.url).href
+const image5 = new URL('./images/slave-dark.png', import.meta.url).href
 
 const twoCodeRef = ref()
 const twoCode = ref('```shell ::close\n# 备份\ncd ~\nmv dst/bin/lib32/steamclient.so dst/bin/lib32/steamclient.so.bak\nmv dst/steamclient.so dst/steamclient.so.bak\n# 替换\ncp steamcmd/linux32/steamclient.so dst/bin/lib32/steamclient.so\ncp steamcmd/linux32/steamclient.so dst/steamclient.so\n```')

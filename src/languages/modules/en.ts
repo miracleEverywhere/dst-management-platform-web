@@ -796,6 +796,15 @@ export default {
         config: 'DST Configs',
         game: 'DST Game',
       }
-    }
+    },
+    nine: {
+      title: 'Tutorial for Creating Multi-Server DST clusters',
+      text1: 'If a single server hosts both the ground and cave worlds, it may lead to resource bottlenecks and cause in-game lag. If you have two servers, you can use them to host a single game room.',
+      text2: 'First, you need to deploy the DMP on both servers and create a cluster (it\'s recommended to use the same cluster name). Then, go to the Settings > Room page and ensure the configurations under ① Room Settings are consistent.',
+      text3: 'in ②, configure different worlds. Note that the entire room can only have one main world, while the rest are sub-worlds. Additionally, each world must have a unique World ID.',
+      text4: 'Main World: ',
+      text5: 'Slave World: ',
+      tip1: 'The configuration for multi-world follows the same principles, but you need to manually enable the multi-world mod in ③.',
+    },
   },
 };
