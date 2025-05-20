@@ -670,6 +670,7 @@ export default {
     password: 'Password',
     role: 'Role',
     clusterPermission: 'Cluster Permission',
+    clusterCreationProhibited: 'Cluster Create Permission',
     admin: 'Admin',
     tip_1: 'Only the admin account has the permissions to create, disable, enable, and delete',
     tip_2: 'The admin account can NOT be deleted',

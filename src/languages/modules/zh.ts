@@ -674,6 +674,7 @@ export default {
     password: '密码',
     role: '角色',
     clusterPermission: '集群权限',
+    clusterCreationProhibited: '集群创建权限',
     admin: '管理员',
     tip_1: '仅admin角色的账号拥有创建、禁用、启用和删除权限',
     tip_2: 'admin角色的账号不可删除',

@@ -9,11 +9,11 @@ const userStore = defineStore("user", {
     key: PINIA_PREFIX + "user", // 默认会以 store 的 id 作为 key
     storage: localStorage
   },
-  // 可以通过为属性指定选项来配置持久化方式persist
-  // persist: {
-  //     paths: ['isCollapse'],
-  //     storage: sessionStorage
-  // },
+  // 可以通过为属性指定选项来配置持久化方式persist
+  // persist: {
+  //     paths: ['isCollapse'],
+  //     storage: sessionStorage
+  // },
   // 存储数据state
   state: (): any => {
     return {
