@@ -702,6 +702,8 @@ export default {
       world: 'Worlds',
       port: 'Ports',
       none: 'No port bound',
+      actions: 'Actions',
+      delete: 'Delete',
     },
   },
   help: {

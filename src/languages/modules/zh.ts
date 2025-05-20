@@ -706,6 +706,8 @@ export default {
       world: '世界',
       port: '端口',
       none: '无端口暴露',
+      actions: '操作',
+      delete: '删除',
     },
   },
   help: {
