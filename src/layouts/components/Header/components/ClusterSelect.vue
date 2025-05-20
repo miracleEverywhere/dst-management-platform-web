@@ -7,7 +7,9 @@
                  v-if="globalStore.dstClusters" :label="cluster.clusterDisplayName"
                  :value="cluster.clusterName">
       </el-option>
-      <el-option value="" :label="language==='zh'?'新建集群':'New Cluster'" @click="handleClusterNew"/>
+      <el-option v-if="!authStore.userInfo.clusterCreationProhibited"
+                 value="" :label="language==='zh'?'新建集群':'New Cluster'"
+                 @click="handleClusterNew"/>
     </el-select>
     <el-dialog v-model="newClusterDialog" width="60%" @closed="handleDialogClose">
       <template #header>
@@ -45,11 +47,11 @@
 import {computed, onMounted, ref} from "vue";
 import settingApi from '@/api/setting'
 import useGlobalStore from "@/stores/modules/global.ts";
+import useAuthStore from "@/stores/modules/auth.ts";
 import {useI18n} from "vue-i18n";
 import setting from "@/api/setting";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 import {useRouter} from "vue-router";
-import homeApi from "@/api/home/index.js";
 
 
 onMounted(async () => {
@@ -57,6 +59,7 @@ onMounted(async () => {
 })
 
 const globalStore = useGlobalStore();
+const authStore = useAuthStore();
 const language = computed(() => globalStore.language);
 const {t} = useI18n()
 const router = useRouter();

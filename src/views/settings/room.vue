@@ -744,10 +744,10 @@
                 </el-tag>
               </div>
             </template>
-            <el-input v-model="multiWorldModNameForm[`${parseInt(world.name.replace('World', ''))}`]"
+            <el-input v-model="multiWorldModNameForm[`${world.id}`]"
                       :placeholder="t('setting.multiWorldDialog.placeholder1')"
                       style="width: 60%"/>
-            <el-input v-model="multiWorldModNumForm[`${parseInt(world.name.replace('World', ''))}`]"
+            <el-input v-model="multiWorldModNumForm[`${world.id}`]"
                       :placeholder="t('setting.multiWorldDialog.placeholder2')"
                       type="number"
                       style="margin-left: 3%;width: 37%"/>
@@ -1330,13 +1330,13 @@ const handleGenerateModSetting = () => {
   }
 
   let worldName = ""
-  for (let key in multiWorldModNameForm.value) {
-    worldName = worldName + `["${key}"]="${multiWorldModNameForm.value[key]}",`
+  for (let world of worldForm.value) {
+    worldName = worldName + `["${world.id}"]="${multiWorldModNameForm.value[world.id]}",`
   }
 
   let worldNum = ""
-  for (let key in multiWorldModNumForm.value) {
-    worldNum = worldNum +`["${key}"]="${multiWorldModNumForm.value[key]}",`
+  for (let world of worldForm.value) {
+    worldNum = worldNum +`["${world.id}"]="${multiWorldModNumForm.value[world.id]}",`
   }
 
   worldName = worldName.slice(0, -1)

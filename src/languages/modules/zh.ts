@@ -674,6 +674,7 @@ export default {
     password: '密码',
     role: '角色',
     clusterPermission: '集群权限',
+    clusterCreationProhibited: '集群创建权限',
     admin: '管理员',
     tip_1: '仅admin角色的账号拥有创建、禁用、启用和删除权限',
     tip_2: 'admin角色的账号不可删除',
@@ -696,7 +697,7 @@ export default {
     }
   },
   clusters: {
-    tip1: '这个页面只有管理员能看到，目前展示集群的相关信息',
+    tip1: '删除集群会清理.klei配置文件与dst模组文件，并关闭对应的世界，该操作不会删除该集群的[备份文件，uid昵称字典]，如果你想恢已经被删除的集群，可以创建一个相同名称的集群即可',
     tip2: '以下是集群的端口信息，需要在云服务器安全组开通以下所有UDP端口',
     tip3: '发现端口冲突！！！请仔细检查',
     table: {
@@ -705,6 +706,8 @@ export default {
       world: '世界',
       port: '端口',
       none: '无端口暴露',
+      actions: '操作',
+      delete: '删除',
     },
   },
   help: {

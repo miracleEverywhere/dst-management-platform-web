@@ -25,6 +25,13 @@
           </el-tag>
         </template>
       </el-table-column>
+      <el-table-column :label="t('clusters.table.actions')">
+        <template #default="scope">
+          <el-button size="small" type="danger" @click="handleClusterDelete(scope.row.clusterName)">
+            {{t('clusters.table.delete')}}
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <div class="tip_success" style="margin-top: 20px">
@@ -70,6 +77,8 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import settingApi from "@/api/setting/index.js";
+import {ElMessageBox} from "element-plus";
+import {koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 
 onMounted(() => {
   getClustersInfo()
@@ -83,6 +92,7 @@ const router = useRouter();
 const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
+const language = computed(() => globalStore.language);
 
 const infoLoading = ref(false)
 const portLoading = ref(false)
@@ -121,6 +131,50 @@ const getClustersWorldPort = () => {
     uniquePortNum.value = new Set(ports).size
   }).finally(() => {
     portLoading.value = false
+  })
+}
+
+const getClusters = () => {
+  settingApi.clusters.get().then(response => {
+    globalStore.dstClusters = response.data
+    if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
+      globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
+    }
+  })
+}
+
+const handleClusterDelete = (clusterName) => {
+  ElMessageBox.confirm(
+    language.value === 'zh' ? `将执行 删除集群 操作，是否继续？` : `The cluster DELETE operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
+    {
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          const reqForm = {
+            clusterName: clusterName
+          }
+          settingApi.cluster.delete(reqForm).then(response => {
+            koiMsgSuccess(response.message)
+            getClustersInfo()
+            getClustersWorldPort()
+            getClusters()
+            done()
+          }).catch(() => {
+          }).finally(() => {
+            instance.confirmButtonLoading = false
+          })
+        } else {
+          done()
+        }
+      }
+    }
+  ).then(() => {
+  }).catch(() => {
+    koiMsgInfo(t('home.canceled'))
   })
 }
 

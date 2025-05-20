@@ -56,6 +56,16 @@
                 </el-tag>
               </template>
             </el-table-column>
+            <el-table-column :label="t('users.clusterCreationProhibited')">
+              <template #default="scope">
+                <el-tag v-if="!scope.row.clusterCreationProhibited" type="success">
+                  {{ language === 'zh' ? '可创建' : 'Y' }}
+                </el-tag>
+                <el-tag v-if="scope.row.clusterCreationProhibited" type="danger">
+                  {{ language === 'zh' ? '不可创建' : 'N' }}
+                </el-tag>
+              </template>
+            </el-table-column>
             <el-table-column :label="t('setting.button.actions')" prop="actions">
               <template #default="scope">
                 <el-dropdown :disabled="userInfo.role!=='admin'" trigger="hover"
@@ -116,7 +126,7 @@
           </el-select>
         </el-form-item>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item :label="t('users.disabled')" prop="disabled">
               <el-switch v-model="userDialogForm.disabled" :active-text="language==='zh'?'启用':'Enable'" :active-value="false"
                          :inactive-text="language==='zh'?'禁用':'Disable'" :inactive-value="true"
@@ -125,11 +135,20 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item :label="t('users.admin')" prop="role">
               <el-switch v-model="userDialogForm.role" :active-text="language==='zh'?'是':'Enable'" :inactive-text="language==='zh'?'否':'Disable'"
                          active-value="admin" inactive-value="Non-admin"
                          inline-prompt
+                         style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="t('users.clusterCreationProhibited')" prop="role">
+              <el-switch v-model="userDialogForm.clusterCreationProhibited" :active-text="language==='zh'?'可创建':'Y'" :active-value="false"
+                         :inactive-text="language==='zh'?'不可创建':'Y'" :inactive-value="true"
+                         inline-prompt :disabled="userDialogForm.role==='admin'"
                          style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949">
               </el-switch>
             </el-form-item>
@@ -195,6 +214,7 @@ const userDialogForm = ref({
   disabled: false,
   role: 'Non-admin',
   clusterPermission: null,
+  clusterCreationProhibited: false,
 })
 const userDialogFormRules = {
   username: [
@@ -230,7 +250,8 @@ const handleCreateUser = () => {
         password: SHA512(userDialogForm.value.password),
         disabled: userDialogForm.value.disabled,
         role: userDialogForm.value.role,
-        clusterPermission: userDialogForm.value.clusterPermission
+        clusterPermission: userDialogForm.value.clusterPermission,
+        clusterCreationProhibited: userDialogForm.value.clusterCreationProhibited,
       }
       systemApi.user.post(reqForm).then(response => {
         userDialogVisible.value = false
@@ -258,6 +279,7 @@ const handleUpdateUser = () => {
         disabled: userDialogForm.value.disabled,
         role: userDialogForm.value.role,
         clusterPermission: userDialogForm.value.clusterPermission,
+        clusterCreationProhibited: userDialogForm.value.clusterCreationProhibited,
       }
       systemApi.user.put(reqForm).then(response => {
         userDialogVisible.value = false
@@ -315,6 +337,7 @@ const clearUserForm = () => {
     disabled: false,
     role: 'Non-admin',
     clusterPermission: null,
+    clusterCreationProhibited: false,
   }
 }
 </script>

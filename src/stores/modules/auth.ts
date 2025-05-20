@@ -28,6 +28,7 @@ const authStore = defineStore("auth", {
         username: "",
         nickname: "",
         role: "",
+        clusterCreationProhibited: true,
       }
     };
   },

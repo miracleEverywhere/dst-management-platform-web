@@ -339,13 +339,18 @@
                  style="margin: 20px 0">
         <el-option v-for="region in regions" :label="region.label" :value="region.value"></el-option>
       </el-select>
-      <el-alert v-if="lobbyCheckLoading" :closable="false" type="info"  :effect="isDark?'light':'dark'">
+      <el-alert v-if="lobbyCheckLoading" :closable="false" type="info" show-icon :effect="isDark?'light':'dark'">
+        <template #icon>
+          <el-icon class="is-loading">
+            <Loading />
+          </el-icon>
+        </template>
         {{t('home.screenDialog.tip3')}}
       </el-alert>
-      <el-alert v-if="lobbyCheckResult&&!lobbyCheckLoading" :closable="false" type="success"  :effect="isDark?'light':'dark'">
+      <el-alert v-if="lobbyCheckResult&&!lobbyCheckLoading" :closable="false" type="success" show-icon :effect="isDark?'light':'dark'">
         {{t('home.screenDialog.tip4')}}
       </el-alert>
-      <el-alert v-if="!lobbyCheckResult&&!lobbyCheckLoading" :closable="false" type="error"  :effect="isDark?'light':'dark'">
+      <el-alert v-if="!lobbyCheckResult&&!lobbyCheckLoading" :closable="false" type="error" show-icon :effect="isDark?'light':'dark'">
         {{t('home.screenDialog.tip5')}}
       </el-alert>
       <div class="tip_warning">
@@ -407,11 +412,12 @@ import {useI18n} from "vue-i18n";
 import {computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
-import {ElMessageBox, ElNotification} from 'element-plus'
+import {ElMessageBox} from 'element-plus'
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
+import {Loading} from "@element-plus/icons-vue";
 
 
 onMounted(() => {
