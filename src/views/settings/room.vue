@@ -1397,6 +1397,8 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   border: none !important;
   overflow: hidden;
   border-radius: 2px;
+  height: 24px;
+  width: 24px;
   background: transparent !important;
   z-index: 1;
 }
@@ -1409,9 +1411,12 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   left: -50%;
   width: 200%;
   height: 200%;
-  color: rgba(255, 255, 255, 90%);
-  background: linear-gradient(-45deg, #ffa63d, #338aff, #3cf0c5);
-  animation: rotateBorder 2s linear infinite;
+  //background: linear-gradient(-45deg, #fbf8cc, #fde4cf, #ffcfd2, #f1c0e8, #cfbaf0, #a3c4f3, #90dbf4, #8eecf5, #98f5e1, #b9fbc0);
+  //background: linear-gradient(-45deg, #cdb4db, #ffc8dd, #ffafcc, #bde0fe, #a2d2ff);
+  //background: linear-gradient(-45deg, #264653, #2a9d8f, #e9c46a, #f4a261, #e76f51);
+  //background: linear-gradient(-45deg, #8ecae6, #219ebc, #023047, #ffb703, #fb8500);
+  background: linear-gradient(-45deg, #e63946, #f1faee, #a8dadc, #457b9d, #1d3557);
+  animation: rotateBorder 6s linear infinite;
   z-index: -1;
 }
 
