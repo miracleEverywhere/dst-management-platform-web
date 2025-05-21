@@ -301,23 +301,31 @@ const getPlayerList = (tip = false) => {
     playersData.value = response.data.players
     uidMap.value = response.data.uidMap
     adminListData.value = []
-    for (let i of response.data.adminList) {
-      if (i !== '') {
-        adminListData.value.push(i)
+    if ((response.data.adminList?.length || 0 ) > 0) {
+      for (let i of response.data.adminList) {
+        if (i !== '') {
+          adminListData.value.push(i)
+        }
       }
     }
     blockListData.value = []
-    for (let i of response.data.blockList) {
-      if (i !== '') {
-        blockListData.value.push(i)
+    if ((response.data.blockList?.length || 0 ) > 0) {
+      for (let i of response.data.blockList) {
+        if (i !== '') {
+          blockListData.value.push(i)
+        }
       }
     }
+
     whiteListData.value = []
-    for (let i of response.data.whiteList) {
-      if (i !== '') {
-        whiteListData.value.push(i)
+    if ((response.data.whiteList?.length || 0 ) > 0) {
+      for (let i of response.data.whiteList) {
+        if (i !== '') {
+          whiteListData.value.push(i)
+        }
       }
     }
+
     if (tip) {
       let message
       if (language.value === 'zh') {
