@@ -23,9 +23,10 @@
               </span>
             </div>
           </template>
-          <el-scrollbar :height="windowHeight - 450">
+          <el-scrollbar :height="windowHeight - 437.5">
             <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
-                     :model="clusterSettingForm" :rules="clusterSettingFormRules" :size="isMobile?'small':'large'">
+                     :model="clusterSettingForm" :rules="clusterSettingFormRules"
+                     :size="isMobile?'small':'large'" style="margin-right: 16px">
               <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
                 <el-input v-model="clusterSettingForm.name"></el-input>
               </el-form-item>
@@ -105,7 +106,7 @@
           </template>
           <el-scrollbar :height="windowHeight - 450">
             <el-tabs v-model="worldTabName" editable type="card" @edit="handleWorldTabsEdit"
-                     @tab-change="handleWorldTabsEditChange">
+                     @tab-change="handleWorldTabsEditChange" style="margin-right: 16px">
               <el-tab-pane v-for="world in worldForm" :key="world.name"
                            :label="language==='zh'?'世界':'World'"
                            :name="world.name">
@@ -685,14 +686,14 @@
           </div>
           <el-form :model="clusterModForm">
             <el-form-item>
-              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 400"
+              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 401"
                               :theme="isDark?'darcula':'idea'"
                               mode="lua" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
         <el-card v-if="step===3" shadow="never">
-          <div :style="{height: `${windowHeight - 400}px`}" class="fcc">
+          <div :style="{height: `${windowHeight - 381}px`}" class="fcc">
             <el-result :sub-title="t('setting.finish.description')" :title="t('setting.finish.title')" icon="success"/>
           </div>
         </el-card>
@@ -764,7 +765,7 @@
 </template>
 
 <script name="settingsRoom" setup>
-import {ArrowDown} from "@element-plus/icons-vue";
+import {ArrowDown, Plus} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
@@ -1390,5 +1391,47 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
   gap: 10px;
+}
+:deep(.el-tabs__new-tab) {
+  position: relative;
+  border: none !important;
+  overflow: hidden;
+  border-radius: 2px;
+  background: transparent !important;
+  z-index: 1;
+}
+
+/* 彩虹边框层 */
+:deep(.el-tabs__new-tab)::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  color: rgba(255, 255, 255, 90%);
+  background: linear-gradient(-45deg, #ffa63d, #338aff, #3cf0c5);
+  animation: rotateBorder 2s linear infinite;
+  z-index: -1;
+}
+
+/* 内层遮罩，显示实际内容 */
+:deep(.el-tabs__new-tab)::after {
+  content: '';
+  position: absolute;
+  inset: 8%; /* 调整这个值控制边框粗细 */
+  background: var(--el-bg-color); /* 背景色与页面一致 */
+  border-radius: 1px; /* 比外层小1px */
+  z-index: -1;
+}
+
+/* 顺时针旋转动画 */
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
