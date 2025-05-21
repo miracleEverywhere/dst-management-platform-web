@@ -23,6 +23,7 @@ export default {
     version: "Game version",
     playerNum: 'Players',
     sysInfo: "Sys Info",
+    sysInfoTip: 'If the DMP runs in a container, CPU and memory usage will be calculated based on the resources allocated to the container',
     mem: "Mem",
     control: "Control Panel",
     master: "Ground",
@@ -51,6 +52,7 @@ export default {
     memory: 'Memory',
     disk: 'Disk',
     status: 'Status',
+    cpuTip: 'Average CPU usage, calculated over a 100ms period, for reference only',
     screenDialog: {
       title: 'Running DST process',
       tip1: 'All currently running DST processes in the cluster may have abnormally running instances due to unforeseen circumstances (such as when the DMP fails to properly terminate a process after deleting a world in room settings). These processes may consume additional resources. This page allows you to manually stop them',

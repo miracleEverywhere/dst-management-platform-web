@@ -23,6 +23,7 @@ export default {
     version: "游戏版本",
     playerNum: '在线玩家',
     sysInfo: "系统信息",
+    sysInfoTip: '如果饥荒管理平台运行在容器中，CPU、内存使用率将会根据为容器分配的资源进行计算',
     mem: "内存",
     control: "控制面板",
     master: "地面",
@@ -51,6 +52,7 @@ export default {
     memory: '内存',
     disk: '磁盘',
     status: '状态',
+    cpuTip: '平均CPU使用率，计算周期为100毫秒，仅供参考',
     screenDialog: {
       title: '正在运行的饥荒程序',
       tip1: '由于无法预知的异常情况(房间设置中删除世界后，平台未能成功关闭对应的饥荒程序等)，可能会存在异常运行的进程，导致额外资源占用，平台提供该页面进行手动停止',
