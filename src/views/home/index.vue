@@ -74,7 +74,14 @@
             <el-card shadow="never" style="min-height: 250px">
               <template #header>
                 <div class="card-header">
-                  {{ t('home.sysInfo') }}
+                  <div class="fcc">
+                    {{ t('home.sysInfo') }}
+                    <el-tooltip :content="t('home.sysInfoTip')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
                 </div>
               </template>
               <div class="fcc">
@@ -254,7 +261,7 @@
                   <template #header>
                     <div style="display: flex; align-items: center">
                       <span>CPU</span>
-                      <el-tooltip content="平均CPU使用率，计算周期为100毫秒，仅供参考" effect="light" placement="top">
+                      <el-tooltip :content="t('home.cpuTip')" effect="light" placement="top">
                         <el-icon size="14" style="margin-left: 2px">
                           <QuestionFilled/>
                         </el-icon>
@@ -417,7 +424,6 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import {Loading} from "@element-plus/icons-vue";
 
 
 onMounted(() => {
