@@ -340,6 +340,59 @@
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
+                    {{ t('setting.system.scheduledStartStop.divider') }}
+                  </div>
+                </template>
+                <template #icon>
+                  <Collection />
+                </template>
+              </el-alert>
+              <el-form-item :label="t('setting.system.scheduledStartStop.title')" prop="sysSetting.scheduledStartStop.enable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.scheduledStartStop.enable">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.scheduledStartStop.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.scheduledStartStop.title2')" prop="sysSetting.scheduledStartStop.startTime">
+                <el-row>
+                  <el-col :span="24">
+                    <el-time-picker v-model="systemSettingForm.sysSetting.scheduledStartStop.startTime" :clearable="false"
+                                    :editable="false" style="width: 120px;margin: 0 8px"
+                                    value-format="HH:mm:ss"/>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.scheduledStartStop.msg2') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.scheduledStartStop.title3')" prop="sysSetting.scheduledStartStop.stopTime">
+                <el-row>
+                  <el-col :span="24">
+                    <el-time-picker v-model="systemSettingForm.sysSetting.scheduledStartStop.stopTime" :clearable="false"
+                                    :editable="false" style="width: 120px;margin: 0 8px"
+                                    value-format="HH:mm:ss"/>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.scheduledStartStop.msg3') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
                 {{ t('setting.system.bit64.divider') }}
                   </div>
                 </template>
@@ -434,6 +487,11 @@ const systemSettingFormOld = ref({
       enable: false,
       frequency: 0,
     },
+    scheduledStartStop: {
+      enable: false,
+      startTime: "",
+      stopTime: "",
+    },
     bit64: false,
     tickRate: 15,
   },
@@ -470,6 +528,11 @@ const systemSettingForm = ref({
     keepalive: {
       enable: false,
       frequency: 0,
+    },
+    scheduledStartStop: {
+      enable: false,
+      startTime: "",
+      stopTime: "",
     },
     bit64: false,
     tickRate: 15,
@@ -520,6 +583,11 @@ const systemSettingFormRules = {
       enable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
       frequency: [{validator: checkFrequency, trigger: 'blur'}],
     },
+    scheduledStartStop: {
+      enable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+      startTime: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+      stopTime: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+    },
     bit64: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
     tickRate: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
   },
@@ -547,6 +615,10 @@ const handleGetSystemSetting = () => {
   }
   settingApi.system.setting.get(reqForm).then(response => {
     systemSettingForm.value = response.data
+    if (systemSettingForm.value.sysSetting.scheduledStartStop.startTime === "") {
+      systemSettingForm.value.sysSetting.scheduledStartStop.startTime = "08:00:00"
+      systemSettingForm.value.sysSetting.scheduledStartStop.stopTime = "02:00:00"
+    }
     systemSettingFormOld.value = deepCopy(systemSettingForm.value)
   }).finally(() => {
     loading.value = false
@@ -568,7 +640,7 @@ const handleSubmit = () => {
         settingApi.system.setting.put(reqForm).then(response => {
           handleGetSystemSetting()
           koiMsgSuccess(response.message)
-          if (systemSettingFormOld.value.bit64 !== systemSettingForm.value.bit64) {
+          if (systemSettingFormOld.value.sysSetting.bit64 !== systemSettingForm.value.sysSetting.bit64) {
             const message = language.value === 'zh' ? '正在后台切换32/64，可依据CPU使用率判断是否执行完毕，执行完毕后重启游戏即可。' : 'The background switching 32-bit/64-bit task is in progress, and you can determine if it has completed based on the CPU usage. Once it\'s completed, you can restart the game.'
             const title = language.value === 'zh' ? '系统提示' : 'Tip'
             koiNoticeInfo(message, title, 10000)
