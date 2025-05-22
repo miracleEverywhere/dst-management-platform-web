@@ -24,7 +24,8 @@
             </div>
           </template>
           <el-scrollbar :height="windowHeight - 437.5">
-            <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
+            <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'"
+                     :label-width="isMobile?'70':'auto'"
                      :model="clusterSettingForm" :rules="clusterSettingFormRules"
                      :size="isMobile?'small':'large'" style="margin-right: 16px">
               <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
@@ -704,7 +705,7 @@
         <el-card shadow="never">
           <div style="display: flex; justify-content: flex-end;">
             <el-button v-if="step>0" @click="handlePrev">{{ t('setting.button.prev') }}</el-button>
-            <el-button v-if="step<3" type="primary" @click="handleNext">{{ t('setting.button.next') }}</el-button>
+            <el-button v-if="step<3" type="primary" :loading="nextButtonLoading" @click="handleNext">{{ t('setting.button.next') }}</el-button>
             <el-dropdown v-if="step===3" style="margin-left: 12px" trigger="click" @command="handleCommand">
               <el-button :loading="loading" type="warning">
                 {{ t('setting.button.actions') }}
@@ -771,6 +772,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
+import systemApi from "@/api/system"
 import luaparse from 'luaparse'
 import luamin from 'lua-format'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
@@ -787,6 +789,8 @@ import {
   overrides
 } from "@/views/settings/components/levelDataMap.js";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
+import useAuthStore from "@/stores/modules/auth.ts";
+import {sleep} from "@/utils/tools.js";
 
 const {t} = useI18n()
 
@@ -795,7 +799,8 @@ onMounted(async () => {
   window.addEventListener("resize", () => {
     windowHeight.value = window.innerHeight;
   });
-  await handleGetClusterSetting()
+  await getAllClusters()
+  await getMaxWorlds()
   generateWorldFormRefs()
 })
 
@@ -806,10 +811,12 @@ const windowHeight = ref(0)
 const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
+const authStore = useAuthStore()
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const userInfo = authStore.userInfo
 const worldPortFactor = computed(() => {
-  const clusters = globalStore.dstClusters || []
+  const clusters = allClusters.value || []
   const index = clusters.findIndex(c => c.clusterName === globalStore.selectedDstCluster)
   return index !== -1 ? index : 0
 })
@@ -834,12 +841,25 @@ const debouncedRefresh = debounce((editor) => {
   });
 }, 100);
 
+const allClusters = ref([])
+const getAllClusters = () => {
+  settingApi.clusters.all.get().then(response => {
+    allClusters.value = response.data
+  })
+}
 const getClusters = () => {
   settingApi.clusters.get().then(response => {
     globalStore.dstClusters = response.data
     if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
       globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
     }
+  })
+}
+
+const maxWorlds = ref(0)
+const getMaxWorlds = () => {
+  systemApi.userInfo.get().then(response => {
+    maxWorlds.value = response.data.maxWorldsPerCluster
   })
 }
 
@@ -855,6 +875,7 @@ const handleRefresh = () => {
 };
 
 const step = ref(0)
+const nextButtonLoading = ref(false)
 const handleStepClick = (goStep) => {
   if (step.value > goStep) {
     step.value = goStep
@@ -865,13 +886,29 @@ const handlePrev = () => {
 }
 const handleNext = async () => {
   if (step.value === 0) {
-    clusterSettingFormRef.value.validate(valid => {
+    clusterSettingFormRef.value.validate(async valid => {
       if (valid) {
+        nextButtonLoading.value = true
+        await handleGetClusterSetting()
+        nextButtonLoading.value = false
         step.value++
       }
     })
   }
   if (step.value === 1) {
+    if (userInfo.role !== "admin") {
+      if (worldForm.value.length > maxWorlds.value) {
+        let msg = ""
+        if (language.value === 'zh') {
+          msg = `超过最大可创建世界数量，当前最大可创建世界数为${maxWorlds.value}`
+        } else {
+          msg = `Exceeds the maximum number of worlds that can be created. The current maximum is ${maxWorlds.value}`
+        }
+        koiMsgError(msg)
+        return
+      }
+    }
+
     for (let key in dynamicWorldRefs) {
       if (dynamicWorldRefs?.key) {
         await dynamicWorldRefs[key].validate()
