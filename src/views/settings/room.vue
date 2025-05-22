@@ -801,6 +801,7 @@ onMounted(async () => {
   });
   await getAllClusters()
   await getMaxWorlds()
+  await handleGetClusterSetting()
   generateWorldFormRefs()
 })
 
@@ -888,9 +889,24 @@ const handleNext = async () => {
   if (step.value === 0) {
     clusterSettingFormRef.value.validate(async valid => {
       if (valid) {
-        nextButtonLoading.value = true
-        await handleGetClusterSetting()
-        nextButtonLoading.value = false
+        if (!hasWorlds.value) {
+          worldTabIndex.value = 1
+          worldTabName.value = 'World1'
+          worldForm.value = [{
+            id: 101,
+            name: 'World1',
+            isMaster: true,
+            levelData: '',
+            serverPort: 11001 + worldPortFactor.value * 10,
+            shardMasterPort: 10888 + worldPortFactor.value * 10,
+            steamMasterPort: 27018 + worldPortFactor.value * 10,
+            steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
+            shardMasterIp: '127.0.0.1',
+            clusterKey: 'supersecretkey',
+            encodeUserPath: true,
+            saved: false
+          }]
+        }
         step.value++
       }
     })
@@ -972,6 +988,7 @@ const clusterModForm = ref({
   mod: '',
 })
 
+const hasWorlds = ref(false)
 const handleGetClusterSetting = () => {
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
@@ -994,23 +1011,9 @@ const handleGetClusterSetting = () => {
       }
       worldTabIndex.value = maxIndex
       worldTabName.value = 'World' + minIndex.toString()
+      hasWorlds.value = true
     } else {
-      worldTabIndex.value = 1
-      worldTabName.value = 'World1'
-      worldForm.value = [{
-        id: 101,
-        name: 'World1',
-        isMaster: true,
-        levelData: '',
-        serverPort: 11001 + worldPortFactor.value * 10,
-        shardMasterPort: 10888 + worldPortFactor.value * 10,
-        steamMasterPort: 27018 + worldPortFactor.value * 10,
-        steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
-        shardMasterIp: '127.0.0.1',
-        clusterKey: 'supersecretkey',
-        encodeUserPath: true,
-        saved: false
-      }]
+      hasWorlds.value = false
     }
     clusterModForm.value.mod = response.data.mod
   })
