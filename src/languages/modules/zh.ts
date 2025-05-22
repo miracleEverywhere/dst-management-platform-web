@@ -686,6 +686,8 @@ export default {
     role: '角色',
     clusterPermission: '集群权限',
     clusterCreationProhibited: '集群创建权限',
+    maxWorldsPerCluster: '世界数量限制',
+    maxWorldsPerClusterTip: '每个集群可创建的世界数量，管理员不受限制',
     admin: '管理员',
     tip_1: '仅admin角色的账号拥有创建、禁用、启用和删除权限',
     tip_2: 'admin角色的账号不可删除',
@@ -705,6 +707,7 @@ export default {
       nickname: '请输入用户昵称',
       password: '请输入密码',
       disabled: '',
+      maxWorldsPerCluster: '请输入世界数量限制',
     }
   },
   clusters: {

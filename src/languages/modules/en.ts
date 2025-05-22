@@ -682,6 +682,8 @@ export default {
     role: 'Role',
     clusterPermission: 'Cluster Permission',
     clusterCreationProhibited: 'Cluster Create Permission',
+    maxWorldsPerCluster: 'World Limit',
+    maxWorldsPerClusterTip: 'The number of worlds that can be created per cluster, Administrators are not restricted',
     admin: 'Admin',
     tip_1: 'Only the admin account has the permissions to create, disable, enable, and delete',
     tip_2: 'The admin account can NOT be deleted',
@@ -701,6 +703,7 @@ export default {
       nickname: 'please input the nickname',
       password: 'please input the password',
       disabled: '',
+      maxWorldsPerCluster: 'please input the world limit',
     }
   },
   clusters: {
