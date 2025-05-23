@@ -328,6 +328,8 @@ export default {
     luaError: 'lua语法校验失败',
     cavesTip: '提示：如果你不想创建洞穴，请保持下方输入框为空',
     refresh: '刷新',
+    manualAdd: '手动添加',
+    uidPlaceholder: '请输入玩家UID，KU_开头',
     autoRefresh: '自动刷新',
     players: '玩家列表',
     adminList: '管理员',

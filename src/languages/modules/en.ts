@@ -327,6 +327,8 @@ export default {
     luaError: 'Lua syntax validation failed',
     cavesTip: 'TIPS: If you do not want to create a cave, please leave the input box below empty',
     refresh: 'Refresh',
+    manualAdd: 'Add',
+    uidPlaceholder: 'Please enter the player UID, starting with KU_',
     autoRefresh: 'Auto Refresh',
     players: 'Players',
     adminList: 'Admin List',
