@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
         <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-          <el-tab-pane :label="$t('setting.players')" name="players">
+          <el-tab-pane :label="t('setting.players')" name="players">
             <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
@@ -14,21 +14,21 @@
                 </div>
               </template>
               <el-table v-if="playersData" :data="playersData" border size="small" style="width: 100%">
-                <el-table-column :label="$t('setting.nickName')" prop="nickName"/>
-                <el-table-column :label="$t('setting.role')" prop="prefab">
+                <el-table-column :label="t('setting.nickName')" prop="nickName"/>
+                <el-table-column :label="t('setting.role')" prop="prefab">
                   <template #default="scope">
                     <span v-if="scope.row.prefab===''">{{ t('setting.roleFail') }}</span>
                     <span v-else>{{ scope.row.prefab }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column :label="$t('setting.age')" prop="age">
+                <el-table-column :label="t('setting.age')" prop="age">
                   <template #default="scope">
                     <el-tag v-if="scope.row.age" type="success">{{ scope.row.age }}</el-tag>
                     <el-tag v-else type="warning">{{ t('setting.roleFail') }}</el-tag>
                   </template>
                 </el-table-column>
                 <el-table-column label="UID" prop="uid"/>
-                <el-table-column :label="$t('setting.button.actions')" prop="actions">
+                <el-table-column :label="t('setting.button.actions')" prop="actions">
                   <template #default="scope">
                     <el-dropdown trigger="hover" @command="handleCommand">
                       <el-button link type="primary">
@@ -57,15 +57,18 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-result v-else :title="$t('setting.noPlayersFound')" icon="warning" style="margin-top: 10%"></el-result>
+              <el-result v-else :title="t('setting.noPlayersFound')" icon="warning" style="margin-top: 10%"></el-result>
             </el-card>
           </el-tab-pane>
-          <el-tab-pane :label="$t('setting.adminList')" name="adminList">
+          <el-tab-pane :label="t('setting.adminList')" name="adminList">
             <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.adminList') }}
                   <div>
+                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">
+                      {{ t('setting.manualAdd') }}
+                    </el-button>
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
                 </div>
@@ -95,15 +98,18 @@
                   </el-button>
                 </div>
               </div>
-              <el-result v-else :title="$t('setting.noAdminFound')" icon="warning" style="margin-top: 10%"></el-result>
+              <el-result v-else :title="t('setting.noAdminFound')" icon="warning" style="margin-top: 10%"></el-result>
             </el-card>
           </el-tab-pane>
-          <el-tab-pane :label="$t('setting.blockList')" name="blockList">
+          <el-tab-pane :label="t('setting.blockList')" name="blockList">
             <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.blockList') }}
                   <div>
+                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">
+                      {{ t('setting.manualAdd') }}
+                    </el-button>
                     <el-button type="success" @click="openBlockListDialog">{{t('setting.blockListItems.uploadButton')}}</el-button>
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
@@ -137,12 +143,15 @@
               <el-result v-else :title="$t('setting.noBlockFound')" icon="warning" style="margin-top: 10%"></el-result>
             </el-card>
           </el-tab-pane>
-          <el-tab-pane :label="$t('setting.whiteList')" name="whiteList">
+          <el-tab-pane :label="t('setting.whiteList')" name="whiteList">
             <el-card style="height: 78vh" shadow="never">
               <template #header>
                 <div class="card-header">
                   {{ t('setting.whiteList') }}
                   <div>
+                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">
+                      {{ t('setting.manualAdd') }}
+                    </el-button>
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
                 </div>
@@ -267,6 +276,18 @@
         </template>
       </el-upload>
     </el-dialog>
+    <el-dialog v-model="manualAddListDialogVisible" :title="t('setting.manualAdd')" width="60%">
+      <el-form style="margin: 30px 20px">
+        <el-form-item>
+          <el-input v-model="manualAddListUid" :placeholder="t('setting.uidPlaceholder')" style="width: 100%" />
+        </el-form-item>
+        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+          <el-button type="primary" @click="handleManualAddList">
+            {{ t('users.submit') }}
+          </el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -301,23 +322,31 @@ const getPlayerList = (tip = false) => {
     playersData.value = response.data.players
     uidMap.value = response.data.uidMap
     adminListData.value = []
-    for (let i of response.data.adminList) {
-      if (i !== '') {
-        adminListData.value.push(i)
+    if ((response.data.adminList?.length || 0 ) > 0) {
+      for (let i of response.data.adminList) {
+        if (i !== '') {
+          adminListData.value.push(i)
+        }
       }
     }
     blockListData.value = []
-    for (let i of response.data.blockList) {
-      if (i !== '') {
-        blockListData.value.push(i)
+    if ((response.data.blockList?.length || 0 ) > 0) {
+      for (let i of response.data.blockList) {
+        if (i !== '') {
+          blockListData.value.push(i)
+        }
       }
     }
+
     whiteListData.value = []
-    for (let i of response.data.whiteList) {
-      if (i !== '') {
-        whiteListData.value.push(i)
+    if ((response.data.whiteList?.length || 0 ) > 0) {
+      for (let i of response.data.whiteList) {
+        if (i !== '') {
+          whiteListData.value.push(i)
+        }
       }
     }
+
     if (tip) {
       let message
       if (language.value === 'zh') {
@@ -509,6 +538,39 @@ const handleInputConfirm = (listName) => {
   }
   InputVisible.value = false
   InputValue.value = ''
+}
+
+const manualAddListDialogVisible = ref(false)
+const manualAddListUid = ref("")
+const handleManualAddList = async () => {
+  let cmdType = ""
+  if (activeTab.value === "adminList") {
+    cmdType = "admin"
+  }
+  if (activeTab.value === "blockList") {
+    cmdType = "block"
+  }
+  if (activeTab.value === "whiteList") {
+    cmdType = "white"
+  }
+
+  if (cmdType === "") {
+    koiMsgError(language.value === 'zh' ? '非法请求' : 'Invalid Request')
+    return
+  }
+  if (manualAddListUid.value === "") {
+    koiMsgError(language.value === 'zh' ? '请输入玩家UID' : 'Please enter the player UID')
+    return
+  }
+  if (!(/^KU_/.test(manualAddListUid.value))) {
+    koiMsgError(language.value === 'zh' ? '请输入正确的玩家UID' : 'Please enter the correct player UID')
+    return
+  }
+
+  await handlePlayerChange(cmdType, 'add', manualAddListUid.value)
+
+  manualAddListUid.value = ""
+  manualAddListDialogVisible.value = false
 }
 
 const handleCleanHistoryPlayer = () => {

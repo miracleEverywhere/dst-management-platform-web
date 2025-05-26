@@ -2174,6 +2174,25 @@ export const overrides = {
       en: 'Year Of The Pig King',
     }
   },
+  year_of_the_snake: {
+    configs: ["default", "enabled"],
+    customConfigsValue: {
+      default: {
+        zh: '默认',
+        en: 'Default'
+      },
+      enabled: {
+        zh: '总是',
+        en: 'enabled'
+      },
+    },
+    modelValue: 'default',
+    image: 'year_of_the_snake.png',
+    i18n: {
+      zh: '洞穴蠕虫之年',
+      en: 'Year Of The Depths Worm',
+    }
+  },
   year_of_the_varg: {
     configs: ["default", "enabled"],
     customConfigsValue: {
@@ -2875,6 +2894,7 @@ export const groundWorldRule = {
   events: [
     'crow_carnival', 'hallowed_nights', 'winters_feast', 'year_of_the_gobbler', 'year_of_the_varg', 'year_of_the_pig',
     'year_of_the_carrat', 'year_of_the_beefalo', 'year_of_the_catcoon', 'year_of_the_bunnyman', 'year_of_the_dragonfly',
+    'year_of_the_snake',
   ],
   survivors: [
     'extrastartingitems', 'seasonalstartingitems', 'spawnprotection', 'dropeverythingondespawn', 'healthpenalty',

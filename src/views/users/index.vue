@@ -66,6 +66,26 @@
                 </el-tag>
               </template>
             </el-table-column>
+            <el-table-column>
+              <template #header>
+                <div style="display: flex; align-items: center">
+                  <span>{{t('users.maxWorldsPerCluster')}}</span>
+                  <el-tooltip :content="t('users.maxWorldsPerClusterTip')" effect="light" placement="top">
+                    <el-icon size="14" style="margin-left: 2px">
+                      <QuestionFilled/>
+                    </el-icon>
+                  </el-tooltip>
+                </div>
+              </template>
+              <template #default="scope">
+                <el-tag v-if="scope.row.role==='admin'" type="primary">
+                  {{language==='zh'?'不限制':'No Limits'}}
+                </el-tag>
+                <el-tag v-else type="primary">
+                  {{scope.row.maxWorldsPerCluster}}
+                </el-tag>
+              </template>
+            </el-table-column>
             <el-table-column :label="t('setting.button.actions')" prop="actions">
               <template #default="scope">
                 <el-dropdown :disabled="userInfo.role!=='admin'" trigger="hover"
@@ -99,8 +119,8 @@
     </el-row>
     <el-dialog v-model="userDialogVisible" width="60%" @closed="clearUserForm">
       <el-form ref="userDialogFormRef" :model="userDialogForm" :rules="userDialogFormRules"
-               :validate-on-rule-change="false" label-width="100"
-               style="margin-top: 20px"
+               :validate-on-rule-change="false" label-width="150"
+               style="margin: 20px 50px 0 0"
       >
         <el-form-item v-if="dialogCreate" :label="t('users.username')" prop="username">
           <el-input v-model="userDialogForm.username"></el-input>
@@ -124,6 +144,9 @@
                        :label="i.clusterDisplayName"
                        :value="i.clusterName"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item :label="t('users.maxWorldsPerCluster')" prop="maxWorldsPerCluster">
+          <el-slider v-model="userDialogForm.maxWorldsPerCluster" :max="64" :min="0" show-input size="small"/>
         </el-form-item>
         <el-row>
           <el-col :span="8">
@@ -215,6 +238,7 @@ const userDialogForm = ref({
   role: 'Non-admin',
   clusterPermission: null,
   clusterCreationProhibited: false,
+  maxWorldsPerCluster: 2,
 })
 const userDialogFormRules = {
   username: [
@@ -228,6 +252,9 @@ const userDialogFormRules = {
   ],
   disabled: [
     {required: true, message: t('users.formValidateMsg.disabled')}
+  ],
+  maxWorldsPerCluster: [
+    {required: true, message: t('users.formValidateMsg.maxWorldsPerCluster')}
   ],
 }
 const userDialogVisible = ref(false)
@@ -252,6 +279,7 @@ const handleCreateUser = () => {
         role: userDialogForm.value.role,
         clusterPermission: userDialogForm.value.clusterPermission,
         clusterCreationProhibited: userDialogForm.value.clusterCreationProhibited,
+        maxWorldsPerCluster: userDialogForm.value.maxWorldsPerCluster,
       }
       systemApi.user.post(reqForm).then(response => {
         userDialogVisible.value = false
@@ -280,6 +308,7 @@ const handleUpdateUser = () => {
         role: userDialogForm.value.role,
         clusterPermission: userDialogForm.value.clusterPermission,
         clusterCreationProhibited: userDialogForm.value.clusterCreationProhibited,
+        maxWorldsPerCluster: userDialogForm.value.maxWorldsPerCluster,
       }
       systemApi.user.put(reqForm).then(response => {
         userDialogVisible.value = false

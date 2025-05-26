@@ -23,9 +23,11 @@
               </span>
             </div>
           </template>
-          <el-scrollbar :height="windowHeight - 450">
-            <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'" :label-width="isMobile?'70':'auto'"
-                     :model="clusterSettingForm" :rules="clusterSettingFormRules" :size="isMobile?'small':'large'">
+          <el-scrollbar :height="windowHeight - 437.5">
+            <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'"
+                     :label-width="isMobile?'70':'auto'"
+                     :model="clusterSettingForm" :rules="clusterSettingFormRules"
+                     :size="isMobile?'small':'large'" style="margin-right: 16px">
               <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
                 <el-input v-model="clusterSettingForm.name"></el-input>
               </el-form-item>
@@ -105,7 +107,7 @@
           </template>
           <el-scrollbar :height="windowHeight - 450">
             <el-tabs v-model="worldTabName" editable type="card" @edit="handleWorldTabsEdit"
-                     @tab-change="handleWorldTabsEditChange">
+                     @tab-change="handleWorldTabsEditChange" style="margin-right: 16px">
               <el-tab-pane v-for="world in worldForm" :key="world.name"
                            :label="language==='zh'?'世界':'World'"
                            :name="world.name">
@@ -685,14 +687,14 @@
           </div>
           <el-form :model="clusterModForm">
             <el-form-item>
-              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 400"
+              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 401"
                               :theme="isDark?'darcula':'idea'"
                               mode="lua" style="width: 100%"></sc-code-editor>
             </el-form-item>
           </el-form>
         </el-card>
         <el-card v-if="step===3" shadow="never">
-          <div :style="{height: `${windowHeight - 400}px`}" class="fcc">
+          <div :style="{height: `${windowHeight - 381}px`}" class="fcc">
             <el-result :sub-title="t('setting.finish.description')" :title="t('setting.finish.title')" icon="success"/>
           </div>
         </el-card>
@@ -703,7 +705,7 @@
         <el-card shadow="never">
           <div style="display: flex; justify-content: flex-end;">
             <el-button v-if="step>0" @click="handlePrev">{{ t('setting.button.prev') }}</el-button>
-            <el-button v-if="step<3" type="primary" @click="handleNext">{{ t('setting.button.next') }}</el-button>
+            <el-button v-if="step<3" type="primary" :loading="nextButtonLoading" @click="handleNext">{{ t('setting.button.next') }}</el-button>
             <el-dropdown v-if="step===3" style="margin-left: 12px" trigger="click" @command="handleCommand">
               <el-button :loading="loading" type="warning">
                 {{ t('setting.button.actions') }}
@@ -764,12 +766,13 @@
 </template>
 
 <script name="settingsRoom" setup>
-import {ArrowDown} from "@element-plus/icons-vue";
+import {ArrowDown, Plus} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
 import scCodeEditor from "@/components/scCodeEditor/index.vue";
 import settingApi from "@/api/setting"
+import systemApi from "@/api/system"
 import luaparse from 'luaparse'
 import luamin from 'lua-format'
 import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
@@ -786,6 +789,8 @@ import {
   overrides
 } from "@/views/settings/components/levelDataMap.js";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
+import useAuthStore from "@/stores/modules/auth.ts";
+import {sleep} from "@/utils/tools.js";
 
 const {t} = useI18n()
 
@@ -794,6 +799,8 @@ onMounted(async () => {
   window.addEventListener("resize", () => {
     windowHeight.value = window.innerHeight;
   });
+  await getAllClusters()
+  await getMaxWorlds()
   await handleGetClusterSetting()
   generateWorldFormRefs()
 })
@@ -805,10 +812,12 @@ const windowHeight = ref(0)
 const {isMobile} = useScreenStore();
 
 const globalStore = useGlobalStore();
+const authStore = useAuthStore()
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const userInfo = authStore.userInfo
 const worldPortFactor = computed(() => {
-  const clusters = globalStore.dstClusters || []
+  const clusters = allClusters.value || []
   const index = clusters.findIndex(c => c.clusterName === globalStore.selectedDstCluster)
   return index !== -1 ? index : 0
 })
@@ -833,12 +842,25 @@ const debouncedRefresh = debounce((editor) => {
   });
 }, 100);
 
+const allClusters = ref([])
+const getAllClusters = () => {
+  settingApi.clusters.all.get().then(response => {
+    allClusters.value = response.data
+  })
+}
 const getClusters = () => {
   settingApi.clusters.get().then(response => {
     globalStore.dstClusters = response.data
     if (globalStore.selectedDstCluster === null && globalStore.dstClusters !== null) {
       globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
     }
+  })
+}
+
+const maxWorlds = ref(0)
+const getMaxWorlds = () => {
+  systemApi.userInfo.get().then(response => {
+    maxWorlds.value = response.data.maxWorldsPerCluster
   })
 }
 
@@ -854,6 +876,7 @@ const handleRefresh = () => {
 };
 
 const step = ref(0)
+const nextButtonLoading = ref(false)
 const handleStepClick = (goStep) => {
   if (step.value > goStep) {
     step.value = goStep
@@ -864,13 +887,44 @@ const handlePrev = () => {
 }
 const handleNext = async () => {
   if (step.value === 0) {
-    clusterSettingFormRef.value.validate(valid => {
+    clusterSettingFormRef.value.validate(async valid => {
       if (valid) {
+        if (!hasWorlds.value) {
+          worldTabIndex.value = 1
+          worldTabName.value = 'World1'
+          worldForm.value = [{
+            id: 101,
+            name: 'World1',
+            isMaster: true,
+            levelData: '',
+            serverPort: 11001 + worldPortFactor.value * 10,
+            shardMasterPort: 10888 + worldPortFactor.value * 10,
+            steamMasterPort: 27018 + worldPortFactor.value * 10,
+            steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
+            shardMasterIp: '127.0.0.1',
+            clusterKey: 'supersecretkey',
+            encodeUserPath: true,
+            saved: false
+          }]
+        }
         step.value++
       }
     })
   }
   if (step.value === 1) {
+    if (userInfo.role !== "admin") {
+      if (worldForm.value.length > maxWorlds.value) {
+        let msg = ""
+        if (language.value === 'zh') {
+          msg = `超过最大可创建世界数量，当前最大可创建世界数为${maxWorlds.value}`
+        } else {
+          msg = `Exceeds the maximum number of worlds that can be created. The current maximum is ${maxWorlds.value}`
+        }
+        koiMsgError(msg)
+        return
+      }
+    }
+
     for (let key in dynamicWorldRefs) {
       if (dynamicWorldRefs?.key) {
         await dynamicWorldRefs[key].validate()
@@ -934,6 +988,7 @@ const clusterModForm = ref({
   mod: '',
 })
 
+const hasWorlds = ref(false)
 const handleGetClusterSetting = () => {
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
@@ -956,23 +1011,9 @@ const handleGetClusterSetting = () => {
       }
       worldTabIndex.value = maxIndex
       worldTabName.value = 'World' + minIndex.toString()
+      hasWorlds.value = true
     } else {
-      worldTabIndex.value = 1
-      worldTabName.value = 'World1'
-      worldForm.value = [{
-        id: 101,
-        name: 'World1',
-        isMaster: true,
-        levelData: '',
-        serverPort: 11001 + worldPortFactor.value * 10,
-        shardMasterPort: 10888 + worldPortFactor.value * 10,
-        steamMasterPort: 27018 + worldPortFactor.value * 10,
-        steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
-        shardMasterIp: '127.0.0.1',
-        clusterKey: 'supersecretkey',
-        encodeUserPath: true,
-        saved: false
-      }]
+      hasWorlds.value = false
     }
     clusterModForm.value.mod = response.data.mod
   })
@@ -1390,5 +1431,53 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
   gap: 10px;
+}
+:deep(.el-tabs__new-tab) {
+  position: relative;
+  border: none !important;
+  overflow: hidden;
+  border-radius: 2px;
+  height: 24px;
+  width: 24px;
+  background: transparent !important;
+  z-index: 1;
+}
+
+/* 彩虹边框层 */
+:deep(.el-tabs__new-tab)::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  //background: linear-gradient(-45deg, #fbf8cc, #fde4cf, #ffcfd2, #f1c0e8, #cfbaf0, #a3c4f3, #90dbf4, #8eecf5, #98f5e1, #b9fbc0);
+  //background: linear-gradient(-45deg, #cdb4db, #ffc8dd, #ffafcc, #bde0fe, #a2d2ff);
+  //background: linear-gradient(-45deg, #264653, #2a9d8f, #e9c46a, #f4a261, #e76f51);
+  //background: linear-gradient(-45deg, #8ecae6, #219ebc, #023047, #ffb703, #fb8500);
+  //background: linear-gradient(-45deg, #e63946, #f1faee, #a8dadc, #457b9d, #1d3557);
+  background: linear-gradient(-45deg, #70d6ff, #ff70a6, #ff9770, #ffd670, #e9ff70);
+  animation: rotateBorder 6s linear infinite;
+  z-index: -1;
+}
+
+/* 内层遮罩，显示实际内容 */
+:deep(.el-tabs__new-tab)::after {
+  content: '';
+  position: absolute;
+  inset: 12%; /* 调整这个值控制边框粗细 */
+  background: var(--el-bg-color); /* 背景色与页面一致 */
+  border-radius: 1px; /* 比外层小1px */
+  z-index: -1;
+}
+
+/* 顺时针旋转动画 */
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

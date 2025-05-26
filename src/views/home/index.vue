@@ -74,7 +74,14 @@
             <el-card shadow="never" style="min-height: 250px">
               <template #header>
                 <div class="card-header">
-                  {{ t('home.sysInfo') }}
+                  <div class="fcc">
+                    {{ t('home.sysInfo') }}
+                    <el-tooltip :content="t('home.sysInfoTip')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
                 </div>
               </template>
               <div class="fcc">
@@ -254,7 +261,7 @@
                   <template #header>
                     <div style="display: flex; align-items: center">
                       <span>CPU</span>
-                      <el-tooltip content="平均CPU使用率，计算周期为100毫秒，仅供参考" effect="light" placement="top">
+                      <el-tooltip :content="t('home.cpuTip')" effect="light" placement="top">
                         <el-icon size="14" style="margin-left: 2px">
                           <QuestionFilled/>
                         </el-icon>
@@ -373,34 +380,42 @@
       </el-table>
     </el-dialog>
     <el-tour v-model="globalStore.needTour">
-      <el-tour-step
-        :title="t('home.tour.one.title')"
-        :description="t('home.tour.one.desc')"
-      />
-      <el-tour-step
-        target="#tourUser"
-        :title="t('home.tour.two.title')"
-        :description="t('home.tour.two.desc')"
-      />
-      <el-tour-step
-        target="#tourClusterSelect"
-        :title="t('home.tour.three.title')"
-        :description="t('home.tour.three.desc')"
-      />
-      <el-tour-step
-        target="#tourMessage"
-        :title="t('home.tour.four.title')"
-        :description="t('home.tour.four.desc')"
-      />
-      <el-tour-step
-        target="#tourGithub"
-        :title="t('home.tour.five.title')"
-        :description="t('home.tour.five.desc')"
-      />
-      <el-tour-step
-        :title="t('home.tour.six.title')"
-        :description="t('home.tour.six.desc')"
-      />
+      <el-tour-step :title="t('home.tour.one.title')">
+        <div style="display: flex; align-items: center">
+          <el-icon style="margin-right: 5px"><MilkTea /></el-icon>
+          <span>{{t('home.tour.one.desc')}}</span>
+        </div>
+      </el-tour-step>
+      <el-tour-step target="#tourUser" :title="t('home.tour.two.title')">
+        <div style="display: flex; align-items: center">
+          <el-icon style="margin-right: 5px"><Sugar /></el-icon>
+          <span>{{t('home.tour.two.desc')}}</span>
+        </div>
+      </el-tour-step>
+      <el-tour-step target="#tourClusterSelect" :title="t('home.tour.three.title')">
+        <div style="display: flex; align-items: center">
+          <el-icon style="margin-right: 5px"><ColdDrink /></el-icon>
+          <span>{{t('home.tour.three.desc')}}</span>
+        </div>
+      </el-tour-step>
+      <el-tour-step target="#tourMessage" :title="t('home.tour.four.title')">
+        <div style="display: flex; align-items: center">
+          <el-icon style="margin-right: 5px"><Dessert /></el-icon>
+          <span>{{t('home.tour.four.desc')}}</span>
+        </div>
+      </el-tour-step>
+      <el-tour-step target="#tourGithub" :title="t('home.tour.five.title')">
+        <div style="display: flex; align-items: center">
+          <el-icon style="margin-right: 5px"><Fries /></el-icon>
+          <span>{{t('home.tour.five.desc')}}</span>
+        </div>
+      </el-tour-step>
+      <el-tour-step :title="t('home.tour.six.title')">
+        <div style="display: flex; align-items: center">
+          <el-icon style="margin-right: 5px"><IceDrink /></el-icon>
+          <span>{{t('home.tour.six.desc')}}</span>
+        </div>
+      </el-tour-step>
     </el-tour>
   </div>
 </template>
@@ -417,7 +432,6 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import {Loading} from "@element-plus/icons-vue";
 
 
 onMounted(() => {
