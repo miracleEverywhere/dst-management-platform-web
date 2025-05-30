@@ -1443,7 +1443,6 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   z-index: 1;
 }
 
-/* 彩虹边框层 */
 :deep(.el-tabs__new-tab)::before {
   content: '';
   position: absolute;
@@ -1451,27 +1450,20 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   left: -50%;
   width: 200%;
   height: 200%;
-  //background: linear-gradient(-45deg, #fbf8cc, #fde4cf, #ffcfd2, #f1c0e8, #cfbaf0, #a3c4f3, #90dbf4, #8eecf5, #98f5e1, #b9fbc0);
-  //background: linear-gradient(-45deg, #cdb4db, #ffc8dd, #ffafcc, #bde0fe, #a2d2ff);
-  //background: linear-gradient(-45deg, #264653, #2a9d8f, #e9c46a, #f4a261, #e76f51);
-  //background: linear-gradient(-45deg, #8ecae6, #219ebc, #023047, #ffb703, #fb8500);
-  //background: linear-gradient(-45deg, #e63946, #f1faee, #a8dadc, #457b9d, #1d3557);
   background: linear-gradient(-45deg, #70d6ff, #ff70a6, #ff9770, #ffd670, #e9ff70);
   animation: rotateBorder 6s linear infinite;
   z-index: -1;
 }
 
-/* 内层遮罩，显示实际内容 */
 :deep(.el-tabs__new-tab)::after {
   content: '';
   position: absolute;
-  inset: 12%; /* 调整这个值控制边框粗细 */
-  background: var(--el-bg-color); /* 背景色与页面一致 */
-  border-radius: 1px; /* 比外层小1px */
+  inset: 12%;
+  background: var(--el-bg-color);
+  border-radius: 1px;
   z-index: -1;
 }
 
-/* 顺时针旋转动画 */
 @keyframes rotateBorder {
   0% {
     transform: rotate(0deg);
