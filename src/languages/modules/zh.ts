@@ -199,10 +199,11 @@ export default {
     shardMasterIp: '主世界IP',
     shardMasterIpTip: '主世界IP，如果主世界不在当前云服务器，则需要输入主世界的公网IP',
     clusterKeyTip:'主世界和从世界进行交互的认证密码，所有世界的密码必须一致，否则会无法连接',
-    multiWorldTip: '检测到世界数大于2，请点击右侧按钮加入多层世界模组',
+    multiWorldTip: '如果世界个数大于2，请点击右侧按钮加入多层世界模组',
     multiWorldDialog: {
       title: '请输入世界对应的名字和对应的最大玩家数(将会在游戏中显示)',
       tip: '注意，多层世界模组为复杂模组，启用该模组会导致 "设置-模组" 页面不可用',
+      placeholder0:'请输入世界ID',
       placeholder1:'请输入世界名，例如：米奇妙妙屋',
       placeholder2:'请输入该世界的最大玩家数',
     },
