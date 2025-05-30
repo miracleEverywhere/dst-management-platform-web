@@ -673,13 +673,13 @@
           </el-scrollbar>
         </el-card>
         <el-card v-if="step===2" shadow="never">
-          <div v-if="worldForm.length > 2" class="tip_warning">
+          <div class="tip">
             <div style="display: flex; align-items: center">
               <span>
                 {{t('setting.multiWorldTip')}}
               </span>
               <el-button size="small" style="margin-left: 10px"
-                         type="warning" @click="openMultiWorldModAddDialog"
+                         type="primary" @click="openMultiWorldModAddDialog"
               >
                 {{language==='zh'?'多层世界':'Multi-world'}}
               </el-button>
@@ -732,27 +732,21 @@
       <div class="tip_warning">
         {{t('setting.multiWorldDialog.tip')}}
       </div>
-      <div style="margin: 50px">
-        <el-form :model="multiWorldModNameForm" label-position="top">
-          <el-form-item v-for="world in worldForm">
-            <template #label>
-              <div style="display: flex; align-items: center">
-                <span style="margin-right: 10px">{{ world.name }}</span>
-                <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
-                  {{language==='zh'?'地面':'Ground'}}
-                </el-tag>
-                <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
-                  {{language==='zh'?'洞穴':'Cave'}}
-                </el-tag>
-              </div>
-            </template>
-            <el-input v-model="multiWorldModNameForm[`${world.id}`]"
+      <div style="margin: 10px">
+        <el-form :model="multiWorldModForm" label-position="top">
+          <el-form-item v-for="world in multiWorldModForm">
+            <el-input v-model="world.ID"
+                      :placeholder="t('setting.multiWorldDialog.placeholder0')"
+                      type="number"
+                      style="width: 20%"/>
+            <el-input v-model="world.name"
                       :placeholder="t('setting.multiWorldDialog.placeholder1')"
-                      style="width: 60%"/>
-            <el-input v-model="multiWorldModNumForm[`${world.id}`]"
+                      style="margin-left: 2%;width: 38%"/>
+            <el-input v-model="world.maxPlayers"
                       :placeholder="t('setting.multiWorldDialog.placeholder2')"
                       type="number"
-                      style="margin-left: 3%;width: 37%"/>
+                      style="margin: 0 2%;width: 30%"/>
+            <el-button @click="multiWorldModForm.push({ID:undefined,name:'',maxPlayers:undefined})">+</el-button>
           </el-form-item>
           <div style="display: flex; justify-content: flex-end; padding-top: 10px">
             <el-button type="primary" @click="handleGenerateModSetting">
@@ -760,6 +754,11 @@
             </el-button>
           </div>
         </el-form>
+        <MdPreview ref="threeCodeOneRef"
+                   v-if="multiWorldModContent"
+                   :modelValue="multiWorldModContent"
+                   :theme="isDark?'dark':'light'"
+                   previewTheme="github"/>
       </div>
     </el-dialog>
   </div>
@@ -791,6 +790,7 @@ import {
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import useAuthStore from "@/stores/modules/auth.ts";
 import {sleep} from "@/utils/tools.js";
+import {MdPreview} from "md-editor-v3";
 
 const {t} = useI18n()
 
@@ -1356,34 +1356,46 @@ const handleWorldTabsEditChange = () => {
 }
 
 const multiWorldModAddDialog = ref(false)
-const multiWorldModNameForm = ref({})
-const multiWorldModNumForm = ref({})
+const multiWorldModContent = ref('')
+const multiWorldModForm = ref([])
+
 const openMultiWorldModAddDialog = () => {
-  multiWorldModNameForm.value = {}
-  multiWorldModNumForm.value = {}
+  multiWorldModForm.value = [
+    {
+      ID: undefined,
+      name: '',
+      maxPlayers: undefined
+    }
+  ]
+  multiWorldModContent.value = ''
   multiWorldModAddDialog.value = true
 }
 
+
+
 const handleGenerateModSetting = () => {
-  if (Object.keys(multiWorldModNameForm.value).length!==worldForm.value.length) {
-    koiMsgError(language.value === 'zh'?'世界名为必填项':'World name is required')
-    return
-  }
-
   let worldName = ""
-  for (let world of worldForm.value) {
-    worldName = worldName + `["${world.id}"]="${multiWorldModNameForm.value[world.id]}",`
+  let worldMaxPlayers = ""
+  for (let world of multiWorldModForm.value) {
+    if (!world.ID) {
+      koiMsgError(language.value === 'zh'?'世界ID未填写':'World ID is required')
+      return
+    }
+    if (!world.name) {
+      koiMsgError(language.value === 'zh'?'世界名未填写':'World name is required')
+      return
+    }
+    if (!world.maxPlayers) {
+      koiMsgError(language.value === 'zh'?'世界最大玩家数未填写':'World max players is required')
+      return
+    }
+
+    worldName = worldName + `["${world.ID}"]="${world.name}",`
+    worldMaxPlayers = worldMaxPlayers +`["${world.ID}"]="${world.maxPlayers}",`
   }
 
-  let worldNum = ""
-  for (let world of worldForm.value) {
-    worldNum = worldNum +`["${world.id}"]="${multiWorldModNumForm.value[world.id]}",`
-  }
-
-  worldName = worldName.slice(0, -1)
-  worldNum = worldNum.slice(0, -1)
-
-  let multiModSetting = `return {["workshop-1438233888"]={
+  multiWorldModContent.value = `
+  ["workshop-1438233888"]={
     configuration_options={
       auto_balancing=true,
       extra_worlds={},
@@ -1392,28 +1404,14 @@ const handleGenerateModSetting = () => {
       language="auto",
       migration_postern=false,
       no_bat=true,
-      population_limit={${worldNum}},
+      population_limit={${worldMaxPlayers}},
       say_dest=true,
       world_name={${worldName}},
       world_prompt=true
     },
     enabled=true
-  }}`
-  if (clusterModForm.value.mod === "") {
-    clusterModForm.value.mod = "return {}"
-  }
-  const modAst = luaparse.parse(clusterModForm.value.mod)
-  const multiModSettingAst = luaparse.parse(multiModSetting)
-
-  for (const [i, v] of modAst.body[0].arguments[0].fields.entries()) {
-    if (v.key.raw === "\"workshop-1438233888\"") {
-      modAst.body[0].arguments[0].fields.splice(i, 1)
-    }
-  }
-
-  modAst.body[0].arguments[0].fields.push(multiModSettingAst.body[0].arguments[0].fields[0])
-  clusterModForm.value.mod = beautifyLua(astToLua(modAst))
-  multiWorldModAddDialog.value = false
+  }`
+  multiWorldModContent.value = '```lua ::open\n' + multiWorldModContent.value
 }
 
 watch(() => globalStore.selectedDstCluster, (newValue) => {
