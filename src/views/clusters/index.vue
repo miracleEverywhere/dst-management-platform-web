@@ -27,6 +27,9 @@
       </el-table-column>
       <el-table-column :label="t('clusters.table.actions')">
         <template #default="scope">
+          <el-button size="small" type="warning" @click="handleOpenClusterUpdateDialog(scope.row)">
+            {{t('clusters.table.update')}}
+          </el-button>
           <el-button size="small" type="danger" @click="handleClusterDelete(scope.row.clusterName)">
             {{t('clusters.table.delete')}}
           </el-button>
@@ -67,6 +70,27 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog v-model="updateDialogVisible" width="65%">
+      <template #header>
+        {{t('clusters.updateDialog.title')}}
+      </template>
+      <div class="tip">{{t('clusters.updateDialog.tip1')}}</div>
+      <div style="margin: 20px">
+        <el-form :model="updateDialogForm">
+          <el-form-item :label="t('clusters.updateDialog.clusterName')">
+            <el-input disabled v-model="updateDialogForm.clusterName"/>
+          </el-form-item>
+          <el-form-item :label="t('clusters.updateDialog.newDisplayName')">
+            <el-input v-model="updateDialogForm.clusterDisplayName"/>
+          </el-form-item>
+        </el-form>
+        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+          <el-button type="primary" @click="handleClusterUpdate" :loading="updateDialogLoading">
+            {{language==='zh'?'更新':'Update'}}
+          </el-button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,7 +102,7 @@ import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import settingApi from "@/api/setting/index.js";
 import {ElMessageBox} from "element-plus";
-import {koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 
 onMounted(() => {
   getClustersInfo()
@@ -141,6 +165,40 @@ const getClusters = () => {
       globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
     }
   })
+}
+
+const updateDialogVisible = ref(false)
+const updateDialogLoading = ref(false)
+const updateDialogForm = ref({
+  clusterName: '',
+  clusterDisplayName: '',
+})
+
+const handleOpenClusterUpdateDialog = (row) => {
+  updateDialogForm.value = {
+    clusterName: row.clusterName,
+    clusterDisplayName: '',
+  }
+  updateDialogVisible.value = true
+}
+
+const handleClusterUpdate = () => {
+  if (updateDialogForm.value === '') {
+    koiMsgError(language.value==='zh'?'请输入集群昵称':'cluster nickname is required')
+    return
+  }
+  updateDialogLoading.value = true
+  settingApi.cluster.put(updateDialogForm.value).then(response => {
+    settingApi.clusters.get().then(x => {
+      clustersInfo.value = x.data
+      globalStore.dstClusters = x.data
+    })
+    koiMsgSuccess(response.message)
+    updateDialogVisible.value = false
+  }).finally(() => {
+    updateDialogLoading.value = false
+  })
+
 }
 
 const handleClusterDelete = (clusterName) => {
