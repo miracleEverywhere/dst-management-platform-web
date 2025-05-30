@@ -741,19 +741,23 @@
                       style="width: 20%"/>
             <el-input v-model="world.name"
                       :placeholder="t('setting.multiWorldDialog.placeholder1')"
-                      style="margin-left: 2%;width: 38%"/>
+                      style="margin-left: 2%;width: 48%"/>
             <el-input v-model="world.maxPlayers"
                       :placeholder="t('setting.multiWorldDialog.placeholder2')"
                       type="number"
-                      style="margin: 0 2%;width: 30%"/>
-            <el-button @click="multiWorldModForm.push({ID:undefined,name:'',maxPlayers:undefined})">+</el-button>
+                      style="margin-left: 2%;width: 28%"/>
+
           </el-form-item>
           <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+            <el-button type="success" @click="multiWorldModForm.push({ID:undefined,name:'',maxPlayers:undefined})">
+              {{language==='zh'?'新增一条':'New Line'}}
+            </el-button>
             <el-button type="primary" @click="handleGenerateModSetting">
               {{language==='zh'?'生成配置':'Generate'}}
             </el-button>
           </div>
         </el-form>
+        <el-divider v-if="multiWorldModContent"/>
         <MdPreview ref="threeCodeOneRef"
                    v-if="multiWorldModContent"
                    :modelValue="multiWorldModContent"
@@ -789,8 +793,8 @@ import {
 } from "@/views/settings/components/levelDataMap.js";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import useAuthStore from "@/stores/modules/auth.ts";
-import {sleep} from "@/utils/tools.js";
-import {MdPreview} from "md-editor-v3";
+import {MdPreview} from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
 
 const {t} = useI18n()
 
@@ -1370,8 +1374,6 @@ const openMultiWorldModAddDialog = () => {
   multiWorldModContent.value = ''
   multiWorldModAddDialog.value = true
 }
-
-
 
 const handleGenerateModSetting = () => {
   let worldName = ""
