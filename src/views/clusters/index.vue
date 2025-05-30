@@ -65,7 +65,7 @@
       </el-table-column>
       <el-table-column :label="t('clusters.table.port')">
         <template #default="scope">
-          <span v-if="scope.row.worldPort">{{ scope.row.worldPort.join(', ') }}</span>
+          <span v-if="scope.row.worldPort">{{ scope.row.worldPort.join(',') }}</span>
           <el-tag v-else type="info">{{t('clusters.table.none')}}</el-tag>
         </template>
       </el-table-column>
