@@ -765,7 +765,7 @@
   </div>
 </template>
 
-<script name="settingsRoom" setup>
+<script setup>
 import {ArrowDown, Plus} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
