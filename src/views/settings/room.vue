@@ -725,7 +725,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog v-model="multiWorldModAddDialog" width="50%">
+    <el-dialog v-model="multiWorldModAddDialog" width="65%">
       <template #header>
         {{t('setting.multiWorldDialog.title')}}
       </template>
