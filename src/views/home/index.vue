@@ -26,6 +26,7 @@
                                  type="primary">{{ t('home.copy') }}
                       </el-button>
                     </el-tooltip>
+                    <el-button link type="info" @click="handleOpenCustomConnectionCodeDialog">{{t('home.customConnectionCode')}}</el-button>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.cycles')">
                     <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
@@ -379,6 +380,18 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+    <el-dialog v-model="customConnectionCodeDialogVisible" width="60%">
+      <div style="margin: 20px">
+        <div class="tip">{{t('home.customConnectionCodeTip')}}</div>
+        <div class="tip_success">{{t('home.customConnectionCodeTip2')}}</div>
+        <el-input v-model="customConnectionCode" @keyup.enter="handleUpdateCustomConnectionCode">
+          <template #append>
+            <el-button @click="handleUpdateCustomConnectionCode">{{ t('home.submit') }}</el-button>
+          </template>
+        </el-input>
+      </div>
+    </el-dialog>
+
     <el-tour v-model="globalStore.needTour">
       <el-tour-step :title="t('home.tour.one.title')">
         <div style="display: flex; align-items: center">
@@ -462,7 +475,20 @@ const version = ref({
   server: 0,
   local: 0
 })
+
 const connectionCode = ref('')
+const customConnectionCode = ref('')
+const customConnectionCodeDialogVisible = ref(false)
+const handleOpenCustomConnectionCodeDialog = () => {
+  customConnectionCode.value = globalStore.customConnectionCode
+  customConnectionCodeDialogVisible.value = true
+}
+const handleUpdateCustomConnectionCode = () => {
+  globalStore.customConnectionCode = customConnectionCode.value
+  customConnectionCodeDialogVisible.value = false
+  koiMsgSuccess(language.value==='zh'?'更新成功':'Update Success')
+  handleRefresh()
+}
 
 const getVersion = () => {
   versionLoading.value = true
@@ -474,15 +500,19 @@ const getVersion = () => {
 }
 
 const getConnectionCode = async () => {
-  connectionCodeLoading.value = true
-  if (!globalStore.selectedDstCluster) {
-    await sleep(1000)
+  if (globalStore.customConnectionCode !== '') {
+    connectionCode.value = globalStore.customConnectionCode
+  } else {
+    connectionCodeLoading.value = true
+    if (!globalStore.selectedDstCluster) {
+      await sleep(1000)
+    }
+    externalApi.connectionCode.get({clusterName: globalStore.selectedDstCluster}).then(response => {
+      connectionCode.value = response.data
+    }).finally(() => {
+      connectionCodeLoading.value = false
+    })
   }
-  externalApi.connectionCode.get({clusterName: globalStore.selectedDstCluster}).then(response => {
-    connectionCode.value = response.data
-  }).finally(() => {
-    connectionCodeLoading.value = false
-  })
 }
 
 const roomInfo = ref({
