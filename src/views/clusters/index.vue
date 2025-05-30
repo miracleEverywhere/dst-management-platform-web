@@ -157,11 +157,14 @@ const handleClusterDelete = (clusterName) => {
           const reqForm = {
             clusterName: clusterName
           }
-          settingApi.cluster.delete(reqForm).then(response => {
+          settingApi.cluster.delete(reqForm).then(async response => {
             koiMsgSuccess(response.message)
-            getClustersInfo()
-            getClustersWorldPort()
-            getClusters()
+            await getClustersInfo()
+            await getClustersWorldPort()
+            await getClusters()
+            if (globalStore.selectedDstCluster === clusterName && globalStore.dstClusters !== null) {
+              globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
+            }
             done()
           }).catch(() => {
           }).finally(() => {
