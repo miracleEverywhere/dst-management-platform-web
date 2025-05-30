@@ -724,7 +724,14 @@ export default {
       port: '端口',
       none: '无端口暴露',
       actions: '操作',
+      update: '更新',
       delete: '删除',
+    },
+    updateDialog: {
+      title: '更新集群信息',
+      tip1: '目前集群只支持修改集群昵称',
+      clusterName: '集群名',
+      newDisplayName: '新昵称',
     },
   },
   help: {

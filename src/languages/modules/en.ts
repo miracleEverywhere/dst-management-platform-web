@@ -720,7 +720,14 @@ export default {
       port: 'Ports',
       none: 'No port bound',
       actions: 'Actions',
+      update: 'Update',
       delete: 'Delete',
+    },
+    updateDialog: {
+      title: 'Update Cluster Info',
+      tip1: 'Currently, the cluster only supports updating the cluster nickname.',
+      clusterName: 'Cluster Name',
+      newDisplayName: 'Nickname',
     },
   },
   help: {
