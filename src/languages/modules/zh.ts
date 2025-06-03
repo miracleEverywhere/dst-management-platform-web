@@ -728,7 +728,7 @@ export default {
       port: '端口',
       none: '无端口暴露',
       actions: '操作',
-      update: '更新',
+      update: '修改',
       delete: '删除',
     },
     updateDialog: {
