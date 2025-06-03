@@ -2,6 +2,10 @@
 import { defineStore } from "pinia";
 import { PINIA_PREFIX, DEFAULT_THEME } from "@/config/index.ts";
 
+interface customConnectionCodeType {
+
+}
+
 // defineStore方法执行会返回一个函数，函数的作用就是让组件可以获取到仓库数据
 const globalStore = defineStore("global", {
   // 开启数据持久化
@@ -48,7 +52,7 @@ const globalStore = defineStore("global", {
       // 选中的游戏集群
       selectedDstCluster: null,
       needTour: false,
-      customConnectionCode: '',
+      customConnectionCode: {} as customConnectionCodeType,
     };
   },
   actions: {
