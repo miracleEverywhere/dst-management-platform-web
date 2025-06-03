@@ -11,7 +11,7 @@
               <el-option :label="t('tools.token.options.day')" :value="24"/>
               <el-option :label="t('tools.token.options.month')" :value="720"/>
               <el-option :label="t('tools.token.options.year')" :value="8760"/>
-              <el-option :label="t('tools.token.options.forever')" :value="8751240"/>
+              <el-option :label="t('tools.token.options.forever')" :value="1752000"/>
             </el-select>
             <el-button type="primary" @click="handleCreateToken">{{ t('tools.token.createButton') }}</el-button>
           </div>

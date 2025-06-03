@@ -48,6 +48,7 @@ const globalStore = defineStore("global", {
       // 选中的游戏集群
       selectedDstCluster: null,
       needTour: false,
+      customConnectionCode: '',
     };
   },
   actions: {

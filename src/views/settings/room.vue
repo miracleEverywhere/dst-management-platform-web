@@ -673,13 +673,13 @@
           </el-scrollbar>
         </el-card>
         <el-card v-if="step===2" shadow="never">
-          <div v-if="worldForm.length > 2" class="tip_warning">
+          <div class="tip">
             <div style="display: flex; align-items: center">
               <span>
                 {{t('setting.multiWorldTip')}}
               </span>
               <el-button size="small" style="margin-left: 10px"
-                         type="warning" @click="openMultiWorldModAddDialog"
+                         type="primary" @click="openMultiWorldModAddDialog"
               >
                 {{language==='zh'?'多层世界':'Multi-world'}}
               </el-button>
@@ -725,47 +725,50 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog v-model="multiWorldModAddDialog" width="50%">
+    <el-dialog v-model="multiWorldModAddDialog" width="65%">
       <template #header>
         {{t('setting.multiWorldDialog.title')}}
       </template>
       <div class="tip_warning">
         {{t('setting.multiWorldDialog.tip')}}
       </div>
-      <div style="margin: 50px">
-        <el-form :model="multiWorldModNameForm" label-position="top">
-          <el-form-item v-for="world in worldForm">
-            <template #label>
-              <div style="display: flex; align-items: center">
-                <span style="margin-right: 10px">{{ world.name }}</span>
-                <el-tag v-if="getWorldType(world.levelData)==='forest'" type="primary">
-                  {{language==='zh'?'地面':'Ground'}}
-                </el-tag>
-                <el-tag v-if="getWorldType(world.levelData)==='cave'" type="info">
-                  {{language==='zh'?'洞穴':'Cave'}}
-                </el-tag>
-              </div>
-            </template>
-            <el-input v-model="multiWorldModNameForm[`${world.id}`]"
+      <div style="margin: 10px">
+        <el-form :model="multiWorldModForm" label-position="top">
+          <el-form-item v-for="world in multiWorldModForm">
+            <el-input v-model="world.ID"
+                      :placeholder="t('setting.multiWorldDialog.placeholder0')"
+                      type="number"
+                      style="width: 20%"/>
+            <el-input v-model="world.name"
                       :placeholder="t('setting.multiWorldDialog.placeholder1')"
-                      style="width: 60%"/>
-            <el-input v-model="multiWorldModNumForm[`${world.id}`]"
+                      style="margin-left: 2%;width: 48%"/>
+            <el-input v-model="world.maxPlayers"
                       :placeholder="t('setting.multiWorldDialog.placeholder2')"
                       type="number"
-                      style="margin-left: 3%;width: 37%"/>
+                      style="margin-left: 2%;width: 28%"/>
+
           </el-form-item>
           <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+            <el-button type="success" @click="multiWorldModForm.push({ID:undefined,name:'',maxPlayers:undefined})">
+              {{language==='zh'?'新增一条':'New Line'}}
+            </el-button>
             <el-button type="primary" @click="handleGenerateModSetting">
               {{language==='zh'?'生成配置':'Generate'}}
             </el-button>
           </div>
         </el-form>
+        <el-divider v-if="multiWorldModContent"/>
+        <MdPreview ref="threeCodeOneRef"
+                   v-if="multiWorldModContent"
+                   :modelValue="multiWorldModContent"
+                   :theme="isDark?'dark':'light'"
+                   previewTheme="github"/>
       </div>
     </el-dialog>
   </div>
 </template>
 
-<script name="settingsRoom" setup>
+<script setup>
 import {ArrowDown, Plus} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
@@ -790,7 +793,8 @@ import {
 } from "@/views/settings/components/levelDataMap.js";
 import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import useAuthStore from "@/stores/modules/auth.ts";
-import {sleep} from "@/utils/tools.js";
+import {MdPreview} from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
 
 const {t} = useI18n()
 
@@ -1356,34 +1360,44 @@ const handleWorldTabsEditChange = () => {
 }
 
 const multiWorldModAddDialog = ref(false)
-const multiWorldModNameForm = ref({})
-const multiWorldModNumForm = ref({})
+const multiWorldModContent = ref('')
+const multiWorldModForm = ref([])
+
 const openMultiWorldModAddDialog = () => {
-  multiWorldModNameForm.value = {}
-  multiWorldModNumForm.value = {}
+  multiWorldModForm.value = [
+    {
+      ID: undefined,
+      name: '',
+      maxPlayers: undefined
+    }
+  ]
+  multiWorldModContent.value = ''
   multiWorldModAddDialog.value = true
 }
 
 const handleGenerateModSetting = () => {
-  if (Object.keys(multiWorldModNameForm.value).length!==worldForm.value.length) {
-    koiMsgError(language.value === 'zh'?'世界名为必填项':'World name is required')
-    return
-  }
-
   let worldName = ""
-  for (let world of worldForm.value) {
-    worldName = worldName + `["${world.id}"]="${multiWorldModNameForm.value[world.id]}",`
+  let worldMaxPlayers = ""
+  for (let world of multiWorldModForm.value) {
+    if (!world.ID) {
+      koiMsgError(language.value === 'zh'?'世界ID未填写':'World ID is required')
+      return
+    }
+    if (!world.name) {
+      koiMsgError(language.value === 'zh'?'世界名未填写':'World name is required')
+      return
+    }
+    if (!world.maxPlayers) {
+      koiMsgError(language.value === 'zh'?'世界最大玩家数未填写':'World max players is required')
+      return
+    }
+
+    worldName = worldName + `["${world.ID}"]="${world.name}",`
+    worldMaxPlayers = worldMaxPlayers +`["${world.ID}"]="${world.maxPlayers}",`
   }
 
-  let worldNum = ""
-  for (let world of worldForm.value) {
-    worldNum = worldNum +`["${world.id}"]="${multiWorldModNumForm.value[world.id]}",`
-  }
-
-  worldName = worldName.slice(0, -1)
-  worldNum = worldNum.slice(0, -1)
-
-  let multiModSetting = `return {["workshop-1438233888"]={
+  multiWorldModContent.value = `
+  ["workshop-1438233888"]={
     configuration_options={
       auto_balancing=true,
       extra_worlds={},
@@ -1392,28 +1406,14 @@ const handleGenerateModSetting = () => {
       language="auto",
       migration_postern=false,
       no_bat=true,
-      population_limit={${worldNum}},
+      population_limit={${worldMaxPlayers}},
       say_dest=true,
       world_name={${worldName}},
       world_prompt=true
     },
     enabled=true
-  }}`
-  if (clusterModForm.value.mod === "") {
-    clusterModForm.value.mod = "return {}"
-  }
-  const modAst = luaparse.parse(clusterModForm.value.mod)
-  const multiModSettingAst = luaparse.parse(multiModSetting)
-
-  for (const [i, v] of modAst.body[0].arguments[0].fields.entries()) {
-    if (v.key.raw === "\"workshop-1438233888\"") {
-      modAst.body[0].arguments[0].fields.splice(i, 1)
-    }
-  }
-
-  modAst.body[0].arguments[0].fields.push(multiModSettingAst.body[0].arguments[0].fields[0])
-  clusterModForm.value.mod = beautifyLua(astToLua(modAst))
-  multiWorldModAddDialog.value = false
+  }`
+  multiWorldModContent.value = '```lua ::open\n' + multiWorldModContent.value
 }
 
 watch(() => globalStore.selectedDstCluster, (newValue) => {
@@ -1443,7 +1443,6 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   z-index: 1;
 }
 
-/* 彩虹边框层 */
 :deep(.el-tabs__new-tab)::before {
   content: '';
   position: absolute;
@@ -1451,27 +1450,20 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   left: -50%;
   width: 200%;
   height: 200%;
-  //background: linear-gradient(-45deg, #fbf8cc, #fde4cf, #ffcfd2, #f1c0e8, #cfbaf0, #a3c4f3, #90dbf4, #8eecf5, #98f5e1, #b9fbc0);
-  //background: linear-gradient(-45deg, #cdb4db, #ffc8dd, #ffafcc, #bde0fe, #a2d2ff);
-  //background: linear-gradient(-45deg, #264653, #2a9d8f, #e9c46a, #f4a261, #e76f51);
-  //background: linear-gradient(-45deg, #8ecae6, #219ebc, #023047, #ffb703, #fb8500);
-  //background: linear-gradient(-45deg, #e63946, #f1faee, #a8dadc, #457b9d, #1d3557);
   background: linear-gradient(-45deg, #70d6ff, #ff70a6, #ff9770, #ffd670, #e9ff70);
   animation: rotateBorder 6s linear infinite;
   z-index: -1;
 }
 
-/* 内层遮罩，显示实际内容 */
 :deep(.el-tabs__new-tab)::after {
   content: '';
   position: absolute;
-  inset: 12%; /* 调整这个值控制边框粗细 */
-  background: var(--el-bg-color); /* 背景色与页面一致 */
-  border-radius: 1px; /* 比外层小1px */
+  inset: 12%;
+  background: var(--el-bg-color);
+  border-radius: 1px;
   z-index: -1;
 }
 
-/* 顺时针旋转动画 */
 @keyframes rotateBorder {
   0% {
     transform: rotate(0deg);
