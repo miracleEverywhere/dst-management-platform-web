@@ -384,11 +384,26 @@
       <div style="margin: 20px">
         <div class="tip">{{t('home.customConnectionCodeTip')}}</div>
         <div class="tip_success">{{t('home.customConnectionCodeTip2')}}</div>
-        <el-input v-model="customConnectionCode" @keyup.enter="handleUpdateCustomConnectionCode">
-          <template #append>
-            <el-button @click="handleUpdateCustomConnectionCode">{{ t('home.submit') }}</el-button>
-          </template>
-        </el-input>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-input v-model="customConnectionCode.ip" :placeholder="t('home.ip')"/>
+          </el-col>
+          <el-col :span="8">
+            <el-input v-model="customConnectionCode.port" :placeholder="t('home.port')"/>
+          </el-col>
+          <el-col :span="8">
+            <el-input v-model="customConnectionCode.password" :placeholder="t('home.password')"/>
+          </el-col>
+        </el-row>
+        <div v-if="customConnectionCode.ip && customConnectionCode.port" class="tip">
+          <strong>{{t('home.preview')}}: </strong>
+          c_connect('{{customConnectionCode.ip}}', {{customConnectionCode.port}}{{customConnectionCode.password?`, '${customConnectionCode.password}'`:""}})
+        </div>
+        <div style="display: flex; justify-content: flex-end; padding-top: 30px">
+          <el-button type="danger" @click="handleDeleteCustomConnectionCode">{{ t('home.clear') }}</el-button>
+          <el-button type="primary" @click="handleUpdateCustomConnectionCode">{{ t('home.submit') }}</el-button>
+        </div>
+
       </div>
     </el-dialog>
 
@@ -479,17 +494,38 @@ const version = ref({
   local: 0
 })
 
-const connectionCode = ref('')
-const customConnectionCode = ref('')
+const connectionCode = ref('')  // 服务端生成的code
+const customConnectionCode = ref({
+  ip: '',
+  port: '',
+  password: ''
+})  // 用户自定义的code
+
 const customConnectionCodeDialogVisible = ref(false)
 const handleOpenCustomConnectionCodeDialog = () => {
-  customConnectionCode.value = globalStore.customConnectionCode
+  if (globalStore.customConnectionCode[globalStore.selectedDstCluster]) {
+    customConnectionCode.value = globalStore.customConnectionCode[globalStore.selectedDstCluster]
+  } else {
+    customConnectionCode.value = {
+      ip: '',
+      port: '',
+      password: ''
+    }
+  }
+
   customConnectionCodeDialogVisible.value = true
 }
 const handleUpdateCustomConnectionCode = () => {
-  globalStore.customConnectionCode = customConnectionCode.value
+  globalStore.customConnectionCode[globalStore.selectedDstCluster] = customConnectionCode.value
   customConnectionCodeDialogVisible.value = false
   koiMsgSuccess(language.value==='zh'?'更新成功':'Update Success')
+  handleRefresh()
+}
+
+const handleDeleteCustomConnectionCode = () => {
+  delete globalStore.customConnectionCode[globalStore.selectedDstCluster]
+  customConnectionCodeDialogVisible.value = false
+  koiMsgSuccess(language.value==='zh'?'清除成功':'Clear Success')
   handleRefresh()
 }
 
@@ -503,8 +539,12 @@ const getVersion = () => {
 }
 
 const getConnectionCode = async () => {
-  if (globalStore.customConnectionCode !== '') {
-    connectionCode.value = globalStore.customConnectionCode
+  if (globalStore.customConnectionCode[globalStore.selectedDstCluster]) {
+    if (globalStore.customConnectionCode[globalStore.selectedDstCluster].password) {
+      connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port}, '${globalStore.customConnectionCode[globalStore.selectedDstCluster].password}'})`
+    } else {
+      connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port})`
+    }
   } else {
     connectionCodeLoading.value = true
     if (!globalStore.selectedDstCluster) {
