@@ -153,7 +153,7 @@
                   <el-form-item>
                     <el-button size="default" type="success" @click="handleExec('startup', 0)">{{ t('home.startup') }}</el-button>
                     <el-button size="default" type="primary" @click="handleExec('restart', 0)">{{ t('home.restart') }}</el-button>
-                    <el-button size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
+                    <el-button :disabled="userInfo.role!=='admin'" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
                   </el-form-item>
                   <el-form-item>
                     <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
@@ -445,6 +445,7 @@ import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
+import useAuthStore from "@/stores/modules/auth.ts";
 
 
 onMounted(() => {
@@ -459,8 +460,10 @@ onMounted(() => {
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const authStore = useAuthStore()
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+const userInfo = authStore.userInfo
 
 const checkTour = async () => {
   await sleep(2000)
