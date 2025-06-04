@@ -27,6 +27,11 @@
       </el-table-column>
       <el-table-column :label="t('clusters.table.actions')">
         <template #default="scope">
+          <el-tooltip :content="t('clusters.table.shutdownTip')" effect="light" placement="top">
+            <el-button size="small" type="primary" @click="handleClusterShutdown(scope.row.clusterName)">
+              {{t('clusters.table.shutdown')}}
+            </el-button>
+          </el-tooltip>
           <el-button size="small" type="warning" @click="handleOpenClusterUpdateDialog(scope.row)">
             {{t('clusters.table.update')}}
           </el-button>
@@ -223,6 +228,38 @@ const handleClusterDelete = (clusterName) => {
             if (globalStore.selectedDstCluster === clusterName && globalStore.dstClusters !== null) {
               globalStore.selectedDstCluster = globalStore.dstClusters[0].clusterName
             }
+            done()
+          }).catch(() => {
+          }).finally(() => {
+            instance.confirmButtonLoading = false
+          })
+        } else {
+          done()
+        }
+      }
+    }
+  ).then(() => {
+  }).catch(() => {
+    koiMsgInfo(t('home.canceled'))
+  })
+}
+
+const handleClusterShutdown = (clusterName) => {
+  ElMessageBox.confirm(
+    language.value === 'zh' ? `将执行 关闭集群 操作，是否继续？` : `The cluster SHUTDOWN operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
+    {
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          const reqForm = {
+            clusterName: clusterName
+          }
+          settingApi.cluster.shutdown.post(reqForm).then(async response => {
+            koiMsgSuccess(response.message)
             done()
           }).catch(() => {
           }).finally(() => {
