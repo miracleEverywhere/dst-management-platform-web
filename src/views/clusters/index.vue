@@ -1,80 +1,86 @@
 <template>
   <div class="page-div">
-    <div class="tip_warning">
-      {{ t('clusters.tip1') }}
-    </div>
-    <el-table :data="clustersInfo" v-loading="loading" border>
-      <el-table-column :label="t('clusters.table.name')">
-        <template #default="scope">
-          <el-tag type="primary">
-            {{ scope.row.clusterName }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="t('clusters.table.displayName')">
-        <template #default="scope">
-          <el-tag type="success">
-            {{ scope.row.clusterDisplayName }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="t('clusters.table.world')">
-        <template #default="scope">
-          <el-tag type="info">
-            {{ scope.row.worlds?.length || 0 }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="t('clusters.table.actions')">
-        <template #default="scope">
-          <el-tooltip :content="t('clusters.table.shutdownTip')" effect="light" placement="top">
-            <el-button size="small" type="primary" @click="handleClusterShutdown(scope.row.clusterName)">
-              {{t('clusters.table.shutdown')}}
-            </el-button>
-          </el-tooltip>
-          <el-button size="small" type="warning" @click="handleOpenClusterUpdateDialog(scope.row)">
-            {{t('clusters.table.update')}}
-          </el-button>
-          <el-button size="small" type="danger" @click="handleClusterDelete(scope.row.clusterName)">
-            {{t('clusters.table.delete')}}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div class="tip_success" style="margin-top: 20px">
-      {{ t('clusters.tip2') }}
-    </div>
-    <el-alert v-if="uniquePortNum!==allPortNum" :effect="isDark?'light':'dark'"
-              type="error" :closable="false" style="margin-bottom: 10px">
-      <template #title>
-        <div class="fcc" style="font-size: 20px">
-          {{ t('clusters.tip3') }}
+    <el-tabs v-model="activeTab">
+      <el-tab-pane :label="t('clusters.tab.pane1')" name="info">
+        <div class="tip_warning">
+          {{ t('clusters.tip1') }}
         </div>
-      </template>
-    </el-alert>
-    <el-table :data="clustersWorldPort" v-loading="loading" border>
-      <el-table-column :label="t('clusters.table.name')">
-        <template #default="scope">
-          <el-tag type="primary">
-            {{ scope.row.clusterName }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="t('clusters.table.displayName')">
-        <template #default="scope">
-          <el-tag type="success">
-            {{ scope.row.clusterDisplayName }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="t('clusters.table.port')">
-        <template #default="scope">
-          <span v-if="scope.row.worldPort">{{ scope.row.worldPort.join(',') }}</span>
-          <el-tag v-else type="info">{{t('clusters.table.none')}}</el-tag>
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table :data="clustersInfo" v-loading="loading" border>
+          <el-table-column :label="t('clusters.table.name')">
+            <template #default="scope">
+              <el-tag type="primary">
+                {{ scope.row.clusterName }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column :label="t('clusters.table.displayName')">
+            <template #default="scope">
+              <el-tag type="success">
+                {{ scope.row.clusterDisplayName }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column :label="t('clusters.table.world')">
+            <template #default="scope">
+              <el-tag type="info">
+                {{ scope.row.worlds?.length || 0 }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column :label="t('clusters.table.actions')">
+            <template #default="scope">
+              <el-tooltip :content="t('clusters.table.shutdownTip')" effect="light" placement="top">
+                <el-button size="small" type="primary" @click="handleClusterShutdown(scope.row.clusterName)">
+                  {{t('clusters.table.shutdown')}}
+                </el-button>
+              </el-tooltip>
+              <el-button size="small" type="warning" @click="handleOpenClusterUpdateDialog(scope.row)">
+                {{t('clusters.table.update')}}
+              </el-button>
+              <el-button size="small" type="danger" @click="handleClusterDelete(scope.row.clusterName)">
+                {{t('clusters.table.delete')}}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane :label="t('clusters.tab.pane2')" name="port">
+        <div class="tip_success" style="margin-top: 20px">
+          {{ t('clusters.tip2') }}
+        </div>
+        <el-alert v-if="uniquePortNum!==allPortNum" :effect="isDark?'light':'dark'"
+                  type="error" :closable="false" style="margin-bottom: 10px">
+          <template #title>
+            <div class="fcc" style="font-size: 20px">
+              {{ t('clusters.tip3') }}
+            </div>
+          </template>
+        </el-alert>
+        <el-table :data="clustersWorldPort" v-loading="loading" border>
+          <el-table-column :label="t('clusters.table.name')">
+            <template #default="scope">
+              <el-tag type="primary">
+                {{ scope.row.clusterName }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column :label="t('clusters.table.displayName')">
+            <template #default="scope">
+              <el-tag type="success">
+                {{ scope.row.clusterDisplayName }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column :label="t('clusters.table.port')">
+            <template #default="scope">
+              <span v-if="scope.row.worldPort">{{ scope.row.worldPort.join(',') }}</span>
+              <el-tag v-else type="info">{{t('clusters.table.none')}}</el-tag>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
+
     <el-dialog v-model="updateDialogVisible" width="65%">
       <template #header>
         {{t('clusters.updateDialog.title')}}
@@ -122,6 +128,8 @@ const keepAliveStore = useKeepAliveStore();
 const refreshCurrentPage = inject("refresh")
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
+
+const activeTab = 'info'
 
 const infoLoading = ref(false)
 const portLoading = ref(false)
