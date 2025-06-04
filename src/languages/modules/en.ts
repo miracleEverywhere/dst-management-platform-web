@@ -729,6 +729,8 @@ export default {
       port: 'Ports',
       none: 'No port bound',
       actions: 'Actions',
+      shutdown: 'Shutdown',
+      shutdownTip: 'Shutdown the running worlds, disable the scheduled tasks, such as auto-restart, keepalive...',
       update: 'Update',
       delete: 'Delete',
     },
