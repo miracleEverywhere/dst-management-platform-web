@@ -719,6 +719,10 @@ export default {
     }
   },
   clusters: {
+    tab: {
+      pane1: 'Info',
+      pane2: 'Port',
+    },
     tip1: 'Deleting the cluster will clean up the .klei configuration files and DST mod files, and close the corresponding world. This operation will not delete the [backup files, UID nickname dictionary] of the cluster. If you want to restore a deleted cluster, you can create a cluster with the same name.',
     tip2: 'Here are the port details of the cluster. Action required: Enable all listed UDP ports in your cloud security group',
     tip3: 'Port conflict found!!! Check configurations',
