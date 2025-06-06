@@ -256,15 +256,9 @@ const handleSelectionChange = (val) => {
 }
 
 const handleDownload = (row) => {
-  const reqForm = {
-    clusterName: globalStore.selectedDstCluster,
-    filename: row.name
-  }
-  toolsApi.backupDownload.post(reqForm).then(async (response) => {
-    await saveFile(response.data, row.name)
-  }).finally(() => {
-    actionsLoading.value = false
-  })
+  let url = `${import.meta.env.VITE_WEB_BASE_API}/download/${globalStore.selectedDstCluster}/${row.name}`
+  window.open(url, '_blank')
+  actionsLoading.value = false
 }
 
 const actionsLoading = ref(false)
