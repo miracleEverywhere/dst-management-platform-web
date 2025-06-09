@@ -23,7 +23,7 @@
               </span>
             </div>
           </template>
-          <el-scrollbar :height="windowHeight - 437.5">
+          <el-scrollbar :height="windowHeight - 438">
             <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'"
                      :label-width="isMobile?'70':'auto'"
                      :model="clusterSettingForm" :rules="clusterSettingFormRules"
@@ -687,7 +687,7 @@
           </div>
           <el-form :model="clusterModForm">
             <el-form-item>
-              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 401"
+              <sc-code-editor v-model="clusterModForm.mod" :height="windowHeight - 481"
                               :theme="isDark?'darcula':'idea'"
                               mode="lua" style="width: 100%"></sc-code-editor>
             </el-form-item>

@@ -440,7 +440,7 @@
   </div>
 </template>
 
-<script name="settingsSystem" setup>
+<script setup>
 import { SetUp, Collection } from '@element-plus/icons-vue'
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import settingApi from "@/api/setting"

@@ -262,7 +262,7 @@
   </div>
 </template>
 
-<script name="settingsMod" setup>
+<script setup>
 import settingsApi from "@/api/setting/index.js"
 import externalApi from "@/api/externalApi/index.js"
 import toolsApi from "@/api/tools/index.js"
