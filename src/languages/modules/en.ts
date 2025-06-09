@@ -207,7 +207,7 @@ export default {
     shardMasterIp: 'Master World IP',
     shardMasterIpTip: 'Master world IP. If the Master world is not on the current cloud server, you need to enter the public IP of the Master world.',
     clusterKeyTip: 'The authentication password for interaction between the main world and sub-worlds. All worlds must use the same password; otherwise, connection will fail.',
-    multiWorldTip: 'If the count of worlds is more than 2, please click the button on the right to enable the multi-layer world mod',
+    multiWorldTip: 'If the count of worlds is more than 2, please click the button on the right to enable the multi-layer world mod. If the count of worlds lass than or equal to 2, no need to change',
     multiWorldDialog: {
       title: 'Please enter the name of each world and its corresponding maximum player count (this will be displayed in-game)',
       tip: 'Warning: The Multi-Layer World mod is an advanced/complex module. Enabling it will disable the "Setting > Mod" page',
