@@ -119,7 +119,7 @@
     </el-row>
     <el-dialog v-model="userDialogVisible" width="60%" @closed="clearUserForm">
       <el-form ref="userDialogFormRef" :model="userDialogForm" :rules="userDialogFormRules"
-               :validate-on-rule-change="false" label-width="150"
+               :validate-on-rule-change="false" label-width="150" :label-position="isMobile?'top':'left'"
                style="margin: 20px 50px 0 0"
       >
         <el-form-item v-if="dialogCreate" :label="t('users.username')" prop="username">
@@ -146,10 +146,10 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="t('users.maxWorldsPerCluster')" prop="maxWorldsPerCluster">
-          <el-slider v-model="userDialogForm.maxWorldsPerCluster" :max="64" :min="0" show-input size="small"/>
+          <el-slider v-model="userDialogForm.maxWorldsPerCluster" :max="64" :min="0" :show-input="!isMobile" size="small"/>
         </el-form-item>
         <el-row>
-          <el-col :span="8">
+          <el-col :span="isMobile?24:8">
             <el-form-item :label="t('users.disabled')" prop="disabled">
               <el-switch v-model="userDialogForm.disabled" :active-text="language==='zh'?'启用':'Enable'" :active-value="false"
                          :inactive-text="language==='zh'?'禁用':'Disable'" :inactive-value="true"
@@ -158,7 +158,7 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="isMobile?24:8">
             <el-form-item :label="t('users.admin')" prop="role">
               <el-switch v-model="userDialogForm.role" :active-text="language==='zh'?'是':'Enable'" :inactive-text="language==='zh'?'否':'Disable'"
                          active-value="admin" inactive-value="Non-admin"
@@ -167,7 +167,7 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="isMobile?24:8">
             <el-form-item :label="t('users.clusterCreationProhibited')" prop="role">
               <el-switch v-model="userDialogForm.clusterCreationProhibited" :active-text="language==='zh'?'可创建':'Y'" :active-value="false"
                          :inactive-text="language==='zh'?'不可创建':'Y'" :inactive-value="true"
@@ -200,6 +200,7 @@ import {koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {ElMessageBox} from "element-plus";
 import ScPasswordStrength from "@/components/scPasswordStrength/index.vue";
 import useAuthStore from "@/stores/modules/auth.ts";
+import {useScreenStore} from "@/hooks/screen/index.ts";
 
 
 onMounted(() => {
@@ -210,6 +211,7 @@ const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
 const authStore = useAuthStore()
 const {t} = useI18n()
+const {isMobile} = useScreenStore();
 const userInfo = authStore.userInfo
 
 const userList = ref([])
