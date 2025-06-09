@@ -79,9 +79,10 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
 import {ElMessageBox} from "element-plus";
-import {formatBytes, saveFile} from "@/utils/tools.js";
+import {formatBytes} from "@/utils/tools.js";
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
+import {getToken} from "@/utils/storage.ts";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -256,7 +257,7 @@ const handleSelectionChange = (val) => {
 }
 
 const handleDownload = (row) => {
-  let url = `${import.meta.env.VITE_WEB_BASE_API}/download/${globalStore.selectedDstCluster}/${row.name}`
+  let url = `${import.meta.env.VITE_WEB_BASE_API}/download/backup/${globalStore.selectedDstCluster}/${row.name}?authorization=${getToken()}&&clusterName=${globalStore.selectedDstCluster}&&lang=${globalStore.language}`
   window.open(url, '_blank')
   actionsLoading.value = false
 }
