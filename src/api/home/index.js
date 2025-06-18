@@ -52,4 +52,10 @@ export default {
       }
     }
   },
+  isUpdating: {
+    url: `/home/update/is_updating`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    }
+  }
 }
