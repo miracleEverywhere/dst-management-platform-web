@@ -25,17 +25,22 @@
             <span class="card-header">{{ $t('tools.install.installCheck') }}</span>
           </template>
           <el-result v-if="osInfo.Platform==='ubuntu'||osInfo.Platform==='centos'||osInfo.Platform==='rocky'"
-                     :sub-title="$t('tools.install.checkPassDesc')"
-                     :title="$t('tools.install.checkPass')"
+                     :sub-title="version.local > -1 ? t('tools.install.checkPassDesc1') : t('tools.install.checkPassDesc')"
+                     :title="t('tools.install.checkPass')"
                      icon="success"
           >
             <template #extra>
-              <el-button :loading="installing" type="primary" @click="handleInstall">{{ t('tools.install.install') }}</el-button>
+              <el-button v-if="version.local > -1" :loading="installing" type="warning" @click="handleInstall">
+                {{ t('tools.install.reinstall') }}
+              </el-button>
+              <el-button v-else :loading="installing" type="primary" @click="handleInstall">
+                {{ t('tools.install.install') }}
+              </el-button>
             </template>
           </el-result>
           <el-result v-else
-                     :sub-title="$t('tools.install.checkNotPassDesc')"
-                     :title="$t('tools.install.checkNotPass')"
+                     :sub-title="t('tools.install.checkNotPassDesc')"
+                     :title="t('tools.install.checkNotPass')"
                      icon="warning"
           >
             <template #extra>
@@ -87,6 +92,7 @@ import {seconds2Time} from "@/utils/tools.js";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess} from "@/utils/koi.ts";
+import externalApi from "@/api/externalApi/index.js";
 
 const {t} = useI18n()
 const globalStore = useGlobalStore()
@@ -132,6 +138,17 @@ const handleGetStatus = () => {
   })
 }
 
+const version = ref({
+  server: 0,
+  local: 0
+})
+
+const getVersion = () => {
+  externalApi.dstVersion.get().then(response => {
+    version.value = response.data
+  })
+}
+
 let intervalId = null
 const startRequests = () => {
   intervalId = setInterval(() => {
@@ -147,6 +164,7 @@ const cancelRequests = () => {
 
 onMounted(() => {
   getOSInfo()
+  getVersion()
 })
 onBeforeUnmount(() => {
   cancelRequests();
