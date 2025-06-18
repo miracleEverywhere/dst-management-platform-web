@@ -736,11 +736,15 @@ export default {
       world: '世界',
       port: '端口',
       none: '无端口暴露',
+      status: '集群状态',
       actions: '操作',
-      shutdown: '关闭',
       shutdownTip: '关闭正在运行的世界，禁用自动重启、自动保活等所有定时任务',
-      update: '修改',
-      delete: '删除',
+      action: {
+        activate: '激活集群',
+        deactivate: '关闭集群',
+        update: '修改集群',
+        delete: '删除集群',
+      },
     },
     updateDialog: {
       title: '更新集群信息',

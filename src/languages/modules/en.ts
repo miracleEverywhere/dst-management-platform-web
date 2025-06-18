@@ -732,11 +732,15 @@ export default {
       world: 'Worlds',
       port: 'Ports',
       none: 'No port bound',
+      status: 'Cluster Status',
       actions: 'Actions',
-      shutdown: 'Shutdown',
       shutdownTip: 'Shutdown the running worlds, disable the scheduled tasks, such as auto-restart, keepalive...',
-      update: 'Update',
-      delete: 'Delete',
+      action: {
+        activate: 'Activate',
+        deactivate: 'Deactivate',
+        update: 'Update',
+        delete: 'Delete',
+      },
     },
     updateDialog: {
       title: 'Update Cluster Info',
