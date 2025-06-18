@@ -34,10 +34,10 @@ export default {
     delete: async function(data){
       return await http.delete(this.url, data);
     },
-    shutdown: {
-      url: `/setting/cluster/shutdown`,
-      post: async function(data){
-        return await http.post(this.url, data);
+    status: {
+      url: `/setting/cluster/status`,
+      put: async function(data){
+        return await http.put(this.url, data);
       },
     },
     save : {
