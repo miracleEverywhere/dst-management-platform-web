@@ -94,6 +94,13 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {koiMsgSuccess} from "@/utils/koi.ts";
 import externalApi from "@/api/externalApi/index.js";
 
+
+onMounted(() => {
+  getOSInfo()
+  getVersion()
+  getIsInstalling()
+})
+
 const {t} = useI18n()
 const globalStore = useGlobalStore()
 const language = computed(() => globalStore.language)
@@ -149,6 +156,15 @@ const getVersion = () => {
   })
 }
 
+const getIsInstalling = () => {
+  toolsApi.isInstalling.get().then(response => {
+    if (response.data) {
+      installing.value = true
+      startRequests()
+    }
+  })
+}
+
 let intervalId = null
 const startRequests = () => {
   intervalId = setInterval(() => {
@@ -162,10 +178,6 @@ const cancelRequests = () => {
   }
 }
 
-onMounted(() => {
-  getOSInfo()
-  getVersion()
-})
 onBeforeUnmount(() => {
   cancelRequests();
   window.removeEventListener('beforeunload', cancelRequests);
