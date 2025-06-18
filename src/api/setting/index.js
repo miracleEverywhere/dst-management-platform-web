@@ -157,6 +157,12 @@ export default {
         return await http.post(this.url, data);
       }
     },
+    downloadProcess: {
+      url: `/setting/mod/download/process`,
+      get: async function (data) {
+        return await http.get(this.url, data);
+      }
+    },
     sync: {
       url: `/setting/mod/sync`,
       post: async function (data) {
