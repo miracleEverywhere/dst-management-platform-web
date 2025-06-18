@@ -14,7 +14,7 @@
         </div>
         <div class="fcc">
           <el-button type="primary" size="small" @click="dialogVisible=true">{{t('setting.mod.download.detail')}}</el-button>
-          <el-button type="success" size="small" @click="handleDownload">{{t('setting.mod.download.download')}}</el-button>
+          <el-button type="success" size="small" :loading="downloading" @click="handleDownload">{{t('setting.mod.download.download')}}</el-button>
         </div>
       </div>
     </div>
@@ -110,6 +110,35 @@ const computedName = computed(() => {
 
 const dialogVisible = ref(false)
 
+const downloading = ref(false)
+
+const getDownloadProcess = () => {
+  const reqForm = {
+    id: props.mod.id,
+    size: props.mod.size,
+  }
+  settingsApi.mod.downloadProcess.get(reqForm).then(response => {
+    if (response.data === 1) {
+      cancelRequests()
+      downloading.value = false
+      koiMsgSuccess(props.mod.name + ' ' + t('setting.mod.add.table.downloadedReady.ready'))
+    }
+  })
+}
+
+let intervalId = null
+const startRequests = () => {
+  intervalId = setInterval(() => {
+    getDownloadProcess()
+  }, 1000)
+}
+const cancelRequests = () => {
+  if (intervalId) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
+}
+
 const handleDownload = () => {
   const reqFrom = {
     id: props.mod.id,
@@ -117,6 +146,10 @@ const handleDownload = () => {
   }
   settingsApi.mod.download.post(reqFrom).then(response => {
     koiMsgSuccess(response.message)
+    if (props.mod.file_url === "") {
+      downloading.value = true
+      startRequests()
+    }
   })
 }
 
