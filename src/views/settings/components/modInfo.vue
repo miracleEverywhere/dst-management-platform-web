@@ -146,10 +146,10 @@ const handleDownload = () => {
   }
   settingsApi.mod.download.post(reqFrom).then(response => {
     koiMsgSuccess(response.message)
-    if (props.mod.file_url === "") {
-      downloading.value = true
-      startRequests()
-    }
+    // if (props.mod.file_url === "") {
+    //   downloading.value = true
+    //   startRequests()
+    // }
   })
 }
 
