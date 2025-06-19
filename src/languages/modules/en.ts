@@ -412,7 +412,7 @@ export default {
             title: 'Status',
             notUGC: 'NOT UGC MOD',
             ready: 'Download Success',
-            notReady: 'Downloading or need to update',
+            notReady: 'Need to update',
           },
           action: 'Actions',
           enable: 'Enable',

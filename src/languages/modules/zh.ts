@@ -405,7 +405,7 @@ export default {
           export: '导出',
           addClientDisabled: '禁本地',
         },
-        alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载',
+        alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载；建议启用最新版本的模组',
         table: {
           name: '名称',
           size: '模组大小',
@@ -413,7 +413,7 @@ export default {
             title: '状态',
             notUGC: '非UGC模组',
             ready: '下载完成',
-            notReady: '正在下载或需更新',
+            notReady: '模组需更新',
           },
           action: '操作',
           enable: '启用',
