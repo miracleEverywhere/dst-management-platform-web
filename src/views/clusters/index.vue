@@ -20,6 +20,16 @@
               </el-tag>
             </template>
           </el-table-column>
+          <el-table-column :label="t('clusters.table.status')">
+            <template #default="scope">
+              <el-tag v-if="scope.row.status" type="success">
+                {{language==='zh'?'激活':'Activated'}}
+              </el-tag>
+              <el-tag v-else type="info">
+                {{language==='zh'?'关闭':'Deactivated'}}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column :label="t('clusters.table.world')">
             <template #default="scope">
               <el-tag type="info">
@@ -29,17 +39,31 @@
           </el-table-column>
           <el-table-column :label="t('clusters.table.actions')">
             <template #default="scope">
-              <el-tooltip :content="t('clusters.table.shutdownTip')" effect="light" placement="top">
-                <el-button size="small" type="primary" @click="handleClusterShutdown(scope.row.clusterName)">
-                  {{t('clusters.table.shutdown')}}
+              <el-dropdown trigger="hover" @command="handleCommand">
+                <el-button link type="primary">
+                  {{ t('clusters.table.actions') }}
+                  <el-icon class="el-icon--right">
+                    <arrow-down/>
+                  </el-icon>
                 </el-button>
-              </el-tooltip>
-              <el-button size="small" type="warning" @click="handleOpenClusterUpdateDialog(scope.row)">
-                {{t('clusters.table.update')}}
-              </el-button>
-              <el-button size="small" type="danger" @click="handleClusterDelete(scope.row.clusterName)">
-                {{t('clusters.table.delete')}}
-              </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item :command="{type: 'activate',row: scope.row}">
+                      {{ t('clusters.table.action.activate') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item :command="{type: 'deactivate',row: scope.row}">
+                      {{ t('clusters.table.action.deactivate') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item :command="{type: 'update',row: scope.row}" divided>
+                      {{ t('clusters.table.action.update') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item :command="{type: 'delete',row: scope.row}">
+                      {{ t('clusters.table.action.delete') }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+
             </template>
           </el-table-column>
         </el-table>
@@ -188,6 +212,7 @@ const updateDialogForm = ref({
 })
 
 const handleOpenClusterUpdateDialog = (row) => {
+  console.log(row)
   updateDialogForm.value = {
     clusterName: row.clusterName,
     clusterDisplayName: '',
@@ -214,7 +239,8 @@ const handleClusterUpdate = () => {
 
 }
 
-const handleClusterDelete = (clusterName) => {
+const handleClusterDelete = (row) => {
+  const clusterName = row.clusterName
   ElMessageBox.confirm(
     language.value === 'zh' ? `将执行 删除集群 操作，是否继续？` : `The cluster DELETE operation will be performed. Do you want to continue?`,
     language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
@@ -252,9 +278,10 @@ const handleClusterDelete = (clusterName) => {
   })
 }
 
-const handleClusterShutdown = (clusterName) => {
+const handleClusterActivate = (row) => {
+  const clusterName = row.clusterName
   ElMessageBox.confirm(
-    language.value === 'zh' ? `将执行 关闭集群 操作，是否继续？` : `The cluster SHUTDOWN operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? `将执行 激活集群 操作，是否继续？` : `The cluster ACTIVATE operation will be performed. Do you want to continue?`,
     language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
     {
       confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
@@ -264,10 +291,14 @@ const handleClusterShutdown = (clusterName) => {
         if (action === 'confirm') {
           instance.confirmButtonLoading = true
           const reqForm = {
-            clusterName: clusterName
+            clusterName: clusterName,
+            status: true,
           }
-          settingApi.cluster.shutdown.post(reqForm).then(async response => {
+          settingApi.cluster.status.put(reqForm).then(async response => {
             koiMsgSuccess(response.message)
+            await getClustersInfo()
+            await getClustersWorldPort()
+            await getClusters()
             done()
           }).catch(() => {
           }).finally(() => {
@@ -282,6 +313,60 @@ const handleClusterShutdown = (clusterName) => {
   }).catch(() => {
     koiMsgInfo(t('home.canceled'))
   })
+}
+
+const handleClusterDeactivate = (row) => {
+  const clusterName = row.clusterName
+  ElMessageBox.confirm(
+    language.value === 'zh' ? `将执行 关闭集群 操作，是否继续？` : `The cluster DEACTIVATE operation will be performed. Do you want to continue?`,
+    language.value === 'zh' ? '请确认您的操作' : 'Please confirm your operation',
+    {
+      confirmButtonText: language.value === 'zh' ? '确定' : 'confirm',
+      cancelButtonText: language.value === 'zh' ? '取消' : 'cancel',
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          const reqForm = {
+            clusterName: clusterName,
+            status: false,
+          }
+          settingApi.cluster.status.put(reqForm).then(async response => {
+            koiMsgSuccess(response.message)
+            await getClustersInfo()
+            await getClustersWorldPort()
+            await getClusters()
+            done()
+          }).catch(() => {
+          }).finally(() => {
+            instance.confirmButtonLoading = false
+          })
+        } else {
+          done()
+        }
+      }
+    }
+  ).then(() => {
+  }).catch(() => {
+    koiMsgInfo(t('home.canceled'))
+  })
+}
+
+const handleCommand = (cmd) => {
+  switch (cmd.type) {
+    case 'activate':
+      handleClusterActivate(cmd.row)
+      break;
+    case 'deactivate':
+      handleClusterDeactivate(cmd.row)
+      break;
+    case 'update':
+      handleOpenClusterUpdateDialog(cmd.row)
+      break;
+    case 'delete':
+      handleClusterDelete(cmd.row)
+      break;
+  }
 }
 
 const handleRefresh = () => {

@@ -19,6 +19,12 @@ export default {
       return await http.get(this.url, data);
     }
   },
+  isInstalling: {
+    url: `/tools/install/is_installing`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  },
   announce: {
     url: `/tools/announce`,
     get: async function(data){
@@ -120,5 +126,5 @@ export default {
     get: async function(data){
       return await http.get(this.url, data);
     },
-  }
+  },
 }

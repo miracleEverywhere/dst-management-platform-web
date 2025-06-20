@@ -415,6 +415,16 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                    Tick Rate
+                  </div>
+                </template>
+                <template #icon>
+                  <Collection />
+                </template>
+              </el-alert>
               <el-form-item label="Tick Rate" prop="sysSetting.tickRate">
                 <el-row>
                   <el-col :span="24">

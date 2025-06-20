@@ -153,7 +153,7 @@
                   <el-form-item>
                     <el-button size="default" type="success" @click="handleExec('startup', 0)">{{ t('home.startup') }}</el-button>
                     <el-button size="default" type="primary" @click="handleExec('restart', 0)">{{ t('home.restart') }}</el-button>
-                    <el-button :disabled="userInfo.role!=='admin'" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
+                    <el-button :disabled="userInfo.role!=='admin'" :loading="isUpdating" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
                   </el-form-item>
                   <el-form-item>
                     <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
@@ -468,6 +468,7 @@ onMounted(() => {
   getVersion()
   getConnectionCode()
   getWorldInfo(false)
+  handleGetUpdating()
   startRequests()
   checkTour()
 })
@@ -635,6 +636,14 @@ const progressColors = [
   {color: '#6f7ad3', percentage: 100},
 ]
 
+const isUpdating = ref(false)
+
+const handleGetUpdating = () => {
+  homeApi.isUpdating.get().then(response => {
+    isUpdating.value = response.data
+  })
+}
+
 let intervalSysId = null
 let intervalWorldId = null
 const startRequests = () => {
@@ -644,6 +653,7 @@ const startRequests = () => {
   intervalWorldId = setInterval(() => {
     if (globalStore.selectedDstCluster) {
       getWorldInfo()
+      handleGetUpdating()
     }
   }, 10000)
 }
@@ -721,6 +731,7 @@ const handleExec = (type, extraData) => {
           }
           homeApi.exec.post(reqForm).then(response => {
             koiMsgSuccess(response.message)
+            handleGetUpdating()
             done()
           }).catch(() => {
           }).finally(() => {
