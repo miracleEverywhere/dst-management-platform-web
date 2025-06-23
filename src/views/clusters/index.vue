@@ -97,7 +97,10 @@
           </el-table-column>
           <el-table-column :label="t('clusters.table.port')">
             <template #default="scope">
-              <span v-if="scope.row.worldPort">{{ scope.row.worldPort.join(',') }}</span>
+              <template v-if="scope.row.worldPort" v-for="port in scope.row.worldPort">
+                <el-text :tag="conflictPorts.includes(port)?'mark':'span'">{{port}}</el-text>
+                <span v-if="scope.row.worldPort.indexOf(port) !== scope.row.worldPort.length - 1 ">,</span>
+              </template>
               <el-tag v-else type="info">{{t('clusters.table.none')}}</el-tag>
             </template>
           </el-table-column>
@@ -175,6 +178,8 @@ const getClustersInfo = () => {
 const clustersWorldPort = ref([])
 const allPortNum = ref(0)
 const uniquePortNum = ref(0)
+const conflictPorts = ref([])
+
 const getClustersWorldPort = () => {
   portLoading.value = true
   settingApi.clustersWorldPort.get().then(response => {
@@ -190,6 +195,7 @@ const getClustersWorldPort = () => {
     }
     allPortNum.value = ports.length
     uniquePortNum.value = new Set(ports).size
+    conflictPorts.value = ports.filter((item, index) => ports.indexOf(item) !== index)
   }).finally(() => {
     portLoading.value = false
   })
