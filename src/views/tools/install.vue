@@ -137,7 +137,7 @@ const handleGetStatus = () => {
     percentage.value = data.process
     installInfo.value.zh = data.zh
     installInfo.value.en = data.en
-    if (percentage.value === 100) {
+    if (percentage.value === "100") {
       cancelRequests()
     } else if (percentage.value === 0) {
       cancelRequests()
@@ -146,13 +146,15 @@ const handleGetStatus = () => {
 }
 
 const version = ref({
-  server: 0,
-  local: 0
+  server: -1,
+  local: -1
 })
 
 const getVersion = () => {
   externalApi.dstVersion.get().then(response => {
-    version.value = response.data
+    if (response.data) {
+      version.value = response.data
+    }
   })
 }
 
@@ -172,6 +174,7 @@ const startRequests = () => {
   }, 1000)
 }
 const cancelRequests = () => {
+  installing.value = false
   if (intervalId) {
     clearInterval(intervalId)
     intervalId = null
