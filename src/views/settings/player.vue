@@ -48,8 +48,19 @@
                           <el-dropdown-item :command="{type: 'white',uid: scope.row.uid}"
                                             :disabled="whiteDisable(scope.row.uid)">{{ t('setting.addWhite') }}
                           </el-dropdown-item>
+
                           <el-dropdown-item :command="{type: 'kick',uid: scope.row.uid}"
-                                            :disabled="adminDisable(scope.row.uid)" divided>{{ t('setting.kick') }}
+                                            :disabled="adminDisable(scope.row.uid)" divided>
+                            {{ t('setting.kick') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{type: 'kill',uid: scope.row.uid}">
+                            {{ t('setting.kill') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{type: 'respawn',uid: scope.row.uid}">
+                            {{ t('setting.respawn') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{type: 'despawn',uid: scope.row.uid}">
+                            {{ t('setting.despawn') }}
                           </el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
@@ -403,7 +414,7 @@ const handleCommand = (cmd) => {
       handlePlayerChange(cmd.type,'add', cmd.uid)
       break;
     case 'kick':
-      handleKick(cmd.uid)
+      handleAction(cmd.type, cmd.uid)
       break;
   }
 }
@@ -421,12 +432,13 @@ const handlePlayerChange = (listName, type, uid) => {
   })
 }
 
-const handleKick = (uid) => {
+const handleAction = (type, uid) => {
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
-    uid: uid
+    uid: uid,
+    type: type
   }
-  settingApi.player.kick.post(reqForm).then(response => {
+  settingApi.player.action.post(reqForm).then(response => {
     koiMsgSuccess(response.message)
   })
 }

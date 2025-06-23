@@ -123,8 +123,8 @@ export default {
         return await http.post(this.url, data);
       }
     },
-    kick: {
-      url: `/setting/player/kick`,
+    action: {
+      url: `/setting/player/action`,
       post: async function (data) {
         return await http.post(this.url, data);
       }
