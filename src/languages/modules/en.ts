@@ -233,6 +233,7 @@ export default {
       playerNum: 'Player Numbers',
       backDays: 'Rollback Days',
       vote: 'Vote',
+      consoleEnabled: 'Console',
       password: 'Password',
       token: 'Token',
       tokenHelp: 'Click to obtain game token',

@@ -234,6 +234,7 @@ export default {
       playerNum: '玩家数量',
       backDays: '回档天数',
       vote: '玩家投票',
+      consoleEnabled: '控制台',
       password: '房间密码',
       token: '令牌',
       tokenHelp: '点击获取游戏令牌',
