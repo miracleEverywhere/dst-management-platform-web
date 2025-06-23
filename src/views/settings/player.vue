@@ -59,9 +59,10 @@
                           <el-dropdown-item :command="{type: 'respawn',uid: scope.row.uid}">
                             {{ t('setting.respawn') }}
                           </el-dropdown-item>
-                          <el-dropdown-item :command="{type: 'despawn',uid: scope.row.uid}">
-                            {{ t('setting.despawn') }}
-                          </el-dropdown-item>
+<!--                          危险功能，先不开放-->
+<!--                          <el-dropdown-item :command="{type: 'despawn',uid: scope.row.uid}" divided>-->
+<!--                            {{ t('setting.despawn') }}-->
+<!--                          </el-dropdown-item>-->
                         </el-dropdown-menu>
                       </template>
                     </el-dropdown>
@@ -414,6 +415,15 @@ const handleCommand = (cmd) => {
       handlePlayerChange(cmd.type,'add', cmd.uid)
       break;
     case 'kick':
+      handleAction(cmd.type, cmd.uid)
+      break;
+    case 'kill':
+      handleAction(cmd.type, cmd.uid)
+      break;
+    case 'respawn':
+      handleAction(cmd.type, cmd.uid)
+      break;
+    case 'despawn':
       handleAction(cmd.type, cmd.uid)
       break;
   }
