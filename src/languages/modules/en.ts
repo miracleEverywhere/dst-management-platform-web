@@ -757,6 +757,9 @@ export default {
     },
   },
   help: {
+    header: {
+      text1: 'Documentation: ',
+    },
     one: {
       title: 'Welcome to join the group for discussion',
       text1: 'If you encounter any issues, feel free to discuss them in the group. You can also propose improvements or new features.',
