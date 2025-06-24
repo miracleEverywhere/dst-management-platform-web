@@ -233,6 +233,7 @@ export default {
       playerNum: 'Player Numbers',
       backDays: 'Rollback Days',
       vote: 'Vote',
+      consoleEnabled: 'Console',
       password: 'Password',
       token: 'Token',
       tokenHelp: 'Click to obtain game token',
@@ -356,7 +357,11 @@ export default {
     addAdmin: 'Add Admin List',
     addBlock: 'Add to Block List',
     addWhite: 'Add to White List',
+    playerAction: 'Player Actions >',
     kick: 'Kick Player',
+    kill: 'Kill Player',
+    respawn: 'Respawn Player',
+    despawn: 'Despawn Player',
     historyPlayer: 'History Players',
     historyPlayerTip: 'Refers to all player information recorded since the cluster was launched; note that historical player data is not shared between clusters',
     historyClean: 'Clean',
@@ -752,6 +757,9 @@ export default {
     },
   },
   help: {
+    header: {
+      text1: 'Documentation: ',
+    },
     one: {
       title: 'Welcome to join the group for discussion',
       text1: 'If you encounter any issues, feel free to discuss them in the group. You can also propose improvements or new features.',

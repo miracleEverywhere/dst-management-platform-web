@@ -234,6 +234,7 @@ export default {
       playerNum: '玩家数量',
       backDays: '回档天数',
       vote: '玩家投票',
+      consoleEnabled: '控制台',
       password: '房间密码',
       token: '令牌',
       tokenHelp: '点击获取游戏令牌',
@@ -357,7 +358,11 @@ export default {
     addAdmin: '添加管理员',
     addBlock: '添加黑名单',
     addWhite: '添加白名单',
-    kick: '踢出玩家',
+    playerAction: '玩家操作 >',
+    kick: '踢出该玩家',
+    kill: '杀死该玩家',
+    respawn: '复活该玩家',
+    despawn: '重新选角色',
     historyPlayer: '历史玩家',
     historyPlayerTip: '指该集群启动以来，记录到的所有玩家信息；注意，集群之间的历史玩家信息不互通',
     historyClean: '清空',
@@ -756,6 +761,9 @@ export default {
     },
   },
   help: {
+    header: {
+      text1: '详细帮助文档请前往：',
+    },
     one: {
       title: '欢迎加群讨论',
       text1: '如果您遇到了任何问题，都可以在群中进行讨论，也可以提出一些改进项或功能',

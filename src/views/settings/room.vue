@@ -55,6 +55,9 @@
               <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
                 <el-switch v-model="clusterSettingForm.vote"/>
               </el-form-item>
+              <el-form-item :label="t('setting.baseForm.consoleEnabled')" prop="consoleEnabled" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                <el-switch v-model="clusterSettingForm.consoleEnabled"/>
+              </el-form-item>
               <el-form-item :label="t('setting.baseForm.password')" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
                 <el-input v-model="clusterSettingForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
@@ -977,6 +980,7 @@ const clusterSettingForm = ref({
   playerNum: 6,
   backDays: 10,
   vote: false,
+  consoleEnabled: true,
   password: '',
   token: '',
 })
