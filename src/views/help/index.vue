@@ -3,7 +3,19 @@
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
         <el-card shadow="never" style="min-height: 80vh">
-          <div style="margin: 10px">
+<!--          <template #header>-->
+<!--            <span>{{t('help.header.text1')}}</span>-->
+<!--            <el-link type="primary" underline="never" href="https://miraclesses.top" target="_blank">-->
+<!--              https://miraclesses.top-->
+<!--            </el-link>-->
+<!--          </template>-->
+          <div style="margin: 20px">
+            <div style="margin-bottom: 40px">
+              <el-text type="info">{{t('help.header.text1')}}</el-text>
+              <el-link type="primary" underline="never" href="https://miraclesses.top" target="_blank">
+                https://miraclesses.top
+              </el-link>
+            </div>
             <el-collapse v-model="activeName" accordion @change="collapseChange">
               <el-collapse-item name="1">
                 <template #title>
@@ -49,8 +61,8 @@
                   <span class="custom-block-title">{{ t('help.two.text2_6') }}</span>
                 </div>
                 <div class="tip custom-block">
-                  <p class="custom-block-title">{{ t('help.two.text2_2') }}</p>
-                  <el-button type="primary" @click="handleReplaceSo">{{ t('help.two.button_1') }}</el-button>
+                  <p class="custom-block-title" style="text-decoration: line-through;">{{ t('help.two.text2_2') }}</p>
+                  <el-button type="primary" disabled @click="handleReplaceSo">{{ t('help.two.button_1') }}</el-button>
                 </div>
                 <div style="line-height: 50px;text-decoration: line-through;">
                   {{ t('help.two.text1') }}
@@ -149,41 +161,41 @@
                   {{ t('help.four.text3') }}
                 </div>
               </el-collapse-item>
-              <el-collapse-item name="7">
-                <template #title>
-                  <el-tooltip v-if="needToolTip(t('help.seven.title'))" :content="t('help.seven.title')"
-                              effect="light" placement="top">
-                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
-                  </el-tooltip>
-                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
-                </template>
-                <div v-if="needToolTip(t('help.seven.title'))"
-                     style="line-height: 50px; font-weight: bold; color: #409EFF">
-                  {{ t('help.seven.title') }}
-                </div>
-                <div class="tip custom-block">
-                  <div style="display: flex; align-content: center">
-                    <el-icon :size="20" class="koi-icon">
-                      <sc-icon-github-fill/>
-                    </el-icon>
-                    <el-link href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
-                             target="_blank" :underline="false" style="margin-left: 5px"
-                    >
-                      https://github.com/miracleEverywhere/dst-management-platform-desktop
-                    </el-link>
-                  </div>
+<!--              <el-collapse-item name="7">-->
+<!--                <template #title>-->
+<!--                  <el-tooltip v-if="needToolTip(t('help.seven.title'))" :content="t('help.seven.title')"-->
+<!--                              effect="light" placement="top">-->
+<!--                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>-->
+<!--                  </el-tooltip>-->
+<!--                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>-->
+<!--                </template>-->
+<!--                <div v-if="needToolTip(t('help.seven.title'))"-->
+<!--                     style="line-height: 50px; font-weight: bold; color: #409EFF">-->
+<!--                  {{ t('help.seven.title') }}-->
+<!--                </div>-->
+<!--                <div class="tip custom-block">-->
+<!--                  <div style="display: flex; align-content: center">-->
+<!--                    <el-icon :size="20" class="koi-icon">-->
+<!--                      <sc-icon-github-fill/>-->
+<!--                    </el-icon>-->
+<!--                    <el-link href="https://github.com/miracleEverywhere/dst-management-platform-desktop"-->
+<!--                             target="_blank" :underline="false" style="margin-left: 5px"-->
+<!--                    >-->
+<!--                      https://github.com/miracleEverywhere/dst-management-platform-desktop-->
+<!--                    </el-link>-->
+<!--                  </div>-->
 
-                </div>
-                <div style="line-height: 50px;font-weight: bolder">
-                  {{ t('help.seven.text1') }}
-                </div>
-                <div style="line-height: 50px;font-weight: bolder">
-                  {{ t('help.seven.text2') }}
-                </div>
-                <div style="line-height: 50px;font-weight: bolder">
-                  {{ t('help.seven.text3') }}
-                </div>
-              </el-collapse-item>
+<!--                </div>-->
+<!--                <div style="line-height: 50px;font-weight: bolder">-->
+<!--                  {{ t('help.seven.text1') }}-->
+<!--                </div>-->
+<!--                <div style="line-height: 50px;font-weight: bolder">-->
+<!--                  {{ t('help.seven.text2') }}-->
+<!--                </div>-->
+<!--                <div style="line-height: 50px;font-weight: bolder">-->
+<!--                  {{ t('help.seven.text3') }}-->
+<!--                </div>-->
+<!--              </el-collapse-item>-->
               <el-collapse-item name="8">
                 <template #title>
                   <el-tooltip v-if="needToolTip(t('help.eight.title'))" :content="t('help.eight.title')"
