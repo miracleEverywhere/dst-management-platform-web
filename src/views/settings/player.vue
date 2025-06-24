@@ -255,9 +255,6 @@
                           <el-dropdown-item :command="{type: 'white',uid: scope.row.uid}"
                                             :disabled="whiteDisable(scope.row.uid)">{{ t('setting.addWhite') }}
                           </el-dropdown-item>
-                          <el-dropdown-item :command="{type: 'kick',uid: scope.row.uid}"
-                                            :disabled="adminDisable(scope.row.uid)" divided>{{ t('setting.kick') }}
-                          </el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
                     </el-dropdown>
