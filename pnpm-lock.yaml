@@ -11,6 +11,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.1(vue@3.5.8(typescript@5.6.2))
+      '@infectoone/vue-ganttastic':
+        specifier: ^2.3.2
+        version: 2.3.2(dayjs@1.11.13)(vue@3.5.8(typescript@5.6.2))
       '@vueuse/core':
         specifier: ^11.0.3
         version: 11.1.0(vue@3.5.8(typescript@5.6.2))
@@ -26,6 +29,9 @@ importers:
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       default-passive-events:
         specifier: ^2.0.0
         version: 2.0.0
@@ -975,6 +981,12 @@ packages:
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [x64]
     os: [win32]
+
+  '@infectoone/vue-ganttastic@2.3.2':
+    resolution: {integrity: sha512-krxHdlZvo4cdS4axQ99qb756RzwieI7LcyY2vAIehJ5Sxd/jz5Pu/vTplTC0Rxqj8T4v1knYPK9uvTMkQYWYng==}
+    peerDependencies:
+      dayjs: ^1.11.5
+      vue: ^3.2.40
 
   '@intlify/core-base@9.14.0':
     resolution: {integrity: sha512-zJn0imh9HIsZZUtt9v8T16PeVstPv6bP2YzlrYJwoF8F30gs4brZBwW2KK6EI5WYKFi3NeqX6+UU4gniz5TkGg==}
@@ -5241,6 +5253,14 @@ snapshots:
 
   '@img/sharp-win32-x64@0.33.5':
     optional: true
+
+  '@infectoone/vue-ganttastic@2.3.2(dayjs@1.11.13)(vue@3.5.8(typescript@5.6.2))':
+    dependencies:
+      '@vueuse/core': 9.13.0(vue@3.5.8(typescript@5.6.2))
+      dayjs: 1.11.13
+      vue: 3.5.8(typescript@5.6.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
   '@intlify/core-base@9.14.0':
     dependencies:
