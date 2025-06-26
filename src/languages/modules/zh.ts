@@ -637,9 +637,9 @@ export default {
     statistics: {
       player: {
         title: '玩家人数',
+        title2: '详细信息',
         refresh: '刷新',
         refreshSuccess: '刷新成功',
-
       },
       max: {
         title: '玩家统计',

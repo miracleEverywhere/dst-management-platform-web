@@ -633,9 +633,9 @@ export default {
     statistics: {
       player: {
         title: 'Player Count',
+        title2: 'Detail',
         refresh: 'Refresh',
         refreshSuccess: 'Refresh Success',
-
       },
       max: {
         title: 'Statistics',
