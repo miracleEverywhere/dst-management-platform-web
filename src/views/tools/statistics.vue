@@ -81,7 +81,7 @@
                 bar-start="myBeginDate"
                 :color-scheme="isDark?'dark':'sky'"
                 precision="hour"
-                width="2000px"
+                width="2600px"
               >
                 <g-gantt-row v-for="row in ganttRows" :bars="row.barList" :label="row.nickname" highlight-on-hover/>
               </g-gantt-chart>
@@ -147,8 +147,8 @@ const getInfo = (refresh = false) => {
 
     let first = response.data.stats[0].timestamp
     let last = response.data.stats[response.data.stats.length - 1].timestamp
-    firstTime.value = formatTimeToGantt(parseInt(first) - 7200000)
-    lastTime.value = formatTimeToGantt(parseInt(last) + 7200000)
+    firstTime.value = formatTimeToGantt(parseInt(first) - 3600000)
+    lastTime.value = formatTimeToGantt(parseInt(last) + 3600000)
     ganttRows.value = []
     let unit
     if (language.value === 'zh') {
