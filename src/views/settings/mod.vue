@@ -46,7 +46,14 @@
             <el-card v-loading="downloadedModLoading" shadow="never" style="height: 78vh">
               <template #header>
                 <div class="card-header">
-                  <span>{{ t('setting.mod.add.header.title') }}</span>
+                  <div class="fcc">
+                    {{ t('setting.mod.add.header.title') }}
+                    <el-tooltip :content="t('setting.mod.add.header.tip')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
                   <div v-if="!isMobile">
                     <el-button @click="handleGetDownloadedMod">
                       {{ t('setting.mod.add.header.refresh') }}
@@ -163,6 +170,9 @@
                       <template #dropdown>
                         <el-dropdown-menu>
                           <el-dropdown-item :disabled="noEdit" :command="{cmd: 'enable', row: scope.row}">{{ t('setting.mod.add.table.enable') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :disabled="noEdit" :command="{cmd: 'update', row: scope.row}">
+                            {{ t('setting.mod.add.table.update') }}
                           </el-dropdown-item>
                           <el-dropdown-item :disabled="noEdit" :command="{cmd: 'delete', row: scope.row}">{{ t('setting.mod.add.table.delete') }}
                           </el-dropdown-item>
@@ -486,6 +496,10 @@ const handleModCommand = (actions) => {
     case 'delete':
       handleModDelete(row)
       break;
+    case 'update':
+      handleRedownload(row)
+      actionsLoading.value = false
+      break;
     case 'refresh':
       handleGetDownloadedMod()
       break;
@@ -530,6 +544,16 @@ const handleModDelete = (row, multi=false) => {
     }
   }).finally(() => {
     actionsLoading.value = false
+  })
+}
+
+const handleRedownload = (row) => {
+  const reqFrom = {
+    id: row.id,
+    file_url: row.file_url
+  }
+  settingsApi.mod.download.post(reqFrom).then(response => {
+    koiMsgSuccess(response.message)
   })
 }
 
