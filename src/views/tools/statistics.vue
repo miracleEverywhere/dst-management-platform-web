@@ -68,7 +68,7 @@
         <el-card shadow="never" style="margin-top: 10px">
           <template #header>
             <div class="card-header">
-              {{ t('tools.statistics.player.title2') }}
+              {{ t('tools.statistics.player.gantCardTitle') }}
               <el-button @click="handleRefreshPlayer">{{ t('tools.statistics.player.refresh') }}</el-button>
             </div>
           </template>
@@ -81,7 +81,7 @@
                 bar-start="myBeginDate"
                 :color-scheme="isDark?'dark':'sky'"
                 precision="hour"
-                width="2600px"
+                width="3900px"
               >
                 <g-gantt-row v-for="row in ganttRows" :bars="row.barList" :label="row.nickname" highlight-on-hover/>
               </g-gantt-chart>
@@ -150,12 +150,12 @@ const getInfo = (refresh = false) => {
     firstTime.value = formatTimeToGantt(parseInt(first) - 3600000)
     lastTime.value = formatTimeToGantt(parseInt(last) + 3600000)
     ganttRows.value = []
-    let unit
-    if (language.value === 'zh') {
-      unit = '分'
-    } else {
-      unit = 'm'
-    }
+    // let unit
+    // if (language.value === 'zh') {
+    //   unit = '分钟'
+    // } else {
+    //   unit = 'mins'
+    // }
     for (const key in response.data.gantt) {
       let barList = []
       for (let arr of response.data.gantt[key]) {
@@ -164,7 +164,7 @@ const getInfo = (refresh = false) => {
           myEndDate: arr.endDate,
           ganttBarConfig: {
             id: arr.id,
-            label: arr.label + unit,
+            label: arr.label,
             immobile: true,
             style: {
               background: '#409effaa',
