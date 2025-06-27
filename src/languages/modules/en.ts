@@ -408,8 +408,9 @@ export default {
           syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
           export: 'Export',
           addClientDisabled: 'Disable Client MOD',
+          multiDelete: 'Multi-Delete',
         },
-        alert: 'Tip: Mod download speed depends on your network and mod size. Please be patient and do not download repeatedly',
+        alert: 'Tip: Mod download speed depends on your network and mod size. Be patient and do not download repeatedly. Do NOT enable out-dated mod. Do NOT rely too heavily on this feature. If issues occur, generate mod configurations using the DST',
         table: {
           name: 'Name',
           size: 'Mod Size',
