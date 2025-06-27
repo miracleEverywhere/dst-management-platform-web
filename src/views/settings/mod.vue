@@ -47,33 +47,64 @@
               <template #header>
                 <div class="card-header">
                   <span>{{ t('setting.mod.add.header.title') }}</span>
-                  <div>
-                    <el-button :size="isMobile?'small':'default'" @click="handleGetDownloadedMod">
+                  <div v-if="!isMobile">
+                    <el-button @click="handleGetDownloadedMod">
                       {{ t('setting.mod.add.header.refresh') }}
                     </el-button>
                     <el-tooltip :content="t('setting.mod.add.header.syncTooltip')" :show-after="500" effect="light"
                                 placement="top">
-                      <el-button :size="isMobile?'small':'default'"
-                                 :loading="syncModLoading"
+                      <el-button :loading="syncModLoading"
                                  type="primary" @click="handleSyncMod"
                       >
                         {{ t('setting.mod.add.header.sync') }}
                       </el-button>
                     </el-tooltip>
-                    <el-button :size="isMobile?'small':'default'"
-                               :loading="addClientModsDisabledConfigButtonLoading"
-                               type="danger"
+                    <el-button :disabled="userInfo.role!=='admin'||selectedDownloadMods.length===0"
+                               @click="handleMultiDeleteMod"
+                               type="danger">
+                      {{ t('setting.mod.add.header.multiDelete') }}
+                    </el-button>
+                    <el-button :loading="addClientModsDisabledConfigButtonLoading"
+                               type="warning" :icon="Plus"
                                :disabled="addClientModsDisabledConfigButtonDisable"
                                @click="handleAddClientModsDisabledConfig"
                     >
                       {{ t('setting.mod.add.header.addClientDisabled') }}
                     </el-button>
-                    <el-button v-if="OSPlatform==='darwin'" :size="isMobile?'small':'default'"
+                    <el-button v-if="OSPlatform==='darwin'"
                                :loading="macOSExportButtonLoading" type="success"
                                @click="handleMacOSExport"
                     >
                       {{ t('setting.mod.add.header.export') }}
                     </el-button>
+                  </div>
+                  <div v-else>
+                    <el-dropdown trigger="click" @command="handleModCommand">
+                      <el-button type="primary">
+                        {{ t('setting.mod.add.table.action') }}
+                        <el-icon class="el-icon--right">
+                          <arrow-down/>
+                        </el-icon>
+                      </el-button>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item :command="{cmd: 'refresh', row: ''}">
+                            {{ t('setting.mod.add.header.refresh') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'sync', row: ''}">
+                            {{ t('setting.mod.add.header.sync') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :disabled="userInfo.role!=='admin'||selectedDownloadMods.length===0"
+                                            :command="{cmd: 'multiDelete', row: ''}">
+                            {{ t('setting.mod.add.header.multiDelete') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :disabled="addClientModsDisabledConfigButtonDisable"
+                                            :command="{cmd: 'addClientDisabled', row: ''}">
+                            {{ t('setting.mod.add.header.addClientDisabled') }}
+                          </el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
                   </div>
                 </div>
               </template>
@@ -81,7 +112,11 @@
                   t('setting.mod.add.alert')
                 }}
               </el-alert>
-              <el-table :data="downloadedMod" border style="height: 51vh; margin-top: 10px">
+              <el-table :data="downloadedMod" border @selection-change="handleDownloadedModSelect"
+                        style="height: 51vh; margin-top: 10px">
+                <el-table-column type="selection" width="55px">
+
+                </el-table-column>
                 <el-table-column :label="t('setting.mod.add.table.name')" prop="name"/>
                 <el-table-column label="ID" prop="id"/>
                 <!--el-table-column label="UGC">
@@ -273,6 +308,8 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
 import {formatBytes} from "@/utils/tools.js";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts"
+import {Plus} from '@element-plus/icons-vue'
+import useAuthStore from "@/stores/modules/auth.ts";
 
 
 onMounted(async () => {
@@ -288,9 +325,11 @@ onMounted(async () => {
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
 const globalStore = useGlobalStore();
+const authStore = useAuthStore()
 const isDark = computed(() => globalStore.isDark);
 const language = computed(() => globalStore.language);
 const windowHeight = ref(0)
+const userInfo = authStore.userInfo
 
 const activeTabName = ref('Download')
 const handleTabClick = (tab, event) => {
@@ -416,6 +455,11 @@ const handleGetDownloadedMod = () => {
   })
 }
 
+const selectedDownloadMods = ref([])
+const handleDownloadedModSelect = (val) => {
+  selectedDownloadMods.value = val
+}
+
 const syncModLoading = ref(false)
 const handleSyncMod = () => {
   syncModLoading.value = true
@@ -442,6 +486,18 @@ const handleModCommand = (actions) => {
     case 'delete':
       handleModDelete(row)
       break;
+    case 'refresh':
+      handleGetDownloadedMod()
+      break;
+    case 'sync':
+      handleSyncMod()
+      break;
+    case 'multiDelete':
+      handleMultiDeleteMod()
+      break;
+    case 'addClientDisabled':
+      handleAddClientModsDisabledConfig()
+      break;
     default:
       actionsLoading.value = false
       koiMsgError('error')
@@ -461,18 +517,30 @@ const handleModEnable = (row) => {
   })
 }
 
-const handleModDelete = (row) => {
+const handleModDelete = (row, multi=false) => {
   const isUgc = row.file_url === "";
   const reqForm = {
     isUgc: isUgc,
     id: row.id
   }
   settingsApi.mod.delete.post(reqForm).then(response => {
-    koiMsgSuccess(response.message)
-    handleGetDownloadedMod()
+    if (!multi) {
+      handleGetDownloadedMod()
+      koiMsgSuccess(response.message)
+    }
   }).finally(() => {
     actionsLoading.value = false
   })
+}
+
+const multiDeleteLoading = ref(false)
+const handleMultiDeleteMod = async () => {
+  multiDeleteLoading.value = true
+  for (let row of selectedDownloadMods.value) {
+    await handleModDelete(row, true)
+  }
+  multiDeleteLoading.value = false
+  handleGetDownloadedMod()
 }
 
 const buttonDisableModLoading = ref(false)
