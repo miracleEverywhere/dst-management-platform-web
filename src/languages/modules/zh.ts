@@ -404,6 +404,7 @@ export default {
       add: {
         header: {
           title: '已下载的模组',
+          tip: '需要先下载，才能启用；下载的模组与游戏无关，只用来启用模组时生成对应的默认lua配置文件',
           refresh: '刷新',
           sync: '同步',
           syncTooltip: '该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面',
@@ -423,6 +424,7 @@ export default {
           },
           action: '操作',
           enable: '启用',
+          update: '更新',
           delete: '删除',
           ugc: {
             yes: '是',

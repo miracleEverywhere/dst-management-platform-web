@@ -403,6 +403,7 @@ export default {
       add: {
         header: {
           title: 'Downloaded Mod',
+          tip: 'The mod needs to be downloaded first before it can be enabled; the downloaded mod is unrelated to the game itself and is solely used to generate the corresponding default Lua configuration file when enabling the mod',
           refresh: 'Refresh',
           sync: 'Sync',
           syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
@@ -422,6 +423,7 @@ export default {
           },
           action: 'Actions',
           enable: 'Enable',
+          update: 'Update',
           delete: 'Delete',
           ugc: {
             yes: 'True',
