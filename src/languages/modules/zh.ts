@@ -640,6 +640,7 @@ export default {
         title2: '详细信息',
         refresh: '刷新',
         refreshSuccess: '刷新成功',
+        gantCardTitle: '单位：分钟',
       },
       max: {
         title: '玩家统计',

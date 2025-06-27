@@ -636,6 +636,7 @@ export default {
         title2: 'Detail',
         refresh: 'Refresh',
         refreshSuccess: 'Refresh Success',
+        gantCardTitle: 'Unit：Minute',
       },
       max: {
         title: 'Statistics',
