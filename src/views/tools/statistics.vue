@@ -89,6 +89,25 @@
           </el-scrollbar>
         </el-card>
       </el-tab-pane>
+      <el-tab-pane :label="t('tools.statistics.pie.tabName')" name="pie">
+        <el-card shadow="never" style="margin-top: 10px">
+          <template #header>
+            <div class="card-header">
+              <div class="fcc">
+                {{ t('tools.statistics.pie.title') }}
+                <el-tooltip :content="t('tools.statistics.pie.tip')" effect="light" placement="top">
+                  <el-icon size="14" style="margin-left: 2px">
+                    <QuestionFilled/>
+                  </el-icon>
+                </el-tooltip>
+              </div>
+
+              <el-button @click="handleRefreshPlayer">{{ t('tools.statistics.player.refresh') }}</el-button>
+            </div>
+            <sc-echarts ref="pieChartRef" :option="optionPie" height="75vh" width="75vw"></sc-echarts>
+          </template>
+        </el-card>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -180,6 +199,17 @@ const getInfo = (refresh = false) => {
       })
     }
 
+    if (response.data.pie != null) {
+      optionPie.value.series[0].data = Object.entries(response.data.pie)
+        .sort((a, b) => b[1] - a[1])  // 按值降序排序
+        .slice(0, 10)                 // 只取前10项
+        .map(([name, value]) => ({    // 转换为目标格式
+          value: (value / 8).toFixed(0),
+          name: name
+        }))
+      pieChartRef.value.redraw(optionPie.value)
+    }
+
     if (refresh) {
       koiMsgSuccess(t('tools.statistics.player.refreshSuccess'))
     }
@@ -246,6 +276,45 @@ const option = ref({
           global: false, // 缺省为 false
         },
       },
+    }
+  ]
+})
+
+const pieChartRef = ref()
+const optionPie = ref({
+  tooltip: {
+    trigger: 'item',
+    formatter: `[{b}]: {c}${language.value==='zh'?'天':'Days'} ${language.value==='zh'?'占比':'Percentage'} {d}%`
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      padAngle: 5,
+      itemStyle: {
+        borderRadius: 10
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: []
     }
   ]
 })
