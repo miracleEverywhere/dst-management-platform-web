@@ -655,7 +655,7 @@ export default {
       pie: {
         tabName: 'Weekly Playtime',
         title: 'Top-10 Gamers by weekly Playtime',
-        tip: 'The data is updated every 5 minutes',
+        tip: 'The data is updated every 5 minutes, restarting dmp will cause data loss',
       }
     },
     keepalive: {

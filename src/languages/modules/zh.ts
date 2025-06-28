@@ -659,7 +659,7 @@ export default {
       pie: {
         tabName: '周时长',
         title: '周时长 Top-10',
-        tip: '该数据每5分钟更新一次',
+        tip: '该数据每5分钟更新一次，重启平台会导致数据丢失',
       }
     },
     keepalive: {
