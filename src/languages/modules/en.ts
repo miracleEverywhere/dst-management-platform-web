@@ -652,6 +652,11 @@ export default {
         title: 'Data volume',
         dataNum: 'Count',
       },
+      pie: {
+        tabName: 'Weekly Playtime',
+        title: 'Top-10 Gamers by weekly Playtime',
+        tip: 'The data is updated every 5 minutes',
+      }
     },
     keepalive: {
       title: 'Keepalive',

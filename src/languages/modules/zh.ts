@@ -656,6 +656,11 @@ export default {
         title: '数据量',
         dataNum: '统计量',
       },
+      pie: {
+        tabName: '周时长',
+        title: '周时长 Top-10',
+        tip: '该数据每5分钟更新一次',
+      }
     },
     keepalive: {
       title: '自动保活',
