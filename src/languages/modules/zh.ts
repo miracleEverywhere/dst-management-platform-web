@@ -658,9 +658,9 @@ export default {
         dataNum: '统计量',
       },
       pie: {
-        tabName: '周时长',
-        title: '周时长 Top-10',
-        tip: '该数据每5分钟更新一次，重启平台会导致数据丢失',
+        tabName: '玩家时长',
+        title: '玩家时长 Top-10',
+        tip: '该数据每30秒更新一次，统计周期为[平台启动-至今]，重启平台会导致数据丢失',
       }
     },
     keepalive: {
