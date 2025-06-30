@@ -118,7 +118,7 @@
               <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
                 {{ t('setting.mod.add.alert') }}
               </el-alert>
-              <el-alert :closable="false" :effect="isDark?'light':'dark'" type="primary" style="margin-top: 5px">
+              <el-alert :closable="false" :auto-close="10000" :effect="isDark?'light':'dark'" type="primary" style="margin-top: 5px">
                 {{ t('setting.mod.add.alert2') }}
               </el-alert>
               <el-table :data="downloadedMod" border @selection-change="handleDownloadedModSelect"
