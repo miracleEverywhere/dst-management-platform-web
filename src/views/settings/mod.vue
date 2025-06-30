@@ -115,17 +115,19 @@
                   </div>
                 </div>
               </template>
-              <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">{{
-                  t('setting.mod.add.alert')
-                }}
+              <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
+                {{ t('setting.mod.add.alert') }}
+              </el-alert>
+              <el-alert :effect="isDark?'light':'dark'" type="primary" style="margin-top: 5px">
+                {{ t('setting.mod.add.alert2') }}
               </el-alert>
               <el-table :data="downloadedMod" border @selection-change="handleDownloadedModSelect"
                         style="height: 51vh; margin-top: 10px">
                 <el-table-column type="selection" width="55px">
 
                 </el-table-column>
-                <el-table-column :label="t('setting.mod.add.table.name')" prop="name"/>
-                <el-table-column label="ID" prop="id"/>
+                <el-table-column :label="t('setting.mod.add.table.name')" sortable prop="name"/>
+                <el-table-column label="ID" prop="id" sortable/>
                 <!--el-table-column label="UGC">
                   <template #default="scope">
                     <el-tag v-if="scope.row.file_url===''" type="primary">
@@ -136,12 +138,12 @@
                     </el-tag>
                   </template>
                 </el-table-column-->
-                <el-table-column :label="t('setting.mod.add.table.size')">
+                <el-table-column :label="t('setting.mod.add.table.size')" sortable>
                   <template #default="scope">
                     {{ formatBytes(scope.row.size) }}
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('setting.mod.add.table.downloadedReady.title')">
+                <el-table-column :label="t('setting.mod.add.table.downloadedReady.title')" sortable>
                   <template #default="scope">
                     <template v-if="scope.row.downloadedReady">
                       <el-text size="small" type="success">
