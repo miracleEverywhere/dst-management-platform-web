@@ -138,7 +138,7 @@
                     </el-tag>
                   </template>
                 </el-table-column-->
-                <el-table-column :label="t('setting.mod.add.table.size')" sortable>
+                <el-table-column :label="t('setting.mod.add.table.size')">
                   <template #default="scope">
                     {{ formatBytes(scope.row.size) }}
                   </template>
