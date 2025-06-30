@@ -104,8 +104,8 @@
 
               <el-button @click="handleRefreshPlayer">{{ t('tools.statistics.player.refresh') }}</el-button>
             </div>
-            <sc-echarts ref="pieChartRef" :option="optionPie" height="75vh" width="75vw"></sc-echarts>
           </template>
+          <sc-echarts ref="pieChartRef" :option="optionPie" height="75vh" width="75vw"></sc-echarts>
         </el-card>
       </el-tab-pane>
     </el-tabs>
