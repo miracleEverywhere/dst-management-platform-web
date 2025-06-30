@@ -204,7 +204,7 @@ const getInfo = (refresh = false) => {
         .sort((a, b) => b[1] - a[1])  // 按值降序排序
         .slice(0, 10)                 // 只取前10项
         .map(([name, value]) => ({    // 转换为目标格式
-          value: (value / 8).toFixed(0),
+          value: (value/(8*60)).toFixed(0),
           name: name
         }))
       pieChartRef.value.redraw(optionPie.value)
