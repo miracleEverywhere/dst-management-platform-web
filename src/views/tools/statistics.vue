@@ -284,7 +284,7 @@ const pieChartRef = ref()
 const optionPie = ref({
   tooltip: {
     trigger: 'item',
-    formatter: `[{b}]: {c}${language.value==='zh'?'天':'Days'} ${language.value==='zh'?'占比':'Percentage'} {d}%`
+    formatter: `{b}: {c}${language.value==='zh'?'天':'Days'}`
   },
   legend: {
     top: '5%',
