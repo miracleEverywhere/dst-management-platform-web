@@ -292,7 +292,7 @@ const optionPie = ref({
   },
   series: [
     {
-      name: 'Access From',
+      name: 'Top-10',
       type: 'pie',
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
