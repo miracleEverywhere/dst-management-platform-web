@@ -70,7 +70,7 @@
       </el-descriptions>
       <div style="margin-top: 20px">
         <el-scrollbar max-height="30vh">
-          <BBobBBCode container="div" :plugins="[preset()]">{{ props.mod.file_description }}</BBobBBCode>
+          <BBobBBCode container="div" :plugins="plugins">{{ props.mod.file_description }}</BBobBBCode>
         </el-scrollbar>
       </div>
     </div>
@@ -153,6 +153,33 @@ const handleDownload = () => {
     // }
   })
 }
+
+const plugins = [
+  preset.extend(tags => {
+    return {
+      ...tags,
+      url: (...args) => {
+        const res = tags.url.call(tags, ...args);
+        res.attrs.target = '_blank';
+        res.attrs.rel = 'noopener noreferrer';
+        if (!/^https?:\/\//i.test(res.attrs.href)) {
+          res.attrs.href = '#';
+        }
+        return {
+          ...res
+        }
+      },
+      img: (...args) => {
+        const res = tags.img.call(tags, ...args);
+        res.attrs.style = 'max-width: 100%';
+        return {
+          ...res
+        }
+      }
+    }
+  })()
+]
+
 </script>
 
 <style scoped>
