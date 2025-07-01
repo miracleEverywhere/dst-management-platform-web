@@ -78,39 +78,37 @@
                 <div class="card-header">
                   {{ t('setting.adminList') }}
                   <div>
-                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">
-                      {{ t('setting.manualAdd') }}
-                    </el-button>
+<!--                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">-->
+<!--                      {{ t('setting.manualAdd') }}-->
+<!--                    </el-button>-->
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
                 </div>
               </template>
-              <div v-if="adminListData.length > 0">
-                <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.tagCloseTip') }}
-                </el-alert>
-                <div style="margin-top: 20px">
-                  <template v-for="uid in adminListData">
-                    <el-tag :effect="isDark?'light':'dark'" closable size="large" style="margin-right: 5px; margin-top: 5px"
-                            @close="handlePlayerChange('admin','delete',uid)">
-                      {{ uid + getNickname(uid) }}
-                    </el-tag>
-                  </template>
-                  <el-input
-                    v-if="InputVisible"
-                    ref="InputRef"
-                    v-model="InputValue"
-                    size="default"
-                    class="w-32"
-                    style="margin: 5px 5px 0 0"
-                    @keyup.enter="handleInputConfirm('admin')"
-                    @blur="handleInputConfirm('admin')"
-                  />
-                  <el-button v-else @click="showInput" style="margin: 5px 5px 0 0">
-                    {{language==='zh'?'+ 新增':'+ New'}}
-                  </el-button>
-                </div>
+              <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.tagCloseTip') }}
+              </el-alert>
+              <div style="margin-top: 20px">
+                <template v-for="uid in adminListData">
+                  <el-tag :effect="isDark?'light':'dark'" closable size="large" style="margin-right: 5px; margin-top: 5px"
+                          @close="handlePlayerChange('admin','delete',uid)">
+                    {{ uid + getNickname(uid) }}
+                  </el-tag>
+                </template>
+                <el-input
+                  v-if="InputVisible"
+                  ref="InputRef"
+                  v-model="InputValue"
+                  :placeholder="t('setting.uidPlaceholder')"
+                  size="default"
+                  class="w-32"
+                  style="margin: 5px 5px 0 0"
+                  @keyup.enter="handleInputConfirm('admin')"
+                  @blur="handleInputConfirm('admin')"
+                />
+                <el-button v-else @click="showInput" style="margin: 5px 5px 0 0">
+                  {{language==='zh'?'+ 新增':'+ New'}}
+                </el-button>
               </div>
-              <el-result v-else :title="t('setting.noAdminFound')" icon="warning" style="margin-top: 10%"></el-result>
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="t('setting.blockList')" name="blockList">
@@ -119,15 +117,15 @@
                 <div class="card-header">
                   {{ t('setting.blockList') }}
                   <div>
-                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">
-                      {{ t('setting.manualAdd') }}
-                    </el-button>
+<!--                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">-->
+<!--                      {{ t('setting.manualAdd') }}-->
+<!--                    </el-button>-->
                     <el-button type="success" @click="openBlockListDialog">{{t('setting.blockListItems.uploadButton')}}</el-button>
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
                 </div>
               </template>
-              <div v-if="blockListData.length > 0">
+              <div>
                 <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.tagCloseTip') }}
                 </el-alert>
                 <div style="margin-top: 20px">
@@ -141,6 +139,7 @@
                     v-if="InputVisible"
                     ref="InputRef"
                     v-model="InputValue"
+                    :placeholder="t('setting.uidPlaceholder')"
                     size="default"
                     class="w-32"
                     style="margin: 5px 5px 0 0"
@@ -152,7 +151,6 @@
                   </el-button>
                 </div>
               </div>
-              <el-result v-else :title="$t('setting.noBlockFound')" icon="warning" style="margin-top: 10%"></el-result>
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="t('setting.whiteList')" name="whiteList">
@@ -161,14 +159,14 @@
                 <div class="card-header">
                   {{ t('setting.whiteList') }}
                   <div>
-                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">
-                      {{ t('setting.manualAdd') }}
-                    </el-button>
+<!--                    <el-button size="default" type="primary" @click="manualAddListDialogVisible=true">-->
+<!--                      {{ t('setting.manualAdd') }}-->
+<!--                    </el-button>-->
                     <el-button size="default" @click="getPlayerList(true)">{{ t('setting.refresh') }}</el-button>
                   </div>
                 </div>
               </template>
-              <div v-if="whiteListData.length > 0">
+              <div>
                 <el-alert :closable="false" :effect="isDark?'light':'dark'" type="success">{{ t('setting.tagCloseTip') }}
                 </el-alert>
                 <div style="margin-top: 20px;">
@@ -182,6 +180,7 @@
                     v-if="InputVisible"
                     ref="InputRef"
                     v-model="InputValue"
+                    :placeholder="t('setting.uidPlaceholder')"
                     size="default"
                     class="w-32"
                     style="margin: 5px 5px 0 0"
@@ -193,7 +192,6 @@
                   </el-button>
                 </div>
               </div>
-              <el-result v-else :title="$t('setting.noWhiteFound')" icon="warning" style="margin-top: 10%"></el-result>
             </el-card>
           </el-tab-pane>
           <el-tab-pane :label="t('setting.historyPlayer')" name="history">
@@ -228,7 +226,7 @@
                     <el-tag v-else type="warning">{{ t('setting.roleFail') }}</el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column :label="$t('setting.age')" prop="age">
+                <el-table-column :label="$t('setting.age')" prop="age" sortable>
                   <template #default="scope">
                     <el-tag v-if="scope.row.age" type="success">{{ scope.row.age }}</el-tag>
                     <el-tag v-else type="warning">{{ t('setting.roleFail') }}</el-tag>
@@ -285,18 +283,18 @@
         </template>
       </el-upload>
     </el-dialog>
-    <el-dialog v-model="manualAddListDialogVisible" :title="t('setting.manualAdd')" width="60%">
-      <el-form style="margin: 30px 20px">
-        <el-form-item>
-          <el-input v-model="manualAddListUid" :placeholder="t('setting.uidPlaceholder')" style="width: 100%" />
-        </el-form-item>
-        <div style="display: flex; justify-content: flex-end; padding-top: 10px">
-          <el-button type="primary" @click="handleManualAddList">
-            {{ t('users.submit') }}
-          </el-button>
-        </div>
-      </el-form>
-    </el-dialog>
+<!--    <el-dialog v-model="manualAddListDialogVisible" :title="t('setting.manualAdd')" width="60%">-->
+<!--      <el-form style="margin: 30px 20px">-->
+<!--        <el-form-item>-->
+<!--          <el-input v-model="manualAddListUid" :placeholder="t('setting.uidPlaceholder')" style="width: 100%" />-->
+<!--        </el-form-item>-->
+<!--        <div style="display: flex; justify-content: flex-end; padding-top: 10px">-->
+<!--          <el-button type="primary" @click="handleManualAddList">-->
+<!--            {{ t('users.submit') }}-->
+<!--          </el-button>-->
+<!--        </div>-->
+<!--      </el-form>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -463,6 +461,8 @@ const getNickname = (uid) => {
 }
 
 const handleTabClick = (tab, event) => {
+  InputVisible.value = false
+  InputValue.value = ""
   if (tab.paneName === "history") {
     handleGetHistoryPlayer()
   }
@@ -553,6 +553,10 @@ const showInput = () => {
 
 const handleInputConfirm = (listName) => {
   if (InputValue.value) {
+    if (!(/^KU_/.test(InputValue.value))) {
+      koiMsgError(language.value === 'zh' ? '请输入正确的玩家UID' : 'Please enter the correct player UID')
+      return
+    }
     handlePlayerChange(listName, 'add', InputValue.value)
   }
   InputVisible.value = false
