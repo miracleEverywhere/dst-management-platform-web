@@ -350,7 +350,7 @@ export default {
     noAdminFound: '没有发现管理员',
     noBlockFound: '没有发现黑名单',
     noWhiteFound: '没有发现白名单',
-    tagCloseTip: '提示：点击玩家UID后的 "×" 即可删除',
+    tagCloseTip: '提示：建议通过"玩家列表"或"历史玩家"添加，点击玩家UID后的 "×" 即可删除',
     nickName: '名字',
     role: '角色',
     age: '天数',

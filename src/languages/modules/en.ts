@@ -349,7 +349,7 @@ export default {
     noAdminFound: 'No admin players found',
     noBlockFound: 'No blocked players found',
     noWhiteFound: 'No whitelist players found',
-    tagCloseTip: "TIPS: Click the '×' after the player's UID to delete",
+    tagCloseTip: "TIPS: Via 'Player List' or 'History Players' to add, click the '×' after the player's UID to delete",
     nickName: 'Nickname',
     role: 'Role',
     age: 'Days',
