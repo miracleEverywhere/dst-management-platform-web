@@ -70,7 +70,7 @@
       </el-descriptions>
       <div style="margin-top: 20px">
         <el-scrollbar max-height="20vh">
-          {{props.mod.file_description}}
+          <div v-html="getModeDescription"></div>
         </el-scrollbar>
       </div>
     </div>
@@ -84,7 +84,8 @@ import {formatBytes} from "@/utils/tools.js"
 import settingsApi from "@/api/setting"
 import {koiMsgSuccess} from "@/utils/koi.ts"
 import {useI18n} from "vue-i18n";
-
+import bbobHtml from '@bbob/html';
+import presetHTML5 from '@bbob/preset-html5';
 
 const {isMobile} = useScreenStore();
 const {t} = useI18n()
@@ -94,6 +95,28 @@ const props = defineProps({
     type: Object,
     default: {}
   },
+})
+
+const getModeDescription = computed(()=>{
+   return bbobHtml(props.mod.file_description, presetHTML5.extend(tags => {
+    return {
+      ...tags,
+      url: (...args) => {
+        const res = tags.url.call(tags, ...args);
+        res.attrs.target = '_blank';
+        return {
+          ...res
+        }
+      },
+      img: (...args) => {
+        const res = tags.img.call(tags, ...args);
+        res.attrs.style = 'max-width: 100%';
+        return {
+          ...res
+        }
+      }
+    }
+  })())
 })
 
 const computedRate = computed(() => {

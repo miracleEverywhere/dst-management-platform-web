@@ -25,6 +25,8 @@
     "commitlint": "commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
+    "@bbob/html": "^4.2.0",
+    "@bbob/preset-html5": "^4.2.0",
     "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^11.0.3",
     "animate.css": "^4.1.1",
