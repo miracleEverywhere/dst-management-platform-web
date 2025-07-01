@@ -69,8 +69,8 @@
         </el-descriptions-item>
       </el-descriptions>
       <div style="margin-top: 20px">
-        <el-scrollbar max-height="20vh">
-          {{props.mod.file_description}}
+        <el-scrollbar max-height="30vh">
+          <BBobBBCode container="div" :plugins="[preset()]">{{ props.mod.file_description }}</BBobBBCode>
         </el-scrollbar>
       </div>
     </div>
@@ -84,6 +84,7 @@ import {formatBytes} from "@/utils/tools.js"
 import settingsApi from "@/api/setting"
 import {koiMsgSuccess} from "@/utils/koi.ts"
 import {useI18n} from "vue-i18n";
+import preset from '@bbob/preset-vue'
 
 
 const {isMobile} = useScreenStore();
@@ -152,7 +153,6 @@ const handleDownload = () => {
     // }
   })
 }
-
 </script>
 
 <style scoped>
