@@ -339,13 +339,13 @@ export default {
     cavesTip: 'TIPS: If you do not want to create a cave, please leave the input box below empty',
     refresh: 'Refresh',
     manualAdd: 'Add',
-    uidPlaceholder: 'Please enter the player UID, starting with KU_',
+    uidPlaceholder: 'KU_xxx',
     autoRefresh: 'Auto Refresh',
     players: 'Players',
     adminList: 'Admin List',
     blockList: 'Block List',
     whiteList: 'White List',
-    noPlayersFound: 'No players found',
+    noPlayersFound: 'No online players found',
     noAdminFound: 'No admin players found',
     noBlockFound: 'No blocked players found',
     noWhiteFound: 'No whitelist players found',
@@ -656,7 +656,7 @@ export default {
       pie: {
         tabName: 'Playtime',
         title: 'Top-10 Gamers by Playtime',
-        tip: 'The data is updated every 30 seconds, restarting dmp will cause data loss',
+        tip: 'The statistical data covers the period from [platform launch to the present]. Restarting the platform will result in data loss',
       }
     },
     keepalive: {

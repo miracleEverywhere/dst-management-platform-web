@@ -340,13 +340,13 @@ export default {
     cavesTip: '提示：如果你不想创建洞穴，请保持下方输入框为空',
     refresh: '刷新',
     manualAdd: '手动添加',
-    uidPlaceholder: '请输入玩家UID，KU_开头',
+    uidPlaceholder: 'KU_开头',
     autoRefresh: '自动刷新',
     players: '玩家列表',
     adminList: '管理员',
     blockList: '黑名单',
     whiteList: '白名单',
-    noPlayersFound: '没有发现玩家',
+    noPlayersFound: '没有发现在线玩家',
     noAdminFound: '没有发现管理员',
     noBlockFound: '没有发现黑名单',
     noWhiteFound: '没有发现白名单',
@@ -660,7 +660,7 @@ export default {
       pie: {
         tabName: '玩家时长',
         title: '玩家时长 Top-10',
-        tip: '该数据每30秒更新一次，统计周期为[平台启动-至今]，重启平台会导致数据丢失',
+        tip: '该数据统计周期为[平台启动-至今]，重启平台会导致数据丢失',
       }
     },
     keepalive: {
