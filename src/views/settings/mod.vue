@@ -118,9 +118,18 @@
               <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
                 {{ t('setting.mod.add.alert') }}
               </el-alert>
-              <el-alert :closable="false" :auto-close="10000" :effect="isDark?'light':'dark'" type="primary" style="margin-top: 5px">
-                {{ t('setting.mod.add.alert2') }}
-              </el-alert>
+              <div class="tip">
+                <span style="font-size: 14px;">
+                  {{ t('setting.mod.add.alert2') }}
+                </span>
+                <el-link type="primary" underline="never"
+                         href="https://miraclesses.top" target="_blank">
+                  {{ t('setting.mod.add.alert2_1') }}
+                  <el-icon>
+                    <top-right/>
+                  </el-icon>
+                </el-link>
+              </div>
               <el-table :data="downloadedMod" border @selection-change="handleDownloadedModSelect"
                         style="height: 51vh; margin-top: 10px">
                 <el-table-column type="selection" width="55px">
@@ -320,7 +329,7 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
 import {formatBytes} from "@/utils/tools.js";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts"
-import {Plus} from '@element-plus/icons-vue'
+import {Plus, TopRight} from '@element-plus/icons-vue'
 import useAuthStore from "@/stores/modules/auth.ts";
 
 
@@ -660,5 +669,34 @@ const handleAddClientModsDisabledConfig = () => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 10px;
+}
+.link-style-span {
+  /* 基础样式 - 类似 el-button link 的默认状态 */
+  color: #409eff; /* Element UI 的主色蓝色 */
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+  display: inline;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  /* 移除默认的 span 样式 */
+  margin: 0;
+  line-height: inherit;
+}
+
+.link-style-span:hover {
+  /* hover 效果 - 颜色变深并添加下划线 */
+  color: #66b1ff; /* 比默认色稍亮的蓝色 */
+  text-decoration: underline;
+  text-underline-offset: 3px; /* 下划线距离文字的间距 */
+  text-decoration-thickness: 1px; /* 下划线粗细 */
+}
+
+/* 如果需要 active 效果 */
+.link-style-span:active {
+  color: #3375b9; /* 更深的蓝色 */
 }
 </style>
