@@ -1,12 +1,12 @@
 {
-  "name": "koi-ui",
+  "name": "dmp",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "author": {
-    "name": "YU",
-    "email": "1736306607@qq.com",
-    "url": "https://gitee.com/BigCatHome/koi-ui"
+    "name": "miracleEverywhere",
+    "email": "abc@xy.com",
+    "url": "https://github.com/miracleEverywhere/dst-management-platform-api"
   },
   "scripts": {
     "dev": "vite",
@@ -25,6 +25,8 @@
     "commitlint": "commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
+    "@bbob/vue3": "^4.2.0",
+    "@bbob/preset-vue": "^4.2.0",
     "@element-plus/icons-vue": "^2.3.1",
     "@infectoone/vue-ganttastic": "^2.3.2",
     "@vueuse/core": "^11.0.3",
