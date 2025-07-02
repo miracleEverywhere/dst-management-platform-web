@@ -41,8 +41,6 @@ import dayjs from "dayjs";
 import 'dayjs/locale/zh';
 import 'dayjs/locale/en';
 
-import VueBbob from '@bbob/vue3';
-
 dayjs.locale('zh')
 
 // 创建app
@@ -71,7 +69,5 @@ app.use(KoiComponents);
 app.use(KoiDirectives);
 // gantt
 app.use(ganttastic);
-// bbcode
-app.use(VueBbob)
 // 挂载
 app.mount("#app");

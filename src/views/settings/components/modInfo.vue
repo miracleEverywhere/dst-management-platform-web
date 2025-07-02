@@ -70,7 +70,7 @@
       </el-descriptions>
       <div style="margin-top: 20px">
         <el-scrollbar max-height="30vh">
-          <BBobBBCode container="div" :plugins="plugins">{{ props.mod.file_description }}</BBobBBCode>
+          <VueBbob container="div" :plugins="plugins">{{ props.mod.file_description }}</VueBbob>
         </el-scrollbar>
       </div>
     </div>
@@ -84,7 +84,8 @@ import {formatBytes} from "@/utils/tools.js"
 import settingsApi from "@/api/setting"
 import {koiMsgSuccess} from "@/utils/koi.ts"
 import {useI18n} from "vue-i18n";
-import preset from '@bbob/preset-vue'
+import preset from '@bbob/preset-vue';
+import {Component as VueBbob} from '@bbob/vue3';
 
 
 const {isMobile} = useScreenStore();
