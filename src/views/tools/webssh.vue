@@ -10,7 +10,7 @@
         <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
           {{t('tools.webssh.tip')}}
         </el-alert>
-        <el-form ref="loginFormRef" :model="loginForm" @keyup.enter="startWebSSh"
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" @keyup.enter="startWebSSh"
                  label-width="120" style="margin-top: 20px">
           <el-form-item label="IP" prop="ip">
             <el-input v-model="loginForm.ip"></el-input>
@@ -159,17 +159,30 @@ const loginForm = ref({
   password: "",
 })
 const loginFormRules = {
+  ip: [
+    {required: true, message: t('tools.webssh.rules.ip')},
+  ],
+  port: [
+    {required: true, message: t('tools.webssh.rules.port')},
+  ],
   username: [
-    {required: true, message: ""}
+    {required: true, message: t('tools.webssh.rules.username')},
+  ],
+  password: [
+    {required: true, message: t('tools.webssh.rules.password')},
   ],
 }
 
-const startWebSSh = async () => {
-  ssh.value = true
-  await nextTick()
-  initTerminal()
-  window.addEventListener('resize', handleResize)
-  connect()
+const startWebSSh = () => {
+  loginFormRef.value.validate(async valid => {
+    if (valid) {
+      ssh.value = true
+      await nextTick()
+      initTerminal()
+      window.addEventListener('resize', handleResize)
+      connect()
+    }
+  })
 }
 
 onBeforeUnmount(() => {
