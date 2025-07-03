@@ -549,7 +549,7 @@ const getVersion = () => {
 const getConnectionCode = async () => {
   if (globalStore.customConnectionCode[globalStore.selectedDstCluster]) {
     if (globalStore.customConnectionCode[globalStore.selectedDstCluster].password) {
-      connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port}, '${globalStore.customConnectionCode[globalStore.selectedDstCluster].password}'})`
+      connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port}, '${globalStore.customConnectionCode[globalStore.selectedDstCluster].password}')`
     } else {
       connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port})`
     }
