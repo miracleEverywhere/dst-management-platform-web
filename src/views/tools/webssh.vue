@@ -10,6 +10,7 @@ import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 import {getToken} from "@/utils/storage.ts";
+import {AesEncrypt} from "@/utils/tools.js";
 
 const terminal = ref(null)
 const term = ref(null)
@@ -54,18 +55,12 @@ const initTerminal = () => {
 }
 
 const connect = () => {
-  const wsUrl = `ws:///v1/tools/webssh?ip=${encodeURIComponent('')}&port=22&user=app&password=${encodeURIComponent('')}`
+  const password = AesEncrypt("dMP_aES_2pvvD_gO", "Edison10.")
+  const wsUrl = `ws://8.137.107.46:80/v1/tools/webssh?ip=${encodeURIComponent('162.14.116.81')}&port=22&username=root&password=${encodeURIComponent(password)}`
 
   ws.value = new WebSocket(wsUrl)
 
   ws.value.onopen = () => {
-    ws.value.send(JSON.stringify({
-      type: 'auth',
-      headers: {
-        'authorization': getToken(),
-      }
-    }))
-    console.log(getToken())
     connected.value = true
     term.value.focus()
     // 连接成功后立即发送终端尺寸
