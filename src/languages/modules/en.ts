@@ -684,7 +684,15 @@ export default {
         forever: 'Forever'
       },
       usage: 'Usage: Authorization is required, X-I18n-Lang is optional with a default value of zh',
-    }
+    },
+    webssh: {
+      title: 'WebSSH',
+      tip: 'Don NOT stop or restart DMP HERE',
+      port: 'Port',
+      username: 'Username',
+      password: 'Password',
+      connect: 'Connect',
+    },
   },
   logs: {
     logs: 'Logs',

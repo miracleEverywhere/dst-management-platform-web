@@ -688,7 +688,15 @@ export default {
         forever: '永久'
       },
       usage: '使用方法，其中Authorization为必填，X-I18n-Lang为选填，默认值为zh',
-    }
+    },
+    webssh: {
+      title: '远程终端',
+      tip: '请不要在终端关闭或重启平台',
+      port: '端口',
+      username: '用户名',
+      password: '密码',
+      connect: '连接',
+    },
   },
   logs: {
     logs: '日志',
