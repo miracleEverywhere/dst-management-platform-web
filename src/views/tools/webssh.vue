@@ -1,16 +1,55 @@
 <template>
-  <div class="webssh-container">
-    <div ref="terminal" class="terminal"></div>
+  <div class="page-div">
+    <div v-if="!ssh">
+      <el-card shadow="never">
+        <template #header>
+          <div class="card-header">
+            <span>{{ t('tools.webssh.title') }}</span>
+          </div>
+        </template>
+        <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning">
+          {{t('tools.webssh.tip')}}
+        </el-alert>
+        <el-form ref="loginFormRef" :model="loginForm" @keyup.enter="startWebSSh"
+                 label-width="120" style="margin-top: 20px">
+          <el-form-item label="IP" prop="ip">
+            <el-input v-model="loginForm.ip"></el-input>
+          </el-form-item>
+          <el-form-item :label="t('tools.webssh.port')" prop="port">
+            <el-input v-model="loginForm.port"></el-input>
+          </el-form-item>
+          <el-form-item :label="t('tools.webssh.username')" prop="username">
+            <el-input v-model="loginForm.username"></el-input>
+          </el-form-item>
+          <el-form-item :label="t('tools.webssh.password')" prop="password">
+            <el-input v-model="loginForm.password" autocomplete="new-password" show-password></el-input>
+          </el-form-item>
+          <div style="display: flex; justify-content: flex-end; padding-top: 10px">
+            <el-button @click="startWebSSh">{{t('tools.webssh.connect')}}</el-button>
+          </div>
+        </el-form>
+      </el-card>
+    </div>
+    <div v-if="ssh" class="webssh-container">
+      <div ref="terminal" class="terminal"></div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import {ref, onBeforeUnmount, nextTick, computed} from 'vue'
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 import {getToken} from "@/utils/storage.ts";
-import {AesEncrypt} from "@/utils/tools.js";
+import {EncryptAES} from "@/utils/tools.js";
+import useGlobalStore from "@/stores/modules/global.ts";
+import {useI18n} from "vue-i18n";
+
+
+const {t} = useI18n()
+const globalStore = useGlobalStore();
+const isDark = computed(() => globalStore.isDark);
 
 const terminal = ref(null)
 const term = ref(null)
@@ -20,14 +59,10 @@ const connected = ref(false)
 const initialCols = ref(120)
 const initialRows = ref(30)
 
-const goBack = () => {
-  console.log('go back')
-}
-
 const initTerminal = () => {
   term.value = new Terminal({
     cursorBlink: true,
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: 'Consolas, monospace',
     cols: initialCols.value,
     rows: initialRows.value,
@@ -55,8 +90,9 @@ const initTerminal = () => {
 }
 
 const connect = () => {
-  const password = AesEncrypt("dMP_aES_2pvvD_gO", "Edison10.")
-  const wsUrl = `ws://8.137.107.46:80/v1/tools/webssh?ip=${encodeURIComponent('162.14.116.81')}&port=22&username=root&password=${encodeURIComponent(password)}`
+  const password = EncryptAES(loginForm.value.password)
+  const token = getToken()
+  const wsUrl = `ws://${window.location.host}/v1/tools/webssh?ip=${encodeURIComponent(loginForm.value.ip)}&port=${loginForm.value.port}&username=${encodeURIComponent(loginForm.value.username)}&password=${encodeURIComponent(password)}&token=${encodeURIComponent(token)}`
 
   ws.value = new WebSocket(wsUrl)
 
@@ -114,11 +150,28 @@ const handleResize = () => {
   }
 }
 
-onMounted(() => {
+const ssh = ref(false)
+const loginFormRef = ref()
+const loginForm = ref({
+  ip: window.location.hostname,
+  port: "22",
+  username: "",
+  password: "",
+})
+const loginFormRules = {
+  username: [
+    {required: true, message: ""}
+  ],
+}
+
+const startWebSSh = async () => {
+  ssh.value = true
+  await nextTick()
   initTerminal()
   window.addEventListener('resize', handleResize)
   connect()
-})
+}
+
 
 onBeforeUnmount(() => {
   if (ws.value) {
@@ -130,8 +183,8 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .webssh-container {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -146,16 +199,4 @@ onBeforeUnmount(() => {
   text-align: left;
 }
 
-.xterm {
-  padding: 10px;
-}
-
-.xterm-screen {
-  width: 100% !important;
-}
-
-.xterm-viewport {
-  width: 100% !important;
-  overflow-y: auto !important;
-}
 </style>
