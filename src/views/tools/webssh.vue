@@ -63,7 +63,7 @@ const initTerminal = () => {
   term.value = new Terminal({
     cursorBlink: true,
     fontSize: 18,
-    fontFamily: 'Consolas, monospace',
+    // fontFamily: 'Consolas, monospace',
     cols: initialCols.value,
     rows: initialRows.value,
     theme: {
@@ -172,7 +172,6 @@ const startWebSSh = async () => {
   connect()
 }
 
-
 onBeforeUnmount(() => {
   if (ws.value) {
     ws.value.close()
@@ -198,5 +197,11 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
   text-align: left;
 }
+
+:deep(.xterm) * {
+  //font-family: 'Consolas' !important;
+  letter-spacing: normal !important;
+}
+
 
 </style>
