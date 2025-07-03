@@ -139,113 +139,35 @@ export const formatBytes = (bytes, num=2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(num)) + ' ' + sizes[i];
 }
 
-// PKCS7Padding 填充数据
-function PKCS7Padding(data, blockSize) {
-  const padding = blockSize - (data.length % blockSize);
-  const padText = new Array(padding).fill(padding).map(x => x);
-  return data.concat(padText);
-}
-
-// PKCS7UnPadding 去除填充
-function PKCS7UnPadding(data) {
-  if (data.length === 0) {
-    throw new Error("非法 ciphertext");
+function getAesKey() {
+  const s = [10*10, 7*11, 16*5, 95, 97, 34 << 1 | 1, 83, 95, 50, 0x70, 118, 118, 68, 95, 103, 79]
+  let t = ""
+  for (let i of s) {
+    t += String.fromCharCode(i)
   }
-  const padding = data[data.length - 1];
-  if (padding > data.length) {
-    throw new Error("非法 padding");
-  }
-  return data.slice(0, data.length - padding);
+  return t
 }
 
-// 字符串转字节数组
-function stringToBytes(str) {
-  return Array.from(new TextEncoder().encode(str));
-}
-
-// 字节数组转字符串
-function bytesToString(bytes) {
-  return new TextDecoder().decode(new Uint8Array(bytes));
-}
-
-// AesEncrypt AES加密函数
-// key: 密钥字符串，长度必须为16(AES-128)、24(AES-192)或32(AES-256)字节
-// plaintext: 要加密的明文字符串
-// 返回: base64编码的加密结果
-export function AesEncrypt(key, plaintext) {
-  // 转换字符串为字节数组
-  const keyBytes = stringToBytes(key);
-  const plaintextBytes = stringToBytes(plaintext);
-
-  // 转换key为CryptoJS格式
-  const keyHex = CryptoJS.enc.Hex.parse(keyBytes.map(b => b.toString(16).padStart(2, '0')).join(''));
-
-  // 生成随机IV (16字节)
-  const iv = CryptoJS.lib.WordArray.random(16);
-
-  // 填充原始数据
-  const blockSize = 16; // AES块大小固定为16字节
-  const paddedData = PKCS7Padding(plaintextBytes, blockSize);
-
-  // 转换数据为CryptoJS格式
-  const dataWordArray = CryptoJS.lib.WordArray.create(paddedData);
-
-  // 加密
-  const encrypted = CryptoJS.AES.encrypt(dataWordArray, keyHex, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.NoPadding
+export function EncryptAES(data) {
+  const parsedKey = CryptoJS.enc.Utf8.parse(getAesKey())
+  // key 和 iv 使用同一个值
+  const encrypted = CryptoJS.AES.encrypt(data, parsedKey, {
+    iv: parsedKey,
+    mode: CryptoJS.mode.CBC, // CBC算法
+    padding: CryptoJS.pad.Pkcs7, //使用pkcs7 进行padding 后端需要注意
   });
 
-  // 合并IV和密文
-  const ivAndCiphertext = iv.concat(encrypted.ciphertext);
-
-  // 返回base64编码的字符串
-  return ivAndCiphertext.toString(CryptoJS.enc.Base64);
+  return encrypted.toString();
 }
 
-// AesDecrypt AES解密函数
-// key: 密钥字符串，必须与加密时使用的相同
-// ciphertextBase64: base64编码的加密字符串
-// 返回: 解密后的明文字符串
-export function AesDecrypt(key, ciphertextBase64) {
-  // 转换key为字节数组
-  const keyBytes = stringToBytes(key);
+export function DecryptAES(data) {
+  const parsedKey = CryptoJS.enc.Utf8.parse(getAesKey())
+  // key 和 iv 使用同一个值
+  const decrypted = CryptoJS.AES.decrypt(data, parsedKey, {
+    iv: parsedKey,
+    mode: CryptoJS.mode.CBC, // CBC算法
+    padding: CryptoJS.pad.Pkcs7, //使用pkcs7 进行padding 后端需要注意
+  });
 
-  // 转换key为CryptoJS格式
-  const keyHex = CryptoJS.enc.Hex.parse(keyBytes.map(b => b.toString(16).padStart(2, '0')).join(''));
-
-  // 解码base64
-  const ivAndCiphertext = CryptoJS.enc.Base64.parse(ciphertextBase64);
-
-  // 提取IV (前16字节)和密文
-  const blockSize = 16; // AES块大小固定为16字节
-  if (ivAndCiphertext.sigBytes < blockSize) {
-    throw new Error("ciphertext 太短");
-  }
-
-  const iv = CryptoJS.lib.WordArray.create(ivAndCiphertext.words.slice(0, 4), blockSize);
-  const ciphertext = CryptoJS.lib.WordArray.create(ivAndCiphertext.words.slice(4), ivAndCiphertext.sigBytes - blockSize);
-
-  // 解密
-  const decrypted = CryptoJS.AES.decrypt(
-    { ciphertext: ciphertext },
-    keyHex,
-    {
-      iv: iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.NoPadding
-    }
-  );
-
-  // 转换解密结果为字节数组
-  const decryptedHex = decrypted.toString(CryptoJS.enc.Hex);
-  const decryptedBytes = decryptedHex ?
-    decryptedHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)) : [];
-
-  // 去除填充
-  const unpaddedBytes = PKCS7UnPadding(decryptedBytes);
-
-  // 转换为字符串
-  return bytesToString(unpaddedBytes);
+  return decrypted.toString(CryptoJS.enc.Utf8);
 }
