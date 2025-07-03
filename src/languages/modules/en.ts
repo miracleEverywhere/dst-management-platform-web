@@ -692,6 +692,12 @@ export default {
       username: 'Username',
       password: 'Password',
       connect: 'Connect',
+      rules: {
+        ip: 'Please input IP',
+        port: 'Please input port',
+        username: 'Please input username',
+        password: 'Please input password',
+      },
     },
   },
   logs: {

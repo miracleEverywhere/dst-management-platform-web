@@ -696,6 +696,12 @@ export default {
       username: '用户名',
       password: '密码',
       connect: '连接',
+      rules: {
+        ip: '请输入IP',
+        port: '请输入端口',
+        username: '请输入用户名',
+        password: '请输入密码',
+      },
     },
   },
   logs: {
