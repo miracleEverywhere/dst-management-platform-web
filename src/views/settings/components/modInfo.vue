@@ -69,8 +69,8 @@
         </el-descriptions-item>
       </el-descriptions>
       <div style="margin-top: 20px">
-        <el-scrollbar max-height="20vh">
-          {{props.mod.file_description}}
+        <el-scrollbar max-height="30vh">
+          <VueBbob container="div" :plugins="plugins">{{ props.mod.file_description }}</VueBbob>
         </el-scrollbar>
       </div>
     </div>
@@ -84,6 +84,8 @@ import {formatBytes} from "@/utils/tools.js"
 import settingsApi from "@/api/setting"
 import {koiMsgSuccess} from "@/utils/koi.ts"
 import {useI18n} from "vue-i18n";
+import preset from '@bbob/preset-vue';
+import {Component as VueBbob} from '@bbob/vue3';
 
 
 const {isMobile} = useScreenStore();
@@ -152,6 +154,32 @@ const handleDownload = () => {
     // }
   })
 }
+
+const plugins = [
+  preset.extend(tags => {
+    return {
+      ...tags,
+      url: (...args) => {
+        const res = tags.url.call(tags, ...args);
+        res.attrs.target = '_blank';
+        res.attrs.rel = 'noopener noreferrer';
+        if (!/^https?:\/\//i.test(res.attrs.href)) {
+          res.attrs.href = '#';
+        }
+        return {
+          ...res
+        }
+      },
+      img: (...args) => {
+        const res = tags.img.call(tags, ...args);
+        res.attrs.style = 'max-width: 100%';
+        return {
+          ...res
+        }
+      }
+    }
+  })()
+]
 
 </script>
 

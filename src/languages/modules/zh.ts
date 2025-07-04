@@ -340,17 +340,17 @@ export default {
     cavesTip: '提示：如果你不想创建洞穴，请保持下方输入框为空',
     refresh: '刷新',
     manualAdd: '手动添加',
-    uidPlaceholder: '请输入玩家UID，KU_开头',
+    uidPlaceholder: 'KU_开头',
     autoRefresh: '自动刷新',
     players: '玩家列表',
     adminList: '管理员',
     blockList: '黑名单',
     whiteList: '白名单',
-    noPlayersFound: '没有发现玩家',
+    noPlayersFound: '没有发现在线玩家',
     noAdminFound: '没有发现管理员',
     noBlockFound: '没有发现黑名单',
     noWhiteFound: '没有发现白名单',
-    tagCloseTip: '提示：点击玩家UID后的 "×" 即可删除',
+    tagCloseTip: '提示：建议通过"玩家列表"或"历史玩家"添加，点击玩家UID后的 "×" 即可删除',
     nickName: '名字',
     role: '角色',
     age: '天数',
@@ -404,13 +404,17 @@ export default {
       add: {
         header: {
           title: '已下载的模组',
+          tip: '需要先下载，才能启用；下载的模组与游戏无关，只用来启用模组时生成对应的默认lua配置文件',
           refresh: '刷新',
           sync: '同步',
           syncTooltip: '该页面只展示手动下载的模组，点击此按钮将同步自动下载的模组到此页面',
           export: '导出',
           addClientDisabled: '禁本地',
+          multiDelete: '批量删除',
         },
-        alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载；建议启用最新版本的模组',
+        alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载；建议启用最新版本的模组；请勿过度依赖此功能，如遇问题，请使用游戏本体生成模组配置',
+        alert2: '下面的模组与饥荒服务器使用的模组不是一个概念，更新下方模组不会更新饥荒游戏模组，详情见',
+        alert2_1: '文档',
         table: {
           name: '名称',
           size: '模组大小',
@@ -422,6 +426,7 @@ export default {
           },
           action: '操作',
           enable: '启用',
+          update: '更新',
           delete: '删除',
           ugc: {
             yes: '是',
@@ -637,9 +642,10 @@ export default {
     statistics: {
       player: {
         title: '玩家人数',
+        title2: '详细信息',
         refresh: '刷新',
         refreshSuccess: '刷新成功',
-
+        gantCardTitle: '单位：分钟',
       },
       max: {
         title: '玩家统计',
@@ -652,6 +658,11 @@ export default {
         title: '数据量',
         dataNum: '统计量',
       },
+      pie: {
+        tabName: '玩家时长',
+        title: '玩家时长 Top-10',
+        tip: '该数据统计周期为[平台启动-至今]，重启平台会导致数据丢失',
+      }
     },
     keepalive: {
       title: '自动保活',
@@ -677,7 +688,21 @@ export default {
         forever: '永久'
       },
       usage: '使用方法，其中Authorization为必填，X-I18n-Lang为选填，默认值为zh',
-    }
+    },
+    webssh: {
+      title: '远程终端',
+      tip: '请不要在终端关闭或重启平台',
+      port: '端口',
+      username: '用户名',
+      password: '密码',
+      connect: '连接',
+      rules: {
+        ip: '请输入IP',
+        port: '请输入端口',
+        username: '请输入用户名',
+        password: '请输入密码',
+      },
+    },
   },
   logs: {
     logs: '日志',

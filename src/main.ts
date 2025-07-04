@@ -36,6 +36,13 @@ import "uno.css";
 // @ts-ignore
 import * as scIcons from "@/assets/icons";
 
+import ganttastic from "@infectoone/vue-ganttastic";
+import dayjs from "dayjs";
+import 'dayjs/locale/zh';
+import 'dayjs/locale/en';
+
+dayjs.locale('zh')
+
 // 创建app
 const app = createApp(App);
 // 注册ElementPlus
@@ -60,5 +67,7 @@ app.use(I18n);
 app.use(KoiComponents);
 // 注册全局自定义指令
 app.use(KoiDirectives);
+// gantt
+app.use(ganttastic);
 // 挂载
 app.mount("#app");

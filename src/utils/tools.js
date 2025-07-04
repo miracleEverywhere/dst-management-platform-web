@@ -138,3 +138,36 @@ export const formatBytes = (bytes, num=2) => {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(num)) + ' ' + sizes[i];
 }
+
+function getAesKey() {
+  const s = [10*10, 7*11, 16*5, 95, 97, 34 << 1 | 1, 83, 95, 50, 0x70, 118, 118, 68, 95, 103, 79]
+  let t = ""
+  for (let i of s) {
+    t += String.fromCharCode(i)
+  }
+  return t
+}
+
+export function EncryptAES(data) {
+  const parsedKey = CryptoJS.enc.Utf8.parse(getAesKey())
+  // key 和 iv 使用同一个值
+  const encrypted = CryptoJS.AES.encrypt(data, parsedKey, {
+    iv: parsedKey,
+    mode: CryptoJS.mode.CBC, // CBC算法
+    padding: CryptoJS.pad.Pkcs7, //使用pkcs7 进行padding 后端需要注意
+  });
+
+  return encrypted.toString();
+}
+
+export function DecryptAES(data) {
+  const parsedKey = CryptoJS.enc.Utf8.parse(getAesKey())
+  // key 和 iv 使用同一个值
+  const decrypted = CryptoJS.AES.decrypt(data, parsedKey, {
+    iv: parsedKey,
+    mode: CryptoJS.mode.CBC, // CBC算法
+    padding: CryptoJS.pad.Pkcs7, //使用pkcs7 进行padding 后端需要注意
+  });
+
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}

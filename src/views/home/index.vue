@@ -60,7 +60,14 @@
                     </el-tag>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.playerNum')">
-                    <el-tag type="primary">{{ roomInfo.playerNum }}</el-tag>
+                    <template v-if="roomInfo.players!==null">
+                      <el-tooltip :content="roomInfo.players.join(', ')" effect="light" placement="top">
+                        <el-tag type="primary">{{ roomInfo.players.length }}</el-tag>
+                      </el-tooltip>
+                    </template>
+                    <template v-else>
+                      <el-tag type="primary">0</el-tag>
+                    </template>
                   </el-descriptions-item>
                 </el-descriptions>
               </template>
@@ -542,7 +549,7 @@ const getVersion = () => {
 const getConnectionCode = async () => {
   if (globalStore.customConnectionCode[globalStore.selectedDstCluster]) {
     if (globalStore.customConnectionCode[globalStore.selectedDstCluster].password) {
-      connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port}, '${globalStore.customConnectionCode[globalStore.selectedDstCluster].password}'})`
+      connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port}, '${globalStore.customConnectionCode[globalStore.selectedDstCluster].password}')`
     } else {
       connectionCode.value = `c_connect('${globalStore.customConnectionCode[globalStore.selectedDstCluster].ip}', ${globalStore.customConnectionCode[globalStore.selectedDstCluster].port})`
     }
@@ -574,7 +581,7 @@ const roomInfo = ref({
     phase: {}
   },
   modsCount: 0,
-  playerNum: 0,
+  players: [],
 })
 const getRoomInfo = async () => {
   if (!globalStore.selectedDstCluster) {

@@ -1,12 +1,12 @@
 {
-  "name": "koi-ui",
+  "name": "dmp",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "author": {
-    "name": "YU",
-    "email": "1736306607@qq.com",
-    "url": "https://gitee.com/BigCatHome/koi-ui"
+    "name": "miracleEverywhere",
+    "email": "abc@xy.com",
+    "url": "https://github.com/miracleEverywhere/dst-management-platform-api"
   },
   "scripts": {
     "dev": "vite",
@@ -25,16 +25,20 @@
     "commitlint": "commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
+    "@bbob/preset-vue": "^4.2.0",
+    "@bbob/vue3": "^4.2.0",
     "@element-plus/icons-vue": "^2.3.1",
+    "@infectoone/vue-ganttastic": "^2.3.2",
     "@vueuse/core": "^11.0.3",
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
     "codemirror": "^5.65.5",
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.13",
     "default-passive-events": "^2.0.0",
     "driver.js": "^1.3.1",
     "echarts": "^5.5.1",
-    "element-plus": "^2.9.10",
+    "element-plus": "^2.10.2",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "lua-format": "^1.5.2",
@@ -47,7 +51,9 @@
     "sortablejs": "^1.15.3",
     "vue": "^3.5.2",
     "vue-router": "^4.4.3",
-    "vue3-count-to": "^1.1.2"
+    "vue3-count-to": "^1.1.2",
+    "xterm": "^5.3.0",
+    "xterm-addon-fit": "^0.8.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",

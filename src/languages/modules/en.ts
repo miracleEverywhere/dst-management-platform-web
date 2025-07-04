@@ -339,17 +339,17 @@ export default {
     cavesTip: 'TIPS: If you do not want to create a cave, please leave the input box below empty',
     refresh: 'Refresh',
     manualAdd: 'Add',
-    uidPlaceholder: 'Please enter the player UID, starting with KU_',
+    uidPlaceholder: 'KU_xxx',
     autoRefresh: 'Auto Refresh',
     players: 'Players',
     adminList: 'Admin List',
     blockList: 'Block List',
     whiteList: 'White List',
-    noPlayersFound: 'No players found',
+    noPlayersFound: 'No online players found',
     noAdminFound: 'No admin players found',
     noBlockFound: 'No blocked players found',
     noWhiteFound: 'No whitelist players found',
-    tagCloseTip: "TIPS: Click the '×' after the player's UID to delete",
+    tagCloseTip: "TIPS: Via 'Player List' or 'History Players' to add, click the '×' after the player's UID to delete",
     nickName: 'Nickname',
     role: 'Role',
     age: 'Days',
@@ -403,13 +403,17 @@ export default {
       add: {
         header: {
           title: 'Downloaded Mod',
+          tip: 'The mod needs to be downloaded first before it can be enabled; the downloaded mod is unrelated to the game itself and is solely used to generate the corresponding default Lua configuration file when enabling the mod',
           refresh: 'Refresh',
           sync: 'Sync',
           syncTooltip: 'This page only displays manually downloaded mods. Clicking this button will synchronize automatically downloaded mods to this page',
           export: 'Export',
           addClientDisabled: 'Disable Client MOD',
+          multiDelete: 'Multi-Delete',
         },
-        alert: 'Tip: Mod download speed depends on your network and mod size. Please be patient and do not download repeatedly',
+        alert: 'Tip: Mod download speed depends on your network and mod size. Be patient and do not download repeatedly. Do NOT enable out-dated mod. Do NOT rely too heavily on this feature. If issues occur, generate mod configurations using the DST',
+        alert2: 'The mod here is not the same concept as the mods used in DST servers. Updating the mod here will not update the game mods in DST. For details, please refer to the ',
+        alert2_1: 'DOCUMENTATION',
         table: {
           name: 'Name',
           size: 'Mod Size',
@@ -421,6 +425,7 @@ export default {
           },
           action: 'Actions',
           enable: 'Enable',
+          update: 'Update',
           delete: 'Delete',
           ugc: {
             yes: 'True',
@@ -633,9 +638,10 @@ export default {
     statistics: {
       player: {
         title: 'Player Count',
+        title2: 'Detail',
         refresh: 'Refresh',
         refreshSuccess: 'Refresh Success',
-
+        gantCardTitle: 'Unit：Minute',
       },
       max: {
         title: 'Statistics',
@@ -648,6 +654,11 @@ export default {
         title: 'Data volume',
         dataNum: 'Count',
       },
+      pie: {
+        tabName: 'Playtime',
+        title: 'Top-10 Gamers by Playtime',
+        tip: 'The statistical data covers the period from [platform launch to the present]. Restarting the platform will result in data loss',
+      }
     },
     keepalive: {
       title: 'Keepalive',
@@ -673,7 +684,21 @@ export default {
         forever: 'Forever'
       },
       usage: 'Usage: Authorization is required, X-I18n-Lang is optional with a default value of zh',
-    }
+    },
+    webssh: {
+      title: 'WebSSH',
+      tip: 'Don NOT stop or restart DMP HERE',
+      port: 'Port',
+      username: 'Username',
+      password: 'Password',
+      connect: 'Connect',
+      rules: {
+        ip: 'Please input IP',
+        port: 'Please input port',
+        username: 'Please input username',
+        password: 'Please input password',
+      },
+    },
   },
   logs: {
     logs: 'Logs',

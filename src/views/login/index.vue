@@ -259,6 +259,7 @@ const handleRegister = () => {
         koiMsgSuccess(response.message)
       }).finally(() => {
         registerLoading.value = false
+        getRegisterStatus()
       })
     }
   })
