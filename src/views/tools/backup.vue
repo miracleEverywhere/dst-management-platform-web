@@ -27,14 +27,18 @@
               <el-table ref="tableRef" :data="backupFiles" :max-height="isMobile?450:550" border
                         @selection-change="handleSelectionChange">
                 <el-table-column fixed="left" type="selection" width="55"/>
-                <el-table-column :label="$t('tools.backup.tableName')" prop="name"/>
-                <el-table-column :label="$t('tools.backup.size')" prop="size">
+                <el-table-column :label="t('tools.backup.tableCreateTime')" prop="createTime"/>
+                <el-table-column :label="t('tools.backup.cycles')" prop="cycles">
+                  <template #default="scope">
+                    <el-tag type="info">{{scope.row.cycles}}</el-tag>
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('tools.backup.size')" prop="size">
                   <template #default="scope">
                     {{ formatBytes(scope.row.size) }}
                   </template>
                 </el-table-column>
-                <el-table-column :label="$t('tools.backup.tableCreateTime')" prop="createTime"/>
-                <el-table-column :label="$t('setting.button.actions')" prop="actions" width="120px">
+                <el-table-column :label="t('setting.button.actions')" prop="actions" width="120px">
                   <template #default="scope">
                     <el-dropdown trigger="click" @command="handleCommand">
                       <el-button :loading="actionsLoading" link type="primary">
