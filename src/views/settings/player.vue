@@ -17,8 +17,8 @@
                 <el-table-column :label="t('setting.nickName')" prop="nickName"/>
                 <el-table-column :label="t('setting.role')" prop="prefab">
                   <template #default="scope">
-                    <span v-if="scope.row.prefab===''">{{ t('setting.roleFail') }}</span>
-                    <span v-else>{{ scope.row.prefab }}</span>
+                    <el-tag type="warning" v-if="scope.row.prefab===''">{{ t('setting.roleFail') }}</el-tag>
+                    <el-tag type="success" v-else>{{ getDstRoleName(scope.row.prefab, language) }}</el-tag>
                   </template>
                 </el-table-column>
                 <el-table-column :label="t('setting.age')" prop="age">
@@ -217,12 +217,12 @@
                   </div>
                 </div>
               </template>
-              <el-table ref="tableRef" v-loading="tableLoading" :data="uids" :max-height="isMobile?450:550"
+              <el-table ref="tableRef" v-loading="tableLoading" :data="uids" max-height="65vh"
                         border>
                 <el-table-column :label="$t('setting.nickName')" prop="nickname"/>
                 <el-table-column :label="$t('setting.role')" prop="prefab">
                   <template #default="scope">
-                    <el-tag v-if="scope.row.prefab" type="success">{{ scope.row.prefab }}</el-tag>
+                    <el-tag v-if="scope.row.prefab" type="success">{{ getDstRoleName(scope.row.prefab, language) }}</el-tag>
                     <el-tag v-else type="warning">{{ t('setting.roleFail') }}</el-tag>
                   </template>
                 </el-table-column>
@@ -309,6 +309,8 @@ import {QuestionLine} from "@/assets/icons/index.js"
 import {UploadFilled} from "@element-plus/icons-vue";
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
+import {getDstRoleName} from "@/utils/tools.js";
+
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();

@@ -613,6 +613,7 @@ export default {
       tableName: 'File Name',
       size: 'File Size',
       tableCreateTime: 'Create Time',
+      cycles: 'Cycles',
       download: 'Download',
       restore: 'Restore',
       delete: 'Delete',

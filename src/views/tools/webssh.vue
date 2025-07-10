@@ -212,7 +212,6 @@ onBeforeUnmount(() => {
 }
 
 :deep(.xterm) * {
-  //font-family: 'Consolas' !important;
   letter-spacing: normal !important;
 }
 
