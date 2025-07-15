@@ -807,6 +807,7 @@ onMounted(async () => {
     windowHeight.value = window.innerHeight;
   });
   await getAllClusters()
+  await getClustersWorldPort()
   await getMaxWorlds()
   await handleGetClusterSetting()
   generateWorldFormRefs()
@@ -929,6 +930,20 @@ const handleNext = async () => {
         }
         koiMsgError(msg)
         return
+      }
+    }
+
+    const worldPortKeys = ['serverPort', 'shardMasterPort', 'steamMasterPort', 'steamAuthenticationPort']
+    for (let world of worldForm.value) {
+      for (const clustersWorldPortItem of clustersWorldPort.value) {
+        if (clustersWorldPortItem.clusterName !== globalStore.selectedDstCluster) {
+          for (let worldPortKey of worldPortKeys) {
+            if (clustersWorldPortItem.worldPort.includes(world[worldPortKey])) {
+              koiMsgError(`[${t(`setting.roomWorldForm.${worldPortKey}`)}]:${world[worldPortKey]} ${language.value==='zh'?'端口冲突，请检查':'Port Conflicted, please check'}`, 3000)
+              return
+            }
+          }
+        }
       }
     }
 
@@ -1418,6 +1433,13 @@ const handleGenerateModSetting = () => {
     enabled=true
   }`
   multiWorldModContent.value = '```lua ::open\n' + multiWorldModContent.value
+}
+
+const clustersWorldPort = ref([])
+const getClustersWorldPort = () => {
+  settingApi.clustersWorldPort.get().then(response => {
+    clustersWorldPort.value = response.data
+  })
 }
 
 watch(() => globalStore.selectedDstCluster, (newValue) => {
