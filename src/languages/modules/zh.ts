@@ -243,6 +243,7 @@ export default {
       id: '世界ID',
       masterPort: '连接端口',
       cavesPort: '连接端口',
+      serverPort: '游戏端口',
       shardMasterPort: '主节点端口',
       steamMasterPort: 'Steam连接端口',
       steamAuthenticationPort: 'Steam认证端口',

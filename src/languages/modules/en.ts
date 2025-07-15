@@ -242,6 +242,7 @@ export default {
       id: 'ID',
       masterPort: 'Connection Port',
       cavesPort: 'Connection Port',
+      serverPort: 'Server Port',
       shardMasterPort: 'Master Port',
       steamMasterPort: 'Steam Connection Port',
       steamAuthenticationPort: 'Steam Authentication Port',
