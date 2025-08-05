@@ -7,6 +7,16 @@
             <div class="card-header">
               {{ t('tools.backup.title2') }}
               <div>
+                <el-button type="warning" @click="openUploadDialog">
+                  <div class="fcc">
+                    {{ t('tools.backup.ImportBackup') }}
+                    <el-tooltip :content="t('tools.backup.ImportBackupTip')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </el-button>
                 <el-button :loading="manualBackupLoading" type="primary" @click="handleManualBackup">
                   {{ t('tools.backup.BackupImmediately') }}
                 </el-button>
@@ -72,6 +82,25 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <el-dialog v-model="uploadDialogVisible" :close-on-click-modal="!uploadLoading"
+               :close-on-press-escape="!uploadLoading" :show-close="!uploadLoading" :title="t('tools.backup.ImportDialog.title')"
+               width="45%">
+      <el-upload ref="uploadRef" v-loading="uploadLoading" :before-upload="checkUploadFile" :http-request="handleUpload"
+                 :limit="1" drag>
+        <el-icon class="el-icon--upload">
+          <upload-filled/>
+        </el-icon>
+        <div class="el-upload__text">
+          {{ t('tools.backup.ImportDialog.text1') }} <em>{{ t('tools.backup.ImportDialog.text2') }}</em>
+        </div>
+        <template #tip>
+          <div class="el-upload__tip">
+            {{ t('tools.backup.ImportDialog.tip') }}
+          </div>
+        </template>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -87,6 +116,8 @@ import {formatBytes} from "@/utils/tools.js";
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import {getToken} from "@/utils/storage.ts";
+import {UploadFilled} from "@element-plus/icons-vue";
+import settingApi from "@/api/setting/index.js";
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
@@ -298,6 +329,39 @@ const handleManualBackup = () => {
   }).finally(() => {
     manualBackupLoading.value = false
     getInfo()
+  })
+}
+
+const uploadLoading = ref(false)
+const uploadDialogVisible = ref(false)
+const uploadRef = ref()
+const openUploadDialog = () => {
+  if (uploadRef.value) {
+    // 清空上次上传的文件
+    uploadRef.value.clearFiles()
+  }
+  uploadDialogVisible.value = true
+}
+const checkUploadFile = (param) => {
+  const zipPattern = /\.tgz$/i;
+  if (zipPattern.test(param.name)) {
+    return true
+  } else {
+    koiMsgError(language.value === 'zh' ? '请上传tgz文件' : 'Please upload a tgz file')
+    return false
+  }
+}
+const handleUpload = (param) => {
+  uploadLoading.value = true
+  const formData = new FormData()
+  formData.append('file', param.file)
+  formData.append('clusterName', globalStore.selectedDstCluster)
+  toolsApi.backupImport.post(formData).then(response => {
+    getInfo()
+    koiMsgSuccess(response.message)
+  }).finally(() => {
+    uploadDialogVisible.value = false
+    uploadLoading.value = false
   })
 }
 
