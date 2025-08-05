@@ -938,6 +938,9 @@ const handleNext = async () => {
       for (const clustersWorldPortItem of clustersWorldPort.value) {
         if (clustersWorldPortItem.clusterName !== globalStore.selectedDstCluster) {
           for (let worldPortKey of worldPortKeys) {
+            if (clustersWorldPortItem.worldPort === null) {
+              continue
+            }
             if (clustersWorldPortItem.worldPort.includes(world[worldPortKey])) {
               koiMsgError(`[${t(`setting.roomWorldForm.${worldPortKey}`)}]:${world[worldPortKey]} ${language.value==='zh'?'端口冲突，请检查并修改':'Port Conflicted, please check and modify'}`, 3000)
               return
