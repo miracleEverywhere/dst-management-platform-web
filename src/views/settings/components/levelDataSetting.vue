@@ -26,7 +26,7 @@
                    @click="leftClick">
         </el-button>
         <el-tag v-if="image==='undefined.png'||modelValue==='undefined'" size="large"
-                effect="plain" type="danger" style="margin: 0 5px; width: 100px">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
+                effect="plain" type="danger" style="margin: 0 5px; width: 100px">{{language==='zh'?'未配置':'undefined'}}</el-tag>
         <el-tag v-else size="large" effect="plain" type="primary" style="margin: 0 5px; width: 100px">{{getDisplayTagValue()}}</el-tag>
         <el-button :icon="ArrowRightBold" link type="primary"
                    :disabled="rightClickDisabled||image==='undefined.png'||modelValue==='undefined'"
