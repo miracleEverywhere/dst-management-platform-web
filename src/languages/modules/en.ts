@@ -525,6 +525,13 @@ export default {
         msg: 'Enabled by default, DMP backup the server at scheduled time, backup path is ~/dmp_files/backup/[ClusterName]',
         msg2: 'DMP will backup servers daily at the scheduled time',
       },
+      backupClean: {
+        divider: 'Backup Clean',
+        title: 'Backup Clean Switch',
+        title2: 'Backup retention days',
+        msg: 'Disabled by default, will periodically clean up both automatic and manually created backup archive files',
+        msg2: 'Must set a number greater than 0. For example, setting 30 will delete backup files created more than 30 days ago.',
+      },
       scheduledStartStop: {
         divider: 'Scheduled Start/Stop worlds of cluster',
         title: 'Scheduled Start/Stop Switch',

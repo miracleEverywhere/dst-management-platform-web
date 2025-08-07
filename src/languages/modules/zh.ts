@@ -528,6 +528,13 @@ export default {
         msg: '默认开启，会在指定的时间备份服务器，备份路径为~/dmp_files/backup/[集群名]',
         msg2: '每天会在该时间进行自动备份',
       },
+      backupClean: {
+        divider: '备份清理',
+        title: '备份清理开关',
+        title2: '备份保留天数',
+        msg: '默认关闭，会定时清理自动、手动创建的存档备份文件',
+        msg2: '需要设置大于0的数字，如设置30，则会删除30天前创建的备份文件',
+      },
       scheduledStartStop: {
         divider: '定时开启关闭集群',
         title: '定时开启关闭集群开关',
