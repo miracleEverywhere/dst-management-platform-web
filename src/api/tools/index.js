@@ -70,6 +70,12 @@ export default {
       return await http.post(this.url, data);
     },
   },
+  backupImport: {
+    url: `/tools/backup/import`,
+    post: async function (data) {
+      return await http.post(this.url, data);
+    }
+  },
   // backupDownload: {
   //   url: `/tools/backup/download`,
   //   post: async function(data){

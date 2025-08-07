@@ -2654,6 +2654,34 @@ export const overrides = {
       en: 'worms',
     }
   },
+  wanderingtrader_enabled: {
+    configs: ["none", "always"],
+    modelValue: 'always',
+    customConfigsValue: {
+      none: {
+        zh: '禁用',
+        en: 'Disable'
+      },
+      always: {
+        zh: '启用',
+        en: 'Enable'
+      },
+    },
+    image: 'wanderingtrader_enabled.png',
+    i18n: {
+      zh: '流浪商人',
+      en: 'Wanderingtrader',
+    }
+  },
+  balatro: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'balatro.png',
+    i18n: {
+      zh: '小丑',
+      en: 'Balatro',
+    }
+  },
 }
 
 // 洞穴 - 世界生成 - 世界
@@ -2901,7 +2929,8 @@ export const groundWorldRule = {
     'lessdamagetaken', 'temperaturedamage', 'hunger', 'darkness', 'shadowcreatures', 'brightmarecreatures',
   ],
   world: [
-    'hounds', 'winterhounds', 'summerhounds', 'lunarhail_frequency', 'petrification', 'meteorshowers', 'hunt', 'rifts_enabled',
+    'hounds', 'winterhounds', 'summerhounds', 'lunarhail_frequency', 'petrification', 'meteorshowers',
+    'wanderingtrader_enabled', 'hunt', 'rifts_enabled',
     'rifts_frequency', 'alternatehunt', 'wildfires', 'lightning', 'weather', 'frograin',
   ],
   resourceRegrowth: [
@@ -2939,7 +2968,7 @@ export const groundWorldGeneration = {
   world: [
     'task_set', 'start_location', 'world_size', 'branching', 'loop',
     'roads', 'touchstone', 'boons', 'prefabswaps_start', 'junkyard',
-    'stageplays', 'moon_fissure', 'terrariumchest',
+    'moon_fissure', 'balatro', 'terrariumchest', 'stageplays',
   ],
   resources: [
     'grass', 'rock', 'moon_tree', 'sapling', 'ponds',

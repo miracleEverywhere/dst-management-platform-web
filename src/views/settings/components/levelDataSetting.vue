@@ -3,12 +3,34 @@
     <el-image :src="getImageUrl(props.image)" fit="fill" style="width: 75px; height: 75px"/>
     <div style="width: 140px">
       <div class="fcc">
-        <el-tag size="large" :type="modelValue===defaultModelValue?'primary':'warning'">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
+        <!--配置文件没有，平台有-->
+        <template v-if="modelValue==='undefined'&&image!=='undefined.png'">
+          <el-tooltip :content="language==='zh'?'你的配置文件不是最新版哦':'Your config file is not the latest version'" effect="light" placement="top">
+            <el-tag size="large" type="danger">
+              <div class="fcc">
+                {{language==='zh'?props.i18n.zh:props.i18n.en}}
+                <el-icon size="14" style="margin-left: 2px">
+                  <QuestionFilled/>
+                </el-icon>
+              </div>
+            </el-tag>
+          </el-tooltip>
+        </template>
+        <template v-else>
+          <el-tag size="large" :type="modelValue===defaultModelValue?'primary':'warning'">{{language==='zh'?props.i18n.zh:props.i18n.en}}</el-tag>
+        </template>
       </div>
       <div style="margin: 5px 0" class="fcc">
-        <el-button :icon="ArrowLeftBold" link type="primary" :disabled="leftClickDisabled" @click="leftClick"></el-button>
-        <el-tag size="large" effect="plain" type="primary" style="margin: 0 5px; width: 100px">{{getDisplayTagValue()}}</el-tag>
-        <el-button :icon="ArrowRightBold" link type="primary" :disabled="rightClickDisabled" @click="rightClick"></el-button>
+        <el-button :icon="ArrowLeftBold" link type="primary"
+                   :disabled="leftClickDisabled||image==='undefined.png'||modelValue==='undefined'"
+                   @click="leftClick">
+        </el-button>
+        <el-tag v-if="image==='undefined.png'||modelValue==='undefined'" size="large"
+                effect="plain" type="danger" style="margin: 0 5px; width: 100px">{{language==='zh'?'未配置':'undefined'}}</el-tag>
+        <el-tag v-else size="large" effect="plain" type="primary" style="margin: 0 5px; width: 100px">{{getDisplayTagValue()}}</el-tag>
+        <el-button :icon="ArrowRightBold" link type="primary"
+                   :disabled="rightClickDisabled||image==='undefined.png'||modelValue==='undefined'"
+                   @click="rightClick"></el-button>
       </div>
     </div>
 
@@ -22,13 +44,13 @@ import useGlobalStore from "@/stores/modules/global.ts";
 import {configsMap, overrides} from "@/views/settings/components/levelDataMap.js"
 
 const props = defineProps({
-  configs: {type: Array, default: []},
-  modelValue: {type: String, default: 'default'},
-  image: {type: String, default: ''},
-  i18n: {type: Object, default: {zh: '', en: ''}},
-  name: {type: String, default: ''},
+  configs: {type: Array, default: ['undefined']},
+  modelValue: {type: String, default: 'undefined'},
+  image: {type: String, default: 'undefined.png'},
+  i18n: {type: Object, default: {zh: '平台未识别', en: 'undefined'}},
+  name: {type: String, default: 'undefined'},
   customConfigsValue: {type: Object, default: {}},
-  defaultModelValue: {type: String, default: 'default'},
+  defaultModelValue: {type: String, default: 'undefined'},
 })
 
 const emit = defineEmits(['changeModelValue']);
@@ -92,12 +114,21 @@ const getDisplayTagValue = () => {
   } else {
     tagValue = configsMap[setting.value]
   }
-  // console.log(props)
-  if (language.value === 'zh') {
-    return tagValue['zh']
-  } else {
-    return tagValue['en']
+  try {
+    // console.log(props)
+    if (language.value === 'zh') {
+      return tagValue['zh']
+    } else {
+      return tagValue['en']
+    }
+  } catch {
+    if (language.value === 'zh') {
+      return '未识别'
+    } else {
+      return 'Undefined'
+    }
   }
+
 }
 
 const handleSettingChange = () => {
