@@ -2500,15 +2500,15 @@ export const overrides = {
     configs: ["never", "default", "always"],
     customConfigsValue: {
       never: {
-        zh: '极慢',
+        zh: '无',
         en: 'never'
       },
       default: {
-        zh: '默认',
+        zh: '自动检测',
         en: 'Default'
       },
       always: {
-        zh: '快',
+        zh: '总是',
         en: 'always'
       },
     },
