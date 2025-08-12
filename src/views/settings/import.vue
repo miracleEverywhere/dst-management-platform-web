@@ -9,7 +9,7 @@
               <el-button type="success" @click="helpDialogVisible=true">{{ t('setting.import.buttonHelp') }}</el-button>
             </div>
           </template>
-          <expand-panel v-if="!isMobile" title="[必读] 导入存档注意事项" :dark-mode="isDark">
+          <expand-panel v-if="!isMobile" :title="t('setting.import.tipTitle')" :dark-mode="isDark">
             <el-alert :closable="false" type="warning" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
               {{ t('setting.import.text1') }}
             </el-alert>

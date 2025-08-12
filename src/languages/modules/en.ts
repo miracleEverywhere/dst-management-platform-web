@@ -372,6 +372,7 @@ export default {
     },
     import: {
       title: 'Import',
+      tipTitle: '[Required Reading] Archive Import Precautions',
       text1: 'If the uploaded save contains too many large mods, it may result in incomplete mods after game launch',
       text1_1: 'It is recommended not to launch the game immediately after import. Instead, go to Settings > Mods page, download all used mods, then disable and re-enable them',
       text2: 'Please upload a compressed file (e.g., my_cluster.zip). The contents of the compressed file should be as follows, with the bold files being required. Automatic detection will be performed, and missing files will result in import failure.',
