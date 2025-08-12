@@ -16,6 +16,9 @@
             <el-alert :closable="false" type="success" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
               {{ t('setting.import.text1_1') }}
             </el-alert>
+            <el-alert :closable="false" type="error" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+              {{ t('setting.import.text1_2') }}
+            </el-alert>
           </expand-panel>
           <div style="height: auto">
             <div>
