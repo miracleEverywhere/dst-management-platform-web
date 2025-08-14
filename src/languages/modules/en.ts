@@ -418,6 +418,7 @@ export default {
         alert: 'Tip: Mod download speed depends on your network and mod size. Be patient and do not download repeatedly. Do NOT enable out-dated mod. Do NOT rely too heavily on this feature. If issues occur, generate mod configurations using the DST',
         alert2: 'The mod here is not the same concept as the mods used in DST servers. Updating the mod here will not update the game mods in DST. For details, please refer to the ',
         alert2_1: 'DOCUMENTATION',
+        searchPlaceholder: 'Please enter the mod name to search',
         table: {
           name: 'Name',
           size: 'Mod Size',
