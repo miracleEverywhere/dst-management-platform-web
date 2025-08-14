@@ -475,7 +475,6 @@ const handleGetDownloadedMod = () => {
   downloadedModLoading.value = true
   externalApi.modInfoDownloaded.get().then(response => {
     downloadedMod.value = response.data
-    downloadedModFiltered.value = response.data
   }).finally(() => {
     downloadedModLoading.value = false
   })
