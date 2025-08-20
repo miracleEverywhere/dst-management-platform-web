@@ -35,6 +35,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.schedulerSetting.playerGetFrequency"
+                                     :min="1"
                                      controls-position="right" :disabled="userInfo.role!=='admin'">
                       <template #suffix>
                         <span v-if="language==='zh'">秒</span>
@@ -82,7 +83,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.schedulerSetting.UIDMaintain.frequency"
-                                     controls-position="right"
+                                     controls-position="right" :min="1"
                                      :disabled="userInfo.role!=='admin'||systemSettingForm.schedulerSetting.UIDMaintain.disable">
                       <template #suffix>
                         <span v-if="language==='zh'">分钟</span>
@@ -202,7 +203,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.schedulerSetting.playerUpdateMod.frequency"
-                                     controls-position="right"
+                                     controls-position="right" :min="1"
                                      :disabled="userInfo.role!=='admin'||systemSettingForm.schedulerSetting.playerUpdateMod.disable">
                       <template #suffix>
                         <span v-if="language==='zh'">分钟</span>
@@ -385,6 +386,7 @@
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.sysSetting.keepalive.frequency"
                                      :disabled="!systemSettingForm.sysSetting.keepalive.enable"
+                                     :min="1"
                                      controls-position="right">
                       <template #suffix>
                         <span v-if="language==='zh'">分钟</span>
