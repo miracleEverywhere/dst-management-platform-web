@@ -542,8 +542,8 @@ export default {
       scheduledStartStop: {
         divider: '定时开启关闭集群',
         title: '定时开启关闭集群开关',
-        title2: '开启房间时间',
-        title3: '关闭房间时间',
+        title2: '开启集群时间',
+        title3: '关闭集群时间',
         msg: '默认关闭；如使用此功能，请关闭定时重启、自动保活',
         msg2: '每天会在该时间开启本集群的所有世界',
         msg3: '每天会在该时间关闭本集群的所有世界',
