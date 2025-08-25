@@ -13,7 +13,8 @@
                   </div>
                 </div>
               </template>
-              <el-table v-if="playersData" :data="playersData" border size="small" style="width: 100%">
+              <el-table v-if="playersData" :data="playersData" max-height="68vh"
+                        border size="small" style="width: 100%">
                 <el-table-column :label="t('setting.nickName')" prop="nickName"/>
                 <el-table-column :label="t('setting.role')" prop="prefab">
                   <template #default="scope">
