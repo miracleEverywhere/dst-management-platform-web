@@ -130,7 +130,11 @@
                   </el-icon>
                 </el-link>
               </div>
-              <el-table :data="downloadedMod" border @selection-change="handleDownloadedModSelect"
+              <div>
+                <el-input v-model="downloadedModSearchText"
+                          clearable :placeholder="t('setting.mod.add.searchPlaceholder')"></el-input>
+              </div>
+              <el-table :data="downloadedModFiltered" border @selection-change="handleDownloadedModSelect"
                         style="height: 51vh; margin-top: 10px">
                 <el-table-column type="selection" width="55px">
 
@@ -661,6 +665,16 @@ const handleAddClientModsDisabledConfig = () => {
     addClientModsDisabledConfigButtonDisable.value = true
   })
 }
+
+const downloadedModSearchText = ref('')
+const downloadedModFiltered = computed(() => {
+  if (!downloadedModSearchText.value) {
+    return downloadedMod.value
+  }
+  return downloadedMod.value.filter(mod =>
+    mod.name.toLowerCase().includes(downloadedModSearchText.value.toLowerCase())
+  )
+})
 
 </script>
 

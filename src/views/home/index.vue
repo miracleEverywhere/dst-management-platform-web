@@ -323,7 +323,7 @@
     </el-card>
 
     <el-dialog v-model="modInfoDialogVisible" :close-on-click-modal="false" :title="t('home.modsTable.title')" width="80%">
-      <el-table v-loading="modInfoLoading" :data="modInfoList" border height="70vh"
+      <el-table v-loading="modInfoLoading" :data="modInfoList.filter(mod => mod.id !== 1)" border height="70vh"
                 size="small" style="width: 100%" tooltip-effect="light">
         <el-table-column :label="t('home.modsTable.name')" prop="name">
         </el-table-column>

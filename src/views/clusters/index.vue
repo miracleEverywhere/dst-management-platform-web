@@ -218,7 +218,6 @@ const updateDialogForm = ref({
 })
 
 const handleOpenClusterUpdateDialog = (row) => {
-  console.log(row)
   updateDialogForm.value = {
     clusterName: row.clusterName,
     clusterDisplayName: '',

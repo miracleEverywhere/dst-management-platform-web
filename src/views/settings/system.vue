@@ -19,6 +19,7 @@
               <div class="tip_error" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip1')}}
               </div>
+              <!--玩家列表-->
               <el-alert :closable="false" type="error" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #icon>
                   <SetUp />
@@ -28,13 +29,13 @@
                     {{ t('setting.system.playerList.divider') }}
                   </div>
                 </template>
-
               </el-alert>
               <el-form-item :label="t('setting.system.playerList.title')"
                             prop="schedulerSetting.playerGetFrequency">
                 <el-row>
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.schedulerSetting.playerGetFrequency"
+                                     :min="1"
                                      controls-position="right" :disabled="userInfo.role!=='admin'">
                       <template #suffix>
                         <span v-if="language==='zh'">秒</span>
@@ -49,6 +50,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--昵称字典维护-->
               <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -81,7 +83,8 @@
                 <el-row>
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.schedulerSetting.UIDMaintain.frequency"
-                                     controls-position="right" :disabled="userInfo.role!=='admin'">
+                                     controls-position="right" :min="1"
+                                     :disabled="userInfo.role!=='admin'||systemSettingForm.schedulerSetting.UIDMaintain.disable">
                       <template #suffix>
                         <span v-if="language==='zh'">分钟</span>
                         <span v-else>Minute</span>
@@ -95,6 +98,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--系统监控-->
               <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -122,6 +126,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--自动更新-->
               <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -154,7 +159,8 @@
                 <el-row>
                   <el-col :span="24">
                     <el-time-picker v-model="systemSettingForm.schedulerSetting.autoUpdate.time" :clearable="false"
-                                    :editable="false" style="width: 120px;margin: 0 8px" :disabled="userInfo.role!=='admin'"
+                                    :editable="false" style="width: 120px;margin: 0 8px"
+                                    :disabled="userInfo.role!=='admin'||!systemSettingForm.schedulerSetting.autoUpdate.enable"
                                     value-format="HH:mm:ss"/>
                   </el-col>
                   <el-col :span="24">
@@ -164,6 +170,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--玩家更新模组-->
               <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -196,7 +203,8 @@
                 <el-row>
                   <el-col :span="24">
                     <el-input-number v-model="systemSettingForm.schedulerSetting.playerUpdateMod.frequency"
-                                     controls-position="right" :disabled="userInfo.role!=='admin'">
+                                     controls-position="right" :min="1"
+                                     :disabled="userInfo.role!=='admin'||systemSettingForm.schedulerSetting.playerUpdateMod.disable">
                       <template #suffix>
                         <span v-if="language==='zh'">分钟</span>
                         <span v-else>Minute</span>
@@ -213,6 +221,7 @@
               <div class="tip_success" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip2')}}
               </div>
+              <!--自动重启-->
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -245,6 +254,7 @@
                   <el-col :span="24">
                     <el-time-picker v-model="systemSettingForm.sysSetting.autoRestart.time" :clearable="false"
                                     :editable="false" style="width: 120px;margin: 0 8px"
+                                    :disabled="!systemSettingForm.sysSetting.autoRestart.enable"
                                     value-format="HH:mm:ss"/>
                   </el-col>
                   <el-col :span="24">
@@ -254,6 +264,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--自动备份-->
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -285,6 +296,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-time-picker v-model="systemSettingForm.sysSetting.autoBackup.time" :clearable="false"
+                                    :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
                                     :editable="false" style="width: 120px;margin: 0 8px"
                                     value-format="HH:mm:ss"/>
                   </el-col>
@@ -295,6 +307,55 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--备份清理-->
+              <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+                <template #title>
+                  <div class="fcc" style="font-size: 20px">
+                    {{ t('setting.system.backupClean.divider') }}
+                  </div>
+                </template>
+                <template #icon>
+                  <Collection />
+                </template>
+              </el-alert>
+              <el-form-item :label="t('setting.system.backupClean.title')"
+                            prop="sysSetting.backupClean.enable">
+                <el-row>
+                  <el-col :span="24">
+                    <el-radio-group v-model="systemSettingForm.sysSetting.backupClean.enable">
+                      <el-radio :value="true">{{ t('setting.system.uidMap.enable') }}</el-radio>
+                      <el-radio :value="false">{{ t('setting.system.uidMap.disable') }}</el-radio>
+                    </el-radio-group>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.backupClean.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.backupClean.title2')"
+                            prop="sysSetting.backupClean.days">
+                <el-row>
+                  <el-col :span="24">
+                    <el-input-number v-model="systemSettingForm.sysSetting.backupClean.days"
+                                     :disabled="!systemSettingForm.sysSetting.backupClean.enable"
+                                     :min="0"
+                                     controls-position="right">
+                      <template #suffix>
+                        <span v-if="language==='zh'">天</span>
+                        <span v-else>Day</span>
+                      </template>
+                    </el-input-number>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.backupClean.msg2') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <!--自动保活-->
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -323,7 +384,10 @@
               <el-form-item :label="t('setting.system.keepalive.title')" prop="sysSetting.keepalive.frequency">
                 <el-row>
                   <el-col :span="24">
-                    <el-input-number v-model="systemSettingForm.sysSetting.keepalive.frequency" controls-position="right">
+                    <el-input-number v-model="systemSettingForm.sysSetting.keepalive.frequency"
+                                     :disabled="!systemSettingForm.sysSetting.keepalive.enable"
+                                     :min="1"
+                                     controls-position="right">
                       <template #suffix>
                         <span v-if="language==='zh'">分钟</span>
                         <span v-else>Minute</span>
@@ -337,6 +401,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--定时开启关闭集群-->
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -366,6 +431,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-time-picker v-model="systemSettingForm.sysSetting.scheduledStartStop.startTime" :clearable="false"
+                                    :disabled="!systemSettingForm.sysSetting.scheduledStartStop.enable"
                                     :editable="false" style="width: 120px;margin: 0 8px"
                                     value-format="HH:mm:ss"/>
                   </el-col>
@@ -380,6 +446,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-time-picker v-model="systemSettingForm.sysSetting.scheduledStartStop.stopTime" :clearable="false"
+                                    :disabled="!systemSettingForm.sysSetting.scheduledStartStop.enable"
                                     :editable="false" style="width: 120px;margin: 0 8px"
                                     value-format="HH:mm:ss"/>
                   </el-col>
@@ -390,6 +457,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--64位-->
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -415,6 +483,7 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!--tick rate-->
               <el-alert :closable="false" type="success"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
                   <div class="fcc" style="font-size: 20px">
@@ -534,6 +603,10 @@ const systemSettingForm = ref({
     autoBackup: {
       enable: false,
       time: "",
+    },
+    backupClean: {
+      enable: false,
+      days: 0,
     },
     keepalive: {
       enable: false,

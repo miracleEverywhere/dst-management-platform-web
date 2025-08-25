@@ -9,10 +9,18 @@
               <el-button type="success" @click="helpDialogVisible=true">{{ t('setting.import.buttonHelp') }}</el-button>
             </div>
           </template>
-          <div style="height: auto">
-            <div style="line-height: 30px;">
+          <expand-panel v-if="!isMobile" :title="t('setting.import.tipTitle')" :dark-mode="isDark">
+            <el-alert :closable="false" type="warning" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
               {{ t('setting.import.text1') }}
-            </div>
+            </el-alert>
+            <el-alert :closable="false" type="success" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+              {{ t('setting.import.text1_1') }}
+            </el-alert>
+            <el-alert :closable="false" type="error" :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
+              {{ t('setting.import.text1_2') }}
+            </el-alert>
+          </expand-panel>
+          <div style="height: auto">
             <div>
               <el-row :gutter="20">
                 <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
@@ -113,6 +121,7 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import settingApi from "@/api/setting"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
+import ExpandPanel from "@/components/expandPanel/index.vue"
 
 const {t} = useI18n()
 const {isMobile} = useScreenStore();

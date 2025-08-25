@@ -2500,15 +2500,15 @@ export const overrides = {
     configs: ["never", "default", "always"],
     customConfigsValue: {
       never: {
-        zh: '极慢',
+        zh: '无',
         en: 'never'
       },
       default: {
-        zh: '默认',
+        zh: '自动检测',
         en: 'Default'
       },
       always: {
-        zh: '快',
+        zh: '总是',
         en: 'always'
       },
     },
@@ -2825,6 +2825,15 @@ export const caveOverrideWorldGenerationWorld = {
       en: 'prefabswaps_start',
     }
   },
+  cave_ponds: {
+    configs: ["never", "rare", "uncommon", "default", "often", "mostly", "always", "insane"],
+    modelValue: 'default',
+    image: 'ponds.png',
+    i18n: {
+      zh: '池塘',
+      en: 'ponds',
+    }
+  },
 }
 
 export const configsMap = {
@@ -3018,7 +3027,7 @@ export const cavesWorldGeneration = {
     'touchstone', 'cavelight', 'boons', 'prefabswaps_start',
   ],
   resources: [
-    'grass', 'rock', 'sapling', 'ponds', 'flint', 'reeds',
+    'grass', 'rock', 'sapling', 'cave_ponds', 'flint', 'reeds',
     'lichen', 'mushroom', 'banana', 'berrybush', 'flower_cave',
     'mushtree', 'wormlights', 'marshbush', 'fern', 'trees',
 

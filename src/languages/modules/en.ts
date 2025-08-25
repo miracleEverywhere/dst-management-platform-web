@@ -372,7 +372,10 @@ export default {
     },
     import: {
       title: 'Import',
-      text1: 'An automatic backup will be performed during the upload process. After the upload is complete, please manually start the server.',
+      tipTitle: '[Required Reading] Archive Import Precautions',
+      text1: 'If the uploaded save contains too many large mods, it may result in incomplete mods after game launch (I personally haven\'t encountered this)',
+      text1_1: 'It is recommended (though not advised) that after import completion, do not immediately launch the game—go to Settings > Mods page, download all used mods, then disable and re-enable them',
+      text1_2: 'Please note the mod configuration—after re-enabling, mods will revert to default settings. You\'ll need to manually adjust the corresponding configurations or repaste the mod settings in Settings > Room page',
       text2: 'Please upload a compressed file (e.g., my_cluster.zip). The contents of the compressed file should be as follows, with the bold files being required. Automatic detection will be performed, and missing files will result in import failure.',
       button: 'Upload',
       buttonHelp: 'Help',
@@ -415,6 +418,7 @@ export default {
         alert: 'Tip: Mod download speed depends on your network and mod size. Be patient and do not download repeatedly. Do NOT enable out-dated mod. Do NOT rely too heavily on this feature. If issues occur, generate mod configurations using the DST',
         alert2: 'The mod here is not the same concept as the mods used in DST servers. Updating the mod here will not update the game mods in DST. For details, please refer to the ',
         alert2_1: 'DOCUMENTATION',
+        searchPlaceholder: 'Please enter the mod name to search',
         table: {
           name: 'Name',
           size: 'Mod Size',
@@ -524,6 +528,13 @@ export default {
         title2: 'Auto Backup Time',
         msg: 'Enabled by default, DMP backup the server at scheduled time, backup path is ~/dmp_files/backup/[ClusterName]',
         msg2: 'DMP will backup servers daily at the scheduled time',
+      },
+      backupClean: {
+        divider: 'Backup Clean',
+        title: 'Backup Clean Switch',
+        title2: 'Backup retention days',
+        msg: 'Disabled by default, will periodically clean up both automatic and manually created backup archive files',
+        msg2: 'Must set a number greater than 0. For example, setting 30 will delete backup files created more than 30 days ago.',
       },
       scheduledStartStop: {
         divider: 'Scheduled Start/Stop worlds of cluster',
