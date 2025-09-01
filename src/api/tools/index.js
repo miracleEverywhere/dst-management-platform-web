@@ -133,8 +133,8 @@ export default {
       return await http.get(this.url, data);
     },
   },
-  summary: {
-    url: `/tools/summary`,
+  location: {
+    url: `/tools/location`,
     get: async function(data){
       return await http.get(this.url, data);
     },
