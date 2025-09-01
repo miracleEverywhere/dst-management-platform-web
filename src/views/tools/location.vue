@@ -2,7 +2,7 @@
   <el-card style="min-height: 70vh">
     <template #header>
       <div class="card-header">
-        <span>世界统计</span>
+        <span>世界坐标</span>
         <el-select :disabled="loading" v-model="world" @change="getSummary"
                    style="width: 10vw; margin-right: 10px; font-weight: lighter">
           <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds"
@@ -231,7 +231,7 @@ const getSummary = async () => {
     worldName: world.value
   }
   loading.value = true
-  toolsApi.summary.get(reqForm).then(async response => {
+  toolsApi.location.get(reqForm).then(async response => {
     Data.value = response.data
     await generateImage()
   }).finally(() => {
