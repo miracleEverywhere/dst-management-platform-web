@@ -1,22 +1,25 @@
 <template>
-  <el-card style="min-height: 70vh">
+  <el-card style="min-height: 70vh; overflow-y: auto">
     <template #header>
       <div class="card-header">
         <span>世界坐标</span>
-        <el-select :disabled="loading" v-model="world" @change="getSummary"
-                   style="width: 10vw; margin-right: 10px; font-weight: lighter">
-          <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds"
-                     :label="world" :value="world"></el-option>
-        </el-select>
+        <div>
+          <el-button :loading="loading" @click="getSummary" class="mr2">刷新</el-button>
+          <el-select :disabled="loading" v-model="world" @change="getSummary"
+                     style="width: 10vw; margin-right: 10px; font-weight: lighter">
+            <el-option v-for="world in globalStore.dstClusters.find(cluster => cluster.clusterName === globalStore.selectedDstCluster).worlds"
+                       :label="world" :value="world"></el-option>
+          </el-select>
+        </div>
+
       </div>
     </template>
     <el-row v-loading="loading" style="overflow-x: auto; overflow-y: auto">
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" >
-        <canvas ref="canvas" :style="'width: '+Data.image.width*2+'px; height: '+Data.image.height*2+'px'"></canvas>
+      <el-col :span="24" class="flex justify-center">
+        <canvas ref="canvas" :style="'width: '+Data.image.width*2+'px; height: '+Data.image.height*2+'px'"/>
       </el-col>
-
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
-        <div style="height: 50%">
+      <el-col :span="24" class="mt16">
+        <div>
           <el-row mb="4">
             <el-col :span="4" class="flex items-center">
               <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#000000', borderRadius: '10px'}"/>
@@ -182,15 +185,22 @@
             </el-col>
           </el-row>
         </div>
-        <div style="height: 50%">
-          <el-row>
-            <el-col v-for="item in Data.count" :span="12" mb="8" class="flex items-center">
-              <span v-if="language==='zh'">{{item.cnName}}</span>
-              <span v-if="language==='en'">{{item.enName}}</span>
-              <span ml="1">:</span>
-              <el-tag size="large" ml="4">{{item.count}}</el-tag>
-            </el-col>
-          </el-row>
+      </el-col>
+      <el-col :span="24" class="flex mt16">
+        <div v-for="item in Data.count"  class="flex items-center mr12">
+          <span v-if="language==='zh'">{{item.cnName}}</span>
+          <span v-if="language==='en'">{{item.enName}}</span>
+          <span ml="1">:</span>
+          <el-tag size="large" ml="4">{{item.count}}</el-tag>
+        </div>
+
+      </el-col>
+      <el-col :span="24" class="mt16">
+        <div class="flex mb16">
+          <div v-for="player in Data.players" class="flex items-center">
+            <el-image :src="getPlayerImageSrc(player.prefab)" style="height: 32px; width: 32px"></el-image>
+            <el-tag class="ml4" size="large">{{player.nickName}}</el-tag>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -219,7 +229,8 @@ const Data = ref({
     image: '',
   },
   prefabs: [],
-  count: []
+  count: [],
+  players: [],
 })
 
 const canvas = ref()
@@ -239,6 +250,14 @@ const getSummary = async () => {
   })
 }
 
+const getPlayerImageSrc = (name) => {
+  if (name) {
+    return new URL(`./images/${name}.png`, import.meta.url).href
+  } else {
+    return new URL(`./images/undefined.png`, import.meta.url).href
+  }
+}
+
 const generateImage = async () => {
   const mainImage = new Image();
   mainImage.src = 'data:image/png;base64,' + Data.value.image.image;
@@ -251,6 +270,109 @@ const generateImage = async () => {
     stickerImages.push(image)
   }
 
+  const playerImages = {
+    'undefined': (() => {
+      const img = new Image();
+      img.src = new URL(`./images/undefined.png`, import.meta.url).href;
+      return img;
+    })(),
+    maxwell: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/maxwell.png`, import.meta.url).href;
+      return img;
+    })(),
+    walter: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/walter.png`, import.meta.url).href;
+      return img;
+    })(),
+    wanda: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wanda.png`, import.meta.url).href;
+      return img;
+    })(),
+    warly: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/warly.png`, import.meta.url).href;
+      return img;
+    })(),
+    wathgrithr: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wathgrithr.png`, import.meta.url).href;
+      return img;
+    })(),
+    webber: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/webber.png`, import.meta.url).href;
+      return img;
+    })(),
+    wendy: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wendy.png`, import.meta.url).href;
+      return img;
+    })(),
+    wes: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wes.png`, import.meta.url).href;
+      return img;
+    })(),
+    wickerbottom: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wickerbottom.png`, import.meta.url).href;
+      return img;
+    })(),
+    willow: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/willow.png`, import.meta.url).href;
+      return img;
+    })(),
+    wilson: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wilson.png`, import.meta.url).href;
+      return img;
+    })(),
+    winona: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/winona.png`, import.meta.url).href;
+      return img;
+    })(),
+    wolfgang: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wolfgang.png`, import.meta.url).href;
+      return img;
+    })(),
+    wonkey: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wonkey.png`, import.meta.url).href;
+      return img;
+    })(),
+    woodie: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/woodie.png`, import.meta.url).href;
+      return img;
+    })(),
+    wormwood: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wormwood.png`, import.meta.url).href;
+      return img;
+    })(),
+    wortox: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wortox.png`, import.meta.url).href;
+      return img;
+    })(),
+    wurt: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wurt.png`, import.meta.url).href;
+      return img;
+    })(),
+    wx78: (() => {
+      const img = new Image();
+      img.src = new URL(`./images/wx78.png`, import.meta.url).href;
+      return img;
+    })(),
+  }
+
   // 等待所有图片加载完成
   await Promise.all([
     new Promise((resolve) => { mainImage.onload = resolve; }),
@@ -258,7 +380,12 @@ const generateImage = async () => {
       new Promise(resolve => {
         image.onload = resolve
       })
-    ))
+    )),
+    Promise.all(Object.values(playerImages).map(image =>
+      new Promise(resolve => {
+        image.onload = resolve;
+      })
+    )),
   ]);
 
   const ctx = canvas.value.getContext('2d');
@@ -273,6 +400,74 @@ const generateImage = async () => {
   for (let index = 0; index < stickerImages.length; index++) {
     await ctx.drawImage(stickerImages[index], Data.value.prefabs[index].x-8, Data.value.prefabs[index].y-8, 16, 16);
   }
+
+  for (let player of Data.value.players) {
+    let image
+    if (playerImages.hasOwnProperty(player.prefab)) {
+      image = player.prefab
+    } else {
+      image = 'undefined'
+
+    }
+    await ctx.drawImage(playerImages[image], player.coordinate.x-8, player.coordinate.y-8, 16, 16);
+    await drawTextWithBg(ctx, player.nickName, player.coordinate.x+8, player.coordinate.y)
+  }
+}
+
+const drawRoundedRect  = (ctx, x, y, width, height, radius, color) => {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+const drawTextWithBg = async (ctx, text, x, y, options = {}) => {
+  // 默认选项
+  const defaults = {
+    font: '8px Arial',
+    textColor: '#080808',
+    bgColor: '#ffffff',
+    padding: 5,
+    borderRadius: 5,
+    textBaseline: 'top'
+  };
+
+  // 合并选项
+  const opts = { ...defaults, ...options };
+
+  // 设置字体
+  ctx.font = opts.font;
+  ctx.textBaseline = opts.textBaseline;
+
+  // 测量文字
+  const metrics = ctx.measureText(text);
+  const textWidth = metrics.width;
+  const textHeight = parseInt(opts.font, 10); // 简单估算高度
+
+  // 计算背景尺寸
+  const bgWidth = textWidth + opts.padding * 2;
+  const bgHeight = textHeight + opts.padding * 2;
+
+  // 绘制圆角背景
+  if (opts.borderRadius > 0) {
+    await drawRoundedRect(ctx, x, y, bgWidth, bgHeight, opts.borderRadius, opts.bgColor);
+  } else {
+    ctx.fillStyle = opts.bgColor;
+    ctx.fillRect(x, y, bgWidth, bgHeight);
+  }
+
+  // 绘制文字
+  ctx.fillStyle = opts.textColor;
+  ctx.fillText(text, x + opts.padding, y + opts.padding);
 }
 
 
