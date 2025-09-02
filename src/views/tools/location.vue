@@ -14,40 +14,80 @@
 
       </div>
     </template>
-    <el-row v-loading="loading" style="overflow-x: auto; overflow-y: auto">
+    <el-row v-loading="loading" class="mx4" style="overflow-x: auto; overflow-y: auto;">
       <el-col :span="24" class="flex justify-center">
-        <canvas ref="canvas" :style="'width: '+Data.image.width*2+'px; height: '+Data.image.height*2+'px'"/>
+        <canvas
+          ref="canvas"
+          @mousemove="getPixelColor"
+          :width="Data.image.width * 2"
+          :height="Data.image.height * 2"
+          :style="{
+            width: Data.image.width * 2 + 'px',
+            height: Data.image.height * 2 + 'px',
+            imageRendering: 'pixelated'
+          }"
+        />
       </el-col>
       <el-col :span="24" class="mt16">
         <div>
           <el-row mb="4">
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#000000', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#000000' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#000000',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#000000')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#546E7A', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#546E7A' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#546E7A',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#546E7A')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#A1887F', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#A1887F' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#A1887F',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#A1887F')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#FFEFD5', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#FFEFD5' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#FFEFD5',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#FFEFD5')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#F5DEB3', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#F5DEB3' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#F5DEB3',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#F5DEB3')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#FFFACD', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#FFFACD' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#FFFACD',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#FFFACD')}}</span>
             </el-col>
@@ -55,32 +95,62 @@
 
           <el-row mb="4">
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#66CDAA', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#66CDAA' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#66CDAA',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#66CDAA')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#2E8B57', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#2E8B57' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#2E8B57',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#2E8B57')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#4A148C', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#4A148C' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#4A148C',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#4A148C')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#B2EBF2', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#B2EBF2' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#B2EBF2',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#B2EBF2')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#0091EA', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#0091EA' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#0091EA',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#0091EA')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#66BB6A', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#66BB6A' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#66BB6A',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#66BB6A')}}</span>
             </el-col>
@@ -88,32 +158,62 @@
 
           <el-row mb="4">
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#8D6E63', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#8D6E63' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#8D6E63',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#8D6E63')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#9E9D24', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#9E9D24' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#9E9D24',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#9E9D24')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#BA68C8', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#BA68C8' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#BA68C8',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#BA68C8')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#E040FB', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#E040FB' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#E040FB',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#E040FB')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#E57373', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#E57373' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#E57373',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#E57373')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#C8E6C9', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#C8E6C9' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#C8E6C9',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#C8E6C9')}}</span>
             </el-col>
@@ -121,32 +221,62 @@
 
           <el-row mb="4">
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#FFA07A', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#FFA07A' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#FFA07A',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#FFA07A')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#FFF9C4', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#FFF9C4' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#FFF9C4',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#FFF9C4')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#96CDCD', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#96CDCD' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#96CDCD',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#96CDCD')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#FFB6C1', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#FFB6C1' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#FFB6C1',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#FFB6C1')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#FFB300', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#FFB300' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#FFB300',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#FFB300')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#4DB6AC', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#4DB6AC' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#4DB6AC',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#4DB6AC')}}</span>
             </el-col>
@@ -154,32 +284,62 @@
 
           <el-row mb="4">
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#1E88E5', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#1E88E5' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#1E88E5',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#1E88E5')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#1976D2', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#1976D2' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#1976D2',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#1976D2')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#1565C0', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#1565C0' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#1565C0',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#1565C0')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#0D47A1', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#0D47A1' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#0D47A1',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#0D47A1')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#F5FFFA', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#F5FFFA' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#F5FFFA',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#F5FFFA')}}</span>
             </el-col>
             <el-col :span="4" class="flex items-center">
-              <div class="inline-flex" h="8" w="20" :style="{ boxShadow: 'var(--el-box-shadow)', backgroundColor: '#00897B', borderRadius: '10px'}"/>
+              <div class="inline-flex" h="8" w="20" :style="{
+                  boxShadow: currentColor === '#00897B' ? '0 0 10px 2px gold' : 'var(--el-box-shadow)',
+                  backgroundColor: '#00897B',
+                  borderRadius: '10px',
+                  transition: 'box-shadow 0.3s'
+                }"/>
               <span ml="1">:</span>
               <span ml="4">{{t('tools.location.colorScheme.#00897B')}}</span>
             </el-col>
@@ -259,6 +419,8 @@ const getPlayerImageSrc = (name) => {
     return new URL(`./images/undefined.png`, import.meta.url).href
   }
 }
+
+const ctx = ref()
 
 const generateImage = async () => {
   const mainImage = new Image();
@@ -390,29 +552,51 @@ const generateImage = async () => {
     )),
   ]);
 
-  const ctx = canvas.value.getContext('2d');
+  ctx.value = canvas.value.getContext('2d');
 
-  // 使用实际图片尺寸
-  canvas.value.width = Data.value.image.width;
-  canvas.value.height = Data.value.image.height;
+  ctx.value = canvas.value.getContext('2d');
 
-  // 绘制主图（使用实际尺寸）
-  await ctx.drawImage(mainImage, 0, 0, Data.value.image.width, Data.value.image.height);
+  // 修改为使用放大后的尺寸
+  canvas.value.width = Data.value.image.width * 2;
+  canvas.value.height = Data.value.image.height * 2;
 
+  // 绘制主图（使用放大后的尺寸）
+  await ctx.value.drawImage(
+    mainImage,
+    0, 0,
+    Data.value.image.width * 2,
+    Data.value.image.height * 2
+  );
+
+  // 修改贴图位置和尺寸（乘以2倍）
   for (let index = 0; index < stickerImages.length; index++) {
-    await ctx.drawImage(stickerImages[index], Data.value.prefabs[index].x-8, Data.value.prefabs[index].y-8, 16, 16);
+    await ctx.value.drawImage(
+      stickerImages[index],
+      Data.value.prefabs[index].x * 2 - 16,
+      Data.value.prefabs[index].y * 2 - 16,
+      32,
+      32
+    );
   }
 
   for (let player of Data.value.players) {
-    let image
-    if (playerImages.hasOwnProperty(player.prefab)) {
-      image = player.prefab
-    } else {
-      image = 'undefined'
+    let image = playerImages.hasOwnProperty(player.prefab)
+      ? player.prefab
+      : 'undefined';
 
-    }
-    await ctx.drawImage(playerImages[image], player.coordinate.x-8, player.coordinate.y-8, 16, 16);
-    await drawTextWithBg(ctx, player.nickName, player.coordinate.x+8, player.coordinate.y)
+    await ctx.value.drawImage(
+      playerImages[image],
+      player.coordinate.x * 2 - 16,
+      player.coordinate.y * 2 - 16,
+      32,
+      32
+    );
+    await drawTextWithBg(
+      ctx.value,
+      player.nickName,
+      player.coordinate.x * 2 + 16,
+      player.coordinate.y * 2
+    );
   }
 }
 
@@ -458,7 +642,8 @@ const drawTextWithBg = async (ctx, text, x, y, options = {}) => {
   // 计算背景尺寸
   const bgWidth = textWidth + opts.padding * 2;
   const bgHeight = textHeight + opts.padding * 2;
-
+  console.log(bgWidth)
+  console.log(bgHeight)
   // 绘制圆角背景
   if (opts.borderRadius > 0) {
     await drawRoundedRect(ctx, x, y, bgWidth, bgHeight, opts.borderRadius, opts.bgColor);
@@ -470,6 +655,28 @@ const drawTextWithBg = async (ctx, text, x, y, options = {}) => {
   // 绘制文字
   ctx.fillStyle = opts.textColor;
   ctx.fillText(text, x + opts.padding, y + opts.padding);
+}
+
+const currentColor = ref()
+const getPixelColor = (event) => {
+  const rect = canvas.value.getBoundingClientRect();
+  // 计算缩放比例
+  const scaleX = canvas.value.width / rect.width;
+  const scaleY = canvas.value.height / rect.height;
+
+  // 考虑缩放比例计算坐标
+  const x = (event.clientX - rect.left) * scaleX;
+  const y = (event.clientY - rect.top) * scaleY;
+
+  const pixel = ctx.value.getImageData(Math.floor(x), Math.floor(y), 1, 1).data;
+  currentColor.value = rgbToHex(pixel[0], pixel[1], pixel[2]);
+}
+
+const rgbToHex = (r, g, b) => {
+  return '#' + [r, g, b]
+    .map(x => x.toString(16).padStart(2, '0'))
+    .join('')
+    .toUpperCase();
 }
 
 
