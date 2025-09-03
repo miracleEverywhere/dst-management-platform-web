@@ -642,8 +642,7 @@ const drawTextWithBg = async (ctx, text, x, y, options = {}) => {
   // 计算背景尺寸
   const bgWidth = textWidth + opts.padding * 2;
   const bgHeight = textHeight + opts.padding * 2;
-  console.log(bgWidth)
-  console.log(bgHeight)
+
   // 绘制圆角背景
   if (opts.borderRadius > 0) {
     await drawRoundedRect(ctx, x, y, bgWidth, bgHeight, opts.borderRadius, opts.bgColor);
