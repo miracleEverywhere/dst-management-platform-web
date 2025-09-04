@@ -15,7 +15,7 @@
     <Language class="<md:visible"></Language>
     <!-- 全屏图标 -->
     <FullScreen></FullScreen>
-    <Message></Message>
+<!--    <Message></Message>-->
     <!-- 主题配置 -->
 <!--    <ThemeSetting class="<md:visible"></ThemeSetting>-->
     <!-- 头像 AND 下拉折叠 -->
@@ -33,11 +33,11 @@ import Dark from "@/layouts/components/Header/components/Dark.vue";
 import Language from "@/layouts/components/Header/components/Language.vue";
 import SearchMenu from "@/layouts/components/Header/components/SearchMenu.vue";
 // @ts-ignore
-import Gitee from "@/layouts/components/Header/components/Gitee.vue";
+// import Gitee from "@/layouts/components/Header/components/Gitee.vue";
 // @ts-ignore
 import Github from "@/layouts/components/Header/components/Github.vue";
 // @ts-ignore
-import Message from "@/layouts/components/Header/components/Message.vue";
+// import Message from "@/layouts/components/Header/components/Message.vue";
 // @ts-ignore
 import ClusterSelect from "@/layouts/components/Header/components/ClusterSelect.vue";
 </script>

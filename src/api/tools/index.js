@@ -133,4 +133,10 @@ export default {
       return await http.get(this.url, data);
     },
   },
+  location: {
+    url: `/tools/location`,
+    get: async function(data){
+      return await http.get(this.url, data);
+    },
+  }
 }
