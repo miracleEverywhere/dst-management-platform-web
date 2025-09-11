@@ -37,6 +37,7 @@ export default {
     control: "控制面板",
     master: "地面",
     caves: "洞穴",
+    consoleTip: "执行控制台命令，输入的命令中不能包含双引号，请使用单引号替代",
     running: "运行中",
     terminated: "已停止",
     rollback: "回档",

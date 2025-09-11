@@ -37,6 +37,7 @@ export default {
     control: "Control Panel",
     master: "Ground",
     caves: "Caves",
+    consoleTip: "Do not include double quotes in the input command. Please use single quotes instead",
     running: "Running",
     terminated: "Terminated",
     rollback: "Rollback",
