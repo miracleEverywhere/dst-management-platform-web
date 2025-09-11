@@ -192,7 +192,17 @@
                       </template>
                     </el-input>
                   </el-form-item>
-                  <el-form-item label="Console">
+                  <el-form-item>
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>Console</span>
+                        <el-tooltip :content="t('home.consoleTip')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
                       <template #prepend>
                         <el-select v-model="consoleForm.world" style="width: 115px">
