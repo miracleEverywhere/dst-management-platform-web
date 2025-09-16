@@ -236,6 +236,7 @@ export default {
       backDays: '回档天数',
       vote: '玩家投票',
       consoleEnabled: '控制台',
+      pauseEmptyDisabled: '自动暂停',
       password: '房间密码',
       token: '令牌',
       tokenHelp: '点击获取游戏令牌',

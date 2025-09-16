@@ -235,6 +235,7 @@ export default {
       backDays: 'Rollback Days',
       vote: 'Vote',
       consoleEnabled: 'Console',
+      pauseEmptyDisabled: 'Auto-Pause',
       password: 'Password',
       token: 'Token',
       tokenHelp: 'Click to obtain game token',
