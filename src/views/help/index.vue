@@ -161,41 +161,41 @@
                   {{ t('help.four.text3') }}
                 </div>
               </el-collapse-item>
-<!--              <el-collapse-item name="7">-->
-<!--                <template #title>-->
-<!--                  <el-tooltip v-if="needToolTip(t('help.seven.title'))" :content="t('help.seven.title')"-->
-<!--                              effect="light" placement="top">-->
-<!--                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>-->
-<!--                  </el-tooltip>-->
-<!--                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>-->
-<!--                </template>-->
-<!--                <div v-if="needToolTip(t('help.seven.title'))"-->
-<!--                     style="line-height: 50px; font-weight: bold; color: #409EFF">-->
-<!--                  {{ t('help.seven.title') }}-->
-<!--                </div>-->
-<!--                <div class="tip custom-block">-->
-<!--                  <div style="display: flex; align-content: center">-->
-<!--                    <el-icon :size="20" class="koi-icon">-->
-<!--                      <sc-icon-github-fill/>-->
-<!--                    </el-icon>-->
-<!--                    <el-link href="https://github.com/miracleEverywhere/dst-management-platform-desktop"-->
-<!--                             target="_blank" :underline="false" style="margin-left: 5px"-->
-<!--                    >-->
-<!--                      https://github.com/miracleEverywhere/dst-management-platform-desktop-->
-<!--                    </el-link>-->
-<!--                  </div>-->
+              <el-collapse-item name="7">
+                <template #title>
+                  <el-tooltip v-if="needToolTip(t('help.seven.title'))" :content="t('help.seven.title')"
+                              effect="light" placement="top">
+                    <span style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
+                  </el-tooltip>
+                  <span v-else style="font-weight: bolder; font-size: 16px">{{ optTitle(t('help.seven.title')) }}</span>
+                </template>
+                <div v-if="needToolTip(t('help.seven.title'))"
+                     style="line-height: 50px; font-weight: bold; color: #409EFF">
+                  {{ t('help.seven.title') }}
+                </div>
+                <div class="tip custom-block">
+                  <div style="display: flex; align-content: center">
+                    <el-icon :size="20" class="koi-icon">
+                      <sc-icon-github-fill/>
+                    </el-icon>
+                    <el-link href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
+                             target="_blank" :underline="false" style="margin-left: 5px"
+                    >
+                      https://github.com/miracleEverywhere/dst-management-platform-desktop
+                    </el-link>
+                  </div>
 
-<!--                </div>-->
-<!--                <div style="line-height: 50px;font-weight: bolder">-->
-<!--                  {{ t('help.seven.text1') }}-->
-<!--                </div>-->
-<!--                <div style="line-height: 50px;font-weight: bolder">-->
-<!--                  {{ t('help.seven.text2') }}-->
-<!--                </div>-->
-<!--                <div style="line-height: 50px;font-weight: bolder">-->
-<!--                  {{ t('help.seven.text3') }}-->
-<!--                </div>-->
-<!--              </el-collapse-item>-->
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.seven.text1') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.seven.text2') }}
+                </div>
+                <div style="line-height: 50px;font-weight: bolder">
+                  {{ t('help.seven.text3') }}
+                </div>
+              </el-collapse-item>
               <el-collapse-item name="8">
                 <template #title>
                   <el-tooltip v-if="needToolTip(t('help.eight.title'))" :content="t('help.eight.title')"
