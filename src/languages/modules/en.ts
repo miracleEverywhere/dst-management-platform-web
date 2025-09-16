@@ -74,6 +74,15 @@ export default {
       column2:'Action',
       stop: 'Stop',
     },
+    quickCmd: {
+      openButton: 'Quick CMD',
+      player: 'Player CMD',
+      world: 'World CMD',
+      uid: 'Please input player\'s UID',
+      preview: 'Preview',
+      cancel: 'Cancel',
+      insert: 'Insert'
+    },
     tour: {
       one: {
         title: 'Welcome~',

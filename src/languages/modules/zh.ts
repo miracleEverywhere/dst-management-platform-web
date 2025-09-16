@@ -74,6 +74,15 @@ export default {
       column2:'操作',
       stop: '停止',
     },
+    quickCmd: {
+      openButton: '快捷指令',
+      player: '玩家相关命令',
+      world: '世界相关命令',
+      uid: '请输入玩家UID',
+      preview: '预览',
+      cancel: '取消',
+      insert: '插入'
+    },
     tour: {
       one: {
         title: '欢迎~',
