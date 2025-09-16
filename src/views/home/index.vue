@@ -181,6 +181,9 @@
               <template #header>
                 <div class="card-header">
                   {{ t('home.interface') }}
+                  <el-button link type="primary" @click="quickCmdDialogVisible=true">
+                    {{ t('home.quickCmd.openButton') }}
+                  </el-button>
                 </div>
               </template>
               <div v-if="roomInfo.clusterSetting.name!==''">
@@ -422,6 +425,56 @@
         </div>
 
       </div>
+    </el-dialog>
+    <el-dialog v-model="quickCmdDialogVisible">
+      <template #header>
+        {{t('home.quickCmd.openButton')}}
+      </template>
+      <div style="margin: 20px 0">
+        <el-row>
+          <el-radio-group v-model="quickCmdType">
+            <el-radio value="player">玩家</el-radio>
+            <el-radio value="world">世界</el-radio>
+          </el-radio-group>
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-input v-model="quickCmdUid" :disabled="quickCmdType==='world'"
+                    :placeholder="t('home.quickCmd.uid')" clearable></el-input>
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-select v-model="quickCmdPlayerId" :disabled="quickCmdType==='world'||quickCmdUid===''"
+                     :placeholder="t('home.quickCmd.player')" filterable
+                     @change="quickCmdPlayerGenerate" clearable>
+            <el-option v-for="item in quickCmdPlayerOptions"
+                       :label="language==='zh'?item.label.zh:item.label.en"
+                       :value="item.value"/>
+          </el-select>
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-select v-model="quickCmdWorldId" :disabled="quickCmdType==='player'"
+                     :placeholder="t('home.quickCmd.world')" filterable
+                     @change="quickCmdWorldGenerate" clearable>
+            <el-option v-for="item in quickCmdWorldOptions"
+                       :label="language==='zh'?item.label.zh:item.label.en"
+                       :value="item.value"/>
+          </el-select>
+        </el-row>
+
+        <el-row class="mt-32px">
+          <el-tag v-if="quickCmd&&(quickCmdPlayerId>=0||quickCmdWorldId>=0)" type="primary">{{quickCmd}}</el-tag>
+        </el-row>
+      </div>
+
+      <template #footer>
+        <el-button @click="quickCmdDialogVisible=false">{{t('home.quickCmd.cancel')}}</el-button>
+        <el-button type="primary" @click="quickCmdInsert">
+          {{t('home.quickCmd.insert')}}
+        </el-button>
+      </template>
+
     </el-dialog>
 
     <el-tour v-model="globalStore.needTour">
@@ -916,6 +969,146 @@ const handleCheckLobby = () => {
   }).finally(() => {
     lobbyCheckLoading.value = false
   })
+}
+
+const quickCmdDialogVisible = ref(false)
+const quickCmdType = ref('player')
+const quickCmdUid = ref('')
+const quickCmdPlayerId = ref()
+const quickCmdWorldId = ref()
+const quickCmd = ref('')
+const quickCmdPlayerOptions = [
+  {
+    label: {
+      zh: "开启上帝模式",
+      en: "god mode"
+    },
+    value: 0
+  },
+  {
+    label: {
+      zh: "开启建造模式",
+      en: "builder mode"
+    },
+    value: 1
+  },
+]
+const quickCmdPlayerGenerate = () => {
+  if (quickCmdPlayerId.value === 0) {
+    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k]:PushEvent('death') end end`
+  }
+  if (quickCmdPlayerId.value === 1) {
+    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k].components.builder:GiveAllRecipes() end end`
+  }
+}
+const quickCmdWorldOptions = [
+  {
+    label: {
+      zh: "回档6天",
+      en: "Roll back 6 days"
+    },
+    value: 0
+  },
+  {
+    label: {
+      zh: "回档7天",
+      en: "Roll back 7 days"
+    },
+    value: 1
+  },
+  {
+    label: {
+      zh: "回档8天",
+      en: "Roll back 8 days"
+    },
+    value: 2
+  },
+  {
+    label: {
+      zh: "回档9天",
+      en: "Roll back 9 days"
+    },
+    value: 3
+  },
+  {
+    label: {
+      zh: "回档10天",
+      en: "Roll back 10 days"
+    },
+    value: 4
+  },
+  {
+    label: {
+      zh: "跳过1天",
+      en: "Skip 1 days"
+    },
+    value: 5
+  },
+  {
+    label: {
+      zh: "跳过2天",
+      en: "Skip 2 days"
+    },
+    value: 6
+  },
+  {
+    label: {
+      zh: "跳过3天",
+      en: "Skip 3 days"
+    },
+    value: 7
+  },
+  {
+    label: {
+      zh: "跳过5天",
+      en: "Skip 5 days"
+    },
+    value: 8
+  },
+  {
+    label: {
+      zh: "跳过10天",
+      en: "Skip 10 days"
+    },
+    value: 9
+  },
+]
+const quickCmdWorldGenerate = () => {
+  if (quickCmdWorldId.value === 0) {
+    quickCmd.value = `c_rollback(6)`
+  }
+  if (quickCmdWorldId.value === 1) {
+    quickCmd.value = `c_rollback(7)`
+  }
+  if (quickCmdWorldId.value === 2) {
+    quickCmd.value = `c_rollback(8)`
+  }
+  if (quickCmdWorldId.value === 3) {
+    quickCmd.value = `c_rollback(9)`
+  }
+  if (quickCmdWorldId.value === 4) {
+    quickCmd.value = `c_rollback(10)`
+  }
+  if (quickCmdWorldId.value === 5) {
+    quickCmd.value = `c_skip(1)`
+  }
+  if (quickCmdWorldId.value === 6) {
+    quickCmd.value = `c_skip(2)`
+  }
+  if (quickCmdWorldId.value === 7) {
+    quickCmd.value = `c_skip(3)`
+  }
+  if (quickCmdWorldId.value === 8) {
+    quickCmd.value = `c_skip(5)`
+  }
+  if (quickCmdWorldId.value === 9) {
+    quickCmd.value = `c_skip(10)`
+  }
+}
+
+const quickCmdInsert = () => {
+  consoleForm.value.cmd = quickCmd.value
+  quickCmdDialogVisible.value = false
 }
 
 const route = useRoute();
