@@ -7,7 +7,14 @@
             <el-card shadow="never" style="min-height: 250px">
               <template #header>
                 <div class="card-header">
-                  {{ t('home.roomInfo') }}
+                  <div class="fcc">
+                    {{ t('home.roomInfo') }}
+                    <el-tooltip :content="t('home.roomInfoTip')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
                 </div>
               </template>
               <template v-if="roomInfo.clusterSetting.name!==''">
@@ -188,7 +195,17 @@
               </template>
               <div v-if="roomInfo.clusterSetting.name!==''">
                 <el-form label-position="top">
-                  <el-form-item :label="t('home.announcement')">
+                  <el-form-item>
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('home.announcement')}}</span>
+                        <el-tooltip :content="t('home.announceTip')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-input v-model="announceForm.message" @keyup.enter="handleAnnounce">
                       <template #append>
                         <el-button :loading="announceLoading" @click="handleAnnounce">{{ t('home.send') }}</el-button>
@@ -1077,6 +1094,13 @@ const quickCmdWorldOptions = [
     },
     value: 2
   },
+  {
+    label: {
+      zh: "保存游戏",
+      en: "save"
+    },
+    value: 3
+  },
 ]
 const quickCmdWorldGenerate = () => {
   if (quickCmdWorldId.value === 0) {
@@ -1087,6 +1111,9 @@ const quickCmdWorldGenerate = () => {
   }
   if (quickCmdWorldId.value === 2) {
     quickCmd.value = `TheWorld:PushEvent('ms_nextphase')`
+  }
+  if (quickCmdWorldId.value === 3) {
+    quickCmd.value = `c_save()`
   }
 }
 
