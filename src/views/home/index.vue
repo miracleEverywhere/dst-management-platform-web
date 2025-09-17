@@ -480,8 +480,12 @@
           </el-select>
         </el-row>
 
-        <el-row class="mt-32px">
-          <el-text v-if="quickCmd&&(quickCmdPlayerId>=0||quickCmdWorldId>=0)" type="primary">{{quickCmd}}</el-text>
+        <el-row v-if="quickCmd&&(quickCmdPlayerId>=0||quickCmdWorldId>=0)" class="mt-16px">
+          <div class="tip" style="width: 100%">
+            {{language==='zh'?'预览：':'preview: '}}
+            <el-text type="primary">{{quickCmd}}</el-text>
+          </div>
+
         </el-row>
       </div>
 
