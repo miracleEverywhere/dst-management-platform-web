@@ -1057,7 +1057,7 @@ const quickCmdPlayerGenerate = () => {
     quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k].components.builder:GiveAllRecipes() end end`
   }
   if (quickCmdPlayerId.value === 2) {
-    quickCmd.value = `UserToPlayer('${quickCmdUid.value}'):AddTag("debugnoattack")`
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}'):AddTag('debugnoattack')`
   }
   if (quickCmdPlayerId.value === 3) {
     quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.combat.CalcDamage = function() return 9999999999 * 9 end`
