@@ -1,5 +1,6 @@
 export default {
   home: {
+    roomInfoTip: '如果新开存档的房间信息获取失败，请在 命令执行-快捷命令-世界 中选择保存游戏，并执行该快捷命令，然后刷新本页面即可',
     updatePassword: "当前密码较弱，请及时修改",
     updatePasswordTitle: "系统提示",
     canceled: "已取消操作",
@@ -37,6 +38,7 @@ export default {
     control: "控制面板",
     master: "地面",
     caves: "洞穴",
+    announceTip: '公告中不能含有换行、引号等特殊字符',
     consoleTip: "执行控制台命令，输入的命令中不能包含双引号，请使用单引号替代",
     running: "运行中",
     terminated: "已停止",
