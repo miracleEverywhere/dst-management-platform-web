@@ -55,7 +55,7 @@
                     </el-button>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.version')">
-                    <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">
+                    <el-tag v-loading="versionLoading" :type="version.local===version.server&&!version.server<1?'success':'danger'">
                       ({{ version.local }}/{{ version.server }})
                     </el-tag>
                   </el-descriptions-item>
