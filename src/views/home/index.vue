@@ -433,8 +433,8 @@
       <div style="margin: 20px 0">
         <el-row>
           <el-radio-group v-model="quickCmdType">
-            <el-radio value="player">玩家</el-radio>
-            <el-radio value="world">世界</el-radio>
+            <el-radio value="player">{{language==='zh'?'玩家':'Player'}}</el-radio>
+            <el-radio value="world">{{language==='zh'?'世界':'World'}}</el-radio>
           </el-radio-group>
         </el-row>
 
@@ -464,7 +464,7 @@
         </el-row>
 
         <el-row class="mt-32px">
-          <el-tag v-if="quickCmd&&(quickCmdPlayerId>=0||quickCmdWorldId>=0)" type="primary">{{quickCmd}}</el-tag>
+          <el-text v-if="quickCmd&&(quickCmdPlayerId>=0||quickCmdWorldId>=0)" type="primary">{{quickCmd}}</el-text>
         </el-row>
       </div>
 
@@ -992,85 +992,90 @@ const quickCmdPlayerOptions = [
     },
     value: 1
   },
-]
-const quickCmdPlayerGenerate = () => {
-  if (quickCmdPlayerId.value === 0) {
-    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k]:PushEvent('death') end end`
-  }
-  if (quickCmdPlayerId.value === 1) {
-    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k].components.builder:GiveAllRecipes() end end`
-  }
-}
-const quickCmdWorldOptions = [
   {
     label: {
-      zh: "回档6天",
-      en: "Roll back 6 days"
-    },
-    value: 0
-  },
-  {
-    label: {
-      zh: "回档7天",
-      en: "Roll back 7 days"
-    },
-    value: 1
-  },
-  {
-    label: {
-      zh: "回档8天",
-      en: "Roll back 8 days"
+      zh: "开启隐身模式",
+      en: "invisible mode"
     },
     value: 2
   },
   {
     label: {
-      zh: "回档9天",
-      en: "Roll back 9 days"
+      zh: "开启一击必杀",
+      en: "one attack to kill"
     },
     value: 3
   },
   {
     label: {
-      zh: "回档10天",
-      en: "Roll back 10 days"
+      zh: "解锁所有科技",
+      en: "unlock all tech"
     },
     value: 4
   },
   {
     label: {
-      zh: "跳过1天",
-      en: "Skip 1 days"
+      zh: "移速×4(按需更改)",
+      en: "moving speed × 4 (modify it by self)"
     },
     value: 5
   },
   {
     label: {
-      zh: "跳过2天",
-      en: "Skip 2 days"
+      zh: "重选角色",
+      en: "reselect character"
     },
     value: 6
   },
+]
+const quickCmdPlayerGenerate = () => {
+  if (!(/^KU_/.test(quickCmdUid.value))) {
+    koiMsgError(language.value === 'zh' ? '请输入正确的玩家UID' : 'Please input the correct player UID')
+    return
+  }
+  if (quickCmdPlayerId.value === 0) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.health:SetInvincible(true)`
+  }
+  if (quickCmdPlayerId.value === 1) {
+    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k].components.builder:GiveAllRecipes() end end`
+  }
+  if (quickCmdPlayerId.value === 2) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}'):AddTag("debugnoattack")`
+  }
+  if (quickCmdPlayerId.value === 3) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.combat.CalcDamage = function() return 9999999999 * 9 end`
+  }
+  if (quickCmdPlayerId.value === 4) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.builder:UnlockRecipesForTech({SCIENCE = 1, MAGIC = 1, ANCIENT = 1, SHADOW = 1, CARTOGRAPHY = 1})`
+  }
+  if (quickCmdPlayerId.value === 5) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.locomotor:SetExternalSpeedMultiplier(UserToPlayer('${quickCmdUid.value}'), 'c_speedmult', 4)`
+  }
+  if (quickCmdPlayerId.value === 6) {
+    quickCmd.value = `c_despawn(UserToPlayer('${quickCmdUid.value}'))`
+  }
+}
+const quickCmdWorldOptions = [
   {
     label: {
-      zh: "跳过3天",
-      en: "Skip 3 days"
+      zh: "回档6天(按需更改)",
+      en: "roll back 6 days (modify it by self)"
     },
-    value: 7
+    value: 0
   },
   {
     label: {
-      zh: "跳过5天",
-      en: "Skip 5 days"
+      zh: "跳过1天(按需更改)",
+      en: "skip 1 day (modify it by self)"
     },
-    value: 8
+    value: 1
   },
   {
     label: {
-      zh: "跳过10天",
-      en: "Skip 10 days"
+      zh: "下一阶段",
+      en: "next phase"
     },
-    value: 9
+    value: 2
   },
 ]
 const quickCmdWorldGenerate = () => {
@@ -1078,31 +1083,10 @@ const quickCmdWorldGenerate = () => {
     quickCmd.value = `c_rollback(6)`
   }
   if (quickCmdWorldId.value === 1) {
-    quickCmd.value = `c_rollback(7)`
-  }
-  if (quickCmdWorldId.value === 2) {
-    quickCmd.value = `c_rollback(8)`
-  }
-  if (quickCmdWorldId.value === 3) {
-    quickCmd.value = `c_rollback(9)`
-  }
-  if (quickCmdWorldId.value === 4) {
-    quickCmd.value = `c_rollback(10)`
-  }
-  if (quickCmdWorldId.value === 5) {
     quickCmd.value = `c_skip(1)`
   }
-  if (quickCmdWorldId.value === 6) {
-    quickCmd.value = `c_skip(2)`
-  }
-  if (quickCmdWorldId.value === 7) {
-    quickCmd.value = `c_skip(3)`
-  }
-  if (quickCmdWorldId.value === 8) {
-    quickCmd.value = `c_skip(5)`
-  }
-  if (quickCmdWorldId.value === 9) {
-    quickCmd.value = `c_skip(10)`
+  if (quickCmdWorldId.value === 2) {
+    quickCmd.value = `TheWorld:PushEvent('ms_nextphase')`
   }
 }
 
