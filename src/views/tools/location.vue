@@ -359,7 +359,7 @@
         <div class="flex mb16">
           <div v-for="player in Data.players" class="flex items-center">
             <el-image :src="getPlayerImageSrc(player.prefab)" style="height: 32px; width: 32px"></el-image>
-            <el-tag class="ml4" size="large">{{player.nickName}}</el-tag>
+            <el-tag class="ml4 mr8" size="large">{{player.nickName}}</el-tag>
           </div>
         </div>
       </el-col>
