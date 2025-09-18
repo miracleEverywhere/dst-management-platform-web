@@ -230,9 +230,15 @@
                                      :label="world.world" :value="world.world">
                             <div class="fcc">
                               <span style="margin-right: 10px">{{ world.world }}</span>
-                              <el-tag v-if="world.type==='forest'" type="success">地面</el-tag>
-                              <el-tag v-if="world.type==='cave'" type="warning">洞穴</el-tag>
-                              <el-tag v-if="world.type==='None'" type="danger">未识别</el-tag>
+                              <el-tag v-if="world.type==='forest'" type="success">
+                                {{language==='zh'?'地面':'Ground'}}
+                              </el-tag>
+                              <el-tag v-if="world.type==='cave'" type="warning">
+                                {{language==='zh'?'洞穴':'Cave'}}
+                              </el-tag>
+                              <el-tag v-if="world.type==='None'" type="danger">
+                                {{language==='zh'?'未识别':'Undefined'}}
+                              </el-tag>
                             </div>
                           </el-option>
                         </el-select>
