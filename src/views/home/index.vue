@@ -170,10 +170,10 @@
                     <el-button :disabled="userInfo.role!=='admin'" :loading="isUpdating" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
+                    <el-button size="default" type="info" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
                     <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
                     <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
-                      <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
+                      <el-button color="fuchsia" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
                     </el-tooltip>
                   </el-form-item>
                 </el-form>
