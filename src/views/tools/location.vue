@@ -440,9 +440,9 @@ const generateImage = async () => {
       img.src = new URL(`./images/undefined.png`, import.meta.url).href;
       return img;
     })(),
-    maxwell: (() => {
+    waxwell: (() => {
       const img = new Image();
-      img.src = new URL(`./images/maxwell.png`, import.meta.url).href;
+      img.src = new URL(`./images/waxwell.png`, import.meta.url).href;
       return img;
     })(),
     walter: (() => {
