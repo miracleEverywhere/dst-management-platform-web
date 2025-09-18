@@ -68,7 +68,7 @@
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.playerNum')">
                     <template v-if="roomInfo.players!==null">
-                      <el-tooltip :content="roomInfo.players.join(', ')" effect="light" placement="top">
+                      <el-tooltip :content="roomInfo.players.map(player => player.nickName).join(', ')" effect="light" placement="top">
                         <el-tag type="primary">{{ roomInfo.players.length }}</el-tag>
                       </el-tooltip>
                     </template>
@@ -462,6 +462,17 @@
         </el-row>
 
         <el-row class="mt-16px">
+          <el-tooltip v-for="player in roomInfo.players" effect="light" placement="top" :show-after="200"
+                      :content="language==='zh'?`点击可快速插入UID: ${player.uid}`:`Click to insert player's UID: ${player.uid}`">
+            <el-button  link type="primary"
+                       :disabled="quickCmdType==='world'" @click="quickCmdUid=player.uid">
+              {{player.nickName}}
+            </el-button>
+          </el-tooltip>
+
+        </el-row>
+
+        <el-row class="mt-16px">
           <el-input v-model="quickCmdUid" :disabled="quickCmdType==='world'"
                     :placeholder="t('home.quickCmd.uid')" clearable></el-input>
         </el-row>
@@ -491,7 +502,6 @@
             {{language==='zh'?'预览：':'preview: '}}
             <el-text type="primary">{{quickCmd}}</el-text>
           </div>
-
         </el-row>
       </div>
 
