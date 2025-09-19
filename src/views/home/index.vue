@@ -7,7 +7,14 @@
             <el-card shadow="never" style="min-height: 250px">
               <template #header>
                 <div class="card-header">
-                  {{ t('home.roomInfo') }}
+                  <div class="fcc">
+                    {{ t('home.roomInfo') }}
+                    <el-tooltip :content="t('home.roomInfoTip')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
                 </div>
               </template>
               <template v-if="roomInfo.clusterSetting.name!==''">
@@ -55,13 +62,13 @@
                     </el-button>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.version')">
-                    <el-tag v-loading="versionLoading" :type="version.local===version.server?'success':'danger'">
+                    <el-tag v-loading="versionLoading" :type="version.local===version.server&&!version.server<1?'success':'danger'">
                       ({{ version.local }}/{{ version.server }})
                     </el-tag>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.playerNum')">
                     <template v-if="roomInfo.players!==null">
-                      <el-tooltip :content="roomInfo.players.join(', ')" effect="light" placement="top">
+                      <el-tooltip :content="roomInfo.players.map(player => player.nickName).join(', ')" effect="light" placement="top">
                         <el-tag type="primary">{{ roomInfo.players.length }}</el-tag>
                       </el-tooltip>
                     </template>
@@ -163,7 +170,7 @@
                     <el-button :disabled="userInfo.role!=='admin'" :loading="isUpdating" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="warning" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
+                    <el-button size="default" type="info" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
                     <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
                     <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
                       <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
@@ -181,18 +188,41 @@
               <template #header>
                 <div class="card-header">
                   {{ t('home.interface') }}
+                  <el-button link type="primary" @click="quickCmdDialogVisible=true">
+                    {{ t('home.quickCmd.openButton') }}
+                  </el-button>
                 </div>
               </template>
               <div v-if="roomInfo.clusterSetting.name!==''">
                 <el-form label-position="top">
-                  <el-form-item :label="t('home.announcement')">
+                  <el-form-item>
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('home.announcement')}}</span>
+                        <el-tooltip :content="t('home.announceTip')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-input v-model="announceForm.message" @keyup.enter="handleAnnounce">
                       <template #append>
                         <el-button :loading="announceLoading" @click="handleAnnounce">{{ t('home.send') }}</el-button>
                       </template>
                     </el-input>
                   </el-form-item>
-                  <el-form-item label="Console">
+                  <el-form-item>
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>Console</span>
+                        <el-tooltip :content="t('home.consoleTip')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-input v-model="consoleForm.cmd" @keyup.enter="handleConsole">
                       <template #prepend>
                         <el-select v-model="consoleForm.world" style="width: 115px">
@@ -200,9 +230,15 @@
                                      :label="world.world" :value="world.world">
                             <div class="fcc">
                               <span style="margin-right: 10px">{{ world.world }}</span>
-                              <el-tag v-if="world.type==='forest'" type="success">地面</el-tag>
-                              <el-tag v-if="world.type==='cave'" type="warning">洞穴</el-tag>
-                              <el-tag v-if="world.type==='None'" type="danger">未识别</el-tag>
+                              <el-tag v-if="world.type==='forest'" type="success">
+                                {{language==='zh'?'地面':'Ground'}}
+                              </el-tag>
+                              <el-tag v-if="world.type==='cave'" type="warning">
+                                {{language==='zh'?'洞穴':'Cave'}}
+                              </el-tag>
+                              <el-tag v-if="world.type==='None'" type="danger">
+                                {{language==='zh'?'未识别':'Undefined'}}
+                              </el-tag>
                             </div>
                           </el-option>
                         </el-select>
@@ -412,6 +448,70 @@
         </div>
 
       </div>
+    </el-dialog>
+    <el-dialog v-model="quickCmdDialogVisible">
+      <template #header>
+        {{t('home.quickCmd.openButton')}}
+      </template>
+      <div style="margin: 20px 0">
+        <el-row>
+          <el-radio-group v-model="quickCmdType">
+            <el-radio value="player">{{language==='zh'?'玩家':'Player'}}</el-radio>
+            <el-radio value="world">{{language==='zh'?'世界':'World'}}</el-radio>
+          </el-radio-group>
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-tooltip v-for="player in roomInfo.players" effect="light" placement="top" :show-after="200"
+                      :content="language==='zh'?`点击可快速插入UID: ${player.uid}`:`Click to insert player's UID: ${player.uid}`">
+            <el-button  link type="primary"
+                       :disabled="quickCmdType==='world'" @click="quickCmdUid=player.uid">
+              {{player.nickName}}
+            </el-button>
+          </el-tooltip>
+
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-input v-model="quickCmdUid" :disabled="quickCmdType==='world'"
+                    :placeholder="t('home.quickCmd.uid')" clearable></el-input>
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-select v-model="quickCmdPlayerId" :disabled="quickCmdType==='world'||quickCmdUid===''"
+                     :placeholder="t('home.quickCmd.player')" filterable
+                     @change="quickCmdPlayerGenerate" clearable>
+            <el-option v-for="item in quickCmdPlayerOptions"
+                       :label="language==='zh'?item.label.zh:item.label.en"
+                       :value="item.value"/>
+          </el-select>
+        </el-row>
+
+        <el-row class="mt-16px">
+          <el-select v-model="quickCmdWorldId" :disabled="quickCmdType==='player'"
+                     :placeholder="t('home.quickCmd.world')" filterable
+                     @change="quickCmdWorldGenerate" clearable>
+            <el-option v-for="item in quickCmdWorldOptions"
+                       :label="language==='zh'?item.label.zh:item.label.en"
+                       :value="item.value"/>
+          </el-select>
+        </el-row>
+
+        <el-row v-if="quickCmd&&(quickCmdPlayerId>=0||quickCmdWorldId>=0)" class="mt-16px">
+          <div class="tip" style="width: 100%">
+            {{language==='zh'?'预览：':'preview: '}}
+            <el-text type="primary">{{quickCmd}}</el-text>
+          </div>
+        </el-row>
+      </div>
+
+      <template #footer>
+        <el-button @click="quickCmdDialogVisible=false">{{t('home.quickCmd.cancel')}}</el-button>
+        <el-button type="primary" @click="quickCmdInsert">
+          {{t('home.quickCmd.insert')}}
+        </el-button>
+      </template>
+
     </el-dialog>
 
     <el-tour v-model="globalStore.needTour">
@@ -906,6 +1006,140 @@ const handleCheckLobby = () => {
   }).finally(() => {
     lobbyCheckLoading.value = false
   })
+}
+
+const quickCmdDialogVisible = ref(false)
+const quickCmdType = ref('player')
+const quickCmdUid = ref('')
+const quickCmdPlayerId = ref()
+const quickCmdWorldId = ref()
+const quickCmd = ref('')
+const quickCmdPlayerOptions = [
+  {
+    label: {
+      zh: "开启上帝模式",
+      en: "god mode"
+    },
+    value: 0
+  },
+  {
+    label: {
+      zh: "开启建造模式",
+      en: "builder mode"
+    },
+    value: 1
+  },
+  {
+    label: {
+      zh: "开启隐身模式",
+      en: "invisible mode"
+    },
+    value: 2
+  },
+  {
+    label: {
+      zh: "开启一击必杀",
+      en: "one attack to kill"
+    },
+    value: 3
+  },
+  {
+    label: {
+      zh: "解锁所有科技",
+      en: "unlock all tech"
+    },
+    value: 4
+  },
+  {
+    label: {
+      zh: "移速×4(按需更改)",
+      en: "moving speed × 4 (modify it by self)"
+    },
+    value: 5
+  },
+  {
+    label: {
+      zh: "重选角色",
+      en: "reselect character"
+    },
+    value: 6
+  },
+]
+const quickCmdPlayerGenerate = () => {
+  if (!(/^KU_/.test(quickCmdUid.value))) {
+    koiMsgError(language.value === 'zh' ? '请输入正确的玩家UID' : 'Please input the correct player UID')
+    return
+  }
+  if (quickCmdPlayerId.value === 0) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.health:SetInvincible(true)`
+  }
+  if (quickCmdPlayerId.value === 1) {
+    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k].components.builder:GiveAllRecipes() end end`
+  }
+  if (quickCmdPlayerId.value === 2) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}'):AddTag('debugnoattack')`
+  }
+  if (quickCmdPlayerId.value === 3) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.combat.CalcDamage = function() return 9999999999 * 9 end`
+  }
+  if (quickCmdPlayerId.value === 4) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.builder:UnlockRecipesForTech({SCIENCE = 1, MAGIC = 1, ANCIENT = 1, SHADOW = 1, CARTOGRAPHY = 1})`
+  }
+  if (quickCmdPlayerId.value === 5) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.locomotor:SetExternalSpeedMultiplier(UserToPlayer('${quickCmdUid.value}'), 'c_speedmult', 4)`
+  }
+  if (quickCmdPlayerId.value === 6) {
+    quickCmd.value = `c_despawn(UserToPlayer('${quickCmdUid.value}'))`
+  }
+}
+const quickCmdWorldOptions = [
+  {
+    label: {
+      zh: "回档6天(按需更改)",
+      en: "roll back 6 days (modify it by self)"
+    },
+    value: 0
+  },
+  {
+    label: {
+      zh: "跳过1天(按需更改)",
+      en: "skip 1 day (modify it by self)"
+    },
+    value: 1
+  },
+  {
+    label: {
+      zh: "下一阶段",
+      en: "next phase"
+    },
+    value: 2
+  },
+  {
+    label: {
+      zh: "保存游戏",
+      en: "save"
+    },
+    value: 3
+  },
+]
+const quickCmdWorldGenerate = () => {
+  if (quickCmdWorldId.value === 0) {
+    quickCmd.value = `c_rollback(6)`
+  }
+  if (quickCmdWorldId.value === 1) {
+    quickCmd.value = `c_skip(1)`
+  }
+  if (quickCmdWorldId.value === 2) {
+    quickCmd.value = `TheWorld:PushEvent('ms_nextphase')`
+  }
+  if (quickCmdWorldId.value === 3) {
+    quickCmd.value = `c_save()`
+  }
+}
+
+const quickCmdInsert = () => {
+  consoleForm.value.cmd = quickCmd.value
+  quickCmdDialogVisible.value = false
 }
 
 const route = useRoute();

@@ -1,5 +1,6 @@
 export default {
   home: {
+    roomInfoTip: '如果新开存档的房间信息获取失败，请在 命令执行-快捷命令-世界 中选择保存游戏，并执行该快捷命令，然后刷新本页面即可',
     updatePassword: "当前密码较弱，请及时修改",
     updatePasswordTitle: "系统提示",
     canceled: "已取消操作",
@@ -37,6 +38,8 @@ export default {
     control: "控制面板",
     master: "地面",
     caves: "洞穴",
+    announceTip: '公告中不能含有换行、引号等特殊字符',
+    consoleTip: "执行控制台命令，输入的命令中不能包含双引号，请使用单引号替代",
     running: "运行中",
     terminated: "已停止",
     rollback: "回档",
@@ -72,6 +75,15 @@ export default {
       column1: '名称',
       column2:'操作',
       stop: '停止',
+    },
+    quickCmd: {
+      openButton: '快捷指令',
+      player: '玩家相关命令',
+      world: '世界相关命令',
+      uid: '请输入玩家UID',
+      preview: '预览',
+      cancel: '取消',
+      insert: '插入'
     },
     tour: {
       one: {
@@ -235,6 +247,7 @@ export default {
       backDays: '回档天数',
       vote: '玩家投票',
       consoleEnabled: '控制台',
+      pauseEmptyDisabled: '自动暂停',
       password: '房间密码',
       token: '令牌',
       tokenHelp: '点击获取游戏令牌',

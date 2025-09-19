@@ -1,5 +1,6 @@
 export default {
   home: {
+    roomInfoTip: 'If obtaining the room information fails, please go to \'Remote Execute - Quick CMD - World\', select \'save\', execute that quick command, and then refresh this page',
     updatePassword: "The current password is weak, please change it promptly",
     updatePasswordTitle: "System Prompt",
     canceled: "Operation has been canceled",
@@ -37,6 +38,8 @@ export default {
     control: "Control Panel",
     master: "Ground",
     caves: "Caves",
+    announceTip: 'Announcements must not contain special characters such as line breaks or quotation marks',
+    consoleTip: "Do not include double quotes in the input command. Please use single quotes instead",
     running: "Running",
     terminated: "Terminated",
     rollback: "Rollback",
@@ -72,6 +75,15 @@ export default {
       column1: 'Name',
       column2:'Action',
       stop: 'Stop',
+    },
+    quickCmd: {
+      openButton: 'Quick CMD',
+      player: 'Player CMD',
+      world: 'World CMD',
+      uid: 'Please input player\'s UID',
+      preview: 'Preview',
+      cancel: 'Cancel',
+      insert: 'Insert'
     },
     tour: {
       one: {
@@ -234,6 +246,7 @@ export default {
       backDays: 'Rollback Days',
       vote: 'Vote',
       consoleEnabled: 'Console',
+      pauseEmptyDisabled: 'Auto-Pause',
       password: 'Password',
       token: 'Token',
       tokenHelp: 'Click to obtain game token',

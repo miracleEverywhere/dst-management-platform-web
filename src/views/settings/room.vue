@@ -47,17 +47,24 @@
                 <el-switch v-model="clusterSettingForm.pvp"/>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-slider v-model="clusterSettingForm.playerNum" :max="100" :min="2" show-input size="small"/>
+                <el-slider v-model="clusterSettingForm.playerNum" :max="64" :min="2" show-input size="small"/>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-slider v-model="clusterSettingForm.backDays" :max="50" :min="5" show-input size="small"/>
+                <el-slider v-model="clusterSettingForm.backDays" :max="64" :min="5" show-input size="small"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
-                <el-switch v-model="clusterSettingForm.vote"/>
-              </el-form-item>
-<!--              <el-form-item :label="t('setting.baseForm.consoleEnabled')" prop="consoleEnabled" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">-->
-<!--                <el-switch v-model="clusterSettingForm.consoleEnabled"/>-->
-<!--              </el-form-item>-->
+              <el-row>
+                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+                  <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                    <el-switch v-model="clusterSettingForm.vote"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+                  <el-form-item :label="t('setting.baseForm.pauseEmptyDisabled')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                    <el-switch v-model="clusterSettingForm.pauseEmptyDisabled"
+                               :active-value="false" :inactive-value="true"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
               <el-form-item :label="t('setting.baseForm.password')" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
                 <el-input v-model="clusterSettingForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
@@ -999,6 +1006,7 @@ const clusterSettingForm = ref({
   backDays: 10,
   vote: false,
   consoleEnabled: true,
+  pauseEmptyDisabled: false,
   password: '',
   token: '',
 })
