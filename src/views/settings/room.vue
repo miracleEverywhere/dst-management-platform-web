@@ -43,9 +43,6 @@
                   <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-switch v-model="clusterSettingForm.pvp"/>
-              </el-form-item>
               <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
                 <el-slider v-model="clusterSettingForm.playerNum" :max="64" :min="2" show-input size="small"/>
               </el-form-item>
@@ -53,15 +50,20 @@
                 <el-slider v-model="clusterSettingForm.backDays" :max="64" :min="5" show-input size="small"/>
               </el-form-item>
               <el-row>
-                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+                <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
                   <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
                     <el-switch v-model="clusterSettingForm.vote"/>
                   </el-form-item>
                 </el-col>
-                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+                <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
                   <el-form-item :label="t('setting.baseForm.pauseEmptyDisabled')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
                     <el-switch v-model="clusterSettingForm.pauseEmptyDisabled"
                                :active-value="false" :inactive-value="true"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
+                  <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                    <el-switch v-model="clusterSettingForm.pvp"/>
                   </el-form-item>
                 </el-col>
               </el-row>
