@@ -10,7 +10,7 @@
         <Language class="<md:visible"></Language>
         <!-- 明亮/暗黑模式图标 -->
         <Dark></Dark>
-        <Message></Message>
+<!--        <Message></Message>-->
         <!-- 头像 AND 下拉折叠 -->
         <User></User>
       </div>
