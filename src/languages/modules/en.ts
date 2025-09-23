@@ -99,8 +99,8 @@ export default {
         desc: 'This refers to multi-room (cluster) management. Click this selector to switch cluster or create new ones.',
       },
       four: {
-        title: 'Update Overview',
-        desc: 'Update logs for all versions of DMP will be displayed here. If a new version is available, you\'ll be notified in this section.',
+        title: 'Docs',
+        desc: 'If you encounter any issues, you can refer to the help documentation',
       },
       five: {
         title: 'Hope you still remember',
