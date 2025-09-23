@@ -533,7 +533,7 @@
           <span>{{t('home.tour.three.desc')}}</span>
         </div>
       </el-tour-step>
-      <el-tour-step target="#tourMessage" :title="t('home.tour.four.title')">
+      <el-tour-step target="#tourDocs" :title="t('home.tour.four.title')">
         <div style="display: flex; align-items: center">
           <el-icon style="margin-right: 5px"><Dessert /></el-icon>
           <span>{{t('home.tour.four.desc')}}</span>
