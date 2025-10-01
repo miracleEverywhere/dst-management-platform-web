@@ -36,8 +36,11 @@
                     <el-button link type="info" @click="handleOpenCustomConnectionCodeDialog">{{t('home.customConnectionCode')}}</el-button>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.cycles')">
-                    <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                    <el-tag v-if="roomInfo.seasonInfo.cycles>-1" type="success">
                       {{ roomInfo.seasonInfo.cycles }}
+                    </el-tag>
+                    <el-tag v-else type="danger">
+                      {{ language==='zh'?'获取失败':'Failed to retrieve' }}
                     </el-tag>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.phase')">
@@ -173,7 +176,31 @@
                     <el-button size="default" type="info" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
                     <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
                     <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
-                      <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
+                      <el-dropdown trigger="click" style="margin-left: 12px">
+                        <el-button color="#626aef" size="default">
+                          {{ t('home.delete') }}
+                        </el-button>
+                        <template #dropdown>
+                          <el-dropdown-menu>
+                            <el-dropdown-item v-for="world in worldInfo"
+                                              @click="handleExec('delete', 0, world.world)">
+                              <div class="fcc">
+                                <span style="margin-right: 10px">{{ world.world }}</span>
+                                <el-tag v-if="world.type==='forest'" type="success">
+                                  {{language==='zh'?'地面':'Ground'}}
+                                </el-tag>
+                                <el-tag v-if="world.type==='cave'" type="warning">
+                                  {{language==='zh'?'洞穴':'Cave'}}
+                                </el-tag>
+                                <el-tag v-if="world.type==='None'" type="danger">
+                                  {{language==='zh'?'未识别':'Undefined'}}
+                                </el-tag>
+                              </div>
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
+                        </template>
+                      </el-dropdown>
+<!--                      <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>-->
                     </el-tooltip>
                   </el-form-item>
                 </el-form>
@@ -789,7 +816,7 @@ const handleWorldSwitch = (world) => {
   })
 }
 
-const handleExec = (type, extraData) => {
+const handleExec = (type, extraData, worldName=null) => {
   const typeMap = {
     startup: {
       en: 'STARTUP',
@@ -834,7 +861,7 @@ const handleExec = (type, extraData) => {
             type: type,
             extraData: extraData,
             clusterName: globalStore.selectedDstCluster,
-            worldName: "",
+            worldName: worldName,
           }
           homeApi.exec.post(reqForm).then(response => {
             koiMsgSuccess(response.message)
