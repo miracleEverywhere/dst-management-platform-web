@@ -72,8 +72,8 @@
                       {{ t('setting.mod.add.header.multiDelete') }}
                     </el-button>
                     <el-button :disabled="selectedDownloadMods.length===0" :loading="multiEnableLoading"
-                               type="success" @click="handleModMultiAdd">
-                      批量启用
+                               type="success" @click="handleModMultiEnable">
+                      {{ t('setting.mod.add.header.multiEnable') }}
                     </el-button>
                     <el-button :loading="addClientModsDisabledConfigButtonLoading"
                                type="warning" :icon="Plus"
@@ -108,6 +108,10 @@
                           <el-dropdown-item :disabled="userInfo.role!=='admin'||selectedDownloadMods.length===0"
                                             :command="{cmd: 'multiDelete', row: ''}">
                             {{ t('setting.mod.add.header.multiDelete') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :disabled="selectedDownloadMods.length===0"
+                                            :command="{cmd: 'multiEnable', row: ''}">
+                            {{ t('setting.mod.add.header.multiEnable') }}
                           </el-dropdown-item>
                           <el-dropdown-item :disabled="addClientModsDisabledConfigButtonDisable"
                                             :command="{cmd: 'addClientDisabled', row: ''}">
@@ -528,6 +532,9 @@ const handleModCommand = (actions) => {
     case 'multiDelete':
       handleMultiDeleteMod()
       break;
+    case 'multiEnable':
+      handleModMultiEnable()
+      break;
     case 'addClientDisabled':
       handleAddClientModsDisabledConfig()
       break;
@@ -688,7 +695,7 @@ const downloadedModFiltered = computed(() => {
 })
 
 const multiEnableLoading = ref(false)
-const handleModMultiAdd = async () => {
+const handleModMultiEnable = async () => {
   multiEnableLoading.value = true
   for (let row of selectedDownloadMods.value) {
     await handleModEnable(row, true)
