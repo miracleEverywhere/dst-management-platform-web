@@ -71,6 +71,10 @@
                                type="danger">
                       {{ t('setting.mod.add.header.multiDelete') }}
                     </el-button>
+                    <el-button :disabled="selectedDownloadMods.length===0" :loading="multiEnableLoading"
+                               type="success" @click="handleModMultiAdd">
+                      批量启用
+                    </el-button>
                     <el-button :loading="addClientModsDisabledConfigButtonLoading"
                                type="warning" :icon="Plus"
                                :disabled="addClientModsDisabledConfigButtonDisable"
@@ -532,18 +536,25 @@ const handleModCommand = (actions) => {
       koiMsgError('error')
   }
 }
-const handleModEnable = (row) => {
+const handleModEnable = async (row, multi=false) => {
   const isUgc = row.file_url === "";
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
     isUgc: isUgc,
     id: row.id
   }
-  settingsApi.mod.enable.post(reqForm).then(response => {
-    koiMsgSuccess(response.message)
-  }).finally(() => {
-    actionsLoading.value = false
-  })
+  try {
+    const response = await settingsApi.mod.enable.post(reqForm)
+    if (response.code === 200) {
+      if (!multi) {
+        koiMsgSuccess(response.message)
+      }
+    }
+  } catch (e) {
+    koiMsgError(e)
+  }
+
+  actionsLoading.value = false
 }
 
 const handleModDelete = (row, multi=false) => {
@@ -675,6 +686,16 @@ const downloadedModFiltered = computed(() => {
     mod.name.toLowerCase().includes(downloadedModSearchText.value.toLowerCase())
   )
 })
+
+const multiEnableLoading = ref(false)
+const handleModMultiAdd = async () => {
+  multiEnableLoading.value = true
+  for (let row of selectedDownloadMods.value) {
+    await handleModEnable(row, true)
+  }
+  multiEnableLoading.value = false
+  koiMsgSuccess(language.value==='zh'?'启用成功':'Enable success')
+}
 
 </script>
 
