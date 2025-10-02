@@ -668,7 +668,7 @@ const getVersion = () => {
   versionLoading.value = true
   externalApi.dstVersion.get().then(response => {
     version.value = response.data
-    if (version.value.local === 691071) {
+    if (version.value.local === 0) {
       if (language.value === 'zh') {
         koiNoticeWarning('游戏版本异常，请确认游戏是否安装成功。安装成功后，才能正常使用此平台', '饥荒管理平台提示', 0)
       } else {
