@@ -590,7 +590,7 @@ import {computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch} from
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {ElMessageBox} from 'element-plus'
-import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
@@ -668,6 +668,13 @@ const getVersion = () => {
   versionLoading.value = true
   externalApi.dstVersion.get().then(response => {
     version.value = response.data
+    if (version.value.local === 691071) {
+      if (language.value === 'zh') {
+        koiNoticeWarning('游戏版本异常，请确认游戏是否安装成功。安装成功后，才能正常使用此平台', '饥荒管理平台提示', 0)
+      } else {
+        koiNoticeWarning('Game version is abnormal. Please confirm whether the game has been installed successfully. This DMP can only function properly after the game is successfully installed.', 'DMP TIPS', 0)
+      }
+    }
   }).finally(() => {
     versionLoading.value = false
   })
