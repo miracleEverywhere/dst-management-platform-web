@@ -36,8 +36,11 @@
                     <el-button link type="info" @click="handleOpenCustomConnectionCodeDialog">{{t('home.customConnectionCode')}}</el-button>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.cycles')">
-                    <el-tag :type="roomInfo.seasonInfo.cycles>-1?'success':'danger'">
+                    <el-tag v-if="roomInfo.seasonInfo.cycles>-1" type="success">
                       {{ roomInfo.seasonInfo.cycles }}
+                    </el-tag>
+                    <el-tag v-else type="danger">
+                      {{ language==='zh'?'获取失败':'Failed to retrieve' }}
                     </el-tag>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.phase')">
@@ -173,7 +176,31 @@
                     <el-button size="default" type="info" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
                     <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
                     <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
-                      <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>
+                      <el-dropdown trigger="click" style="margin-left: 12px">
+                        <el-button color="#626aef" size="default">
+                          {{ t('home.delete') }}
+                        </el-button>
+                        <template #dropdown>
+                          <el-dropdown-menu>
+                            <el-dropdown-item v-for="world in worldInfo"
+                                              @click="handleExec('delete', 0, world.world)">
+                              <div class="fcc">
+                                <span style="margin-right: 10px">{{ world.world }}</span>
+                                <el-tag v-if="world.type==='forest'" type="success">
+                                  {{language==='zh'?'地面':'Ground'}}
+                                </el-tag>
+                                <el-tag v-if="world.type==='cave'" type="warning">
+                                  {{language==='zh'?'洞穴':'Cave'}}
+                                </el-tag>
+                                <el-tag v-if="world.type==='None'" type="danger">
+                                  {{language==='zh'?'未识别':'Undefined'}}
+                                </el-tag>
+                              </div>
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
+                        </template>
+                      </el-dropdown>
+<!--                      <el-button color="#626aef" size="default" @click="handleExec('delete', 0)">{{ t('home.delete') }}</el-button>-->
                     </el-tooltip>
                   </el-form-item>
                 </el-form>
@@ -533,7 +560,7 @@
           <span>{{t('home.tour.three.desc')}}</span>
         </div>
       </el-tour-step>
-      <el-tour-step target="#tourMessage" :title="t('home.tour.four.title')">
+      <el-tour-step target="#tourDocs" :title="t('home.tour.four.title')">
         <div style="display: flex; align-items: center">
           <el-icon style="margin-right: 5px"><Dessert /></el-icon>
           <span>{{t('home.tour.four.desc')}}</span>
@@ -563,7 +590,7 @@ import {computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch} from
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {ElMessageBox} from 'element-plus'
-import {koiMsgError, koiMsgInfo, koiMsgSuccess} from "@/utils/koi.ts";
+import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
 import {formatBytes, sleep} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
@@ -641,6 +668,13 @@ const getVersion = () => {
   versionLoading.value = true
   externalApi.dstVersion.get().then(response => {
     version.value = response.data
+    if (version.value.local === 0) {
+      if (language.value === 'zh') {
+        koiNoticeWarning('游戏版本异常，请确认游戏是否安装成功。安装成功后，才能正常使用此平台', '饥荒管理平台提示', 0)
+      } else {
+        koiNoticeWarning('Game version is abnormal. Please confirm whether the game has been installed successfully. This DMP can only function properly after the game is successfully installed.', 'DMP TIPS', 0)
+      }
+    }
   }).finally(() => {
     versionLoading.value = false
   })
@@ -789,7 +823,7 @@ const handleWorldSwitch = (world) => {
   })
 }
 
-const handleExec = (type, extraData) => {
+const handleExec = (type, extraData, worldName=null) => {
   const typeMap = {
     startup: {
       en: 'STARTUP',
@@ -834,7 +868,7 @@ const handleExec = (type, extraData) => {
             type: type,
             extraData: extraData,
             clusterName: globalStore.selectedDstCluster,
-            worldName: "",
+            worldName: worldName,
           }
           homeApi.exec.post(reqForm).then(response => {
             koiMsgSuccess(response.message)

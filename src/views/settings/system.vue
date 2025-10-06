@@ -11,11 +11,11 @@
               </el-button>
             </div>
           </template>
-          <div>
+          <el-scrollbar :height="windowHeight - 300">
             <el-form ref="systemSettingFormRef" :hide-required-asterisk="true"
                      :model="systemSettingForm" :rules="systemSettingFormRules"
                      :size="isMobile?'small':'large'" v-loading="loading"
-                     label-position="top">
+                     label-position="top" style="margin: 0 20px">
               <div class="tip_error" style="font-size: 24px; padding: 20px 0 20px 20px">
                 {{t('setting.system.tip1')}}
               </div>
@@ -512,7 +512,7 @@
                 </el-row>
               </el-form-item>
             </el-form>
-          </div>
+          </el-scrollbar>
         </el-card>
       </el-col>
     </el-row>
@@ -547,9 +547,15 @@ const language = computed(() => globalStore.language);
 const userInfo = authStore.userInfo
 
 onMounted(() => {
+  windowHeight.value = window.innerHeight;
+  window.addEventListener("resize", () => {
+    windowHeight.value = window.innerHeight;
+  });
   handleGetSystemSetting()
   handleGetOSPlatform()
 })
+
+const windowHeight = ref(0)
 
 const systemSettingFormRef = ref()
 const systemSettingFormOld = ref({

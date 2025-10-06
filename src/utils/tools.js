@@ -224,3 +224,15 @@ export const getDstRoleName = (name, lang="zh") => {
 
   return translations[name] ?? name
 }
+
+export const generateRandomString = (length) => {
+  let result = '';
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+
+  return result;
+}

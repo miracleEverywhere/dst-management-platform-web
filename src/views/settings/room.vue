@@ -43,9 +43,6 @@
                   <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-switch v-model="clusterSettingForm.pvp"/>
-              </el-form-item>
               <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
                 <el-slider v-model="clusterSettingForm.playerNum" :max="64" :min="2" show-input size="small"/>
               </el-form-item>
@@ -53,15 +50,20 @@
                 <el-slider v-model="clusterSettingForm.backDays" :max="64" :min="5" show-input size="small"/>
               </el-form-item>
               <el-row>
-                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+                <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
                   <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
                     <el-switch v-model="clusterSettingForm.vote"/>
                   </el-form-item>
                 </el-col>
-                <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24">
+                <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
                   <el-form-item :label="t('setting.baseForm.pauseEmptyDisabled')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
                     <el-switch v-model="clusterSettingForm.pauseEmptyDisabled"
                                :active-value="false" :inactive-value="true"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
+                  <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                    <el-switch v-model="clusterSettingForm.pvp"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -805,10 +807,12 @@ import LevelDataSetting from "@/views/settings/components/levelDataSetting.vue";
 import useAuthStore from "@/stores/modules/auth.ts";
 import {MdPreview} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
+import {generateRandomString} from "@/utils/tools.js";
 
 const {t} = useI18n()
 
 onMounted(async () => {
+  clusterKey.value = generateRandomString(14)
   windowHeight.value = window.innerHeight;
   window.addEventListener("resize", () => {
     windowHeight.value = window.innerHeight;
@@ -819,6 +823,8 @@ onMounted(async () => {
   await handleGetClusterSetting()
   generateWorldFormRefs()
 })
+
+const clusterKey = ref('')
 
 const loading = ref(false)
 
@@ -917,7 +923,7 @@ const handleNext = async () => {
             steamMasterPort: 27018 + worldPortFactor.value * 10,
             steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
             shardMasterIp: '127.0.0.1',
-            clusterKey: 'supersecretkey',
+            clusterKey: clusterKey.value,
             encodeUserPath: true,
             saved: false
           }]
@@ -1042,6 +1048,7 @@ const handleGetClusterSetting = () => {
           minIndex = index
         }
         world['saved'] = true
+        clusterKey.value = world.clusterKey
       }
       worldTabIndex.value = maxIndex
       worldTabName.value = 'World' + minIndex.toString()
@@ -1257,7 +1264,7 @@ const worldForm = ref([{
   steamMasterPort: 27018 + worldPortFactor.value * 10,
   steamAuthenticationPort: 8768 + worldPortFactor.value * 10,
   shardMasterIp: '127.0.0.1',
-  clusterKey: 'supersecretkey',
+  clusterKey: clusterKey.value,
   encodeUserPath: true,
 }])
 const worldFormRules = {
@@ -1295,7 +1302,7 @@ const handleWorldTabsEdit = (targetName, action) => {
       steamMasterPort: 27017 + worldTabIndex.value + worldPortFactor.value * 10,
       steamAuthenticationPort: 8767 + worldTabIndex.value + worldPortFactor.value * 10,
       shardMasterIp: '127.0.0.1',
-      clusterKey: 'supersecretkey',
+      clusterKey: clusterKey.value,
       encodeUserPath: true,
     })
     worldTabName.value = newTabName

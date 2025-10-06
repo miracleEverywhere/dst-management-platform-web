@@ -10,7 +10,8 @@
         <Language class="<md:visible"></Language>
         <!-- 明亮/暗黑模式图标 -->
         <Dark></Dark>
-        <Message></Message>
+<!--        <Message></Message>-->
+        <Docs></Docs>
         <!-- 头像 AND 下拉折叠 -->
         <User></User>
       </div>
@@ -58,6 +59,7 @@ import Language from "@/layouts/components/Header/components/Language.vue";
 import Message from "@/layouts/components/Header/components/Message.vue";
 // @ts-ignore
 import ClusterSelect from "@/layouts/components/Header/components/ClusterSelect.vue";
+import Docs from "@/layouts/components/Header/components/Docs.vue";
 const route = useRoute();
 const authStore = useAuthStore();
 const globalStore = useGlobalStore();

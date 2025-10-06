@@ -99,8 +99,8 @@ export default {
         desc: 'This refers to multi-room (cluster) management. Click this selector to switch cluster or create new ones.',
       },
       four: {
-        title: 'Update Overview',
-        desc: 'Update logs for all versions of DMP will be displayed here. If a new version is available, you\'ll be notified in this section.',
+        title: 'Docs',
+        desc: 'If you encounter any issues, you can refer to the help documentation',
       },
       five: {
         title: 'Hope you still remember',
@@ -427,6 +427,7 @@ export default {
           export: 'Export',
           addClientDisabled: 'Disable Client MOD',
           multiDelete: 'Multi-Delete',
+          multiEnable: 'Multi-Enable',
         },
         alert: 'Tip: Mod download speed depends on your network and mod size. Be patient and do not download repeatedly. Do NOT enable out-dated mod. Do NOT rely too heavily on this feature. If issues occur, generate mod configurations using the DST',
         alert2: 'The mod here is not the same concept as the mods used in DST servers. Updating the mod here will not update the game mods in DST. For details, please refer to the ',
