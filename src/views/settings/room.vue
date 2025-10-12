@@ -29,11 +29,23 @@
                      :model="clusterSettingForm" :rules="clusterSettingFormRules"
                      :size="isMobile?'small':'large'" style="margin-right: 16px">
               <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-input v-model="clusterSettingForm.name"></el-input>
+                <el-input v-model="clusterSettingForm.name">
+                  <template #append>
+                    <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
+                      <el-button :icon="IceTea" @click="handleOpenEmojiDialog('name')"/>
+                    </el-tooltip>
+                  </template>
+                </el-input>
               </el-form-item>
               <div v-if="!isMobile"></div>
               <el-form-item :label="t('setting.baseForm.description')" prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-input v-model="clusterSettingForm.description"></el-input>
+                <el-input v-model="clusterSettingForm.description">
+                  <template #append>
+                    <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
+                      <el-button :icon="IceTea" @click="handleOpenEmojiDialog('description')"/>
+                    </el-tooltip>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'" style="display: flex; align-items: center;">
                 <el-radio-group v-model="clusterSettingForm.gameMode" style="margin-right: 20px;">
@@ -825,11 +837,43 @@
                    previewTheme="github"/>
       </div>
     </el-dialog>
+    <el-dialog v-model="emojiDialogVisible" width="65%">
+      <template #header>
+        <div style="display: flex; align-items: center">
+          <el-switch v-model="insertOrCopy"
+                     active-value="insert"
+                     inactive-value="copy"
+                     :active-text="language==='zh'?'插入模式':'Insert Mode'"
+                     :inactive-text="language==='zh'?'复制模式':'Copy Mode'"
+          ></el-switch>
+          <div v-if="insertOrCopy==='insert'" class="ml-4">
+            <el-input v-if="clusterSettingStepOneInput==='name'"
+                      v-model="clusterSettingForm.name"></el-input>
+            <el-input v-if="clusterSettingStepOneInput==='description'"
+                      v-model="clusterSettingForm.description"></el-input>
+          </div>
+        </div>
+      </template>
+      <div class="emoji-container mt-4 mb-6">
+        <div v-for="e in Emoji" class="emoji-item" @click="handleEmoji(e)">
+          {{e}}
+        </div>
+      </div>
+
+      <template #footer>
+        <el-link v-if="language==='zh'" href="https://www.bilibili.com/opus/814456568458248259" target="_blank" type="info" underline="never">
+          感谢B站长鸽门徒提供的饥荒表情字体
+        </el-link>
+        <el-link v-else href="https://www.bilibili.com/opus/814456568458248259" target="_blank" type="info" underline="never">
+          Thanks to Bilibili user 长鸽门徒 for providing the DST emoji font.
+        </el-link>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import {ArrowDown, Plus} from "@element-plus/icons-vue";
+import {IceTea, ArrowDown, Plus} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
@@ -856,6 +900,7 @@ import useAuthStore from "@/stores/modules/auth.ts";
 import {MdPreview} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import {generateRandomString} from "@/utils/tools.js";
+import Emoji from './components/emoji'
 
 const {t} = useI18n()
 
@@ -1556,6 +1601,90 @@ const getClustersWorldPort = () => {
   })
 }
 
+const emojiDialogVisible = ref(false)
+const clusterSettingStepOneInput = ref('name')
+const insertOrCopy = ref('insert')
+const handleOpenEmojiDialog = (x) => {
+  clusterSettingStepOneInput.value = x
+  emojiDialogVisible.value = true
+}
+const handleEmoji = (e) => {
+  if (insertOrCopy.value === 'insert') {
+    if (clusterSettingStepOneInput.value === 'name') {
+      clusterSettingForm.value.name = clusterSettingForm.value.name + e
+    } else {
+      clusterSettingForm.value.description = clusterSettingForm.value.description + e
+    }
+  } else {
+    copyToClipboard(e).then(() => {
+      let message
+      if (language.value === 'zh') {
+        message = '复制成功'
+      } else {
+        message = 'Copy Success'
+      }
+      koiMsgSuccess(message)
+    }).catch(() => {
+      let message
+      if (language.value === 'zh') {
+        message = '复制失败'
+      } else {
+        message = 'Copy Fail'
+      }
+    })
+  }
+}
+
+function copyToClipboard(text, onSuccess, onError) {
+  // 返回一个Promise以便可以使用await或.then()
+  return new Promise((resolve, reject) => {
+    // 检查是否支持navigator.clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      // 使用现代剪贴板API
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          if (typeof onSuccess === 'function') onSuccess(text);
+          resolve(text);
+        })
+        .catch(err => {
+          if (typeof onError === 'function') onError(err, text);
+          reject(err);
+        });
+    } else {
+      // 降级方案：使用document.execCommand
+      try {
+        // 创建一个临时的textarea元素
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed'; // 防止页面滚动
+        textarea.style.opacity = '0'; // 隐藏元素
+
+        // 将textarea添加到DOM中
+        document.body.appendChild(textarea);
+
+        // 选中文本
+        textarea.select();
+
+        // 执行复制命令
+        const success = document.execCommand('copy');
+
+        // 移除临时元素
+        document.body.removeChild(textarea);
+
+        if (success) {
+          if (typeof onSuccess === 'function') onSuccess(text);
+          resolve(text);
+        } else {
+          throw new Error('复制失败，execCommand返回false');
+        }
+      } catch (err) {
+        if (typeof onError === 'function') onError(err, text);
+        reject(err);
+      }
+    }
+  });
+}
+
 watch(() => globalStore.selectedDstCluster, (newValue) => {
   if (newValue) {
     nextTick(() => {
@@ -1569,9 +1698,10 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
 <style scoped>
 .item-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
+  grid-template-columns: repeat(auto-fill, 20px);
   gap: 10px;
 }
+
 :deep(.el-tabs__new-tab) {
   position: relative;
   border: none !important;
@@ -1611,5 +1741,21 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.emoji-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3rem, 1fr));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.emoji-item {
+  font-size: 3rem;
+  cursor: pointer;
+}
+.emoji-item:hover {
+  background: #409EFF;
+  transition: background 0.5s;
 }
 </style>
