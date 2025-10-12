@@ -240,7 +240,12 @@ export default {
         endless: '无尽',
         survival: '生存',
         lavaarena: '熔炉',
-        quagmire: '暴食'
+        quagmire: '暴食',
+        relaxed: '轻松',
+        wilderness: '荒野',
+        lightsOut: '暗无天日',
+        custom: '自定义',
+        customInputPlaceholder: '请输入自定义模式',
       },
       pvp: '玩家对战',
       playerNum: '玩家数量',

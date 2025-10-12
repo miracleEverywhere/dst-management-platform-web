@@ -239,7 +239,12 @@ export default {
         endless: 'Endless',
         survival: 'Survival',
         lavaarena: 'Lava Arena',
-        quagmire: 'Quagmire'
+        quagmire: 'Quagmire',
+        relaxed: 'Relaxed',
+        wilderness: 'Wilderness',
+        lightsOut: 'Lights Out',
+        custom: 'Custom',
+        customInputPlaceholder: 'Please input the custom game mode',
       },
       pvp: 'PVP',
       playerNum: 'Player Numbers',
