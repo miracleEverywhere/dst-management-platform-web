@@ -35,13 +35,21 @@
               <el-form-item :label="t('setting.baseForm.description')" prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
                 <el-input v-model="clusterSettingForm.description"></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-radio-group v-model="clusterSettingForm.gameMode">
+              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'" style="display: flex; align-items: center;">
+                <el-radio-group v-model="clusterSettingForm.gameMode" style="margin-right: 20px;">
                   <el-radio :label="t('setting.baseForm.gameMode.endless')" value="endless"/>
                   <el-radio :label="t('setting.baseForm.gameMode.survival')" value="survival"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.relaxed')" value="relaxed"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.wilderness')" value="wilderness"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.lightsOut')" value="lightsOut"/>
                   <el-radio :label="t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
                   <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.custom')" value="custom"/>
                 </el-radio-group>
+                <el-input v-if="clusterSettingForm.gameMode==='custom'"
+                          v-model="clusterSettingForm.customGameMode"
+                          :placeholder="t('setting.baseForm.gameMode.customInputPlaceholder')"
+                          style="flex: 0 0 auto; width: 25%"></el-input>
               </el-form-item>
               <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
                 <el-slider v-model="clusterSettingForm.playerNum" :max="64" :min="2" show-input size="small"/>
@@ -87,7 +95,14 @@
               <span>{{t('setting.worldSetting')}}</span>
               <div>
                 <el-dropdown trigger="click" @command="handleCreateWorld">
-                  <el-button :disabled="worldLevelDataTabName!=='Code'" type="success">
+                  <el-button :disabled="worldLevelDataTabName!=='Code'||(
+                  clusterSettingForm.gameMode!=='endless'&&
+                  clusterSettingForm.gameMode!=='survival'&&
+                  clusterSettingForm.gameMode!=='relaxed'&&
+                  clusterSettingForm.gameMode!=='wilderness'&&
+                  clusterSettingForm.gameMode!=='lightsOut'&&
+                  clusterSettingForm.gameMode!=='lavaarena')"
+                             type="success">
                     {{t('setting.oneClick')}}
                     <el-icon class="el-icon--right">
                       <arrow-down/>
@@ -96,20 +111,53 @@
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item :command="{clusterType: 'endless', worldType: 'ground'}"
-                                        :disabled="clusterSettingForm.gameMode!=='endless'">
+                                        v-if="clusterSettingForm.gameMode==='endless'">
                         {{t('setting.endless')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'endless', worldType: 'cave'}"
-                                        :disabled="clusterSettingForm.gameMode!=='endless'">
+                                        v-if="clusterSettingForm.gameMode==='endless'">
                         {{t('setting.endless')}}-{{t('setting.caveSettingMobile')}}
                       </el-dropdown-item>
+
                       <el-dropdown-item :command="{clusterType: 'survival', worldType: 'ground'}"
-                                        :disabled="clusterSettingForm.gameMode!=='survival'">
+                                        v-if="clusterSettingForm.gameMode==='survival'">
                         {{t('setting.survival')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'survival', worldType: 'cave'}"
-                                        :disabled="clusterSettingForm.gameMode!=='survival'">
+                                        v-if="clusterSettingForm.gameMode==='survival'">
                         {{t('setting.survival')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'relaxed', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='relaxed'">
+                        {{t('setting.baseForm.gameMode.relaxed')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'relaxed', worldType: 'cave'}"
+                                        v-if="clusterSettingForm.gameMode==='relaxed'">
+                        {{t('setting.baseForm.gameMode.relaxed')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'wilderness', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='wilderness'">
+                        {{t('setting.baseForm.gameMode.wilderness')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'wilderness', worldType: 'cave'}"
+                                        v-if="clusterSettingForm.gameMode==='wilderness'">
+                        {{t('setting.baseForm.gameMode.wilderness')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'lightsOut', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='lightsOut'">
+                        {{t('setting.baseForm.gameMode.lightsOut')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'lightsOut', worldType: 'cave'}"
+                                        v-if="clusterSettingForm.gameMode==='lightsOut'">
+                        {{t('setting.baseForm.gameMode.lightsOut')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'lavaarena', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='lavaarena'">
+                        {{t('setting.baseForm.gameMode.lavaarena')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
@@ -794,7 +842,7 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
+import {endless, survival, relaxed, wilderness, lightsOut, lavaarena} from "@/views/settings/components/leveldataoverride.js"
 import {
   caveOverrideWorldGenerationWorld,
   cavesWorldGeneration,
@@ -908,6 +956,10 @@ const handlePrev = () => {
 }
 const handleNext = async () => {
   if (step.value === 0) {
+    if (clusterSettingForm.value.gameMode==='custom' && clusterSettingForm.value.customGameMode==='') {
+      koiMsgError(language.value==='zh'?'请输入自定义模式':'Please input custom game mode')
+      return
+    }
     clusterSettingFormRef.value.validate(async valid => {
       if (valid) {
         if (!hasWorlds.value) {
@@ -1007,6 +1059,7 @@ const clusterSettingForm = ref({
   name: '',
   description: '',
   gameMode: '',
+  customGameMode: '',
   pvp: false,
   playerNum: 6,
   backDays: 10,
@@ -1075,6 +1128,9 @@ const handleCommand = async (cmd) => {
 }
 
 const handleSave = () => {
+  if (clusterSettingForm.value.gameMode !== 'custom') {
+    clusterSettingForm.value.customGameMode = ''
+  }
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -1095,6 +1151,9 @@ const handleSave = () => {
 }
 
 const handleSaveAndRestart = () => {
+  if (clusterSettingForm.value.gameMode !== 'custom') {
+    clusterSettingForm.value.customGameMode = ''
+  }
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -1114,6 +1173,9 @@ const handleSaveAndRestart = () => {
   })
 }
 const handleGenerateNewWorld = () => {
+  if (clusterSettingForm.value.gameMode !== 'custom') {
+    clusterSettingForm.value.customGameMode = ''
+  }
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -1341,12 +1403,46 @@ const handleCreateWorld = (cmd) => {
           world.levelData = endless.caves
         }
       }
+
       if (cmd.clusterType === 'survival') {
         if (cmd.worldType === 'ground') {
           world.levelData = survival.master
         }
         if (cmd.worldType === 'cave') {
           world.levelData = survival.caves
+        }
+      }
+
+      if (cmd.clusterType === 'relaxed') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = relaxed.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = relaxed.caves
+        }
+      }
+
+      if (cmd.clusterType === 'wilderness') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = wilderness.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = wilderness.caves
+        }
+      }
+
+      if (cmd.clusterType === 'lightsOut') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = lightsOut.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = lightsOut.caves
+        }
+      }
+
+      if (cmd.clusterType === 'lavaarena') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = lightsOut.master
         }
       }
     }
