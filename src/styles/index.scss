@@ -35,10 +35,16 @@
   src: url("../assets/fonts/KoiFont.woff2") format('woff2');
 }
 
+@font-face {
+  // 感谢B站 长鸽门徒 https://www.bilibili.com/opus/814456568458248259 提供的饥荒字体
+  font-family: 'DstEmojiChangGeMenTu';
+  src: url('../assets/fonts/Dst_Emoji_ChangGeMenTu.ttf') format('woff2');
+}
+
 /* 管理平台全局样式 */
 * {
   // 全局字体
-  font-family: "KoiFont", Helvetica, "PingFang SC", "Microsoft Yahei", sans-serif;
+  font-family: "KoiFont", "DstEmojiChangGeMenTu", Helvetica, "PingFang SC", "Microsoft Yahei", sans-serif;
   // 修改图标
   //cursor: url("../assets/mouse/index.cur"), auto !important;
   word-break: break-word;
