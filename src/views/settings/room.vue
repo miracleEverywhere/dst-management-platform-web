@@ -846,11 +846,11 @@
                      :active-text="language==='zh'?'插入模式':'Insert Mode'"
                      :inactive-text="language==='zh'?'复制模式':'Copy Mode'"
           ></el-switch>
-          <div v-if="insertOrCopy==='insert'" class="ml-4">
+          <div v-if="insertOrCopy==='insert'" class="ml-4" style="width: 50%;">
             <el-input v-if="clusterSettingStepOneInput==='name'"
-                      v-model="clusterSettingForm.name"></el-input>
+                      v-model="clusterSettingForm.name" style="width: 100%"></el-input>
             <el-input v-if="clusterSettingStepOneInput==='description'"
-                      v-model="clusterSettingForm.description"></el-input>
+                      v-model="clusterSettingForm.description" style="width: 100%"></el-input>
           </div>
         </div>
       </template>
@@ -1603,7 +1603,7 @@ const getClustersWorldPort = () => {
 
 const emojiDialogVisible = ref(false)
 const clusterSettingStepOneInput = ref('name')
-const insertOrCopy = ref('insert')
+const insertOrCopy = ref('copy')
 const handleOpenEmojiDialog = (x) => {
   clusterSettingStepOneInput.value = x
   emojiDialogVisible.value = true
