@@ -257,6 +257,7 @@ export default {
       token: '令牌',
       tokenHelp: '点击获取游戏令牌',
     },
+    iconTip: '点击添加表情',
     roomWorldForm: {
       id: '世界ID',
       masterPort: '连接端口',

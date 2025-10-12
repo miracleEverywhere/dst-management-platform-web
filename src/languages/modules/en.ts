@@ -256,6 +256,7 @@ export default {
       token: 'Token',
       tokenHelp: 'Click to obtain game token',
     },
+    iconTip: 'Click to add emoji',
     roomWorldForm: {
       id: 'ID',
       masterPort: 'Connection Port',
