@@ -199,7 +199,7 @@ export default {
   setting: {
     tip: {
       stepOne: {
-        name: "It refers to the save file name displayed in the game lobby.",
+        name: "It refers to the name displayed in the game lobby.",
         description: "Room description, displayed on the right side of the lobby or by pressing the Tab key in-game.",
         gameMode: "Please select as needed, as it will affect the subsequent one-click import function.",
         playerNum: "The maximum number of players that can join the current save. If you want to add reserved slots, please go to Settings - Players to add a whitelist.",
