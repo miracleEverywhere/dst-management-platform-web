@@ -207,7 +207,7 @@ export default {
         vote: "Whether players can initiate votes in the game.",
         pauseEmptyDisabled: "Whether time pauses when there are no players in the game.",
         pvp: "Whether players can attack other players in the game.",
-        password: "Password to enter the save. Leave blank if not required.",
+        password: "Password to enter the game. Leave blank if not required.",
         token: "Klei's Don't Starve Together dedicated server token, which must be applied for on the Klei official website.",
       },
     },
