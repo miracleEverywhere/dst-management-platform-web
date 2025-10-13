@@ -48,8 +48,11 @@ export default {
     startup: "启动游戏",
     restart: "重启游戏",
     update: "更新游戏",
+    updateTips: "增量更新游戏，更新速度与网络状态有关，请耐心等待。更新过程中，如果你想手动更新，请输入指定的steamcmd命令，然后重启饥荒管理平台即可取消按钮的loading状态",
     shutdown: "关闭游戏",
+    shutdownTips: "自动保活、自动重启等功能开启时，游戏会在一段时间后重新启动，如果你想彻底关闭，请到集群管理关闭该集群(无需关闭自动保活等)",
     reset: "重置世界",
+    resetTips: "只有游戏正常运行时，才可使用该功能，如果想强制重置，则使用删除世界功能",
     delete: "删除世界",
     deleteTips: "将会删除游戏的存储文件，即存档目录下的save文件夹",
     interface: "命令执行",
@@ -195,6 +198,20 @@ export default {
     }
   },
   setting: {
+    tip: {
+      stepOne: {
+        name: "即游戏大厅中显示的存档名",
+        description: "房间的描述，大厅右侧显示，或游戏中按Tab键显示",
+        gameMode: "请按需选择，会影响到后续的一键带入功能",
+        playerNum: "当前存档能加入的最大玩家数，如果想要添加预留位，请前往设置-玩家添加白名单",
+        backDays: "可回档的天数最大值，也就是游戏保存的快照数量",
+        vote: "游戏中玩家能否发起投票",
+        pauseEmptyDisabled: "存档中无玩家时，时间是否暂停",
+        pvp: "游戏中玩家是否能攻击其他玩家",
+        password: "进入存档的密码，不需要则不填",
+        token: "科雷的饥荒联机版令牌，需要在科雷官网申请",
+      },
+    },
     roomSettingMobile: '房间',
     groundSettingMobile: '地面',
     caveSettingMobile: '洞穴',

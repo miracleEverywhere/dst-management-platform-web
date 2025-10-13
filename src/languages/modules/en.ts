@@ -48,8 +48,11 @@ export default {
     startup: "Startup",
     restart: "Restart",
     update: "Update",
+    updateTips: "Incremental game update speed depends on network status, please wait patiently. During the update, if you wish to update manually, enter the specified steamcmd command in the server and then restart the DMP to cancel the 'loading' status for the update button",
     shutdown: "Shutdown",
+    shutdownTips: "When features like auto-restart and keepalive are enabled, the game will restart after a period of time. If you wish to shut it down completely, go to Cluster Setting and deactivate the cluster (there is no need to disable auto-restart, etc.)",
     reset: "Reset",
+    resetTips: "This feature is only available when the game is running normally. If you wish to force a reset, use the 'Delete' function.",
     delete: "Delete",
     deleteTips: "This will delete the game's storage files, specifically the save folder in the save directory",
     interface: "Remote Execute",
@@ -194,6 +197,20 @@ export default {
     }
   },
   setting: {
+    tip: {
+      stepOne: {
+        name: "It refers to the save file name displayed in the game lobby.",
+        description: "Room description, displayed on the right side of the lobby or by pressing the Tab key in-game.",
+        gameMode: "Please select as needed, as it will affect the subsequent one-click import function.",
+        playerNum: "The maximum number of players that can join the current save. If you want to add reserved slots, please go to Settings - Players to add a whitelist.",
+        backDays: "The maximum number of days that can be rolled back, which is the number of game snapshots saved.",
+        vote: "Whether players can initiate votes in the game.",
+        pauseEmptyDisabled: "Whether time pauses when there are no players in the game.",
+        pvp: "Whether players can attack other players in the game.",
+        password: "Password to enter the save. Leave blank if not required.",
+        token: "Klei's Don't Starve Together dedicated server token, which must be applied for on the Klei official website.",
+      },
+    },
     roomSettingMobile: 'Room',
     groundSettingMobile: 'Ground',
     caveSettingMobile: 'Cave',
