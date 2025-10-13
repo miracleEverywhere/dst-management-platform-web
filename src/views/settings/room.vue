@@ -28,7 +28,17 @@
                      :label-width="isMobile?'70':'auto'"
                      :model="clusterSettingForm" :rules="clusterSettingFormRules"
                      :size="isMobile?'small':'large'" style="margin-right: 16px">
-              <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+              <el-form-item prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.room')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.name')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-input v-model="clusterSettingForm.name">
                   <template #append>
                     <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
@@ -38,7 +48,17 @@
                 </el-input>
               </el-form-item>
               <div v-if="!isMobile"></div>
-              <el-form-item :label="t('setting.baseForm.description')" prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+              <el-form-item prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.description')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.description')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-input v-model="clusterSettingForm.description">
                   <template #append>
                     <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
@@ -47,7 +67,17 @@
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'" style="display: flex; align-items: center;">
+              <el-form-item prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'" style="display: flex; align-items: center;">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.gameMode.name')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.gameMode')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-radio-group v-model="clusterSettingForm.gameMode" style="margin-right: 20px;">
                   <el-radio :label="t('setting.baseForm.gameMode.endless')" value="endless"/>
                   <el-radio :label="t('setting.baseForm.gameMode.survival')" value="survival"/>
@@ -63,34 +93,104 @@
                           :placeholder="t('setting.baseForm.gameMode.customInputPlaceholder')"
                           style="flex: 0 0 auto; width: 25%"></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+              <el-form-item prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.playerNum')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.playerNum')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-slider v-model="clusterSettingForm.playerNum" :max="64" :min="2" show-input size="small"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+              <el-form-item prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.backDays')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.backDays')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-slider v-model="clusterSettingForm.backDays" :max="64" :min="5" show-input size="small"/>
               </el-form-item>
               <el-row>
                 <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
-                  <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                  <el-form-item prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('setting.baseForm.vote')}}</span>
+                        <el-tooltip :content="t('setting.tip.stepOne.vote')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-switch v-model="clusterSettingForm.vote"/>
                   </el-form-item>
                 </el-col>
                 <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
-                  <el-form-item :label="t('setting.baseForm.pauseEmptyDisabled')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                  <el-form-item prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('setting.baseForm.pauseEmptyDisabled')}}</span>
+                        <el-tooltip :content="t('setting.tip.stepOne.pauseEmptyDisabled')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-switch v-model="clusterSettingForm.pauseEmptyDisabled"
                                :active-value="false" :inactive-value="true"/>
                   </el-form-item>
                 </el-col>
                 <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
-                  <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                  <el-form-item prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('setting.baseForm.pvp')}}</span>
+                        <el-tooltip :content="t('setting.tip.stepOne.pvp')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-switch v-model="clusterSettingForm.pvp"/>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item :label="t('setting.baseForm.password')" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+              <el-form-item :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.password')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.password')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-input v-model="clusterSettingForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.token')" prop="token" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+              <el-form-item prop="token" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.token')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.token')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-input v-model="clusterSettingForm.token" show-password></el-input>
                 <div class="el-form-item-msg">
                   <el-link :underline="false" href="https://accounts.klei.com"
