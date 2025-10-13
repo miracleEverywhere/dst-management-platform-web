@@ -214,6 +214,7 @@
                   clusterSettingForm.gameMode!=='relaxed'&&
                   clusterSettingForm.gameMode!=='wilderness'&&
                   clusterSettingForm.gameMode!=='lightsOut'&&
+                  clusterSettingForm.gameMode!=='quagmire'&&
                   clusterSettingForm.gameMode!=='lavaarena')"
                              type="success">
                     {{t('setting.oneClick')}}
@@ -271,6 +272,11 @@
                       <el-dropdown-item :command="{clusterType: 'lavaarena', worldType: 'ground'}"
                                         v-if="clusterSettingForm.gameMode==='lavaarena'">
                         {{t('setting.baseForm.gameMode.lavaarena')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'quagmire', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='quagmire'">
+                        {{t('setting.baseForm.gameMode.quagmire')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
@@ -987,7 +993,7 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import {endless, survival, relaxed, wilderness, lightsOut, lavaarena} from "@/views/settings/components/leveldataoverride.js"
+import {endless, survival, relaxed, wilderness, lightsOut, lavaarena, quagmire} from "@/views/settings/components/leveldataoverride.js"
 import {
   caveOverrideWorldGenerationWorld,
   cavesWorldGeneration,
@@ -1588,7 +1594,13 @@ const handleCreateWorld = (cmd) => {
 
       if (cmd.clusterType === 'lavaarena') {
         if (cmd.worldType === 'ground') {
-          world.levelData = lightsOut.master
+          world.levelData = lavaarena.master
+        }
+      }
+
+      if (cmd.clusterType === 'quagmire') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = quagmire.master
         }
       }
     }
