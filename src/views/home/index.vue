@@ -170,11 +170,17 @@
                   <el-form-item>
                     <el-button size="default" type="success" @click="handleExec('startup', 0)">{{ t('home.startup') }}</el-button>
                     <el-button size="default" type="primary" @click="handleExec('restart', 0)">{{ t('home.restart') }}</el-button>
-                    <el-button :disabled="userInfo.role!=='admin'" :loading="isUpdating" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
+                    <el-tooltip :content="t('home.updateTips')" effect="light" placement="top">
+                      <el-button :disabled="userInfo.role!=='admin'" :loading="isUpdating" size="default" type="warning" @click="handleExec('update', 0)">{{ t('home.update') }}</el-button>
+                    </el-tooltip>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="info" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
-                    <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
+                    <el-tooltip :content="t('home.shutdownTips')" effect="light" placement="top">
+                      <el-button size="default" type="info" @click="handleExec('shutdown', 0)">{{ t('home.shutdown') }}</el-button>
+                    </el-tooltip>
+                    <el-tooltip :content="t('home.resetTips')" effect="light" placement="top">
+                      <el-button size="default" type="danger" @click="handleExec('reset', 0)">{{ t('home.reset') }}</el-button>
+                    </el-tooltip>
                     <el-tooltip :content="t('home.deleteTips')" effect="light" placement="top">
                       <el-dropdown trigger="click" style="margin-left: 12px">
                         <el-button color="#626aef" size="default">
