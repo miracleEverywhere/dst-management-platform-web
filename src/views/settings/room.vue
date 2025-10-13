@@ -42,7 +42,7 @@
                 <el-input v-model="clusterSettingForm.name">
                   <template #append>
                     <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
-                      <el-button :icon="IceTea" @click="handleOpenEmojiDialog('name')"/>
+                      <el-button icon="sc-icon-EmotionLine" @click="handleOpenEmojiDialog('name')"/>
                     </el-tooltip>
                   </template>
                 </el-input>
@@ -62,7 +62,7 @@
                 <el-input v-model="clusterSettingForm.description">
                   <template #append>
                     <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
-                      <el-button :icon="IceTea" @click="handleOpenEmojiDialog('description')"/>
+                      <el-button icon="sc-icon-EmotionLine" @click="handleOpenEmojiDialog('description')"/>
                     </el-tooltip>
                   </template>
                 </el-input>
