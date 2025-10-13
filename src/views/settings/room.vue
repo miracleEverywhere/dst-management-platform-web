@@ -26,6 +26,7 @@
           <el-scrollbar :height="windowHeight - 438">
             <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'"
                      :label-width="isMobile?'70':'auto'"
+                     hide-required-asterisk
                      :model="clusterSettingForm" :rules="clusterSettingFormRules"
                      :size="isMobile?'small':'large'" style="margin-right: 16px">
               <el-form-item prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
