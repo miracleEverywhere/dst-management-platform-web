@@ -531,6 +531,8 @@ export default {
         divider: 'Metrics',
         title: 'Metrics switch',
         msg: 'Enabled by default. If disabled, no content will be displayed on the Tools - Metrics page.',
+        title1: 'Data retention period',
+        msg1: 'Default is 6 hours, meaning the platform will discard system monitoring data older than the set number of hours. Do not set this value too high to avoid unnecessary memory usage',
       },
       bit64: {
         divider: '64-bit game',
@@ -565,6 +567,7 @@ export default {
         title2: 'Auto Backup Time',
         msg: 'Enabled by default, DMP backup the server at scheduled time, backup path is ~/dmp_files/backup/[ClusterName]',
         msg2: 'DMP will backup servers daily at the scheduled time',
+        button: 'Add'
       },
       backupClean: {
         divider: 'Backup Clean',
