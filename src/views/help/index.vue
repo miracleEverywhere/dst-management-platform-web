@@ -179,7 +179,7 @@
                       <sc-icon-github-fill/>
                     </el-icon>
                     <el-link href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
-                             target="_blank" :underline="false" style="margin-left: 5px"
+                             target="_blank" underline="never" style="margin-left: 5px"
                     >
                       https://github.com/miracleEverywhere/dst-management-platform-desktop
                     </el-link>
