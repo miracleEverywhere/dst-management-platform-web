@@ -827,6 +827,8 @@ export default {
     tip_2: 'The admin account can NOT be deleted',
     tip_3: 'This page is only visible to accounts with the admin role',
     tip_4: 'Administrators can manage all clusters, while non-admin users may only manage clusters they have permissions for',
+    tip_5: 'If you want to delete an admin role account, first set it as a non-admin and then delete it.',
+    tip_6: 'Please ensure there is at least one admin role user; otherwise, global management cannot be performed.',
     suggestedPassword: 'It is recommended to use a password that is at least 8 characters long and contains letters and numbers',
     submit: 'Submit',
     actions: {
