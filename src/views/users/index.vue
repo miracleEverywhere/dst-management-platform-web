@@ -15,26 +15,31 @@
               </el-button>
             </div>
           </template>
-          <el-collapse>
-            <el-collapse-item title="Tips">
-              <div class="tip">
-                <div>
-                  {{ t('users.tip_1') }}
-                </div>
-                <div style="margin-top: 5px">
-                  {{ t('users.tip_2') }}
-                </div>
-                <div style="margin-top: 5px">
-                  {{ t('users.tip_3') }}
-                </div>
+          <expand-panel v-if="!isMobile" :title="language==='zh'?'注意事项':'Tips'" :dark-mode="isDark">
+            <div class="tip">
+              <div>
+                {{ t('users.tip_1') }}
               </div>
-              <div class="tip">
-                <div>
-                  {{ t('users.tip_4') }}
-                </div>
+              <div style="margin-top: 5px">
+                {{ t('users.tip_2') }}
               </div>
-            </el-collapse-item>
-          </el-collapse>
+              <div style="margin-top: 5px">
+                {{ t('users.tip_3') }}
+              </div>
+            </div>
+            <div class="tip">
+              <div>
+                {{ t('users.tip_4') }}
+              </div>
+            </div>
+            <div class="tip">
+              {{ t('users.tip_5') }}
+            </div>
+            <div class="tip_error">
+              {{ t('users.tip_6') }}
+            </div>
+
+          </expand-panel>
 
           <el-table :data="userList" border style="margin-top: 10px">
             <el-table-column :label="t('users.username')" prop="username"/>
@@ -201,6 +206,7 @@ import {ElMessageBox} from "element-plus";
 import ScPasswordStrength from "@/components/scPasswordStrength/index.vue";
 import useAuthStore from "@/stores/modules/auth.ts";
 import {useScreenStore} from "@/hooks/screen/index.ts";
+import ExpandPanel from "@/components/expandPanel/index.vue"
 
 
 onMounted(() => {
@@ -209,6 +215,7 @@ onMounted(() => {
 
 const globalStore = useGlobalStore();
 const language = computed(() => globalStore.language);
+const isDark = computed(() => globalStore.isDark);
 const authStore = useAuthStore()
 const {t} = useI18n()
 const {isMobile} = useScreenStore();
