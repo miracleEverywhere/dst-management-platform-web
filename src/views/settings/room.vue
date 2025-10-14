@@ -194,7 +194,7 @@
                 </template>
                 <el-input v-model="clusterSettingForm.token" show-password></el-input>
                 <div class="el-form-item-msg">
-                  <el-link :underline="false" href="https://accounts.klei.com"
+                  <el-link underline="never" href="https://accounts.klei.com"
                            target="_blank">{{ t('setting.baseForm.tokenHelp') }}
                   </el-link>
                 </div>
@@ -955,11 +955,16 @@
           ></el-switch>
         </div>
       </template>
+
       <div v-if="insertOrCopy==='insert'" style="width: 100%;">
-        <el-input v-if="clusterSettingStepOneInput==='name'"
-                  v-model="clusterSettingForm.name" style="width: 100%"></el-input>
-        <el-input v-if="clusterSettingStepOneInput==='description'"
-                  v-model="clusterSettingForm.description" style="width: 100%"></el-input>
+        <el-input ref="emojiInputNameRef"
+                  v-if="clusterSettingStepOneInput==='name'"
+                  v-model="clusterSettingForm.name"
+                  style="width: 100%"></el-input>
+        <el-input ref="emojiInputDescriptionRef"
+                  v-if="clusterSettingStepOneInput==='description'"
+                  v-model="clusterSettingForm.description"
+                  style="width: 100%"></el-input>
       </div>
       <div class="emoji-container mt-4 mb-6">
         <div v-for="e in Emoji" class="emoji-item" @click="handleEmoji(e)">
@@ -1717,16 +1722,65 @@ const getClustersWorldPort = () => {
 const emojiDialogVisible = ref(false)
 const clusterSettingStepOneInput = ref('name')
 const insertOrCopy = ref('copy')
+const emojiInputNameRef = ref()
+const emojiInputDescriptionRef = ref()
 const handleOpenEmojiDialog = (x) => {
   clusterSettingStepOneInput.value = x
   emojiDialogVisible.value = true
 }
+const cursorPosition = ref(0)
 const handleEmoji = (e) => {
   if (insertOrCopy.value === 'insert') {
     if (clusterSettingStepOneInput.value === 'name') {
-      clusterSettingForm.value.name = clusterSettingForm.value.name + e
+      const inputEl = emojiInputNameRef.value?.input
+      if (!inputEl) return
+
+      // 获取当前值
+      const currentValue = clusterSettingForm.value.name
+      // 获取当前光标位置（实时获取）
+      const startPos = inputEl.selectionStart || cursorPosition.value
+      const endPos = inputEl.selectionEnd || cursorPosition.value
+
+      // 插入表情
+      clusterSettingForm.value.name =
+        currentValue.substring(0, startPos) +
+        e +
+        currentValue.substring(endPos)
+
+      // 更新光标位置（插入后）
+      const newCursorPos = startPos + e.length
+      cursorPosition.value = newCursorPos
+
+      // 设置光标位置
+      setTimeout(() => {
+        inputEl.setSelectionRange(newCursorPos, newCursorPos)
+        inputEl.focus()
+      }, 0)
     } else {
-      clusterSettingForm.value.description = clusterSettingForm.value.description + e
+      const inputEl = emojiInputDescriptionRef.value?.input
+      if (!inputEl) return
+
+      // 获取当前值
+      const currentValue = clusterSettingForm.value.description
+      // 获取当前光标位置（实时获取）
+      const startPos = inputEl.selectionStart || cursorPosition.value
+      const endPos = inputEl.selectionEnd || cursorPosition.value
+
+      // 插入表情
+      clusterSettingForm.value.description =
+        currentValue.substring(0, startPos) +
+        e +
+        currentValue.substring(endPos)
+
+      // 更新光标位置（插入后）
+      const newCursorPos = startPos + e.length
+      cursorPosition.value = newCursorPos
+
+      // 设置光标位置
+      setTimeout(() => {
+        inputEl.setSelectionRange(newCursorPos, newCursorPos)
+        inputEl.focus()
+      }, 0)
     }
   } else {
     copyToClipboard(e).then(() => {
@@ -1736,6 +1790,7 @@ const handleEmoji = (e) => {
       } else {
         message = 'Copy Success'
       }
+      emojiDialogVisible.value = false
       koiMsgSuccess(message)
     }).catch(() => {
       let message
