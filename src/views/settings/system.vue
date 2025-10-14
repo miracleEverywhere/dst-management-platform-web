@@ -126,6 +126,26 @@
                   </el-col>
                 </el-row>
               </el-form-item>
+              <el-form-item :label="t('setting.system.metrics.title1')"
+                            prop="schedulerSetting.UIDMaintain.frequency">
+                <el-row>
+                  <el-col :span="24">
+                    <el-input-number v-model="systemSettingForm.schedulerSetting.sysMetricsGet.maxSaveHour"
+                                     controls-position="right" :min="1" :max="168"
+                                     :disabled="userInfo.role!=='admin'||systemSettingForm.schedulerSetting.sysMetricsGet.disable">
+                      <template #suffix>
+                        <span v-if="language==='zh'">小时</span>
+                        <span v-else>Hour</span>
+                      </template>
+                    </el-input-number>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.metrics.msg1') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
               <!--自动更新-->
               <el-alert :closable="false" type="error"  :effect="isDark?'light':'dark'" show-icon style="margin-bottom: 10px">
                 <template #title>
@@ -295,10 +315,18 @@
                             prop="sysSetting.autoBackup.time">
                 <el-row>
                   <el-col :span="24">
-                    <el-time-picker v-model="systemSettingForm.sysSetting.autoBackup.time" :clearable="false"
+                    <el-time-picker v-for="(_, idx) in systemSettingForm.sysSetting.autoBackup.timeList"
+                                    v-model="systemSettingForm.sysSetting.autoBackup.timeList[idx]" :clearable="false"
                                     :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
                                     :editable="false" style="width: 120px;margin: 0 8px"
                                     value-format="HH:mm:ss"/>
+                    <el-button @click="systemSettingForm.sysSetting.autoBackup.timeList.push('00:00:00')"
+                               :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
+                               :icon="Plus"
+                               style="margin-left: 8px">
+                      点击新增
+                    </el-button>
+
                   </el-col>
                   <el-col :span="24">
                     <div class="el-form-item-msg" style="color: #A8ABB2">
@@ -520,7 +548,7 @@
 </template>
 
 <script setup>
-import { SetUp, Collection } from '@element-plus/icons-vue'
+import { SetUp, Collection, Plus } from '@element-plus/icons-vue'
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
@@ -567,6 +595,7 @@ const systemSettingFormOld = ref({
     autoBackup: {
       enable: false,
       time: "",
+      timeList: [],
     },
     keepalive: {
       enable: false,
@@ -585,6 +614,7 @@ const systemSettingFormOld = ref({
     UIDMaintain: {
       disable: false,
       frequency: 0,
+      maxSaveHour: 0,
     },
     sysMetricsGet: {
       disable: undefined,
@@ -609,6 +639,7 @@ const systemSettingForm = ref({
     autoBackup: {
       enable: false,
       time: "",
+      timeList: [],
     },
     backupClean: {
       enable: false,
@@ -631,6 +662,7 @@ const systemSettingForm = ref({
     UIDMaintain: {
       disable: false,
       frequency: 0,
+      maxSaveHour: 0,
     },
     sysMetricsGet: {
       disable: undefined,
@@ -688,6 +720,7 @@ const systemSettingFormRules = {
     },
     sysMetricsGet: {
       disable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+      maxSaveHour: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur'}],
     },
     autoUpdate: {
       enable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
@@ -708,6 +741,13 @@ const handleGetSystemSetting = () => {
       systemSettingForm.value.sysSetting.scheduledStartStop.startTime = "08:00:00"
       systemSettingForm.value.sysSetting.scheduledStartStop.stopTime = "02:00:00"
     }
+    systemSettingForm.value.sysSetting.autoBackup.timeList = []
+    const t = systemSettingForm.value.sysSetting.autoBackup.time.split(',')
+    for (let i of t) {
+      if (i !== '') {
+        systemSettingForm.value.sysSetting.autoBackup.timeList.push(i)
+      }
+    }
     systemSettingFormOld.value = deepCopy(systemSettingForm.value)
   }).finally(() => {
     loading.value = false
@@ -722,6 +762,13 @@ const handleSubmit = () => {
         koiMsgInfo(language.value === 'zh' ? '配置未修改' : 'System settings not changes')
       } else {
         submitButtonLoading.value = true
+        let t = []
+        for (let i of systemSettingForm.value.sysSetting.autoBackup.timeList) {
+          if (!t.includes(i)) {
+            t.push(i)
+          }
+        }
+        systemSettingForm.value.sysSetting.autoBackup.time = t.join(',')
         const reqForm = {
           clusterName: globalStore.selectedDstCluster,
           settings: systemSettingForm.value,
