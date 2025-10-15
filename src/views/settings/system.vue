@@ -328,8 +328,8 @@
                     <el-button @click="systemSettingForm.sysSetting.autoBackup.timeList.push('00:00:00')"
                                :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
                                :icon="Plus"
-                               style="margin-left: 8px">
-                      点击新增
+                               style="margin-left: 24px">
+                      {{t('setting.system.autoBackup.button')}}
                     </el-button>
                   </el-col>
                   <el-col :span="24">
