@@ -586,7 +586,7 @@ export default {
         msg3: 'The cluster\'s all worlds will be stop at this time every day',
       },
       tip1: 'Global Settings (Affects all clusters, configurable by administrators only)',
-      tip2:'Cluster Settings (Affecting the current cluster)',
+      tip2:'Cluster Settings (Affecting the current cluster, deactivated cluster will not be scheduled)',
     },
   },
   tools: {
