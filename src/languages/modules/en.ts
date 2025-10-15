@@ -496,6 +496,10 @@ export default {
     },
     system: {
       title: 'System Settings',
+      titleTip1: 'For detailed explanations of each configuration, please refer to the',
+      titleTip2: 'documentation',
+      titleTip3: 'or add ',
+      titleTip4: 'QQ Group',
       titleButton: 'Submit',
       keepalive: {
         divider: 'Keepalive',

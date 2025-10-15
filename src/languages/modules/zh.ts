@@ -497,6 +497,10 @@ export default {
     },
     system: {
       title: '系统设置',
+      titleTip1: '各配置详细解释请前往',
+      titleTip2: '文档',
+      titleTip3: '或',
+      titleTip4: '加群',
       titleButton: '提交',
       keepalive: {
         divider: '自动保活',
