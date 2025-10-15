@@ -2,16 +2,31 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" style="min-height: 80vh">
+        <el-card shadow="never" :style="isMobile?'min-height: 85vh':'min-height: 80vh'">
           <template #header>
             <div class="card-header">
-              {{ t('setting.system.title') }}
+              <div>
+                {{ t('setting.system.title') }}
+              </div>
+              <div v-if="!isMobile" class="fcc">
+                {{ t('setting.system.titleTip1') }}
+                <el-link href="https://miraclesses.top" target="_blank"
+                         type="primary" underline="never">
+                  {{ t('setting.system.titleTip2') }}
+                </el-link>
+                {{ t('setting.system.titleTip3') }}
+                <el-link href="https://qun.qq.com/universal-share/share?ac=1&authKey=ePe2g%2Bq16q8tSAdeJwOXC08NnAKn%2BfmwKeTdf8oS3pD5DzrPKQkoS6eAAD6UivHk&busi_data=eyJncm91cENvZGUiOiI3MzM5NDg2NDQiLCJ0b2tlbiI6Ii9CTmFVWTZOUTNvNUFuaG4rNTdaSnAvQ3U1aERkSUgxcFdCelB1OEhDNWtYNjlvRGhQZnU4allOcWcvcHM4b3IiLCJ1aW4iOiI3NjM0ODM5NjYifQ%3D%3D&data=qjh1K6Pelvxvj6Yl-qeFNEF3jJbc7EJMEC6Edt3ULjtM9WSkvbe0PKTd2q2Qp0v8wA6hXmL-sN-ziKjuf2zEXA&svctype=4&tempid=h5_group_info"
+                         target="_blank"
+                         type="primary" underline="never">
+                  {{ t('setting.system.titleTip4') }}
+                </el-link>
+              </div>
               <el-button :loading="submitButtonLoading" type="primary"
                          @click="handleSubmit">{{ t('setting.system.titleButton') }}
               </el-button>
             </div>
           </template>
-          <el-scrollbar :height="windowHeight - 300">
+          <el-scrollbar :height="windowHeight - 275">
             <el-form ref="systemSettingFormRef" :hide-required-asterisk="true"
                      :model="systemSettingForm" :rules="systemSettingFormRules"
                      :size="isMobile?'small':'large'" v-loading="loading"
@@ -328,7 +343,7 @@
                     <el-button @click="systemSettingForm.sysSetting.autoBackup.timeList.push('00:00:00')"
                                :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
                                :icon="Plus"
-                               style="margin-left: 24px">
+                               :style="isMobile?'margin-left: 0':'margin-left: 24px'">
                       {{t('setting.system.autoBackup.button')}}
                     </el-button>
                   </el-col>
