@@ -315,18 +315,22 @@
                             prop="sysSetting.autoBackup.time">
                 <el-row>
                   <el-col :span="24">
-                    <el-time-picker v-for="(_, idx) in systemSettingForm.sysSetting.autoBackup.timeList"
-                                    v-model="systemSettingForm.sysSetting.autoBackup.timeList[idx]" :clearable="false"
-                                    :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
-                                    :editable="false" style="width: 120px;margin: 0 8px"
-                                    value-format="HH:mm:ss"/>
+                    <template  v-for="(_, idx) in systemSettingForm.sysSetting.autoBackup.timeList">
+                      <el-time-picker v-model="systemSettingForm.sysSetting.autoBackup.timeList[idx]" :clearable="false"
+                                      :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
+                                      :editable="false" style="width: 120px;margin: 0 8px"
+                                      value-format="HH:mm:ss"/>
+                      <el-button link :icon="Close"
+                                 :disabled="!systemSettingForm.sysSetting.autoBackup.enable||
+                                 systemSettingForm.sysSetting.autoBackup.timeList.length===1"
+                                 @click="systemSettingForm.sysSetting.autoBackup.timeList.splice(idx, 1)"></el-button>
+                    </template>
                     <el-button @click="systemSettingForm.sysSetting.autoBackup.timeList.push('00:00:00')"
                                :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
                                :icon="Plus"
                                style="margin-left: 8px">
                       点击新增
                     </el-button>
-
                   </el-col>
                   <el-col :span="24">
                     <div class="el-form-item-msg" style="color: #A8ABB2">
@@ -548,7 +552,7 @@
 </template>
 
 <script setup>
-import { SetUp, Collection, Plus } from '@element-plus/icons-vue'
+import { SetUp, Collection, Plus, Close } from '@element-plus/icons-vue'
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
