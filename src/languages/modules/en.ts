@@ -765,7 +765,7 @@ export default {
       },
     },
     location: {
-      title: 'World Location',
+      title: 'World Preview',
       titleButton: 'Refresh',
       colorScheme: {
         '#000000': 'Undefined',

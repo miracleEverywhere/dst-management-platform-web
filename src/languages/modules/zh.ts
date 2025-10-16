@@ -769,7 +769,7 @@ export default {
       },
     },
     location: {
-      title: '世界坐标',
+      title: '世界预览',
       titleButton: '刷新',
       colorScheme: {
         '#000000': '未定义',
