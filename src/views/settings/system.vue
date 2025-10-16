@@ -8,13 +8,17 @@
               <div>
                 {{ t('setting.system.title') }}
               </div>
-              <div v-if="!isMobile" class="fcc">
-                {{ t('setting.system.titleTip1') }}
+              <div v-if="!isMobile" class="fcc" style="font-weight: normal;">
+                <el-text>
+                  {{ t('setting.system.titleTip1') }}
+                </el-text>
                 <el-link href="https://miraclesses.top" target="_blank"
                          type="primary" underline="never">
                   {{ t('setting.system.titleTip2') }}
                 </el-link>
-                {{ t('setting.system.titleTip3') }}
+                <el-text>
+                  {{ t('setting.system.titleTip3') }}
+                </el-text>
                 <el-link href="https://qun.qq.com/universal-share/share?ac=1&authKey=ePe2g%2Bq16q8tSAdeJwOXC08NnAKn%2BfmwKeTdf8oS3pD5DzrPKQkoS6eAAD6UivHk&busi_data=eyJncm91cENvZGUiOiI3MzM5NDg2NDQiLCJ0b2tlbiI6Ii9CTmFVWTZOUTNvNUFuaG4rNTdaSnAvQ3U1aERkSUgxcFdCelB1OEhDNWtYNjlvRGhQZnU4allOcWcvcHM4b3IiLCJ1aW4iOiI3NjM0ODM5NjYifQ%3D%3D&data=qjh1K6Pelvxvj6Yl-qeFNEF3jJbc7EJMEC6Edt3ULjtM9WSkvbe0PKTd2q2Qp0v8wA6hXmL-sN-ziKjuf2zEXA&svctype=4&tempid=h5_group_info"
                          target="_blank"
                          type="primary" underline="never">
