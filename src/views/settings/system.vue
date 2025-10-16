@@ -2,16 +2,35 @@
   <div class="page-div">
     <el-row :gutter="10">
       <el-col :lg="24" :md="24" :sm="24" :span="24" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" style="min-height: 80vh">
+        <el-card shadow="never" :style="isMobile?'min-height: 85vh':'min-height: 80vh'">
           <template #header>
             <div class="card-header">
-              {{ t('setting.system.title') }}
+              <div>
+                {{ t('setting.system.title') }}
+              </div>
+              <div v-if="!isMobile" class="fcc" style="font-weight: normal;">
+                <el-text>
+                  {{ t('setting.system.titleTip1') }}
+                </el-text>
+                <el-link href="https://miraclesses.top" target="_blank"
+                         type="primary" underline="never">
+                  {{ t('setting.system.titleTip2') }}
+                </el-link>
+                <el-text>
+                  {{ t('setting.system.titleTip3') }}
+                </el-text>
+                <el-link href="https://qun.qq.com/universal-share/share?ac=1&authKey=ePe2g%2Bq16q8tSAdeJwOXC08NnAKn%2BfmwKeTdf8oS3pD5DzrPKQkoS6eAAD6UivHk&busi_data=eyJncm91cENvZGUiOiI3MzM5NDg2NDQiLCJ0b2tlbiI6Ii9CTmFVWTZOUTNvNUFuaG4rNTdaSnAvQ3U1aERkSUgxcFdCelB1OEhDNWtYNjlvRGhQZnU4allOcWcvcHM4b3IiLCJ1aW4iOiI3NjM0ODM5NjYifQ%3D%3D&data=qjh1K6Pelvxvj6Yl-qeFNEF3jJbc7EJMEC6Edt3ULjtM9WSkvbe0PKTd2q2Qp0v8wA6hXmL-sN-ziKjuf2zEXA&svctype=4&tempid=h5_group_info"
+                         target="_blank"
+                         type="primary" underline="never">
+                  {{ t('setting.system.titleTip4') }}
+                </el-link>
+              </div>
               <el-button :loading="submitButtonLoading" type="primary"
                          @click="handleSubmit">{{ t('setting.system.titleButton') }}
               </el-button>
             </div>
           </template>
-          <el-scrollbar :height="windowHeight - 300">
+          <el-scrollbar :height="windowHeight - 275">
             <el-form ref="systemSettingFormRef" :hide-required-asterisk="true"
                      :model="systemSettingForm" :rules="systemSettingFormRules"
                      :size="isMobile?'small':'large'" v-loading="loading"
@@ -122,6 +141,26 @@
                   <el-col :span="24">
                     <div class="el-form-item-msg" style="color: #A8ABB2">
                       {{ t('setting.system.metrics.msg') }}
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item :label="t('setting.system.metrics.title1')"
+                            prop="schedulerSetting.UIDMaintain.frequency">
+                <el-row>
+                  <el-col :span="24">
+                    <el-input-number v-model="systemSettingForm.schedulerSetting.sysMetricsGet.maxSaveHour"
+                                     controls-position="right" :min="1" :max="168"
+                                     :disabled="userInfo.role!=='admin'||systemSettingForm.schedulerSetting.sysMetricsGet.disable">
+                      <template #suffix>
+                        <span v-if="language==='zh'">小时</span>
+                        <span v-else>Hour</span>
+                      </template>
+                    </el-input-number>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="el-form-item-msg" style="color: #A8ABB2">
+                      {{ t('setting.system.metrics.msg1') }}
                     </div>
                   </el-col>
                 </el-row>
@@ -295,10 +334,22 @@
                             prop="sysSetting.autoBackup.time">
                 <el-row>
                   <el-col :span="24">
-                    <el-time-picker v-model="systemSettingForm.sysSetting.autoBackup.time" :clearable="false"
-                                    :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
-                                    :editable="false" style="width: 120px;margin: 0 8px"
-                                    value-format="HH:mm:ss"/>
+                    <template  v-for="(_, idx) in systemSettingForm.sysSetting.autoBackup.timeList">
+                      <el-time-picker v-model="systemSettingForm.sysSetting.autoBackup.timeList[idx]" :clearable="false"
+                                      :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
+                                      :editable="false" style="width: 120px;margin: 0 8px"
+                                      value-format="HH:mm:ss"/>
+                      <el-button link :icon="Close"
+                                 :disabled="!systemSettingForm.sysSetting.autoBackup.enable||
+                                 systemSettingForm.sysSetting.autoBackup.timeList.length===1"
+                                 @click="systemSettingForm.sysSetting.autoBackup.timeList.splice(idx, 1)"></el-button>
+                    </template>
+                    <el-button @click="systemSettingForm.sysSetting.autoBackup.timeList.push('00:00:00')"
+                               :disabled="!systemSettingForm.sysSetting.autoBackup.enable"
+                               :icon="Plus"
+                               :style="isMobile?'margin-left: 0':'margin-left: 24px'">
+                      {{t('setting.system.autoBackup.button')}}
+                    </el-button>
                   </el-col>
                   <el-col :span="24">
                     <div class="el-form-item-msg" style="color: #A8ABB2">
@@ -520,7 +571,7 @@
 </template>
 
 <script setup>
-import { SetUp, Collection } from '@element-plus/icons-vue'
+import { SetUp, Collection, Plus, Close } from '@element-plus/icons-vue'
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import settingApi from "@/api/setting"
 import {useI18n} from "vue-i18n";
@@ -567,6 +618,7 @@ const systemSettingFormOld = ref({
     autoBackup: {
       enable: false,
       time: "",
+      timeList: [],
     },
     keepalive: {
       enable: false,
@@ -585,6 +637,7 @@ const systemSettingFormOld = ref({
     UIDMaintain: {
       disable: false,
       frequency: 0,
+      maxSaveHour: 0,
     },
     sysMetricsGet: {
       disable: undefined,
@@ -609,6 +662,7 @@ const systemSettingForm = ref({
     autoBackup: {
       enable: false,
       time: "",
+      timeList: [],
     },
     backupClean: {
       enable: false,
@@ -631,6 +685,7 @@ const systemSettingForm = ref({
     UIDMaintain: {
       disable: false,
       frequency: 0,
+      maxSaveHour: 0,
     },
     sysMetricsGet: {
       disable: undefined,
@@ -688,6 +743,7 @@ const systemSettingFormRules = {
     },
     sysMetricsGet: {
       disable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
+      maxSaveHour: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'blur'}],
     },
     autoUpdate: {
       enable: [{required: true, message: t('setting.roomBaseFormRules.name'), trigger: 'change'}],
@@ -708,6 +764,13 @@ const handleGetSystemSetting = () => {
       systemSettingForm.value.sysSetting.scheduledStartStop.startTime = "08:00:00"
       systemSettingForm.value.sysSetting.scheduledStartStop.stopTime = "02:00:00"
     }
+    systemSettingForm.value.sysSetting.autoBackup.timeList = []
+    const t = systemSettingForm.value.sysSetting.autoBackup.time.split(',')
+    for (let i of t) {
+      if (i !== '') {
+        systemSettingForm.value.sysSetting.autoBackup.timeList.push(i)
+      }
+    }
     systemSettingFormOld.value = deepCopy(systemSettingForm.value)
   }).finally(() => {
     loading.value = false
@@ -722,6 +785,13 @@ const handleSubmit = () => {
         koiMsgInfo(language.value === 'zh' ? '配置未修改' : 'System settings not changes')
       } else {
         submitButtonLoading.value = true
+        let t = []
+        for (let i of systemSettingForm.value.sysSetting.autoBackup.timeList) {
+          if (!t.includes(i)) {
+            t.push(i)
+          }
+        }
+        systemSettingForm.value.sysSetting.autoBackup.time = t.join(',')
         const reqForm = {
           clusterName: globalStore.selectedDstCluster,
           settings: systemSettingForm.value,

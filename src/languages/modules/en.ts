@@ -48,8 +48,11 @@ export default {
     startup: "Startup",
     restart: "Restart",
     update: "Update",
+    updateTips: "Incremental game update speed depends on network status, please wait patiently. During the update, if you wish to update manually, enter the specified steamcmd command in the server and then restart the DMP to cancel the 'loading' status for the update button",
     shutdown: "Shutdown",
+    shutdownTips: "When features like auto-restart and keepalive are enabled, the game will restart after a period of time. If you wish to shut it down completely, go to Cluster Setting and deactivate the cluster (there is no need to disable auto-restart, etc.)",
     reset: "Reset",
+    resetTips: "This feature is only available when the game is running normally. If you wish to force a reset, use the 'Delete' function.",
     delete: "Delete",
     deleteTips: "This will delete the game's storage files, specifically the save folder in the save directory",
     interface: "Remote Execute",
@@ -194,6 +197,20 @@ export default {
     }
   },
   setting: {
+    tip: {
+      stepOne: {
+        name: "It refers to the name displayed in the game lobby.",
+        description: "Room description, displayed on the right side of the lobby or by pressing the Tab key in-game.",
+        gameMode: "Please select as needed, as it will affect the subsequent one-click import function.",
+        playerNum: "The maximum number of players that can join the current save. If you want to add reserved slots, please go to Settings - Players to add a whitelist.",
+        backDays: "The maximum number of days that can be rolled back, which is the number of game snapshots saved.",
+        vote: "Whether players can initiate votes in the game.",
+        pauseEmptyDisabled: "Whether time pauses when there are no players in the game.",
+        pvp: "Whether players can attack other players in the game.",
+        password: "Password to enter the game. Leave blank if not required.",
+        token: "Klei's Don't Starve Together dedicated server token, which must be applied for on the Klei official website.",
+      },
+    },
     roomSettingMobile: 'Room',
     groundSettingMobile: 'Ground',
     caveSettingMobile: 'Cave',
@@ -239,7 +256,12 @@ export default {
         endless: 'Endless',
         survival: 'Survival',
         lavaarena: 'Lava Arena',
-        quagmire: 'Quagmire'
+        quagmire: 'Quagmire',
+        relaxed: 'Relaxed',
+        wilderness: 'Wilderness',
+        lightsOut: 'Lights Out',
+        custom: 'Custom',
+        customInputPlaceholder: 'Please input the custom game mode',
       },
       pvp: 'PVP',
       playerNum: 'Player Numbers',
@@ -251,6 +273,7 @@ export default {
       token: 'Token',
       tokenHelp: 'Click to obtain game token',
     },
+    iconTip: 'Click to add emoji',
     roomWorldForm: {
       id: 'ID',
       masterPort: 'Connection Port',
@@ -473,6 +496,10 @@ export default {
     },
     system: {
       title: 'System Settings',
+      titleTip1: 'For detailed explanations of each configuration, please refer to the',
+      titleTip2: 'documentation',
+      titleTip3: 'or add ',
+      titleTip4: 'QQ Group',
       titleButton: 'Submit',
       keepalive: {
         divider: 'Keepalive',
@@ -508,6 +535,8 @@ export default {
         divider: 'Metrics',
         title: 'Metrics switch',
         msg: 'Enabled by default. If disabled, no content will be displayed on the Tools - Metrics page.',
+        title1: 'Data retention period',
+        msg1: 'Default is 6 hours, meaning the platform will discard system monitoring data older than the set number of hours. Do not set this value too high to avoid unnecessary memory usage',
       },
       bit64: {
         divider: '64-bit game',
@@ -542,6 +571,7 @@ export default {
         title2: 'Auto Backup Time',
         msg: 'Enabled by default, DMP backup the server at scheduled time, backup path is ~/dmp_files/backup/[ClusterName]',
         msg2: 'DMP will backup servers daily at the scheduled time',
+        button: 'Add'
       },
       backupClean: {
         divider: 'Backup Clean',
@@ -560,7 +590,7 @@ export default {
         msg3: 'The cluster\'s all worlds will be stop at this time every day',
       },
       tip1: 'Global Settings (Affects all clusters, configurable by administrators only)',
-      tip2:'Cluster Settings (Affecting the current cluster)',
+      tip2:'Cluster Settings (Affecting the current cluster, deactivated cluster will not be scheduled)',
     },
   },
   tools: {
@@ -735,7 +765,7 @@ export default {
       },
     },
     location: {
-      title: 'World Location',
+      title: 'World Preview',
       titleButton: 'Refresh',
       colorScheme: {
         '#000000': 'Undefined',
@@ -804,6 +834,8 @@ export default {
     tip_2: 'The admin account can NOT be deleted',
     tip_3: 'This page is only visible to accounts with the admin role',
     tip_4: 'Administrators can manage all clusters, while non-admin users may only manage clusters they have permissions for',
+    tip_5: 'If you want to delete an admin role account, first set it as a non-admin and then delete it.',
+    tip_6: 'Please ensure there is at least one admin role user; otherwise, global management cannot be performed.',
     suggestedPassword: 'It is recommended to use a password that is at least 8 characters long and contains letters and numbers',
     submit: 'Submit',
     actions: {

@@ -26,54 +26,175 @@
           <el-scrollbar :height="windowHeight - 438">
             <el-form ref="clusterSettingFormRef" :label-position="isMobile?'top':'left'"
                      :label-width="isMobile?'70':'auto'"
+                     hide-required-asterisk
                      :model="clusterSettingForm" :rules="clusterSettingFormRules"
                      :size="isMobile?'small':'large'" style="margin-right: 16px">
-              <el-form-item :label="t('setting.baseForm.room')" prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-input v-model="clusterSettingForm.name"></el-input>
+              <el-form-item prop="name" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.room')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.name')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
+                <el-input v-model="clusterSettingForm.name">
+                  <template #append>
+                    <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
+                      <el-button icon="sc-icon-EmotionLine" @click="handleOpenEmojiDialog('name')"/>
+                    </el-tooltip>
+                  </template>
+                </el-input>
               </el-form-item>
               <div v-if="!isMobile"></div>
-              <el-form-item :label="t('setting.baseForm.description')" prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-input v-model="clusterSettingForm.description"></el-input>
+              <el-form-item prop="description" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.description')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.description')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
+                <el-input v-model="clusterSettingForm.description">
+                  <template #append>
+                    <el-tooltip :content="t('setting.iconTip')" effect="light" placement="top">
+                      <el-button icon="sc-icon-EmotionLine" @click="handleOpenEmojiDialog('description')"/>
+                    </el-tooltip>
+                  </template>
+                </el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.gameMode.name')" prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
-                <el-radio-group v-model="clusterSettingForm.gameMode">
+              <el-form-item prop="gameMode" :style="isMobile?'padding-top: 0px':'padding-top: 25px'" style="display: flex; align-items: center;">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.gameMode.name')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.gameMode')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
+                <el-radio-group v-model="clusterSettingForm.gameMode" style="margin-right: 20px;">
                   <el-radio :label="t('setting.baseForm.gameMode.endless')" value="endless"/>
                   <el-radio :label="t('setting.baseForm.gameMode.survival')" value="survival"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.relaxed')" value="relaxed"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.wilderness')" value="wilderness"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.lightsOut')" value="lightsOut"/>
                   <el-radio :label="t('setting.baseForm.gameMode.lavaarena')" value="lavaarena"/>
                   <el-radio :label="t('setting.baseForm.gameMode.quagmire')" value="quagmire"/>
+                  <el-radio :label="t('setting.baseForm.gameMode.custom')" value="custom"/>
                 </el-radio-group>
+                <el-input v-if="clusterSettingForm.gameMode==='custom'"
+                          v-model="clusterSettingForm.customGameMode"
+                          :placeholder="t('setting.baseForm.gameMode.customInputPlaceholder')"
+                          style="flex: 0 0 auto; width: 25%"></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.playerNum')" prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+              <el-form-item prop="playerNum" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.playerNum')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.playerNum')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-slider v-model="clusterSettingForm.playerNum" :max="64" :min="2" show-input size="small"/>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.backDays')" prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+              <el-form-item prop="backDays" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.backDays')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.backDays')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-slider v-model="clusterSettingForm.backDays" :max="64" :min="5" show-input size="small"/>
               </el-form-item>
               <el-row>
                 <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
-                  <el-form-item :label="t('setting.baseForm.vote')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                  <el-form-item prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('setting.baseForm.vote')}}</span>
+                        <el-tooltip :content="t('setting.tip.stepOne.vote')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-switch v-model="clusterSettingForm.vote"/>
                   </el-form-item>
                 </el-col>
                 <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
-                  <el-form-item :label="t('setting.baseForm.pauseEmptyDisabled')" prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                  <el-form-item prop="vote" :style="isMobile?'padding-top: 0px':'padding-top: 29px'">
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('setting.baseForm.pauseEmptyDisabled')}}</span>
+                        <el-tooltip :content="t('setting.tip.stepOne.pauseEmptyDisabled')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-switch v-model="clusterSettingForm.pauseEmptyDisabled"
                                :active-value="false" :inactive-value="true"/>
                   </el-form-item>
                 </el-col>
                 <el-col :lg="8" :md="8" :sm="24" :span="8" :xs="24">
-                  <el-form-item :label="t('setting.baseForm.pvp')" prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                  <el-form-item prop="pvp" :style="isMobile?'padding-top: 0px':'padding-top: 25px'">
+                    <template #label>
+                      <div style="display: flex; align-items: center">
+                        <span>{{t('setting.baseForm.pvp')}}</span>
+                        <el-tooltip :content="t('setting.tip.stepOne.pvp')" effect="light" placement="top">
+                          <el-icon size="14" style="margin-left: 2px">
+                            <QuestionFilled/>
+                          </el-icon>
+                        </el-tooltip>
+                      </div>
+                    </template>
                     <el-switch v-model="clusterSettingForm.pvp"/>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item :label="t('setting.baseForm.password')" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+              <el-form-item :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.password')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.password')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-input v-model="clusterSettingForm.password" autocomplete="new-password" show-password></el-input>
               </el-form-item>
-              <el-form-item :label="t('setting.baseForm.token')" prop="token" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+              <el-form-item prop="token" :style="isMobile?'padding-top: 0px':'padding-top: 30px'">
+                <template #label>
+                  <div style="display: flex; align-items: center">
+                    <span>{{t('setting.baseForm.token')}}</span>
+                    <el-tooltip :content="t('setting.tip.stepOne.token')" effect="light" placement="top">
+                      <el-icon size="14" style="margin-left: 2px">
+                        <QuestionFilled/>
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
                 <el-input v-model="clusterSettingForm.token" show-password></el-input>
                 <div class="el-form-item-msg">
-                  <el-link :underline="false" href="https://accounts.klei.com"
+                  <el-link underline="never" href="https://accounts.klei.com"
                            target="_blank">{{ t('setting.baseForm.tokenHelp') }}
                   </el-link>
                 </div>
@@ -87,7 +208,15 @@
               <span>{{t('setting.worldSetting')}}</span>
               <div>
                 <el-dropdown trigger="click" @command="handleCreateWorld">
-                  <el-button :disabled="worldLevelDataTabName!=='Code'" type="success">
+                  <el-button :disabled="worldLevelDataTabName!=='Code'||(
+                  clusterSettingForm.gameMode!=='endless'&&
+                  clusterSettingForm.gameMode!=='survival'&&
+                  clusterSettingForm.gameMode!=='relaxed'&&
+                  clusterSettingForm.gameMode!=='wilderness'&&
+                  clusterSettingForm.gameMode!=='lightsOut'&&
+                  clusterSettingForm.gameMode!=='quagmire'&&
+                  clusterSettingForm.gameMode!=='lavaarena')"
+                             type="success">
                     {{t('setting.oneClick')}}
                     <el-icon class="el-icon--right">
                       <arrow-down/>
@@ -96,20 +225,58 @@
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item :command="{clusterType: 'endless', worldType: 'ground'}"
-                                        :disabled="clusterSettingForm.gameMode!=='endless'">
+                                        v-if="clusterSettingForm.gameMode==='endless'">
                         {{t('setting.endless')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'endless', worldType: 'cave'}"
-                                        :disabled="clusterSettingForm.gameMode!=='endless'">
+                                        v-if="clusterSettingForm.gameMode==='endless'">
                         {{t('setting.endless')}}-{{t('setting.caveSettingMobile')}}
                       </el-dropdown-item>
+
                       <el-dropdown-item :command="{clusterType: 'survival', worldType: 'ground'}"
-                                        :disabled="clusterSettingForm.gameMode!=='survival'">
+                                        v-if="clusterSettingForm.gameMode==='survival'">
                         {{t('setting.survival')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                       <el-dropdown-item :command="{clusterType: 'survival', worldType: 'cave'}"
-                                        :disabled="clusterSettingForm.gameMode!=='survival'">
+                                        v-if="clusterSettingForm.gameMode==='survival'">
                         {{t('setting.survival')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'relaxed', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='relaxed'">
+                        {{t('setting.baseForm.gameMode.relaxed')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'relaxed', worldType: 'cave'}"
+                                        v-if="clusterSettingForm.gameMode==='relaxed'">
+                        {{t('setting.baseForm.gameMode.relaxed')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'wilderness', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='wilderness'">
+                        {{t('setting.baseForm.gameMode.wilderness')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'wilderness', worldType: 'cave'}"
+                                        v-if="clusterSettingForm.gameMode==='wilderness'">
+                        {{t('setting.baseForm.gameMode.wilderness')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'lightsOut', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='lightsOut'">
+                        {{t('setting.baseForm.gameMode.lightsOut')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+                      <el-dropdown-item :command="{clusterType: 'lightsOut', worldType: 'cave'}"
+                                        v-if="clusterSettingForm.gameMode==='lightsOut'">
+                        {{t('setting.baseForm.gameMode.lightsOut')}}-{{t('setting.caveSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'lavaarena', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='lavaarena'">
+                        {{t('setting.baseForm.gameMode.lavaarena')}}-{{t('setting.groundSettingMobile')}}
+                      </el-dropdown-item>
+
+                      <el-dropdown-item :command="{clusterType: 'quagmire', worldType: 'ground'}"
+                                        v-if="clusterSettingForm.gameMode==='quagmire'">
+                        {{t('setting.baseForm.gameMode.quagmire')}}-{{t('setting.groundSettingMobile')}}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
@@ -777,11 +944,48 @@
                    previewTheme="github"/>
       </div>
     </el-dialog>
+    <el-dialog v-model="emojiDialogVisible" width="65%">
+      <template #header>
+        <div style="display: flex; align-items: center">
+          <el-switch v-model="insertOrCopy"
+                     active-value="insert"
+                     inactive-value="copy"
+                     :active-text="language==='zh'?'插入模式':'Insert Mode'"
+                     :inactive-text="language==='zh'?'复制模式':'Copy Mode'"
+          ></el-switch>
+        </div>
+      </template>
+
+      <div v-if="insertOrCopy==='insert'" style="width: 100%;">
+        <el-input ref="emojiInputNameRef"
+                  v-if="clusterSettingStepOneInput==='name'"
+                  v-model="clusterSettingForm.name"
+                  style="width: 100%"></el-input>
+        <el-input ref="emojiInputDescriptionRef"
+                  v-if="clusterSettingStepOneInput==='description'"
+                  v-model="clusterSettingForm.description"
+                  style="width: 100%"></el-input>
+      </div>
+      <div class="emoji-container mt-4 mb-6">
+        <div v-for="e in Emoji" class="emoji-item" @click="handleEmoji(e)">
+          {{e}}
+        </div>
+      </div>
+
+      <template #footer>
+        <el-link v-if="language==='zh'" href="https://www.bilibili.com/opus/814456568458248259" target="_blank" type="info" underline="never">
+          感谢B站长鸽门徒提供的饥荒表情字体
+        </el-link>
+        <el-link v-else href="https://www.bilibili.com/opus/814456568458248259" target="_blank" type="info" underline="never">
+          Thanks to Bilibili user 长鸽门徒 for providing the DST emoji font.
+        </el-link>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import {ArrowDown, Plus} from "@element-plus/icons-vue";
+import {IceTea, ArrowDown, Plus} from "@element-plus/icons-vue";
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useRoute, useRouter} from "vue-router";
@@ -794,7 +998,7 @@ import {koiMsgError, koiMsgSuccess} from "@/utils/koi.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
-import {endless, survival} from "@/views/settings/components/leveldataoverride.js"
+import {endless, survival, relaxed, wilderness, lightsOut, lavaarena, quagmire} from "@/views/settings/components/leveldataoverride.js"
 import {
   caveOverrideWorldGenerationWorld,
   cavesWorldGeneration,
@@ -808,6 +1012,7 @@ import useAuthStore from "@/stores/modules/auth.ts";
 import {MdPreview} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import {generateRandomString} from "@/utils/tools.js";
+import Emoji from './components/emoji'
 
 const {t} = useI18n()
 
@@ -908,6 +1113,10 @@ const handlePrev = () => {
 }
 const handleNext = async () => {
   if (step.value === 0) {
+    if (clusterSettingForm.value.gameMode==='custom' && clusterSettingForm.value.customGameMode==='') {
+      koiMsgError(language.value==='zh'?'请输入自定义模式':'Please input custom game mode')
+      return
+    }
     clusterSettingFormRef.value.validate(async valid => {
       if (valid) {
         if (!hasWorlds.value) {
@@ -1007,6 +1216,7 @@ const clusterSettingForm = ref({
   name: '',
   description: '',
   gameMode: '',
+  customGameMode: '',
   pvp: false,
   playerNum: 6,
   backDays: 10,
@@ -1075,6 +1285,9 @@ const handleCommand = async (cmd) => {
 }
 
 const handleSave = () => {
+  if (clusterSettingForm.value.gameMode !== 'custom') {
+    clusterSettingForm.value.customGameMode = ''
+  }
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -1095,6 +1308,9 @@ const handleSave = () => {
 }
 
 const handleSaveAndRestart = () => {
+  if (clusterSettingForm.value.gameMode !== 'custom') {
+    clusterSettingForm.value.customGameMode = ''
+  }
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -1114,6 +1330,9 @@ const handleSaveAndRestart = () => {
   })
 }
 const handleGenerateNewWorld = () => {
+  if (clusterSettingForm.value.gameMode !== 'custom') {
+    clusterSettingForm.value.customGameMode = ''
+  }
   const reqForm = {
     clusterSetting: clusterSettingForm.value,
     worlds: worldForm.value,
@@ -1341,12 +1560,52 @@ const handleCreateWorld = (cmd) => {
           world.levelData = endless.caves
         }
       }
+
       if (cmd.clusterType === 'survival') {
         if (cmd.worldType === 'ground') {
           world.levelData = survival.master
         }
         if (cmd.worldType === 'cave') {
           world.levelData = survival.caves
+        }
+      }
+
+      if (cmd.clusterType === 'relaxed') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = relaxed.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = relaxed.caves
+        }
+      }
+
+      if (cmd.clusterType === 'wilderness') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = wilderness.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = wilderness.caves
+        }
+      }
+
+      if (cmd.clusterType === 'lightsOut') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = lightsOut.master
+        }
+        if (cmd.worldType === 'cave') {
+          world.levelData = lightsOut.caves
+        }
+      }
+
+      if (cmd.clusterType === 'lavaarena') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = lavaarena.master
+        }
+      }
+
+      if (cmd.clusterType === 'quagmire') {
+        if (cmd.worldType === 'ground') {
+          world.levelData = quagmire.master
         }
       }
     }
@@ -1460,6 +1719,140 @@ const getClustersWorldPort = () => {
   })
 }
 
+const emojiDialogVisible = ref(false)
+const clusterSettingStepOneInput = ref('name')
+const insertOrCopy = ref('copy')
+const emojiInputNameRef = ref()
+const emojiInputDescriptionRef = ref()
+const handleOpenEmojiDialog = (x) => {
+  clusterSettingStepOneInput.value = x
+  emojiDialogVisible.value = true
+}
+const cursorPosition = ref(0)
+const handleEmoji = (e) => {
+  if (insertOrCopy.value === 'insert') {
+    if (clusterSettingStepOneInput.value === 'name') {
+      const inputEl = emojiInputNameRef.value?.input
+      if (!inputEl) return
+
+      // 获取当前值
+      const currentValue = clusterSettingForm.value.name
+      // 获取当前光标位置（实时获取）
+      const startPos = inputEl.selectionStart || cursorPosition.value
+      const endPos = inputEl.selectionEnd || cursorPosition.value
+
+      // 插入表情
+      clusterSettingForm.value.name =
+        currentValue.substring(0, startPos) +
+        e +
+        currentValue.substring(endPos)
+
+      // 更新光标位置（插入后）
+      const newCursorPos = startPos + e.length
+      cursorPosition.value = newCursorPos
+
+      // 设置光标位置
+      setTimeout(() => {
+        inputEl.setSelectionRange(newCursorPos, newCursorPos)
+        inputEl.focus()
+      }, 0)
+    } else {
+      const inputEl = emojiInputDescriptionRef.value?.input
+      if (!inputEl) return
+
+      // 获取当前值
+      const currentValue = clusterSettingForm.value.description
+      // 获取当前光标位置（实时获取）
+      const startPos = inputEl.selectionStart || cursorPosition.value
+      const endPos = inputEl.selectionEnd || cursorPosition.value
+
+      // 插入表情
+      clusterSettingForm.value.description =
+        currentValue.substring(0, startPos) +
+        e +
+        currentValue.substring(endPos)
+
+      // 更新光标位置（插入后）
+      const newCursorPos = startPos + e.length
+      cursorPosition.value = newCursorPos
+
+      // 设置光标位置
+      setTimeout(() => {
+        inputEl.setSelectionRange(newCursorPos, newCursorPos)
+        inputEl.focus()
+      }, 0)
+    }
+  } else {
+    copyToClipboard(e).then(() => {
+      let message
+      if (language.value === 'zh') {
+        message = '复制成功'
+      } else {
+        message = 'Copy Success'
+      }
+      emojiDialogVisible.value = false
+      koiMsgSuccess(message)
+    }).catch(() => {
+      let message
+      if (language.value === 'zh') {
+        message = '复制失败'
+      } else {
+        message = 'Copy Fail'
+      }
+    })
+  }
+}
+
+function copyToClipboard(text, onSuccess, onError) {
+  // 返回一个Promise以便可以使用await或.then()
+  return new Promise((resolve, reject) => {
+    // 检查是否支持navigator.clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      // 使用现代剪贴板API
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          if (typeof onSuccess === 'function') onSuccess(text);
+          resolve(text);
+        })
+        .catch(err => {
+          if (typeof onError === 'function') onError(err, text);
+          reject(err);
+        });
+    } else {
+      // 降级方案：使用document.execCommand
+      try {
+        // 创建一个临时的textarea元素
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed'; // 防止页面滚动
+        textarea.style.opacity = '0'; // 隐藏元素
+
+        // 将textarea添加到DOM中
+        document.body.appendChild(textarea);
+
+        // 选中文本
+        textarea.select();
+
+        // 执行复制命令
+        const success = document.execCommand('copy');
+
+        // 移除临时元素
+        document.body.removeChild(textarea);
+
+        if (success) {
+          if (typeof onSuccess === 'function') onSuccess(text);
+          resolve(text);
+        } else {
+          throw new Error('复制失败，execCommand返回false');
+        }
+      } catch (err) {
+        if (typeof onError === 'function') onError(err, text);
+        reject(err);
+      }
+    }
+  });
+}
+
 watch(() => globalStore.selectedDstCluster, (newValue) => {
   if (newValue) {
     nextTick(() => {
@@ -1473,9 +1866,10 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
 <style scoped>
 .item-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
+  grid-template-columns: repeat(auto-fill, 20px);
   gap: 10px;
 }
+
 :deep(.el-tabs__new-tab) {
   position: relative;
   border: none !important;
@@ -1515,5 +1909,21 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.emoji-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3rem, 1fr));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.emoji-item {
+  font-size: 3rem;
+  cursor: pointer;
+}
+.emoji-item:hover {
+  background: #409EFF;
+  transition: background 0.5s;
 }
 </style>

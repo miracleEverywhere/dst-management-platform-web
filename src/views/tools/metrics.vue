@@ -72,6 +72,18 @@ const selectOptions = [
     label: language.value === 'zh' ? '6小时' : '6 Hours',
     value: 360
   },
+  {
+    label: language.value === 'zh' ? '12小时' : '12 Hours',
+    value: 720
+  },
+  {
+    label: language.value === 'zh' ? '24小时' : '24 Hours',
+    value: 1440
+  },
+  {
+    label: language.value === 'zh' ? '全部' : 'All Time',
+    value: 0
+  },
 ]
 
 const getMetrics = (timeRange, tip) => {

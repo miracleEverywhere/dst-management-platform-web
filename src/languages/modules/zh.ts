@@ -48,8 +48,11 @@ export default {
     startup: "启动游戏",
     restart: "重启游戏",
     update: "更新游戏",
+    updateTips: "增量更新游戏，更新速度与网络状态有关，请耐心等待。更新过程中，如果你想手动更新，请输入指定的steamcmd命令，然后重启饥荒管理平台即可取消按钮的loading状态",
     shutdown: "关闭游戏",
+    shutdownTips: "自动保活、自动重启等功能开启时，游戏会在一段时间后重新启动，如果你想彻底关闭，请到集群管理关闭该集群(无需关闭自动保活等)",
     reset: "重置世界",
+    resetTips: "只有游戏正常运行时，才可使用该功能，如果想强制重置，则使用删除世界功能",
     delete: "删除世界",
     deleteTips: "将会删除游戏的存储文件，即存档目录下的save文件夹",
     interface: "命令执行",
@@ -195,6 +198,20 @@ export default {
     }
   },
   setting: {
+    tip: {
+      stepOne: {
+        name: "即游戏大厅中显示的存档名",
+        description: "房间的描述，大厅右侧显示，或游戏中按Tab键显示",
+        gameMode: "请按需选择，会影响到后续的一键带入功能",
+        playerNum: "当前存档能加入的最大玩家数，如果想要添加预留位，请前往设置-玩家添加白名单",
+        backDays: "可回档的天数最大值，也就是游戏保存的快照数量",
+        vote: "游戏中玩家能否发起投票",
+        pauseEmptyDisabled: "存档中无玩家时，时间是否暂停",
+        pvp: "游戏中玩家是否能攻击其他玩家",
+        password: "进入存档的密码，不需要则不填",
+        token: "科雷的饥荒联机版令牌，需要在科雷官网申请",
+      },
+    },
     roomSettingMobile: '房间',
     groundSettingMobile: '地面',
     caveSettingMobile: '洞穴',
@@ -240,7 +257,12 @@ export default {
         endless: '无尽',
         survival: '生存',
         lavaarena: '熔炉',
-        quagmire: '暴食'
+        quagmire: '暴食',
+        relaxed: '轻松',
+        wilderness: '荒野',
+        lightsOut: '暗无天日',
+        custom: '自定义',
+        customInputPlaceholder: '请输入自定义模式',
       },
       pvp: '玩家对战',
       playerNum: '玩家数量',
@@ -252,6 +274,7 @@ export default {
       token: '令牌',
       tokenHelp: '点击获取游戏令牌',
     },
+    iconTip: '点击添加表情',
     roomWorldForm: {
       id: '世界ID',
       masterPort: '连接端口',
@@ -474,6 +497,10 @@ export default {
     },
     system: {
       title: '系统设置',
+      titleTip1: '各配置详细解释请前往',
+      titleTip2: '文档',
+      titleTip3: '或',
+      titleTip4: '加群',
       titleButton: '提交',
       keepalive: {
         divider: '自动保活',
@@ -509,6 +536,8 @@ export default {
         divider: '系统监控',
         title: '系统监控开关',
         msg: '默认开启，关闭后，在工具-系统监控页面中将不再显示任何内容',
+        title1: '数据保留时长',
+        msg1: '默认6小时，即平台会丢弃设置小时前的系统监控数据，请勿设置过大，造成不必要的内存占用',
       },
       bit64: {
         divider: '64位启动',
@@ -544,7 +573,8 @@ export default {
         title: '自动备份开关',
         title2: '自动备份时间',
         msg: '默认开启，会在指定的时间备份服务器，备份路径为~/dmp_files/backup/[集群名]',
-        msg2: '每天会在该时间进行自动备份',
+        msg2: '每天会在上述时间进行自动备份',
+        button: '点击新增'
       },
       backupClean: {
         divider: '备份清理',
@@ -563,7 +593,7 @@ export default {
         msg3: '每天会在该时间关闭本集群的所有世界',
       },
       tip1: '以下为全局设置，影响所有集群，仅管理员可修改',
-      tip2:'以下为集群设置，影响当前集群',
+      tip2:'以下为集群设置，影响当前集群（未激活的集群不会执行定时任务）',
     },
   },
   tools: {
@@ -739,7 +769,7 @@ export default {
       },
     },
     location: {
-      title: '世界坐标',
+      title: '世界预览',
       titleButton: '刷新',
       colorScheme: {
         '#000000': '未定义',
@@ -808,6 +838,8 @@ export default {
     tip_2: 'admin角色的账号不可删除',
     tip_3: '此页面仅admin角色账号可见',
     tip_4: '管理员可管理所有集群，非管理员仅可管理拥有权限的集群',
+    tip_5: '如果要删除一个管理员账号，请先将其设置为非管理员，然后再删除',
+    tip_6: '请保证至少有一个管理员用户，否则无法进行全局管理',
     suggestedPassword: '建议包含英文、数字的8位以上密码',
     submit: '提交',
     actions: {
