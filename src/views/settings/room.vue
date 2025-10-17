@@ -378,7 +378,12 @@
                       </div>
                     </el-tab-pane>
                     <el-tab-pane
-                      v-if="(clusterSettingForm.gameMode==='endless'||clusterSettingForm.gameMode==='survival') && world.levelData!==''"
+                      v-if="(clusterSettingForm.gameMode==='endless'||
+                      clusterSettingForm.gameMode==='relaxed'||
+                      clusterSettingForm.gameMode==='wilderness'||
+                      clusterSettingForm.gameMode==='lightsOut'||
+                      clusterSettingForm.gameMode==='survival')&&
+                      world.levelData!==''"
                       :label="t('setting.tabVisualization')" lazy name="Visualization">
                       <template v-if="visualizationType==='forest' && Object.keys(overridesObj).length!==0">
                         <el-divider content-position="center"><span
@@ -1866,7 +1871,7 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
 <style scoped>
 .item-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 20px);
+  grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
   gap: 10px;
 }
 
