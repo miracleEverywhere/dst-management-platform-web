@@ -1928,6 +1928,7 @@ watch(() => globalStore.selectedDstCluster, (newValue) => {
   cursor: pointer;
 }
 .emoji-item:hover {
+  border-radius: 4px;
   background: #409EFF;
   transition: background 0.5s;
 }
