@@ -8,7 +8,7 @@ export default {
     roomName: "房间名",
     connectionCode: "直连代码",
     customConnectionCode: '自定义',
-    customConnectionCodeTip: '如果你的服务器经过了代理或穿透，可以在下方生成自定义直连代码(自定义直连代码仅在当前浏览器生效)',
+    customConnectionCodeTip: '如果你的服务器经过了代理或穿透，可以在下方生成自定义直连代码',
     customConnectionCodeTip2: '如果想关闭自定义直连代码，点击下方清除即可',
     ip: '请输入IP',
     port: '请输入端口',

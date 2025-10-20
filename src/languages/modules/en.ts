@@ -8,7 +8,7 @@ export default {
     roomName: "Room Name",
     connectionCode: "Connection Code",
     customConnectionCode: 'Custom',
-    customConnectionCodeTip: 'If your server has been proxied or forwarded, you can create a custom connection code (Custom connection code only takes effect in the current browser)',
+    customConnectionCodeTip: 'If your server has been proxied or forwarded, you can create a custom connection code',
     customConnectionCodeTip2: 'If you want to disable the custom connection code, click the clear button',
     ip: 'enter the IP',
     port: 'enter the port',
