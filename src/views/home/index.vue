@@ -467,20 +467,17 @@
         <div class="tip">{{t('home.customConnectionCodeTip')}}</div>
         <div class="tip_success">{{t('home.customConnectionCodeTip2')}}</div>
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="16">
             <el-input v-model="customConnectionCode.ip" :placeholder="t('home.ip')"/>
           </el-col>
           <el-col :span="8">
-            <el-input v-model="customConnectionCode.port" :placeholder="t('home.port')"/>
-          </el-col>
-          <el-col :span="8">
-            <el-input v-model="customConnectionCode.password" :placeholder="t('home.password')"/>
+            <el-input v-model.number="customConnectionCode.port" type="number" :placeholder="t('home.port')"/>
           </el-col>
         </el-row>
-        <div v-if="customConnectionCode.ip && customConnectionCode.port" class="tip">
-          <strong>{{t('home.preview')}}: </strong>
-          c_connect('{{customConnectionCode.ip}}', {{customConnectionCode.port}}{{customConnectionCode.password?`, '${customConnectionCode.password}'`:""}})
-        </div>
+<!--        <div v-if="customConnectionCode.ip && customConnectionCode.port" class="tip">-->
+<!--          <strong>{{t('home.preview')}}: </strong>-->
+<!--          c_connect('{{customConnectionCode.ip}}', {{customConnectionCode.port}}{{customConnectionCode.password?`, '${customConnectionCode.password}'`:""}})-->
+<!--        </div>-->
         <div style="display: flex; justify-content: flex-end; padding-top: 30px">
           <el-button type="danger" @click="handleDeleteCustomConnectionCode">{{ t('home.clear') }}</el-button>
           <el-button type="primary" @click="handleUpdateCustomConnectionCode">{{ t('home.submit') }}</el-button>
@@ -603,7 +600,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import useGlobalStore from "@/stores/modules/global.ts";
 import {ElMessageBox} from 'element-plus'
 import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
-import {formatBytes, sleep} from "@/utils/tools.js"
+import {formatBytes, sleep, validateIPOrDomain, validatePort} from "@/utils/tools.js"
 import {useRoute, useRouter} from "vue-router";
 import useKeepAliveStore from "@/stores/modules/keepAlive.ts";
 import useAuthStore from "@/stores/modules/auth.ts";
@@ -644,35 +641,61 @@ const version = ref({
 const connectionCode = ref('')  // 服务端生成的code
 const customConnectionCode = ref({
   ip: '',
-  port: '',
-  password: ''
+  port: undefined,
 })  // 用户自定义的code
 
 const customConnectionCodeDialogVisible = ref(false)
 const handleOpenCustomConnectionCodeDialog = () => {
-  if (globalStore.customConnectionCode[globalStore.selectedDstCluster]) {
-    customConnectionCode.value = globalStore.customConnectionCode[globalStore.selectedDstCluster]
-  } else {
-    customConnectionCode.value = {
-      ip: '',
-      port: '',
-      password: ''
-    }
-  }
-
+  handleGetCustomConnectionCode()
   customConnectionCodeDialogVisible.value = true
 }
+const handleGetCustomConnectionCode = () => {
+  homeApi.connectCode.get({clusterName: globalStore.selectedDstCluster}).then(response => {
+    customConnectionCode.value = response.data
+    if (!customConnectionCode.value.port) {
+      customConnectionCode.value.port = undefined
+    }
+  })
+}
 const handleUpdateCustomConnectionCode = () => {
-  globalStore.customConnectionCode[globalStore.selectedDstCluster] = customConnectionCode.value
-  customConnectionCodeDialogVisible.value = false
-  koiMsgSuccess(language.value==='zh'?'更新成功':'Update Success')
+  if (!customConnectionCode.value.ip) {
+    koiMsgError(language.value==='zh'?'请输入IP':'Please input IP')
+    return
+  }
+  if (!customConnectionCode.value.port) {
+    koiMsgError(language.value==='zh'?'请输入端口':'Please input PORT')
+    return
+  }
+  if (!validateIPOrDomain(customConnectionCode.value.ip)) {
+    koiMsgError(language.value==='zh'?'请输入正确的IP或域名':'Please input correct IP or domain')
+    return
+  }
+  if (!validatePort(customConnectionCode.value.port)) {
+    koiMsgError(language.value==='zh'?'请输入正确的端口':'Please input correct PORT')
+    return
+  }
+
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    customConnectCode: customConnectionCode.value,
+  }
+  homeApi.connectCode.put(reqForm).then(response => {
+    koiMsgSuccess(response.message)
+  })
   handleRefresh()
 }
-
 const handleDeleteCustomConnectionCode = () => {
-  delete globalStore.customConnectionCode[globalStore.selectedDstCluster]
-  customConnectionCodeDialogVisible.value = false
-  koiMsgSuccess(language.value==='zh'?'清除成功':'Clear Success')
+  customConnectionCode.value = {
+    ip: '',
+    port: 0
+  }
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    customConnectCode: customConnectionCode.value,
+  }
+  homeApi.connectCode.put(reqForm).then(response => {
+    koiMsgSuccess(language.value==='zh'?'清除成功':'Clear Success')
+  })
   handleRefresh()
 }
 
