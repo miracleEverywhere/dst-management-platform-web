@@ -111,6 +111,9 @@
                           <el-dropdown-item :command="{cmd: 'sync', row: ''}">
                             {{ t('setting.mod.add.header.sync') }}
                           </el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'predownload', row: ''}">
+                            {{ t('setting.mod.add.header.predownload') }}
+                          </el-dropdown-item>
                           <el-dropdown-item :disabled="userInfo.role!=='admin'||selectedDownloadMods.length===0"
                                             :command="{cmd: 'multiDelete', row: ''}">
                             {{ t('setting.mod.add.header.multiDelete') }}
@@ -342,7 +345,7 @@
       <div v-loading="modSettingFormatLoading">
         <template v-if="noModPreDownload">
           <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning" style="margin: 20px 0 40px 0">
-            没有启用的模组，下载终止
+            {{ t('setting.mod.dialog.preDownload.noModPreDownload') }}
           </el-alert>
         </template>
         <template v-else>
@@ -354,7 +357,7 @@
           </el-progress>
           <div style="margin-bottom: 40px">
           <span v-if="!modPreDownloadSuccess">
-            正在下载：
+            {{ t('setting.mod.dialog.preDownload.downloading') }}
           </span>
             {{modPreDownloadProgress.currentMod}}
           </div>
@@ -562,6 +565,9 @@ const handleModCommand = (actions) => {
       break;
     case 'sync':
       handleSyncMod()
+      break;
+    case 'predownload':
+      openModPreDownloadDialog()
       break;
     case 'multiDelete':
       handleMultiDeleteMod()
@@ -793,7 +799,9 @@ const handleModPreDownloadMove = async () => {
   }
   await settingsApi.mod.preDownload.post(reqForm).then(() => {
     modPreDownloadSuccess.value = true
+    koiMsgSuccess(language.value==='zh'?'预下载成功':'Pre-Download Success')
   }).catch(() => {
+    koiMsgSuccess(language.value==='zh'?'预下载失败':'Pre-Download Fail')
     modPreDownloadDialogVisible.value = false
   })
 }
