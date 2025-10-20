@@ -57,5 +57,14 @@ export default {
     get: async function (data) {
       return await http.get(this.url, data);
     }
+  },
+  connectCode: {
+    url: `/home/connect_code`,
+    get: async function (data) {
+      return await http.get(this.url, data);
+    },
+    put: async function (data) {
+      return await http.put(this.url, data);
+    }
   }
 }
