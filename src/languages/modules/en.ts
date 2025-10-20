@@ -409,8 +409,8 @@ export default {
     import: {
       title: 'Import',
       tipTitle: '[Required Reading] Archive Import Precautions',
-      text1: 'If the uploaded save contains too many large mods, it may result in incomplete mods after game launch (I personally haven\'t encountered this)',
-      text1_1: 'It is recommended (though not advised) that after import completion, do not immediately launch the game—go to Settings > Mods page, download all used mods, then disable and re-enable them',
+      text1: 'If the uploaded save contains too many large mods, it may result in incomplete mods after game launch',
+      text1_1: 'It is recommended that after import completion, do not immediately launch the game, go to Settings > Mods page, click Pre-Download button to pre-download mod that you need',
       text1_2: 'Please note the mod configuration—after re-enabling, mods will revert to default settings. You\'ll need to manually adjust the corresponding configurations or repaste the mod settings in Settings > Room page',
       text2: 'Please upload a compressed file (e.g., my_cluster.zip). The contents of the compressed file should be as follows, with the bold files being required. Automatic detection will be performed, and missing files will result in import failure.',
       button: 'Upload',
@@ -494,6 +494,12 @@ export default {
           name: 'Name',
           clientModsDisabled: 'Client Mods Disabled',
         },
+      },
+      dialog: {
+        preDownload: {
+          noModPreDownload: 'Download terminated: no enabled mods',
+          downloading: 'Downloading: ',
+        }
       },
     },
     system: {
