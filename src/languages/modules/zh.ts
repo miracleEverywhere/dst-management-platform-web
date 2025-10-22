@@ -8,7 +8,7 @@ export default {
     roomName: "房间名",
     connectionCode: "直连代码",
     customConnectionCode: '自定义',
-    customConnectionCodeTip: '如果你的服务器经过了代理或穿透，可以在下方生成自定义直连代码(自定义直连代码仅在当前浏览器生效)',
+    customConnectionCodeTip: '如果你的服务器经过了代理或穿透，可以在下方生成自定义直连代码',
     customConnectionCodeTip2: '如果想关闭自定义直连代码，点击下方清除即可',
     ip: '请输入IP',
     port: '请输入端口',
@@ -159,7 +159,7 @@ export default {
     center: "登录中",
     beianhao: "网站备案号",
     register: "注册",
-    registerTip: "仅可注册一次，注册账号拥有管理员权限，管理员账号可在个人中心创建非管理员账号",
+    registerTip: "仅可注册一次，注册账号拥有管理员权限，管理员账号可在用户管理页面创建非管理员账号",
     registerTip2: "由于该页面可能暴露在公网，请务必设置强密码",
   },
   profile: {
@@ -410,8 +410,8 @@ export default {
     import: {
       title: '存档导入',
       tipTitle: '[必读] 导入存档注意事项',
-      text1: '如果上传的存档大型模组过多，可能会导致游戏启动后模组不全(我自己没遇到过)',
-      text1_1: '建议导入完成后(不建议)，不要立即启动游戏，前往设置-模组页面，下载所有使用的模组，并禁用后重新启用',
+      text1: '如果上传的存档大型模组过多，可能会导致游戏启动后模组不全',
+      text1_1: '建议导入完成后，不要立即启动游戏，前往设置-模组页面，点击预下载按钮，提前下载所需模组',
       text1_2: '请注意模组配置，重新启用后模组会恢复默认配置，需要手动修改对应配置，或在设置-房间页面重新粘贴模组配置',
       text2: '请上传压缩文件(例如：my_cluster.zip)，压缩文件的内容如下，加粗文件为必须，会自动进行检测，如缺失会导致导入失败',
       button: '上传存档',
@@ -452,6 +452,8 @@ export default {
           addClientDisabled: '禁本地',
           multiDelete: '批量删除',
           multiEnable: '批量启用',
+          predownload: '预下载',
+          predownloadTip: '下载已启用的模组到饥荒服务器下，解决服务器启动后少模组、少模组地形的问题',
         },
         alert: '提示：模组下载速度取决于网络和文件大小，请耐心等待，切勿重复下载；建议启用最新版本的模组；请勿过度依赖此功能，如遇问题，请使用游戏本体生成模组配置',
         alert2: '下面的模组与饥荒服务器使用的模组不是一个概念，更新下方模组不会更新饥荒游戏模组，详情见',
@@ -493,6 +495,12 @@ export default {
           name: '名称',
           clientModsDisabled: '禁用客户端模组',
         },
+      },
+      dialog: {
+        preDownload: {
+          noModPreDownload: '没有启用的模组，下载终止',
+          downloading: '正在下载：',
+        }
       },
     },
     system: {

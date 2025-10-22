@@ -106,6 +106,43 @@ export const validateRegExp = (string) => {
   }
 }
 
+export const validateIPOrDomain = (str) => {
+  // 校验IPv4地址
+  const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  if (ipv4Regex.test(str)) {
+    return true;
+  }
+
+  // 校验域名
+  const domainRegex = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/i;
+  if (domainRegex.test(str)) {
+    // 额外检查域名的各部分长度
+    const parts = str.split('.');
+    for (const part of parts) {
+      if (part.length > 63) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return false;
+}
+
+export function validatePort(port) {
+  // 如果是字符串，先尝试转换为数字
+  if (typeof port === 'string') {
+    // 检查是否为纯数字字符串
+    if (!/^\d+$/.test(port)) {
+      return false;
+    }
+    port = parseInt(port, 10);
+  }
+
+  // 检查是否为数字且在有效范围内
+  return Number.isInteger(port) && port >= 0 && port <= 65535
+}
+
 export const saveFile = (base64Data, fileName) => {
   // 解码 Base64 数据
   const byteCharacters = atob(base64Data);

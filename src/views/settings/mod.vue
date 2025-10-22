@@ -66,6 +66,12 @@
                         {{ t('setting.mod.add.header.sync') }}
                       </el-button>
                     </el-tooltip>
+                    <el-tooltip :content="t('setting.mod.add.header.predownloadTip')" :show-after="500" effect="light"
+                                placement="top">
+                      <el-button color="#009688" @click="openModPreDownloadDialog">
+                        {{ t('setting.mod.add.header.predownload') }}
+                      </el-button>
+                    </el-tooltip>
                     <el-button :disabled="userInfo.role!=='admin'||selectedDownloadMods.length===0"
                                @click="handleMultiDeleteMod"
                                type="danger">
@@ -104,6 +110,9 @@
                           </el-dropdown-item>
                           <el-dropdown-item :command="{cmd: 'sync', row: ''}">
                             {{ t('setting.mod.add.header.sync') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item :command="{cmd: 'predownload', row: ''}">
+                            {{ t('setting.mod.add.header.predownload') }}
                           </el-dropdown-item>
                           <el-dropdown-item :disabled="userInfo.role!=='admin'||selectedDownloadMods.length===0"
                                             :command="{cmd: 'multiDelete', row: ''}">
@@ -327,6 +336,34 @@
         </el-row>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog v-model="modPreDownloadDialogVisible"
+               @closed="handleModPreDownloadDialogClose" width="65%">
+      <template #header>
+        {{ t('setting.mod.add.header.predownload') }}
+      </template>
+      <div v-loading="modSettingFormatLoading">
+        <template v-if="noModPreDownload">
+          <el-alert :closable="false" :effect="isDark?'light':'dark'" type="warning" style="margin: 20px 0 40px 0">
+            {{ t('setting.mod.dialog.preDownload.noModPreDownload') }}
+          </el-alert>
+        </template>
+        <template v-else>
+          <el-progress :text-inside="true" :stroke-width="20"
+                       :percentage="(modPreDownloadProgress.current/modPreDownloadProgress.total)*100"
+                       style="margin: 20px 0 10px 0"
+                       status="success" >
+            <span>({{modPreDownloadProgress.current}}/{{modPreDownloadProgress.total}})</span>
+          </el-progress>
+          <div style="margin-bottom: 40px">
+          <span v-if="!modPreDownloadSuccess">
+            {{ t('setting.mod.dialog.preDownload.downloading') }}
+          </span>
+            {{modPreDownloadProgress.currentMod}}
+          </div>
+        </template>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -339,7 +376,7 @@ import {useScreenStore} from "@/hooks/screen/index.ts";
 import {useI18n} from "vue-i18n";
 import useGlobalStore from "@/stores/modules/global.ts";
 import modInfo from "./components/modInfo.vue"
-import {formatBytes} from "@/utils/tools.js";
+import {formatBytes, sleep} from "@/utils/tools.js";
 import {koiMsgError, koiMsgInfo, koiMsgSuccess, koiMsgWarning} from "@/utils/koi.ts"
 import {Plus, TopRight} from '@element-plus/icons-vue'
 import useAuthStore from "@/stores/modules/auth.ts";
@@ -377,14 +414,14 @@ const handleTabClick = (tab, event) => {
 const modSettingFormat = ref([])
 const modSettingFormatLoading = ref(false)
 const noEdit = ref(false)
-const handleGetModSetting = () => {
+const handleGetModSetting = async () => {
   modSettingFormatLoading.value = true
   clickedModID.value = 0
   clickedModFileUrl.value = ""
   const reqForm = {
     clusterName: globalStore.selectedDstCluster,
   }
-  settingsApi.mod.settingFormat.get(reqForm).then(response => {
+  await settingsApi.mod.settingFormat.get(reqForm).then(response => {
     if (response.data === 5000) {
       noEdit.value = true
       koiMsgWarning(response.message)
@@ -528,6 +565,9 @@ const handleModCommand = (actions) => {
       break;
     case 'sync':
       handleSyncMod()
+      break;
+    case 'predownload':
+      openModPreDownloadDialog()
       break;
     case 'multiDelete':
       handleMultiDeleteMod()
@@ -702,6 +742,74 @@ const handleModMultiEnable = async () => {
   }
   multiEnableLoading.value = false
   koiMsgSuccess(language.value==='zh'?'启用成功':'Enable success')
+}
+
+const modPreDownloadDialogVisible = ref(false)
+const modPreDownloadProgress = ref({
+  total: 0,
+  current: 0,
+  currentMod: '',
+})
+const noModPreDownload = ref(false)
+const modPreDownloadSuccess = ref(false)
+const modPreDownloadNeedContinue = ref(false)
+const openModPreDownloadDialog = async () => {
+  noModPreDownload.value = true
+  modPreDownloadDialogVisible.value = true
+  await handleGetModSetting()
+  if (!modSettingFormat.value?.length) {
+    return
+  }
+  noModPreDownload.value = false
+
+  modPreDownloadProgress.value.total = modSettingFormat.value.length
+  modPreDownloadProgress.value.current = 0
+  modPreDownloadNeedContinue.value = true
+
+  for (let i = 0; i < modSettingFormat.value.length; i++) {
+    if (!modPreDownloadNeedContinue.value) {
+      return
+    }
+    modPreDownloadProgress.value.currentMod = modSettingFormat.value[i].name
+    await handleModPreDownload(modSettingFormat.value[i].id, modSettingFormat.value[i].file_url)
+    modPreDownloadProgress.value.current = i + 1
+  }
+  await handleModPreDownloadMove()
+
+  modPreDownloadDialogVisible.value = false
+}
+const handleModPreDownload = async (id, file_url) => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    id: id,
+    file_url: file_url,
+    type: 'download'
+  }
+  await settingsApi.mod.preDownload.post(reqForm).catch(() => {
+    modPreDownloadNeedContinue.value = false
+    modPreDownloadDialogVisible.value = false
+  })
+}
+const handleModPreDownloadMove = async () => {
+  const reqForm = {
+    clusterName: globalStore.selectedDstCluster,
+    id: 0,
+    file_url: '',
+    type: 'mv'
+  }
+  await settingsApi.mod.preDownload.post(reqForm).then(() => {
+    modPreDownloadSuccess.value = true
+    koiMsgSuccess(language.value==='zh'?'预下载成功':'Pre-Download Success')
+  }).catch(() => {
+    koiMsgSuccess(language.value==='zh'?'预下载失败':'Pre-Download Fail')
+    modPreDownloadDialogVisible.value = false
+  })
+}
+const handleModPreDownloadDialogClose = () => {
+  modPreDownloadProgress.value.current = 0
+  modPreDownloadProgress.value.currentMod = ''
+  modPreDownloadSuccess.value = false
+  modPreDownloadNeedContinue.value = false
 }
 
 </script>
