@@ -61,7 +61,10 @@
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.mods')">
                     <el-tag>{{ roomInfo.modsCount }}</el-tag>
-                    <el-button link style="margin-left: 10px" type="primary" @click="handleOpenModDialog">{{ t('home.modsButton') }}
+                    <el-button link style="margin-left: 10px" type="primary"
+                               :disabled="roomInfo.modsCount===0"
+                               @click="handleOpenModDialog">
+                      {{ t('home.modsButton') }}
                     </el-button>
                   </el-descriptions-item>
                   <el-descriptions-item :label="t('home.version')">
@@ -72,11 +75,11 @@
                   <el-descriptions-item :label="t('home.playerNum')">
                     <template v-if="roomInfo.players!==null">
                       <el-tooltip :content="roomInfo.players.map(player => player.nickName).join(', ')" effect="light" placement="top">
-                        <el-tag type="primary">{{ roomInfo.players.length }}</el-tag>
+                        <el-tag type="primary">({{ roomInfo.players.length }}/{{roomInfo.clusterSetting.playerNum}})</el-tag>
                       </el-tooltip>
                     </template>
                     <template v-else>
-                      <el-tag type="primary">0</el-tag>
+                      <el-tag type="primary">(0/{{roomInfo.clusterSetting.playerNum}})</el-tag>
                     </template>
                   </el-descriptions-item>
                 </el-descriptions>
