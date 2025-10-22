@@ -158,7 +158,7 @@ export default {
     center: "Be logging in",
     beianhao: "Website record number",
     register: "Register",
-    registerTip: "Can only register once, the registered account has admin privileges, and the admin account can create non-admin accounts in the personal center page",
+    registerTip: "Can only register once, the registered account has admin privileges, and the admin account can create non-admin accounts in the Users page",
     registerTip2: "Since this page may be exposed to the public network, be sure to set a strong password",
   },
   profile: {
