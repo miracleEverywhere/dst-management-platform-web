@@ -3,11 +3,7 @@ export default {
   /**
    * 版本
    */
-  version: 'v2.1.9',
-  /**
-   * 获取通知的url
-   */
-  announceUrl: 'https://apifoxmock.com/m2/5691728-5372725-default/249539937',
+  version: 'v3.0.0',
   /**
    * 网页标题
    */
