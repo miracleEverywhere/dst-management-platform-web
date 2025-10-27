@@ -1,6 +1,6 @@
 export default {
   global: {
-    github: "Click to check the source code on Github",
+    github: "Click to check the source code on GitHub",
     document: "Check the Documents",
     light: "Light",
     dark: "Dark",

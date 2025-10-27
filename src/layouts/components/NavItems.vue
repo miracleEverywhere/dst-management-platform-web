@@ -51,11 +51,11 @@ import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTit
 import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import useUserStore from '@store/user'
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n"
 
 
 const userStore = useUserStore()
-const {t} = useI18n()
+const { t } = useI18n()
 
 const menus = userStore.menus
 
