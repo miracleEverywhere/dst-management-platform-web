@@ -100,7 +100,7 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
-import UserProfile from '@/layouts/components/UserProfile.vue'
+import UserProfile from '@/components/UserProfile.vue'
 </script>
 
 <style lang="scss" scoped>

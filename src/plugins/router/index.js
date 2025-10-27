@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { createDynamicRouter, staticRouter } from './routes'
-import useAuthStore from "@store/user.js"
+import useUserStore from "@store/user.js"
 
 
 const router = createRouter({
@@ -10,8 +10,8 @@ const router = createRouter({
 
 let dynamicRoutesAdded = false
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore()
-  const hasToken = !!authStore.token
+  const userStore = useUserStore()
+  const hasToken = !!userStore.token
 
   // 1. 如果有token且尝试访问登录页，重定向到首页
   if (hasToken && to.path === '/login') {
@@ -30,7 +30,7 @@ router.beforeEach(async (to, from, next) => {
   // 3. 如果有token但动态路由未加载，获取动态路由
   if (hasToken && !dynamicRoutesAdded) {
     try {
-      await createDynamicRouter(router, authStore.menus)
+      await createDynamicRouter(router, userStore.menus)
 
       // 添加404路由（必须放在最后）
       router.addRoute({

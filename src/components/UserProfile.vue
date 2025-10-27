@@ -93,11 +93,11 @@ import avatar1 from '@images/avatars/avatar-1.png'
 import avatar2 from '@images/avatars/avatar-2.png'
 import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
-import useAuthStore from '@store/auth.js'
+import useUserStore from '@store/user.js'
 
 
-const authStore = useAuthStore()
-const userInfo = authStore.userInfo
+const userStore = useUserStore()
+const userInfo = userStore.userInfo
 const avatarImage = ref()
 
 switch (userInfo.avatar) {
@@ -118,6 +118,6 @@ default:
 }
 
 const handleLogout = async () => {
-  await authStore.clearStore()
+  await userStore.clearStore()
 }
 </script>

@@ -94,11 +94,11 @@ import useUserStore from "@store/user.js"
 import colors from 'vuetify/lib/util/colors'
 
 
-const authStore = useAuthStore()
+const userStore = useUserStore()
 
 const tabName = ref('info')
 
-const userInfo = authStore.userInfo
+const userInfo = userStore.userInfo
 
 const avatarImage = ref()
 const avatarImageFull = ref()

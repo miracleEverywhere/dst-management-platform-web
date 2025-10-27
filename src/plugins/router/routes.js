@@ -1,7 +1,7 @@
 export const staticRouter = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/rooms',
     component: () => import('@/layouts/blank.vue'),
     children: [
       {
@@ -11,6 +11,10 @@ export const staticRouter = [
       {
         path: '/:pathMatch(.*)*',
         component: () => import('@/components/[...error].vue'),
+      },
+      {
+        path: '/rooms',
+        component: () => import('@/views/rooms/index.vue'),
       },
     ],
   },
