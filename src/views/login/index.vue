@@ -309,10 +309,10 @@ import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import colors from 'vuetify/lib/util/colors'
 import userApi from '@/api/user'
-import {deepCopy, getBrowserLang, SHA512} from "@/utils/tools.js"
-import { showSnackbar } from "@/utils/snackbar.js"
-import useUserStore from "@store/user.js"
-import useGlobalStore from "@store/global.js"
+import { deepCopy, getBrowserLang, SHA512 } from "@/utils/tools"
+import { showSnackbar } from "@/utils/snackbar"
+import useUserStore from "@store/user"
+import useGlobalStore from "@store/global"
 import { useRouter } from 'vue-router'
 
 

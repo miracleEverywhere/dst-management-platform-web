@@ -1,4 +1,4 @@
-import http from "@/utils/axios.js"
+import http from "@/utils/axios"
 
 export default {
   register: {

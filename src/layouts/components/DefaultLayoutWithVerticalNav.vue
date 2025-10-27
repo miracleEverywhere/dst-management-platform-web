@@ -36,10 +36,9 @@
           href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
           target="_blank"
           rel="noopener noreferrer"
-        >
-        </v-btn>
+        />
 
-        <LangSelect/>
+        <lang-select />
 
         <navbar-theme-switcher class="me-2" />
 

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { showSnackbar } from '@/utils/snackbar'
-import { getToken } from "@/utils/tools.js"
-import { router } from "@/plugins/router/index.js"
-import useUserStore from "@store/user.js"
+import { getToken } from "@/utils/tools"
+import { router } from "@/plugins/router/index"
+import useUserStore from "@store/user"
 import { ApiVersion } from "@/config"
 
 

@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { createDynamicRouter, staticRouter } from './routes'
-import useUserStore from "@store/user.js"
+import useUserStore from "@store/user"
 
 
 const router = createRouter({

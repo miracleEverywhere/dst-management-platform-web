@@ -1,7 +1,7 @@
 import { createI18n } from "vue-i18n"
-import zh from "@/languages/zh.js"
-import en from "@/languages/en.js"
-import { getBrowserLang } from "@/utils/tools.js"
+import zh from "@/languages/zh"
+import en from "@/languages/en"
+import { getBrowserLang } from "@/utils/tools"
 
 const i18n = createI18n({
   // Use Composition API, Set to false

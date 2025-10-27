@@ -1,15 +1,12 @@
 <template>
-  <v-menu
-    open-on-hover
-  >
-    <template v-slot:activator="{ props }">
+  <v-menu open-on-hover>
+    <template #activator="{ props }">
       <v-btn
         color="default"
         icon="ri-translate-2"
         variant="text"
         v-bind="props"
-      >
-      </v-btn>
+      />
     </template>
 
     <v-list>
@@ -27,48 +24,46 @@
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
-import useGlobalStore from "@/plugins/store/global";
+import { useI18n } from "vue-i18n"
+import useGlobalStore from "@store/global"
 
-const i18n = useI18n();
-const globalStore = useGlobalStore();
-const language = computed(() => globalStore.language);
+const i18n = useI18n()
+const globalStore = useGlobalStore()
+const language = computed(() => globalStore.language)
 
-const languageList = ref([]);
+const languageList = ref([])
 
 onMounted(() => {
-  handleSwitchLanguage();
-});
+  handleSwitchLanguage()
+})
 
 const handleSwitchLanguage = () => {
   // 当 language 变化时，手动触发 dimensionList 的更新
   if (globalStore.language === "en") {
     languageList.value = [
       { label: "简体中文", value: "zh" },
-      { label: "English", value: "en" }
-    ];
+      { label: "English", value: "en" },
+    ]
   } else {
     languageList.value = [
       { label: "简体中文", value: "zh" },
-      { label: "English", value: "en" }
-    ];
+      { label: "English", value: "en" },
+    ]
   }
-};
+}
 
 // 监听 globalStore.language 的变化
 watch(
   () => globalStore.language,
   () => {
     // 当 language 变化时，手动触发 dimensionList 的更新
-    handleSwitchLanguage();
-  }
-);
+    handleSwitchLanguage()
+  },
+)
 
-const handleChangeLanguage = (lang) => {
-  i18n.locale.value = lang;
+const handleChangeLanguage = lang => {
+  i18n.locale.value = lang
   globalStore.language = lang
-};
+}
 </script>
 
-<style scoped>
-</style>
