@@ -46,29 +46,25 @@
         to="/"
         class="app-logo app-title-wrapper"
       >
-        <!-- eslint-disable vue/no-v-html -->
-        <!--        <div -->
-        <!--          class="d-flex" -->
-        <!--          v-html="logo" -->
-        <!--        /> -->
         <v-img
           width="3em"
-          height="1.9em"
-          src="src/assets/images/logo1.svg"
-        />
-        <!-- eslint-enable -->
+          height="2em"
+          src="src/assets/images/dmp.svg"
+        ></v-img>
 
         <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-          PMP
+          {{$t('global.title')}}
         </h1>
       </router-link>
 
-      <icon-btn
+      <v-btn
+        icon="ri-close-line"
+        color="default"
+        variant="text"
         class="d-block d-lg-none"
         @click="toggleIsOverlayNavActive(false)"
       >
-        <v-icon icon="ri-close-line" />
-      </icon-btn>
+      </v-btn>
     </template>
 
     <template #vertical-nav-content>
@@ -79,16 +75,16 @@
     <slot />
 
     <!-- 👉 Footer -->
-    <template #footer>
-      <footer />
-    </template>
+<!--    <template #footer>-->
+<!--      <footer />-->
+<!--    </template>-->
   </vertical-nav-layout>
 </template>
 
 <script setup>
 import NavItems from '@/layouts/components/NavItems.vue'
 
-// import logo from '@images/logo1.svg?raw'
+// import logo from '@images/dmp.svg?raw'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 
 // Components
