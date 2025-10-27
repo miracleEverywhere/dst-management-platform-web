@@ -15,6 +15,7 @@ const globalStore = defineStore("global", {
   state: () => {
     return {
       theme: '',
+      language: '',
     }
   },
   actions: {},

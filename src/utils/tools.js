@@ -2,8 +2,8 @@ import { PiniaPrefix } from "@/config/index.js"
 import CryptoJS from 'crypto-js'
 
 export function getBrowserLang() {
-  // @ts-ignore
-  let browserLang = navigator.language ? navigator.language : navigator.browserLanguage
+  console.log(navigator.language)
+  let browserLang = navigator.language ? navigator.language : "zh"
   let defaultBrowserLang = ""
   if (["cn", "zh", "zh-cn"].includes(browserLang.toLowerCase())) {
     defaultBrowserLang = "zh"

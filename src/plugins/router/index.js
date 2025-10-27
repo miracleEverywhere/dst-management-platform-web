@@ -15,7 +15,7 @@ router.beforeEach(async (to, from, next) => {
 
   // 1. 如果有token且尝试访问登录页，重定向到首页
   if (hasToken && to.path === '/login') {
-    next({ path: '/' })
+    next({ path: '/rooms' })
     
     return
   }

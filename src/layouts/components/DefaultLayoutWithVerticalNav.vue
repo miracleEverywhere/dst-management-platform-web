@@ -29,17 +29,17 @@
 
         <v-spacer />
 
-        <icon-btn
+        <v-btn
+          icon="ri-github-line"
+          color="default"
+          variant="text"
           href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <v-icon icon="ri-github-fill" />
-        </icon-btn>
+        </v-btn>
 
-        <icon-btn>
-          <v-icon icon="ri-notification-line" />
-        </icon-btn>
+        <LangSelect/>
 
         <navbar-theme-switcher class="me-2" />
 
@@ -100,6 +100,7 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
+import LangSelect from '@/layouts/components/LangSelect.vue'
 import UserProfile from '@/components/UserProfile.vue'
 </script>
 
