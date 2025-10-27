@@ -73,7 +73,7 @@
                 <v-btn
                   block
                   class="my-6"
-                  to="/home"
+                  to="/rooms"
                   type="submit"
                   @click="handleLogin"
                 >
@@ -308,16 +308,17 @@ import avatar2 from '@images/avatars/avatar-2.png'
 import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import colors from 'vuetify/lib/util/colors'
-
 import userApi from '@/api/user'
-import { deepCopy, SHA512 } from "@/utils/tools.js"
+import {deepCopy, getBrowserLang, SHA512} from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useUserStore from "@store/user.js"
+import useGlobalStore from "@store/global.js"
 import { useRouter } from 'vue-router'
 
 
 const router = useRouter()
 const userStore = useUserStore()
+const globalStore = useGlobalStore()
 
 const title = "ddd"
 
@@ -356,7 +357,15 @@ const handleLogin = async () => {
 
   userStore.menus = resMenu.data
 
-  const redirect = router.currentRoute.value.query.redirect || '/'
+  const redirect = router.currentRoute.value.query.redirect || '/rooms'
+
+  if (globalStore.language === "") {
+    globalStore.language = getBrowserLang()
+  }
+
+  if (globalStore.theme === "") {
+    globalStore.theme = "light"
+  }
 
   await router.push(redirect)
   showSnackbar('登录成功')
