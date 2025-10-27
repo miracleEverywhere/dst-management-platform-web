@@ -53,7 +53,6 @@
           <v-list-item to="/profile">
             <template #prepend>
               <v-icon
-                class="me-2"
                 icon="ri-user-line"
                 size="22"
               />
@@ -69,7 +68,6 @@
           >
             <template #prepend>
               <v-icon
-                class="me-2"
                 icon="ri-logout-box-r-line"
                 size="22"
               />
