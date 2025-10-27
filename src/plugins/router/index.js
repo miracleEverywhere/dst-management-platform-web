@@ -16,14 +16,12 @@ router.beforeEach(async (to, from, next) => {
   // 1. 如果有token且尝试访问登录页，重定向到首页
   if (hasToken && to.path === '/login') {
     next({ path: '/rooms' })
-    
     return
   }
 
   // 2. 如果没有token且访问的不是登录页，重定向到登录页
   if (!hasToken && to.path !== '/login') {
     next(`/login?redirect=${to.path}`)
-    
     return
   }
 
@@ -46,6 +44,7 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       // 获取菜单失败，清除token并重定向到登录页
       console.error('获取菜单失败:', error)
+      await userStore.clearStore() // 确保清除token和用户信息
       next(`/login?redirect=${to.path}`)
     }
   } else {

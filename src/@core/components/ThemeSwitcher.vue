@@ -1,19 +1,14 @@
 <template>
-  <icon-btn @click="changeTheme">
-    <v-icon :icon="props.themes[currentThemeIndex].icon" />
-    <v-tooltip
-      activator="parent"
-      open-delay="1000"
-      scroll-strategy="close"
-    >
-      <span class="text-capitalize">{{ zhCurrentThemeNameMap[currentThemeName] }}</span>
-    </v-tooltip>
-  </icon-btn>
+  <v-btn
+    v-tooltip="t('global.'+globalStore.theme)"
+    @click="changeTheme" :icon="props.themes[currentThemeIndex].icon" color="default" variant="text">
+  </v-btn>
 </template>
 
 <script setup>
 import { useTheme } from 'vuetify'
 import useGlobalStore from "@store/global"
+import {useI18n} from "vue-i18n";
 
 const props = defineProps({
   themes: {
@@ -23,6 +18,7 @@ const props = defineProps({
 })
 
 const globalStore = useGlobalStore()
+const {t} = useI18n()
 
 const {
   name: themeName,
@@ -34,11 +30,6 @@ const {
   next: getNextThemeName,
   index: currentThemeIndex,
 } = useCycleList(props.themes.map(t => t.name), { initialValue: globalStore.theme })
-
-const zhCurrentThemeNameMap = {
-  light: '明亮',
-  dark: '黑暗',
-}
 
 onMounted(() => {
   globalTheme.name.value = globalStore.theme

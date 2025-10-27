@@ -21,7 +21,7 @@
         v-for="link in menu.links"
         :key="link.id"
         :item="{
-          title: link.title,
+          title: t('menu.'+link.title),
           icon: link.icon,
           to: link.to,
           href: link.href,
@@ -34,7 +34,7 @@
       v-if="menu.type==='link'"
       :key="menu.id"
       :item="{
-        title: menu.title,
+        title: t('menu.'+menu.title),
         icon: menu.icon,
         to: menu.to,
         href: menu.href,
@@ -51,9 +51,11 @@ import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTit
 import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import useUserStore from '@store/user'
+import {useI18n} from "vue-i18n";
 
 
 const userStore = useUserStore()
+const {t} = useI18n()
 
 const menus = userStore.menus
 
