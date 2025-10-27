@@ -1,42 +1,42 @@
 <template>
-  <VerticalNavLayout>
+  <vertical-nav-layout>
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <div class="d-flex align-center">
           <v-img
-              width="4em"
-              height="4em"
-              src="src/assets/images/logo.svg"
-          ></v-img>
+            width="4em"
+            height="4em"
+            src="src/assets/images/logo.svg"
+          />
           <h1 class="font-weight-medium leading-normal text-xl text-uppercase ml-3">
-            {{title}}
+            {{ title }}
           </h1>
         </div>
-        <VSpacer />
-        <IconBtn
-            href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
-            target="_blank"
-            rel="noopener noreferrer"
+        <v-spacer />
+        <icon-btn
+          href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <VIcon icon="ri-github-fill" />
-        </IconBtn>
-        <NavbarThemeSwitcher class="me-2" />
+          <v-icon icon="ri-github-fill" />
+        </icon-btn>
+        <navbar-theme-switcher class="me-2" />
       </div>
     </template>
     <div class="auth-wrapper d-flex align-center justify-center pa-4">
       <v-card
-          class="auth-card pa-4 pt-7"
-          max-width="448"
+        class="auth-card pa-4 pt-7"
+        max-width="448"
       >
         <v-card-item class="justify-center">
           <router-view
-              class="d-flex align-center gap-3"
-              to="/"
+            class="d-flex align-center gap-3"
+            to="/"
           >
             <v-img
-                height="3.8em"
-                src="src/assets/images/logo1.svg"
-                width="6em"
+              height="3.8em"
+              src="src/assets/images/logo1.svg"
+              width="6em"
             />
           </router-view>
         </v-card-item>
@@ -55,40 +55,40 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                    v-model="loginForm.username"
-                    label="用户名"
+                  v-model="loginForm.username"
+                  label="用户名"
                 />
               </v-col>
 
               <v-col cols="12">
                 <v-text-field
-                    v-model="loginForm.password"
-                    :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
-                    :type="isPasswordVisible ? 'text' : 'password'"
-                    autocomplete="password"
-                    label="密码"
-                    placeholder="············"
-                    @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                  v-model="loginForm.password"
+                  :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  autocomplete="password"
+                  label="密码"
+                  placeholder="············"
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
                 <v-btn
-                    block
-                    class="my-6"
-                    to="/home"
-                    type="submit"
-                    @click="handleLogin"
+                  block
+                  class="my-6"
+                  to="/home"
+                  type="submit"
+                  @click="handleLogin"
                 >
                   登录
                 </v-btn>
                 <v-dialog
-                    v-model="registerDialogVisible"
-                    max-width="50%"
+                  v-model="registerDialogVisible"
+                  max-width="50%"
                 >
                   <template #activator="{ props: activatorProps }">
                     <v-btn
-                        :color="colors.grey.lighten3"
-                        block
-                        class="my-6"
-                        v-bind="activatorProps"
+                      :color="colors.grey.lighten3"
+                      block
+                      class="my-6"
+                      v-bind="activatorProps"
                     >
                       注册
                     </v-btn>
@@ -98,139 +98,139 @@
                     <v-card title="用户注册">
                       <v-card-text>
                         <v-form
-                            fast-fail
-                            class="mx-4 mt-6"
-                            @submit.prevent="handleRegisterPost"
+                          fast-fail
+                          class="mx-4 mt-6"
+                          @submit.prevent="handleRegisterPost"
                         >
                           <v-row>
                             <v-text-field
-                                v-model="registerForm.username"
-                                class="mb-6"
-                                label="用户名"
-                                placeholder="请输入用户名"
-                                clearable
-                                :rules="registerFormRules.username"
+                              v-model="registerForm.username"
+                              class="mb-6"
+                              label="用户名"
+                              placeholder="请输入用户名"
+                              clearable
+                              :rules="registerFormRules.username"
                             />
                           </v-row>
                           <v-row>
                             <v-text-field
-                                v-model="registerForm.nickname"
-                                class="mb-6"
-                                label="昵称"
-                                placeholder="请输入用户昵称"
-                                clearable
-                                :rules="registerFormRules.nickname"
+                              v-model="registerForm.nickname"
+                              class="mb-6"
+                              label="昵称"
+                              placeholder="请输入用户昵称"
+                              clearable
+                              :rules="registerFormRules.nickname"
                             />
                           </v-row>
                           <v-row class="mb-6">
                             <v-col>
                               <v-badge
-                                  v-if="registerForm.avatar==='1'"
-                                  dot
-                                  location="bottom right"
-                                  offset-x="3"
-                                  offset-y="3"
-                                  color="success"
+                                v-if="registerForm.avatar==='1'"
+                                dot
+                                location="bottom right"
+                                offset-x="3"
+                                offset-y="3"
+                                color="success"
                               >
                                 <v-avatar
-                                    v-ripple
-                                    color="primary"
-                                    variant="tonal"
-                                    @click="registerForm.avatar='1'"
+                                  v-ripple
+                                  color="primary"
+                                  variant="tonal"
+                                  @click="registerForm.avatar='1'"
                                 >
                                   <v-img :src="avatar1" />
                                 </v-avatar>
                               </v-badge>
                               <v-avatar
-                                  v-else
-                                  v-ripple
-                                  color="primary"
-                                  variant="tonal"
-                                  @click="registerForm.avatar='1'"
+                                v-else
+                                v-ripple
+                                color="primary"
+                                variant="tonal"
+                                @click="registerForm.avatar='1'"
                               >
                                 <v-img :src="avatar1" />
                               </v-avatar>
                             </v-col>
                             <v-col>
                               <v-badge
-                                  v-if="registerForm.avatar==='2'"
-                                  dot
-                                  location="bottom right"
-                                  offset-x="3"
-                                  offset-y="3"
-                                  color="success"
+                                v-if="registerForm.avatar==='2'"
+                                dot
+                                location="bottom right"
+                                offset-x="3"
+                                offset-y="3"
+                                color="success"
                               >
                                 <v-avatar
-                                    v-ripple
-                                    color="primary"
-                                    variant="tonal"
-                                    @click="registerForm.avatar='2'"
+                                  v-ripple
+                                  color="primary"
+                                  variant="tonal"
+                                  @click="registerForm.avatar='2'"
                                 >
                                   <v-img :src="avatar2" />
                                 </v-avatar>
                               </v-badge>
                               <v-avatar
-                                  v-else
-                                  v-ripple
-                                  color="primary"
-                                  variant="tonal"
-                                  @click="registerForm.avatar='2'"
+                                v-else
+                                v-ripple
+                                color="primary"
+                                variant="tonal"
+                                @click="registerForm.avatar='2'"
                               >
                                 <v-img :src="avatar2" />
                               </v-avatar>
                             </v-col>
                             <v-col>
                               <v-badge
-                                  v-if="registerForm.avatar==='3'"
-                                  dot
-                                  location="bottom right"
-                                  offset-x="3"
-                                  offset-y="3"
-                                  color="success"
+                                v-if="registerForm.avatar==='3'"
+                                dot
+                                location="bottom right"
+                                offset-x="3"
+                                offset-y="3"
+                                color="success"
                               >
                                 <v-avatar
-                                    v-ripple
-                                    color="primary"
-                                    variant="tonal"
-                                    @click="registerForm.avatar='3'"
+                                  v-ripple
+                                  color="primary"
+                                  variant="tonal"
+                                  @click="registerForm.avatar='3'"
                                 >
                                   <v-img :src="avatar3" />
                                 </v-avatar>
                               </v-badge>
                               <v-avatar
-                                  v-else
-                                  v-ripple
-                                  color="primary"
-                                  variant="tonal"
-                                  @click="registerForm.avatar='3'"
+                                v-else
+                                v-ripple
+                                color="primary"
+                                variant="tonal"
+                                @click="registerForm.avatar='3'"
                               >
                                 <v-img :src="avatar3" />
                               </v-avatar>
                             </v-col>
                             <v-col>
                               <v-badge
-                                  v-if="registerForm.avatar==='4'"
-                                  dot
-                                  location="bottom right"
-                                  offset-x="3"
-                                  offset-y="3"
-                                  color="success"
+                                v-if="registerForm.avatar==='4'"
+                                dot
+                                location="bottom right"
+                                offset-x="3"
+                                offset-y="3"
+                                color="success"
                               >
                                 <v-avatar
-                                    v-ripple
-                                    color="primary"
-                                    variant="tonal"
-                                    @click="registerForm.avatar='4'"
+                                  v-ripple
+                                  color="primary"
+                                  variant="tonal"
+                                  @click="registerForm.avatar='4'"
                                 >
                                   <v-img :src="avatar4" />
                                 </v-avatar>
                               </v-badge>
                               <v-avatar
-                                  v-else
-                                  v-ripple
-                                  color="primary"
-                                  variant="tonal"
-                                  @click="registerForm.avatar='4'"
+                                v-else
+                                v-ripple
+                                color="primary"
+                                variant="tonal"
+                                @click="registerForm.avatar='4'"
                               >
                                 <v-img :src="avatar4" />
                               </v-avatar>
@@ -239,29 +239,29 @@
                           <v-spacer />
                           <v-row>
                             <v-text-field
-                                v-model="registerForm.password"
-                                :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
-                                :type="isPasswordVisible ? 'text' : 'password'"
-                                autocomplete="password"
-                                class="mb-6"
-                                label="密码"
-                                :rules="registerFormRules.password"
-                                clearable
-                                placeholder="请输入密码"
-                                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                              v-model="registerForm.password"
+                              :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+                              :type="isPasswordVisible ? 'text' : 'password'"
+                              autocomplete="password"
+                              class="mb-6"
+                              label="密码"
+                              :rules="registerFormRules.password"
+                              clearable
+                              placeholder="请输入密码"
+                              @click:append-inner="isPasswordVisible = !isPasswordVisible"
                             />
                           </v-row>
                           <v-card-actions>
                             <v-spacer />
                             <v-btn
-                                color="black"
-                                text="取消"
-                                @click="isActive.value = false"
+                              color="black"
+                              text="取消"
+                              @click="isActive.value = false"
                             />
                             <v-btn
-                                text="提交"
-                                type="submit"
-                                :loading="registerLoading"
+                              text="提交"
+                              type="submit"
+                              :loading="registerLoading"
                             />
                           </v-card-actions>
                         </v-form>
@@ -276,24 +276,23 @@
       </v-card>
 
       <v-img
-          :src="authV1Tree"
-          :width="250"
-          class="auth-footer-start-tree d-none d-md-block"
+        :src="authV1Tree"
+        :width="250"
+        class="auth-footer-start-tree d-none d-md-block"
       />
 
       <v-img
-          :src="authV1Tree2"
-          :width="350"
-          class="auth-footer-end-tree d-none d-md-block"
+        :src="authV1Tree2"
+        :width="350"
+        class="auth-footer-end-tree d-none d-md-block"
       />
 
       <v-img
-          :src="authThemeMask"
-          class="auth-footer-mask d-none d-md-block"
+        :src="authThemeMask"
+        class="auth-footer-mask d-none d-md-block"
       />
     </div>
-  </VerticalNavLayout>
-
+  </vertical-nav-layout>
 </template>
 
 <script setup>

@@ -50,12 +50,12 @@
 import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-import useAuthStore from '@store/auth.js'
+import useUserStore from '@store/user.js'
 
 
-const authStore = useAuthStore()
+const userStore = useUserStore()
 
-const menus = authStore.menus
+const menus = userStore.menus
 
 // 当前展开的菜单组ID
 const activeGroupId = ref(null)
