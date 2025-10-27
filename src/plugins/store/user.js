@@ -1,10 +1,9 @@
 // 定义全局主题配置小仓库[选择式Api写法]
 import { defineStore } from "pinia"
 import { PINIA_PREFIX } from "@/config/index.js"
-import authApi from "@/api/auth.js"
 
 // defineStore方法执行会返回一个函数，函数的作用就是让组件可以获取到仓库数据
-const authStore = defineStore("auth", {
+const userStore = defineStore("user", {
   // 开启数据持久化
   persist: {
     // enabled: true, // true 表示开启持久化保存
@@ -26,9 +25,9 @@ const authStore = defineStore("auth", {
     }
   },
   actions: {
-    async getMenus() {
-      this.menus = await authApi.menu.get()
-    },
+    // async getMenus() {
+    //   this.menus = await authApi.menu.get()
+    // },
     clearStore() {
       this.menus = []
       this.userInfo = {
@@ -46,4 +45,4 @@ const authStore = defineStore("auth", {
 })
 
 // 对外暴露方法
-export default authStore
+export default userStore

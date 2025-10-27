@@ -90,7 +90,7 @@ import avatar1full from '@images/avatars/avatar-1-full.png'
 import avatar2full from '@images/avatars/avatar-2-full.png'
 import avatar3full from '@images/avatars/avatar-3-full.png'
 import avatar4full from '@images/avatars/avatar-4-full.png'
-import useAuthStore from "@store/auth.js"
+import useUserStore from "@store/user.js"
 import colors from 'vuetify/lib/util/colors'
 
 
