@@ -30,6 +30,7 @@
         <v-spacer />
 
         <v-btn
+          v-tooltip="t('global.github')"
           icon="ri-github-line"
           color="default"
           variant="text"
@@ -101,6 +102,9 @@ import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import LangSelect from '@/layouts/components/LangSelect.vue'
 import UserProfile from '@/components/UserProfile.vue'
+import {useI18n} from "vue-i18n";
+
+const {t} = useI18n()
 </script>
 
 <style lang="scss" scoped>
