@@ -29,9 +29,9 @@
 
         <v-spacer />
 
-        <github/>
+        <github />
 
-        <document/>
+        <document />
 
         <lang-select />
 
@@ -96,8 +96,8 @@ import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import LangSelect from '@/layouts/components/LangSelect.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
-import Github from "@/layouts/components/Github.vue";
-import Document from "@/layouts/components/Document.vue";
+import Github from "@/layouts/components/GitHub.vue"
+import Document from "@/layouts/components/Document.vue"
 </script>
 
 <style lang="scss" scoped>

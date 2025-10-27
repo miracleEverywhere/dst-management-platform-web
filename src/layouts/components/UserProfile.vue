@@ -43,9 +43,9 @@
             </template>
 
             <v-list-item-title class="font-weight-semibold">
-              {{userInfo.nickname}}
+              {{ userInfo.nickname }}
             </v-list-item-title>
-            <v-list-item-subtitle>{{userInfo.username}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ userInfo.username }}</v-list-item-subtitle>
           </v-list-item>
           <v-divider class="my-2" />
 
@@ -59,7 +59,7 @@
               />
             </template>
 
-            <v-list-item-title>{{t('global.profile')}}</v-list-item-title>
+            <v-list-item-title>{{ t('global.profile') }}</v-list-item-title>
           </v-list-item>
 
           <!-- 👉 Logout -->
@@ -75,7 +75,7 @@
               />
             </template>
 
-            <v-list-item-title>{{t('global.logout')}}</v-list-item-title>
+            <v-list-item-title>{{ t('global.logout') }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -90,10 +90,10 @@ import avatar2 from '@images/avatars/avatar-2.png'
 import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import useUserStore from '@store/user'
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n"
 
 
-const {t} = useI18n()
+const { t } = useI18n()
 const userStore = useUserStore()
 const userInfo = userStore.userInfo
 const avatarImage = ref()

@@ -1,14 +1,17 @@
 <template>
   <v-btn
     v-tooltip="t('global.'+globalStore.theme)"
-    @click="changeTheme" :icon="props.themes[currentThemeIndex].icon" color="default" variant="text">
-  </v-btn>
+    :icon="props.themes[currentThemeIndex].icon"
+    color="default"
+    variant="text"
+    @click="changeTheme"
+  />
 </template>
 
 <script setup>
 import { useTheme } from 'vuetify'
 import useGlobalStore from "@store/global"
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n"
 
 const props = defineProps({
   themes: {
@@ -18,7 +21,7 @@ const props = defineProps({
 })
 
 const globalStore = useGlobalStore()
-const {t} = useI18n()
+const { t } = useI18n()
 
 const {
   name: themeName,

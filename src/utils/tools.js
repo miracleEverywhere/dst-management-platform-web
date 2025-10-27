@@ -2,14 +2,93 @@ import { PiniaPrefix } from "@/config/index"
 import CryptoJS from 'crypto-js'
 
 export function getBrowserLang() {
+  // 获取浏览器语言，默认回退到 'zh'（中文）
   let browserLang = navigator.language ? navigator.language : "zh"
-  let defaultBrowserLang = ""
-  if (["cn", "zh", "zh-cn"].includes(browserLang.toLowerCase())) {
+  let defaultBrowserLang = "zh" // 默认语言
+
+  // 转换为小写以便比较
+  browserLang = browserLang.toLowerCase()
+
+  switch (browserLang) {
+  // 简体中文（中国大陆）
+  case "zh":
+  case "zh-cn":
+  case "zh-hans":
+  case "zh-sg":
+
+    // 繁体中文（台湾、香港）
+  case "zh-tw":
+  case "zh-hk":
+  case "zh-mo":
     defaultBrowserLang = "zh"
-  } else {
+    break
+
+    // 英文（美国、英国等）
+  case "en":
+  case "en-us":
+  case "en-gb":
+  case "en-au":
+  case "en-ca":
     defaultBrowserLang = "en"
+    break
+
+  //   // 日语
+  // case "ja":
+  // case "ja-jp":
+  //   defaultBrowserLang = "ja"
+  //   break
+  //
+  //   // 韩语
+  // case "ko":
+  // case "ko-kr":
+  //   defaultBrowserLang = "ko"
+  //   break
+  //
+  //   // 法语
+  // case "fr":
+  // case "fr-fr":
+  // case "fr-ca":
+  //   defaultBrowserLang = "fr"
+  //   break
+  //
+  //   // 德语
+  // case "de":
+  // case "de-de":
+  // case "de-at":
+  // case "de-ch":
+  //   defaultBrowserLang = "de"
+  //   break
+  //
+  //   // 西班牙语
+  // case "es":
+  // case "es-es":
+  // case "es-mx":
+  // case "es-ar":
+  //   defaultBrowserLang = "es"
+  //   break
+  //
+  //   // 其他语言...
+  // case "ru":
+  // case "ru-ru":
+  //   defaultBrowserLang = "ru"
+  //   break
+  //
+  // case "pt":
+  // case "pt-br":
+  // case "pt-pt":
+  //   defaultBrowserLang = "pt"
+  //   break
+  //
+  // case "it":
+  // case "it-it":
+  //   defaultBrowserLang = "it"
+  //   break
+
+    // 如果未匹配到，默认返回 'zh'
+  default:
+    defaultBrowserLang = "zh"
   }
-  
+
   return defaultBrowserLang
 }
 
