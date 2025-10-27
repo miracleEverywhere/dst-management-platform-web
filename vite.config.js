@@ -9,6 +9,11 @@ import svgLoader from 'vite-svg-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: '0.0.0.0', // 监听所有网络接口
+    port: 5173,      // 指定端口号（默认是5173）
+    strictPort: true // 如果端口被占用则直接退出
+  },
   plugins: [
     vue(),
     vueJsx(),

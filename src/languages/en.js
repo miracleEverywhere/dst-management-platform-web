@@ -11,4 +11,7 @@ export default {
   menu: {
     dashboard: "Dashboard",
   },
+  login: {
+    welcome: "Welcome to DMP",
+  },
 }

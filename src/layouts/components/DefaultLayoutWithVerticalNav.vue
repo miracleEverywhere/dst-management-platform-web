@@ -46,15 +46,7 @@
         to="/"
         class="app-logo app-title-wrapper"
       >
-        <v-img
-          width="3em"
-          height="2em"
-          src="src/assets/images/dmp.svg"
-        />
-
-        <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-          {{ $t('global.title') }}
-        </h1>
+        <nav-header />
       </router-link>
 
       <v-btn
@@ -93,6 +85,7 @@ import LangSelect from '@/layouts/components/LangSelect.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 import Github from "@/layouts/components/GitHub.vue"
 import Document from "@/layouts/components/Document.vue"
+import NavHeader from "@/layouts/components/NavHeader.vue"
 </script>
 
 <style lang="scss" scoped>
