@@ -30,14 +30,14 @@ watch(() => globalTheme.name.value, val => {
 </script>
 
 <template>
-  <IconBtn @click="changeTheme">
-    <VIcon :icon="props.themes[currentThemeIndex].icon" />
-    <VTooltip
+  <icon-btn @click="changeTheme">
+    <v-icon :icon="props.themes[currentThemeIndex].icon" />
+    <v-tooltip
       activator="parent"
       open-delay="1000"
       scroll-strategy="close"
     >
       <span class="text-capitalize">{{ currentThemeName }}</span>
-    </VTooltip>
-  </IconBtn>
+    </v-tooltip>
+  </icon-btn>
 </template>

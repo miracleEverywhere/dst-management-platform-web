@@ -16,8 +16,8 @@ const authThemeMask = computed(() => {
   <div class="misc-wrapper">
     <error-header
       status-code="404"
-      title="Page Not Found ⚠️"
-      description="We couldn't find the page you are looking for."
+      title="Not Found ⚠️"
+      description="没有找到该页面"
     />
 
     <!-- 👉 Image -->
@@ -32,7 +32,7 @@ const authThemeMask = computed(() => {
         to="/"
         class="mt-10"
       >
-        Back to Home
+        返回首页
       </v-btn>
     </div>
 

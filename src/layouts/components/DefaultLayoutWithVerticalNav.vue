@@ -1,26 +1,15 @@
-<script setup>
-import NavItems from '@/layouts/components/NavItems.vue'
-import logo from '@images/logo.svg?raw'
-import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
-
-// Components
-import Footer from '@/layouts/components/Footer.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
-import UserProfile from '@/layouts/components/UserProfile.vue'
-</script>
-
 <template>
-  <VerticalNavLayout>
+  <vertical-nav-layout>
     <!-- 👉 navbar -->
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <IconBtn
+        <icon-btn
           class="ms-n3 d-lg-none"
           @click="toggleVerticalOverlayNavActive(true)"
         >
-          <VIcon icon="ri-menu-line" />
-        </IconBtn>
+          <v-icon icon="ri-menu-line" />
+        </icon-btn>
 
         <!-- 👉 Search -->
         <div
@@ -28,9 +17,9 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
           style="user-select: none;"
         >
           <!-- 👉 Search Trigger button -->
-          <IconBtn>
-            <VIcon icon="ri-search-line" />
-          </IconBtn>
+          <icon-btn>
+            <v-icon icon="ri-search-line" />
+          </icon-btn>
 
           <span class="d-none d-md-flex align-center text-disabled">
             <span class="me-3">Search</span>
@@ -40,51 +29,56 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
         <VSpacer />
 
-        <IconBtn
+        <icon-btn
           href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
           target="_blank"
           rel="noopener noreferrer"
         >
           <VIcon icon="ri-github-fill" />
-        </IconBtn>
+        </icon-btn>
 
-        <IconBtn>
+        <icon-btn>
           <VIcon icon="ri-notification-line" />
-        </IconBtn>
+        </icon-btn>
 
-        <NavbarThemeSwitcher class="me-2" />
+        <navbar-theme-switcher class="me-2" />
 
-        <UserProfile />
+        <user-profile />
       </div>
     </template>
 
     <template #vertical-nav-header="{ toggleIsOverlayNavActive }">
-      <RouterLink
+      <router-link
         to="/"
         class="app-logo app-title-wrapper"
       >
         <!-- eslint-disable vue/no-v-html -->
-        <div
-          class="d-flex"
-          v-html="logo"
-        />
+<!--        <div-->
+<!--          class="d-flex"-->
+<!--          v-html="logo"-->
+<!--        />-->
+        <v-img
+          width="3em"
+          height="1.9em"
+          src="src/assets/images/logo1.svg"
+        ></v-img>
         <!-- eslint-enable -->
 
         <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-          Materio
+          PMP
         </h1>
-      </RouterLink>
+      </router-link>
 
-      <IconBtn
+      <icon-btn
         class="d-block d-lg-none"
         @click="toggleIsOverlayNavActive(false)"
       >
         <VIcon icon="ri-close-line" />
-      </IconBtn>
+      </icon-btn>
     </template>
 
     <template #vertical-nav-content>
-      <NavItems />
+      <nav-items />
     </template>
 
     <!-- 👉 Pages -->
@@ -94,8 +88,19 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
     <template #footer>
       <Footer />
     </template>
-  </VerticalNavLayout>
+  </vertical-nav-layout>
 </template>
+
+<script setup>
+import NavItems from '@/layouts/components/NavItems.vue'
+// import logo from '@images/logo1.svg?raw'
+import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
+
+// Components
+import Footer from '@/layouts/components/Footer.vue'
+import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
+import UserProfile from '@/layouts/components/UserProfile.vue'
+</script>
 
 <style lang="scss" scoped>
 .meta-key {

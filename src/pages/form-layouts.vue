@@ -8,59 +8,59 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/pages/form-layouts/Demo
 
 <template>
   <div>
-    <VRow>
-      <VCol
+    <v-row>
+      <v-col
         cols="12"
         md="6"
       >
         <!-- 👉 Horizontal Form -->
-        <VCard title="Horizontal Form">
-          <VCardText>
-            <DemoFormLayoutHorizontalForm />
-          </VCardText>
-        </VCard>
-      </VCol>
-      <VCol
+        <v-card title="Horizontal Form">
+          <v-card-text>
+            <demo-form-layout-horizontal-form />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
         cols="12"
         md="6"
       >
         <!-- 👉 Horizontal Form with Icons -->
-        <VCard title="Horizontal Form with Icons">
-          <VCardText>
-            <DemoFormLayoutHorizontalFormWithIcons />
-          </VCardText>
-        </VCard>
-      </VCol>
-      <VCol
+        <v-card title="Horizontal Form with Icons">
+          <v-card-text>
+            <demo-form-layout-horizontal-form-with-icons />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
         cols="12"
         md="6"
       >
         <!-- 👉 Vertical Form -->
-        <VCard title="Vertical Form">
-          <VCardText>
-            <DemoFormLayoutVerticalForm />
-          </VCardText>
-        </VCard>
-      </VCol>
-      <VCol
+        <v-card title="Vertical Form">
+          <v-card-text>
+            <demo-form-layout-vertical-form />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
         cols="12"
         md="6"
       >
         <!-- 👉 Vertical Form with Icons -->
-        <VCard title="Vertical Form with Icons">
-          <VCardText>
-            <DemoFormLayoutVerticalFormWithIcons />
-          </VCardText>
-        </VCard>
-      </VCol>
-      <VCol cols="12">
+        <v-card title="Vertical Form with Icons">
+          <v-card-text>
+            <demo-form-layout-vertical-form-with-icons />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12">
         <!-- 👉 Multiple Column -->
-        <VCard title="Multiple Column">
-          <VCardText>
-            <DemoFormLayoutMultipleColumn />
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
+        <v-card title="Multiple Column">
+          <v-card-text>
+            <demo-form-layout-multiple-column />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>

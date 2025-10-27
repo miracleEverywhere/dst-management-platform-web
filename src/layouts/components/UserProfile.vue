@@ -1,7 +1,3 @@
-<script setup>
-import avatar1 from '@images/avatars/avatar-1.png'
-</script>
-
 <template>
   <VBadge
     dot
@@ -16,7 +12,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
       color="primary"
       variant="tonal"
     >
-      <VImg :src="avatar1" />
+      <VImg :src="avatarImage" />
 
       <!-- SECTION Menu -->
       <VMenu
@@ -41,7 +37,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
                     color="primary"
                     variant="tonal"
                   >
-                    <VImg :src="avatar1" />
+                    <VImg :src="avatarImage" />
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
@@ -55,7 +51,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem link>
+          <VListItem to="/profile">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -67,50 +63,11 @@ import avatar1 from '@images/avatars/avatar-1.png'
             <VListItemTitle>Profile</VListItemTitle>
           </VListItem>
 
-          <!-- 👉 Settings -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-settings-4-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Settings</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Pricing -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-money-dollar-circle-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Pricing</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 FAQ -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="ri-question-line"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>FAQ</VListItemTitle>
-          </VListItem>
-
           <!-- Divider -->
           <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem to="/login" @click="handleLogout">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -127,3 +84,39 @@ import avatar1 from '@images/avatars/avatar-1.png'
     </VAvatar>
   </VBadge>
 </template>
+
+<script setup>
+import avatar1 from '@images/avatars/avatar-1.png'
+import avatar2 from '@images/avatars/avatar-2.png'
+import avatar3 from '@images/avatars/avatar-3.png'
+import avatar4 from '@images/avatars/avatar-4.png'
+import useAuthStore from '@/plugins/store/auth.js'
+
+
+const authStore = useAuthStore()
+const userInfo = authStore.userInfo
+const avatarImage = ref()
+
+switch (userInfo.avatar) {
+  case '1':
+    avatarImage.value = avatar1
+    break
+  case '2':
+    avatarImage.value = avatar2
+    break
+  case '3':
+    avatarImage.value = avatar3
+    break
+  case '4':
+    avatarImage.value = avatar4
+    break
+  default:
+    avatarImage.value = avatar1
+}
+
+const handleLogout = async () => {
+  await authStore.clearStore()
+}
+
+
+</script>
