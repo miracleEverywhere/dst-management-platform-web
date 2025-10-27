@@ -27,18 +27,18 @@
           </span>
         </div>
 
-        <VSpacer />
+        <v-spacer />
 
         <icon-btn
           href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <VIcon icon="ri-github-fill" />
+          <v-icon icon="ri-github-fill" />
         </icon-btn>
 
         <icon-btn>
-          <VIcon icon="ri-notification-line" />
+          <v-icon icon="ri-notification-line" />
         </icon-btn>
 
         <navbar-theme-switcher class="me-2" />
@@ -53,15 +53,15 @@
         class="app-logo app-title-wrapper"
       >
         <!-- eslint-disable vue/no-v-html -->
-<!--        <div-->
-<!--          class="d-flex"-->
-<!--          v-html="logo"-->
-<!--        />-->
+        <!--        <div -->
+        <!--          class="d-flex" -->
+        <!--          v-html="logo" -->
+        <!--        /> -->
         <v-img
           width="3em"
           height="1.9em"
           src="src/assets/images/logo1.svg"
-        ></v-img>
+        />
         <!-- eslint-enable -->
 
         <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
@@ -73,7 +73,7 @@
         class="d-block d-lg-none"
         @click="toggleIsOverlayNavActive(false)"
       >
-        <VIcon icon="ri-close-line" />
+        <v-icon icon="ri-close-line" />
       </icon-btn>
     </template>
 
@@ -86,13 +86,14 @@
 
     <!-- 👉 Footer -->
     <template #footer>
-      <Footer />
+      <footer />
     </template>
   </vertical-nav-layout>
 </template>
 
 <script setup>
 import NavItems from '@/layouts/components/NavItems.vue'
+
 // import logo from '@images/logo1.svg?raw'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 

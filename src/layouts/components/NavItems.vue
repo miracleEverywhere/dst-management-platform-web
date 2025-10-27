@@ -50,7 +50,7 @@
 import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-import useAuthStore from '@/plugins/store/auth.js'
+import useAuthStore from '@store/auth.js'
 
 
 const authStore = useAuthStore()

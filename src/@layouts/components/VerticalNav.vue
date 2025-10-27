@@ -16,19 +16,19 @@
     <!-- 👉 Header -->
     <div class="nav-header">
       <slot name="nav-header">
-        <RouterLink
+        <router-link
           to="/"
           class="app-logo app-title-wrapper"
         >
-<!--          <div-->
-<!--            class="d-flex"-->
-<!--            v-html="logo"-->
-<!--          />-->
+          <!--          <div -->
+          <!--            class="d-flex" -->
+          <!--            v-html="logo" -->
+          <!--          /> -->
 
-<!--          <h1 class="font-weight-medium leading-normal text-xl text-uppercase">-->
-<!--            帕鲁-->
-<!--          </h1>-->
-        </RouterLink>
+          <!--          <h1 class="font-weight-medium leading-normal text-xl text-uppercase"> -->
+          <!--            帕鲁 -->
+          <!--          </h1> -->
+        </router-link>
       </slot>
     </div>
     <slot name="before-nav-items">
@@ -38,14 +38,14 @@
       name="nav-items"
       :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled"
     >
-      <PerfectScrollbar
+      <perfect-scrollbar
         tag="ul"
         class="nav-items"
         :options="{ wheelPropagation: false }"
         @ps-scroll-y="handleNavScroll"
       >
         <slot />
-      </PerfectScrollbar>
+      </perfect-scrollbar>
     </slot>
     <slot name="after-nav-items" />
   </Component>

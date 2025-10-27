@@ -1,4 +1,4 @@
-export const PINIA_PREFIX = "dmp-"
+export const PiniaPrefix = "dmp-"
 
 export const Version = "v3.0.0"
 

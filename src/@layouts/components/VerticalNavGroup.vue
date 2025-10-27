@@ -7,7 +7,7 @@
       class="nav-group-label"
       @click="handleClick"
     >
-      <VIcon
+      <v-icon
         :icon="item.icon || 'ri-checkbox-blank-circle-line'"
         class="nav-item-icon"
       />
@@ -18,7 +18,7 @@
       >
         {{ item.badgeContent }}
       </span>
-      <VIcon
+      <v-icon
         icon="ri-arrow-right-s-line"
         class="nav-group-arrow"
       />

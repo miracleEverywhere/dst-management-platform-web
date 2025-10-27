@@ -1,6 +1,18 @@
-import { PINIA_PREFIX } from "@/config/index.js"
+import { PiniaPrefix } from "@/config/index.js"
 import CryptoJS from 'crypto-js'
 
+export function getBrowserLang() {
+  // @ts-ignore
+  let browserLang = navigator.language ? navigator.language : navigator.browserLanguage
+  let defaultBrowserLang = ""
+  if (["cn", "zh", "zh-cn"].includes(browserLang.toLowerCase())) {
+    defaultBrowserLang = "zh"
+  } else {
+    defaultBrowserLang = "en"
+  }
+  
+  return defaultBrowserLang
+}
 
 export const sleep = function (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -166,7 +178,7 @@ export function parseJwt(token) {
 }
 
 export const getToken = () => {
-  const auth = window.localStorage.getItem(PINIA_PREFIX + "auth")
+  const auth = window.localStorage.getItem(PiniaPrefix + "user")
   if (auth != null && auth !== "" && auth !== undefined) {
     const parseAuth = JSON.parse(auth)
     const keys = Object.keys(parseAuth)

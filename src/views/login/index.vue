@@ -282,30 +282,31 @@ import avatar2 from '@images/avatars/avatar-2.png'
 import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import colors from 'vuetify/lib/util/colors'
+
 // import authApi from '@/api/auth.js'
 import { deepCopy, SHA512 } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
-// import useAuthStore from "@store/auth.js"
+import useUserStore from "@store/user.js"
 import { useRouter } from 'vue-router'
 
 
 const router = useRouter()
-const authStore = useAuthStore()
+const userStore = useUserStore()
 
 
 onMounted(() => {
-  handleRegisterGet()
+  // handleRegisterGet()
 })
 
 
 const registered = ref(true)
 const registerLoading = ref(false)
 
-const handleRegisterGet = () => {
-  authApi.register.get().then(response => {
-    registered.value = response.data
-  })
-}
+// const handleRegisterGet = () => {
+//   authApi.register.get().then(response => {
+//     registered.value = response.data
+//   })
+// }
 
 const loginForm = ref({
   username: '',
@@ -327,15 +328,15 @@ const handleLogin = async () => {
 
   // const resLogin = await authApi.login.post(reqForm)
 
-  authStore.token = resLogin.data.token
+  userStore.token = resLogin.data.token
 
   // const resUser = await authApi.userInfo.get()
 
-  authStore.userInfo = resUser.data
+  userStore.userInfo = resUser.data
 
   // const resMenu = await authApi.menu.get()
 
-  // authStore.menus = resMenu.data
+  // userStore.menus = resMenu.data
 
   const redirect = router.currentRoute.value.query.redirect || '/'
 
@@ -392,6 +393,7 @@ const handleRegisterPost = async event => {
   const reqForm = registerForm.value
 
   reqForm.password = password
+
   // authApi.register.post(reqForm).then(response => {
   //   showSnackbar(response.message, 'success')
   //   registerLoading.value = false

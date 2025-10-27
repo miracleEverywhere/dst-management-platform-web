@@ -18,7 +18,7 @@ const props = defineProps({
       :href="item.href"
       :target="item.target"
     >
-      <VIcon
+      <v-icon
         :icon="item.icon || 'ri-checkbox-blank-circle-line'"
         class="nav-item-icon"
       />
