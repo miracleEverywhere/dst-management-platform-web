@@ -60,38 +60,38 @@ const iconsList = [
 <template>
   <div>
     <div class="d-flex align-center flex-wrap">
-      <VCard
+      <v-card
         v-for="icon in iconsList"
         :key="icon"
         class="mb-6 me-6"
       >
-        <VCardText class="py-3 px-4">
-          <VIcon
+        <v-card-text class="py-3 px-4">
+          <v-icon
             size="30"
             :icon="icon"
           />
-        </VCardText>
+        </v-card-text>
 
         <!-- tooltips -->
-        <VTooltip
+        <v-tooltip
           location="top"
           activator="parent"
         >
           {{ icon }}
-        </VTooltip>
-      </VCard>
+        </v-tooltip>
+      </v-card>
     </div>
 
     <!-- more icons -->
     <div class="text-center">
-      <VBtn
+      <v-btn
         href="https://remixicon.com/"
         rel="noopener noreferrer"
         color="primary"
         target="_blank"
       >
         View All Remix Icons
-      </VBtn>
+      </v-btn>
     </div>
   </div>
 </template>

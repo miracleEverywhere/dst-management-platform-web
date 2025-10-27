@@ -1,10 +1,32 @@
+<template>
+  <v-app>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      transition="slide-y-transition"
+      :location="location"
+      variant="flat"
+      color="#FFFFFF00"
+    >
+      <v-card>
+        <v-alert
+          :type="color"
+          :icon="icon"
+          variant="text"
+          density="compact"
+        >
+          {{ text }}
+        </v-alert>
+      </v-card>
+    </v-snackbar>
+    <router-view />
+  </v-app>
+</template>
+
 <script setup>
-import UpgradeToPro from '@/components/UpgradeToPro.vue'
+import { useSnackbar } from './utils/snackbar'
+
+const { snackbar, color, text, location, icon, timeout } = useSnackbar()
 </script>
 
-<template>
-  <VApp>
-    <RouterView />
-    <UpgradeToPro />
-  </VApp>
-</template>
+

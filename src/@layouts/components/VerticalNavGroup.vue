@@ -1,14 +1,3 @@
-<script setup>
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-})
-
-const isOpen = ref(false)
-</script>
-
 <template>
   <li
     class="nav-group"
@@ -16,7 +5,7 @@ const isOpen = ref(false)
   >
     <div
       class="nav-group-label"
-      @click="isOpen = !isOpen"
+      @click="handleClick"
     >
       <VIcon
         :icon="item.icon || 'ri-checkbox-blank-circle-line'"
@@ -41,6 +30,30 @@ const isOpen = ref(false)
     </div>
   </li>
 </template>
+
+<script setup>
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+  isOpen: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emit = defineEmits(['toggle'])
+
+const router = useRouter()
+
+const handleClick = () => {
+  emit('toggle')
+  if (props.item.to === '/dashboard') {
+    router.push(props.item.to)
+  }
+}
+</script>
 
 <style lang="scss">
 .layout-vertical-nav {

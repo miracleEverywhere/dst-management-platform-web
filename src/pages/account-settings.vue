@@ -29,44 +29,44 @@ const tabs = [
 
 <template>
   <div>
-    <VTabs
+    <v-tabs
       v-model="activeTab"
       show-arrows
       class="v-tabs-pill"
     >
-      <VTab
+      <v-tab
         v-for="item in tabs"
         :key="item.icon"
         :value="item.tab"
       >
-        <VIcon
+        <v-icon
           size="20"
           start
           :icon="item.icon"
         />
         {{ item.title }}
-      </VTab>
-    </VTabs>
+      </v-tab>
+    </v-tabs>
 
-    <VWindow
+    <v-window
       v-model="activeTab"
       class="mt-5 disable-tab-transition"
       :touch="false"
     >
       <!-- Account -->
-      <VWindowItem value="account">
-        <AccountSettingsAccount />
-      </VWindowItem>
+      <v-window-item value="account">
+        <account-settings-account />
+      </v-window-item>
 
       <!-- Security -->
-      <VWindowItem value="security">
-        <AccountSettingsSecurity />
-      </VWindowItem>
+      <v-window-item value="security">
+        <account-settings-security />
+      </v-window-item>
 
       <!-- Notification -->
-      <VWindowItem value="notification">
-        <AccountSettingsNotification />
-      </VWindowItem>
-    </VWindow>
+      <v-window-item value="notification">
+        <account-settings-notification />
+      </v-window-item>
+    </v-window>
   </div>
 </template>

@@ -30,86 +30,86 @@ const newProject = {
 </script>
 
 <template>
-  <VRow class="match-height">
-    <VCol
+  <v-row class="match-height">
+    <v-col
       cols="12"
       md="4"
     >
-      <AnalyticsAward />
-    </VCol>
+      <analytics-award />
+    </v-col>
 
-    <VCol
+    <v-col
       cols="12"
       md="8"
     >
-      <AnalyticsTransactions />
-    </VCol>
+      <analytics-transactions />
+    </v-col>
 
-    <VCol
+    <v-col
       cols="12"
       md="4"
     >
-      <AnalyticsWeeklyOverview />
-    </VCol>
+      <analytics-weekly-overview />
+    </v-col>
 
-    <VCol
+    <v-col
       cols="12"
       md="4"
     >
-      <AnalyticsTotalEarning />
-    </VCol>
+      <analytics-total-earning />
+    </v-col>
 
-    <VCol
+    <v-col
       cols="12"
       md="4"
     >
-      <VRow class="match-height">
-        <VCol
+      <v-row class="match-height">
+        <v-col
           cols="12"
           sm="6"
         >
-          <AnalyticsTotalProfitLineCharts />
-        </VCol>
+          <analytics-total-profit-line-charts />
+        </v-col>
 
-        <VCol
+        <v-col
           cols="12"
           sm="6"
         >
-          <CardStatisticsVertical v-bind="totalProfit" />
-        </VCol>
+          <card-statistics-vertical v-bind="totalProfit" />
+        </v-col>
 
-        <VCol
+        <v-col
           cols="12"
           sm="6"
         >
-          <CardStatisticsVertical v-bind="newProject" />
-        </VCol>
+          <card-statistics-vertical v-bind="newProject" />
+        </v-col>
 
-        <VCol
+        <v-col
           cols="12"
           sm="6"
         >
-          <AnalyticsBarCharts />
-        </VCol>
-      </VRow>
-    </VCol>
+          <analytics-bar-charts />
+        </v-col>
+      </v-row>
+    </v-col>
 
-    <VCol
+    <v-col
       cols="12"
       md="4"
     >
-      <AnalyticsSalesByCountries />
-    </VCol>
+      <analytics-sales-by-countries />
+    </v-col>
 
-    <VCol
+    <v-col
       cols="12"
       md="8"
     >
-      <AnalyticsDepositWithdraw />
-    </VCol>
+      <analytics-deposit-withdraw />
+    </v-col>
 
-    <VCol cols="12">
-      <AnalyticsUserTable />
-    </VCol>
-  </VRow>
+    <v-col cols="12">
+      <analytics-user-table />
+    </v-col>
+  </v-row>
 </template>

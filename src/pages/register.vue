@@ -27,12 +27,12 @@ const isPasswordVisible = ref(false)
   <!-- eslint-disable vue/no-v-html -->
 
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard
+    <v-card
       class="auth-card pa-4 pt-7"
       max-width="448"
     >
-      <VCardItem class="justify-center">
-        <RouterLink
+      <v-card-item class="justify-center">
+        <router-link
           to="/"
           class="d-flex align-center gap-3"
         >
@@ -44,42 +44,42 @@ const isPasswordVisible = ref(false)
           <h2 class="font-weight-medium text-2xl text-uppercase">
             Materio
           </h2>
-        </RouterLink>
-      </VCardItem>
+        </router-link>
+      </v-card-item>
 
-      <VCardText class="pt-2">
+      <v-card-text class="pt-2">
         <h4 class="text-h4 mb-1">
           Adventure starts here 🚀
         </h4>
         <p class="mb-0">
           Make your app management easy and fun!
         </p>
-      </VCardText>
+      </v-card-text>
 
-      <VCardText>
-        <VForm @submit.prevent="() => {}">
-          <VRow>
+      <v-card-text>
+        <v-form @submit.prevent="() => {}">
+          <v-row>
             <!-- Username -->
-            <VCol cols="12">
-              <VTextField
+            <v-col cols="12">
+              <v-text-field
                 v-model="form.username"
                 label="Username"
                 placeholder="Johndoe"
               />
-            </VCol>
+            </v-col>
             <!-- email -->
-            <VCol cols="12">
-              <VTextField
+            <v-col cols="12">
+              <v-text-field
                 v-model="form.email"
                 label="Email"
                 placeholder="johndoe@email.com"
                 type="email"
               />
-            </VCol>
+            </v-col>
 
             <!-- password -->
-            <VCol cols="12">
-              <VTextField
+            <v-col cols="12">
+              <v-text-field
                 v-model="form.password"
                 label="Password"
                 placeholder="············"
@@ -89,12 +89,12 @@ const isPasswordVisible = ref(false)
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
               <div class="d-flex align-center my-6">
-                <VCheckbox
+                <v-checkbox
                   id="privacy-policy"
                   v-model="form.privacyPolicies"
                   inline
                 />
-                <VLabel
+                <v-label
                   for="privacy-policy"
                   style="opacity: 1;"
                 >
@@ -103,67 +103,67 @@ const isPasswordVisible = ref(false)
                     href="javascript:void(0)"
                     class="text-primary"
                   >privacy policy & terms</a>
-                </VLabel>
+                </v-label>
               </div>
 
-              <VBtn
+              <v-btn
                 block
                 type="submit"
                 to="/"
               >
                 Sign up
-              </VBtn>
-            </VCol>
+              </v-btn>
+            </v-col>
 
             <!-- login instead -->
-            <VCol
+            <v-col
               cols="12"
               class="text-center text-base"
             >
               <span>Already have an account?</span>
-              <RouterLink
+              <router-link
                 class="text-primary ms-2"
                 to="login"
               >
                 Sign in instead
-              </RouterLink>
-            </VCol>
+              </router-link>
+            </v-col>
 
-            <VCol
+            <v-col
               cols="12"
               class="d-flex align-center"
             >
-              <VDivider />
+              <v-divider />
               <span class="mx-4">or</span>
-              <VDivider />
-            </VCol>
+              <v-divider />
+            </v-col>
 
             <!-- auth providers -->
-            <VCol
+            <v-col
               cols="12"
               class="text-center"
             >
-              <AuthProvider />
-            </VCol>
-          </VRow>
-        </VForm>
-      </VCardText>
-    </VCard>
+              <auth-provider />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
 
-    <VImg
+    <v-img
       class="auth-footer-start-tree d-none d-md-block"
       :src="authV1Tree"
       :width="250"
     />
 
-    <VImg
+    <v-img
       :src="authV1Tree2"
       class="auth-footer-end-tree d-none d-md-block"
       :width="350"
     />
 
     <!-- bg img -->
-    <VImg
+    <v-img
       class="auth-footer-mask d-none d-md-block"
       :src="authThemeMask"
     />

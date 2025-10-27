@@ -7,47 +7,47 @@ import DemoSimpleTableTheme from '@/views/pages/tables/DemoSimpleTableTheme.vue'
 </script>
 
 <template>
-  <VRow>
-    <VCol cols="12">
-      <VCard title="Basic">
-        <DemoSimpleTableBasics />
-      </VCard>
-    </VCol>
+  <v-row>
+    <v-col cols="12">
+      <v-card title="Basic">
+        <demo-simple-table-basics />
+      </v-card>
+    </v-col>
 
-    <VCol cols="12">
-      <VCard title="Theme">
-        <VCardText>
+    <v-col cols="12">
+      <v-card title="Theme">
+        <v-card-text>
           use <code>theme</code> prop to switch table to the dark theme.
-        </VCardText>
-        <DemoSimpleTableTheme />
-      </VCard>
-    </VCol>
+        </v-card-text>
+        <demo-simple-table-theme />
+      </v-card>
+    </v-col>
 
-    <VCol cols="12">
-      <VCard title="Density">
-        <VCardText>
+    <v-col cols="12">
+      <v-card title="Density">
+        <v-card-text>
           You can show a dense version of the table by using the <code>density</code> prop.
-        </VCardText>
-        <DemoSimpleTableDensity />
-      </VCard>
-    </VCol>
+        </v-card-text>
+        <demo-simple-table-density />
+      </v-card>
+    </v-col>
 
-    <VCol cols="12">
-      <VCard title="Height">
-        <VCardText>
+    <v-col cols="12">
+      <v-card title="Height">
+        <v-card-text>
           You can set the height of the table by using the <code>height</code> prop.
-        </VCardText>
-        <DemoSimpleTableHeight />
-      </VCard>
-    </VCol>
+        </v-card-text>
+        <demo-simple-table-height />
+      </v-card>
+    </v-col>
 
-    <VCol cols="12">
-      <VCard title="Fixed Header">
-        <VCardText>
+    <v-col cols="12">
+      <v-card title="Fixed Header">
+        <v-card-text>
           You can fix the header of table by using the <code>fixed-header</code> prop.
-        </VCardText>
-        <DemoSimpleTableFixedHeader />
-      </VCard>
-    </VCol>
-  </VRow>
+        </v-card-text>
+        <demo-simple-table-fixed-header />
+      </v-card>
+    </v-col>
+  </v-row>
 </template>

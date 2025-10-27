@@ -10,18 +10,18 @@ import CardSolid from '@/views/pages/cards/card-basic/CardSolid.vue'
       Basic Cards
     </p>
 
-    <CardBasic />
+    <card-basic />
 
     <p class="text-2xl mb-6 mt-14">
       Navigation Cards
     </p>
 
-    <CardNavigation />
+    <card-navigation />
 
     <p class="text-2xl mt-14 mb-6 ">
       Solid Cards
     </p>
 
-    <CardSolid />
+    <card-solid />
   </div>
 </template>

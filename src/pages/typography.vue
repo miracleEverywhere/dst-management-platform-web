@@ -4,13 +4,13 @@ import TypographyTexts from '@/views/user-interface/typography/TypographyTexts.v
 </script>
 
 <template>
-  <VRow>
-    <VCol cols="12">
-      <TypographyHeadlines />
-    </VCol>
+  <v-row>
+    <v-col cols="12">
+      <typography-headlines />
+    </v-col>
 
-    <VCol cols="12">
-      <TypographyTexts />
-    </VCol>
-  </VRow>
+    <v-col cols="12">
+      <typography-texts />
+    </v-col>
+  </v-row>
 </template>

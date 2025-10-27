@@ -26,12 +26,12 @@ const isPasswordVisible = ref(false)
   <!-- eslint-disable vue/no-v-html -->
 
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard
+    <v-card
       class="auth-card pa-4 pt-7"
       max-width="448"
     >
-      <VCardItem class="justify-center">
-        <RouterLink
+      <v-card-item class="justify-center">
+        <router-link
           to="/"
           class="d-flex align-center gap-3"
         >
@@ -43,33 +43,33 @@ const isPasswordVisible = ref(false)
           <h2 class="font-weight-medium text-2xl text-uppercase">
             Materio
           </h2>
-        </RouterLink>
-      </VCardItem>
+        </router-link>
+      </v-card-item>
 
-      <VCardText class="pt-2">
+      <v-card-text class="pt-2">
         <h4 class="text-h4 mb-1">
           Welcome to Materio! 👋🏻
         </h4>
         <p class="mb-0">
           Please sign-in to your account and start the adventure
         </p>
-      </VCardText>
+      </v-card-text>
 
-      <VCardText>
-        <VForm @submit.prevent="() => {}">
-          <VRow>
+      <v-card-text>
+        <v-form @submit.prevent="() => {}">
+          <v-row>
             <!-- email -->
-            <VCol cols="12">
-              <VTextField
+            <v-col cols="12">
+              <v-text-field
                 v-model="form.email"
                 label="Email"
                 type="email"
               />
-            </VCol>
+            </v-col>
 
             <!-- password -->
-            <VCol cols="12">
-              <VTextField
+            <v-col cols="12">
+              <v-text-field
                 v-model="form.password"
                 label="Password"
                 placeholder="············"
@@ -81,7 +81,7 @@ const isPasswordVisible = ref(false)
 
               <!-- remember me checkbox -->
               <div class="d-flex align-center justify-space-between flex-wrap my-6">
-                <VCheckbox
+                <v-checkbox
                   v-model="form.remember"
                   label="Remember me"
                 />
@@ -95,64 +95,64 @@ const isPasswordVisible = ref(false)
               </div>
 
               <!-- login button -->
-              <VBtn
+              <v-btn
                 block
                 type="submit"
                 to="/"
               >
                 Login
-              </VBtn>
-            </VCol>
+              </v-btn>
+            </v-col>
 
             <!-- create account -->
-            <VCol
+            <v-col
               cols="12"
               class="text-center text-base"
             >
               <span>New on our platform?</span>
-              <RouterLink
+              <router-link
                 class="text-primary ms-2"
                 to="/register"
               >
                 Create an account
-              </RouterLink>
-            </VCol>
+              </router-link>
+            </v-col>
 
-            <VCol
+            <v-col
               cols="12"
               class="d-flex align-center"
             >
-              <VDivider />
+              <v-divider />
               <span class="mx-4">or</span>
-              <VDivider />
-            </VCol>
+              <v-divider />
+            </v-col>
 
             <!-- auth providers -->
-            <VCol
+            <v-col
               cols="12"
               class="text-center"
             >
-              <AuthProvider />
-            </VCol>
-          </VRow>
-        </VForm>
-      </VCardText>
-    </VCard>
+              <auth-provider />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
 
-    <VImg
+    <v-img
       class="auth-footer-start-tree d-none d-md-block"
       :src="authV1Tree"
       :width="250"
     />
 
-    <VImg
+    <v-img
       :src="authV1Tree2"
       class="auth-footer-end-tree d-none d-md-block"
       :width="350"
     />
 
     <!-- bg img -->
-    <VImg
+    <v-img
       class="auth-footer-mask d-none d-md-block"
       :src="authThemeMask"
     />
