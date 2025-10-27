@@ -29,15 +29,9 @@
 
         <v-spacer />
 
-        <v-btn
-          v-tooltip="t('global.github')"
-          icon="ri-github-line"
-          color="default"
-          variant="text"
-          href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
-          target="_blank"
-          rel="noopener noreferrer"
-        />
+        <github/>
+
+        <document/>
 
         <lang-select />
 
@@ -101,10 +95,9 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import LangSelect from '@/layouts/components/LangSelect.vue'
-import UserProfile from '@/components/UserProfile.vue'
-import {useI18n} from "vue-i18n";
-
-const {t} = useI18n()
+import UserProfile from '@/layouts/components/UserProfile.vue'
+import Github from "@/layouts/components/Github.vue";
+import Document from "@/layouts/components/Document.vue";
 </script>
 
 <style lang="scss" scoped>
