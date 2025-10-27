@@ -3,54 +3,27 @@
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <div class="d-flex align-center">
-          <v-img
-            width="4em"
-            height="4em"
-            src="src/assets/images/logo.svg"
-          />
-          <h1 class="font-weight-medium leading-normal text-xl text-uppercase ml-3">
-            {{ title }}
-          </h1>
+          <nav-header />
         </div>
         <v-spacer />
-        <icon-btn
-          href="https://github.com/miracleEverywhere/dst-management-platform-desktop"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <v-icon icon="ri-github-fill" />
-        </icon-btn>
+        <github />
+        <document />
+        <lang-select />
         <navbar-theme-switcher class="me-2" />
       </div>
     </template>
-    <div class="auth-wrapper d-flex align-center justify-center pa-4">
+    <div class="d-flex align-center justify-center pa-4">
       <v-card
-        class="auth-card pa-4 pt-7"
-        max-width="448"
+        width="448"
+        :style="mobile?{'margin-top': '10vh'}:{'margin-top': '25vh'}"
       >
-        <v-card-item class="justify-center">
-          <router-view
-            class="d-flex align-center gap-3"
-            to="/"
-          >
-            <v-img
-              height="3.8em"
-              src="src/assets/images/logo1.svg"
-              width="6em"
-            />
-          </router-view>
-        </v-card-item>
-
-        <v-card-text class="pt-2">
-          <h4 class="text-h4 mb-1">
-            Welcome to Materio! 👋🏻
-          </h4>
-          <p class="mb-0">
-            Please sign-in to your account and start the adventure
-          </p>
+        <v-card-text class="mt-4">
+          <span style="font-size: 1.5em">
+            {{ $t('login.welcome') }}
+          </span>
         </v-card-text>
 
-        <v-card-text>
+        <v-card-text class="mt-6">
           <v-form>
             <v-row>
               <v-col cols="12">
@@ -251,15 +224,17 @@
                               @click:append-inner="isPasswordVisible = !isPasswordVisible"
                             />
                           </v-row>
-                          <v-card-actions>
+                          <v-card-actions class="mt-16">
                             <v-spacer />
                             <v-btn
-                              color="black"
+                              color="default"
+                              variant="elevated"
                               text="取消"
                               @click="isActive.value = false"
                             />
                             <v-btn
                               text="提交"
+                              variant="elevated"
                               type="submit"
                               :loading="registerLoading"
                             />
@@ -298,7 +273,7 @@
 <script setup>
 import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue"
 import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue"
-import { useTheme } from 'vuetify'
+import {useDisplay, useTheme} from 'vuetify'
 import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
@@ -314,14 +289,25 @@ import { showSnackbar } from "@/utils/snackbar"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useRouter } from 'vue-router'
+import NavHeader from "@/layouts/components/NavHeader.vue"
+import Github from "@/layouts/components/GitHub.vue"
+import LangSelect from "@/layouts/components/LangSelect.vue"
+import Document from "@/layouts/components/Document.vue"
 
 
 const router = useRouter()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 
-const title = "ddd"
-
+const {
+  xs, sm, md, lg, xl,   // 布尔值，当前屏幕是否匹配该断点
+  smAndUp, mdAndUp,      // 当前屏幕及以上尺寸
+  smAndDown, mdAndDown,  // 当前屏幕及以下尺寸
+  name,                  // 当前断点名称 ('xs', 'sm', 'md', 'lg', 'xl', 'xxl')
+  width, height,         // 屏幕宽高
+  mobile,                // 是否为移动设备
+  thresholds             // 断点阈值
+} = useDisplay()
 
 onMounted(() => {
 

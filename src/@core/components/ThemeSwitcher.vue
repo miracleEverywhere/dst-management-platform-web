@@ -35,8 +35,12 @@ const {
 } = useCycleList(props.themes.map(t => t.name), { initialValue: globalStore.theme })
 
 onMounted(() => {
-  globalTheme.name.value = globalStore.theme
-  document.documentElement.className = globalStore.theme
+  if (globalStore.theme === "") {
+    globalStore.theme = globalTheme.name.value
+  } else {
+    globalTheme.name.value = globalStore.theme
+    document.documentElement.className = globalStore.theme
+  }
 })
 
 const changeTheme = async event => {

@@ -40,10 +40,14 @@ onMounted(() => {
 })
 
 const initI18n = () => {
-  const language = globalStore.language ?? getBrowserLang()
-
-  i18n.locale.value = language
-  globalStore.language = language
+  let language
+  if (globalStore.language === "") {
+    language = getBrowserLang()
+    i18n.locale.value = language
+    globalStore.language = language
+  } else {
+    i18n.locale.value = globalStore.language
+  }
 }
 
 const initTheme = () => {
