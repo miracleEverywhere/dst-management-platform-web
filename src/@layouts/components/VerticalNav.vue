@@ -19,8 +19,7 @@
         <router-link
           to="/"
           class="app-logo app-title-wrapper"
-        >
-        </router-link>
+        />
       </slot>
     </div>
     <slot name="before-nav-items">
@@ -46,6 +45,7 @@
 <script setup>
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useDisplay } from 'vuetify'
+
 // import logo from '@images/logo.svg?raw'
 
 const props = defineProps({

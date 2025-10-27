@@ -31,7 +31,7 @@ import { useI18n } from "vue-i18n"
 const i18n = useI18n()
 const globalStore = useGlobalStore()
 import { useSnackbar } from './utils/snackbar'
-import {getBrowserLang} from "@/utils/tools.js";
+import { getBrowserLang } from "@/utils/tools.js"
 
 const { snackbar, color, text, location, icon, timeout } = useSnackbar()
 
@@ -40,7 +40,8 @@ onMounted(() => {
 })
 
 const initI18n = () => {
-  const language = globalStore.language ?? getBrowserLang();
+  const language = globalStore.language ?? getBrowserLang()
+
   i18n.locale.value = language
   globalStore.language = language
 }

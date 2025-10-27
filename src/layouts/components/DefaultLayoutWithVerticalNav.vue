@@ -50,10 +50,10 @@
           width="3em"
           height="2em"
           src="src/assets/images/dmp.svg"
-        ></v-img>
+        />
 
         <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-          {{$t('global.title')}}
+          {{ $t('global.title') }}
         </h1>
       </router-link>
 
@@ -63,8 +63,7 @@
         variant="text"
         class="d-block d-lg-none"
         @click="toggleIsOverlayNavActive(false)"
-      >
-      </v-btn>
+      />
     </template>
 
     <template #vertical-nav-content>
@@ -75,9 +74,9 @@
     <slot />
 
     <!-- 👉 Footer -->
-<!--    <template #footer>-->
-<!--      <footer />-->
-<!--    </template>-->
+    <!--    <template #footer> -->
+    <!--      <footer /> -->
+    <!--    </template> -->
   </vertical-nav-layout>
 </template>
 
