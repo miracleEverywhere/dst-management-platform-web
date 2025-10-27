@@ -32,57 +32,57 @@ export function getBrowserLang() {
     defaultBrowserLang = "en"
     break
 
-  //   // 日语
-  // case "ja":
-  // case "ja-jp":
-  //   defaultBrowserLang = "ja"
-  //   break
-  //
-  //   // 韩语
-  // case "ko":
-  // case "ko-kr":
-  //   defaultBrowserLang = "ko"
-  //   break
-  //
-  //   // 法语
-  // case "fr":
-  // case "fr-fr":
-  // case "fr-ca":
-  //   defaultBrowserLang = "fr"
-  //   break
-  //
-  //   // 德语
-  // case "de":
-  // case "de-de":
-  // case "de-at":
-  // case "de-ch":
-  //   defaultBrowserLang = "de"
-  //   break
-  //
-  //   // 西班牙语
-  // case "es":
-  // case "es-es":
-  // case "es-mx":
-  // case "es-ar":
-  //   defaultBrowserLang = "es"
-  //   break
-  //
-  //   // 其他语言...
-  // case "ru":
-  // case "ru-ru":
-  //   defaultBrowserLang = "ru"
-  //   break
-  //
-  // case "pt":
-  // case "pt-br":
-  // case "pt-pt":
-  //   defaultBrowserLang = "pt"
-  //   break
-  //
-  // case "it":
-  // case "it-it":
-  //   defaultBrowserLang = "it"
-  //   break
+    //   // 日语
+    // case "ja":
+    // case "ja-jp":
+    //   defaultBrowserLang = "ja"
+    //   break
+    //
+    //   // 韩语
+    // case "ko":
+    // case "ko-kr":
+    //   defaultBrowserLang = "ko"
+    //   break
+    //
+    //   // 法语
+    // case "fr":
+    // case "fr-fr":
+    // case "fr-ca":
+    //   defaultBrowserLang = "fr"
+    //   break
+    //
+    //   // 德语
+    // case "de":
+    // case "de-de":
+    // case "de-at":
+    // case "de-ch":
+    //   defaultBrowserLang = "de"
+    //   break
+    //
+    //   // 西班牙语
+    // case "es":
+    // case "es-es":
+    // case "es-mx":
+    // case "es-ar":
+    //   defaultBrowserLang = "es"
+    //   break
+    //
+    //   // 其他语言...
+    // case "ru":
+    // case "ru-ru":
+    //   defaultBrowserLang = "ru"
+    //   break
+    //
+    // case "pt":
+    // case "pt-br":
+    // case "pt-pt":
+    //   defaultBrowserLang = "pt"
+    //   break
+    //
+    // case "it":
+    // case "it-it":
+    //   defaultBrowserLang = "it"
+    //   break
 
     // 如果未匹配到，默认返回 'zh'
   default:
