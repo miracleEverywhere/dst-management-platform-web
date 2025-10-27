@@ -1,5 +1,5 @@
 <template>
-  <VBadge
+  <v-badge
     dot
     location="bottom right"
     offset-x="3"
@@ -7,82 +7,85 @@
     color="success"
     bordered
   >
-    <VAvatar
+    <v-avatar
       class="cursor-pointer"
       color="primary"
       variant="tonal"
     >
-      <VImg :src="avatarImage" />
+      <v-img :src="avatarImage" />
 
       <!-- SECTION Menu -->
-      <VMenu
+      <v-menu
         activator="parent"
         width="230"
         location="bottom end"
         offset="14px"
       >
-        <VList>
+        <v-list>
           <!-- 👉 User Avatar & Name -->
-          <VListItem>
+          <v-list-item>
             <template #prepend>
-              <VListItemAction start>
-                <VBadge
+              <v-list-item-action start>
+                <v-badge
                   dot
                   location="bottom right"
                   offset-x="3"
                   offset-y="3"
                   color="success"
                 >
-                  <VAvatar
+                  <v-avatar
                     color="primary"
                     variant="tonal"
                   >
-                    <VImg :src="avatarImage" />
-                  </VAvatar>
-                </VBadge>
-              </VListItemAction>
+                    <v-img :src="avatarImage" />
+                  </v-avatar>
+                </v-badge>
+              </v-list-item-action>
             </template>
 
-            <VListItemTitle class="font-weight-semibold">
+            <v-list-item-title class="font-weight-semibold">
               John Doe
-            </VListItemTitle>
-            <VListItemSubtitle>Admin</VListItemSubtitle>
-          </VListItem>
-          <VDivider class="my-2" />
+            </v-list-item-title>
+            <v-list-item-subtitle>Admin</v-list-item-subtitle>
+          </v-list-item>
+          <v-divider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem to="/profile">
+          <v-list-item to="/profile">
             <template #prepend>
-              <VIcon
+              <v-icon
                 class="me-2"
                 icon="ri-user-line"
                 size="22"
               />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
-          </VListItem>
+            <v-list-item-title>Profile</v-list-item-title>
+          </v-list-item>
 
           <!-- Divider -->
-          <VDivider class="my-2" />
+          <v-divider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login" @click="handleLogout">
+          <v-list-item
+            to="/login"
+            @click="handleLogout"
+          >
             <template #prepend>
-              <VIcon
+              <v-icon
                 class="me-2"
                 icon="ri-logout-box-r-line"
                 size="22"
               />
             </template>
 
-            <VListItemTitle>Logout</VListItemTitle>
-          </VListItem>
-        </VList>
-      </VMenu>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <!-- !SECTION -->
-    </VAvatar>
-  </VBadge>
+    </v-avatar>
+  </v-badge>
 </template>
 
 <script setup>
@@ -90,7 +93,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
 import avatar2 from '@images/avatars/avatar-2.png'
 import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
-import useAuthStore from '@/plugins/store/auth.js'
+import useAuthStore from '@store/auth.js'
 
 
 const authStore = useAuthStore()
@@ -98,25 +101,23 @@ const userInfo = authStore.userInfo
 const avatarImage = ref()
 
 switch (userInfo.avatar) {
-  case '1':
-    avatarImage.value = avatar1
-    break
-  case '2':
-    avatarImage.value = avatar2
-    break
-  case '3':
-    avatarImage.value = avatar3
-    break
-  case '4':
-    avatarImage.value = avatar4
-    break
-  default:
-    avatarImage.value = avatar1
+case '1':
+  avatarImage.value = avatar1
+  break
+case '2':
+  avatarImage.value = avatar2
+  break
+case '3':
+  avatarImage.value = avatar3
+  break
+case '4':
+  avatarImage.value = avatar4
+  break
+default:
+  avatarImage.value = avatar1
 }
 
 const handleLogout = async () => {
   await authStore.clearStore()
 }
-
-
 </script>

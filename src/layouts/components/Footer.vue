@@ -4,7 +4,7 @@
     <span class="d-flex align-center">
       {{ new Date().getFullYear() }}
       Made With
-      <VIcon
+      <v-icon
         icon="ri-heart-line"
         color="error"
         size="1.25rem"

@@ -3,11 +3,12 @@ import { showSnackbar } from '@/utils/snackbar'
 import { getToken } from "@/utils/tools.js"
 import { router } from "@/plugins/router/index.js"
 import useUserStore from "@store/user.js"
+import { ApiVersion } from "@/config"
 
 
 // 创建一个 axios 实例
 const instance = axios.create({
-  baseURL: "/v3", // 你的 API 基础地址
+  baseURL: ApiVersion,
   timeout: 600000, // 请求超时时间
 })
 
