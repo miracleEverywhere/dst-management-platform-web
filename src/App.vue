@@ -10,7 +10,7 @@
     >
       <v-card>
         <v-alert
-          :type="color"
+          :color="color"
           :icon="icon"
           variant="text"
           density="compact"

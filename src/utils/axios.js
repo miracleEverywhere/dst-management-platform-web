@@ -40,10 +40,10 @@ instance.interceptors.response.use(
       // console.log("200状态", status);
       return response.data
     } else if (status === 420) {
-      const authStore = useUserStore()
+      const userStore = useUserStore()
 
       showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
-      await authStore.clearStore()
+      await userStore.clearStore()
       await router.replace('/login')
       
       return Promise.reject(response.data)
