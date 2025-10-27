@@ -1,4 +1,4 @@
-import { PiniaPrefix } from "@/config/index.js"
+import { PiniaPrefix } from "@/config/index"
 import CryptoJS from 'crypto-js'
 
 export function getBrowserLang() {
