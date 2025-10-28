@@ -10,6 +10,7 @@ export default {
   },
   menu: {
     dashboard: "控制台",
+    rooms: "房间总览",
   },
   login: {
     welcome: "欢迎使用饥荒管理平台",

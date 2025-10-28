@@ -10,6 +10,7 @@ export default {
   },
   menu: {
     dashboard: "Dashboard",
+    rooms: "Rooms",
   },
   login: {
     welcome: "Welcome to DMP",
