@@ -20,6 +20,7 @@
     "apexcharts": "^3.54.1",
     "axios": "^1.12.2",
     "crypto-js": "^4.2.0",
+    "nprogress": "^0.2.0",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.5.0",
     "prismjs": "^1.30.0",

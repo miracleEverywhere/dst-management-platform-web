@@ -9,13 +9,17 @@
                   @click:append-inner="getRooms"
                   @keyup.enter="getRooms"
     ></v-text-field>
-    <v-btn prepend-icon="ri-add-line" variant="elevated" size="large" class="mr-4">新建房间</v-btn>
-    <v-btn prepend-icon="ri-refresh-line" color="default" variant="elevated" size="large" @click="getRooms">刷新</v-btn>
+    <v-btn v-if="!mobile" prepend-icon="ri-add-line" variant="elevated" size="large" class="mr-4">新建房间</v-btn>
+    <v-btn v-if="!mobile" prepend-icon="ri-refresh-line" color="default" variant="elevated" size="large" @click="getRooms">刷新</v-btn>
+    <v-btn v-if="mobile" icon="ri-add-line" class="mr-4"></v-btn>
+    <v-btn v-if="mobile" icon="ri-refresh-line" color="default" @click="getRooms"></v-btn>
   </div>
   <v-row class="mt-8">
     <v-row>
       <v-col v-for="room in rooms" :cols="mobile?12:6">
-        <v-card variant="flat" height="300px">
+        <v-hover v-slot="{ isHovering, props }">
+        <v-card variant="flat" :height="mobile?'600px':'300px'" v-bind="props"
+                :elevation="isHovering ? 6 : 0">
           <v-card-title>
             <div class="card-header">
               <span>
@@ -37,12 +41,12 @@
             </div>
 
           </v-card-title>
-          <v-card-text @click="console.log(room.name)" class="cursor-pointer">
+          <v-card-text v-ripple @click="console.log(room.name)" class="cursor-pointer">
             <v-row>
-              <v-col cols="6">
+              <v-col :cols="mobile?12:6">
                 我是房间配置
               </v-col>
-              <v-col cols="6">
+              <v-col :cols="mobile?12:6">
                 <v-card
                     class="mx-auto"
                     color="surface-light"
@@ -81,13 +85,14 @@
                     <v-sparkline
                         :gradient="['#f72047', '#ffd200', '#1feaea']"
                         :line-width="3"
-                        :model-value="Array.from({length: 15}, () => Math.floor(Math.random() * 11))"
+                        :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
                         :smooth="true"
                         stroke-linecap="round"
                         auto-draw
                     ></v-sparkline>
                   </v-sheet>
                 </v-card>
+
 <!--                玩家在线概览-->
 <!--                <v-sparkline-->
 <!--                    :auto-line-width="false"-->
@@ -105,6 +110,7 @@
             </v-row>
           </v-card-text>
         </v-card>
+        </v-hover>
       </v-col>
     </v-row>
   </v-row>
@@ -141,10 +147,46 @@ import {useDisplay} from "vuetify";
 
 
 onMounted(() => {
+  // 初始获取房间
   getRooms()
+
+  // 计算初始pageSize
+  reqForm.value.pageSize = calculatePageSize()
+
+  // 防抖处理resize事件
+  const handleResize = debounce(() => {
+    windowHeight.value = window.innerHeight
+    reqForm.value.pageSize = calculatePageSize()
+  }, 200)
+
+  // 添加事件监听
+  window.addEventListener('resize', handleResize)
+
+  // 在组件卸载时移除监听
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
+  })
 })
 
 const {mobile} = useDisplay()
+
+const windowHeight = ref(window.innerHeight)
+
+const calculatePageSize = () => {
+  // 64(navbar) + 48(margin) + 44(pagination) + 24 * 2(card margins) = 204
+  const usedHeight = 204
+  const cardHeight = 300
+  return Math.max(2, Math.floor((windowHeight.value - usedHeight) / cardHeight) * 2)
+}
+
+const debounce = (fn, delay) => {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn.apply(this, args), delay)
+  }
+}
+
 
 const x = ref(false)
 
@@ -190,6 +232,10 @@ const handleRoomStatusSwitch = () => {
   switchDialog.value = false
   getRooms()
 }
+
+watch(windowHeight, () => {
+  getRooms()
+}, { immediate: true });
 
 </script>
 
