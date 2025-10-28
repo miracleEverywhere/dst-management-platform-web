@@ -59,27 +59,15 @@
     </template>
 
     <template #vertical-nav-content>
-      <nav-items />
+      <nav-items/>
     </template>
-
-    <!-- 👉 Pages -->
     <slot />
-
-    <!-- 👉 Footer -->
-    <!--    <template #footer> -->
-    <!--      <footer /> -->
-    <!--    </template> -->
   </vertical-nav-layout>
 </template>
 
 <script setup>
 import NavItems from '@/layouts/components/NavItems.vue'
-
-// import logo from '@images/dmp.svg?raw'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
-
-// Components
-// import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import LangSelect from '@/layouts/components/LangSelect.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
@@ -108,6 +96,17 @@ import NavHeader from "@/layouts/components/NavHeader.vue"
     font-weight: 500;
     line-height: 1.75rem;
     text-transform: uppercase;
+  }
+}
+
+.vertical-nav-content {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
   }
 }
 </style>

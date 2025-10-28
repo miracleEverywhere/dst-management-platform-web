@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { createDynamicRouter, staticRouter } from './routes'
 import useUserStore from "@store/user"
+import nprogress from "@/utils/nprogress"
 
 
 const router = createRouter({
@@ -12,6 +13,8 @@ let dynamicRoutesAdded = false
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   const hasToken = !!userStore.token
+
+  nprogress.start()
 
   // 1. 如果有token且尝试访问登录页，重定向到首页
   if (hasToken && to.path === '/login') {
@@ -54,6 +57,17 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
+router.onError(error => {
+  // 结束全屏动画
+  nprogress.done();
+  console.warn("路由错误", error.message);
+})
+
+router.afterEach((to, from) => {
+  // console.log("后置守卫", to, from);
+  // 结束全屏动画
+  nprogress.done();
+})
 
 export default function (app) {
   app.use(router)
