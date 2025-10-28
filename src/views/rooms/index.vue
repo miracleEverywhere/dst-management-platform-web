@@ -50,7 +50,6 @@
                 <v-card
                     class="mx-auto"
                     color="surface-light"
-                    max-width="600"
                 >
                   <template v-slot:prepend>
                     <v-icon
@@ -75,9 +74,11 @@
                         :line-width="3"
                         :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
                         :smooth="true"
+                        padding="8"
                         stroke-linecap="round"
                         auto-draw
-                    ></v-sparkline>
+                    >
+                    </v-sparkline>
                   </v-sheet>
                 </v-card>
               </v-col>
