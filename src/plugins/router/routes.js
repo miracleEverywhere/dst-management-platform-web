@@ -12,10 +12,6 @@ export const staticRouter = [
         path: '/:pathMatch(.*)*',
         component: () => import('@/components/[...error].vue'),
       },
-      {
-        path: '/rooms',
-        component: () => import('@/views/rooms/index.vue'),
-      },
     ],
   },
 ]
