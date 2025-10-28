@@ -60,27 +60,15 @@
                         size="64"
                     ></v-icon>
                   </template>
-
                   <template v-slot:title>
                     <div class="text-caption text-grey">
-                      最大玩家数
+                      60分钟最大玩家数
                     </div>
-                    <span
-                        class="text-h3 font-weight-black"
-                        v-text="0"
-                    ></span>
+                    <span class="text-h3 font-weight-black">
+                      <CountTo :duration="4000" :endVal="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])" :startVal="0"/>
+                    </span>
                     <strong>人</strong>
                   </template>
-
-<!--                  <template v-slot:append>-->
-<!--                    <v-btn-->
-<!--                        class="align-self-start"-->
-<!--                        icon="ri-line-chart-line"-->
-<!--                        size="34"-->
-<!--                        variant="text"-->
-<!--                    ></v-btn>-->
-<!--                  </template>-->
-
                   <v-sheet color="transparent">
                     <v-sparkline
                         :gradient="['#f72047', '#ffd200', '#1feaea']"
@@ -92,20 +80,6 @@
                     ></v-sparkline>
                   </v-sheet>
                 </v-card>
-
-<!--                玩家在线概览-->
-<!--                <v-sparkline-->
-<!--                    :auto-line-width="false"-->
-<!--                    :fill="false"-->
-<!--                    :gradient="gradients[5]"-->
-<!--                    gradient-direction="top"-->
-<!--                    :line-width="2"-->
-<!--                    :model-value="Array.from({length: 15}, () => Math.floor(Math.random() * 11))"-->
-<!--                    :smooth="true"-->
-<!--                    stroke-linecap="round"-->
-<!--                    type="trend"-->
-<!--                    auto-draw-->
-<!--                ></v-sparkline>-->
               </v-col>
             </v-row>
           </v-card-text>
@@ -144,6 +118,7 @@
 <script setup>
 import roomApi from "@/api/room"
 import {useDisplay} from "vuetify";
+import {CountTo} from "vue3-count-to"
 
 
 onMounted(() => {

@@ -70,6 +70,9 @@ importers:
       vue3-apexcharts:
         specifier: 1.5.2
         version: 1.5.2(apexcharts@3.54.1)(vue@3.5.13(typescript@5.7.2))
+      vue3-count-to:
+        specifier: ^1.1.2
+        version: 1.1.2(vue@3.5.13(typescript@5.7.2))
       vue3-perfect-scrollbar:
         specifier: ^2.0.0
         version: 2.0.0(vue@3.5.13(typescript@5.7.2))
@@ -1366,6 +1369,9 @@ packages:
 
   core-js-compat@3.39.0:
     resolution: {integrity: sha512-VgEUx3VwlExr5no0tXlBt+silBvhTryPwCXRI2Id1PN8WTKu7MreethvddqOubrYxkFdv/RnYrqlv1sFNAUelw==}
+
+  core-js@3.46.0:
+    resolution: {integrity: sha512-vDMm9B0xnqqZ8uSBpZ8sNtRtOdmfShrvT6h2TuQGLs0Is+cR0DYbj/KWP6ALVNbWPpqA/qPLoOuppJN07humpA==}
 
   cosmiconfig@9.0.0:
     resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==}
@@ -3285,6 +3291,9 @@ packages:
       yaml:
         optional: true
 
+  vue-count-to@1.0.13:
+    resolution: {integrity: sha512-6R4OVBVNtQTlcbXu6SJ8ENR35M2/CdWt3Jmv57jOUM+1ojiFmjVGvZPH8DfHpMDSA+ITs+EW5V6qthADxeyYOQ==}
+
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
@@ -3327,6 +3336,11 @@ packages:
     peerDependencies:
       apexcharts: '> 3.0.0'
       vue: '> 3.0.0'
+
+  vue3-count-to@1.1.2:
+    resolution: {integrity: sha512-C5AvlcGfyM4XvFqPDkni94rqGd5K/+RB+B4xv/1NQx3RrdC+GvXPFzeXW5hWL/jh8ehWLm4LITyK0eMKf4iJbg==}
+    peerDependencies:
+      vue: '>= 3 < 4'
 
   vue3-perfect-scrollbar@2.0.0:
     resolution: {integrity: sha512-nSWVcRyViCgt0Pe3RhU3w/BllLcFSrEzYOGlRBjSyhVmiZlERHHziffW+9P8L0IMEWouC5t+uYrgNJGSAElqMA==}
@@ -4674,6 +4688,8 @@ snapshots:
   core-js-compat@3.39.0:
     dependencies:
       browserslist: 4.24.3
+
+  core-js@3.46.0: {}
 
   cosmiconfig@9.0.0(typescript@5.7.2):
     dependencies:
@@ -6891,6 +6907,8 @@ snapshots:
       tsx: 4.19.2
       yaml: 2.7.0
 
+  vue-count-to@1.0.13: {}
+
   vue-demi@0.14.10(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
@@ -6931,6 +6949,12 @@ snapshots:
     dependencies:
       apexcharts: 3.54.1
       vue: 3.5.13(typescript@5.7.2)
+
+  vue3-count-to@1.1.2(vue@3.5.13(typescript@5.7.2)):
+    dependencies:
+      core-js: 3.46.0
+      vue: 3.5.13(typescript@5.7.2)
+      vue-count-to: 1.0.13
 
   vue3-perfect-scrollbar@2.0.0(vue@3.5.13(typescript@5.7.2)):
     dependencies:
