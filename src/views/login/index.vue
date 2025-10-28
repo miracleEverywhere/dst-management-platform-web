@@ -13,6 +13,7 @@
       </div>
     </template>
     <div class="d-flex align-center justify-center pa-4">
+      <!-- 登录卡片 -->
       <v-card
         width="448"
         :style="mobile?{'margin-top': '10vh'}:{'margin-top': '25vh'}"
@@ -24,12 +25,12 @@
         </v-card-text>
 
         <v-card-text class="mt-6">
-          <v-form>
+          <v-form @submit.prevent="handleLogin">
             <v-row>
               <v-col cols="12">
                 <v-text-field
                   v-model="loginForm.username"
-                  label="用户名"
+                  :label="t('login.loginForm.username')"
                 />
               </v-col>
 
@@ -39,22 +40,20 @@
                   :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   autocomplete="password"
-                  label="密码"
-                  placeholder="············"
+                  :label="t('login.loginForm.password')"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
                 <v-btn
                   block
                   class="my-6"
-                  to="/rooms"
                   type="submit"
-                  @click="handleLogin"
+                  :loading="loginLoading"
                 >
-                  登录
+                  {{ t('login.login') }}
                 </v-btn>
                 <v-dialog
                   v-model="registerDialogVisible"
-                  max-width="50%"
+                  :max-width="mobile?'80%':'50%'"
                 >
                   <template #activator="{ props: activatorProps }">
                     <v-btn
@@ -63,12 +62,12 @@
                       class="my-6"
                       v-bind="activatorProps"
                     >
-                      注册
+                      {{ t('login.register') }}
                     </v-btn>
                   </template>
 
                   <template #default="{ isActive }">
-                    <v-card title="用户注册">
+                    <v-card :title="t('login.register')">
                       <v-card-text>
                         <v-form
                           fast-fail
@@ -79,8 +78,7 @@
                             <v-text-field
                               v-model="registerForm.username"
                               class="mb-6"
-                              label="用户名"
-                              placeholder="请输入用户名"
+                              :label="t('login.registerForm.username')"
                               clearable
                               :rules="registerFormRules.username"
                             />
@@ -89,8 +87,7 @@
                             <v-text-field
                               v-model="registerForm.nickname"
                               class="mb-6"
-                              label="昵称"
-                              placeholder="请输入用户昵称"
+                              :label="t('login.registerForm.nickname')"
                               clearable
                               :rules="registerFormRules.nickname"
                             />
@@ -217,10 +214,9 @@
                               :type="isPasswordVisible ? 'text' : 'password'"
                               autocomplete="password"
                               class="mb-6"
-                              label="密码"
+                              :label="t('login.registerForm.password')"
                               :rules="registerFormRules.password"
                               clearable
-                              placeholder="请输入密码"
                               @click:append-inner="isPasswordVisible = !isPasswordVisible"
                             />
                           </v-row>
@@ -229,11 +225,12 @@
                             <v-btn
                               color="default"
                               variant="elevated"
-                              text="取消"
+                              :text="t('login.cancel')"
+                              class="mr-4"
                               @click="isActive.value = false"
                             />
                             <v-btn
-                              text="提交"
+                              :text="t('login.submit')"
                               variant="elevated"
                               type="submit"
                               :loading="registerLoading"
@@ -273,7 +270,7 @@
 <script setup>
 import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue"
 import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue"
-import {useDisplay, useTheme} from 'vuetify'
+import { useDisplay, useTheme } from 'vuetify'
 import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
@@ -293,9 +290,11 @@ import NavHeader from "@/layouts/components/NavHeader.vue"
 import Github from "@/layouts/components/GitHub.vue"
 import LangSelect from "@/layouts/components/LangSelect.vue"
 import Document from "@/layouts/components/Document.vue"
+import { useI18n } from "vue-i18n"
 
 
 const router = useRouter()
+const { t } = useI18n()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 
@@ -306,7 +305,7 @@ const {
   name,                  // 当前断点名称 ('xs', 'sm', 'md', 'lg', 'xl', 'xxl')
   width, height,         // 屏幕宽高
   mobile,                // 是否为移动设备
-  thresholds             // 断点阈值
+  thresholds,             // 断点阈值
 } = useDisplay()
 
 onMounted(() => {
@@ -326,35 +325,52 @@ const authThemeMask = computed(() => {
 
 const isPasswordVisible = ref(false)
 
+const loginLoading = ref(false)
+
 const handleLogin = async () => {
+  if (loginForm.value.username === "") {
+    showSnackbar(t('login.loginFormRule.username'), "error")
+    
+    return
+  }
+  if (loginForm.value.password === "") {
+    showSnackbar(t('login.loginFormRule.password'), "error")
+    
+    return
+  }
+
+  loginLoading.value = true
+
   const reqForm = deepCopy(loginForm.value)
 
   reqForm.password = SHA512(loginForm.value.password)
 
-  const resLogin = await userApi.login.post(reqForm)
+  userApi.login.post(reqForm).then(async response => {
+    const resLogin = await userApi.login.post(reqForm)
 
-  userStore.token = resLogin.data
+    userStore.token = resLogin.data
 
-  const resUser = await userApi.userinfo.get()
+    const resUser = await userApi.userinfo.get()
 
-  userStore.userInfo = resUser.data
+    userStore.userInfo = resUser.data
 
-  const resMenu = await userApi.menu.get()
+    const resMenu = await userApi.menu.get()
 
-  userStore.menus = resMenu.data
+    userStore.menus = resMenu.data
 
-  const redirect = router.currentRoute.value.query.redirect || '/rooms'
+    const redirect = router.currentRoute.value.query.redirect || '/rooms'
 
-  if (globalStore.language === "") {
-    globalStore.language = getBrowserLang()
-  }
-
-  if (globalStore.theme === "") {
-    globalStore.theme = "light"
-  }
-
-  await router.push(redirect)
-  showSnackbar('登录成功')
+    if (globalStore.language === "") {
+      globalStore.language = getBrowserLang()
+    }
+    if (globalStore.theme === "") {
+      globalStore.theme = "light"
+    }
+    await router.push(redirect)
+    showSnackbar(t('login.loginSuccess'))
+  }).finally(() => {
+    loginLoading.value = false
+  })
 }
 
 const registerDialogVisible = ref(false)
@@ -372,21 +388,21 @@ const registerFormRules = {
     value => {
       if (value) return true
       
-      return '请输入用户名'
+      return t('login.registerFormRule.username')
     },
   ],
   nickname: [
     value => {
       if (value) return true
       
-      return '请输入用户昵称'
+      return t('login.registerFormRule.nickname')
     },
   ],
   password: [
     value => {
       if (value) return true
       
-      return '请输入密码'
+      return t('login.registerFormRule.password')
     },
   ],
 }
@@ -396,7 +412,6 @@ const handleRegisterPost = async event => {
 
   const results = await event
 
-  console.log(results.valid)
   if (!results.valid) {
     registerLoading.value = false
     
@@ -409,9 +424,15 @@ const handleRegisterPost = async event => {
   reqForm.password = password
 
   userApi.register.post(reqForm).then(response => {
-    showSnackbar(response.message, 'success')
+    showSnackbar(response.message)
     registerLoading.value = false
     registerDialogVisible.value = false
+    registerForm.value = {
+      username: '',
+      nickname: '',
+      avatar: '1',
+      password: '',
+    }
   }).finally(() => {
     registerLoading.value = false
   })
