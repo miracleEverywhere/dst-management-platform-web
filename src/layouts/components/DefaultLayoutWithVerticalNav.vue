@@ -79,7 +79,7 @@ import NavItems from '@/layouts/components/NavItems.vue'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 
 // Components
-import Footer from '@/layouts/components/Footer.vue'
+// import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import LangSelect from '@/layouts/components/LangSelect.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'

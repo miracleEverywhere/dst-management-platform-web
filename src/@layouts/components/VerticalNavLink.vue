@@ -13,6 +13,7 @@ const props = defineProps({
     :class="{ disabled: item.disable }"
   >
     <Component
+        v-ripple
       :is="item.to ? 'RouterLink' : 'a'"
       :to="item.to"
       :href="item.href"
