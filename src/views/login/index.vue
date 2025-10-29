@@ -298,15 +298,7 @@ const { t } = useI18n()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 
-const {
-  xs, sm, md, lg, xl,   // 布尔值，当前屏幕是否匹配该断点
-  smAndUp, mdAndUp,      // 当前屏幕及以上尺寸
-  smAndDown, mdAndDown,  // 当前屏幕及以下尺寸
-  name,                  // 当前断点名称 ('xs', 'sm', 'md', 'lg', 'xl', 'xxl')
-  width, height,         // 屏幕宽高
-  mobile,                // 是否为移动设备
-  thresholds,             // 断点阈值
-} = useDisplay()
+const { mobile } = useDisplay()
 
 onMounted(() => {
 

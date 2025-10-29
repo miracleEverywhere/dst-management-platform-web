@@ -59,14 +59,14 @@ router.beforeEach(async (to, from, next) => {
 
 router.onError(error => {
   // 结束全屏动画
-  nprogress.done();
-  console.warn("路由错误", error.message);
+  nprogress.done()
+  console.warn("路由错误", error.message)
 })
 
 router.afterEach((to, from) => {
   // console.log("后置守卫", to, from);
   // 结束全屏动画
-  nprogress.done();
+  nprogress.done()
 })
 
 export default function (app) {
