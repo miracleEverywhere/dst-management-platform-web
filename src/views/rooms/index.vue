@@ -72,7 +72,7 @@
                 <template v-slot:activator="{ props }">
                   <v-btn
                     v-bind="props"
-                    :disabled="getRoomsLoading||roomStatusLoading"
+                    :disabled="getRoomsLoading"
                     color="primary"
                     icon="ri-more-2-line"
                   >
@@ -133,7 +133,7 @@
           <v-card-text
             v-ripple
             class="cursor-pointer"
-            @click="console.log(room.name)"
+            @click="gotoDashboard({name: room.name, displayName: room.displayName})"
           >
             <v-row v-if="room.gameName!==''">
               <v-col :cols="mobile?12:6">
@@ -258,19 +258,6 @@
       </v-card>
     </v-form>
   </v-dialog>
-  <v-dialog
-    v-model="switchDialog"
-    width="400px"
-  >
-    <v-card>
-      <div v-if="!x">
-        是否关闭
-      </div>
-      <div v-else>
-        是否开启
-      </div>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script setup>
@@ -278,9 +265,11 @@ import roomApi from "@/api/room"
 import { useDisplay } from "vuetify"
 import { CountTo } from "vue3-count-to"
 import useUserStore from "@/plugins/store/user";
+import useGlobalStore from "@/plugins/store/global";
 import {useI18n} from "vue-i18n";
 import {debounce} from "@/utils/tools";
 import {showSnackbar} from "@/utils/snackbar.js";
+import {useRouter} from "vue-router";
 
 
 onMounted(() => {
@@ -307,7 +296,9 @@ onMounted(() => {
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
+const router = useRouter()
 const userStore = useUserStore()
+const globalStore = useGlobalStore()
 
 const windowHeight = ref(window.innerHeight)
 
@@ -377,22 +368,11 @@ const handleCreate = async event => {
   })
 }
 
-const switchDialog = ref(false)
-const roomStatusLoading = ref(false)
-
-const handleOpenSwitchDialog = () => {
-  if (getRoomsLoading.value) {
-    return
-  }
-  roomStatusLoading.value = true
-  switchDialog.value = true
+const gotoDashboard = async (room) => {
+  globalStore.room = room
+  await router.push('/dashboard')
 }
 
-const handleRoomStatusSwitch = () => {
-  roomStatusLoading.value = false
-  switchDialog.value = false
-  getRooms()
-}
 
 watch(windowHeight, () => {
   getRooms()

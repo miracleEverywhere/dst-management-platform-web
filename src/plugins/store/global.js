@@ -16,6 +16,14 @@ const globalStore = defineStore("global", {
     return {
       theme: '',
       language: '',
+      room: {
+        name: '',
+        displayName: '',
+      },
+      gameVersion: {
+        server: 0,
+        local: 0,
+      },
     }
   },
   actions: {},
