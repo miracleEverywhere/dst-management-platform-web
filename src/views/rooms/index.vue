@@ -67,6 +67,7 @@
                 <v-chip :color="room.status?'success':'warning'" class="ml-4">
                   {{room.status?t('rooms.card.success.header.title.activated'):t('rooms.card.success.header.title.deactivated')}}
                 </v-chip>
+                <v-icon v-if="globalStore.room.name===room.name" icon="ri-crosshair-2-line" color="success" class="ml-4"></v-icon>
                 </div>
               <v-menu>
                 <template v-slot:activator="{ props }">
@@ -368,9 +369,10 @@ const handleCreate = async event => {
   })
 }
 
-const gotoDashboard = async (room) => {
+const gotoDashboard = (room) => {
+  if (globalStore.room.name === room.name) return
   globalStore.room = room
-  await router.push('/dashboard')
+  showSnackbar(t('rooms.card.click')+globalStore.room.displayName)
 }
 
 
@@ -380,7 +382,4 @@ watch(windowHeight, () => {
 </script>
 
 <style scoped>
-.v-card {
-  transition: all 0.3s ease;
-}
 </style>
