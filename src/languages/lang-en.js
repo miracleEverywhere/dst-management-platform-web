@@ -56,6 +56,11 @@ export default {
       },
       success: {
         header: {
+          title: {
+            name: 'Room Name: ',
+            activated: 'Activated',
+            deactivated: 'Deactivated',
+          },
           menu: {
             activate: 'Activate',
             deactivate: 'Deactivate',
@@ -73,6 +78,26 @@ export default {
       noResult: {
         title: 'No Rooms Found By Search',
         subTitle: 'Please change your search content and try again',
+      },
+    },
+    dialog: {
+      create: {
+        title: 'Create Room',
+        form: {
+          name: 'Room Name',
+          displayName: 'Room Nickname',
+        },
+        rules: {
+          name: 'Please input the Room Name',
+        },
+        tips: {
+          name: 'Used to distinguish between different rooms and cannot be duplicated',
+          displayName: 'To help you distinguish between different rooms more easily, this serves only as an identifier. If left blank, it will default to the room name.',
+        },
+        actions: {
+          cancel: 'Cancel',
+          create: 'Create',
+        },
       },
     },
   },
