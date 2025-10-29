@@ -17,6 +17,7 @@
       variant="elevated"
       size="large"
       class="mr-4"
+      @click="openCreateDialog"
     >
       {{t('rooms.header.button.create')}}
     </v-btn>
@@ -35,6 +36,7 @@
       :disabled="!userStore.userInfo.roomCreation&&userStore.userInfo.role!=='admin'"
       icon="ri-add-line"
       class="mr-4"
+      @click="openCreateDialog"
     />
     <v-btn
       v-if="mobile"
@@ -43,6 +45,7 @@
       @click="getRooms"
     />
   </div>
+
   <v-row class="mt-8">
     <v-row>
       <v-col
@@ -58,7 +61,12 @@
             <div class="fcb">
               <div class="fcc">
                   {{ room.displayName }}
-                  <v-chip color="default" class="ml-4">{{ room.name }}</v-chip>
+                  <v-chip color="default" class="ml-4">
+                    {{room.name}}
+                  </v-chip>
+                <v-chip :color="room.status?'success':'warning'" class="ml-4">
+                  {{room.status?t('rooms.card.success.header.title.activated'):t('rooms.card.success.header.title.deactivated')}}
+                </v-chip>
                 </div>
               <v-menu>
                 <template v-slot:activator="{ props }">
@@ -207,8 +215,48 @@
     </result>
   </div>
 
-  <v-dialog v-model="createDialog">
-
+  <v-dialog v-model="createDialog" :width="mobile?'90%':'65%'">
+    <v-form fast-fail @submit.prevent="handleCreate">
+      <v-card>
+        <v-card-title>
+          {{t('rooms.dialog.create.title')}}
+        </v-card-title>
+        <v-card-text class="mx-4">
+         <v-row class="mt-8">
+           <v-text-field
+             v-model="createForm.name"
+             v-tooltip="t('rooms.dialog.create.tips.name')"
+             :rules="createFormRules.name"
+             :label="t('rooms.dialog.create.form.name')"
+           />
+         </v-row>
+          <v-row class="mt-8">
+            <v-text-field
+              v-model="createForm.displayName"
+              v-tooltip="t('rooms.dialog.create.tips.displayName')"
+              :label="t('rooms.dialog.create.form.displayName')"
+            />
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="mt-16 mx-4 mb-8">
+          <v-spacer />
+          <v-btn
+            color="default"
+            variant="elevated"
+            @click="createDialog=false"
+            >
+            {{t('rooms.dialog.create.actions.cancel')}}
+          </v-btn>
+          <v-btn
+            :loading="createLoading"
+            variant="elevated"
+            type="submit"
+          >
+            {{t('rooms.dialog.create.actions.create')}}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-form>
   </v-dialog>
   <v-dialog
     v-model="switchDialog"
@@ -232,6 +280,7 @@ import { CountTo } from "vue3-count-to"
 import useUserStore from "@/plugins/store/user";
 import {useI18n} from "vue-i18n";
 import {debounce} from "@/utils/tools";
+import {showSnackbar} from "@/utils/snackbar.js";
 
 
 onMounted(() => {
@@ -290,16 +339,43 @@ const getRooms = () => {
   })
 }
 
-const gradients = [
-  ['#222'],
-  ['#42b3f4'],
-  ['red', 'orange', 'yellow'],
-  ['purple', 'violet'],
-  ['#00c6ff', '#F0F', '#FF0'],
-  ['#f72047', '#ffd200', '#1feaea'],
-]
-
 const createDialog = ref(false)
+const createRef = ref()
+const createForm = ref({
+  name: '',
+  displayName: '',
+})
+const createFormRules = ref({
+  name: [
+    value => {
+      if (value) return true
+      return t('rooms.dialog.create.rules.name')
+    },
+  ],
+})
+const createLoading = ref(false)
+const openCreateDialog = () => {
+  createForm.value = {
+    name: '',
+    displayName: '',
+  }
+  createDialog.value = true
+}
+const handleCreate = async event => {
+  createLoading.value = true
+  const results = await event
+  if (!results.valid) {
+    createLoading.value = false
+    return
+  }
+  roomApi.create.post(createForm.value).then(response => {
+    createDialog.value = false
+    getRooms()
+    showSnackbar(response.message)
+  }).finally(() => {
+    createLoading.value = false
+  })
+}
 
 const switchDialog = ref(false)
 const roomStatusLoading = ref(false)

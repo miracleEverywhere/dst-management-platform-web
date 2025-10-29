@@ -9,7 +9,7 @@ export default {
     logout: "退出平台",
   },
   menu: {
-    dashboard: "控制台",
+    dashboard: "控制面板",
     rooms: "房间总览",
   },
   login: {
@@ -56,6 +56,11 @@ export default {
       },
       success: {
         header: {
+          title: {
+            name: '房间名: ',
+            activated: '已激活',
+            deactivated: '已关闭',
+          },
           menu: {
             activate: '激活',
             deactivate: '关闭',
@@ -73,6 +78,26 @@ export default {
       noResult: {
         title: '没有发现对应的房间',
         subTitle: '请更换搜索内容重新查询吧',
+      },
+    },
+    dialog: {
+      create: {
+        title: '创建房间',
+        form: {
+          name: '房间名',
+          displayName: '房间昵称',
+        },
+        rules: {
+          name: '请输入房间名',
+        },
+        tips: {
+          name: '用于区分不同的房间，不可重复',
+          displayName: '为了让你能够更方便的区分不同的房间，只起到标识作用，如果不填则与房间名一致',
+        },
+        actions: {
+          cancel: '取消',
+          create: '创建',
+        },
       },
     },
   }
