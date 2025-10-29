@@ -5,8 +5,11 @@
       style="user-select: none;"
   >
     <div>
-      <v-chip label color="primary">
-        {{ globalStore.room.displayName}}
+      <v-chip v-if="globalStore.room.name" label color="primary">
+        {{ globalStore.room.displayName }}
+      </v-chip>
+      <v-chip v-else label color="primary">
+        {{ t('global.noRoom') }}
       </v-chip>
     </div>
   </div>
@@ -16,8 +19,11 @@
       style="user-select: none;"
   >
     <div>
-      <v-chip  color="primary" class="mr-4">
-        {{ t('global.room') + globalStore.room.displayName}}
+      <v-chip v-if="globalStore.room.name" color="primary" class="mr-4">
+        {{ t('global.room') + globalStore.room.displayName }}
+      </v-chip>
+      <v-chip v-else color="primary" class="mr-4">
+        {{ t('global.room') + t('global.noRoom')}}
       </v-chip>
     </div>
     <div>

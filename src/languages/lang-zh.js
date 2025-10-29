@@ -2,6 +2,7 @@ export default {
   global: {
     title: "饥荒管理平台",
     room: '当前房间: ',
+    noRoom:'未选择',
     gameVersion: '游戏版本: ',
     dmpVersion: '平台版本: ',
     github: "点击访问Github源码",
@@ -76,7 +77,8 @@ export default {
             delete: '删除',
           }
         },
-      }
+      },
+      click: '已选择房间: ',
     },
     result: {
       noRoom: {

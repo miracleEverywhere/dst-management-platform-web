@@ -2,6 +2,7 @@ export default {
   global: {
     title: "DMP",
     room: 'Room: ',
+    noRoom:'None',
     gameVersion: 'Game: ',
     dmpVersion: 'DMP: ',
     github: "Click to check the source code on GitHub",
@@ -76,7 +77,8 @@ export default {
             delete: 'Delete',
           }
         },
-      }
+      },
+      click: 'Selected Room: ',
     },
     result: {
       noRoom: {
