@@ -1,6 +1,9 @@
 export default {
   global: {
     title: "DMP",
+    room: 'Room: ',
+    gameVersion: 'Game: ',
+    dmpVersion: 'DMP: ',
     github: "Click to check the source code on GitHub",
     document: "Check the Documents",
     light: "Light",
@@ -11,6 +14,11 @@ export default {
   menu: {
     dashboard: "Dashboard",
     rooms: "Rooms",
+    game: 'Game',
+    gameBase:'Base',
+    gameMod: 'Mod',
+    gamePlayer: 'Player',
+    upload: 'Upload',
   },
   login: {
     welcome: "Welcome to DMP",

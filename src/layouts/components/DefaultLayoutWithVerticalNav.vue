@@ -11,21 +11,7 @@
           <v-icon icon="ri-menu-line" />
         </icon-btn>
 
-        <!-- 👉 Search -->
-        <div
-          class="d-flex align-center cursor-pointer"
-          style="user-select: none;"
-        >
-          <!-- 👉 Search Trigger button -->
-          <icon-btn>
-            <v-icon icon="ri-search-line" />
-          </icon-btn>
-
-          <span class="d-none d-md-flex align-center text-disabled">
-            <span class="me-3">Search</span>
-            <span class="meta-key">&#8984;K</span>
-          </span>
-        </div>
+        <header-main/>
 
         <v-spacer />
 
@@ -74,6 +60,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 import Github from "@/layouts/components/GitHub.vue"
 import Document from "@/layouts/components/Document.vue"
 import NavHeader from "@/layouts/components/NavHeader.vue"
+import HeaderMain from "@/layouts/components/headerMain.vue";
 </script>
 
 <style lang="scss" scoped>

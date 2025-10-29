@@ -1,6 +1,9 @@
 export default {
   global: {
     title: "饥荒管理平台",
+    room: '当前房间: ',
+    gameVersion: '游戏版本: ',
+    dmpVersion: '平台版本: ',
     github: "点击访问Github源码",
     document: "查看文档",
     light: "明亮",
@@ -11,6 +14,11 @@ export default {
   menu: {
     dashboard: "控制面板",
     rooms: "房间总览",
+    game: '游戏设置',
+    gameBase:'基础设置',
+    gameMod: '模组设置',
+    gamePlayer: '玩家设置',
+    upload: '存档导入',
   },
   login: {
     welcome: "欢迎使用饥荒管理平台",

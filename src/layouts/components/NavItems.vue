@@ -9,7 +9,7 @@
       v-if="menu.type==='group'"
       :key="menu.id"
       :item="{
-        title: menu.title,
+        title: t('menu.'+menu.title),
         badgeContent: menu.badgeContent,
         badgeClass: menu.badgeClass,
         icon: menu.icon
