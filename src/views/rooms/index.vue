@@ -12,7 +12,7 @@
     />
     <v-btn
       v-if="!mobile"
-      :disabled="!userStore.userInfo.roomCreation"
+      :disabled="!userStore.userInfo.roomCreation&&userStore.userInfo.role!=='admin'"
       prepend-icon="ri-add-line"
       variant="elevated"
       size="large"
@@ -32,7 +32,7 @@
     </v-btn>
     <v-btn
       v-if="mobile"
-      :disabled="!userStore.userInfo.roomCreation"
+      :disabled="!userStore.userInfo.roomCreation&&userStore.userInfo.role!=='admin'"
       icon="ri-add-line"
       class="mr-4"
     />
@@ -56,25 +56,70 @@
         >
           <v-card-title>
             <div class="fcb">
-                <div class="fcc">
-                  {{ room.displayName }}
-                  <v-chip color="primary" class="ml-2">{{ room.name }}</v-chip>
-                </div>
               <div class="fcc">
-                <v-switch
-                  v-model="room.status"
-                  :indeterminate="getRoomsLoading||roomStatusLoading"
-                  :disabled="getRoomsLoading||roomStatusLoading"
-                  color="success"
-                  hide-details
-                  @update:model-value="handleOpenSwitchDialog"
-                />
-                <v-btn
-                  icon="ri-delete-bin-line"
-                  variant="text"
-                  class="ml-2"
-                />
-              </div>
+                  {{ room.displayName }}
+                  <v-chip color="default" class="ml-4">{{ room.name }}</v-chip>
+                </div>
+              <v-menu>
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    :disabled="getRoomsLoading||roomStatusLoading"
+                    color="primary"
+                    icon="ri-more-2-line"
+                  >
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item class="text-success" @click="console.log(room.name)">
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-play-large-line"
+                        size="22"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('rooms.card.success.header.menu.activate') }}
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item class="text-warning" @click="console.log(room.name)">
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-stop-large-line"
+                        color="warning"
+                        size="22"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('rooms.card.success.header.menu.deactivate') }}
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item class="text-info" @click="console.log(room.name)">
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-file-edit-line"
+                        size="22"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('rooms.card.success.header.menu.edit') }}
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item class="text-error" @click="console.log(room.name)">
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-delete-bin-line"
+                        color="error"
+                        size="22"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('rooms.card.success.header.menu.delete') }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </div>
           </v-card-title>
           <v-card-text
@@ -82,9 +127,13 @@
             class="cursor-pointer"
             @click="console.log(room.name)"
           >
-            <v-row>
+            <v-row v-if="room.gameName!==''">
               <v-col :cols="mobile?12:6">
-                我是房间配置
+                <v-row>
+                  <v-col>
+                    <v-btn>{{room.gameName}}</v-btn>
+                  </v-col>
+                </v-row>
               </v-col>
               <v-col :cols="mobile?12:6">
                 <v-card
@@ -126,6 +175,13 @@
                 </v-card>
               </v-col>
             </v-row>
+            <v-row v-else>
+              <result type="warning" :height="mobile?600:300"
+                      :title="t('rooms.card.warning.title')"
+                      :sub-title="t('rooms.card.warning.subTitle')">
+
+              </result>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -139,12 +195,21 @@
     @update:model-value="getRooms"
   />
   <div v-if="rooms.length===0&&reqForm.name!==''">
-    没有找到对应的集群哦
+    <result type="warning" :height="windowHeight"
+            :title="t('rooms.result.noResult.title')"
+            :sub-title="t('rooms.result.noResult.subTitle')">
+    </result>
   </div>
   <div v-if="rooms.length===0&&reqForm.name===''">
-    没有发现房间，点击右上角新建房间按钮新建一个吧
+    <result type="warning" :height="windowHeight"
+            :title="t('rooms.result.noRoom.title')"
+            :sub-title="t('rooms.result.noRoom.subTitle')">
+    </result>
   </div>
 
+  <v-dialog v-model="createDialog">
+
+  </v-dialog>
   <v-dialog
     v-model="switchDialog"
     width="400px"
@@ -166,6 +231,7 @@ import { useDisplay } from "vuetify"
 import { CountTo } from "vue3-count-to"
 import useUserStore from "@/plugins/store/user";
 import {useI18n} from "vue-i18n";
+import {debounce} from "@/utils/tools";
 
 
 onMounted(() => {
@@ -204,18 +270,6 @@ const calculatePageSize = () => {
   return Math.max(2, Math.floor((windowHeight.value - usedHeight) / cardHeight) * 2)
 }
 
-const debounce = (fn, delay) => {
-  let timer
-  
-  return (...args) => {
-    clearTimeout(timer)
-    timer = setTimeout(() => fn.apply(this, args), delay)
-  }
-}
-
-
-const x = ref(false)
-
 const reqForm = ref({
   name: "",
   page: 1,
@@ -244,6 +298,8 @@ const gradients = [
   ['#00c6ff', '#F0F', '#FF0'],
   ['#f72047', '#ffd200', '#1feaea'],
 ]
+
+const createDialog = ref(false)
 
 const switchDialog = ref(false)
 const roomStatusLoading = ref(false)

@@ -50,7 +50,30 @@ export default {
       },
     },
     card: {
-
+      warning: {
+        title: '房间未配置',
+        subTitle: '请点击房间卡片进入配置页面',
+      },
+      success: {
+        header: {
+          menu: {
+            activate: '激活',
+            deactivate: '关闭',
+            edit: '编辑',
+            delete: '删除',
+          }
+        },
+      }
+    },
+    result: {
+      noRoom: {
+        title: '没有发现房间',
+        subTitle: '请点击右上角的新建按钮创建一个吧',
+      },
+      noResult: {
+        title: '没有发现对应的房间',
+        subTitle: '请更换搜索内容重新查询吧',
+      },
     },
   }
 }
