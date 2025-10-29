@@ -50,7 +50,30 @@ export default {
       },
     },
     card: {
-
+      warning: {
+        title: 'Room NOT Configured',
+        subTitle: 'Click this card to configure the room'
+      },
+      success: {
+        header: {
+          menu: {
+            activate: 'Activate',
+            deactivate: 'Deactivate',
+            edit: 'Edit',
+            delete: 'Delete',
+          }
+        },
+      }
+    },
+    result: {
+      noRoom: {
+        title: 'No Rooms Found',
+        subTitle: 'Please click the "Create" button in the upper right corner to create one',
+      },
+      noResult: {
+        title: 'No Rooms Found By Search',
+        subTitle: 'Please change your search content and try again',
+      },
     },
   },
 }

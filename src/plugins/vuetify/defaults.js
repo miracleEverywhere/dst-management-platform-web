@@ -23,7 +23,6 @@ export default {
   },
   VChip: {
     elevation: 0,
-    label: true,
   },
   VMenu: {
     offset: '2px',

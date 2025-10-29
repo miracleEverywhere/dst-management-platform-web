@@ -273,3 +273,11 @@ export const getToken = () => {
 export const SHA512 = data => {
   return CryptoJS.SHA512(data).toString()
 }
+
+export const debounce = (fn, delay) => {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn.apply(this, args), delay)
+  }
+}
