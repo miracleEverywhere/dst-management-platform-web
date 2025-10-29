@@ -339,7 +339,7 @@ const handleLogin = async () => {
 
     userStore.token = resLogin.data
 
-    const resUser = await userApi.userinfo.get()
+    const resUser = await userApi.base.get()
 
     userStore.userInfo = resUser.data
 
