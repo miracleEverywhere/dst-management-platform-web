@@ -38,4 +38,19 @@ export default {
     submit: "Submit",
     loginSuccess: "Login Success",
   },
+  rooms: {
+    header: {
+      input: {
+        label: 'Search',
+        placeholder: 'Search by room name or room nickname',
+      },
+      button: {
+        create: 'Create',
+        refresh: 'Refresh',
+      },
+    },
+    card: {
+
+    },
+  },
 }
