@@ -2,8 +2,8 @@
   <div class="fcc">
     <v-text-field
       v-model="reqForm.name"
-      label="搜索"
-      placeholder="请输入房间名或房间昵称搜索"
+      :label="t('rooms.header.input.label')"
+      :placeholder="t('rooms.header.input.placeholder')"
       append-inner-icon="ri-search-line"
       class="mr-4"
       :loading="getRoomsLoading"
@@ -18,7 +18,7 @@
       size="large"
       class="mr-4"
     >
-      新建房间
+      {{t('rooms.header.button.create')}}
     </v-btn>
     <v-btn
       v-if="!mobile"
@@ -28,7 +28,7 @@
       size="large"
       @click="getRooms"
     >
-      刷新
+      {{t('rooms.header.button.refresh')}}
     </v-btn>
     <v-btn
       v-if="mobile"
@@ -49,87 +49,85 @@
         v-for="room in rooms"
         :cols="mobile?12:6"
       >
-        <v-hover v-slot="{ isHovering, props }">
-          <v-card
-            variant="flat"
-            :height="mobile?'600px':'300px'"
-            v-bind="props"
-            :elevation="isHovering ? 6 : 0"
-          >
-            <v-card-title>
-              <div class="card-header">
-                <span>
-                  {{ room.name }}
-                </span>
+        <v-card
+          :hover="true"
+          variant="flat"
+          :height="mobile?'600px':'300px'"
+        >
+          <v-card-title>
+            <div class="fcb">
                 <div class="fcc">
-                  <v-switch
-                    v-model="room.status"
-                    :indeterminate="getRoomsLoading||roomStatusLoading"
-                    :disabled="getRoomsLoading||roomStatusLoading"
-                    color="success"
-                    hide-details
-                    @update:model-value="handleOpenSwitchDialog"
-                  />
-                  <v-btn
-                    icon="ri-delete-bin-line"
-                    variant="text"
-                    class="ml-2"
-                  />
+                  {{ room.displayName }}
+                  <v-chip color="primary" class="ml-2">{{ room.name }}</v-chip>
                 </div>
+              <div class="fcc">
+                <v-switch
+                  v-model="room.status"
+                  :indeterminate="getRoomsLoading||roomStatusLoading"
+                  :disabled="getRoomsLoading||roomStatusLoading"
+                  color="success"
+                  hide-details
+                  @update:model-value="handleOpenSwitchDialog"
+                />
+                <v-btn
+                  icon="ri-delete-bin-line"
+                  variant="text"
+                  class="ml-2"
+                />
               </div>
-            </v-card-title>
-            <v-card-text
-              v-ripple
-              class="cursor-pointer"
-              @click="console.log(room.name)"
-            >
-              <v-row>
-                <v-col :cols="mobile?12:6">
-                  我是房间配置
-                </v-col>
-                <v-col :cols="mobile?12:6">
-                  <v-card
-                    class="mx-auto"
-                    color="surface-light"
-                  >
-                    <template #prepend>
-                      <v-icon
-                        color="primary"
-                        class="me-8"
-                        icon="ri-line-chart-line"
-                        size="64"
-                      />
-                    </template>
-                    <template #title>
-                      <div class="text-caption text-grey">
-                        60分钟最大玩家数
-                      </div>
-                      <span class="text-h3 font-weight-black">
+            </div>
+          </v-card-title>
+          <v-card-text
+            v-ripple
+            class="cursor-pointer"
+            @click="console.log(room.name)"
+          >
+            <v-row>
+              <v-col :cols="mobile?12:6">
+                我是房间配置
+              </v-col>
+              <v-col :cols="mobile?12:6">
+                <v-card
+                  class="mx-auto"
+                  color="surface-light"
+                >
+                  <template #prepend>
+                    <v-icon
+                      color="primary"
+                      class="me-8"
+                      icon="ri-line-chart-line"
+                      size="64"
+                    />
+                  </template>
+                  <template #title>
+                    <div class="text-caption text-grey">
+                      60分钟最大玩家数
+                    </div>
+                    <span class="text-h3 font-weight-black">
                         <count-to
                           :duration="4000"
                           :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
                           :start-val="0"
                         />
                       </span>
-                      <strong>人</strong>
-                    </template>
-                    <v-sheet color="transparent">
-                      <v-sparkline
-                        :gradient="['#f72047', '#ffd200', '#1feaea']"
-                        :line-width="3"
-                        :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
-                        :smooth="true"
-                        padding="8"
-                        stroke-linecap="round"
-                        auto-draw
-                      />
-                    </v-sheet>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-hover>
+                    <strong>人</strong>
+                  </template>
+                  <v-sheet color="transparent">
+                    <v-sparkline
+                      :gradient="['#f72047', '#ffd200', '#1feaea']"
+                      :line-width="3"
+                      :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
+                      :smooth="true"
+                      padding="8"
+                      stroke-linecap="round"
+                      auto-draw
+                    />
+                  </v-sheet>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-row>
@@ -167,6 +165,7 @@ import roomApi from "@/api/room"
 import { useDisplay } from "vuetify"
 import { CountTo } from "vue3-count-to"
 import useUserStore from "@/plugins/store/user";
+import {useI18n} from "vue-i18n";
 
 
 onMounted(() => {
@@ -192,6 +191,7 @@ onMounted(() => {
 })
 
 const { mobile } = useDisplay()
+const { t } = useI18n()
 const userStore = useUserStore()
 
 const windowHeight = ref(window.innerHeight)

@@ -38,4 +38,19 @@ export default {
     submit: "提交",
     loginSuccess: "登录成功",
   },
+  rooms: {
+    header: {
+      input: {
+        label: '搜索',
+        placeholder: '请输入房间名或房间昵称搜索',
+      },
+      button: {
+        create: '新建房间',
+        refresh: '刷新',
+      },
+    },
+    card: {
+
+    },
+  }
 }
