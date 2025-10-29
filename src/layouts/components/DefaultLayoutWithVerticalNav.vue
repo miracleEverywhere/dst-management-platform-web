@@ -59,7 +59,7 @@
     </template>
 
     <template #vertical-nav-content>
-      <nav-items/>
+      <nav-items />
     </template>
     <slot />
   </vertical-nav-layout>

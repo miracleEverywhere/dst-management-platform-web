@@ -81,5 +81,7 @@ export const generateLogo = (color="#8C57FF") => {
   </g>
 </svg>
 `
+
+  
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(a)}`
 }

@@ -1,13 +1,13 @@
 // 定义全局主题配置小仓库[选择式Api写法]
-import { defineStore } from "pinia"
-import { PiniaPrefix } from "@/config/index"
+import { defineStore } from 'pinia'
+import { PiniaPrefix } from '@/config/index'
 
 // defineStore方法执行会返回一个函数，函数的作用就是让组件可以获取到仓库数据
-const userStore = defineStore("user", {
+const userStore = defineStore('user', {
   // 开启数据持久化
   persist: {
     // enabled: true, // true 表示开启持久化保存
-    key: PiniaPrefix + "user", // 默认会以 store 的 id 作为 key
+    key: PiniaPrefix + 'user', // 默认会以 store 的 id 作为 key
     storage: localStorage,
   },
 
@@ -20,21 +20,28 @@ const userStore = defineStore("user", {
         nickname: '',
         role: '',
         avatar: '1',
+        password: '',
+        disabled: false,
+        rooms: '',
+        roomCreation: false,
+        maxWorlds: 0,
       },
       token: '',
     }
   },
   actions: {
-    // async getMenus() {
-    //   this.menus = await authApi.menu.get()
-    // },
     clearStore() {
       this.menus = []
       this.userInfo = {
         username: '',
         nickname: '',
         role: '',
-        avatar: '',
+        avatar: '1',
+        password: '',
+        disabled: false,
+        rooms: '',
+        roomCreation: false,
+        maxWorlds: 0,
       }
       this.token = ''
     },

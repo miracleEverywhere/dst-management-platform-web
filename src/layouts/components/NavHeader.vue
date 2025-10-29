@@ -11,12 +11,12 @@
 </template>
 
 <script setup>
-import {generateLogo} from "@/utils/logo.js";
+import { generateLogo } from "@/utils/logo.js"
+
 const logo = generateLogo()
 </script>
 
 <style scoped>
-
 .logo {
   width: 3em!important;
   height: 2em!important;

@@ -1,75 +1,120 @@
 <template>
   <div class="fcc">
-    <v-text-field v-model="reqForm.name"
-                  label="搜索"
-                  placeholder="请输入房间名或房间昵称搜索"
-                  append-inner-icon="ri-search-line"
-                  class="mr-4"
-                  :loading="getRoomsLoading"
-                  @click:append-inner="getRooms"
-                  @keyup.enter="getRooms"
-    ></v-text-field>
-    <v-btn v-if="!mobile" prepend-icon="ri-add-line" variant="elevated" size="large" class="mr-4">新建房间</v-btn>
-    <v-btn v-if="!mobile" prepend-icon="ri-refresh-line" color="default" variant="elevated" size="large" @click="getRooms">刷新</v-btn>
-    <v-btn v-if="mobile" icon="ri-add-line" class="mr-4"></v-btn>
-    <v-btn v-if="mobile" icon="ri-refresh-line" color="default" @click="getRooms"></v-btn>
+    <v-text-field
+      v-model="reqForm.name"
+      label="搜索"
+      placeholder="请输入房间名或房间昵称搜索"
+      append-inner-icon="ri-search-line"
+      class="mr-4"
+      :loading="getRoomsLoading"
+      @click:append-inner="getRooms"
+      @keyup.enter="getRooms"
+    />
+    <v-btn
+      v-if="!mobile"
+      :disabled="!userStore.userInfo.roomCreation"
+      prepend-icon="ri-add-line"
+      variant="elevated"
+      size="large"
+      class="mr-4"
+    >
+      新建房间
+    </v-btn>
+    <v-btn
+      v-if="!mobile"
+      prepend-icon="ri-refresh-line"
+      color="default"
+      variant="elevated"
+      size="large"
+      @click="getRooms"
+    >
+      刷新
+    </v-btn>
+    <v-btn
+      v-if="mobile"
+      :disabled="!userStore.userInfo.roomCreation"
+      icon="ri-add-line"
+      class="mr-4"
+    />
+    <v-btn
+      v-if="mobile"
+      icon="ri-refresh-line"
+      color="default"
+      @click="getRooms"
+    />
   </div>
   <v-row class="mt-8">
     <v-row>
-      <v-col v-for="room in rooms" :cols="mobile?12:6">
+      <v-col
+        v-for="room in rooms"
+        :cols="mobile?12:6"
+      >
         <v-hover v-slot="{ isHovering, props }">
-        <v-card variant="flat" :height="mobile?'600px':'300px'" v-bind="props"
-                :elevation="isHovering ? 6 : 0">
-          <v-card-title>
-            <div class="card-header">
-              <span>
-                {{room.name}}
-              </span>
-              <div class="fcc">
-                <v-switch
+          <v-card
+            variant="flat"
+            :height="mobile?'600px':'300px'"
+            v-bind="props"
+            :elevation="isHovering ? 6 : 0"
+          >
+            <v-card-title>
+              <div class="card-header">
+                <span>
+                  {{ room.name }}
+                </span>
+                <div class="fcc">
+                  <v-switch
                     v-model="room.status"
                     :indeterminate="getRoomsLoading||roomStatusLoading"
                     :disabled="getRoomsLoading||roomStatusLoading"
                     color="success"
                     hide-details
                     @update:model-value="handleOpenSwitchDialog"
-                ></v-switch>
-                <v-btn icon="ri-delete-bin-line" variant="text" class="ml-2">
-
-                </v-btn>
+                  />
+                  <v-btn
+                    icon="ri-delete-bin-line"
+                    variant="text"
+                    class="ml-2"
+                  />
+                </div>
               </div>
-            </div>
-
-          </v-card-title>
-          <v-card-text v-ripple @click="console.log(room.name)" class="cursor-pointer">
-            <v-row>
-              <v-col :cols="mobile?12:6">
-                我是房间配置
-              </v-col>
-              <v-col :cols="mobile?12:6">
-                <v-card
+            </v-card-title>
+            <v-card-text
+              v-ripple
+              class="cursor-pointer"
+              @click="console.log(room.name)"
+            >
+              <v-row>
+                <v-col :cols="mobile?12:6">
+                  我是房间配置
+                </v-col>
+                <v-col :cols="mobile?12:6">
+                  <v-card
                     class="mx-auto"
                     color="surface-light"
-                >
-                  <template v-slot:prepend>
-                    <v-icon
+                  >
+                    <template #prepend>
+                      <v-icon
                         color="primary"
                         class="me-8"
                         icon="ri-line-chart-line"
                         size="64"
-                    ></v-icon>
-                  </template>
-                  <template v-slot:title>
-                    <div class="text-caption text-grey">
-                      60分钟最大玩家数
-                    </div>
-                    <span class="text-h3 font-weight-black">
-                      <CountTo :duration="4000" :endVal="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])" :startVal="0"/>
-                    </span>
-                    <strong>人</strong>
-                  </template>
-                  <v-sheet color="transparent">
-                    <v-sparkline
+                      />
+                    </template>
+                    <template #title>
+                      <div class="text-caption text-grey">
+                        60分钟最大玩家数
+                      </div>
+                      <span class="text-h3 font-weight-black">
+                        <count-to
+                          :duration="4000"
+                          :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
+                          :start-val="0"
+                        />
+                      </span>
+                      <strong>人</strong>
+                    </template>
+                    <v-sheet color="transparent">
+                      <v-sparkline
                         :gradient="['#f72047', '#ffd200', '#1feaea']"
                         :line-width="3"
                         :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
@@ -77,25 +122,24 @@
                         padding="8"
                         stroke-linecap="round"
                         auto-draw
-                    >
-                    </v-sparkline>
-                  </v-sheet>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+                      />
+                    </v-sheet>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
         </v-hover>
       </v-col>
     </v-row>
   </v-row>
   <v-pagination
-      v-if="total > reqForm.pageSize"
-      v-model="reqForm.page"
-      :length="Math.max(1, Math.ceil(total/reqForm.pageSize))"
-      @update:modelValue="getRooms"
-      class="mt-8"
-  ></v-pagination>
+    v-if="total > reqForm.pageSize"
+    v-model="reqForm.page"
+    :length="Math.max(1, Math.ceil(total/reqForm.pageSize))"
+    class="mt-8"
+    @update:model-value="getRooms"
+  />
   <div v-if="rooms.length===0&&reqForm.name!==''">
     没有找到对应的集群哦
   </div>
@@ -103,7 +147,10 @@
     没有发现房间，点击右上角新建房间按钮新建一个吧
   </div>
 
-  <v-dialog v-model="switchDialog" width="400px">
+  <v-dialog
+    v-model="switchDialog"
+    width="400px"
+  >
     <v-card>
       <div v-if="!x">
         是否关闭
@@ -115,11 +162,11 @@
   </v-dialog>
 </template>
 
-
 <script setup>
 import roomApi from "@/api/room"
-import {useDisplay} from "vuetify";
-import {CountTo} from "vue3-count-to"
+import { useDisplay } from "vuetify"
+import { CountTo } from "vue3-count-to"
+import useUserStore from "@/plugins/store/user";
 
 
 onMounted(() => {
@@ -144,7 +191,8 @@ onMounted(() => {
   })
 })
 
-const {mobile} = useDisplay()
+const { mobile } = useDisplay()
+const userStore = useUserStore()
 
 const windowHeight = ref(window.innerHeight)
 
@@ -152,11 +200,13 @@ const calculatePageSize = () => {
   // 64(navbar) + 48(margin) + 44(pagination) + 24 * 2(card margins) = 204
   const usedHeight = 204
   const cardHeight = 300
+  
   return Math.max(2, Math.floor((windowHeight.value - usedHeight) / cardHeight) * 2)
 }
 
 const debounce = (fn, delay) => {
   let timer
+  
   return (...args) => {
     clearTimeout(timer)
     timer = setTimeout(() => fn.apply(this, args), delay)
@@ -171,6 +221,7 @@ const reqForm = ref({
   page: 1,
   pageSize: 6,
 })
+
 const rooms = ref([])
 const total = ref(0)
 const getRoomsLoading = ref(false)
@@ -193,8 +244,10 @@ const gradients = [
   ['#00c6ff', '#F0F', '#FF0'],
   ['#f72047', '#ffd200', '#1feaea'],
 ]
+
 const switchDialog = ref(false)
 const roomStatusLoading = ref(false)
+
 const handleOpenSwitchDialog = () => {
   if (getRoomsLoading.value) {
     return
@@ -211,8 +264,7 @@ const handleRoomStatusSwitch = () => {
 
 watch(windowHeight, () => {
   getRooms()
-}, { immediate: true });
-
+}, { immediate: true })
 </script>
 
 <style scoped>
