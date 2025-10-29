@@ -368,7 +368,7 @@ const handleCreate = async event => {
     createLoading.value = false
     return
   }
-  roomApi.create.post(createForm.value).then(response => {
+  roomApi.base.post(createForm.value).then(response => {
     createDialog.value = false
     getRooms()
     showSnackbar(response.message)

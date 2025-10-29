@@ -13,8 +13,8 @@ export default {
       return await http.post(this.url, data)
     },
   },
-  userinfo: {
-    url: `/user/userinfo`,
+  base: {
+    url: `/user/base`,
     get: async function(data){
       return await http.get(this.url, data)
     },
