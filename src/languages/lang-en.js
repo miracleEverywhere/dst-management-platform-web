@@ -2,7 +2,7 @@ export default {
   global: {
     title: "DMP",
     room: 'Room: ',
-    noRoom:'None',
+    noRoom: 'None',
     gameVersion: 'Game: ',
     dmpVersion: 'DMP: ',
     github: "Click to check the source code on GitHub",
@@ -11,12 +11,16 @@ export default {
     dark: "Dark",
     profile: "Profile",
     logout: "Logout",
+    result: {
+      title: 'No Room Selected',
+      subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
+    }
   },
   menu: {
     dashboard: "Dashboard",
     rooms: "Rooms",
     game: 'Game',
-    gameBase:'Base',
+    gameBase: 'Base',
     gameMod: 'Mod',
     gamePlayer: 'Player',
     upload: 'Upload',
@@ -61,7 +65,7 @@ export default {
     card: {
       warning: {
         title: 'Room NOT Configured',
-        subTitle: 'Click this card to configure the room'
+        subTitle: 'Click this card to configure the room',
       },
       success: {
         header: {
@@ -75,7 +79,7 @@ export default {
             deactivate: 'Deactivate',
             edit: 'Edit',
             delete: 'Delete',
-          }
+          },
         },
       },
       click: 'Selected Room: ',

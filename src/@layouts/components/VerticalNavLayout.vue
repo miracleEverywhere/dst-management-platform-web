@@ -14,7 +14,7 @@ export default defineComponent({
     // ℹ️ This is alternative to below two commented watcher
     // We want to show overlay if overlay nav is visible and want to hide overlay if overlay is hidden and vice versa.
     syncRef(isOverlayNavActive, isLayoutOverlayVisible)
-    
+
     return () => {
       // 👉 Vertical nav
       const verticalNav = h(VerticalNav, { isOverlayNavActive: isOverlayNavActive.value, toggleIsOverlayNavActive }, {
@@ -36,9 +36,9 @@ export default defineComponent({
 
 
       // 👉 Footer
-      const footer = h('footer', { class: 'layout-footer' }, [
-        h('div', { class: 'footer-content-container' }, slots.footer?.()),
-      ])
+      // const footer = h('footer', { class: 'layout-footer' }, [
+      //   h('div', { class: 'footer-content-container' }, slots.footer?.()),
+      // ])
 
 
       // 👉 Overlay
@@ -58,7 +58,7 @@ export default defineComponent({
         h('div', { class: 'layout-content-wrapper' }, [
           navbar,
           main,
-          footer,
+          // footer,
         ]),
         layoutOverlay,
       ])

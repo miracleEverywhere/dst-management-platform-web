@@ -19,7 +19,7 @@
       class="mr-4"
       @click="openCreateDialog"
     >
-      {{t('rooms.header.button.create')}}
+      {{ t('rooms.header.button.create') }}
     </v-btn>
     <v-btn
       v-if="!mobile"
@@ -29,7 +29,7 @@
       size="large"
       @click="getRooms"
     >
-      {{t('rooms.header.button.refresh')}}
+      {{ t('rooms.header.button.refresh') }}
     </v-btn>
     <v-btn
       v-if="mobile"
@@ -60,28 +60,41 @@
           <v-card-title>
             <div class="fcb">
               <div class="fcc">
-                  {{ room.displayName }}
-                  <v-chip color="default" class="ml-4">
-                    {{room.name}}
-                  </v-chip>
-                <v-chip :color="room.status?'success':'warning'" class="ml-4">
-                  {{room.status?t('rooms.card.success.header.title.activated'):t('rooms.card.success.header.title.deactivated')}}
+                {{ room.displayName }}
+                <v-chip
+                  color="default"
+                  class="ml-4"
+                >
+                  {{ room.name }}
                 </v-chip>
-                <v-icon v-if="globalStore.room.name===room.name" icon="ri-crosshair-2-line" color="success" class="ml-4"></v-icon>
-                </div>
+                <v-chip
+                  :color="room.status?'success':'warning'"
+                  class="ml-4"
+                >
+                  {{ room.status?t('rooms.card.success.header.title.activated'):t('rooms.card.success.header.title.deactivated') }}
+                </v-chip>
+                <v-icon
+                  v-if="globalStore.room.name===room.name"
+                  icon="ri-crosshair-2-line"
+                  color="info"
+                  class="ml-4"
+                />
+              </div>
               <v-menu>
-                <template v-slot:activator="{ props }">
+                <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
                     :disabled="getRoomsLoading"
                     color="primary"
                     icon="ri-more-2-line"
-                  >
-                  </v-btn>
+                  />
                 </template>
 
                 <v-list>
-                  <v-list-item class="text-success" @click="console.log(room.name)">
+                  <v-list-item
+                    class="text-success"
+                    @click="console.log(room.name)"
+                  >
                     <template #prepend>
                       <v-icon
                         icon="ri-play-large-line"
@@ -92,7 +105,10 @@
                       {{ t('rooms.card.success.header.menu.activate') }}
                     </v-list-item-title>
                   </v-list-item>
-                  <v-list-item class="text-warning" @click="console.log(room.name)">
+                  <v-list-item
+                    class="text-warning"
+                    @click="console.log(room.name)"
+                  >
                     <template #prepend>
                       <v-icon
                         icon="ri-stop-large-line"
@@ -104,7 +120,10 @@
                       {{ t('rooms.card.success.header.menu.deactivate') }}
                     </v-list-item-title>
                   </v-list-item>
-                  <v-list-item class="text-info" @click="console.log(room.name)">
+                  <v-list-item
+                    class="text-info"
+                    @click="console.log(room.name)"
+                  >
                     <template #prepend>
                       <v-icon
                         icon="ri-file-edit-line"
@@ -115,7 +134,10 @@
                       {{ t('rooms.card.success.header.menu.edit') }}
                     </v-list-item-title>
                   </v-list-item>
-                  <v-list-item class="text-error" @click="console.log(room.name)">
+                  <v-list-item
+                    class="text-error"
+                    @click="console.log(room.name)"
+                  >
                     <template #prepend>
                       <v-icon
                         icon="ri-delete-bin-line"
@@ -140,7 +162,7 @@
               <v-col :cols="mobile?12:6">
                 <v-row>
                   <v-col>
-                    <v-btn>{{room.gameName}}</v-btn>
+                    <v-btn>{{ room.gameName }}</v-btn>
                   </v-col>
                 </v-row>
               </v-col>
@@ -162,12 +184,12 @@
                       60分钟最大玩家数
                     </div>
                     <span class="text-h3 font-weight-black">
-                        <count-to
-                          :duration="4000"
-                          :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
-                          :start-val="0"
-                        />
-                      </span>
+                      <count-to
+                        :duration="4000"
+                        :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
+                        :start-val="0"
+                      />
+                    </span>
                     <strong>人</strong>
                   </template>
                   <v-sheet color="transparent">
@@ -185,11 +207,12 @@
               </v-col>
             </v-row>
             <v-row v-else>
-              <result type="warning" :height="mobile?600:300"
-                      :title="t('rooms.card.warning.title')"
-                      :sub-title="t('rooms.card.warning.subTitle')">
-
-              </result>
+              <result
+                type="warning"
+                :height="mobile?600:300"
+                :title="t('rooms.card.warning.title')"
+                :sub-title="t('rooms.card.warning.subTitle')"
+              />
             </v-row>
           </v-card-text>
         </v-card>
@@ -204,33 +227,43 @@
     @update:model-value="getRooms"
   />
   <div v-if="rooms.length===0&&reqForm.name!==''">
-    <result type="warning" :height="windowHeight"
-            :title="t('rooms.result.noResult.title')"
-            :sub-title="t('rooms.result.noResult.subTitle')">
-    </result>
+    <result
+      type="warning"
+      :height="windowHeight"
+      :title="t('rooms.result.noResult.title')"
+      :sub-title="t('rooms.result.noResult.subTitle')"
+    />
   </div>
   <div v-if="rooms.length===0&&reqForm.name===''">
-    <result type="warning" :height="windowHeight"
-            :title="t('rooms.result.noRoom.title')"
-            :sub-title="t('rooms.result.noRoom.subTitle')">
-    </result>
+    <result
+      type="warning"
+      :height="windowHeight"
+      :title="t('rooms.result.noRoom.title')"
+      :sub-title="t('rooms.result.noRoom.subTitle')"
+    />
   </div>
 
-  <v-dialog v-model="createDialog" :width="mobile?'90%':'65%'">
-    <v-form fast-fail @submit.prevent="handleCreate">
+  <v-dialog
+    v-model="createDialog"
+    :width="mobile?'90%':'65%'"
+  >
+    <v-form
+      fast-fail
+      @submit.prevent="handleCreate"
+    >
       <v-card>
         <v-card-title>
-          {{t('rooms.dialog.create.title')}}
+          {{ t('rooms.dialog.create.title') }}
         </v-card-title>
         <v-card-text class="mx-4">
-         <v-row class="mt-8">
-           <v-text-field
-             v-model="createForm.name"
-             v-tooltip="t('rooms.dialog.create.tips.name')"
-             :rules="createFormRules.name"
-             :label="t('rooms.dialog.create.form.name')"
-           />
-         </v-row>
+          <v-row class="mt-8">
+            <v-text-field
+              v-model="createForm.name"
+              v-tooltip="t('rooms.dialog.create.tips.name')"
+              :rules="createFormRules.name"
+              :label="t('rooms.dialog.create.form.name')"
+            />
+          </v-row>
           <v-row class="mt-8">
             <v-text-field
               v-model="createForm.displayName"
@@ -245,15 +278,15 @@
             color="default"
             variant="elevated"
             @click="createDialog=false"
-            >
-            {{t('rooms.dialog.create.actions.cancel')}}
+          >
+            {{ t('rooms.dialog.create.actions.cancel') }}
           </v-btn>
           <v-btn
             :loading="createLoading"
             variant="elevated"
             type="submit"
           >
-            {{t('rooms.dialog.create.actions.create')}}
+            {{ t('rooms.dialog.create.actions.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -265,12 +298,12 @@
 import roomApi from "@/api/room"
 import { useDisplay } from "vuetify"
 import { CountTo } from "vue3-count-to"
-import useUserStore from "@/plugins/store/user";
-import useGlobalStore from "@/plugins/store/global";
-import {useI18n} from "vue-i18n";
-import {debounce} from "@/utils/tools";
-import {showSnackbar} from "@/utils/snackbar.js";
-import {useRouter} from "vue-router";
+import useUserStore from "@store/user"
+import useGlobalStore from "@store/global"
+import { useI18n } from "vue-i18n"
+import { debounce } from "@/utils/tools"
+import { showSnackbar } from "@/utils/snackbar.js"
+import { useRouter } from "vue-router"
 
 
 onMounted(() => {
@@ -280,11 +313,13 @@ onMounted(() => {
   // 计算初始pageSize
   reqForm.value.pageSize = calculatePageSize()
 
+
   // 防抖处理resize事件
   const handleResize = debounce(() => {
     windowHeight.value = window.innerHeight
     reqForm.value.pageSize = calculatePageSize()
   }, 200)
+
 
   // 添加事件监听
   window.addEventListener('resize', handleResize)
@@ -333,19 +368,24 @@ const getRooms = () => {
 
 const createDialog = ref(false)
 const createRef = ref()
+
 const createForm = ref({
   name: '',
   displayName: '',
 })
+
 const createFormRules = ref({
   name: [
     value => {
       if (value) return true
+      
       return t('rooms.dialog.create.rules.name')
     },
   ],
 })
+
 const createLoading = ref(false)
+
 const openCreateDialog = () => {
   createForm.value = {
     name: '',
@@ -353,11 +393,14 @@ const openCreateDialog = () => {
   }
   createDialog.value = true
 }
+
 const handleCreate = async event => {
   createLoading.value = true
+
   const results = await event
   if (!results.valid) {
     createLoading.value = false
+    
     return
   }
   roomApi.base.post(createForm.value).then(response => {
@@ -369,7 +412,7 @@ const handleCreate = async event => {
   })
 }
 
-const gotoDashboard = (room) => {
+const gotoDashboard = room => {
   if (globalStore.room.name === room.name) return
   globalStore.room = room
   showSnackbar(t('rooms.card.click')+globalStore.room.displayName)
@@ -381,5 +424,3 @@ watch(windowHeight, () => {
 }, { immediate: true })
 </script>
 
-<style scoped>
-</style>

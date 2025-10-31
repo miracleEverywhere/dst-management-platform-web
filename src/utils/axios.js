@@ -4,7 +4,7 @@ import { getToken } from "@/utils/tools"
 import { router } from "@/plugins/router/index"
 import useUserStore from "@store/user"
 import { ApiVersion } from "@/config"
-import useGlobalStore from "@/plugins/store/global.js";
+import useGlobalStore from "@store/global.js"
 
 
 // 创建一个 axios 实例
@@ -23,6 +23,7 @@ instance.interceptors.request.use(
       config.headers['X-DMP-TOKEN'] = token
     }
     const globalStore = useGlobalStore()
+
     config.headers["X-I18n-Lang"] = globalStore.language
     
     return config

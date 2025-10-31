@@ -20,7 +20,7 @@ const props = defineProps({
       :target="item.target"
     >
       <v-icon
-          size="18"
+        size="18"
         :icon="item.icon || 'ri-checkbox-blank-circle-line'"
         class="nav-item-icon"
       />

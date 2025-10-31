@@ -26,7 +26,7 @@
 <script setup>
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global"
-import {useLocale} from "vuetify";
+import { useLocale } from "vuetify"
 
 const i18n = useI18n()
 const { current } = useLocale()
@@ -56,9 +56,9 @@ const handleSwitchLanguage = () => {
 
 // 监听 globalStore.language 的变化
 watch(() => globalStore.language, () => {
-    // 当 language 变化时，手动触发 dimensionList 的更新
-    handleSwitchLanguage()
-  },
+  // 当 language 变化时，手动触发 dimensionList 的更新
+  handleSwitchLanguage()
+},
 )
 
 const handleChangeLanguage = lang => {
@@ -66,14 +66,14 @@ const handleChangeLanguage = lang => {
   globalStore.language = lang
 
   switch (lang) {
-    case 'zh':
-      current.value = 'zhHans'
-      break
-    case 'en':
-      current.value = 'en'
-      break
-    default:
-      current.value = 'zhHans'
+  case 'zh':
+    current.value = 'zhHans'
+    break
+  case 'en':
+    current.value = 'en'
+    break
+  default:
+    current.value = 'zhHans'
   }
 }
 </script>
