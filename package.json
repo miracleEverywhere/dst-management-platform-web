@@ -1,6 +1,6 @@
 {
   "name": "dmp",
-  "version": "v0.0.0",
+  "version": "v3",
   "private": true,
   "type": "module",
   "scripts": {
