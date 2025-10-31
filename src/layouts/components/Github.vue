@@ -4,7 +4,7 @@
     icon="ri-github-line"
     color="default"
     variant="text"
-    href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
+    href="https://github.com/miracleEverywhere/dst-management-platform-api"
     target="_blank"
     rel="noopener noreferrer"
   />
