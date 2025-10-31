@@ -57,7 +57,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       host: "0.0.0.0", // 允许本机IP访问 0.0.0.0
-      port: 5730, // 端口号
+      port: 5173, // 端口号
       hmr: true, // 热更新
       open: false, // 自动打开
       proxy: {
