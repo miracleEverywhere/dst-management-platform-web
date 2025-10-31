@@ -1038,13 +1038,85 @@ export const overrides = {
       en: 'mushroom',
     }
   },
+  mutated_bird_gestalt: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_bird_gestalt.png',
+    i18n: {
+      zh: '亮喙鸟',
+      en: 'mutated_bird_gestalt',
+    }
+  },
+  mutated_birds: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_birds.png',
+    i18n: {
+      zh: '变异的鸟',
+      en: 'mutated_birds',
+    }
+  },
+  mutated_merm: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_merm.png',
+    i18n: {
+      zh: '变异鱼人',
+      en: 'mutated_merm',
+    }
+  },
   mutated_hounds: {
-    configs: ["never", "rare", "default", "often", "always"],
+    configs: ["never", "default"],
     modelValue: 'default',
     image: 'mutated_hounds.png',
     i18n: {
       zh: '恐怖猎犬',
       en: 'mutated_hounds',
+    }
+  },
+  mutated_deerclops: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_deerclops.png',
+    i18n: {
+      zh: '晶体独眼巨鹿',
+      en: 'mutated_deerclops',
+    }
+  },
+  mutated_buzzard_gestalt: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_buzzard_gestalt.png',
+    i18n: {
+      zh: '水晶冠秃鹫',
+      en: 'mutated_buzzard_gestalt',
+    }
+  },
+  mutated_spiderqueen: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_spiderqueen.png',
+    i18n: {
+      zh: '破碎蜘蛛洞',
+      en: 'mutated_spiderqueen',
+    }
+  },
+  mutated_bearger: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_bearger.png',
+    i18n: {
+      zh: '装甲熊獾',
+      en: 'mutated_bearger',
+    }
+  },
+  mutated_warg: {
+    configs: ["never", "default"],
+    modelValue: 'default',
+    image: 'mutated_warg.png',
+    i18n: {
+      zh: '附身座狼',
+      en: 'mutated_warg',
     }
   },
   ocean_bullkelp: {
@@ -1219,7 +1291,7 @@ export const overrides = {
     modelValue: 'default',
     image: 'penguins_moon.png',
     i18n: {
-      zh: '月石企鸥',
+      zh: '永冻企鸥',
       en: 'penguins_moon',
     }
   },
@@ -2957,16 +3029,20 @@ export const groundWorldRule = {
     'moles_setting', 'wobsters', 'gnarwail', 'otters_setting', 'grassgekkos',
   ],
   hostileCreatures: [
-    'walrus_setting', 'hound_mounds', 'mosquitos', 'spiders_setting', 'bats_setting',
-    'frogs', 'merms', 'squid', 'sharks', 'wasps',
-    'lureplants', 'mutated_hounds', 'penguins_moon', 'moon_spider', 'spider_warriors',
-    'cookiecutters', 'pirateraids'
+    'walrus_setting', 'mosquitos', 'spiders_setting', 'bats_setting',
+    'frogs', 'merms', 'squid', 'sharks', 'wasps', 'lureplants',
+    'moon_spider', 'spider_warriors', 'cookiecutters', 'pirateraids'
   ],
   giants: [
     'bearger', 'beequeen', 'dragonfly', 'klaus', 'sharkboi',
     'crabking', 'fruitfly', 'malbatross', 'goosemoose', 'eyeofterror',
     'daywalker2', 'liefs', 'deciduousmonster', 'deerclops', 'antliontribute',
     'spiderqueen',
+  ],
+  moonMutated: [
+    'mutated_bird_gestalt', 'mutated_birds', 'mutated_merm', 'mutated_hounds',
+    'mutated_deerclops', 'mutated_buzzard_gestalt', 'penguins_moon', 'moon_spider',
+    'mutated_spiderqueen', 'mutated_bearger', 'mutated_warg'
   ],
 }
 
@@ -3018,6 +3094,9 @@ export const cavesWorldRule = {
   ],
   giants: [
     'fruitfly', 'liefs', 'daywalker', 'toadstool', 'spiderqueen',
+  ],
+  moonMutated: [
+    'mutated_birds', 'mutated_merm', 'moon_spider', 'mutated_spiderqueen'
   ],
 }
 
