@@ -89,7 +89,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col :cols="mobile?12:6">
+      <v-col :cols="mobile?12:4">
         <v-radio-group
           v-model="roomForm.pvp"
           inline
@@ -111,7 +111,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-col :cols="mobile?12:6">
+      <v-col :cols="mobile?12:4">
         <v-radio-group
             v-model="roomForm.vote"
             inline
@@ -133,9 +133,7 @@
           />
         </v-radio-group>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col :cols="mobile?12:6">
+      <v-col :cols="mobile?12:4">
         <v-radio-group
             v-model="roomForm.pauseEmpty"
             inline
@@ -152,28 +150,6 @@
           />
           <v-radio
               :label="t('game.base.pauseEmpty.disable')"
-              :value="false"
-              class="mr-4"
-          />
-        </v-radio-group>
-      </v-col>
-      <v-col :cols="mobile?12:6">
-        <v-radio-group
-            v-model="roomForm.modInOne"
-            inline
-        >
-          <template #prepend>
-            <span v-tooltip="t('game.base.modInOne.tip')">
-              {{t('game.base.modInOne.name')}}
-            </span>
-          </template>
-          <v-radio
-              :label="t('game.base.modInOne.enable')"
-              :value="true"
-              class="mr-4"
-          />
-          <v-radio
-              :label="t('game.base.modInOne.disable')"
               :value="false"
               class="mr-4"
           />
@@ -208,7 +184,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col class="fcc">
         <v-text-field
             v-model="roomForm.token"
             v-tooltip="t('game.base.token.tip')"
@@ -216,17 +192,34 @@
             :label="t('game.base.token.name')"
             :append-inner-icon="isTokenVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
             :type="isTokenVisible ? 'text' : 'password'"
+            class="w-100"
             @click:append-inner="isTokenVisible = !isTokenVisible"
         />
+        <v-btn v-if="!mobile" density="comfortable" variant="text" size="x-large" class="ml-4"
+               color="info"
+               prepend-icon="ri-links-line">
+          {{t('game.base.token.buttonUrl')}}
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col :cols="mobile?12:9" :style="mobile?{marginBottom:'1.25rem'}:{}">
         <v-text-field
             v-model="roomForm.masterIP"
             v-tooltip="t('game.base.masterIP.tip')"
             :rules="roomFormRules.masterIP"
             :label="t('game.base.masterIP.name')"
+        />
+      </v-col>
+      <v-col :cols="mobile?12:3">
+        <v-number-input
+            v-model="roomForm.masterPort"
+            v-tooltip="t('game.base.masterPort.tip')"
+            :rules="roomFormRules.masterPort"
+            :label="t('game.base.masterPort.name')"
+            :min="1"
+            :max="65535"
+            style="margin-bottom: -1.25rem"
         />
       </v-col>
     </v-row>
@@ -250,28 +243,49 @@
 <script setup>
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
+import {GamePortFactor} from "@/config/index.js";
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
+const props = defineProps({
+  formData: {
+    type: Object,
+    default: () => ({})
+  },
+  lastRoomID: {
+    type: Number,
+    default: 0,
+  },
+})
+
+onMounted(() => {
+  if ((props.formData?.id||0) !== 0) {
+    roomForm.value = props.formData
+  } else {
+    roomForm.value.masterPort = props.lastRoomID + GamePortFactor.masterPort + 1
+  }
+})
+
 const roomFormRef = ref()
 
 const roomForm = ref({
+  id: 0,
   gameName: '',
   description: '',
   gameMode: '',
   customGameMode: '',
   pvp: false,
-  maxPlayer: 0,
-  maxRollBack: 0,
+  maxPlayer: 6,
+  maxRollBack: 10,
   modInOne: false,
   modData: '',
   vote: false,
-  pauseEmpty: false,
+  pauseEmpty: true,
   password: '',
   token: '',
-  masterIP: '',
-  masterPort: '',
+  masterIP: '127.0.0.1',
+  masterPort: 0,
   clusterKey: '',
 })
 
@@ -317,4 +331,10 @@ const isPasswordVisible = ref(false)
 const isTokenVisible = ref(false)
 const isClusterKeyVisible = ref(false)
 </script>
+
+<style scoped>
+.layout-wrapper .v-row {
+  margin-bottom: 1.25rem;
+}
+</style>
 

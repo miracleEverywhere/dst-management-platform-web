@@ -1,7 +1,7 @@
 <template>
   <div class="fcc">
     <v-text-field
-      v-model="reqForm.name"
+      v-model="reqForm.gameName"
       :label="t('rooms.header.input.label')"
       :placeholder="t('rooms.header.input.placeholder')"
       append-inner-icon="ri-search-line"
@@ -17,7 +17,7 @@
       variant="elevated"
       size="large"
       class="mr-4"
-      @click="openCreateDialog"
+      @click="gotoGameBase"
     >
       {{ t('rooms.header.button.create') }}
     </v-btn>
@@ -36,7 +36,7 @@
       :disabled="!userStore.userInfo.roomCreation&&userStore.userInfo.role!=='admin'"
       icon="ri-add-line"
       class="mr-4"
-      @click="openCreateDialog"
+      @click="gotoGameBase"
     />
     <v-btn
       v-if="mobile"
@@ -226,7 +226,7 @@
     class="mt-8"
     @update:model-value="getRooms"
   />
-  <div v-if="rooms.length===0&&reqForm.name!==''">
+  <div v-if="rooms.length===0&&reqForm.gameName!==''">
     <result
       type="warning"
       :height="windowHeight"
@@ -234,7 +234,7 @@
       :sub-title="t('rooms.result.noResult.subTitle')"
     />
   </div>
-  <div v-if="rooms.length===0&&reqForm.name===''">
+  <div v-if="rooms.length===0&&reqForm.gameName===''">
     <result
       type="warning"
       :height="windowHeight"
@@ -304,6 +304,7 @@ import { useI18n } from "vue-i18n"
 import { debounce } from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
+import eventBus from '@/utils/eventBus'
 
 
 onMounted(() => {
@@ -347,7 +348,7 @@ const calculatePageSize = () => {
 }
 
 const reqForm = ref({
-  name: "",
+  gameName: '',
   page: 1,
   pageSize: 6,
 })
@@ -412,10 +413,17 @@ const handleCreate = async event => {
   })
 }
 
-const gotoDashboard = room => {
-  if (globalStore.room.name === room.name) return
-  globalStore.room = room
-  showSnackbar(t('rooms.card.click')+globalStore.room.displayName)
+const gotoGameBase = async () => {
+  globalStore.room = {
+    id: 0,
+    gameName: '',
+  }
+  toggleMenu()
+  await router.push('/game/base')
+}
+
+const toggleMenu = () => {
+  eventBus.emit('toggleMenu', 3)
 }
 
 

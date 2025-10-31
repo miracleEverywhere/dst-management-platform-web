@@ -6,11 +6,11 @@
   >
     <div>
       <v-chip
-        v-if="globalStore.room.name"
+        v-if="globalStore.room.id"
         label
         color="primary"
       >
-        {{ globalStore.room.displayName }}
+        {{ globalStore.room.gameName }}
       </v-chip>
       <v-chip
         v-else
@@ -28,11 +28,11 @@
   >
     <div>
       <v-chip
-        v-if="globalStore.room.name"
+        v-if="globalStore.room.id"
         color="primary"
         class="mr-4"
       >
-        {{ t('global.room') + globalStore.room.displayName }}
+        {{ t('global.room') + globalStore.room.gameName }}
       </v-chip>
       <v-chip
         v-else

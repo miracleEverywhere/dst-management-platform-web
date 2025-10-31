@@ -17,8 +17,8 @@ const globalStore = defineStore("global", {
       theme: '',
       language: '',
       room: {
-        name: '',
-        displayName: '',
+        id: 0,
+        gameName: '',
       },
       gameVersion: {
         server: 0,

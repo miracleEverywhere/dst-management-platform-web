@@ -52,10 +52,15 @@ import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import useUserStore from '@store/user'
 import { useI18n } from "vue-i18n"
+import eventBus from '@/utils/eventBus'
 
 
 const userStore = useUserStore()
 const { t } = useI18n()
+
+onMounted(() => {
+  eventBus.on('toggleMenu', handleGroupToggle)
+})
 
 const menus = userStore.menus
 

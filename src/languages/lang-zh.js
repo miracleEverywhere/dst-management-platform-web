@@ -20,7 +20,7 @@ export default {
     dashboard: "控制面板",
     rooms: "房间总览",
     game: '游戏设置',
-    gameBase: '基础设置',
+    gameBase: '房间设置',
     gameMod: '模组设置',
     gamePlayer: '玩家设置',
     upload: '存档导入',
@@ -122,12 +122,12 @@ export default {
     },
     base: {
       gameName: {
-        name: '游戏房间名',
+        name: '房间名',
         tip: '可通过游戏房间名在游戏大厅进行搜索',
-        required: '请输入游戏房间名',
+        required: '请输入房间名',
       },
       description: {
-        name: '游戏房间描述',
+        name: '房间描述',
         tip: '按Tab键显示在游戏房间名下方的文字',
       },
       gameMode: {
@@ -184,6 +184,7 @@ export default {
         name: '游戏令牌',
         tip: '在科雷官网申请的饥荒游戏令牌',
         required: '请输入游戏令牌',
+        buttonUrl: '创建令牌',
       },
       masterIP: {
         name: '主世界IP',
