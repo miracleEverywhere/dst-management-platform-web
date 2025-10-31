@@ -14,7 +14,7 @@ export default {
     result: {
       title: 'No Room Selected',
       subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
-    }
+    },
   },
   menu: {
     dashboard: "Dashboard",

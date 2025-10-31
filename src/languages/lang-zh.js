@@ -14,7 +14,7 @@ export default {
     result: {
       title: '未选择房间',
       subTitle: '请前往房间总览页面，选择一个房间再执行配置',
-    }
+    },
   },
   menu: {
     dashboard: "控制面板",
@@ -118,7 +118,7 @@ export default {
   game: {
     prev: '上一步',
     next: {
-      button: '下一步'
+      button: '下一步',
     },
     base: {
       gameName: {
@@ -134,32 +134,47 @@ export default {
         name: '游戏模式',
         tip: '不同模式会生成不同类型的世界，萌新可无脑选无尽',
         modes: {
-
+          endless: '无尽',
+          survival: '生存',
+          relaxed: '轻松',
+          wilderness: '荒野',
+          lightsOut: '暗无天日',
+          lavaarena: '熔炉',
+          quagmire: '暴食',
+          custom: '自定义',
         },
       },
       pvp: {
         name: '玩家对战',
         tip: '游戏中的玩家是否能互相攻击',
+        enable: '开启',
+        disable: '关闭',
       },
       maxPlayer: {
-        name: '玩家数',
+        name: '玩家数量',
         tip: '可进入游戏的最大玩家数',
       },
       maxRollBack: {
-        name: '最大回档天数',
+        name: '回档天数',
         tip: '即每次游戏保存后生成的快照的最大值，如设置20，表示可以回档20天',
       },
       modInOne: {
         name: '统一模组',
         tip: '每个世界的模组是否独立设置',
+        enable: '开启',
+        disable: '关闭',
       },
       vote: {
         name: '玩家投票',
         tip: '游戏中的玩家是否能进行投票回档、重置、踢人等操作',
+        enable: '开启',
+        disable: '关闭',
       },
       pauseEmpty: {
         name: '自动暂停',
         tip: '游戏中没有玩家时是否自动暂停游戏时间',
+        enable: '开启',
+        disable: '关闭',
       },
       password: {
         name: '游戏密码',

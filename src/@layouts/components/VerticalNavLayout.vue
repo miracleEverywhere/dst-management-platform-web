@@ -58,6 +58,7 @@ export default defineComponent({
         h('div', { class: 'layout-content-wrapper' }, [
           navbar,
           main,
+
           // footer,
         ]),
         layoutOverlay,
