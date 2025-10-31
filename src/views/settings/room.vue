@@ -567,6 +567,26 @@
                           </template>
                         </div>
                         <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.groundVisualizationRule') }}</span> -
+                          {{ t('setting.groundVisualizationRuleItem.moonMutated') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in groundWorldRule.moonMutated">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i]?.configs || ['undefined']"
+                                                :customConfigsValue="overrides[i]?.customConfigsValue || {}"
+                                                :defaultModelValue="overrides[i]?.modelValue || 'undefined'"
+                                                :i18n="overrides[i]?.i18n || {zh: '平台未识别', en: 'undefined'}"
+                                                :image="overrides[i]?.image || 'undefined.png'"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
                           style="font-weight: bolder">{{ t('setting.groundVisualizationGeneration') }}</span> -
                           {{ t('setting.groundVisualizationGenerationItem.global') }}
                         </el-divider>
@@ -754,6 +774,26 @@
                         </el-divider>
                         <div class="item-container">
                           <template v-for="(i, key) in cavesWorldRule.giants">
+                            <div>
+                              <LevelDataSetting :key="key"
+                                                v-model="overridesObj[i]"
+                                                :configs="overrides[i]?.configs || ['undefined']"
+                                                :customConfigsValue="overrides[i]?.customConfigsValue || {}"
+                                                :defaultModelValue="overrides[i]?.modelValue || 'undefined'"
+                                                :i18n="overrides[i]?.i18n || {zh: '平台未识别', en: 'undefined'}"
+                                                :image="overrides[i]?.image || 'undefined.png'"
+                                                :name="i"
+                                                @changeModelValue="handleModelValueChange"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                        <el-divider content-position="center"><span
+                          style="font-weight: bolder">{{ t('setting.cavesVisualizationRule') }}</span> -
+                          {{ t('setting.cavesVisualizationRuleItem.moonMutated') }}
+                        </el-divider>
+                        <div class="item-container">
+                          <template v-for="(i, key) in cavesWorldRule.moonMutated">
                             <div>
                               <LevelDataSetting :key="key"
                                                 v-model="overridesObj[i]"

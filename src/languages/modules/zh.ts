@@ -344,6 +344,7 @@ export default {
       creatures: '生物',
       hostileCreatures: '敌对生物',
       giants: '巨兽',
+      moonMutated: '月亮变异',
     },
     groundVisualizationGeneration: '世界生成',
     groundVisualizationGenerationItem: {
@@ -364,6 +365,7 @@ export default {
       creatures: '生物',
       hostileCreatures: '敌对生物',
       giants: '巨兽',
+      moonMutated: '月亮变异',
     },
     cavesVisualizationGeneration: '世界生成',
     cavesVisualizationGenerationItem: {

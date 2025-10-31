@@ -343,6 +343,7 @@ export default {
       creatures: 'Creatures',
       hostileCreatures: 'Hostile Creatures',
       giants: 'Giants',
+      moonMutated: 'Moon Mutated',
     },
     groundVisualizationGeneration: 'World Generation',
     groundVisualizationGenerationItem: {
@@ -363,6 +364,7 @@ export default {
       creatures: 'Creatures',
       hostileCreatures: 'Hostile Creatures',
       giants: 'Giants',
+      moonMutated: 'Moon Mutated',
     },
     cavesVisualizationGeneration: 'World Generation',
     cavesVisualizationGenerationItem: {
