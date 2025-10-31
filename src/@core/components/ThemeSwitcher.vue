@@ -27,6 +27,7 @@ const {
   name: themeName,
   global: globalTheme,
 } = useTheme()
+const theme = useTheme()
 
 const {
   state: currentThemeName,
@@ -36,9 +37,9 @@ const {
 
 onMounted(() => {
   if (globalStore.theme === "") {
-    globalStore.theme = globalTheme.name.value
+    globalStore.theme = theme.global.name.value
   } else {
-    globalTheme.name.value = globalStore.theme
+    theme.change(globalStore.theme)
     document.documentElement.className = globalStore.theme
   }
 })
@@ -47,8 +48,7 @@ const changeTheme = async event => {
   // 定义主题切换逻辑
   const updateTheme = () => {
     const nextTheme = getNextThemeName()
-
-    globalTheme.name.value = nextTheme
+    theme.change(nextTheme)
     globalStore.theme = nextTheme
     document.documentElement.className = nextTheme
   }
@@ -89,7 +89,7 @@ const changeTheme = async event => {
   )
 }
 
-watch(() => globalTheme.name.value, val => {
+watch(() => theme.global.name.value, val => {
   currentThemeName.value = val
 })
 </script>
