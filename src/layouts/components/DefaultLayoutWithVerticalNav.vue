@@ -11,7 +11,7 @@
           <v-icon icon="ri-menu-line" />
         </icon-btn>
 
-        <header-main/>
+        <header-main />
 
         <v-spacer />
 
@@ -60,7 +60,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 import Github from "@/layouts/components/GitHub.vue"
 import Document from "@/layouts/components/Document.vue"
 import NavHeader from "@/layouts/components/NavHeader.vue"
-import HeaderMain from "@/layouts/components/headerMain.vue";
+import HeaderMain from "@/layouts/components/headerMain.vue"
 </script>
 
 <style lang="scss" scoped>

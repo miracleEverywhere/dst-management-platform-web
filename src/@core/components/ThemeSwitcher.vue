@@ -27,6 +27,7 @@ const {
   name: themeName,
   global: globalTheme,
 } = useTheme()
+
 const theme = useTheme()
 
 const {
@@ -48,6 +49,7 @@ const changeTheme = async event => {
   // 定义主题切换逻辑
   const updateTheme = () => {
     const nextTheme = getNextThemeName()
+
     theme.change(nextTheme)
     globalStore.theme = nextTheme
     document.documentElement.className = nextTheme

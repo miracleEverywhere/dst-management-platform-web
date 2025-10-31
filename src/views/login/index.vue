@@ -1,13 +1,13 @@
 <template>
   <div class="header">
     <div class="fcc">
-      <nav-header/>
+      <nav-header />
     </div>
     <div class="fcc">
-      <github/>
-      <document/>
-      <lang-select/>
-      <navbar-theme-switcher/>
+      <github />
+      <document />
+      <lang-select />
+      <navbar-theme-switcher />
     </div>
   </div>
   <div class="d-flex align-center justify-center pa-4">
@@ -18,9 +18,9 @@
       :style="mobile?{'margin-top': '10vh'}:{'margin-top': '25vh'}"
     >
       <v-card-text class="mt-4">
-          <span style="font-size: 1.5em">
-            {{ $t('login.welcome') }}
-          </span>
+        <span style="font-size: 1.5em">
+          {{ $t('login.welcome') }}
+        </span>
       </v-card-text>
 
       <v-card-text class="mt-6">
