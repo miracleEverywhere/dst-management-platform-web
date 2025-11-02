@@ -184,6 +184,7 @@ export default {
         name: '游戏令牌',
         tip: '在科雷官网申请的饥荒游戏令牌',
         required: '请输入游戏令牌',
+        buttonAdd: '默认令牌',
         buttonUrl: '创建令牌',
       },
       masterIP: {

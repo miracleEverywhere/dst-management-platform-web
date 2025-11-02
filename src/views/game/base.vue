@@ -91,7 +91,15 @@
             :height="calculateContainerSize()"
             style="overflow-y: auto"
           >
-            <room-setting />
+            <room ref="roomRef"/>
+          </v-container>
+        </v-stepper-window-item>
+        <v-stepper-window-item :value="1">
+          <v-container
+              :height="calculateContainerSize()"
+              style="overflow-y: auto"
+          >
+            <world ref="worldRef"/>
           </v-container>
         </v-stepper-window-item>
       </v-stepper-window>
@@ -156,7 +164,8 @@ import useUserStore from "@store/user.js"
 import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import roomSetting from "@/views/game/components/roomSetting.vue"
+import room from "@/views/game/components/room.vue"
+import world from "@/views/game/components/world.vue"
 
 onMounted(() => {
   // 防抖处理resize事件
@@ -190,11 +199,28 @@ const calculateContainerSize = () => {
 }
 
 const handlePrev = () => {
-
+  step.value--
 }
 
-const handleNext = () => {
-
+const handleNext = async () => {
+  console.log(1)
+  if (step.value === 0) {
+    console.log(2)
+    if (roomRef.value) {
+      console.log(3)
+      const result = await roomRef.value.validate()
+      console.log(result)
+      if (result.validate) {
+        console.log(4)
+        roomData.value = result.formData
+        console.log(roomData.value)
+        step.value++
+      }
+    }
+  }
 }
+
+const roomRef = ref()
+const roomData = ref()
 </script>
 

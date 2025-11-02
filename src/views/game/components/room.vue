@@ -1,5 +1,6 @@
 <template>
   <v-form ref="roomFormRef">
+    <!--游戏名-->
     <v-row>
       <v-col>
         <v-text-field
@@ -10,6 +11,7 @@
         />
       </v-col>
     </v-row>
+    <!--描述-->
     <v-row>
       <v-col>
         <v-text-field
@@ -19,6 +21,7 @@
         />
       </v-col>
     </v-row>
+    <!--游戏模式-->
     <v-row>
       <v-col>
         <v-radio-group
@@ -26,9 +29,9 @@
           inline
         >
           <template #prepend>
-            <span v-tooltip="t('game.base.gameMode.tip')">
-              游戏模式
-            </span>
+            <v-chip v-tooltip="t('game.base.gameMode.tip')">
+              {{t('game.base.gameMode.name')}}
+            </v-chip>
           </template>
           <v-radio
             :label="t('game.base.gameMode.modes.endless')"
@@ -73,12 +76,13 @@
         </v-radio-group>
       </v-col>
     </v-row>
+    <!--玩家数-->
     <v-row>
       <v-col>
         <v-slider v-model="roomForm.maxPlayer" :max="64" :min="1" class="align-center" hide-details
                   step="1" style="margin-left: -1px">
           <template #label>
-            <span v-tooltip="t('game.base.maxPlayer.tip')" style="margin-right: 1rem">{{t('game.base.maxPlayer.name')}}</span>
+            <v-chip v-tooltip="t('game.base.maxPlayer.tip')" style="margin-right: 1rem">{{t('game.base.maxPlayer.name')}}</v-chip>
           </template>
           <template v-slot:append>
             <v-chip label color="primary">
@@ -88,6 +92,7 @@
         </v-slider>
       </v-col>
     </v-row>
+    <!--pvp等-->
     <v-row>
       <v-col :cols="mobile?12:4">
         <v-radio-group
@@ -95,9 +100,9 @@
           inline
         >
           <template #prepend>
-            <span v-tooltip="t('game.base.pvp.tip')">
+            <v-chip v-tooltip="t('game.base.pvp.tip')">
               {{t('game.base.pvp.name')}}
-            </span>
+            </v-chip>
           </template>
           <v-radio
             :label="t('game.base.pvp.enable')"
@@ -117,9 +122,9 @@
             inline
         >
           <template #prepend>
-            <span v-tooltip="t('game.base.vote.tip')">
+            <v-chip v-tooltip="t('game.base.vote.tip')">
               {{t('game.base.vote.name')}}
-            </span>
+            </v-chip>
           </template>
           <v-radio
               :label="t('game.base.vote.enable')"
@@ -139,9 +144,9 @@
             inline
         >
           <template #prepend>
-            <span v-tooltip="t('game.base.pauseEmpty.tip')">
+            <v-chip v-tooltip="t('game.base.pauseEmpty.tip')">
               {{t('game.base.pauseEmpty.name')}}
-            </span>
+            </v-chip>
           </template>
           <v-radio
               :label="t('game.base.pauseEmpty.enable')"
@@ -156,12 +161,13 @@
         </v-radio-group>
       </v-col>
     </v-row>
+    <!--回档天数-->
     <v-row>
       <v-col>
         <v-slider v-model="roomForm.maxRollBack" :max="64" :min="1" class="align-center" hide-details
                   step="1" style="margin-left: -1px">
           <template #label>
-            <span v-tooltip="t('game.base.maxRollBack.tip')" style="margin-right: 1rem">{{t('game.base.maxRollBack.name')}}</span>
+            <v-chip v-tooltip="t('game.base.maxRollBack.tip')" style="margin-right: 1rem">{{t('game.base.maxRollBack.name')}}</v-chip>
           </template>
           <template v-slot:append>
             <v-chip label color="primary">
@@ -171,6 +177,7 @@
         </v-slider>
       </v-col>
     </v-row>
+    <!--密码-->
     <v-row>
       <v-col>
         <v-text-field
@@ -183,6 +190,7 @@
         />
       </v-col>
     </v-row>
+    <!--令牌-->
     <v-row>
       <v-col class="fcc">
         <v-text-field
@@ -195,13 +203,21 @@
             class="w-100"
             @click:append-inner="isTokenVisible = !isTokenVisible"
         />
-        <v-btn v-if="!mobile" density="comfortable" variant="text" size="x-large" class="ml-4"
+        <v-btn v-if="!mobile" density="comfortable" variant="text" class="ml-4"
+               color="success"
+               prepend-icon="ri-add-line">
+          {{t('game.base.token.buttonAdd')}}
+        </v-btn>
+        <v-btn v-if="!mobile" density="comfortable" variant="text" class="ml-4"
                color="info"
+               href="https://accounts.klei.com"
+               target="_blank"
                prepend-icon="ri-links-line">
           {{t('game.base.token.buttonUrl')}}
         </v-btn>
       </v-col>
     </v-row>
+    <!--master ip-->
     <v-row>
       <v-col :cols="mobile?12:9" :style="mobile?{marginBottom:'1.25rem'}:{}">
         <v-text-field
@@ -223,6 +239,7 @@
         />
       </v-col>
     </v-row>
+    <!--master port-->
     <v-row>
       <v-col>
         <v-text-field
@@ -236,7 +253,6 @@
         />
       </v-col>
     </v-row>
-
   </v-form>
 </template>
 
@@ -244,6 +260,7 @@
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import {GamePortFactor} from "@/config/index.js";
+import {generateRandomString} from "@/utils/tools.js";
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
@@ -264,6 +281,8 @@ onMounted(() => {
     roomForm.value = props.formData
   } else {
     roomForm.value.masterPort = props.lastRoomID + GamePortFactor.masterPort + 1
+    roomForm.value.gameMode = 'endless'
+    roomForm.value.clusterKey = generateRandomString(14)
   }
 })
 
@@ -330,6 +349,24 @@ const roomFormRules = ref({
 const isPasswordVisible = ref(false)
 const isTokenVisible = ref(false)
 const isClusterKeyVisible = ref(false)
+
+const validate = async () => {
+  const {valid} = await roomFormRef.value.validate();
+  if (valid) {
+    return {
+      validate: true,
+      formData: roomForm.value
+    }
+  }
+  return {
+    validate: false,
+    formData: {}
+  }
+}
+
+defineExpose({
+  validate
+})
 </script>
 
 <style scoped>

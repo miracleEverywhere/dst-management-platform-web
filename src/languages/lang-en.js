@@ -115,4 +115,93 @@ export default {
       },
     },
   },
+  game: {
+    prev: 'Prev',
+    next: {
+      button: 'Next',
+    },
+    base: {
+      gameName: {
+        name: 'Room Name',
+        tip: 'Searchable by game room name in the game lobby.',
+        required: 'Please input Room Name',
+      },
+      description: {
+        name: 'Description',
+        tip: 'Text displayed below the game room name when pressing the Tab key.',
+      },
+      gameMode: {
+        name: 'Game Mode',
+        tip: 'Different modes generate different types of worlds. Beginners can simply choose "Endless" without hesitation',
+        modes: {
+          endless: 'Endless',
+          survival: 'Survival',
+          relaxed: 'Relaxed',
+          wilderness: 'Wilderness',
+          lightsOut: 'Lights Out',
+          lavaarena: 'Lava Arena',
+          quagmire: 'Quagmire',
+          custom: 'Custom',
+        },
+      },
+      pvp: {
+        name: 'PVP',
+        tip: 'Whether players can attack each other in the game',
+        enable: 'Enable',
+        disable: 'Disable',
+      },
+      maxPlayer: {
+        name: 'Player Number',
+        tip: 'Maximum number of players allowed to join the game',
+      },
+      maxRollBack: {
+        name: 'Rollback Days',
+        tip: 'The maximum number of snapshots generated after each game save. For example, if set to 20, it means you can roll back up to 20 days',
+      },
+      modInOne: {
+        name: 'Unified mods',
+        tip: 'Whether mods are configured independently for each world',
+        enable: 'Enable',
+        disable: 'Disable',
+      },
+      vote: {
+        name: 'Vote',
+        tip: 'Whether players in the game can perform actions such as voting to rollback, reset, or kick players',
+        enable: 'Enable',
+        disable: 'Disable',
+      },
+      pauseEmpty: {
+        name: 'Auto Pause',
+        tip: 'Whether the game automatically pauses when there are no players',
+        enable: 'Enable',
+        disable: 'Disable',
+      },
+      password: {
+        name: 'Password',
+        tip: 'Whether a password is required for players to enter the game. Leave blank if no password is needed',
+      },
+      token: {
+        name: 'Token',
+        tip: 'The Don\'t Starve Together game token applied for on the Klei official website',
+        required: 'Please input Token',
+        buttonAdd: 'Default Token',
+        buttonUrl: 'Create Token',
+      },
+      masterIP: {
+        name: 'Master IP',
+        tip: 'If all worlds are on the current cloud server, no changes are needed. For detailed explanations, please refer to the documentation',
+        required: 'Please input Master IP',
+      },
+      masterPort: {
+        name: 'Master Port',
+        tip: 'The port connecting from the world to the master world. If all worlds are on the current cloud server, no changes are needed. For detailed explanations, please refer to the documentation',
+        required: 'Please input Master Port',
+      },
+      clusterKey: {
+        name: 'Cluster Key',
+        tip: 'The authentication password for the connection between the world and the master world',
+        required: 'Please input Cluster Key',
+      },
+    },
+  },
 }
