@@ -85,7 +85,10 @@
         </v-stepper-item>
       </v-stepper-header>
 
-      <v-stepper-window v-model="step">
+      <v-stepper-window
+        v-model="step"
+        class="mt-4"
+      >
         <v-stepper-window-item :value="0">
           <v-container
             :height="calculateContainerSize()"
@@ -104,6 +107,19 @@
               :game-mode="roomData.gameMode"
               :theme="globalStore.theme"
               :tab-window-height="calculateContainerSize()-300"
+            />
+          </v-container>
+        </v-stepper-window-item>
+        <v-stepper-window-item :value="2">
+          <v-container
+            :height="calculateContainerSize()"
+            style="overflow-y: auto"
+          >
+            <mod
+              ref="modRef"
+              :worlds="worldData"
+              :theme="globalStore.theme"
+              :tab-window-height="calculateContainerSize()-110"
             />
           </v-container>
         </v-stepper-window-item>
@@ -171,6 +187,7 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import room from "@/views/game/components/room.vue"
 import world from "@/views/game/components/world.vue"
+import mod from "@/views/game/components/mod.vue"
 
 onMounted(() => {
   // 防抖处理resize事件

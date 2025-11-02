@@ -221,7 +221,6 @@
       <v-tabs-window v-model="worldLevelDataTabName">
         <v-tabs-window-item value="Code">
           <code-editor
-            ref="editorGroundSettingRef"
             v-model="world.levelData"
             :height="props.tabWindowHeight"
             :theme="props.theme === 'dark' ? 'lucario' : 'idea'"
@@ -989,8 +988,6 @@ const handleWorldTabsEdit = async (targetName, action) => {
 
     const newWorldName = `World${globalWorldIndex.value}`
 
-    console.log(typeof newWorldName)
-    console.log(typeof worldTabName.value)
     dynamicWorldRefs[newWorldName] = ref()
     worldForm.value.push({
       name: newWorldName,

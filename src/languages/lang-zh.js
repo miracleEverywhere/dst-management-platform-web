@@ -277,6 +277,14 @@ export default {
           lua: '世界代码配置格式错误',
         },
       },
+      step3: {
+        modInOne: {
+          name: '统一模组',
+          tip: '每个世界的模组是否独立设置',
+          enable: '统一设置',
+          disable: '单独设置',
+        },
+      },
     },
   },
 }

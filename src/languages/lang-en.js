@@ -272,6 +272,14 @@ export default {
         },
         levelDataNeeded: 'Please input world code configuration',
       },
+      step3: {
+        modInOne: {
+          name: 'Unified mods',
+          tip: 'Whether mods are configured independently for each world',
+          enable: 'Unified settings',
+          disable: 'Individual settings',
+        },
+      },
     },
   },
 }
