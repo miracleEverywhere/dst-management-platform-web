@@ -91,15 +91,20 @@
             :height="calculateContainerSize()"
             style="overflow-y: auto"
           >
-            <room ref="roomRef"/>
+            <room ref="roomRef" />
           </v-container>
         </v-stepper-window-item>
         <v-stepper-window-item :value="1">
           <v-container
-              :height="calculateContainerSize()"
-              style="overflow-y: auto"
+            :height="calculateContainerSize()"
+            style="overflow-y: auto"
           >
-            <world ref="worldRef"/>
+            <world
+              ref="worldRef"
+              :game-mode="roomData.gameMode"
+              :theme="globalStore.theme"
+              :tab-window-height="calculateContainerSize()-300"
+            />
           </v-container>
         </v-stepper-window-item>
       </v-stepper-window>
@@ -203,17 +208,20 @@ const handlePrev = () => {
 }
 
 const handleNext = async () => {
-  console.log(1)
   if (step.value === 0) {
-    console.log(2)
     if (roomRef.value) {
-      console.log(3)
       const result = await roomRef.value.validate()
-      console.log(result)
       if (result.validate) {
-        console.log(4)
         roomData.value = result.formData
-        console.log(roomData.value)
+        step.value++
+      }
+    }
+  }
+  if (step.value === 1) {
+    if (worldRef.value) {
+      const result = await worldRef.value.validate()
+      if (result.validate) {
+        worldData.value = result.formData
         step.value++
       }
     }
@@ -222,5 +230,8 @@ const handleNext = async () => {
 
 const roomRef = ref()
 const roomData = ref()
+
+const worldRef = ref()
+const worldData = ref()
 </script>
 

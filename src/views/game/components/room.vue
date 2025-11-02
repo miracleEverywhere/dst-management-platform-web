@@ -1,27 +1,27 @@
 <template>
   <v-form ref="roomFormRef">
-    <!--游戏名-->
+    <!-- 游戏名 -->
     <v-row>
       <v-col>
         <v-text-field
           v-model="roomForm.gameName"
-          v-tooltip="t('game.base.gameName.tip')"
+          v-tooltip="t('game.base.step1.gameName.tip')"
           :rules="roomFormRules.gameName"
-          :label="t('game.base.gameName.name')"
+          :label="t('game.base.step1.gameName.name')"
         />
       </v-col>
     </v-row>
-    <!--描述-->
+    <!-- 描述 -->
     <v-row>
       <v-col>
         <v-text-field
           v-model="roomForm.description"
-          v-tooltip="t('game.base.description.tip')"
-          :label="t('game.base.description.name')"
+          v-tooltip="t('game.base.step1.description.tip')"
+          :label="t('game.base.step1.description.name')"
         />
       </v-col>
     </v-row>
-    <!--游戏模式-->
+    <!-- 游戏模式 -->
     <v-row>
       <v-col>
         <v-radio-group
@@ -29,70 +29,85 @@
           inline
         >
           <template #prepend>
-            <v-chip v-tooltip="t('game.base.gameMode.tip')">
-              {{t('game.base.gameMode.name')}}
+            <v-chip v-tooltip="t('game.base.step1.gameMode.tip')">
+              {{ t('game.base.step1.gameMode.name') }}
             </v-chip>
           </template>
           <v-radio
-            :label="t('game.base.gameMode.modes.endless')"
+            :label="t('game.base.step1.gameMode.modes.endless')"
             value="endless"
             class="mr-4"
           />
           <v-radio
-            :label="t('game.base.gameMode.modes.survival')"
+            :label="t('game.base.step1.gameMode.modes.survival')"
             value="survival"
             class="mr-4"
           />
           <v-radio
-              :label="t('game.base.gameMode.modes.relaxed')"
-              value="relaxed"
-              class="mr-4"
+            :label="t('game.base.step1.gameMode.modes.relaxed')"
+            value="relaxed"
+            class="mr-4"
           />
           <v-radio
-              :label="t('game.base.gameMode.modes.wilderness')"
-              value="wilderness"
-              class="mr-4"
+            :label="t('game.base.step1.gameMode.modes.wilderness')"
+            value="wilderness"
+            class="mr-4"
           />
           <v-radio
-              :label="t('game.base.gameMode.modes.lightsOut')"
-              value="lightsOut"
-              class="mr-4"
+            :label="t('game.base.step1.gameMode.modes.lightsOut')"
+            value="lightsOut"
+            class="mr-4"
           />
           <v-radio
-              :label="t('game.base.gameMode.modes.lavaarena')"
+            :label="t('game.base.step1.gameMode.modes.lavaarena')"
             value="lavaarena"
             class="mr-4"
           />
           <v-radio
-              :label="t('game.base.gameMode.modes.quagmire')"
+            :label="t('game.base.step1.gameMode.modes.quagmire')"
             value="quagmire"
             class="mr-4"
           />
           <v-radio
-              :label="t('game.base.gameMode.modes.custom')"
-              value="custom"
-              class="mr-4"
+            :label="t('game.base.step1.gameMode.modes.custom')"
+            value="custom"
+            class="mr-4"
           />
         </v-radio-group>
       </v-col>
     </v-row>
-    <!--玩家数-->
+    <!-- 玩家数 -->
     <v-row>
       <v-col>
-        <v-slider v-model="roomForm.maxPlayer" :max="64" :min="1" class="align-center" hide-details
-                  step="1" style="margin-left: -1px">
+        <v-slider
+          v-model="roomForm.maxPlayer"
+          :max="64"
+          :min="1"
+          class="align-center"
+          hide-details
+          step="1"
+          style="margin-left: -1px"
+        >
           <template #label>
-            <v-chip v-tooltip="t('game.base.maxPlayer.tip')" style="margin-right: 1rem">{{t('game.base.maxPlayer.name')}}</v-chip>
+            <v-chip
+              v-tooltip="t('game.base.step1.maxPlayer.tip')"
+              style="margin-right: 1rem"
+            >
+              {{ t('game.base.step1.maxPlayer.name') }}
+            </v-chip>
           </template>
-          <template v-slot:append>
-            <v-chip label color="primary">
+          <template #append>
+            <v-chip
+              label
+              color="primary"
+            >
               {{ roomForm.maxPlayer }}
             </v-chip>
           </template>
         </v-slider>
       </v-col>
     </v-row>
-    <!--pvp等-->
+    <!-- pvp等 -->
     <v-row>
       <v-col :cols="mobile?12:4">
         <v-radio-group
@@ -100,17 +115,17 @@
           inline
         >
           <template #prepend>
-            <v-chip v-tooltip="t('game.base.pvp.tip')">
-              {{t('game.base.pvp.name')}}
+            <v-chip v-tooltip="t('game.base.step1.pvp.tip')">
+              {{ t('game.base.step1.pvp.name') }}
             </v-chip>
           </template>
           <v-radio
-            :label="t('game.base.pvp.enable')"
+            :label="t('game.base.step1.pvp.enable')"
             :value="true"
             class="mr-4"
           />
           <v-radio
-              :label="t('game.base.pvp.disable')"
+            :label="t('game.base.step1.pvp.disable')"
             :value="false"
             class="mr-4"
           />
@@ -118,138 +133,167 @@
       </v-col>
       <v-col :cols="mobile?12:4">
         <v-radio-group
-            v-model="roomForm.vote"
-            inline
+          v-model="roomForm.vote"
+          inline
         >
           <template #prepend>
-            <v-chip v-tooltip="t('game.base.vote.tip')">
-              {{t('game.base.vote.name')}}
+            <v-chip v-tooltip="t('game.base.step1.vote.tip')">
+              {{ t('game.base.step1.vote.name') }}
             </v-chip>
           </template>
           <v-radio
-              :label="t('game.base.vote.enable')"
-              :value="true"
-              class="mr-4"
+            :label="t('game.base.step1.vote.enable')"
+            :value="true"
+            class="mr-4"
           />
           <v-radio
-              :label="t('game.base.vote.disable')"
-              :value="false"
-              class="mr-4"
+            :label="t('game.base.step1.vote.disable')"
+            :value="false"
+            class="mr-4"
           />
         </v-radio-group>
       </v-col>
       <v-col :cols="mobile?12:4">
         <v-radio-group
-            v-model="roomForm.pauseEmpty"
-            inline
+          v-model="roomForm.pauseEmpty"
+          inline
         >
           <template #prepend>
-            <v-chip v-tooltip="t('game.base.pauseEmpty.tip')">
-              {{t('game.base.pauseEmpty.name')}}
+            <v-chip v-tooltip="t('game.base.step1.pauseEmpty.tip')">
+              {{ t('game.base.step1.pauseEmpty.name') }}
             </v-chip>
           </template>
           <v-radio
-              :label="t('game.base.pauseEmpty.enable')"
-              :value="true"
-              class="mr-4"
+            :label="t('game.base.step1.pauseEmpty.enable')"
+            :value="true"
+            class="mr-4"
           />
           <v-radio
-              :label="t('game.base.pauseEmpty.disable')"
-              :value="false"
-              class="mr-4"
+            :label="t('game.base.step1.pauseEmpty.disable')"
+            :value="false"
+            class="mr-4"
           />
         </v-radio-group>
       </v-col>
     </v-row>
-    <!--回档天数-->
+    <!-- 回档天数 -->
     <v-row>
       <v-col>
-        <v-slider v-model="roomForm.maxRollBack" :max="64" :min="1" class="align-center" hide-details
-                  step="1" style="margin-left: -1px">
+        <v-slider
+          v-model="roomForm.maxRollBack"
+          :max="64"
+          :min="1"
+          class="align-center"
+          hide-details
+          step="1"
+          style="margin-left: -1px"
+        >
           <template #label>
-            <v-chip v-tooltip="t('game.base.maxRollBack.tip')" style="margin-right: 1rem">{{t('game.base.maxRollBack.name')}}</v-chip>
+            <v-chip
+              v-tooltip="t('game.base.step1.maxRollBack.tip')"
+              style="margin-right: 1rem"
+            >
+              {{ t('game.base.step1.maxRollBack.name') }}
+            </v-chip>
           </template>
-          <template v-slot:append>
-            <v-chip label color="primary">
+          <template #append>
+            <v-chip
+              label
+              color="primary"
+            >
               {{ roomForm.maxRollBack }}
             </v-chip>
           </template>
         </v-slider>
       </v-col>
     </v-row>
-    <!--密码-->
+    <!-- 密码 -->
     <v-row>
       <v-col>
         <v-text-field
-            v-model="roomForm.password"
-            v-tooltip="t('game.base.password.tip')"
-            :label="t('game.base.password.name')"
-            :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
-            :type="isPasswordVisible ? 'text' : 'password'"
-            @click:append-inner="isPasswordVisible = !isPasswordVisible"
+          v-model="roomForm.password"
+          v-tooltip="t('game.base.step1.password.tip')"
+          :label="t('game.base.step1.password.name')"
+          :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+          :type="isPasswordVisible ? 'text' : 'password'"
+          @click:append-inner="isPasswordVisible = !isPasswordVisible"
         />
       </v-col>
     </v-row>
-    <!--令牌-->
+    <!-- 令牌 -->
     <v-row>
       <v-col class="fcc">
         <v-text-field
-            v-model="roomForm.token"
-            v-tooltip="t('game.base.token.tip')"
-            :rules="roomFormRules.token"
-            :label="t('game.base.token.name')"
-            :append-inner-icon="isTokenVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
-            :type="isTokenVisible ? 'text' : 'password'"
-            class="w-100"
-            @click:append-inner="isTokenVisible = !isTokenVisible"
+          v-model="roomForm.token"
+          v-tooltip="t('game.base.step1.token.tip')"
+          :rules="roomFormRules.token"
+          :label="t('game.base.step1.token.name')"
+          :append-inner-icon="isTokenVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+          :type="isTokenVisible ? 'text' : 'password'"
+          class="w-100"
+          @click:append-inner="isTokenVisible = !isTokenVisible"
         />
-        <v-btn v-if="!mobile" density="comfortable" variant="text" class="ml-4"
-               color="success"
-               prepend-icon="ri-add-line">
-          {{t('game.base.token.buttonAdd')}}
+        <v-btn
+          v-if="!mobile"
+          density="comfortable"
+          variant="text"
+          class="ml-4"
+          color="success"
+          prepend-icon="ri-add-line"
+          @click="handleAddToken"
+        >
+          {{ t('game.base.step1.token.buttonAdd') }}
         </v-btn>
-        <v-btn v-if="!mobile" density="comfortable" variant="text" class="ml-4"
-               color="info"
-               href="https://accounts.klei.com"
-               target="_blank"
-               prepend-icon="ri-links-line">
-          {{t('game.base.token.buttonUrl')}}
+        <v-btn
+          v-if="!mobile"
+          density="comfortable"
+          variant="text"
+          class="ml-4"
+          color="info"
+          href="https://accounts.klei.com"
+          target="_blank"
+          prepend-icon="ri-links-line"
+        >
+          {{ t('game.base.step1.token.buttonUrl') }}
         </v-btn>
       </v-col>
     </v-row>
-    <!--master ip-->
+    <!-- master ip -->
     <v-row>
-      <v-col :cols="mobile?12:9" :style="mobile?{marginBottom:'1.25rem'}:{}">
+      <v-col
+        :cols="mobile?12:9"
+        :style="mobile?{marginBottom:'1.25rem'}:{}"
+      >
         <v-text-field
-            v-model="roomForm.masterIP"
-            v-tooltip="t('game.base.masterIP.tip')"
-            :rules="roomFormRules.masterIP"
-            :label="t('game.base.masterIP.name')"
+          v-model="roomForm.masterIP"
+          v-tooltip="t('game.base.step1.masterIP.tip')"
+          :rules="roomFormRules.masterIP"
+          :label="t('game.base.step1.masterIP.name')"
         />
       </v-col>
       <v-col :cols="mobile?12:3">
         <v-number-input
-            v-model="roomForm.masterPort"
-            v-tooltip="t('game.base.masterPort.tip')"
-            :rules="roomFormRules.masterPort"
-            :label="t('game.base.masterPort.name')"
-            :min="1"
-            :max="65535"
-            style="margin-bottom: -1.25rem"
+          v-model="roomForm.masterPort"
+          v-tooltip="t('game.base.step1.masterPort.tip')"
+          :rules="roomFormRules.masterPort"
+          :label="t('game.base.step1.masterPort.name')"
+          :min="1"
+          :max="65535"
+          style="margin-bottom: -1.25rem"
         />
       </v-col>
     </v-row>
-    <!--master port-->
+    <!-- cluster key -->
     <v-row>
       <v-col>
         <v-text-field
-            v-model="roomForm.clusterKey"
-            v-tooltip="t('game.base.clusterKey.tip')"
-            :rules="roomFormRules.clusterKey"
-            :label="t('game.base.clusterKey.name')"
-            :append-inner-icon="isClusterKeyVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
-            :type="isClusterKeyVisible ? 'text' : 'password'"
-            @click:append-inner="isClusterKeyVisible = !isClusterKeyVisible"
+          v-model="roomForm.clusterKey"
+          v-tooltip="t('game.base.step1.clusterKey.tip')"
+          :rules="roomFormRules.clusterKey"
+          :label="t('game.base.step1.clusterKey.name')"
+          :append-inner-icon="isClusterKeyVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+          :type="isClusterKeyVisible ? 'text' : 'password'"
+          @click:append-inner="isClusterKeyVisible = !isClusterKeyVisible"
         />
       </v-col>
     </v-row>
@@ -259,22 +303,22 @@
 <script setup>
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import {GamePortFactor} from "@/config/index.js";
-import {generateRandomString} from "@/utils/tools.js";
-
-const { mobile } = useDisplay()
-const { t } = useI18n()
+import { GamePortFactor } from "@/config/index.js"
+import { generateRandomString } from "@/utils/tools.js"
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   lastRoomID: {
     type: Number,
     default: 0,
   },
 })
+
+const { mobile } = useDisplay()
+const { t } = useI18n()
 
 onMounted(() => {
   if ((props.formData?.id||0) !== 0) {
@@ -313,35 +357,35 @@ const roomFormRules = ref({
     value => {
       if (value) return true
 
-      return t('game.base.gameName.required')
+      return t('game.base.step1.gameName.required')
     },
   ],
   token: [
     value => {
       if (value) return true
 
-      return t('game.base.token.required')
+      return t('game.base.step1.token.required')
     },
   ],
   masterIP: [
     value => {
       if (value) return true
 
-      return t('game.base.masterIP.required')
+      return t('game.base.step1.masterIP.required')
     },
   ],
   masterPort: [
     value => {
       if (value) return true
 
-      return t('game.base.masterPort.required')
+      return t('game.base.step1.masterPort.required')
     },
   ],
   clusterKey: [
     value => {
       if (value) return true
 
-      return t('game.base.clusterKey.required')
+      return t('game.base.step1.clusterKey.required')
     },
   ],
 })
@@ -350,22 +394,27 @@ const isPasswordVisible = ref(false)
 const isTokenVisible = ref(false)
 const isClusterKeyVisible = ref(false)
 
+const handleAddToken = () => {
+  roomForm.value.token = '1'
+}
+
 const validate = async () => {
-  const {valid} = await roomFormRef.value.validate();
+  const { valid } = await roomFormRef.value.validate()
   if (valid) {
     return {
       validate: true,
-      formData: roomForm.value
+      formData: roomForm.value,
     }
   }
+  
   return {
     validate: false,
-    formData: {}
+    formData: {},
   }
 }
 
 defineExpose({
-  validate
+  validate,
 })
 </script>
 

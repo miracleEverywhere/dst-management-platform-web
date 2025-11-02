@@ -24,7 +24,7 @@ const eventBus = {
     if (this.events[event]) {
       this.events[event] = this.events[event].filter(cb => cb !== callback)
     }
-  }
+  },
 }
 
 export default eventBus

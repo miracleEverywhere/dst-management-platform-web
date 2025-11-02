@@ -58,7 +58,7 @@ const handleSwitchLanguage = () => {
 watch(() => globalStore.language, () => {
   // 当 language 变化时，手动触发 dimensionList 的更新
   handleSwitchLanguage()
-},)
+})
 
 const handleChangeLanguage = lang => {
   i18n.locale.value = lang

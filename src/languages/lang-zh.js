@@ -1,3 +1,5 @@
+import { groundWorldGeneration, groundWorldRule } from "@/views/game/components/levelDataMap.js"
+
 export default {
   global: {
     title: "饥荒管理平台",
@@ -121,86 +123,159 @@ export default {
       button: '下一步',
     },
     base: {
-      gameName: {
-        name: '房间名',
-        tip: '可通过游戏房间名在游戏大厅进行搜索',
-        required: '请输入房间名',
-      },
-      description: {
-        name: '房间描述',
-        tip: '按Tab键显示在游戏房间名下方的文字',
-      },
-      gameMode: {
-        name: '游戏模式',
-        tip: '不同模式会生成不同类型的世界，萌新可无脑选无尽',
-        modes: {
-          endless: '无尽',
-          survival: '生存',
-          relaxed: '轻松',
-          wilderness: '荒野',
-          lightsOut: '暗无天日',
-          lavaarena: '熔炉',
-          quagmire: '暴食',
-          custom: '自定义',
+      step1: {
+        gameName: {
+          name: '房间名',
+          tip: '可通过游戏房间名在游戏大厅进行搜索',
+          required: '请输入房间名',
+        },
+        description: {
+          name: '房间描述',
+          tip: '按Tab键显示在游戏房间名下方的文字',
+        },
+        gameMode: {
+          name: '游戏模式',
+          tip: '不同模式会生成不同类型的世界，萌新可无脑选无尽',
+          modes: {
+            endless: '无尽',
+            survival: '生存',
+            relaxed: '轻松',
+            wilderness: '荒野',
+            lightsOut: '暗无天日',
+            lavaarena: '熔炉',
+            quagmire: '暴食',
+            custom: '自定义',
+          },
+        },
+        pvp: {
+          name: '玩家对战',
+          tip: '游戏中的玩家是否能互相攻击',
+          enable: '开启',
+          disable: '关闭',
+        },
+        maxPlayer: {
+          name: '玩家数量',
+          tip: '可进入游戏的最大玩家数',
+        },
+        maxRollBack: {
+          name: '回档天数',
+          tip: '即每次游戏保存后生成的快照的最大值，如设置20，表示可以回档20天',
+        },
+        modInOne: {
+          name: '统一模组',
+          tip: '每个世界的模组是否独立设置',
+          enable: '开启',
+          disable: '关闭',
+        },
+        vote: {
+          name: '玩家投票',
+          tip: '游戏中的玩家是否能进行投票回档、重置、踢人等操作',
+          enable: '开启',
+          disable: '关闭',
+        },
+        pauseEmpty: {
+          name: '自动暂停',
+          tip: '游戏中没有玩家时是否自动暂停游戏时间',
+          enable: '开启',
+          disable: '关闭',
+        },
+        password: {
+          name: '游戏密码',
+          tip: '玩家进入游戏是否需要输入密码，如无需密码则留空',
+        },
+        token: {
+          name: '游戏令牌',
+          tip: '在科雷官网申请的饥荒游戏令牌',
+          required: '请输入游戏令牌',
+          buttonAdd: '默认令牌',
+          buttonUrl: '创建令牌',
+        },
+        masterIP: {
+          name: '主世界IP',
+          tip: '如果所有世界都在当前云服务器，则无需更改，详细解释见文档',
+          required: '请输入主世界IP',
+        },
+        masterPort: {
+          name: '主世界端口',
+          tip: '从世界连接主世界的端口，如果所有世界都在当前云服务器，则无需更改，详细解释见文档',
+          required: '请输入主世界端口',
+        },
+        clusterKey: {
+          name: '世界认证密码',
+          tip: '从世界与主世界连接的认证密码',
+          required: '请输入世界认证密码',
         },
       },
-      pvp: {
-        name: '玩家对战',
-        tip: '游戏中的玩家是否能互相攻击',
-        enable: '开启',
-        disable: '关闭',
-      },
-      maxPlayer: {
-        name: '玩家数量',
-        tip: '可进入游戏的最大玩家数',
-      },
-      maxRollBack: {
-        name: '回档天数',
-        tip: '即每次游戏保存后生成的快照的最大值，如设置20，表示可以回档20天',
-      },
-      modInOne: {
-        name: '统一模组',
-        tip: '每个世界的模组是否独立设置',
-        enable: '开启',
-        disable: '关闭',
-      },
-      vote: {
-        name: '玩家投票',
-        tip: '游戏中的玩家是否能进行投票回档、重置、踢人等操作',
-        enable: '开启',
-        disable: '关闭',
-      },
-      pauseEmpty: {
-        name: '自动暂停',
-        tip: '游戏中没有玩家时是否自动暂停游戏时间',
-        enable: '开启',
-        disable: '关闭',
-      },
-      password: {
-        name: '游戏密码',
-        tip: '玩家进入游戏是否需要输入密码，如无需密码则留空',
-      },
-      token: {
-        name: '游戏令牌',
-        tip: '在科雷官网申请的饥荒游戏令牌',
-        required: '请输入游戏令牌',
-        buttonAdd: '默认令牌',
-        buttonUrl: '创建令牌',
-      },
-      masterIP: {
-        name: '主世界IP',
-        tip: '如果所有世界都在当前云服务器，则无需更改，详细解释见文档',
-        required: '请输入主世界IP',
-      },
-      masterPort: {
-        name: '主世界端口',
-        tip: '从世界连接主世界的端口，如果所有世界都在当前云服务器，则无需更改，详细解释见文档',
-        required: '请输入主世界端口',
-      },
-      clusterKey: {
-        name: '世界认证密码',
-        tip: '从世界与主世界连接的认证密码',
-        required: '请输入世界认证密码',
+      step2: {
+        oneClickSet: {
+          name: '一键带入',
+          ground: '地面',
+          cave: '洞穴',
+        },
+        code: '代码配置',
+        visualization: '可视化配置',
+        isMaster: {
+          name: '主世界',
+          tip: '此世界是否为主世界',
+          radio: {
+            yes: '是',
+            no: '否',
+          },
+        },
+        encodeUserPath: {
+          name: '路径编码',
+          tip: '是否开启用户存档路径编码，建议开启',
+          radio: {
+            yes: '是',
+            no: '否',
+          },
+        },
+        gameID: {
+          name: '世界ID',
+          tip: '一个房间下，每个世界的ID都不应该相同',
+          required: '请输入世界ID',
+        },
+        serverPort: {
+          name: '直连端口',
+          tip: '玩家进入游戏时，需要与该端口进行通信，协议为UDP',
+          required: '请输入直连端口',
+        },
+        masterServerPort: {
+          name: 'Steam连接端口',
+          tip: '如无特殊用途，请勿更改，对应字段为server.ini-[STEAM]-master_server_port',
+          required: '请输入Steam连接端口',
+        },
+        authenticationPort: {
+          name: 'Steam认证端口',
+          tip: '如无特殊用途，请勿更改，对应字段为server.ini-[STEAM]-authentication_port',
+          required: '请输入Steam认证端口',
+        },
+        itemUndefined: '你的配置文件不是最新版哦',
+        worldRule: {
+          worldRule: '世界规则',
+          global: '全局',
+          events: '活动',
+          survivors: '冒险家',
+          world: '世界',
+          resourceRegrowth: '资源再生',
+          unnaturalPortalResource: '非自然传送门资源',
+          creatures: '生物',
+          hostileCreatures: '敌对生物',
+          giants: '巨兽',
+          moonMutated: '月亮变异',
+        },
+        worldGeneration: {
+          worldGeneration: '世界生成',
+          global: '全局',
+          world: '世界',
+          resources: '资源',
+          creaturesAndSpawners: '生物以及刷新点',
+          hostileCreaturesAndSpawners: '敌对生物以及刷新点',
+        },
+        levelData: {
+          required: '请输入世界代码配置',
+          lua: '世界代码配置格式错误',
+        },
       },
     },
   },
