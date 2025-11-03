@@ -22,8 +22,8 @@ export default {
       return await http.get(this.url, data)
     },
   },
-  lastID: {
-    url: `/room/last_id`,
+  portFactor: {
+    url: `/room/port/factor`,
     get: async function(data){
       return await http.get(this.url, data)
     },

@@ -295,3 +295,7 @@ export const generateRandomString = length => {
 
   return result
 }
+
+export const countModFromLua = lua => {
+  return (lua.match(/\[\"workshop-\d+\"\]/g) || []).length
+}

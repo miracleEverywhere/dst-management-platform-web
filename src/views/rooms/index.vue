@@ -45,7 +45,6 @@
       @click="getRooms"
     />
   </div>
-
   <v-row class="mt-8">
     <v-row>
       <v-col
@@ -60,6 +59,9 @@
           <v-card-title>
             <div class="fcb">
               <div class="fcc">
+                <v-chip color="primary">
+                  {{truncateString(room.gameName, mobile?8:15)}}
+                </v-chip>
                 <v-chip
                   :color="room.status?'success':'warning'"
                   class="ml-4"
@@ -137,62 +139,103 @@
             class="cursor-pointer"
             @click="selectRoom(room)"
           >
-            <v-row v-if="room.gameName!==''">
-              <v-col :cols="mobile?12:6">
-                <v-row>
-                  <v-col>
-                    <v-btn>{{ room.gameName }}</v-btn>
-                  </v-col>
-                </v-row>
-              </v-col>
-              <v-col :cols="mobile?12:6">
-                <v-card
-                  class="mx-auto"
-                  color="surface-light"
-                >
-                  <template #prepend>
-                    <v-icon
-                      color="primary"
-                      class="me-8"
-                      icon="ri-line-chart-line"
-                      size="64"
-                    />
-                  </template>
-                  <template #title>
-                    <div class="text-caption text-grey">
-                      {{t('rooms.card.success.text.right.chartTitle')}}
-                    </div>
-                    <span class="text-h3 font-weight-black">
+            <div
+                v-if="room.gameName!==''"
+                class="mt-4"
+            >
+              <v-row>
+                <v-col :cols="mobile?12:6">
+                  <v-row>
+                    <v-col cols="6">
+                      <span>游戏模式</span>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-chip color="info" label>
+                        {{t(`game.base.step1.gameMode.modes.${room.gameMode}`)}}
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <span>世界个数</span>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-chip color="info" label>
+                        {{room.worlds.length}}
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <span>模组个数</span>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-chip color="info" label>
+                        {{room.modInOne?countModFromLua(room.modData):countModFromLua(room.world[0].modData)}}
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <span>最大玩家</span>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-chip color="info" label>
+                        {{room.maxPlayer}}
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col :cols="mobile?12:6">
+                  <v-card
+                      class="mx-auto"
+                      color="surface-light"
+                  >
+                    <template #prepend>
+                      <v-icon
+                          color="primary"
+                          class="me-8"
+                          icon="ri-line-chart-line"
+                          size="64"
+                      />
+                    </template>
+                    <template #title>
+                      <div class="text-caption text-grey">
+                        {{t('rooms.card.success.text.right.chartTitle')}}
+                      </div>
+                      <span class="text-h3 font-weight-black">
                       <count-to
-                        :duration="4000"
-                        :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
-                        :start-val="0"
+                          :duration="4000"
+                          :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
+                          :start-val="0"
                       />
                     </span>
-                    <strong>{{t('rooms.card.success.text.right.unit')}}</strong>
-                  </template>
-                  <v-sheet color="transparent">
-                    <v-sparkline
-                      :gradient="['#f72047', '#ffd200', '#1feaea']"
-                      :line-width="3"
-                      :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
-                      :smooth="true"
-                      padding="8"
-                      stroke-linecap="round"
-                      auto-draw
-                    />
-                  </v-sheet>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row v-else>
+                      <strong>{{t('rooms.card.success.text.right.unit')}}</strong>
+                    </template>
+                    <v-sheet color="transparent">
+                      <v-sparkline
+                          :gradient="['#f72047', '#ffd200', '#1feaea']"
+                          :line-width="3"
+                          :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
+                          :smooth="true"
+                          padding="8"
+                          stroke-linecap="round"
+                          auto-draw
+                      />
+                    </v-sheet>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
+
+            <div v-else>
               <result
                 type="warning"
                 :height="mobile?600:300"
                 :title="t('rooms.card.warning.title')"
                 :sub-title="t('rooms.card.warning.subTitle')"
               />
-            </v-row>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -230,7 +273,7 @@ import { CountTo } from "vue3-count-to"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useI18n } from "vue-i18n"
-import { debounce } from "@/utils/tools"
+import {countModFromLua, debounce, truncateString} from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'

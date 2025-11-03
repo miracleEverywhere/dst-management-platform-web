@@ -10,7 +10,7 @@
         label
         color="primary"
       >
-        {{ globalStore.room.gameName }}
+        {{ truncateString(globalStore.room.gameName, 8) }}
       </v-chip>
       <v-chip
         v-else
@@ -32,7 +32,7 @@
         color="primary"
         class="mr-4"
       >
-        {{ t('global.room') + globalStore.room.gameName }}
+        {{ t('global.room') + truncateString(globalStore.room.gameName, 15) }}
       </v-chip>
       <v-chip
         v-else
@@ -66,6 +66,7 @@ import useGlobalStore from "@store/global"
 import { Version } from "@/config/index"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify"
+import {truncateString} from "../../utils/tools.js";
 
 const globalStore = useGlobalStore()
 const { t } = useI18n()

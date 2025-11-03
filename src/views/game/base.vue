@@ -116,7 +116,7 @@
           >
             <world
               ref="worldRef"
-              :last-room-i-d="lastRoomID"
+              :last-world-i-d="lastWorldID"
               :form-data="worldData"
               :game-mode="roomData.gameMode"
               :theme="globalStore.theme"
@@ -258,6 +258,7 @@ const { t } = useI18n()
 const dataGot = ref(false)
 // 不重复的生成相关端口
 const lastRoomID = ref(0)
+const lastWorldID = ref(0)
 
 const getRoomTotalInfo = async () => {
   if (globalStore.room.id !== 0) {
@@ -269,8 +270,9 @@ const getRoomTotalInfo = async () => {
 }
 
 const getRoomLastID = async () => {
-  const response = await roomApi.lastID.get()
-  lastRoomID.value = response.data
+  const response = await roomApi.portFactor.get()
+  lastRoomID.value = response.data.roomID
+  lastWorldID.value = response.data.worldID
 }
 
 const step = ref(0)
@@ -283,7 +285,7 @@ const calculateContainerSize = () => {
 }
 
 const handlePrev = () => {
-  step.value--
+  step.value = step.value - 1
 }
 
 const handleNext = async () => {
@@ -292,7 +294,7 @@ const handleNext = async () => {
       const result = await roomRef.value.validate()
       if (result.validate) {
         roomData.value = result.formData
-        step.value++
+        step.value = step.value + 1
       }
     }
   }
@@ -301,7 +303,7 @@ const handleNext = async () => {
       const result = await worldRef.value.validate()
       if (result.validate) {
         worldData.value = result.formData
-        step.value++
+        step.value = step.value + 1
       }
     }
   }
@@ -310,7 +312,7 @@ const handleNext = async () => {
       const result = await modRef.value.validate()
       if (result.validate) {
         modData.value = result.formData
-        step.value++
+        step.value = step.value + 1
       }
     }
   }
@@ -321,7 +323,7 @@ const handleNext = async () => {
       console.log(result)
       if (result.validate) {
         roomSettingData.value = result.formData
-        step.value++
+        step.value = step.value + 1
       }
     }
   }

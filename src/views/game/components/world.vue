@@ -89,7 +89,7 @@
   </v-tabs>
   <v-tabs-window
     v-model="worldTabName"
-    class="mx-8"
+
   >
     <v-tabs-window-item
       v-for="world in worldForm"
@@ -98,7 +98,7 @@
     >
       <v-form :ref="(el) => (dynamicWorldRefs[world.name] = el)">
         <v-row class="mt-4">
-          <v-col>
+          <v-col :cols="mobile?12:3">
             <v-radio-group
               v-model="world.isMaster"
               inline
@@ -120,7 +120,7 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col>
+          <v-col :cols="mobile?12:3">
             <v-radio-group
               v-model="world.encodeUserPath"
               inline
@@ -142,7 +142,7 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col>
+          <v-col :cols="mobile?12:3">
             <v-number-input
               v-model="world.gameID"
               v-tooltip="t('game.base.step2.gameID.tip')"
@@ -155,7 +155,7 @@
           </v-col>
         </v-row>
         <v-row class="mt-2">
-          <v-col>
+          <v-col :cols="mobile?12:3">
             <v-number-input
               v-model="world.serverPort"
               v-tooltip="t('game.base.step2.serverPort.tip')"
@@ -166,7 +166,7 @@
               style="margin-bottom: -1.25rem"
             />
           </v-col>
-          <v-col>
+          <v-col :cols="mobile?12:3">
             <v-number-input
               v-model="world.masterServerPort"
               v-tooltip="t('game.base.step2.masterServerPort.tip')"
@@ -177,7 +177,7 @@
               style="margin-bottom: -1.25rem"
             />
           </v-col>
-          <v-col>
+          <v-col :cols="mobile?12:3">
             <v-number-input
               v-model="world.authenticationPort"
               v-tooltip="t('game.base.step2.authenticationPort.tip')"
@@ -222,7 +222,7 @@
         <v-tabs-window-item value="Code">
           <code-editor
             v-model="world.levelData"
-            :height="props.tabWindowHeight"
+            :height="mobile?300:props.tabWindowHeight"
             :theme="props.theme === 'dark' ? 'lucario' : 'idea'"
             class="mt-4"
             mode="lua"
@@ -891,7 +891,7 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
-  lastRoomID: {
+  lastWorldID: {
     type: Number,
     default: 0,
   },
@@ -924,9 +924,9 @@ onMounted(() => {
     worldForm.value[0].name = 'World1'
     worldForm.value[0].isMaster = true
     worldForm.value[0].gameID = 101
-    worldForm.value[0].serverPort = props.lastRoomID + GamePortFactor.serverPort + 1
-    worldForm.value[0].masterServerPort = props.lastRoomID + GamePortFactor.masterServerPort + 1
-    worldForm.value[0].authenticationPort = props.lastRoomID + GamePortFactor.authenticationPort + 1
+    worldForm.value[0].serverPort = props.lastWorldID + GamePortFactor.serverPort + 1
+    worldForm.value[0].masterServerPort = props.lastWorldID + GamePortFactor.masterServerPort + 1
+    worldForm.value[0].authenticationPort = props.lastWorldID + GamePortFactor.authenticationPort + 1
   }
   worldTabName.value = worldForm.value[0].name
 })
@@ -1294,5 +1294,6 @@ watch(worldTabName, v => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
   gap: 10px;
+  min-width: 360px;
 }
 </style>
