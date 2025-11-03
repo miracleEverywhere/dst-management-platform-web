@@ -91,37 +91,89 @@
       >
         <v-stepper-window-item :value="0">
           <v-container
+            v-if="dataGot"
             :height="calculateContainerSize()"
             style="overflow-y: auto"
           >
-            <room ref="roomRef" />
+            <room
+              ref="roomRef"
+              :last-room-i-d="lastRoomID"
+              :form-data="roomData"
+            />
           </v-container>
+          <result
+            v-else
+            type="info"
+            :title="t('game.base.loading')"
+            :height="calculateContainerSize()"
+          />
         </v-stepper-window-item>
         <v-stepper-window-item :value="1">
           <v-container
+            v-if="dataGot"
             :height="calculateContainerSize()"
             style="overflow-y: auto"
           >
             <world
               ref="worldRef"
+              :last-room-i-d="lastRoomID"
+              :form-data="worldData"
               :game-mode="roomData.gameMode"
               :theme="globalStore.theme"
               :tab-window-height="calculateContainerSize()-300"
             />
           </v-container>
+          <result
+            v-else
+            type="info"
+            :title="t('game.base.loading')"
+            :height="calculateContainerSize()"
+          />
         </v-stepper-window-item>
         <v-stepper-window-item :value="2">
           <v-container
+            v-if="dataGot"
             :height="calculateContainerSize()"
             style="overflow-y: auto"
           >
             <mod
               ref="modRef"
               :worlds="worldData"
+              :mod="roomData.modData"
+              :mod-in-one="roomData.modInOne"
               :theme="globalStore.theme"
               :tab-window-height="calculateContainerSize()-110"
             />
           </v-container>
+          <result
+            v-else
+            type="info"
+            :title="t('game.base.loading')"
+            :height="calculateContainerSize()"
+          />
+        </v-stepper-window-item>
+        <v-stepper-window-item :value="3">
+          <v-container
+            v-if="dataGot"
+            :height="calculateContainerSize()"
+            style="overflow-y: auto"
+          >
+            <room-setting ref="roomSettingRef" />
+          </v-container>
+          <result
+            v-else
+            type="info"
+            :title="t('game.base.loading')"
+            :height="calculateContainerSize()"
+          />
+        </v-stepper-window-item>
+        <v-stepper-window-item :value="4">
+          <result
+            type="success"
+            :height="calculateContainerSize()"
+            :title="t('game.base.step5.title')"
+            :sub-title="t('game.base.step5.subTitle')"
+          />
         </v-stepper-window-item>
       </v-stepper-window>
 
@@ -133,7 +185,7 @@
             variant="elevated"
             @click="handlePrev"
           >
-            上一步
+            {{ t('game.prev') }}
           </v-btn>
         </template>
         <template #next>
@@ -143,36 +195,18 @@
             variant="elevated"
             @click="handleNext"
           >
-            下一步
+            {{ t('game.next.button') }}
           </v-btn>
-          <v-menu open-on-click>
-            <template #activator="{ props }">
-              <v-btn
-                v-if="step===4"
-                :disabled="false"
-                color="success"
-                prepend-icon="ri-list-unordered"
-                variant="elevated"
-                v-bind="props"
-              >
-                操作
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                title="保存"
-                @click="console.log(1)"
-              />
-              <v-list-item
-                title="保存并重启"
-                @click="console.log(1)"
-              />
-              <v-list-item
-                title="生成新世界"
-                @click="console.log(1)"
-              />
-            </v-list>
-          </v-menu>
+          <v-btn
+            v-if="step===4"
+            color="success"
+            :disabled="false"
+            :loading="saveButtonLoading"
+            variant="elevated"
+            @click="handleSave"
+          >
+            {{ t('game.next.save') }}
+          </v-btn>
         </template>
       </v-stepper-actions>
     </v-stepper>
@@ -188,28 +222,56 @@ import { useI18n } from "vue-i18n"
 import room from "@/views/game/components/room.vue"
 import world from "@/views/game/components/world.vue"
 import mod from "@/views/game/components/mod.vue"
+import roomSetting from "@/views/game/components/roomSetting.vue"
+import roomApi from "@/api/room.js"
+import { showSnackbar } from "@/utils/snackbar.js"
+import {useRouter} from "vue-router";
 
-onMounted(() => {
-  // 防抖处理resize事件
-  const handleResize = debounce(() => {
-    windowHeight.value = window.innerHeight
-  }, 200)
 
+onMounted(async () => {
+  await Promise.all([getRoomLastID(), getRoomTotalInfo()])
+  dataGot.value = true
 
   // 添加事件监听
   window.addEventListener('resize', handleResize)
+})
 
-  // 在组件卸载时移除监听
-  onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
-  })
+// 防抖处理resize事件
+const handleResize = debounce(() => {
+  windowHeight.value = window.innerHeight
+}, 200)
+
+// 在组件卸载时移除监听
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
 })
 
 const windowHeight = ref(window.innerHeight)
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const { mobile } = useDisplay()
+const router = useRouter()
 const { t } = useI18n()
+
+
+// 判断是否获取到接口数据，为了component回显
+const dataGot = ref(false)
+// 不重复的生成相关端口
+const lastRoomID = ref(0)
+
+const getRoomTotalInfo = async () => {
+  if (globalStore.room.id !== 0) {
+    const response = await roomApi.base.get({ id: globalStore.room.id })
+    roomData.value = response.data.roomData
+    worldData.value = response.data.worldData
+    DBToRoomSetting(response.data.roomSettingData)
+  }
+}
+
+const getRoomLastID = async () => {
+  const response = await roomApi.lastID.get()
+  lastRoomID.value = response.data
+}
 
 const step = ref(0)
 
@@ -243,12 +305,123 @@ const handleNext = async () => {
       }
     }
   }
+  if (step.value === 2) {
+    if (modRef.value) {
+      const result = await modRef.value.validate()
+      if (result.validate) {
+        modData.value = result.formData
+        step.value++
+      }
+    }
+  }
+  if (step.value === 3) {
+    if (roomSettingRef.value) {
+      const result = await roomSettingRef.value.validate()
+
+      console.log(result)
+      if (result.validate) {
+        roomSettingData.value = result.formData
+        step.value++
+      }
+    }
+  }
 }
 
 const roomRef = ref()
-const roomData = ref()
+
+const roomData = ref({
+
+})
 
 const worldRef = ref()
-const worldData = ref()
+const worldData = ref([])
+
+const modRef = ref()
+const modData = ref()
+
+const roomSettingRef = ref()
+const roomSettingData = ref({})
+
+const roomSettingToDB = () => {
+  return {
+    roomID: 0,
+    backupEnable: roomSettingData.value.backup.enable,
+    backupSetting: JSON.stringify(roomSettingData.value.backup.setting),
+    backupCleanEnable: roomSettingData.value.backupClean.enable,
+    backupCleanSetting: roomSettingData.value.backupClean.setting,
+    restartEnable: roomSettingData.value.restart.enable,
+    restartSetting: roomSettingData.value.restart.setting,
+    keepaliveEnable: roomSettingData.value.keepalive.enable,
+    keepaliveSetting: roomSettingData.value.keepalive.setting,
+    scheduledStartStopEnable: roomSettingData.value.scheduledStartStop.enable,
+    scheduledStartStopSetting: JSON.stringify(roomSettingData.value.scheduledStartStop.setting),
+    tickRate: roomSettingData.value.tickRate,
+    bit64: roomSettingData.value.bit64,
+  }
+}
+
+const DBToRoomSetting = data => {
+  roomSettingData.value = {
+    backup: {
+      enable: data.backupEnable,
+      setting: JSON.parse(data.backupSetting),
+    },
+    backupClean: {
+      enable: data.backupCleanEnable,
+      setting: data.backupCleanSetting,
+    },
+    restart: {
+      enable: data.restartEnable,
+      setting: data.restartSetting,
+    },
+    keepalive: {
+      enable: data.keepaliveEnable,
+      setting: data.keepaliveSetting,
+    },
+    scheduledStartStop: {
+      enable: data.scheduledStartStopEnable,
+      setting: JSON.parse(data.scheduledStartStopSetting),
+    },
+    tickRate: data.tickRate,
+    bit64: data.bit64,
+  }
+}
+
+const saveButtonLoading = ref(false)
+
+const handleSave = () => {
+  const reqForm = {
+    roomData: roomData.value,
+    worldData: worldData.value,
+    roomSettingData: roomSettingToDB(),
+  }
+
+  if (globalStore.room.id) {
+    // 修改
+  } else {
+    // 创建
+    for (let i = 0; i < reqForm.worldData.length; i++) {
+      if (modData.value.modInOne) {
+        reqForm.roomData.modInOne = true
+        reqForm.roomData.modData = modData.value.modData
+      } else {
+        reqForm.worldData[i]['id'] = 0
+        reqForm.worldData[i].modData = modData.value.worlds[i].modData
+        delete reqForm.worldData[i].name
+      }
+    }
+    saveButtonLoading.value = true
+    roomApi.base.post(reqForm).then(response => {
+      showSnackbar(response.message)
+      globalStore.room = {
+        id: response.data.id,
+        gameName: response.data.gameName,
+      }
+      router.push('/dashboard')
+    }).finally(() => {
+      saveButtonLoading.value = false
+    })
+  }
+}
 </script>
 

@@ -1,5 +1,3 @@
-import { groundWorldGeneration, groundWorldRule } from "@/views/game/components/levelDataMap.js"
-
 export default {
   global: {
     title: "饥荒管理平台",
@@ -79,8 +77,16 @@ export default {
           menu: {
             activate: '激活',
             deactivate: '关闭',
-            edit: '编辑',
             delete: '删除',
+          },
+        },
+        text: {
+          left: {
+
+          },
+          right: {
+            chartTitle: '60分钟最大玩家数',
+            unit: '人',
           },
         },
       },
@@ -96,33 +102,15 @@ export default {
         subTitle: '请更换搜索内容重新查询吧',
       },
     },
-    dialog: {
-      create: {
-        title: '创建房间',
-        form: {
-          name: '房间名',
-          displayName: '房间昵称',
-        },
-        rules: {
-          name: '请输入房间名',
-        },
-        tips: {
-          name: '用于区分不同的房间，不可重复',
-          displayName: '为了让你能够更方便的区分不同的房间，只起到标识作用，如果不填则与房间名一致',
-        },
-        actions: {
-          cancel: '取消',
-          create: '创建',
-        },
-      },
-    },
   },
   game: {
     prev: '上一步',
     next: {
       button: '下一步',
+      save: '保存',
     },
     base: {
+      loading: '拼命加载中',
       step1: {
         gameName: {
           name: '房间名',
@@ -284,6 +272,85 @@ export default {
           enable: '统一设置',
           disable: '单独设置',
         },
+        modDataError: '模组配置格式错误',
+      },
+      step4: {
+        form: {
+          backup: {
+            name: '自动备份',
+            enable: '开启',
+            disable: '关闭',
+            time: '备份时间',
+            add: '添加',
+            deleteBlock: '至少含有一个备份时间',
+            tip: {
+              name: '开启后，会在设置时间自动备份游戏存档',
+              time: '可设置多个备份时间',
+            },
+          },
+          backupClean: {
+            name: '备份清理',
+            enable: '开启',
+            disable: '关闭',
+            days: '备份保留时长',
+            unit: '天',
+            tip: {
+              name: '开启后，会自动清理设置天数前的备份文件',
+              days: '如设置10天，则会清理10天前生成的备份文件',
+            },
+            required: '请输入备份保留时长',
+          },
+          restart: {
+            name: '自动重启',
+            enable: '开启',
+            disable: '关闭',
+            time: '重启时间',
+            tip: {
+              name: '将在设置时间重启饥荒服务器，以更新模组',
+              time: '建议将时间设置在无玩家游戏的时间，重启前15分钟会在游戏中进行重启公告',
+            },
+          },
+          keepalive: {
+            name: '自动保活',
+            enable: '开启',
+            disable: '关闭',
+            interval: '检测频率',
+            unit: '分钟',
+            tip: {
+              name: '饥荒管理平台发现有世界异常后，会自动重启该世界',
+              interval: '平台将按照检测频率，对所有世界进行检测',
+            },
+            required: '请输入检测频率',
+          },
+          scheduledStartStop: {
+            name: '自动开启关闭游戏',
+            enable: '开启',
+            disable: '关闭',
+            time: {
+              start: '开启时间',
+              stop: '关闭时间',
+            },
+            tip: {
+              name: '饥荒管理平台会在指定的时间开启或关闭游戏',
+              start: '在设置时间开启游戏',
+              stop: '在设置时间关闭游戏',
+            },
+          },
+          tickRate: {
+            name: 'Tick Rate',
+            tip: '玩家游戏客户端与饥荒专用服务器之间的通信频率，越高越流畅，但会带来更多的资源消耗',
+          },
+          bit64: {
+            name: '64位启动',
+            enable: '开启',
+            disable: '关闭',
+            tip: '64位专用服务器处理数据更快，但会带来更多的内存消耗',
+          },
+        },
+      },
+      step5: {
+        title: '完成配置',
+        subTitle: '请点击下方"保存"按钮进行保存',
       },
     },
   },

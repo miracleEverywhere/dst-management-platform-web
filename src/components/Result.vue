@@ -15,7 +15,7 @@
       />
       <v-icon
         v-if="props.type==='info'"
-        color="default"
+        color="info"
         size="72"
         icon="ri-information-2-fill"
       />
@@ -28,6 +28,12 @@
       <v-icon
         v-if="props.type==='error'"
         color="error"
+        size="72"
+        icon="ri-close-circle-fill"
+      />
+      <v-icon
+        v-if="props.type===''"
+        color="default"
         size="72"
         icon="ri-close-circle-fill"
       />

@@ -60,13 +60,6 @@
           <v-card-title>
             <div class="fcb">
               <div class="fcc">
-                {{ room.displayName }}
-                <v-chip
-                  color="default"
-                  class="ml-4"
-                >
-                  {{ room.name }}
-                </v-chip>
                 <v-chip
                   :color="room.status?'success':'warning'"
                   class="ml-4"
@@ -74,7 +67,7 @@
                   {{ room.status?t('rooms.card.success.header.title.activated'):t('rooms.card.success.header.title.deactivated') }}
                 </v-chip>
                 <v-icon
-                  v-if="globalStore.room.name===room.name"
+                  v-if="globalStore.room.id===room.id"
                   icon="ri-crosshair-2-line"
                   color="info"
                   class="ml-4"
@@ -121,20 +114,6 @@
                     </v-list-item-title>
                   </v-list-item>
                   <v-list-item
-                    class="text-info"
-                    @click="console.log(room.name)"
-                  >
-                    <template #prepend>
-                      <v-icon
-                        icon="ri-file-edit-line"
-                        size="22"
-                      />
-                    </template>
-                    <v-list-item-title>
-                      {{ t('rooms.card.success.header.menu.edit') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item
                     class="text-error"
                     @click="console.log(room.name)"
                   >
@@ -156,7 +135,7 @@
           <v-card-text
             v-ripple
             class="cursor-pointer"
-            @click="gotoDashboard({name: room.name, displayName: room.displayName})"
+            @click="selectRoom(room)"
           >
             <v-row v-if="room.gameName!==''">
               <v-col :cols="mobile?12:6">
@@ -181,7 +160,7 @@
                   </template>
                   <template #title>
                     <div class="text-caption text-grey">
-                      60分钟最大玩家数
+                      {{t('rooms.card.success.text.right.chartTitle')}}
                     </div>
                     <span class="text-h3 font-weight-black">
                       <count-to
@@ -190,7 +169,7 @@
                         :start-val="0"
                       />
                     </span>
-                    <strong>人</strong>
+                    <strong>{{t('rooms.card.success.text.right.unit')}}</strong>
                   </template>
                   <v-sheet color="transparent">
                     <v-sparkline
@@ -242,56 +221,6 @@
       :sub-title="t('rooms.result.noRoom.subTitle')"
     />
   </div>
-
-  <v-dialog
-    v-model="createDialog"
-    :width="mobile?'90%':'65%'"
-  >
-    <v-form
-      fast-fail
-      @submit.prevent="handleCreate"
-    >
-      <v-card>
-        <v-card-title>
-          {{ t('rooms.dialog.create.title') }}
-        </v-card-title>
-        <v-card-text class="mx-4">
-          <v-row class="mt-8">
-            <v-text-field
-              v-model="createForm.name"
-              v-tooltip="t('rooms.dialog.create.tips.name')"
-              :rules="createFormRules.name"
-              :label="t('rooms.dialog.create.form.name')"
-            />
-          </v-row>
-          <v-row class="mt-8">
-            <v-text-field
-              v-model="createForm.displayName"
-              v-tooltip="t('rooms.dialog.create.tips.displayName')"
-              :label="t('rooms.dialog.create.form.displayName')"
-            />
-          </v-row>
-        </v-card-text>
-        <v-card-actions class="mt-16 mx-4 mb-8">
-          <v-spacer />
-          <v-btn
-            color="default"
-            variant="elevated"
-            @click="createDialog=false"
-          >
-            {{ t('rooms.dialog.create.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            :loading="createLoading"
-            variant="elevated"
-            type="submit"
-          >
-            {{ t('rooms.dialog.create.actions.create') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-form>
-  </v-dialog>
 </template>
 
 <script setup>
@@ -367,34 +296,6 @@ const getRooms = () => {
   })
 }
 
-const createDialog = ref(false)
-const createRef = ref()
-
-const createForm = ref({
-  name: '',
-  displayName: '',
-})
-
-const createFormRules = ref({
-  name: [
-    value => {
-      if (value) return true
-      
-      return t('rooms.dialog.create.rules.name')
-    },
-  ],
-})
-
-const createLoading = ref(false)
-
-const openCreateDialog = () => {
-  createForm.value = {
-    name: '',
-    displayName: '',
-  }
-  createDialog.value = true
-}
-
 const handleCreate = async event => {
   createLoading.value = true
 
@@ -424,6 +325,11 @@ const gotoGameBase = async () => {
 
 const toggleMenu = () => {
   eventBus.emit('toggleMenu', 3)
+}
+
+const selectRoom = room => {
+  globalStore.room.id = room.id
+  globalStore.room.gameName = room.gameName
 }
 
 

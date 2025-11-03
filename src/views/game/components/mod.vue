@@ -64,6 +64,8 @@
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import CodeEditor from "@/components/CodeEditor.vue"
+import { showSnackbar } from "@/utils/snackbar.js"
+import luaparse from "luaparse"
 
 const props = defineProps({
   worlds: {
@@ -87,8 +89,6 @@ const props = defineProps({
     default: 600,
   },
 })
-
-const isMounted = ref(false)
 
 onMounted(() => {
   modForm.value.modInOne = props.modInOne
@@ -116,6 +116,42 @@ const handleModInOneChanged = () => {
 }
 
 const worldTabName = ref('')
+
+const validate = async () => {
+  const returnData = {
+    validate: false,
+    formData: {},
+  }
+
+  if (modForm.value.modInOne) {
+    try {
+      luaparse.parse(modForm.value.modData)
+    } catch (e) {
+      showSnackbar(t('game.base.step3.modDataError'), 'error')
+
+      return returnData
+    }
+  } else {
+    for (let world of modForm.value.worlds) {
+      try {
+        luaparse.parse(world.modData)
+      } catch (e) {
+        showSnackbar(t('game.base.step3.modDataError'), 'error')
+
+        return returnData
+      }
+    }
+  }
+
+  returnData.validate = true
+  returnData.formData = modForm.value
+
+  return returnData
+}
+
+defineExpose({
+  validate,
+})
 
 watch(worldTabName, v => {
   if (!v) {

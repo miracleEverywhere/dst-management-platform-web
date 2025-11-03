@@ -77,8 +77,16 @@ export default {
           menu: {
             activate: 'Activate',
             deactivate: 'Deactivate',
-            edit: 'Edit',
             delete: 'Delete',
+          },
+        },
+        text: {
+          left: {
+
+          },
+          right: {
+            chartTitle: 'Max num Players',
+            unit: 's',
           },
         },
       },
@@ -119,8 +127,10 @@ export default {
     prev: 'Prev',
     next: {
       button: 'Next',
+      save: 'Save',
     },
     base: {
+      loading: 'Loading',
       step1: {
         gameName: {
           name: 'Room Name',
@@ -270,7 +280,11 @@ export default {
           creaturesAndSpawners: 'Creatures And Spawners',
           hostileCreaturesAndSpawners: 'Hostile Creatures And Spawners',
         },
-        levelDataNeeded: 'Please input world code configuration',
+        levelData: {
+          required: 'Please input world code configuration',
+          lua: 'World code configuration format error',
+        },
+        levelDataNeeded: '',
       },
       step3: {
         modInOne: {
@@ -279,6 +293,85 @@ export default {
           enable: 'Unified settings',
           disable: 'Individual settings',
         },
+        modDataError: 'Mod code format error',
+      },
+      step4: {
+        form: {
+          backup: {
+            name: 'Auto Backup',
+            enable: 'Enable',
+            disable: 'Disable',
+            time: 'Backup Time',
+            add: 'Add',
+            deleteBlock: 'Must include at least one backup time',
+            tip: {
+              name: 'When enabled, the game save will be automatically backed up at the set time',
+              time: 'Multiple backup times can be set',
+            },
+          },
+          backupClean: {
+            name: 'Backup Clean',
+            enable: 'Enable',
+            disable: 'Disable',
+            days: 'Backup retention period',
+            unit: 'Day',
+            tip: {
+              name: 'When enabled, backup files older than the set number of days will be automatically cleaned up',
+              days: 'If set to 10 days, backup files generated more than 10 days ago will be cleaned up',
+            },
+            required: 'Please input Backup retention period',
+          },
+          restart: {
+            name: 'Auto Restart',
+            enable: 'Enable',
+            disable: 'Disable',
+            time: 'Restart Time',
+            tip: {
+              name: 'The DST server will restart at the set time to update mods',
+              time: 'It is recommended to schedule the restart during a time when no players are in the game. A restart announcement will be made in the game 15 minutes before the restart',
+            },
+          },
+          keepalive: {
+            name: 'Keepalive',
+            enable: 'Enable',
+            disable: 'Disable',
+            interval: 'Interval',
+            unit: 'Minute',
+            tip: {
+              name: 'When the DMP detects an abnormal world, it will automatically restart that world',
+              interval: 'The DMP will check all worlds according to the interval',
+            },
+            required: 'Please input Interval',
+          },
+          scheduledStartStop: {
+            name: 'Auto Start Stop',
+            enable: 'Enable',
+            disable: 'Disable',
+            time: {
+              start: 'Start Time',
+              stop: 'Stop Time',
+            },
+            tip: {
+              name: 'The DMP will start or stop the game at the specified time',
+              start: 'Start the game at the set time',
+              stop: 'Stop the game at the set time',
+            },
+          },
+          tickRate: {
+            name: 'Tick Rate',
+            tip: 'The communication frequency between the player\'s game client and the DST dedicated server. Higher values result in smoother gameplay but consume more resources',
+          },
+          bit64: {
+            name: '64-bit Game',
+            enable: 'Enable',
+            disable: 'Disable',
+            tip: 'A 64-bit dedicated server processes data faster but consumes more memory',
+          },
+        },
+      },
+      step5: {
+        title: 'Configuration Completed',
+        subTitle: 'Please click the "Save" button below to save',
       },
     },
   },

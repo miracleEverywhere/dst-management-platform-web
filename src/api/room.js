@@ -2,7 +2,7 @@ import http from "@/utils/axios"
 
 export default {
   base: {
-    url: `/room/base`,
+    url: `/room`,
     get: async function(data){
       return await http.get(this.url, data)
     },
@@ -18,6 +18,12 @@ export default {
   },
   list: {
     url: `/room/list`,
+    get: async function(data){
+      return await http.get(this.url, data)
+    },
+  },
+  lastID: {
+    url: `/room/last_id`,
     get: async function(data){
       return await http.get(this.url, data)
     },

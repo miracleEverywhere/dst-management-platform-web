@@ -321,12 +321,14 @@ const { mobile } = useDisplay()
 const { t } = useI18n()
 
 onMounted(() => {
+  console.log(props.lastRoomID)
   if ((props.formData?.id||0) !== 0) {
     roomForm.value = props.formData
   } else {
     roomForm.value.masterPort = props.lastRoomID + GamePortFactor.masterPort + 1
     roomForm.value.gameMode = 'endless'
     roomForm.value.clusterKey = generateRandomString(14)
+    roomForm.value.modInOne = true
   }
 })
 
