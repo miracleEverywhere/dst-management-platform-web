@@ -891,7 +891,7 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
-  lastWorldID: {
+  worldCount: {
     type: Number,
     default: 0,
   },
@@ -924,11 +924,12 @@ onMounted(() => {
     worldForm.value[0].name = 'World1'
     worldForm.value[0].isMaster = true
     worldForm.value[0].gameID = 101
-    worldForm.value[0].serverPort = props.lastWorldID + GamePortFactor.serverPort + 1
-    worldForm.value[0].masterServerPort = props.lastWorldID + GamePortFactor.masterServerPort + 1
-    worldForm.value[0].authenticationPort = props.lastWorldID + GamePortFactor.authenticationPort + 1
+    worldForm.value[0].serverPort = props.worldCount + GamePortFactor.serverPort + 1
+    worldForm.value[0].masterServerPort = props.worldCount + GamePortFactor.masterServerPort + 1
+    worldForm.value[0].authenticationPort = props.worldCount + GamePortFactor.authenticationPort + 1
   }
   worldTabName.value = worldForm.value[0].name
+  portFactor.value = props.worldCount
 })
 
 const worldTabName = ref('')
@@ -982,9 +983,13 @@ const dynamicWorldRefs = {}
 // 防止 name 重复
 const globalWorldIndex = ref(0)
 
+// 防止端口冲突
+const portFactor = ref(0)
+
 const handleWorldTabsEdit = async (targetName, action) => {
   if (action === 'add') {
     globalWorldIndex.value = globalWorldIndex.value + 1
+    portFactor.value++
 
     const newWorldName = `World${globalWorldIndex.value}`
 
@@ -992,9 +997,9 @@ const handleWorldTabsEdit = async (targetName, action) => {
     worldForm.value.push({
       name: newWorldName,
       gameID: worldForm.value[worldForm.value.length-1].gameID + 1,
-      serverPort: worldForm.value[worldForm.value.length-1].serverPort + 1,
-      masterServerPort: worldForm.value[worldForm.value.length-1].masterServerPort + 1,
-      authenticationPort: worldForm.value[worldForm.value.length-1].authenticationPort + 1,
+      serverPort: GamePortFactor.serverPort + portFactor.value,
+      masterServerPort: GamePortFactor.masterServerPort + portFactor.value,
+      authenticationPort: GamePortFactor.authenticationPort + portFactor.value,
       isMaster: false,
       encodeUserPath: true,
       levelData: '',

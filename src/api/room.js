@@ -22,8 +22,8 @@ export default {
       return await http.get(this.url, data)
     },
   },
-  portFactor: {
-    url: `/room/port/factor`,
+  factor: {
+    url: `/room/factor`,
     get: async function(data){
       return await http.get(this.url, data)
     },

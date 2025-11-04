@@ -136,18 +136,19 @@
           </v-card-title>
           <v-card-text
             v-ripple
-            class="cursor-pointer"
-            @click="selectRoom(room)"
           >
             <div
                 v-if="room.gameName!==''"
+                @click="selectRoom(room)"
                 class="mt-4"
             >
               <v-row>
                 <v-col :cols="mobile?12:6">
                   <v-row>
                     <v-col cols="6">
-                      <span>游戏模式</span>
+                      <span>
+                        {{t('rooms.card.success.text.left.gameMode')}}
+                      </span>
                     </v-col>
                     <v-col cols="6">
                       <v-chip color="info" label>
@@ -157,7 +158,9 @@
                   </v-row>
                   <v-row>
                     <v-col cols="6">
-                      <span>世界个数</span>
+                      <span>
+                        {{t('rooms.card.success.text.left.worldNum')}}
+                      </span>
                     </v-col>
                     <v-col cols="6">
                       <v-chip color="info" label>
@@ -167,7 +170,9 @@
                   </v-row>
                   <v-row>
                     <v-col cols="6">
-                      <span>模组个数</span>
+                      <span>
+                        {{t('rooms.card.success.text.left.modNum')}}
+                      </span>
                     </v-col>
                     <v-col cols="6">
                       <v-chip color="info" label>
@@ -177,7 +182,9 @@
                   </v-row>
                   <v-row>
                     <v-col cols="6">
-                      <span>最大玩家</span>
+                      <span>
+                        {{t('rooms.card.success.text.left.playerNum')}}
+                      </span>
                     </v-col>
                     <v-col cols="6">
                       <v-chip color="info" label>

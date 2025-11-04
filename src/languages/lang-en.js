@@ -24,6 +24,9 @@ export default {
     gameMod: 'Mod',
     gamePlayer: 'Player',
     upload: 'Upload',
+    platform: 'Platform',
+    platformOverview: 'Overview',
+    platformSetting: 'Setting',
   },
   login: {
     welcome: "Welcome to DMP",
@@ -82,7 +85,10 @@ export default {
         },
         text: {
           left: {
-
+            gameMode: 'Game Mode',
+            worldNum: 'Worlds',
+            modNum: 'Mods',
+            playerNum: 'Players',
           },
           right: {
             chartTitle: 'Max num Players',

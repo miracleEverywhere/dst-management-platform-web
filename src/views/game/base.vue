@@ -97,7 +97,7 @@
           >
             <room
               ref="roomRef"
-              :last-room-i-d="lastRoomID"
+              :room-count="roomCount"
               :form-data="roomData"
             />
           </v-container>
@@ -116,7 +116,7 @@
           >
             <world
               ref="worldRef"
-              :last-world-i-d="lastWorldID"
+              :world-count="worldCount"
               :form-data="worldData"
               :game-mode="roomData.gameMode"
               :theme="globalStore.theme"
@@ -177,7 +177,9 @@
         </v-stepper-window-item>
       </v-stepper-window>
 
-      <v-stepper-actions class="mx-8">
+      <v-stepper-actions
+        class="mx-8"
+      >
         <template #prev>
           <v-btn
             :disabled="step===0"
@@ -229,7 +231,7 @@ import {useRouter} from "vue-router";
 
 
 onMounted(async () => {
-  await Promise.all([getRoomLastID(), getRoomTotalInfo()])
+  await Promise.all([getCount(), getRoomTotalInfo()])
   dataGot.value = true
 
   // 添加事件监听
@@ -257,8 +259,8 @@ const { t } = useI18n()
 // 判断是否获取到接口数据，为了component回显
 const dataGot = ref(false)
 // 不重复的生成相关端口
-const lastRoomID = ref(0)
-const lastWorldID = ref(0)
+const roomCount = ref(0)
+const worldCount = ref(0)
 
 const getRoomTotalInfo = async () => {
   if (globalStore.room.id !== 0) {
@@ -269,10 +271,10 @@ const getRoomTotalInfo = async () => {
   }
 }
 
-const getRoomLastID = async () => {
-  const response = await roomApi.portFactor.get()
-  lastRoomID.value = response.data.roomID
-  lastWorldID.value = response.data.worldID
+const getCount = async () => {
+  const response = await roomApi.factor.get()
+  roomCount.value = response.data.roomCount
+  worldCount.value = response.data.worldCount
 }
 
 const step = ref(0)
@@ -285,7 +287,7 @@ const calculateContainerSize = () => {
 }
 
 const handlePrev = () => {
-  step.value = step.value - 1
+  step.value--
 }
 
 const handleNext = async () => {
@@ -294,7 +296,8 @@ const handleNext = async () => {
       const result = await roomRef.value.validate()
       if (result.validate) {
         roomData.value = result.formData
-        step.value = step.value + 1
+        step.value++
+        return
       }
     }
   }
@@ -303,7 +306,8 @@ const handleNext = async () => {
       const result = await worldRef.value.validate()
       if (result.validate) {
         worldData.value = result.formData
-        step.value = step.value + 1
+        step.value++
+        return
       }
     }
   }
@@ -312,18 +316,18 @@ const handleNext = async () => {
       const result = await modRef.value.validate()
       if (result.validate) {
         modData.value = result.formData
-        step.value = step.value + 1
+        step.value++
+        return
       }
     }
   }
   if (step.value === 3) {
     if (roomSettingRef.value) {
       const result = await roomSettingRef.value.validate()
-
-      console.log(result)
       if (result.validate) {
         roomSettingData.value = result.formData
-        step.value = step.value + 1
+        step.value++
+        return
       }
     }
   }
@@ -391,6 +395,12 @@ const DBToRoomSetting = data => {
 
 const saveButtonLoading = ref(false)
 
+const reloadPage = () => {
+  router.push('/rooms').then(() => {
+    router.back()
+  })
+}
+
 const handleSave = () => {
   const reqForm = {
     roomData: roomData.value,
@@ -400,6 +410,29 @@ const handleSave = () => {
 
   if (globalStore.room.id) {
     // 修改
+    for (let i = 0; i < reqForm.worldData.length; i++) {
+      if (modData.value.modInOne) {
+        reqForm.roomData.modInOne = true
+        reqForm.roomData.modData = modData.value.modData
+      } else {
+        reqForm.worldData[i].modData = modData.value.worlds[i].modData
+      }
+      reqForm.worldData[i].roomID = globalStore.room.id
+      delete reqForm.worldData[i].name
+      delete reqForm.worldData[i].id
+    }
+    reqForm.roomSettingData.roomID = globalStore.room.id
+    saveButtonLoading.value = true
+    roomApi.base.put(reqForm).then(response => {
+      showSnackbar(response.message)
+      globalStore.room = {
+        id: response.data.id,
+        gameName: response.data.gameName,
+      }
+      reloadPage()
+    }).finally(() => {
+      saveButtonLoading.value = false
+    })
   } else {
     // 创建
     for (let i = 0; i < reqForm.worldData.length; i++) {
@@ -407,10 +440,10 @@ const handleSave = () => {
         reqForm.roomData.modInOne = true
         reqForm.roomData.modData = modData.value.modData
       } else {
-        reqForm.worldData[i]['id'] = 0
         reqForm.worldData[i].modData = modData.value.worlds[i].modData
-        delete reqForm.worldData[i].name
       }
+      reqForm.worldData[i]['id'] = 0
+      delete reqForm.worldData[i].name
     }
     saveButtonLoading.value = true
     roomApi.base.post(reqForm).then(response => {
@@ -419,7 +452,7 @@ const handleSave = () => {
         id: response.data.id,
         gameName: response.data.gameName,
       }
-      router.push('/dashboard')
+      reloadPage()
     }).finally(() => {
       saveButtonLoading.value = false
     })

@@ -24,6 +24,9 @@ export default {
     gameMod: '模组设置',
     gamePlayer: '玩家设置',
     upload: '存档导入',
+    platform: '管理平台',
+    platformOverview: '平台总览',
+    platformSetting: '平台设置',
   },
   login: {
     welcome: "欢迎使用饥荒管理平台",
@@ -82,7 +85,10 @@ export default {
         },
         text: {
           left: {
-
+            gameMode: '游戏模式',
+            worldNum: '世界个数',
+            modNum: '模组个数',
+            playerNum: '玩家个数',
           },
           right: {
             chartTitle: '60分钟最大玩家数',
