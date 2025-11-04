@@ -1,5 +1,6 @@
 import { PiniaPrefix } from "@/config/index"
 import CryptoJS from 'crypto-js'
+import luaparse from "luaparse";
 
 export function getBrowserLang() {
   // 获取浏览器语言，默认回退到 'zh'（中文）
@@ -296,6 +297,25 @@ export const generateRandomString = length => {
   return result
 }
 
-export const countModFromLua = lua => {
-  return (lua.match(/\[\"workshop-\d+\"\]/g) || []).length
+export const parseModLua = modLua => {
+  if (modLua === '') {
+    return []
+  }
+
+  try {
+    // ['workshop-xxx', 'workshop-xxx'...]
+    const data = []
+    const ast = luaparse.parse(modLua)
+    const fields = ast.body[0].arguments[0].fields
+    for (let item of fields) {
+      const key = item.key
+      if (key.type === 'StringLiteral') {
+        let mod = key.raw.replace(/\\/g, '').replace(/'/g, '').replace(/"/g, '')
+        data.push(mod)
+      }
+    }
+    return data
+  } catch {
+    return []
+  }
 }

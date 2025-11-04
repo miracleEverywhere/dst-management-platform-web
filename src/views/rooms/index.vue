@@ -176,7 +176,7 @@
                     </v-col>
                     <v-col cols="6">
                       <v-chip color="info" label>
-                        {{room.modInOne?countModFromLua(room.modData):countModFromLua(room.world[0].modData)}}
+                        {{room.modInOne?parseModLua(room.modData).length:parseModLua(room.world[0].modData).length}}
                       </v-chip>
                     </v-col>
                   </v-row>
@@ -280,7 +280,7 @@ import { CountTo } from "vue3-count-to"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useI18n } from "vue-i18n"
-import {countModFromLua, debounce, truncateString} from "@/utils/tools"
+import {debounce, parseModLua, truncateString} from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
