@@ -6,6 +6,8 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
 import svgLoader from 'vite-svg-loader'
+import { compression } from 'vite-plugin-compression2'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,6 +19,10 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    compression({
+      algorithms: ['gzip']
+    }),
+    ViteImageOptimizer(),
 
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
     vuetify({
