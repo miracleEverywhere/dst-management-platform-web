@@ -130,6 +130,13 @@ export default {
     },
   },
   game: {
+    header: {
+      step1: 'Room',
+      step2: 'World',
+      step3: 'Mod',
+      step4: 'System',
+      step5: 'Complete',
+    },
     prev: 'Prev',
     next: {
       button: 'Next',
@@ -367,10 +374,10 @@ export default {
             name: 'Tick Rate',
             tip: 'The communication frequency between the player\'s game client and the DST dedicated server. Higher values result in smoother gameplay but consume more resources',
           },
-          bit64: {
-            name: '64-bit Game',
-            enable: 'Enable',
-            disable: 'Disable',
+          startType: {
+            name: 'Game Start Type',
+            '32-bit': '32 Bit',
+            '64-bit': '64 Bit',
             tip: 'A 64-bit dedicated server processes data faster but consumes more memory',
           },
         },

@@ -14,7 +14,7 @@
           :color="step > 0 ? 'success' : ''"
           :complete="step > 0"
           :value="0"
-          title="房间设置"
+          :title="t('game.header.step1')"
         >
           <template #icon>
             <v-icon
@@ -29,7 +29,7 @@
           :color="step > 1 ? 'success' : ''"
           :complete="step > 1"
           :value="1"
-          title="世界设置"
+          :title="t('game.header.step2')"
         >
           <template #icon>
             <v-icon
@@ -44,7 +44,7 @@
           :color="step > 2 ? 'success' : ''"
           :complete="step > 2"
           :value="2"
-          title="模组设置"
+          :title="t('game.header.step3')"
         >
           <template #icon>
             <v-icon
@@ -59,7 +59,7 @@
           :color="step > 3 ? 'success' : ''"
           :complete="step > 3"
           :value="3"
-          title="系统设置"
+          :title="t('game.header.step4')"
         >
           <template #icon>
             <v-icon
@@ -74,7 +74,7 @@
           :color="step > 4 ? 'success' : ''"
           :complete="step > 4"
           :value="4"
-          title="设置完成"
+          :title="t('game.header.step5')"
         >
           <template #icon>
             <v-icon
@@ -219,10 +219,10 @@ import useUserStore from "@store/user.js"
 import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import room from "@/views/game/components/room.vue"
-import world from "@/views/game/components/world.vue"
-import mod from "@/views/game/components/mod.vue"
-import roomSetting from "@/views/game/components/roomSetting.vue"
+import room from "@/views/game/components/base/room.vue"
+import world from "@/views/game/components/base/world.vue"
+import mod from "@/views/game/components/base/mod.vue"
+import roomSetting from "@/views/game/components/base/roomSetting.vue"
 import roomApi from "@/api/room.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
@@ -367,7 +367,7 @@ const roomSettingToDB = () => {
     scheduledStartStopEnable: roomSettingData.value.scheduledStartStop.enable,
     scheduledStartStopSetting: JSON.stringify(roomSettingData.value.scheduledStartStop.setting),
     tickRate: roomSettingData.value.tickRate,
-    bit64: roomSettingData.value.bit64,
+    startType: roomSettingData.value.startType,
   }
 }
 
@@ -394,7 +394,7 @@ const DBToRoomSetting = data => {
       setting: JSON.parse(data.scheduledStartStopSetting),
     },
     tickRate: data.tickRate,
-    bit64: data.bit64,
+    startType: data.startType,
   }
 }
 

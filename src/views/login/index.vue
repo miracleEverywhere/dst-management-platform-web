@@ -408,9 +408,12 @@ const handleRegisterPost = async event => {
   }
 
   const password = SHA512(registerForm.value.password)
-  const reqForm = registerForm.value
-
-  reqForm.password = password
+  const reqForm = {
+    username: registerForm.value.username,
+    nickname: registerForm.value.nickname,
+    avatar: registerForm.value.avatar,
+    password: password,
+  }
 
   userApi.register.post(reqForm).then(response => {
     showSnackbar(response.message)

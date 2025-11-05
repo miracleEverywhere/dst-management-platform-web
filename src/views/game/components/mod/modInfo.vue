@@ -142,17 +142,11 @@
                       </tr>
                     </tbody>
                   </v-table>
-                  <v-alert
-                    color="grey-lighten-3"
-                    class="mt-4 mb-4"
+                  <v-container
+                      height="30vh"
                   >
-                    {{ props.mod.file_description }}
-                  </v-alert>
-                  <!--                  <v-container -->
-                  <!--                      height="30vh" -->
-                  <!--                  > -->
-                  <!--                    <VueBbob container="div" :plugins="plugins">{{ props.mod.file_description }}</VueBbob> -->
-                  <!--                  </v-container> -->
+                    <div v-html="bbCodeParser.parse(props.mod.file_description)"></div>
+                  </v-container>
                 </v-card-text>
               </v-card>
             </template>
@@ -177,9 +171,8 @@ import { formatBytes } from "@/utils/tools.js"
 // import settingsApi from "@/api/setting"
 // import {showSnackbar} from "@/utils/snackbar";
 import PreciseRating from "@/components/PreciseRating.vue"
+import bbCodeParser from 'js-bbcode-parser'
 
-// import preset from '@bbob/preset-vue';
-// import {Component as VueBbob} from '@bbob/vue3';
 
 
 const props = defineProps({
@@ -214,31 +207,6 @@ const handleDownload = () => {
   // })
 }
 
-// const plugins = [
-//   preset.extend(tags => {
-//     return {
-//       ...tags,
-//       url: (...args) => {
-//         const res = tags.url.call(tags, ...args);
-//         res.attrs.target = '_blank';
-//         res.attrs.rel = 'noopener noreferrer';
-//         if (!/^https?:\/\//i.test(res.attrs.href)) {
-//           res.attrs.href = '#';
-//         }
-//         return {
-//           ...res
-//         }
-//       },
-//       img: (...args) => {
-//         const res = tags.img.call(tags, ...args);
-//         res.attrs.style = 'max-width: 100%';
-//         return {
-//           ...res
-//         }
-//       }
-//     }
-//   })()
-// ]
 </script>
 
 <style scoped>

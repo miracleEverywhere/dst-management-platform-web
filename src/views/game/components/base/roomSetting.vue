@@ -369,10 +369,10 @@
       </v-col>
       <v-spacer />
     </v-row>
-    <!-- 64位启动 -->
+    <!-- 启动类型 -->
     <v-alert
       color="primary"
-      :title="t('game.base.step4.form.bit64.name')"
+      :title="t('game.base.step4.form.startType.name')"
       density="compact"
       class="mt-8"
       variant="tonal"
@@ -381,24 +381,24 @@
     <v-row class="mt-0">
       <v-col>
         <v-radio-group
-          v-model="roomSettingForm.bit64"
-          v-tooltip="t('game.base.step4.form.bit64.tip')"
+          v-model="roomSettingForm.startType"
+          v-tooltip="t('game.base.step4.form.startType.tip')"
           inline
           color="primary"
           class="mt-2"
         >
           <template #prepend>
             <span>
-              {{ t('game.base.step4.form.bit64.name') }}
+              {{ t('game.base.step4.form.startType.name') }}
             </span>
           </template>
           <v-radio
-            :label="t('game.base.step4.form.bit64.enable')"
-            :value="true"
+            :label="t('game.base.step4.form.startType.32-bit')"
+            value="32-bit"
           />
           <v-radio
-            :label="t('game.base.step4.form.bit64.disable')"
-            :value="false"
+            :label="t('game.base.step4.form.startType.64-bit')"
+            value="64-bit"
           />
         </v-radio-group>
       </v-col>
@@ -446,7 +446,7 @@ const roomSettingForm = ref({
     setting: '06:30:00',
   },
   keepalive: {
-    enable: true,
+    enable: false,
     setting: 30,
   },
   scheduledStartStop: {
@@ -457,7 +457,7 @@ const roomSettingForm = ref({
     },
   },
   tickRate: 15,
-  bit64: false,
+  startType: '32-bit',
 })
 
 const roomSettingFormRules = ref({

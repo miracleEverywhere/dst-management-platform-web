@@ -69,7 +69,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue"
 import { configsMap } from "./levelDataMap.js"
-import useGlobalStore from "@store/global.js"
+import useGlobalStore from "@/plugins/store/global.js"
 import { useI18n } from "vue-i18n"
 
 const props = defineProps({
