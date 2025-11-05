@@ -177,9 +177,7 @@
         </v-stepper-window-item>
       </v-stepper-window>
 
-      <v-stepper-actions
-        class="mx-8"
-      >
+      <v-stepper-actions class="mx-8">
         <template #prev>
           <v-btn
             :disabled="step===0"
@@ -227,7 +225,7 @@ import mod from "@/views/game/components/mod.vue"
 import roomSetting from "@/views/game/components/roomSetting.vue"
 import roomApi from "@/api/room.js"
 import { showSnackbar } from "@/utils/snackbar.js"
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router"
 
 
 onMounted(async () => {
@@ -258,6 +256,7 @@ const { t } = useI18n()
 
 // 判断是否获取到接口数据，为了component回显
 const dataGot = ref(false)
+
 // 不重复的生成相关端口
 const roomCount = ref(0)
 const worldCount = ref(0)
@@ -265,6 +264,7 @@ const worldCount = ref(0)
 const getRoomTotalInfo = async () => {
   if (globalStore.room.id !== 0) {
     const response = await roomApi.base.get({ id: globalStore.room.id })
+
     roomData.value = response.data.roomData
     worldData.value = response.data.worldData
     DBToRoomSetting(response.data.roomSettingData)
@@ -273,6 +273,7 @@ const getRoomTotalInfo = async () => {
 
 const getCount = async () => {
   const response = await roomApi.factor.get()
+
   roomCount.value = response.data.roomCount
   worldCount.value = response.data.worldCount
 }
@@ -297,6 +298,7 @@ const handleNext = async () => {
       if (result.validate) {
         roomData.value = result.formData
         step.value++
+        
         return
       }
     }
@@ -307,6 +309,7 @@ const handleNext = async () => {
       if (result.validate) {
         worldData.value = result.formData
         step.value++
+        
         return
       }
     }
@@ -317,6 +320,7 @@ const handleNext = async () => {
       if (result.validate) {
         modData.value = result.formData
         step.value++
+        
         return
       }
     }
@@ -327,6 +331,7 @@ const handleNext = async () => {
       if (result.validate) {
         roomSettingData.value = result.formData
         step.value++
+        
         return
       }
     }

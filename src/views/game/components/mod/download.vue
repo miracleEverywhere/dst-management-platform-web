@@ -1,62 +1,77 @@
 <template>
   <div>
-    <v-text-field v-model="modSearchForm.searchText"
-                  :label="modSearchForm.searchType==='text'?'请输入要搜索的模组名称':'请输入要搜索的模组ID'"
-                  clearable>
+    <v-text-field
+      v-model="modSearchForm.searchText"
+      :label="modSearchForm.searchType==='text'?'请输入要搜索的模组名称':'请输入要搜索的模组ID'"
+      clearable
+    >
       <template #prepend>
-        <v-select v-model="modSearchForm.searchType" :items="searchTypeMap">
-        </v-select>
+        <v-select
+          v-model="modSearchForm.searchType"
+          :items="searchTypeMap"
+        />
       </template>
       <template #append>
-        <v-btn @click="handleModSearch" size="large">搜索</v-btn>
+        <v-btn
+          size="large"
+          @click="handleModSearch"
+        >
+          搜索
+        </v-btn>
       </template>
     </v-text-field>
     <template v-if="modSearchLoading">
-      <v-skeleton-loader type="table-row@20" class="my-8"></v-skeleton-loader>
+      <v-skeleton-loader
+        type="table-row@20"
+        class="my-8"
+      />
     </template>
     <template v-else>
       <div class="item-container my-8">
         <template v-for="mod in modSearchData.rows">
-          <mod-info :mod="mod"/>
+          <mod-info :mod="mod" />
         </template>
       </div>
       <div class="d-flex justify-end mt-4">
-                <span class="align-content-center mr-2">
-                  共 {{modSearchData.total}}
-                </span>
+        <span class="align-content-center mr-2">
+          共 {{ modSearchData.total }}
+        </span>
         <v-pagination
-            v-model="modSearchForm.page"
-            variant="text"
-            :length="Math.ceil(modSearchData.total/modSearchForm.pageSize)"
-            :total-visible="7"
-            @first="handleModSearch(false)"
-            @last="handleModSearch(false)"
-            @next="handleModSearch(false)"
-            @prev="handleModSearch(false)"
-            @update:modelValue="handleModSearch(false)"
-        ></v-pagination>
+          v-model="modSearchForm.page"
+          variant="text"
+          :length="Math.ceil(modSearchData.total/modSearchForm.pageSize)"
+          :total-visible="7"
+          @first="handleModSearch(false)"
+          @last="handleModSearch(false)"
+          @next="handleModSearch(false)"
+          @prev="handleModSearch(false)"
+          @update:model-value="handleModSearch(false)"
+        />
       </div>
     </template>
   </div>
 </template>
 
 <script setup>
-import ModInfo from "@/views/game/components/mod/modInfo.vue";
-import externalApi from "@/api/external.js";
-import {showSnackbar} from "@/utils/snackbar.js";
+import ModInfo from "@/views/game/components/mod/modInfo.vue"
+import externalApi from "@/api/external.js"
+import { showSnackbar } from "@/utils/snackbar.js"
 
 
 const searchTypeMap = ref([
-  {title: '名称', value: 'text'},
-  {title: 'ID', value: 'id'},
+  { title: '名称', value: 'text' },
+  { title: 'ID', value: 'id' },
 ])
 
 const modSearchLoading = ref(false)
+
 const modSearchData = ref({
   total: 0,
   rows: [],
 })
+
 const modSearchFormRef = ref()
+
 const modSearchForm = ref({
   page: 1,
   pageSize: 36,
@@ -66,7 +81,7 @@ const modSearchForm = ref({
 
 const handleModSearch = (resetPage = true) => {
   if (resetPage) {
-    modSearchForm.value.page = 1;
+    modSearchForm.value.page = 1
   }
   modSearchLoading.value = true
   externalApi.mod.search.get(modSearchForm.value).then(response => {
@@ -84,7 +99,7 @@ const handleModSearch = (resetPage = true) => {
 
 onMounted(() => {
   handleModSearch()
-});
+})
 </script>
 
 <style scoped>

@@ -1,12 +1,12 @@
 @font-face {
   font-family: "ZhuZiAYuanJWD";
-  src: url("src/assets/fonts/ZhuZiAYuanJWD.woff2")
+  src: url("../../assets/fonts/ZhuZiAYuanJWD.woff2")
 }
 
 @font-face {
 /*感谢B站 长鸽门徒 https://www.bilibili.com/opus/814456568458248259 提供的饥荒字体*/
 font-family: 'DstEmojiChangGeMenTu';
-  src: url('src/assets/fonts/Dst_Emoji_ChangGeMenTu.ttf') format('woff2');
+  src: url('../../assets/fonts/Dst_Emoji_ChangGeMenTu.ttf') format('woff2');
 }
 
 * {

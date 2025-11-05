@@ -66,7 +66,7 @@ import useGlobalStore from "@store/global"
 import { Version } from "@/config/index"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify"
-import {truncateString} from "../../utils/tools.js";
+import { truncateString } from "../../utils/tools.js"
 
 const globalStore = useGlobalStore()
 const { t } = useI18n()

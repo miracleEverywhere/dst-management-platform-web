@@ -1,6 +1,6 @@
 import { PiniaPrefix } from "@/config/index"
 import CryptoJS from 'crypto-js'
-import luaparse from "luaparse";
+import luaparse from "luaparse"
 
 export function getBrowserLang() {
   // 获取浏览器语言，默认回退到 'zh'（中文）
@@ -314,6 +314,7 @@ export const parseModLua = modLua => {
         data.push(mod)
       }
     }
+    
     return data
   } catch {
     return []

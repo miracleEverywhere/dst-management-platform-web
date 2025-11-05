@@ -20,12 +20,15 @@ export default defineConfig({
     vue(),
     vueJsx(),
     compression({
-      algorithms: ['gzip']
+      algorithms: ['gzip'],
     }),
     ViteImageOptimizer(),
 
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
     vuetify({
+      autoImport: {
+        labs: true,
+      },
       styles: {
         configFile: 'src/assets/styles/variables/_vuetify.scss',
       },

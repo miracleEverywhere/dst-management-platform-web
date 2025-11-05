@@ -1,18 +1,37 @@
 <template>
-  <v-card :hover="true"
-          variant="flat" height="135" class="fcc">
+  <v-card
+    :hover="true"
+    variant="flat"
+    height="135"
+    class="fcc"
+  >
     <div style="display: flex; align-items: center; margin: 5px; width:320px">
-      <v-img :src="props.mod.preview_url" aspect-ratio="1" style="width: 80px; height: 80px"/>
+      <v-img
+        :src="props.mod.preview_url"
+        aspect-ratio="1"
+        style="width: 80px; height: 80px"
+      />
       <div style="width: 200px">
         <div class="fcc">
-            <v-chip label size="small" color="primary">
-              {{computedName}}
-              <v-tooltip activator="parent" open-delay="300" scroll-strategy="close">
-                {{props.mod.name}}
-              </v-tooltip>
-            </v-chip>
+          <v-chip
+            label
+            size="small"
+            color="primary"
+          >
+            {{ computedName }}
+            <v-tooltip
+              activator="parent"
+              open-delay="300"
+              scroll-strategy="close"
+            >
+              {{ props.mod.name }}
+            </v-tooltip>
+          </v-chip>
         </div>
-        <div style="margin: 5px 0" class="fcc">
+        <div
+          style="margin: 5px 0"
+          class="fcc"
+        >
           <precise-rating
             :value="computedRate"
             :length="5"
@@ -21,59 +40,96 @@
           />
         </div>
         <div class="fcc">
-          <v-dialog v-model="dialogVisible" class="flex-wrap" max-width="60%">
-            <template v-slot:activator="{ props: activatorProps }">
-              <v-btn color="info" density="compact" size="small" @click="dialogVisible=true"
-                     v-bind="activatorProps" class="mr-4">详情</v-btn>
+          <v-dialog
+            v-model="dialogVisible"
+            class="flex-wrap"
+            max-width="60%"
+          >
+            <template #activator="{ props: activatorProps }">
+              <v-btn
+                color="info"
+                density="compact"
+                size="small"
+                v-bind="activatorProps"
+                class="mr-4"
+                @click="dialogVisible=true"
+              >
+                详情
+              </v-btn>
             </template>
-            <template v-slot:default="{ isActive }">
+            <template #default="{ isActive }">
               <v-card :title="props.mod.name">
                 <v-card-text>
                   <v-table class="custom-table">
                     <tbody>
                       <tr>
                         <td rowspan="2">
-                          <v-icon icon="ri-image-line"></v-icon>
+                          <v-icon icon="ri-image-line" />
                         </td>
                         <td rowspan="2">
-                          <v-img :src="props.mod.preview_url" aspect-ratio="1" style="width: 150px; height: 150px"/>
+                          <v-img
+                            :src="props.mod.preview_url"
+                            aspect-ratio="1"
+                            style="width: 150px; height: 150px"
+                          />
                         </td>
                         <td>ID</td>
                         <td>
-                          <v-chip color="info" label>
-                            {{props.mod.id}}
+                          <v-chip
+                            color="info"
+                            label
+                          >
+                            {{ props.mod.id }}
                           </v-chip>
                         </td>
                       </tr>
                       <tr>
                         <td>模组大小</td>
                         <td>
-                          <v-chip color="info" label>
-                            {{formatBytes(props.mod.size)}}
+                          <v-chip
+                            color="info"
+                            label
+                          >
+                            {{ formatBytes(props.mod.size) }}
                           </v-chip>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <v-icon icon="ri-thumb-up-fill" color="success"></v-icon>
+                          <v-icon
+                            icon="ri-thumb-up-fill"
+                            color="success"
+                          />
                         </td>
                         <td>
-                          <v-chip color="success" label>
-                            {{props.mod.vote_data.votes_up}}
+                          <v-chip
+                            color="success"
+                            label
+                          >
+                            {{ props.mod.vote_data.votes_up }}
                           </v-chip>
                         </td>
                         <td>
-                          <v-icon icon="ri-thumb-down-fill" color="error"></v-icon>
+                          <v-icon
+                            icon="ri-thumb-down-fill"
+                            color="error"
+                          />
                         </td>
                         <td>
-                          <v-chip color="error" label>
-                            {{props.mod.vote_data.votes_down}}
+                          <v-chip
+                            color="error"
+                            label
+                          >
+                            {{ props.mod.vote_data.votes_down }}
                           </v-chip>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <v-icon icon="ri-star-fill" color="warning"></v-icon>
+                          <v-icon
+                            icon="ri-star-fill"
+                            color="warning"
+                          />
                         </td>
                         <td colspan="3">
                           <precise-rating
@@ -86,19 +142,29 @@
                       </tr>
                     </tbody>
                   </v-table>
-                  <v-alert color="grey-lighten-3" class="mt-4 mb-4">
-                    {{props.mod.file_description}}
+                  <v-alert
+                    color="grey-lighten-3"
+                    class="mt-4 mb-4"
+                  >
+                    {{ props.mod.file_description }}
                   </v-alert>
-<!--                  <v-container-->
-<!--                      height="30vh"-->
-<!--                  >-->
-<!--                    <VueBbob container="div" :plugins="plugins">{{ props.mod.file_description }}</VueBbob>-->
-<!--                  </v-container>-->
+                  <!--                  <v-container -->
+                  <!--                      height="30vh" -->
+                  <!--                  > -->
+                  <!--                    <VueBbob container="div" :plugins="plugins">{{ props.mod.file_description }}</VueBbob> -->
+                  <!--                  </v-container> -->
                 </v-card-text>
               </v-card>
             </template>
           </v-dialog>
-          <v-btn color="success" density="compact" size="small" @click="handleDownload">下载</v-btn>
+          <v-btn
+            color="success"
+            density="compact"
+            size="small"
+            @click="handleDownload"
+          >
+            下载
+          </v-btn>
         </div>
       </div>
     </div>
@@ -106,10 +172,12 @@
 </template>
 
 <script setup>
-import {formatBytes} from "@/utils/tools.js"
+import { formatBytes } from "@/utils/tools.js"
+
 // import settingsApi from "@/api/setting"
 // import {showSnackbar} from "@/utils/snackbar";
-import PreciseRating from "@/components/PreciseRating.vue";
+import PreciseRating from "@/components/PreciseRating.vue"
+
 // import preset from '@bbob/preset-vue';
 // import {Component as VueBbob} from '@bbob/vue3';
 
@@ -117,7 +185,7 @@ import PreciseRating from "@/components/PreciseRating.vue";
 const props = defineProps({
   mod: {
     type: Object,
-    default: {}
+    default: {},
   },
 })
 
@@ -130,6 +198,7 @@ const computedName = computed(() => {
   if (props.mod.name.length > maxStr) {
     return props.mod.name.slice(0, maxStr) + '...'
   }
+  
   return props.mod.name
 })
 

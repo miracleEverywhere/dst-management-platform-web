@@ -87,10 +87,7 @@
       </v-list>
     </v-menu>
   </v-tabs>
-  <v-tabs-window
-    v-model="worldTabName"
-
-  >
+  <v-tabs-window v-model="worldTabName">
     <v-tabs-window-item
       v-for="world in worldForm"
       :key="world.name"

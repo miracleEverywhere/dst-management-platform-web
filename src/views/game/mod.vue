@@ -1,21 +1,32 @@
 <template>
-  <v-tabs v-model="activeTabName" align-tabs="start"
-          color="primary" show-arrows @update:modelValue="handleTabClick">
-    <v-tab value="Download">下载模组</v-tab>
-    <v-tab value="Add">添加模组</v-tab>
-    <v-tab value="Setting">配置模组</v-tab>
+  <v-tabs
+    v-model="activeTabName"
+    align-tabs="start"
+    color="primary"
+    show-arrows
+    @update:model-value="handleTabClick"
+  >
+    <v-tab value="Download">
+      下载模组
+    </v-tab>
+    <v-tab value="Add">
+      添加模组
+    </v-tab>
+    <v-tab value="Setting">
+      配置模组
+    </v-tab>
   </v-tabs>
 
   <v-tabs-window v-model="activeTabName">
     <v-tabs-window-item value="Download">
       <v-container
-          fluid
-          :height="calculateContainerSize()"
-          width="100%"
-          class="w-100"
-          style="overflow-y: auto"
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
       >
-        <download></download>
+        <download />
       </v-container>
     </v-tabs-window-item>
   </v-tabs-window>
@@ -23,9 +34,9 @@
 
 <script setup>
 import externalApi from '@/api/external'
-import {showSnackbar} from "@/utils/snackbar";
-import {debounce} from "@/utils/tools.js";
-import Download from "@/views/game/components/mod/download.vue";
+import { showSnackbar } from "@/utils/snackbar"
+import { debounce } from "@/utils/tools.js"
+import Download from "@/views/game/components/mod/download.vue"
 
 
 
@@ -45,7 +56,8 @@ onUnmounted(() => {
 })
 
 const activeTabName = ref('Download')
-const handleTabClick = (tab) => {
+
+const handleTabClick = tab => {
   if (tab === "Add") {
     // handleGetDownloadedMod()
   }
@@ -62,9 +74,5 @@ const calculateContainerSize = () => {
 }
 
 const windowHeight = ref(window.innerHeight)
-
 </script>
 
-<style scoped>
-
-</style>

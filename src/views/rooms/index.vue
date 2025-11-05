@@ -60,7 +60,7 @@
             <div class="fcb">
               <div class="fcc">
                 <v-chip color="primary">
-                  {{truncateString(room.gameName, mobile?8:15)}}
+                  {{ truncateString(room.gameName, mobile?8:15) }}
                 </v-chip>
                 <v-chip
                   :color="room.status?'success':'warning'"
@@ -134,100 +134,110 @@
               </v-menu>
             </div>
           </v-card-title>
-          <v-card-text
-            v-ripple
-          >
+          <v-card-text v-ripple>
             <div
-                v-if="room.gameName!==''"
-                @click="selectRoom(room)"
-                class="mt-4"
+              v-if="room.gameName!==''"
+              class="mt-4"
+              @click="selectRoom(room)"
             >
               <v-row>
                 <v-col :cols="mobile?12:6">
                   <v-row>
                     <v-col cols="6">
                       <span>
-                        {{t('rooms.card.success.text.left.gameMode')}}
+                        {{ t('rooms.card.success.text.left.gameMode') }}
                       </span>
                     </v-col>
                     <v-col cols="6">
-                      <v-chip color="info" label>
-                        {{t(`game.base.step1.gameMode.modes.${room.gameMode}`)}}
+                      <v-chip
+                        color="info"
+                        label
+                      >
+                        {{ t(`game.base.step1.gameMode.modes.${room.gameMode}`) }}
                       </v-chip>
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="6">
                       <span>
-                        {{t('rooms.card.success.text.left.worldNum')}}
+                        {{ t('rooms.card.success.text.left.worldNum') }}
                       </span>
                     </v-col>
                     <v-col cols="6">
-                      <v-chip color="info" label>
-                        {{room.worlds.length}}
+                      <v-chip
+                        color="info"
+                        label
+                      >
+                        {{ room.worlds.length }}
                       </v-chip>
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="6">
                       <span>
-                        {{t('rooms.card.success.text.left.modNum')}}
+                        {{ t('rooms.card.success.text.left.modNum') }}
                       </span>
                     </v-col>
                     <v-col cols="6">
-                      <v-chip color="info" label>
-                        {{room.modInOne?parseModLua(room.modData).length:parseModLua(room.world[0].modData).length}}
+                      <v-chip
+                        color="info"
+                        label
+                      >
+                        {{ room.modInOne?parseModLua(room.modData).length:parseModLua(room.world[0].modData).length }}
                       </v-chip>
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="6">
                       <span>
-                        {{t('rooms.card.success.text.left.playerNum')}}
+                        {{ t('rooms.card.success.text.left.playerNum') }}
                       </span>
                     </v-col>
                     <v-col cols="6">
-                      <v-chip color="info" label>
-                        {{room.maxPlayer}}
+                      <v-chip
+                        color="info"
+                        label
+                      >
+                        {{ room.maxPlayer }}
                       </v-chip>
                     </v-col>
                   </v-row>
                 </v-col>
                 <v-col :cols="mobile?12:6">
                   <v-card
-                      class="mx-auto"
-                      color="surface-light"
+                    class="mx-auto"
+                    color="surface-light"
                   >
                     <template #prepend>
                       <v-icon
-                          color="primary"
-                          class="me-8"
-                          icon="ri-line-chart-line"
-                          size="64"
+                        color="primary"
+                        class="me-8"
+                        icon="ri-line-chart-line"
+                        size="64"
                       />
                     </template>
                     <template #title>
                       <div class="text-caption text-grey">
-                        {{t('rooms.card.success.text.right.chartTitle')}}
+                        {{ t('rooms.card.success.text.right.chartTitle') }}
                       </div>
                       <span class="text-h3 font-weight-black">
-                      <count-to
+                        <count-to
                           :duration="4000"
                           :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
                           :start-val="0"
-                      />
-                    </span>
-                      <strong>{{t('rooms.card.success.text.right.unit')}}</strong>
+                        />
+                      </span>
+                      <strong>{{ t('rooms.card.success.text.right.unit') }}</strong>
                     </template>
                     <v-sheet color="transparent">
                       <v-sparkline
-                          :gradient="['#f72047', '#ffd200', '#1feaea']"
-                          :line-width="3"
-                          :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
-                          :smooth="true"
-                          padding="8"
-                          stroke-linecap="round"
-                          auto-draw
+                        :gradient="['#f72047', '#ffd200', '#1feaea']"
+                        :line-width="3"
+                        :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
+                        :smooth="true"
+                        padding="8"
+                        stroke-linecap="round"
+                        auto-draw
                       />
                     </v-sheet>
                   </v-card>
@@ -280,7 +290,7 @@ import { CountTo } from "vue3-count-to"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useI18n } from "vue-i18n"
-import {debounce, parseModLua, truncateString} from "@/utils/tools"
+import { debounce, parseModLua, truncateString } from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
