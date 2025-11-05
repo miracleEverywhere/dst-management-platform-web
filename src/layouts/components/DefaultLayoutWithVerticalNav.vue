@@ -4,20 +4,21 @@
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <icon-btn
+        <v-btn
+          icon="ri-menu-line"
+          variant="text"
+          color="default"
           class="ms-n3 d-lg-none"
           @click="toggleVerticalOverlayNavActive(true)"
-        >
-          <v-icon icon="ri-menu-line" />
-        </icon-btn>
+        />
 
         <header-main />
 
         <v-spacer />
 
-        <github />
+        <github v-if="!mobile" />
 
-        <document />
+        <document v-if="!mobile" />
 
         <lang-select />
 
@@ -61,6 +62,9 @@ import Github from "@/layouts/components/GitHub.vue"
 import Document from "@/layouts/components/Document.vue"
 import NavHeader from "@/layouts/components/NavHeader.vue"
 import HeaderMain from "@/layouts/components/headerMain.vue"
+import { useDisplay } from "vuetify/framework"
+
+const { mobile } = useDisplay()
 </script>
 
 <style lang="scss" scoped>
