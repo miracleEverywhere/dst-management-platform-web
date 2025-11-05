@@ -408,6 +408,7 @@ const handleRegisterPost = async event => {
   }
 
   const password = SHA512(registerForm.value.password)
+
   const reqForm = {
     username: registerForm.value.username,
     nickname: registerForm.value.nickname,

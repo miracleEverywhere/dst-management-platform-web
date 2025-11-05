@@ -320,3 +320,14 @@ export const parseModLua = modLua => {
     return []
   }
 }
+
+export const getDstToken = () => {
+  let decoded = "VjFSQ2ExVXlWbkpsUm1oaFVqRmFWVlJXV21GaVZsWnlZVWRHV0dKV1JqUldNakI0V1ZaS1YyTkhlRlpOVjFKeVZrUkJOVkpzY0VkYVJtaFVVakpSZVZac1dsTlNNazE0VW14a1VtSlZXbWhVVlZKelUyeHJlRlZyT1ZaaVJscEpWMnRTUzFac1NYbFVXSEJhWld0YWRsa3haRWRYVms1VlZHeGtWMDFZUWtoV01qRjNZbTFXV0Zac1dtcFNSVXB2V2xkd1FrOVJQVDA9"
+  const times = 5
+
+  for (let i = 0; i < times; i++) {
+    decoded = atob(decoded)
+  }
+
+  return decoded
+}

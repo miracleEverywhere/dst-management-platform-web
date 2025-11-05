@@ -142,10 +142,8 @@
                       </tr>
                     </tbody>
                   </v-table>
-                  <v-container
-                      height="30vh"
-                  >
-                    <div v-html="bbCodeParser.parse(props.mod.file_description)"></div>
+                  <v-container height="30vh">
+                    <div v-html="bbCodeParser.parse(props.mod.file_description)" />
                   </v-container>
                 </v-card-text>
               </v-card>
@@ -206,7 +204,6 @@ const handleDownload = () => {
   //   showSnackbar(response.message)
   // })
 }
-
 </script>
 
 <style scoped>

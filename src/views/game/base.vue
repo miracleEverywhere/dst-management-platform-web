@@ -400,10 +400,15 @@ const DBToRoomSetting = data => {
 
 const saveButtonLoading = ref(false)
 
+const refreshCurrentPage = inject("refresh")
+
 const reloadPage = () => {
-  router.push('/rooms').then(() => {
-    router.back()
-  })
+  setTimeout(() => {
+    refreshCurrentPage(false)
+    nextTick(() => {
+      refreshCurrentPage(true)
+    })
+  }, 0)
 }
 
 const handleSave = () => {

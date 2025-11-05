@@ -304,7 +304,7 @@
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import { GamePortFactor } from "@/config/index.js"
-import { generateRandomString } from "@/utils/tools.js"
+import { generateRandomString, getDstToken } from "@/utils/tools.js"
 
 const props = defineProps({
   formData: {
@@ -396,7 +396,7 @@ const isTokenVisible = ref(false)
 const isClusterKeyVisible = ref(false)
 
 const handleAddToken = () => {
-  roomForm.value.token = '1'
+  roomForm.value.token = getDstToken()
 }
 
 const validate = async () => {
