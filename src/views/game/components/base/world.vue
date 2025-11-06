@@ -919,7 +919,9 @@ const props = defineProps({
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
-onMounted(() => {
+onMounted(async () => {
+  portFactor.value = props.worldCount===0?1:props.worldCount
+
   if ((props.formData?.length||0) !== 0) {
     globalWorldIndex.value = props.formData.length
     worldForm.value = props.formData
@@ -935,9 +937,13 @@ onMounted(() => {
     worldForm.value[0].serverPort = props.worldCount + GamePortFactor.serverPort + 1
     worldForm.value[0].masterServerPort = props.worldCount + GamePortFactor.masterServerPort + 1
     worldForm.value[0].authenticationPort = props.worldCount + GamePortFactor.authenticationPort + 1
+
+    worldForm.value[0].levelData = eval(props.gameMode).master
+    await handleWorldTabsEdit('', 'add')
+    worldForm.value[1].levelData = eval(props.gameMode).caves
   }
+
   worldTabName.value = worldForm.value[0].name
-  portFactor.value = props.worldCount
 })
 
 const worldTabName = ref('')
@@ -1005,7 +1011,7 @@ const portFactor = ref(0)
 const handleWorldTabsEdit = async (targetName, action) => {
   if (action === 'add') {
     globalWorldIndex.value = globalWorldIndex.value + 1
-    portFactor.value++
+    portFactor.value = portFactor.value + 1
 
     const newWorldName = `World${globalWorldIndex.value}`
 

@@ -225,7 +225,7 @@ export default {
         },
         encodeUserPath: {
           name: '路径编码',
-          tip: '是否开启用户存档路径编码，建议开启',
+          tip: '不可随意修改。是否开启用户存档路径编码，建议开启',
           radio: {
             yes: '是',
             no: '否',
@@ -233,12 +233,12 @@ export default {
         },
         gameID: {
           name: '世界ID',
-          tip: '一个房间下，每个世界的ID都不应该相同',
+          tip: '不可随意修改。一个房间下，每个世界的ID都不应该相同',
           required: '请输入世界ID',
         },
         worldName: {
           name: '世界名',
-          tip: '一个房间下，每个世界的名字都不应该相同，如果是普通地面洞穴房间，根据是否为主节点，分别为Masher和Caves',
+          tip: '不可随意修改。如果是普通地面洞穴房间，请一定确认是否为Masher和Caves。一个房间下，每个世界的名字都不应该相同，多层世界也必须包含一个Caves',
           required: '请输入世界名',
         },
         serverPort: {

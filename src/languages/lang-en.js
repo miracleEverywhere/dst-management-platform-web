@@ -245,7 +245,7 @@ export default {
         },
         encodeUserPath: {
           name: 'Encode Path',
-          tip: 'Whether to enable user save path encoding. It is recommended to enable this feature',
+          tip: 'Cannot be modified arbitrarily. Whether to enable user save path encoding. It is recommended to enable this feature',
           radio: {
             yes: 'Yes',
             no: 'No',
@@ -253,12 +253,12 @@ export default {
         },
         gameID: {
           name: 'World ID',
-          tip: 'Under one room, the world ID for each world should not be the same',
+          tip: 'Cannot be modified arbitrarily. Under one room, the world ID for each world should not be the same',
           required: 'Please input World ID',
         },
         worldName: {
           name: 'World Name',
-          tip: 'Under one room, the name of each world should be unique. For a standard ground-cave room, the names should be "Master" and "Caves" based on whether it is the main world or not',
+          tip: 'Cannot be modified arbitrarily. Under one room, the name of each world should be unique. For a standard ground-cave room, the names should be "Master" and "Caves" based on whether it is the main world or not',
           required: 'Please input World Name',
         },
         serverPort: {
