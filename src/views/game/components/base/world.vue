@@ -25,6 +25,7 @@
           color="info"
           :disabled="worldLevelDataTabName!=='Code'"
           v-bind="props"
+          class="ml-4"
         >
           {{ t('game.base.step2.oneClickSet.name') }}
         </v-btn>
