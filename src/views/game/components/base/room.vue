@@ -69,9 +69,16 @@
             class="mr-4"
           />
           <v-radio
-            :label="t('game.base.step1.gameMode.modes.custom')"
+            :label="t('game.base.step1.gameMode.modes.custom.name')"
             value="custom"
             class="mr-4"
+          />
+          <v-text-field
+              v-if="roomForm.gameMode==='custom'"
+              v-model="roomForm.customGameMode"
+              :rules="roomFormRules.customGameMode"
+              :label="t('game.base.step1.gameMode.modes.custom.label')"
+
           />
         </v-radio-group>
       </v-col>
@@ -359,6 +366,13 @@ const roomFormRules = ref({
       if (value) return true
 
       return t('game.base.step1.gameName.required')
+    },
+  ],
+  customGameMode: [
+    value => {
+      if (value) return true
+
+      return t('game.base.step1.gameMode.modes.custom.required')
     },
   ],
   token: [

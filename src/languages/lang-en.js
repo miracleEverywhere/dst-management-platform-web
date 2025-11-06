@@ -165,7 +165,11 @@ export default {
             lightsOut: 'Lights Out',
             lavaarena: 'Lava Arena',
             quagmire: 'Quagmire',
-            custom: 'Custom',
+            custom: {
+              name: 'Custom',
+              label: 'Custom Mode',
+              required: 'Please input Custom Mode'
+            },
           },
         },
         pvp: {

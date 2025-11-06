@@ -18,7 +18,7 @@
       color="success"
       @click="handleWorldTabsEdit('', 'add')"
     />
-    <v-menu open-on-click>
+    <v-menu v-if="props.gameMode!=='custom'" open-on-click>
       <template #activator="{ props }">
         <v-btn
           variant="text"
@@ -920,7 +920,7 @@ const { mobile } = useDisplay()
 const { t } = useI18n()
 
 onMounted(async () => {
-  portFactor.value = props.worldCount===0?1:props.worldCount
+  portFactor.value = props.worldCount + 1
 
   if ((props.formData?.length||0) !== 0) {
     globalWorldIndex.value = props.formData.length
@@ -934,13 +934,16 @@ onMounted(async () => {
     worldForm.value[0].isMaster = true
     worldForm.value[0].gameID = 101
     worldForm.value[0].worldName = 'Master'
-    worldForm.value[0].serverPort = props.worldCount + GamePortFactor.serverPort + 1
-    worldForm.value[0].masterServerPort = props.worldCount + GamePortFactor.masterServerPort + 1
-    worldForm.value[0].authenticationPort = props.worldCount + GamePortFactor.authenticationPort + 1
+    worldForm.value[0].serverPort = portFactor.value + GamePortFactor.serverPort
+    worldForm.value[0].masterServerPort = portFactor.value + GamePortFactor.masterServerPort
+    worldForm.value[0].authenticationPort = portFactor.value + GamePortFactor.authenticationPort
 
-    worldForm.value[0].levelData = eval(props.gameMode).master
-    await handleWorldTabsEdit('', 'add')
-    worldForm.value[1].levelData = eval(props.gameMode).caves
+    if (props.gameMode !== 'custom') {
+      worldForm.value[0].levelData = eval(props.gameMode).master
+      await handleWorldTabsEdit('', 'add')
+      worldForm.value[1].levelData = eval(props.gameMode).caves
+    }
+
   }
 
   worldTabName.value = worldForm.value[0].name
