@@ -236,6 +236,11 @@ export default {
           tip: '一个房间下，每个世界的ID都不应该相同',
           required: '请输入世界ID',
         },
+        worldName: {
+          name: '世界名',
+          tip: '一个房间下，每个世界的名字都不应该相同，如果是普通地面洞穴房间，根据是否为主节点，分别为Masher和Caves',
+          required: '请输入世界名',
+        },
         serverPort: {
           name: '直连端口',
           tip: '玩家进入游戏时，需要与该端口进行通信，协议为UDP',

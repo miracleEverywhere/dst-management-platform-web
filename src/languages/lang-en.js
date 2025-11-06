@@ -256,6 +256,11 @@ export default {
           tip: 'Under one room, the world ID for each world should not be the same',
           required: 'Please input World ID',
         },
+        worldName: {
+          name: 'World Name',
+          tip: 'Under one room, the name of each world should be unique. For a standard ground-cave room, the names should be "Master" and "Caves" based on whether it is the main world or not',
+          required: 'Please input World Name',
+        },
         serverPort: {
           name: 'Connection Port',
           tip: 'When players enter the game, they need to communicate with this port using the UDP protocol',

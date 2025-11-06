@@ -95,10 +95,11 @@
     >
       <v-form :ref="(el) => (dynamicWorldRefs[world.name] = el)">
         <v-row class="mt-4">
-          <v-col :cols="mobile?12:3">
+          <v-col :cols="mobile?12:4">
             <v-radio-group
               v-model="world.isMaster"
               inline
+              @update:modelValue="handleIsMasterChange"
             >
               <template #prepend>
                 <v-chip v-tooltip="t('game.base.step2.isMaster.tip')">
@@ -117,7 +118,7 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col :cols="mobile?12:3">
+          <v-col :cols="mobile?12:4">
             <v-radio-group
               v-model="world.encodeUserPath"
               inline
@@ -139,6 +140,17 @@
               />
             </v-radio-group>
           </v-col>
+          <v-col :cols="mobile?12:4">
+            <v-text-field
+              v-model="world.worldName"
+              v-tooltip="t('game.base.step2.worldName.tip')"
+              :rules="worldFormRules.worldName"
+              :label="t('game.base.step2.worldName.name')"
+              style="margin-bottom: -1.25rem"
+            />
+          </v-col>
+        </v-row>
+        <v-row class="mt-4">
           <v-col :cols="mobile?12:3">
             <v-number-input
               v-model="world.gameID"
@@ -150,8 +162,6 @@
               style="margin-bottom: -1.25rem"
             />
           </v-col>
-        </v-row>
-        <v-row class="mt-2">
           <v-col :cols="mobile?12:3">
             <v-number-input
               v-model="world.serverPort"
@@ -921,6 +931,7 @@ onMounted(() => {
     worldForm.value[0].name = 'World1'
     worldForm.value[0].isMaster = true
     worldForm.value[0].gameID = 101
+    worldForm.value[0].worldName = 'Master'
     worldForm.value[0].serverPort = props.worldCount + GamePortFactor.serverPort + 1
     worldForm.value[0].masterServerPort = props.worldCount + GamePortFactor.masterServerPort + 1
     worldForm.value[0].authenticationPort = props.worldCount + GamePortFactor.authenticationPort + 1
@@ -932,8 +943,9 @@ onMounted(() => {
 const worldTabName = ref('')
 
 const worldForm = ref([{
-  name: '',
+  name: '', // 仅作为tabName
   gameID: 0,
+  worldName: '',
   serverPort: 0,
   masterServerPort: 0,
   authenticationPort: 0,
@@ -949,6 +961,13 @@ const worldFormRules = ref({
       if (value) return true
 
       return t('game.base.step2.gameID.required')
+    },
+  ],
+  worldName: [
+    value => {
+      if (value) return true
+
+      return t('game.base.step2.worldName.required')
     },
   ],
   serverPort: [
@@ -990,10 +1009,19 @@ const handleWorldTabsEdit = async (targetName, action) => {
 
     const newWorldName = `World${globalWorldIndex.value}`
 
+    let hasNameCaves = false
+
+    for (let world of worldForm.value) {
+      if (world.worldName === 'Caves') {
+        hasNameCaves = true
+      }
+    }
+
     dynamicWorldRefs[newWorldName] = ref()
     worldForm.value.push({
       name: newWorldName,
       gameID: worldForm.value[worldForm.value.length-1].gameID + 1,
+      worldName: hasNameCaves?`Caves${worldForm.value[worldForm.value.length-1].gameID + 1}`:'Caves',
       serverPort: GamePortFactor.serverPort + portFactor.value,
       masterServerPort: GamePortFactor.masterServerPort + portFactor.value,
       authenticationPort: GamePortFactor.authenticationPort + portFactor.value,
@@ -1241,6 +1269,20 @@ const astToLua = (astNode, indentLevel = 0) => {
     return astToLua(astNode.value)
   default:
     throw new Error(`Unsupported node type: ${astNode.type}`)
+  }
+}
+
+const handleIsMasterChange = () => {
+  for (let world of worldForm.value) {
+    if (world.name === worldTabName.value) {
+      if (world.isMaster) {
+        world.worldName = 'Master'
+      } else {
+        if (worldForm.value.length < 3) {
+          world.worldName = 'Caves'
+        }
+      }
+    }
   }
 }
 
