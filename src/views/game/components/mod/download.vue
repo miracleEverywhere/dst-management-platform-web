@@ -29,7 +29,7 @@
     <template v-else>
       <div class="item-container my-8">
         <template v-for="mod in modSearchData.rows">
-          <mod-info :mod="mod" />
+          <mod-info :mod="mod" :roomID="globalStore.room.id" />
         </template>
       </div>
       <div class="d-flex justify-end mt-4">
@@ -56,6 +56,9 @@
 import ModInfo from "@/views/game/components/mod/modInfo.vue"
 import externalApi from "@/api/external.js"
 import { showSnackbar } from "@/utils/snackbar.js"
+import useGlobalStore from "@/plugins/store/global.js";
+
+const globalStore = useGlobalStore()
 
 
 const searchTypeMap = ref([

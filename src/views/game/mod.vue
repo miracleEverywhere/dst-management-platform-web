@@ -38,8 +38,6 @@ import { showSnackbar } from "@/utils/snackbar"
 import { debounce } from "@/utils/tools.js"
 import Download from "@/views/game/components/mod/download.vue"
 
-
-
 onMounted(async () => {
   // 添加事件监听
   window.addEventListener('resize', handleResize)

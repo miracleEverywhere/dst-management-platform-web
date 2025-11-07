@@ -88,7 +88,7 @@
       <v-col>
         <v-slider
           v-model="roomForm.maxPlayer"
-          :max="64"
+          :max="props.maxPlayers===0?64:props.maxPlayers"
           :min="1"
           class="align-center"
           hide-details
@@ -322,6 +322,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  maxPlayers: {
+    type: Number,
+    default: 0,
+  },
 })
 
 const { mobile } = useDisplay()
@@ -347,7 +351,7 @@ const roomForm = ref({
   gameMode: '',
   customGameMode: '',
   pvp: false,
-  maxPlayer: 6,
+  maxPlayer: 2,
   maxRollBack: 10,
   modInOne: false,
   modData: '',

@@ -166,8 +166,8 @@
 <script setup>
 import { formatBytes } from "@/utils/tools.js"
 
-// import settingsApi from "@/api/setting"
-// import {showSnackbar} from "@/utils/snackbar";
+import modApi from "@/api/mod"
+import {showSnackbar} from "@/utils/snackbar"
 import PreciseRating from "@/components/PreciseRating.vue"
 import bbCodeParser from 'js-bbcode-parser'
 
@@ -177,6 +177,10 @@ const props = defineProps({
   mod: {
     type: Object,
     default: {},
+  },
+  roomID: {
+    type: Number,
+    default: 0,
   },
 })
 
@@ -196,13 +200,14 @@ const computedName = computed(() => {
 const dialogVisible = ref(false)
 
 const handleDownload = () => {
-  // const reqFrom = {
-  //   id: props.mod.id,
-  //   file_url: props.mod.file_url
-  // }
-  // settingsApi.mod.download.post(reqFrom).then(response => {
-  //   showSnackbar(response.message)
-  // })
+  const reqFrom = {
+    roomID: props.roomID,
+    modID: props.mod.id,
+    fileURL: props.mod.file_url,
+  }
+  modApi.download.post(reqFrom).then(response => {
+    showSnackbar(response.message)
+  })
 }
 </script>
 

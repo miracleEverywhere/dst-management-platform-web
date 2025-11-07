@@ -213,10 +213,11 @@ export default {
       },
       step2: {
         oneClickSet: {
-          name: '一键带入',
+          name: '添加代码配置',
           ground: '地面',
           cave: '洞穴',
         },
+        addWorld: '添加世界',
         code: '代码配置',
         visualization: '可视化配置',
         isMaster: {

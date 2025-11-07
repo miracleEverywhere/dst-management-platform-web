@@ -98,6 +98,7 @@
             <room
               ref="roomRef"
               :room-count="roomCount"
+              :max-players="userStore.userInfo.maxPlayers"
               :form-data="roomData"
             />
           </v-container>
@@ -119,6 +120,7 @@
               :world-count="worldCount"
               :form-data="worldData"
               :game-mode="roomData.gameMode"
+              :max-worlds="userStore.userInfo.maxWorlds"
               :theme="globalStore.theme"
               :tab-window-height="calculateContainerSize()-300"
             />
@@ -277,6 +279,7 @@ const getCount = async () => {
   roomCount.value = response.data.roomCount
   worldCount.value = response.data.worldCount
 }
+
 
 const step = ref(0)
 

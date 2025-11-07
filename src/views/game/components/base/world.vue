@@ -13,16 +13,20 @@
       />
     </v-tab>
     <v-btn
-      icon="ri-add-line"
+      prepend-icon="ri-function-add-line"
       variant="text"
       color="success"
+      :disabled="!canCreateWorld"
       @click="handleWorldTabsEdit('', 'add')"
-    />
+    >
+      {{ t('game.base.step2.addWorld') }}
+    </v-btn>
     <v-menu v-if="props.gameMode!=='custom'" open-on-click>
       <template #activator="{ props }">
         <v-btn
           variant="text"
           color="info"
+          prepend-icon="ri-menu-add-line"
           :disabled="worldLevelDataTabName!=='Code'"
           v-bind="props"
           class="ml-4"
@@ -147,7 +151,6 @@
               v-tooltip="t('game.base.step2.worldName.tip')"
               :rules="worldFormRules.worldName"
               :label="t('game.base.step2.worldName.name')"
-              style="margin-bottom: -1.25rem"
             />
           </v-col>
         </v-row>
@@ -903,6 +906,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  maxWorlds: {
+    type: Number,
+    default: 0,
+  },
   gameMode: {
     type: String,
     default: 'endless',
@@ -1296,6 +1303,8 @@ const handleIsMasterChange = () => {
   }
 }
 
+const canCreateWorld = ref(false)
+
 const validate = async () => {
   const returnData = {
     validate: false,
@@ -1341,6 +1350,11 @@ watch(worldTabName, v => {
   }
   worldLevelDataTabName.value = 'Code'
 })
+
+watch(() => worldForm.value.length, (l) => {
+    canCreateWorld.value = l < 2
+  }
+)
 </script>
 
 <style scoped>

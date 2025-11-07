@@ -233,10 +233,11 @@ export default {
       },
       step2: {
         oneClickSet: {
-          name: 'One Click Setting',
+          name: 'Add Code Setting',
           ground: 'Ground',
           cave: 'Cave',
         },
+        addWorld: 'Add World',
         code: 'Code',
         visualization: 'Visualization',
         isMaster: {
