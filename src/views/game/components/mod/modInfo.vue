@@ -202,8 +202,8 @@ const dialogVisible = ref(false)
 const handleDownload = () => {
   const reqFrom = {
     roomID: props.roomID,
-    modID: props.mod.id,
-    fileURL: props.mod.file_url,
+    id: props.mod.id,
+    file_url: props.mod.file_url,
   }
   modApi.download.post(reqFrom).then(response => {
     showSnackbar(response.message)
