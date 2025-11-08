@@ -29,14 +29,24 @@
         <download />
       </v-container>
     </v-tabs-window-item>
+    <v-tabs-window-item value="Add">
+      <v-container
+          fluid
+          :height="calculateContainerSize()"
+          width="100%"
+          class="w-100"
+          style="overflow-y: auto"
+      >
+        <add />
+      </v-container>
+    </v-tabs-window-item>
   </v-tabs-window>
 </template>
 
 <script setup>
-import externalApi from '@/api/external'
-import { showSnackbar } from "@/utils/snackbar"
 import { debounce } from "@/utils/tools.js"
 import Download from "@/views/game/components/mod/download.vue"
+import Add from "@/views/game/components/mod/add.vue";
 
 onMounted(async () => {
   // 添加事件监听

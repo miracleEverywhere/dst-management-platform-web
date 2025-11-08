@@ -54,7 +54,7 @@
 
 <script setup>
 import ModInfo from "@/views/game/components/mod/modInfo.vue"
-import externalApi from "@/api/external.js"
+import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useGlobalStore from "@/plugins/store/global.js";
 
@@ -87,7 +87,7 @@ const handleModSearch = (resetPage = true) => {
     modSearchForm.value.page = 1
   }
   modSearchLoading.value = true
-  externalApi.mod.search.get(modSearchForm.value).then(response => {
+  modApi.search.get(modSearchForm.value).then(response => {
     modSearchData.value.rows = response.data.rows
     modSearchData.value.total = response.data.total
     if (modSearchForm.value.searchType === "id") {
