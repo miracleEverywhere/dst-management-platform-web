@@ -74,12 +74,26 @@
                 color="error"
             >需要更新</v-chip>
           </template>
+          <template v-slot:item.actions="{ item }">
+            <v-btn
+                color="primary"
+                variant="text"
+            >
+              操作
+              <v-menu activator="parent">
+                <v-list>
+                  <v-list-item
+                      @click="handleModAction('enable', item)"
+                  >
+                    <v-list-item-title>启用</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-btn>
+          </template>
         </v-data-table>
       </v-sheet>
-
     </v-card-text>
-
-
   </v-card>
 </template>
 
@@ -87,6 +101,7 @@
 import modApi from "@/api/mod"
 import useGlobalStore from "@/plugins/store/global.js";
 import {formatBytes} from "@/utils/tools.js";
+import {showSnackbar} from "@/utils/snackbar.js";
 
 const globalStore = useGlobalStore()
 
@@ -112,9 +127,32 @@ const headers = [
   { key: 'serverSize', title: 'serverSize' },
   { key: 'id', title: 'ID' },
   { key: 'update', title: 'update' },
+  { key: 'actions', title: 'actions' },
 ]
 
 const selectedMods = ref([])
+
+const handleModAction = (action, mod) => {
+  switch (action) {
+    case "enable":
+      modEnable(mod)
+      break
+    default:
+      showSnackbar("牛哇", "error")
+  }
+}
+
+const modEnable = (mod) => {
+  const reqForm = {
+    roomID: globalStore.room.id,
+    worldID: 0,
+    id: mod.id,
+    file_url: mod.file_url,
+  }
+  modApi.add.enable.post(reqForm).then(response => {
+    showSnackbar(response.message)
+  })
+}
 
 
 onMounted(() => {

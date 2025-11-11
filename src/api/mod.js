@@ -19,4 +19,12 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  add: {
+    enable: {
+      url: `/mod/add/enable`,
+      post: async function(data){
+        return await http.post(this.url, data)
+      },
+    }
+  }
 }
