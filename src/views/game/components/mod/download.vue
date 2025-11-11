@@ -4,6 +4,7 @@
       v-model="modSearchForm.searchText"
       :label="modSearchForm.searchType==='text'?'请输入要搜索的模组名称':'请输入要搜索的模组ID'"
       clearable
+      @keyup.enter="handleModSearch"
     >
       <template #prepend>
         <v-select
