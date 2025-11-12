@@ -54,7 +54,7 @@
                 class="mr-4"
                 @click="dialogVisible=true"
               >
-                详情
+                {{t('game.mod.download.modInfo.detail')}}
               </v-btn>
             </template>
             <template #default="{ isActive }">
@@ -84,7 +84,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>模组大小</td>
+                        <td>{{t('game.mod.download.modInfo.size')}}</td>
                         <td>
                           <v-chip
                             color="info"
@@ -155,7 +155,7 @@
             size="small"
             @click="handleDownload"
           >
-            下载
+            {{t('game.mod.download.modInfo.download')}}
           </v-btn>
         </div>
       </div>
@@ -170,7 +170,7 @@ import modApi from "@/api/mod"
 import {showSnackbar} from "@/utils/snackbar"
 import PreciseRating from "@/components/PreciseRating.vue"
 import bbCodeParser from 'js-bbcode-parser'
-
+import {useI18n} from "vue-i18n";
 
 
 const props = defineProps({
@@ -183,6 +183,8 @@ const props = defineProps({
     default: 0,
   },
 })
+
+const { t } = useI18n()
 
 const computedRate = computed(() => {
   return parseFloat((props.mod.vote_data.score * 5).toFixed(2))

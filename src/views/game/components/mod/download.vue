@@ -2,7 +2,7 @@
   <div>
     <v-text-field
       v-model="modSearchForm.searchText"
-      :label="modSearchForm.searchType==='text'?'请输入要搜索的模组名称':'请输入要搜索的模组ID'"
+      :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
       clearable
       @keyup.enter="handleModSearch"
     >
@@ -17,7 +17,7 @@
           size="large"
           @click="handleModSearch"
         >
-          搜索
+          {{t('game.mod.download.searchButton')}}
         </v-btn>
       </template>
     </v-text-field>
@@ -35,7 +35,7 @@
       </div>
       <div class="d-flex justify-end mt-4">
         <span class="align-content-center mr-2">
-          共 {{ modSearchData.total }}
+          {{t('game.mod.download.total')}} {{ modSearchData.total }}
         </span>
         <v-pagination
           v-model="modSearchForm.page"
@@ -58,12 +58,14 @@ import ModInfo from "@/views/game/components/mod/modInfo.vue"
 import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useGlobalStore from "@/plugins/store/global.js";
+import {useI18n} from "vue-i18n";
+
 
 const globalStore = useGlobalStore()
-
+const { t } = useI18n()
 
 const searchTypeMap = ref([
-  { title: '名称', value: 'text' },
+  { title: t('game.mod.download.searchName'), value: 'text' },
   { title: 'ID', value: 'id' },
 ])
 

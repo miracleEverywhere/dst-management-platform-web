@@ -7,10 +7,10 @@
     @update:model-value="handleTabClick"
   >
     <v-tab value="Download">
-      下载模组
+      {{t('game.mod.download.tabName')}}
     </v-tab>
     <v-tab value="Add">
-      添加模组
+      {{t('game.mod.add.tabName')}}
     </v-tab>
     <v-tab value="Setting">
       配置模组
@@ -40,6 +40,19 @@
         <add />
       </v-container>
     </v-tabs-window-item>
+    <v-tabs-window-item value="Setting">
+      <v-container
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
+      >
+        <setting
+          :height="calculateContainerSize()-106"
+        />
+      </v-container>
+    </v-tabs-window-item>
   </v-tabs-window>
 </template>
 
@@ -47,6 +60,9 @@
 import { debounce } from "@/utils/tools.js"
 import Download from "@/views/game/components/mod/download.vue"
 import Add from "@/views/game/components/mod/add.vue";
+import Setting from "@/views/game/components/mod/setting.vue"
+import {useI18n} from "vue-i18n";
+
 
 onMounted(async () => {
   // 添加事件监听
@@ -63,6 +79,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
 
+const { t } = useI18n()
 const activeTabName = ref('Download')
 
 const handleTabClick = tab => {

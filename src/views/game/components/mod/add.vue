@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <v-card-title>
-      添加模组
+      {{t('game.mod.add.tabName')}}
     </v-card-title>
     <v-card-text class="mt-4">
       <v-text-field
           v-model="downloadedModSearch"
           :loading="downloadedModsLoading"
-          label="Search"
+          :label="t('game.mod.add.search')"
           variant="outlined"
           hide-details
           single-line
@@ -21,7 +21,7 @@
               size="large"
               @click="getDownloadedMods"
           >
-            刷新
+            {{t('game.mod.add.refresh')}}
           </v-btn>
         </template>
       </v-text-field>
@@ -67,25 +67,27 @@
                 v-if="item.serverSize===item.localSize"
                 label
                 color="success"
-            >最新版本</v-chip>
+            >{{t('game.mod.add.needNoUpdate')}}</v-chip>
             <v-chip
                 v-if="item.serverSize!==item.localSize"
                 label
                 color="error"
-            >需要更新</v-chip>
+            >{{t('game.mod.add.needUpdate')}}</v-chip>
           </template>
           <template v-slot:item.actions="{ item }">
             <v-btn
                 color="primary"
                 variant="text"
             >
-              操作
+              {{t('game.mod.add.actions')}}
               <v-menu activator="parent">
                 <v-list>
                   <v-list-item
                       @click="handleModAction('enable', item)"
                   >
-                    <v-list-item-title>启用</v-list-item-title>
+                    <v-list-item-title>
+                      {{t('game.mod.add.enable')}}
+                    </v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -102,8 +104,10 @@ import modApi from "@/api/mod"
 import useGlobalStore from "@/plugins/store/global.js";
 import {formatBytes} from "@/utils/tools.js";
 import {showSnackbar} from "@/utils/snackbar.js";
+import {useI18n} from "vue-i18n";
 
 const globalStore = useGlobalStore()
+const { t } = useI18n()
 
 const downloadedMods = ref([])
 const downloadedModsLoading = ref(false)
@@ -122,12 +126,12 @@ const getDownloadedMods = () => {
 const downloadedModSearch = ref('')
 
 const headers = [
-  { key: 'preview_url', title: 'preview_url' },
-  { key: 'name', title: 'name' },
-  { key: 'serverSize', title: 'serverSize' },
+  { key: 'preview_url', title: t('game.mod.add.preview') },
+  { key: 'name', title: t('game.mod.add.name') },
+  { key: 'serverSize', title: t('game.mod.add.size') },
   { key: 'id', title: 'ID' },
-  { key: 'update', title: 'update' },
-  { key: 'actions', title: 'actions' },
+  { key: 'update', title: t('game.mod.add.update') },
+  { key: 'actions', title: t('game.mod.add.actions') },
 ]
 
 const selectedMods = ref([])

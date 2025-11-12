@@ -397,5 +397,36 @@ export default {
         subTitle: 'Please click the "Save" button below to save',
       },
     },
+    mod: {
+      download: {
+        tabName: 'Download',
+        searchName: 'Name',
+        searchPlaceholderName: 'Please enter the name of the mod you want to search for',
+        searchPlaceholderID: 'Please enter the ID of the mod you want to search for',
+        searchButton: 'Search',
+        total: 'Total',
+        modInfo: {
+          detail: 'Detail',
+          download: 'Download',
+          size: 'Size',
+        },
+      },
+      add: {
+        tabName: 'Add',
+        search: 'Search',
+        refresh: 'Refresh',
+        preview: 'Preview',
+        name: 'Name',
+        size: 'Size',
+        update: 'Update',
+        needUpdate: 'Latest Version',
+        needNoUpdate: 'Need Update',
+        actions: 'Actions',
+        enable: 'Enable',
+      },
+      setting: {
+
+      },
+    },
   },
 }

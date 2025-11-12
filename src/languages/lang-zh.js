@@ -376,5 +376,36 @@ export default {
         subTitle: '请点击下方"保存"按钮进行保存',
       },
     },
+    mod: {
+      download: {
+        tabName: '下载模组',
+        searchName: '名称',
+        searchPlaceholderName: '请输入要搜索的模组名称',
+        searchPlaceholderID: '请输入要搜索的模组ID',
+        searchButton: '搜索',
+        total: '共',
+        modInfo: {
+          detail: '详情',
+          download: '下载',
+          size: '模组大小',
+        },
+      },
+      add: {
+        tabName: '添加模组',
+        search: '搜索',
+        refresh: '刷新',
+        preview: '预览图',
+        name: '名称',
+        size: '大小',
+        update: '模组版本',
+        needUpdate: '需要更新',
+        needNoUpdate: '最新版本',
+        actions: '操作',
+        enable: '启用',
+      },
+      setting: {
+
+      },
+    },
   },
 }
