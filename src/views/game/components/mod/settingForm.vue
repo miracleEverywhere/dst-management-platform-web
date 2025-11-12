@@ -37,7 +37,7 @@
                 @update:model-value="handleOptionChange(field.name, $event)"
               >
                 <template v-slot:item="{ props, item }">
-                  <v-list-item v-bind="props">
+                  <v-list-item v-tooltip="item.raw.hover" v-bind="props">
 <!--                    <v-tooltip location="top" v-if="item.raw.hover">-->
 <!--                      <template v-slot:activator="{ props: tooltipProps }">-->
 <!--                        <v-list-item-title v-bind="tooltipProps">-->
@@ -47,9 +47,9 @@
 <!--                      <span>{{ item.raw.hover }}</span>-->
 <!--                    </v-tooltip>-->
 <!--                    <v-list-item-title v-else>-->
-                    <v-list-item-title>
-                      {{ item.raw.description }}
-                    </v-list-item-title>
+<!--                    <v-list-item-title>-->
+<!--                      {{ item.raw.description }}-->
+<!--                    </v-list-item-title>-->
                   </v-list-item>
                 </template>
               </v-select>
