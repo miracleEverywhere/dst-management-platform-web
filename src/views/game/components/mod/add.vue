@@ -1,7 +1,66 @@
 <template>
   <v-card>
     <v-card-title>
-      {{t('game.mod.add.tabName')}}
+      <div class="card-header">
+        {{t('game.mod.add.tabName')}}
+        <div>
+          <v-btn
+            append-icon="ri-arrow-drop-down-line"
+            color="primary"
+          >
+            {{t('game.mod.add.headerMenuButton')}}
+            <v-menu activator="parent">
+              <v-list>
+                <v-list-item
+                  :disabled="preDownloadLoading"
+                  class="text-info"
+                  @click="preDownload"
+                >
+                  <template #prepend>
+                    <v-icon
+                      icon="ri-download-2-line"
+                      size="22"
+                    />
+                  </template>
+                  <v-list-item-title>
+                    {{t('game.mod.add.preDownload')}}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  :disabled="selectedMods.length===0||multiEnableLoading"
+                  class="text-success"
+                  @click="multiEnable"
+                >
+                  <template #prepend>
+                    <v-icon
+                      icon="ri-list-check-3"
+                      size="22"
+                    />
+                  </template>
+                  <v-list-item-title>
+                    {{t('game.mod.add.enableMulti')}}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  :disabled="multiEnableLoading"
+                  class="text-warning"
+                  @click="handleModAction('enable', {id: 0, file_url: ''})"
+                >
+                  <template #prepend>
+                    <v-icon
+                      icon="ri-add-line"
+                      size="22"
+                    />
+                  </template>
+                  <v-list-item-title>
+                    {{t('game.mod.add.addClientModsDisabled')}}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-btn>
+        </div>
+      </div>
     </v-card-title>
     <v-card-text class="mt-4">
       <v-text-field
@@ -29,6 +88,7 @@
         <v-data-table
             v-model="selectedMods"
             show-select
+            return-object
             :headers="headers"
             :items="downloadedMods"
             :search="downloadedModSearch"
@@ -76,17 +136,41 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <v-btn
-                color="primary"
-                variant="text"
+                color="default"
+                append-icon="ri-arrow-drop-down-line"
+                variant="tonal"
             >
               {{t('game.mod.add.actions')}}
               <v-menu activator="parent">
                 <v-list>
                   <v-list-item
+                    :disabled="modEnableLoading"
+                    class="text-success"
                       @click="handleModAction('enable', item)"
                   >
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-file-check-line"
+                        size="22"
+                      />
+                    </template>
                     <v-list-item-title>
                       {{t('game.mod.add.enable')}}
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item
+                    :disabled="modUpdateLoading"
+                    class="text-info"
+                    @click="handleModAction('update', item)"
+                  >
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-arrow-up-circle-line"
+                        size="22"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{t('game.mod.add.updateMod')}}
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -141,12 +225,17 @@ const handleModAction = (action, mod) => {
     case "enable":
       modEnable(mod)
       break
+    case "update":
+      modUpdate(mod)
+      break
     default:
       showSnackbar("牛哇", "error")
   }
 }
 
+const modEnableLoading = ref(false)
 const modEnable = (mod) => {
+  modEnableLoading.value = true
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: 0,
@@ -155,6 +244,80 @@ const modEnable = (mod) => {
   }
   modApi.add.enable.post(reqForm).then(response => {
     showSnackbar(response.message)
+  }).finally(() => {
+    modEnableLoading.value = false
+  })
+}
+
+const modUpdateLoading = ref(false)
+const modUpdate = (mod) => {
+  modUpdateLoading.value = true
+  const reqFrom = {
+    roomID: globalStore.room.id,
+    id: mod.id,
+    file_url: mod.file_url,
+  }
+  modApi.download.post(reqFrom).finally(() => {
+    modUpdateLoading.value = false
+  })
+}
+
+const multiEnableLoading = ref(false)
+const multiEnable = async () => {
+  let allSuccess = true
+  multiEnableLoading.value = true
+  console.log(selectedMods.value)
+  for (let mod of selectedMods.value) {
+    const reqForm = {
+      roomID: globalStore.room.id,
+      worldID: 0,
+      id: mod.id,
+      file_url: mod.file_url,
+    }
+    try {
+      await modApi.add.enable.post(reqForm)
+    } catch {
+      allSuccess = false
+      showSnackbar(`${mod.name} ${t('game.mod.add.enableMultiFail')}`, 'error')
+    }
+  }
+
+  if (allSuccess) {
+    selectedMods.value = []
+    showSnackbar(t('game.mod.add.enableMultiSuccess'))
+  }
+
+  multiEnableLoading.value = false
+}
+
+const preDownloadLoading = ref(false)
+const preDownload = () => {
+  preDownloadLoading.value = true
+  const reqForm = {
+    roomID: globalStore.room.id,
+    worldID: 24,
+  }
+  modApi.setting.enabledMods.get(reqForm).then(async response => {
+    let allSuccess = true
+    for (let mod of response.data) {
+      const reqFrom = {
+        roomID: globalStore.room.id,
+        id: mod.id,
+        file_url: mod.file_url,
+      }
+      try {
+        const res = await modApi.download.post(reqFrom)
+      } catch {
+        allSuccess = false
+        showSnackbar(`${mod.name} ${t('game.mod.add.preDownloadFail')}`, 'error')
+      }
+
+      if (allSuccess) {
+        showSnackbar(t('game.mod.add.preDownloadSuccess'))
+      }
+    }
+  }).finally(() => {
+    preDownloadLoading.value = false
   })
 }
 

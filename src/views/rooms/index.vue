@@ -183,7 +183,7 @@
                         color="info"
                         label
                       >
-                        {{ room.modInOne?parseModLua(room.modData).length:parseModLua(room.world[0].modData).length }}
+                        {{ room.modInOne?parseModLua(room.modData).length:parseModLua(room.worlds[0].modData).length }}
                       </v-chip>
                     </v-col>
                   </v-row>

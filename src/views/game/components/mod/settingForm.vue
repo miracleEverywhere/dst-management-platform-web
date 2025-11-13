@@ -1,7 +1,17 @@
 <template>
   <v-card>
     <v-card-title>
-      {{props.title}}
+      <div class="card-header">
+        {{props.title}}
+        <v-btn
+          variant="text"
+          color="error"
+          prepend-icon="ri-prohibited-2-line"
+          @click="emitDisable"
+        >
+          {{t('game.mod.setting.disable')}}
+        </v-btn>
+      </div>
     </v-card-title>
     <v-card-text>
       <v-form>
@@ -64,7 +74,7 @@
                 >
                   <v-text-field
                     v-model="formData[field.name][index]"
-                    :label="`项目 ${index + 1}`"
+                    :label="`${t('game.mod.setting.item')} ${index + 1}`"
                     variant="outlined"
                     @update:model-value="handleArrayChange(field.name, index, $event)"
                   />
@@ -82,7 +92,7 @@
                   prepend-icon="ri-add-line"
                   @click="addArrayItem(field.name)"
                 >
-                  添加一条
+                  {{t('game.mod.setting.add')}}
                 </v-btn>
               </div>
 
@@ -96,14 +106,14 @@
                 >
                   <v-text-field
                     v-model="objectKeys[field.name][index]"
-                    label="键"
+                    :label="t('game.mod.setting.key')"
                     variant="outlined"
                     class="mr-2"
                     @update:model-value="handleObjectKeyChange(field.name, key, index, $event)"
                   />
                   <v-text-field
                     v-model="formData[field.name][key]"
-                    label="值"
+                    :label="t('game.mod.setting.value')"
                     variant="outlined"
                     class="mr-2"
                     :type="getInputType(value)"
@@ -122,7 +132,7 @@
                   prepend-icon="ri-add-line"
                   @click="addObjectItem(field.name)"
                 >
-                  添加一条
+                  {{t('game.mod.setting.add')}}
                 </v-btn>
               </div>
             </v-col>
@@ -136,10 +146,13 @@
       </v-form>
     </v-card-text>
   </v-card>
-
 </template>
 
 <script setup>
+import modApi from '@/api/mod.js'
+import {showSnackbar} from "@/utils/snackbar.js";
+import {useI18n} from "vue-i18n";
+
 
 const props = defineProps({
   fields: {
@@ -159,8 +172,20 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  roomID: {
+    type: Number,
+    default: 0,
+  },
+  worldID: {
+    type: Number,
+    default: 0,
+  },
+  modID: {
+    type: Number,
+    default: 0,
+  },
 })
-
+const { t } = useI18n()
 // 响应式数据
 const selectedOptions = reactive({}) // 存储当前选择的选项值
 const formData = reactive({}) // 存储复杂类型的数据（数组、对象）
@@ -228,7 +253,7 @@ const initializeFormData = () => {
     })
   } else {
     Object.entries(props.initialData).forEach(([key, value]) => {
-      console.log(key, value)
+      // console.log(key, value)
       selectedOptions[key] = value
       // 初始化复杂类型的数据结构
       if (Array.isArray(value)) {
@@ -340,13 +365,24 @@ const removeObjectItem = (fieldName, key) => {
 }
 
 // 发射变化事件
-const emit = defineEmits(['change'])
+const emit = defineEmits(['change', 'disableRefresh'])
 
 const emitChange = (fieldName, value) => {
   emit('change', {
     field: fieldName,
     value: value,
     formData: { ...selectedOptions }
+  })
+}
+
+const emitDisable = () => {
+  const reqForm = {
+    roomID: props.roomID,
+    id: props.modID,
+  }
+  modApi.setting.disableMod.post(reqForm).then(response => {
+    showSnackbar(response.message)
+    emit('disableRefresh')
   })
 }
 

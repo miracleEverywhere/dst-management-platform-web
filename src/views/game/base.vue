@@ -343,9 +343,7 @@ const handleNext = async () => {
 
 const roomRef = ref()
 
-const roomData = ref({
-
-})
+const roomData = ref({})
 
 const worldRef = ref()
 const worldData = ref([])
@@ -428,6 +426,7 @@ const handleSave = () => {
         reqForm.roomData.modInOne = true
         reqForm.roomData.modData = modData.value.modData
       } else {
+        reqForm.roomData.modInOne = false
         reqForm.worldData[i].modData = modData.value.worlds[i].modData
       }
       reqForm.worldData[i].roomID = globalStore.room.id
@@ -453,6 +452,7 @@ const handleSave = () => {
         reqForm.roomData.modInOne = true
         reqForm.roomData.modData = modData.value.modData
       } else {
+        reqForm.roomData.modInOne = false
         reqForm.worldData[i].modData = modData.value.worlds[i].modData
       }
       reqForm.worldData[i]['id'] = 0

@@ -49,5 +49,11 @@ export default {
         return await http.get(this.url, data)
       },
     },
+    disableMod: {
+      url: `/mod/setting/disable`,
+      post: async function(data){
+        return await http.post(this.url, data)
+      },
+    },
   },
 }

@@ -13,7 +13,7 @@
       {{t('game.mod.add.tabName')}}
     </v-tab>
     <v-tab value="Setting">
-      配置模组
+      {{t('game.mod.setting.tabName')}}
     </v-tab>
   </v-tabs>
 
