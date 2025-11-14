@@ -20,10 +20,6 @@ const globalStore = defineStore("global", {
         id: 0,
         gameName: '',
       },
-      gameVersion: {
-        server: 0,
-        local: 0,
-      },
     }
   },
   actions: {},

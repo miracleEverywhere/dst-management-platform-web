@@ -24,9 +24,10 @@ export default {
     gameMod: 'Mod',
     gamePlayer: 'Player',
     upload: 'Upload',
+    install: 'Install',
+    tools: 'Tools',
+    toolsBackup: 'Backup',
     platform: 'Platform',
-    platformOverview: 'Overview',
-    platformSetting: 'Setting',
   },
   login: {
     welcome: "Welcome to DMP",

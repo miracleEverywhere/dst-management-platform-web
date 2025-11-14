@@ -137,7 +137,7 @@
               </div>
             </v-col>
             <v-col v-else>
-              <result type="warning" title="该模组无配置项" :height="props.height-32">
+              <result type="warning" :title="t('game.mod.setting.tip.noConfig')" :height="props.height-32">
 
               </result>
             </v-col>

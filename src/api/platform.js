@@ -7,4 +7,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  gameVersion: {
+    url: `/platform/game_version`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+  },
 }

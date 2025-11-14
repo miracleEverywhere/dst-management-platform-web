@@ -189,6 +189,8 @@ const getModConfig = async (id, worldID, file_url, name) => {
   modName.value = ""
   if (id === 0) {
     modName.value = t('game.mod.setting.clientModsDisabled')
+    modStruct.value = []
+    modValue.value = []
   } else {
     await Promise.all([
       getModStruct(id, worldID, file_url),

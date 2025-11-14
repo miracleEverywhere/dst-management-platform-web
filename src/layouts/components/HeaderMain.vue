@@ -9,6 +9,7 @@
         v-if="globalStore.room.id"
         label
         color="primary"
+        prepend-icon="ri-honour-line"
       >
         {{ truncateString(globalStore.room.gameName, 8) }}
       </v-chip>
@@ -16,6 +17,7 @@
         v-else
         label
         color="primary"
+        prepend-icon="ri-honour-line"
       >
         {{ t('global.noRoom') }}
       </v-chip>
@@ -31,6 +33,7 @@
         v-if="globalStore.room.id"
         color="primary"
         class="mr-4"
+        prepend-icon="ri-honour-line"
       >
         {{ t('global.room') + truncateString(globalStore.room.gameName, 15) }}
       </v-chip>
@@ -38,6 +41,7 @@
         v-else
         color="primary"
         class="mr-4"
+        prepend-icon="ri-honour-line"
       >
         {{ t('global.room') + t('global.noRoom') }}
       </v-chip>
@@ -46,14 +50,16 @@
       <v-chip
         :color="getColor()"
         class="mr-4"
+        prepend-icon="ri-game-2-line"
       >
-        {{ t('global.gameVersion') + globalStore.gameVersion.local }}
+        {{ t('global.gameVersion') + gameVersion.local }}
       </v-chip>
     </div>
     <div>
       <v-chip
         color="info"
         class="mr-4"
+        prepend-icon="ri-medal-2-line"
       >
         {{ t('global.dmpVersion') + Version }}
       </v-chip>
@@ -62,25 +68,44 @@
 </template>
 
 <script setup>
-import useGlobalStore from "@store/global"
 import { Version } from "@/config/index"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify"
-import { truncateString } from "../../utils/tools.js"
+import { truncateString } from "@/utils/tools.js"
+import useGlobalStore from "@store/global"
+import platformApi from "@/api/platform.js"
 
-const globalStore = useGlobalStore()
+
 const { t } = useI18n()
 const { mobile } = useDisplay()
+const globalStore = useGlobalStore()
+
+const gameVersion = ref({
+  local: 0,
+  server: 0,
+})
+const getGameVersion = async () => {
+  try {
+    const response = await platformApi.gameVersion.get()
+    gameVersion.value = response.data
+  } catch {
+
+  }
+}
 
 const getColor = () => {
-  if (globalStore.gameVersion.local === 0) {
+  if (gameVersion.value.local === 0) {
     return 'error'
   }
-  if (globalStore.gameVersion.local !== globalStore.gameVersion.server) {
+  if (gameVersion.value.local !== gameVersion.value.server) {
     return 'warning'
   }
   
   return 'success'
 }
+
+onMounted(async () => {
+  await getGameVersion()
+})
 </script>
 

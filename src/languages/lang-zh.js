@@ -24,9 +24,10 @@ export default {
     gameMod: '模组设置',
     gamePlayer: '玩家设置',
     upload: '存档导入',
-    platform: '管理平台',
-    platformOverview: '平台总览',
-    platformSetting: '平台设置',
+    install: '游戏安装',
+    tools: '游戏工具',
+    toolsBackup: '备份管理',
+    platform: '平台管理',
   },
   login: {
     welcome: "欢迎使用饥荒管理平台",
