@@ -9,22 +9,15 @@ import svgLoader from 'vite-svg-loader'
 import { compression } from 'vite-plugin-compression2'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    host: '0.0.0.0', // 监听所有网络接口
-    port: 5173,      // 指定端口号（默认是5173）
-    strictPort: true, // 如果端口被占用则直接退出
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
   },
   plugins: [
     vue(),
-    vueJsx(),
-    compression({
-      algorithms: ['gzip'],
-    }),
-    ViteImageOptimizer(),
-
-    // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
+    // Vuetify 插件应该在 vue() 之后立即加载
     vuetify({
       autoImport: {
         labs: true,
@@ -33,24 +26,24 @@ export default defineConfig({
         configFile: 'src/assets/styles/variables/_vuetify.scss',
       },
     }),
+    vueJsx(),
+    compression({
+      algorithms: ['gzip'],
+    }),
+    ViteImageOptimizer(),
     Components({
       dirs: ['src/@core/components', 'src/components'],
       dts: true,
       resolvers: [
         componentName => {
-          // Auto import `VueApexCharts`
           if (componentName === 'VueApexCharts')
             return { name: 'default', from: 'vue3-apexcharts', as: 'VueApexCharts' }
         },
       ],
     }),
-
-    // Docs: https://github.com/antfu/unplugin-auto-import#unplugin-auto-import
     AutoImport({
       imports: ['vue', 'vue-router', '@vueuse/core', '@vueuse/math', 'pinia'],
       vueTemplate: true,
-
-      // ℹ️ Disabled to avoid confusion & accidental usage
       ignore: ['useCookies', 'useStorage'],
       eslintrc: {
         enabled: true,
