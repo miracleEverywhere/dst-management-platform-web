@@ -84,37 +84,7 @@ const props = defineProps({
 
 const emit = defineEmits(['changeModelValue'])
 
-onMounted(() => {
-  if (props.configs.length === 1) {
-    leftClickDisabled.value = true
-    rightClickDisabled.value = true
-  }
-  if (props.configs.length === 2) {
-    const index = props.configs.indexOf(setting.value)
-    if (index === 0) {
-      leftClickDisabled.value = true
-      rightClickDisabled.value = false
-    } else if (index === (props.configs.length - 1)) {
-      rightClickDisabled.value = true
-      leftClickDisabled.value = false
-    } else {
-      leftClickDisabled.value = false
-      rightClickDisabled.value = false
-    }
-  } else {
-    const index = props.configs.indexOf(setting.value)
-    if (index === 0) {
-      leftClickDisabled.value = true
-      rightClickDisabled.value = false
-    } else if (index === (props.configs.length - 1)) {
-      rightClickDisabled.value = true
-      leftClickDisabled.value = false
-    } else {
-      leftClickDisabled.value = false
-      rightClickDisabled.value = false
-    }
-  }
-})
+
 
 const { t } = useI18n()
 const globalStore = useGlobalStore()
@@ -188,26 +158,33 @@ const handleSettingChange = () => {
   emit('changeModelValue', emitData)
 }
 
-
-watch(() => setting.value, (newValue, oldValue) => {
+const updateButtonState = () => {
   if (props.configs.length === 1) {
     leftClickDisabled.value = true
     rightClickDisabled.value = true
-  } else {
-    const index = props.configs.indexOf(setting.value)
-    if (index === 0) {
-      leftClickDisabled.value = true
-      rightClickDisabled.value = false
-    } else if (index === (props.configs.length - 1)) {
-      rightClickDisabled.value = true
-      leftClickDisabled.value = false
-    } else {
-      leftClickDisabled.value = false
-      rightClickDisabled.value = false
-    }
+    return
   }
+
+  const index = props.configs.indexOf(setting.value)
+  leftClickDisabled.value = index === 0
+  rightClickDisabled.value = index === (props.configs.length - 1)
+}
+
+// 在 onMounted 中调用
+onMounted(() => {
+  updateButtonState()
+})
+
+// 简化 watch
+watch(() => setting.value, () => {
+  updateButtonState()
   handleSettingChange()
-}, { immediate: false })
+})
+
+// 监听 configs 的变化
+watch(() => props.configs, () => {
+  updateButtonState()
+}, { deep: true })
 </script>
 
 
