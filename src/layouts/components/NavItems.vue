@@ -1,26 +1,26 @@
 <template>
   <template v-for="menu in menus">
     <vertical-nav-section-title
-        v-if="menu.section!==''"
-        :key="menu.id"
-        :item="{heading: menu.section}"
+      v-if="menu.section!==''"
+      :key="menu.id"
+      :item="{heading: menu.section}"
     />
     <vertical-nav-group
-        v-if="menu.type==='group'"
-        :key="menu.id"
-        :item="{
+      v-if="menu.type==='group'"
+      :key="menu.id"
+      :item="{
         title: t('menu.'+menu.title),
         badgeContent: menu.badgeContent,
         badgeClass: menu.badgeClass,
         icon: menu.icon
       }"
-        :is-open="activeGroupId === menu.id"
-        @toggle="handleGroupToggle(menu.id)"
+      :is-open="activeGroupId === menu.id"
+      @toggle="handleGroupToggle(menu.id)"
     >
       <vertical-nav-link
-          v-for="link in menu.links"
-          :key="link.id"
-          :item="{
+        v-for="link in menu.links"
+        :key="link.id"
+        :item="{
           title: t('menu.'+link.title),
           icon: link.icon,
           to: link.to,
@@ -31,9 +31,9 @@
       />
     </vertical-nav-group>
     <vertical-nav-link
-        v-if="menu.type==='link'"
-        :key="menu.id"
-        :item="{
+      v-if="menu.type==='link'"
+      :key="menu.id"
+      :item="{
         title: t('menu.'+menu.title),
         icon: menu.icon,
         to: menu.to,
@@ -41,7 +41,7 @@
         target: menu.target,
         badgeContent: menu.badgeContent,
       }"
-        @click="handleCloseAll"
+      @click="handleCloseAll"
     />
   </template>
 </template>
@@ -65,7 +65,7 @@ const menus = userStore.menus
 const activeGroupId = ref(null)
 
 // 根据当前路由路径查找对应的菜单组
-const findGroupByPath = (path) => {
+const findGroupByPath = path => {
   for (const menu of menus) {
     if (menu.type === 'group' && menu.links) {
       // 检查当前路径是否匹配该组内的任意链接
@@ -73,20 +73,23 @@ const findGroupByPath = (path) => {
         // 处理各种路径匹配情况
         if (link.to === path) return true
         if (link.href === path) return true
+
         // 如果是动态路由，可以添加更复杂的匹配逻辑
-        return link.to && path.startsWith(link.to);
+        return link.to && path.startsWith(link.to)
 
       })
+
       if (matchedLink) {
         return menu.id
       }
     }
   }
+  
   return null
 }
 
 // 监听路由变化，自动展开对应的菜单组
-watch(() => route.path, (newPath) => {
+watch(() => route.path, newPath => {
   const targetGroupId = findGroupByPath(newPath)
   if (targetGroupId) {
     activeGroupId.value = targetGroupId
