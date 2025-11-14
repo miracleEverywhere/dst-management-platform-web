@@ -1,22 +1,24 @@
 <template>
   <div>
     <template v-if="mobile">
-      <v-row class="my-2">
+      <v-row class="ma-1">
         <v-select
           v-model="modSearchForm.searchType"
           :items="searchTypeMap"
+          density="compact"
         />
       </v-row>
-      <v-row>
+      <v-row class="mx-1">
         <v-text-field
           v-model="modSearchForm.searchText"
           :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
           clearable
+          density="compact"
           @keyup.enter="handleModSearch"
         >
           <template #append>
             <v-btn
-              size="large"
+              size="small"
               @click="handleModSearch"
             >
               {{ t('game.mod.download.searchButton') }}
@@ -30,6 +32,7 @@
         v-model="modSearchForm.searchText"
         :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
         clearable
+        class="my-2"
         @keyup.enter="handleModSearch"
       >
         <template #prepend>
