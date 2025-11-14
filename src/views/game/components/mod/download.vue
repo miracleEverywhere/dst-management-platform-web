@@ -1,26 +1,53 @@
 <template>
   <div>
-    <v-text-field
-      v-model="modSearchForm.searchText"
-      :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
-      clearable
-      @keyup.enter="handleModSearch"
-    >
-      <template #prepend>
+    <template v-if="mobile">
+      <v-row class="my-2">
         <v-select
           v-model="modSearchForm.searchType"
           :items="searchTypeMap"
         />
-      </template>
-      <template #append>
-        <v-btn
-          size="large"
-          @click="handleModSearch"
+      </v-row>
+      <v-row>
+        <v-text-field
+          v-model="modSearchForm.searchText"
+          :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
+          clearable
+          @keyup.enter="handleModSearch"
         >
-          {{ t('game.mod.download.searchButton') }}
-        </v-btn>
-      </template>
-    </v-text-field>
+          <template #append>
+            <v-btn
+              size="large"
+              @click="handleModSearch"
+            >
+              {{ t('game.mod.download.searchButton') }}
+            </v-btn>
+          </template>
+        </v-text-field>
+      </v-row>
+    </template>
+    <template v-else>
+      <v-text-field
+        v-model="modSearchForm.searchText"
+        :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
+        clearable
+        @keyup.enter="handleModSearch"
+      >
+        <template #prepend>
+          <v-select
+            v-model="modSearchForm.searchType"
+            :items="searchTypeMap"
+          />
+        </template>
+        <template #append>
+          <v-btn
+            size="large"
+            @click="handleModSearch"
+          >
+            {{ t('game.mod.download.searchButton') }}
+          </v-btn>
+        </template>
+      </v-text-field>
+    </template>
     <template v-if="modSearchLoading">
       <v-skeleton-loader
         type="table-row@20"
@@ -62,10 +89,12 @@ import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
+import { useDisplay } from "vuetify/framework"
 
 
 const globalStore = useGlobalStore()
 const { t } = useI18n()
+const { mobile } = useDisplay()
 
 const searchTypeMap = ref([
   { title: t('game.mod.download.searchName'), value: 'text' },
