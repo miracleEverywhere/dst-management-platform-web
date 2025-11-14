@@ -1,11 +1,11 @@
 <template>
   <template v-if="globalStore.room.id!==0">
     <v-tabs
-        v-model="activeTabName"
-        align-tabs="start"
-        color="primary"
-        show-arrows
-        @update:model-value="handleTabClick"
+      v-model="activeTabName"
+      align-tabs="start"
+      color="primary"
+      show-arrows
+      @update:model-value="handleTabClick"
     >
       <v-tab value="Download">
         {{ t('game.mod.download.tabName') }}
@@ -21,33 +21,33 @@
     <v-tabs-window v-model="activeTabName">
       <v-tabs-window-item value="Download">
         <v-container
-            fluid
-            :height="calculateContainerSize()"
-            width="100%"
-            class="w-100"
-            style="overflow-y: auto"
+          fluid
+          :height="calculateContainerSize()"
+          width="100%"
+          class="w-100"
+          style="overflow-y: auto"
         >
           <download />
         </v-container>
       </v-tabs-window-item>
       <v-tabs-window-item value="Add">
         <v-container
-            fluid
-            :height="calculateContainerSize()"
-            width="100%"
-            class="w-100"
-            style="overflow-y: auto"
+          fluid
+          :height="calculateContainerSize()"
+          width="100%"
+          class="w-100"
+          style="overflow-y: auto"
         >
           <add />
         </v-container>
       </v-tabs-window-item>
       <v-tabs-window-item value="Setting">
         <v-container
-            fluid
-            :height="calculateContainerSize()"
-            width="100%"
-            class="w-100"
-            style="overflow-y: auto"
+          fluid
+          :height="calculateContainerSize()"
+          width="100%"
+          class="w-100"
+          style="overflow-y: auto"
         >
           <setting :height="calculateContainerSize()-106" />
         </v-container>
@@ -55,11 +55,20 @@
     </v-tabs-window>
   </template>
   <template v-else>
-    <result :title="t('global.result.title')" :sub-title="t('global.result.subTitle')" type="error" :height="calculateContainerSize()">
-      <v-btn to="/rooms" class="mt-4">{{t('global.result.button')}}</v-btn>
+    <result
+      :title="t('global.result.title')"
+      :sub-title="t('global.result.subTitle')"
+      type="error"
+      :height="calculateContainerSize()"
+    >
+      <v-btn
+        to="/rooms"
+        class="mt-4"
+      >
+        {{ t('global.result.button') }}
+      </v-btn>
     </result>
   </template>
-
 </template>
 
 <script setup>
