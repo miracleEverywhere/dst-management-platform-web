@@ -303,6 +303,7 @@ export default {
           resources: 'Resources',
           creaturesAndSpawners: 'Creatures And Spawners',
           hostileCreaturesAndSpawners: 'Hostile Creatures And Spawners',
+          tip: ' (This configuration only takes effect before the game is generated)',
         },
         levelData: {
           required: 'Please input world code configuration',

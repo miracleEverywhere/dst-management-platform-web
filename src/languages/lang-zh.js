@@ -283,11 +283,13 @@ export default {
           resources: '资源',
           creaturesAndSpawners: '生物以及刷新点',
           hostileCreaturesAndSpawners: '敌对生物以及刷新点',
+          tip: ' (该配置仅游戏生成前生效)',
         },
         levelData: {
           required: '请输入世界代码配置',
           lua: '世界代码配置格式错误',
         },
+
       },
       step3: {
         modInOne: {

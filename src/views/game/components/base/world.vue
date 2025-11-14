@@ -494,7 +494,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.global')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.global')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -519,7 +519,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.world')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.world')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -544,7 +544,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.resources')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.resources')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -569,7 +569,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.creaturesAndSpawners')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.creaturesAndSpawners')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -594,7 +594,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.hostileCreaturesAndSpawners')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.hostileCreaturesAndSpawners')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -771,7 +771,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.world')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.world')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -796,7 +796,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.resources')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.resources')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -821,7 +821,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.creaturesAndSpawners')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.creaturesAndSpawners')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
@@ -846,7 +846,7 @@
             </div>
             <v-alert
               color="success"
-              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.hostileCreaturesAndSpawners')"
+              :title="t('game.base.step2.worldGeneration.worldGeneration')+' - '+t('game.base.step2.worldGeneration.hostileCreaturesAndSpawners')+t('game.base.step2.worldGeneration.tip')"
               density="compact"
               class="mt-4 mb-2"
               variant="tonal"
