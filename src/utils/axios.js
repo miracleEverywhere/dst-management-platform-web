@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { showSnackbar } from '@/utils/snackbar'
 import { getToken } from "@/utils/tools"
-import { router } from "@/plugins/router/index"
 import useUserStore from "@store/user"
 import { ApiVersion } from "@/config"
 import useGlobalStore from "@store/global.js"
@@ -48,7 +47,7 @@ instance.interceptors.response.use(
 
       showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
       await userStore.clearStore()
-      await router.replace('/login')
+      window.location.href = '/login'
       
       return Promise.reject(response.data)
     } else {
