@@ -74,11 +74,10 @@
             class="mr-4"
           />
           <v-text-field
-              v-if="roomForm.gameMode==='custom'"
-              v-model="roomForm.customGameMode"
-              :rules="roomFormRules.customGameMode"
-              :label="t('game.base.step1.gameMode.modes.custom.label')"
-
+            v-if="roomForm.gameMode==='custom'"
+            v-model="roomForm.customGameMode"
+            :rules="roomFormRules.customGameMode"
+            :label="t('game.base.step1.gameMode.modes.custom.label')"
           />
         </v-radio-group>
       </v-col>

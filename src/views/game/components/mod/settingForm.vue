@@ -2,38 +2,41 @@
   <v-card>
     <v-card-title>
       <div class="card-header">
-        {{props.title}}
+        {{ props.title }}
         <v-btn
           variant="text"
           color="error"
           prepend-icon="ri-prohibited-2-line"
           @click="emitDisable"
         >
-          {{t('game.mod.setting.disable')}}
+          {{ t('game.mod.setting.disable') }}
         </v-btn>
       </div>
     </v-card-title>
     <v-card-text>
       <v-form>
-        <v-container :height="props.height" style="overflow-y: auto">
+        <v-container
+          :height="props.height"
+          style="overflow-y: auto"
+        >
           <v-row>
             <v-col
-              v-if="formFields.length!==0"
               v-for="field in formFields"
+              v-if="formFields.length!==0"
               :key="field.name"
               cols="12"
             >
               <!-- 字段标签和提示 -->
-<!--              <div class="d-flex align-center mb-4">-->
-<!--                <v-tooltip location="top">-->
-<!--                  <template v-slot:activator="{ props }">-->
-<!--                    <v-label v-bind="props" class="text-h6">-->
-<!--                      {{ field.label }}-->
-<!--                    </v-label>-->
-<!--                  </template>-->
-<!--                  <span>{{ field.hover || '暂无描述' }}</span>-->
-<!--                </v-tooltip>-->
-<!--              </div>-->
+              <!--              <div class="d-flex align-center mb-4"> -->
+              <!--                <v-tooltip location="top"> -->
+              <!--                  <template v-slot:activator="{ props }"> -->
+              <!--                    <v-label v-bind="props" class="text-h6"> -->
+              <!--                      {{ field.label }} -->
+              <!--                    </v-label> -->
+              <!--                  </template> -->
+              <!--                  <span>{{ field.hover || '暂无描述' }}</span> -->
+              <!--                </v-tooltip> -->
+              <!--              </div> -->
 
               <!-- 主选择器 - 始终显示 -->
               <v-select
@@ -46,27 +49,33 @@
                 variant="outlined"
                 @update:model-value="handleOptionChange(field.name, $event)"
               >
-                <template v-slot:item="{ props, item }">
-                  <v-list-item v-tooltip="item.raw.hover" v-bind="props">
-<!--                    <v-tooltip location="top" v-if="item.raw.hover">-->
-<!--                      <template v-slot:activator="{ props: tooltipProps }">-->
-<!--                        <v-list-item-title v-bind="tooltipProps">-->
-<!--                          {{ item.raw.description }}-->
-<!--                        </v-list-item-title>-->
-<!--                      </template>-->
-<!--                      <span>{{ item.raw.hover }}</span>-->
-<!--                    </v-tooltip>-->
-<!--                    <v-list-item-title v-else>-->
-<!--                    <v-list-item-title>-->
-<!--                      {{ item.raw.description }}-->
-<!--                    </v-list-item-title>-->
+                <template #item="{ props, item }">
+                  <v-list-item
+                    v-tooltip="item.raw.hover"
+                    v-bind="props"
+                  >
+                    <!--                    <v-tooltip location="top" v-if="item.raw.hover"> -->
+                    <!--                      <template v-slot:activator="{ props: tooltipProps }"> -->
+                    <!--                        <v-list-item-title v-bind="tooltipProps"> -->
+                    <!--                          {{ item.raw.description }} -->
+                    <!--                        </v-list-item-title> -->
+                    <!--                      </template> -->
+                    <!--                      <span>{{ item.raw.hover }}</span> -->
+                    <!--                    </v-tooltip> -->
+                    <!--                    <v-list-item-title v-else> -->
+                    <!--                    <v-list-item-title> -->
+                    <!--                      {{ item.raw.description }} -->
+                    <!--                    </v-list-item-title> -->
                   </v-list-item>
                 </template>
               </v-select>
 
               <!-- 数组类型输入框 - 只有当选择的选项是数组时才显示 -->
-              <div v-if="isCurrentValueArray(field.name)" class="array-field mt-4">
-<!--                <div class="text-caption text-medium-emphasis mb-2">数组内容：</div>-->
+              <div
+                v-if="isCurrentValueArray(field.name)"
+                class="array-field mt-4"
+              >
+                <!--                <div class="text-caption text-medium-emphasis mb-2">数组内容：</div> -->
                 <div
                   v-for="(item, index) in formData[field.name]"
                   :key="index"
@@ -84,21 +93,23 @@
                     color="error"
                     class="ml-2"
                     @click="removeArrayItem(field.name, index)"
-                  >
-                  </v-btn>
+                  />
                 </div>
                 <v-btn
                   color="success"
                   prepend-icon="ri-add-line"
                   @click="addArrayItem(field.name)"
                 >
-                  {{t('game.mod.setting.add')}}
+                  {{ t('game.mod.setting.add') }}
                 </v-btn>
               </div>
 
               <!-- 对象类型输入框 - 只有当选择的选项是对象时才显示 -->
-              <div v-else-if="isCurrentValueObject(field.name)" class="object-field mt-4">
-<!--                <div class="text-caption text-medium-emphasis mb-2">键值对内容：</div>-->
+              <div
+                v-else-if="isCurrentValueObject(field.name)"
+                class="object-field mt-4"
+              >
+                <!--                <div class="text-caption text-medium-emphasis mb-2">键值对内容：</div> -->
                 <div
                   v-for="(value, key, index) in formData[field.name]"
                   :key="key"
@@ -124,22 +135,23 @@
                     variant="text"
                     color="error"
                     @click="removeObjectItem(field.name, key)"
-                  >
-                  </v-btn>
+                  />
                 </div>
                 <v-btn
                   color="success"
                   prepend-icon="ri-add-line"
                   @click="addObjectItem(field.name)"
                 >
-                  {{t('game.mod.setting.add')}}
+                  {{ t('game.mod.setting.add') }}
                 </v-btn>
               </div>
             </v-col>
             <v-col v-else>
-              <result type="warning" :title="t('game.mod.setting.tip.noConfig')" :height="props.height-32">
-
-              </result>
+              <result
+                type="warning"
+                :title="t('game.mod.setting.tip.noConfig')"
+                :height="props.height-32"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -150,19 +162,19 @@
 
 <script setup>
 import modApi from '@/api/mod.js'
-import {showSnackbar} from "@/utils/snackbar.js";
-import {useI18n} from "vue-i18n";
+import { showSnackbar } from "@/utils/snackbar.js"
+import { useI18n } from "vue-i18n"
 
 
 const props = defineProps({
   fields: {
     type: Array,
     required: true,
-    default: () => ([])
+    default: () => ([]),
   },
   initialData: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   height: {
     type: Number,
@@ -185,7 +197,11 @@ const props = defineProps({
     default: 0,
   },
 })
+
+// 发射变化事件
+const emit = defineEmits(['change', 'disableRefresh'])
 const { t } = useI18n()
+
 // 响应式数据
 const selectedOptions = reactive({}) // 存储当前选择的选项值
 const formData = reactive({}) // 存储复杂类型的数据（数组、对象）
@@ -195,36 +211,41 @@ const objectKeys = reactive({}) // 存储对象的键映射
 const formFields = computed(() => props.fields)
 
 // 类型判断函数 - 判断当前选择的值类型
-const isCurrentValueArray = (fieldName) => {
+const isCurrentValueArray = fieldName => {
   return Array.isArray(selectedOptions[fieldName])
 }
 
-const isCurrentValueObject = (fieldName) => {
+const isCurrentValueObject = fieldName => {
   const value = selectedOptions[fieldName]
+  
   return value && typeof value === 'object' && !Array.isArray(value)
 }
 
-const isCurrentValueSimple = (fieldName) => {
+const isCurrentValueSimple = fieldName => {
   const value = selectedOptions[fieldName]
+  
   return typeof value === 'string' ||
     typeof value === 'number' ||
     typeof value === 'boolean'
 }
 
-const getValueType = (fieldName) => {
+const getValueType = fieldName => {
   const value = selectedOptions[fieldName]
   if (Array.isArray(value)) return '数组'
   if (value && typeof value === 'object') return '对象'
+  
   return typeof value
 }
 
-const showValueTypeHint = (fieldName) => {
+const showValueTypeHint = fieldName => {
   const value = selectedOptions[fieldName]
+  
   return Array.isArray(value) || (value && typeof value === 'object')
 }
 
-const getInputType = (value) => {
+const getInputType = value => {
   if (typeof value === 'number') return 'number'
+  
   return 'text'
 }
 
@@ -238,6 +259,7 @@ const initializeFormData = () => {
     formFields.value.forEach(field => {
       // 设置默认选择的选项
       const defaultValue = field.default
+
       selectedOptions[field.name] = defaultValue
 
       // 初始化复杂类型的数据结构
@@ -255,6 +277,7 @@ const initializeFormData = () => {
     Object.entries(props.initialData).forEach(([key, value]) => {
       // console.log(key, value)
       selectedOptions[key] = value
+
       // 初始化复杂类型的数据结构
       if (Array.isArray(value)) {
         formData[key] = [...value]
@@ -265,7 +288,7 @@ const initializeFormData = () => {
       } else {
         formData[key] = value
       }
-    });
+    })
   }
 }
 
@@ -290,12 +313,13 @@ const handleOptionChange = (fieldName, newValue) => {
 // 数组操作
 const handleArrayChange = (fieldName, index, value) => {
   formData[fieldName][index] = value
+
   // 更新selectedOptions以保持同步
   selectedOptions[fieldName] = [...formData[fieldName]]
   emitChange(fieldName, selectedOptions[fieldName])
 }
 
-const addArrayItem = (fieldName) => {
+const addArrayItem = fieldName => {
   if (!formData[fieldName]) {
     formData[fieldName] = []
   }
@@ -319,6 +343,7 @@ const handleObjectKeyChange = (fieldName, oldKey, index, newKey) => {
 
   // 删除旧的键
   delete currentData[oldKey]
+
   // 添加新的键
   currentData[newKey] = value
 
@@ -340,13 +365,14 @@ const handleObjectValueChange = (fieldName, key, value) => {
   emitChange(fieldName, selectedOptions[fieldName])
 }
 
-const addObjectItem = (fieldName) => {
+const addObjectItem = fieldName => {
   if (!formData[fieldName]) {
     formData[fieldName] = {}
     objectKeys[fieldName] = []
   }
 
   const newKey = `key${Object.keys(formData[fieldName]).length + 1}`
+
   formData[fieldName][newKey] = ''
   objectKeys[fieldName].push(newKey)
   selectedOptions[fieldName] = { ...formData[fieldName] }
@@ -356,6 +382,7 @@ const addObjectItem = (fieldName) => {
 
 const removeObjectItem = (fieldName, key) => {
   delete formData[fieldName][key]
+
   const keyIndex = objectKeys[fieldName].indexOf(key)
   if (keyIndex > -1) {
     objectKeys[fieldName].splice(keyIndex, 1)
@@ -364,14 +391,11 @@ const removeObjectItem = (fieldName, key) => {
   emitChange(fieldName, selectedOptions[fieldName])
 }
 
-// 发射变化事件
-const emit = defineEmits(['change', 'disableRefresh'])
-
 const emitChange = (fieldName, value) => {
   emit('change', {
     field: fieldName,
     value: value,
-    formData: { ...selectedOptions }
+    formData: { ...selectedOptions },
   })
 }
 
@@ -380,6 +404,7 @@ const emitDisable = () => {
     roomID: props.roomID,
     id: props.modID,
   }
+
   modApi.setting.disableMod.post(reqForm).then(response => {
     showSnackbar(response.message)
     emit('disableRefresh')
@@ -393,7 +418,7 @@ const getFormData = () => {
 
 // 暴露方法给父组件
 defineExpose({
-  getFormData
+  getFormData,
 })
 
 // 生命周期

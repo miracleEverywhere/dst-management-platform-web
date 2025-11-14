@@ -25,7 +25,7 @@ export default {
       post: async function(data){
         return await http.post(this.url, data)
       },
-    }
+    },
   },
   setting: {
     modConfigStruct: {

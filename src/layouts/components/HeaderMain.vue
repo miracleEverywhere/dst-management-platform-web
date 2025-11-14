@@ -84,9 +84,11 @@ const gameVersion = ref({
   local: 0,
   server: 0,
 })
+
 const getGameVersion = async () => {
   try {
     const response = await platformApi.gameVersion.get()
+
     gameVersion.value = response.data
   } catch {
 

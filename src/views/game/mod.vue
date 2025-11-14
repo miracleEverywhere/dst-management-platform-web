@@ -7,13 +7,13 @@
     @update:model-value="handleTabClick"
   >
     <v-tab value="Download">
-      {{t('game.mod.download.tabName')}}
+      {{ t('game.mod.download.tabName') }}
     </v-tab>
     <v-tab value="Add">
-      {{t('game.mod.add.tabName')}}
+      {{ t('game.mod.add.tabName') }}
     </v-tab>
     <v-tab value="Setting">
-      {{t('game.mod.setting.tabName')}}
+      {{ t('game.mod.setting.tabName') }}
     </v-tab>
   </v-tabs>
 
@@ -31,11 +31,11 @@
     </v-tabs-window-item>
     <v-tabs-window-item value="Add">
       <v-container
-          fluid
-          :height="calculateContainerSize()"
-          width="100%"
-          class="w-100"
-          style="overflow-y: auto"
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
       >
         <add />
       </v-container>
@@ -48,9 +48,7 @@
         class="w-100"
         style="overflow-y: auto"
       >
-        <setting
-          :height="calculateContainerSize()-106"
-        />
+        <setting :height="calculateContainerSize()-106" />
       </v-container>
     </v-tabs-window-item>
   </v-tabs-window>
@@ -59,9 +57,9 @@
 <script setup>
 import { debounce } from "@/utils/tools.js"
 import Download from "@/views/game/components/mod/download.vue"
-import Add from "@/views/game/components/mod/add.vue";
+import Add from "@/views/game/components/mod/add.vue"
 import Setting from "@/views/game/components/mod/setting.vue"
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n"
 
 
 onMounted(async () => {

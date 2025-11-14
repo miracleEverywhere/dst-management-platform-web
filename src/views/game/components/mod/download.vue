@@ -17,7 +17,7 @@
           size="large"
           @click="handleModSearch"
         >
-          {{t('game.mod.download.searchButton')}}
+          {{ t('game.mod.download.searchButton') }}
         </v-btn>
       </template>
     </v-text-field>
@@ -30,12 +30,15 @@
     <template v-else>
       <div class="item-container my-8">
         <template v-for="mod in modSearchData.rows">
-          <mod-info :mod="mod" :roomID="globalStore.room.id" />
+          <mod-info
+            :mod="mod"
+            :room-i-d="globalStore.room.id"
+          />
         </template>
       </div>
       <div class="d-flex justify-end mt-4">
         <span class="align-content-center mr-2">
-          {{t('game.mod.download.total')}} {{ modSearchData.total }}
+          {{ t('game.mod.download.total') }} {{ modSearchData.total }}
         </span>
         <v-pagination
           v-model="modSearchForm.page"
@@ -57,8 +60,8 @@
 import ModInfo from "@/views/game/components/mod/modInfo.vue"
 import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar.js"
-import useGlobalStore from "@/plugins/store/global.js";
-import {useI18n} from "vue-i18n";
+import useGlobalStore from "@store/global.js"
+import { useI18n } from "vue-i18n"
 
 
 const globalStore = useGlobalStore()

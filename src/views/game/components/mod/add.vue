@@ -2,13 +2,13 @@
   <v-card>
     <v-card-title>
       <div class="card-header">
-        {{t('game.mod.add.tabName')}}
+        {{ t('game.mod.add.tabName') }}
         <div>
           <v-btn
             append-icon="ri-arrow-drop-down-line"
             color="primary"
           >
-            {{t('game.mod.add.headerMenuButton')}}
+            {{ t('game.mod.add.headerMenuButton') }}
             <v-menu activator="parent">
               <v-list>
                 <v-list-item
@@ -23,7 +23,7 @@
                     />
                   </template>
                   <v-list-item-title>
-                    {{t('game.mod.add.preDownload')}}
+                    {{ t('game.mod.add.preDownload') }}
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item
@@ -38,7 +38,7 @@
                     />
                   </template>
                   <v-list-item-title>
-                    {{t('game.mod.add.enableMulti')}}
+                    {{ t('game.mod.add.enableMulti') }}
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item
@@ -53,7 +53,7 @@
                     />
                   </template>
                   <v-list-item-title>
-                    {{t('game.mod.add.addClientModsDisabled')}}
+                    {{ t('game.mod.add.addClientModsDisabled') }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -64,89 +64,101 @@
     </v-card-title>
     <v-card-text class="mt-4">
       <v-text-field
-          v-model="downloadedModSearch"
-          :loading="downloadedModsLoading"
-          :label="t('game.mod.add.search')"
-          variant="outlined"
-          hide-details
-          single-line
+        v-model="downloadedModSearch"
+        :loading="downloadedModsLoading"
+        :label="t('game.mod.add.search')"
+        variant="outlined"
+        hide-details
+        single-line
       >
         <template #append>
           <v-btn
-              :loading="downloadedModsLoading"
-              prepend-icon="ri-refresh-line"
-              color="default"
-              variant="elevated"
-              size="large"
-              @click="getDownloadedMods"
+            :loading="downloadedModsLoading"
+            prepend-icon="ri-refresh-line"
+            color="default"
+            variant="elevated"
+            size="large"
+            @click="getDownloadedMods"
           >
-            {{t('game.mod.add.refresh')}}
+            {{ t('game.mod.add.refresh') }}
           </v-btn>
         </template>
       </v-text-field>
-      <v-sheet border rounded class="mt-4">
+      <v-sheet
+        border
+        rounded
+        class="mt-4"
+      >
         <v-data-table
-            v-model="selectedMods"
-            show-select
-            return-object
-            :headers="headers"
-            :items="downloadedMods"
-            :search="downloadedModSearch"
-            :loading="downloadedModsLoading"
+          v-model="selectedMods"
+          show-select
+          return-object
+          :headers="headers"
+          :items="downloadedMods"
+          :search="downloadedModSearch"
+          :loading="downloadedModsLoading"
         >
-          <template v-slot:loading>
-            <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+          <template #loading>
+            <v-skeleton-loader type="table-row@10" />
           </template>
 
-          <template v-slot:item.preview_url="{ value }">
+          <template #item.preview_url="{ value }">
             <v-img
-                :width="100"
-                :src="value"
-                class="ma-2"
-            ></v-img>
+              :width="100"
+              :src="value"
+              class="ma-2"
+            />
           </template>
-          <template v-slot:item.name="{ value }">
+          <template #item.name="{ value }">
             <v-chip
-                label
-                color="info"
-            >{{value}}</v-chip>
-          </template>
-          <template v-slot:item.serverSize="{ value }">
-            <v-chip
-                label
-                color="primary"
-            >{{formatBytes(parseInt(value))}}</v-chip>
-          </template>
-          <template v-slot:item.id="{ value }">
-            <v-chip
-                label
-            >{{value}}</v-chip>
-          </template>
-          <template v-slot:item.update="{ item }">
-            <v-chip
-                v-if="item.serverSize===item.localSize"
-                label
-                color="success"
-            >{{t('game.mod.add.needNoUpdate')}}</v-chip>
-            <v-chip
-                v-if="item.serverSize!==item.localSize"
-                label
-                color="error"
-            >{{t('game.mod.add.needUpdate')}}</v-chip>
-          </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn
-                color="default"
-                append-icon="ri-arrow-drop-down-line"
-                variant="tonal"
+              label
+              color="info"
             >
-              {{t('game.mod.add.actions')}}
+              {{ value }}
+            </v-chip>
+          </template>
+          <template #item.serverSize="{ value }">
+            <v-chip
+              label
+              color="primary"
+            >
+              {{ formatBytes(parseInt(value)) }}
+            </v-chip>
+          </template>
+          <template #item.id="{ value }">
+            <v-chip label>
+              {{ value }}
+            </v-chip>
+          </template>
+          <template #item.update="{ item }">
+            <v-chip
+              v-if="item.serverSize===item.localSize"
+              label
+              color="success"
+            >
+              {{ t('game.mod.add.needNoUpdate') }}
+            </v-chip>
+            <v-chip
+              v-if="item.serverSize!==item.localSize"
+              label
+              color="error"
+            >
+              {{ t('game.mod.add.needUpdate') }}
+            </v-chip>
+          </template>
+          <template #item.actions="{ item }">
+            <v-btn
+              color="default"
+              append-icon="ri-arrow-drop-down-line"
+              variant="tonal"
+            >
+              {{ t('game.mod.add.actions') }}
               <v-menu activator="parent">
                 <v-list>
                   <v-list-item
                     :disabled="modEnableLoading"
                     class="text-success"
-                      @click="handleModAction('enable', item)"
+                    @click="handleModAction('enable', item)"
                   >
                     <template #prepend>
                       <v-icon
@@ -155,7 +167,7 @@
                       />
                     </template>
                     <v-list-item-title>
-                      {{t('game.mod.add.enable')}}
+                      {{ t('game.mod.add.enable') }}
                     </v-list-item-title>
                   </v-list-item>
                   <v-list-item
@@ -170,7 +182,7 @@
                       />
                     </template>
                     <v-list-item-title>
-                      {{t('game.mod.add.updateMod')}}
+                      {{ t('game.mod.add.updateMod') }}
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -185,20 +197,22 @@
 
 <script setup>
 import modApi from "@/api/mod"
-import useGlobalStore from "@/plugins/store/global.js";
-import {formatBytes} from "@/utils/tools.js";
-import {showSnackbar} from "@/utils/snackbar.js";
-import {useI18n} from "vue-i18n";
+import useGlobalStore from "@store/global.js"
+import { formatBytes } from "@/utils/tools.js"
+import { showSnackbar } from "@/utils/snackbar.js"
+import { useI18n } from "vue-i18n"
 
 const globalStore = useGlobalStore()
 const { t } = useI18n()
 
 const downloadedMods = ref([])
 const downloadedModsLoading = ref(false)
+
 const getDownloadedMods = () => {
   const reqForm = {
     roomID: globalStore.room.id,
   }
+
   downloadedModsLoading.value = true
   modApi.downloaded.get(reqForm).then(response => {
     downloadedMods.value = response.data
@@ -222,26 +236,29 @@ const selectedMods = ref([])
 
 const handleModAction = (action, mod) => {
   switch (action) {
-    case "enable":
-      modEnable(mod)
-      break
-    case "update":
-      modUpdate(mod)
-      break
-    default:
-      showSnackbar("牛哇", "error")
+  case "enable":
+    modEnable(mod)
+    break
+  case "update":
+    modUpdate(mod)
+    break
+  default:
+    showSnackbar("牛哇", "error")
   }
 }
 
 const modEnableLoading = ref(false)
-const modEnable = (mod) => {
+
+const modEnable = mod => {
   modEnableLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: 0,
     id: mod.id,
     file_url: mod.file_url,
   }
+
   modApi.add.enable.post(reqForm).then(response => {
     showSnackbar(response.message)
   }).finally(() => {
@@ -250,19 +267,23 @@ const modEnable = (mod) => {
 }
 
 const modUpdateLoading = ref(false)
-const modUpdate = (mod) => {
+
+const modUpdate = mod => {
   modUpdateLoading.value = true
+
   const reqFrom = {
     roomID: globalStore.room.id,
     id: mod.id,
     file_url: mod.file_url,
   }
+
   modApi.download.post(reqFrom).finally(() => {
     modUpdateLoading.value = false
   })
 }
 
 const multiEnableLoading = ref(false)
+
 const multiEnable = async () => {
   let allSuccess = true
   multiEnableLoading.value = true
@@ -274,6 +295,7 @@ const multiEnable = async () => {
       id: mod.id,
       file_url: mod.file_url,
     }
+
     try {
       await modApi.add.enable.post(reqForm)
     } catch {
@@ -291,12 +313,15 @@ const multiEnable = async () => {
 }
 
 const preDownloadLoading = ref(false)
+
 const preDownload = () => {
   preDownloadLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: 24,
   }
+
   modApi.setting.enabledMods.get(reqForm).then(async response => {
     let allSuccess = true
     for (let mod of response.data) {
@@ -305,6 +330,7 @@ const preDownload = () => {
         id: mod.id,
         file_url: mod.file_url,
       }
+
       try {
         const res = await modApi.download.post(reqFrom)
       } catch {
@@ -327,5 +353,3 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-</style>

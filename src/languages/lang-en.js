@@ -169,7 +169,7 @@ export default {
             custom: {
               name: 'Custom',
               label: 'Custom Mode',
-              required: 'Please input Custom Mode'
+              required: 'Please input Custom Mode',
             },
           },
         },

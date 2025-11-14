@@ -24,18 +24,24 @@ let timer = null
 const timeDisplay = computed(() => {
   let secs = totalSeconds.value
   const years = Math.floor(secs / (365 * 24 * 60 * 60))
+
   secs %= 365 * 24 * 60 * 60
+
   const days = Math.floor(secs / (24 * 60 * 60))
+
   secs %= 24 * 60 * 60
+
   const hours = Math.floor(secs / 3600)
+
   secs %= 3600
+
   const minutes = Math.floor(secs / 60)
   const seconds = secs % 60
 
   return { years, days, hours, minutes, seconds }
 })
 
-watch(() => props.seconds, (newVal) => {
+watch(() => props.seconds, newVal => {
   totalSeconds.value = newVal
 })
 

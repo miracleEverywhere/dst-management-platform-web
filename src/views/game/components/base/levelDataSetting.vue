@@ -162,10 +162,12 @@ const updateButtonState = () => {
   if (props.configs.length === 1) {
     leftClickDisabled.value = true
     rightClickDisabled.value = true
+    
     return
   }
 
   const index = props.configs.indexOf(setting.value)
+
   leftClickDisabled.value = index === 0
   rightClickDisabled.value = index === (props.configs.length - 1)
 }

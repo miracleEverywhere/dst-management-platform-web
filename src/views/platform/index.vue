@@ -19,16 +19,16 @@
         class="w-100"
         style="overflow-y: auto"
       >
-        <overview/>
+        <overview />
       </v-container>
     </v-tabs-window-item>
   </v-tabs-window>
 </template>
 
 <script setup>
-import {debounce} from "@/utils/tools.js";
-import {useI18n} from "vue-i18n";
-import Overview from "@/views/platform/components/overview.vue";
+import { debounce } from "@/utils/tools.js"
+import { useI18n } from "vue-i18n"
+import Overview from "@/views/platform/components/overview.vue"
 
 
 const { t } = useI18n()
@@ -62,5 +62,3 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
-</style>

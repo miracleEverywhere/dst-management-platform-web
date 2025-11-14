@@ -21,7 +21,10 @@
     >
       {{ t('game.base.step2.addWorld') }}
     </v-btn>
-    <v-menu v-if="props.gameMode!=='custom'" open-on-click>
+    <v-menu
+      v-if="props.gameMode!=='custom'"
+      open-on-click
+    >
       <template #activator="{ props }">
         <v-btn
           variant="text"
@@ -104,7 +107,7 @@
             <v-radio-group
               v-model="world.isMaster"
               inline
-              @update:modelValue="handleIsMasterChange"
+              @update:model-value="handleIsMasterChange"
             >
               <template #prepend>
                 <v-chip v-tooltip="t('game.base.step2.isMaster.tip')">
@@ -1351,9 +1354,9 @@ watch(worldTabName, v => {
   worldLevelDataTabName.value = 'Code'
 })
 
-watch(() => worldForm.value.length, (l) => {
-    canCreateWorld.value = l < 2
-  }
+watch(() => worldForm.value.length, l => {
+  canCreateWorld.value = l < 2
+},
 )
 </script>
 

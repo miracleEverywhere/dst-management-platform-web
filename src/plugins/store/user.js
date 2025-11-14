@@ -25,7 +25,7 @@ const userStore = defineStore('user', {
         rooms: '',
         roomCreation: false,
         maxWorlds: 0,
-        maxPlayers: 0
+        maxPlayers: 0,
       },
       token: '',
     }
@@ -43,7 +43,7 @@ const userStore = defineStore('user', {
         rooms: '',
         roomCreation: false,
         maxWorlds: 0,
-        maxPlayers: 0
+        maxPlayers: 0,
       }
       this.token = ''
     },

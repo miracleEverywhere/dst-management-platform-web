@@ -54,7 +54,7 @@
                 class="mr-4"
                 @click="dialogVisible=true"
               >
-                {{t('game.mod.download.modInfo.detail')}}
+                {{ t('game.mod.download.modInfo.detail') }}
               </v-btn>
             </template>
             <template #default="{ isActive }">
@@ -84,7 +84,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>{{t('game.mod.download.modInfo.size')}}</td>
+                        <td>{{ t('game.mod.download.modInfo.size') }}</td>
                         <td>
                           <v-chip
                             color="info"
@@ -155,7 +155,7 @@
             size="small"
             @click="handleDownload"
           >
-            {{t('game.mod.download.modInfo.download')}}
+            {{ t('game.mod.download.modInfo.download') }}
           </v-btn>
         </div>
       </div>
@@ -167,10 +167,10 @@
 import { formatBytes } from "@/utils/tools.js"
 
 import modApi from "@/api/mod"
-import {showSnackbar} from "@/utils/snackbar"
+import { showSnackbar } from "@/utils/snackbar"
 import PreciseRating from "@/components/PreciseRating.vue"
 import bbCodeParser from 'js-bbcode-parser'
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n"
 
 
 const props = defineProps({
@@ -207,6 +207,7 @@ const handleDownload = () => {
     id: props.mod.id,
     file_url: props.mod.file_url,
   }
+
   modApi.download.post(reqFrom).then(response => {
     showSnackbar(response.message)
   })

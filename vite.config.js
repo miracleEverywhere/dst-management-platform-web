@@ -17,6 +17,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+
     // Vuetify 插件应该在 vue() 之后立即加载
     vuetify({
       autoImport: {

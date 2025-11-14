@@ -24,7 +24,7 @@
       >
         <v-card-title>
           <div class="card-header">
-            <span>{{t('game.mod.setting.enabledMods')}}</span>
+            <span>{{ t('game.mod.setting.enabledMods') }}</span>
             <v-btn
               prepend-icon="ri-refresh-line"
               color="default"
@@ -32,17 +32,26 @@
               :loading="leftLoading"
               @click="getEnabledMods"
             >
-              {{t('game.mod.setting.refresh')}}
+              {{ t('game.mod.setting.refresh') }}
             </v-btn>
           </div>
         </v-card-title>
         <v-card-text>
-          <v-container v-if="enabledMods.length!==0" :height="modInOne?props.height:props.height-48" style="overflow-y: auto">
-            <div v-for="(mod, idx) in enabledMods" style="height: 120px;">
-              <v-divider
-                v-if="idx!==0"
-              />
-              <div class="fcc cursor-pointer" v-ripple @click="getModConfig(mod.id, selectedWorldId, mod.file_url, mod.name)">
+          <v-container
+            v-if="enabledMods.length!==0"
+            :height="modInOne?props.height:props.height-48"
+            style="overflow-y: auto"
+          >
+            <div
+              v-for="(mod, idx) in enabledMods"
+              style="height: 120px;"
+            >
+              <v-divider v-if="idx!==0" />
+              <div
+                v-ripple
+                class="fcc cursor-pointer"
+                @click="getModConfig(mod.id, selectedWorldId, mod.file_url, mod.name)"
+              >
                 <div class="w-33">
                   <v-img
                     v-if="mod.id!==0"
@@ -51,7 +60,7 @@
                     aspect-ratio="1/1"
                     :src="mod.preview_url"
                     class="ma-2"
-                  ></v-img>
+                  />
                   <v-img
                     v-else
                     :width="100"
@@ -59,7 +68,7 @@
                     aspect-ratio="1/1"
                     :src="`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(forbidLocalIcon)}`"
                     class="ma-2"
-                  ></v-img>
+                  />
                 </div>
                 <div class="w-66 d-flex justify-start align-center ml-4">
                   <v-chip
@@ -67,24 +76,40 @@
                     color="info"
                     label
                   >
-                    {{mod.name}}
+                    {{ mod.name }}
                   </v-chip>
                   <v-chip
                     v-else
                     color="info"
                     label
                   >
-                    {{t('game.mod.setting.clientModsDisabled')}}
+                    {{ t('game.mod.setting.clientModsDisabled') }}
                   </v-chip>
                 </div>
               </div>
             </div>
           </v-container>
-          <v-container v-if="enabledMods.length===0&&!modInOne" :height="props.height-48" style="overflow-y: auto">
-            <result type="info" :title="t('game.mod.setting.tip.noEnabledMods')" :height="props.height-48-38"/>
+          <v-container
+            v-if="enabledMods.length===0&&!modInOne"
+            :height="props.height-48"
+            style="overflow-y: auto"
+          >
+            <result
+              type="info"
+              :title="t('game.mod.setting.tip.noEnabledMods')"
+              :height="props.height-48-38"
+            />
           </v-container>
-          <v-container v-if="enabledMods.length===0&&modInOne" :height="props.height" style="overflow-y: auto">
-            <result type="info" :title="t('game.mod.setting.tip.noEnabledMods')" :height="props.height"/>
+          <v-container
+            v-if="enabledMods.length===0&&modInOne"
+            :height="props.height"
+            style="overflow-y: auto"
+          >
+            <result
+              type="info"
+              :title="t('game.mod.setting.tip.noEnabledMods')"
+              :height="props.height"
+            />
           </v-container>
         </v-card-text>
       </v-card>
@@ -100,26 +125,42 @@
           :initial-data="modValue"
           :height="modInOne?props.height:props.height-48"
           :title="modName"
-          :roomID="globalStore.room.id"
-          :worldID="currentWorldID"
-          :modID="currentModID"
+          :room-i-d="globalStore.room.id"
+          :world-i-d="currentWorldID"
+          :mod-i-d="currentModID"
           @change="handleFormChange"
           @disable-refresh="getEnabledMods"
         />
-        <v-card
-          v-if="dataGot&&rightLoading"
-        >
+        <v-card v-if="dataGot&&rightLoading">
           <v-card-text>
-            <result v-if="modInOne" type="info" :title="t('game.mod.setting.tip.fetching')" :height="props.height+34"/>
-            <result v-else type="info" :title="t('game.mod.setting.tip.fetching')" :height="props.height-12"/>
+            <result
+              v-if="modInOne"
+              type="info"
+              :title="t('game.mod.setting.tip.fetching')"
+              :height="props.height+34"
+            />
+            <result
+              v-else
+              type="info"
+              :title="t('game.mod.setting.tip.fetching')"
+              :height="props.height-12"
+            />
           </v-card-text>
         </v-card>
-        <v-card
-          v-if="!dataGot&&!rightLoading"
-        >
+        <v-card v-if="!dataGot&&!rightLoading">
           <v-card-text>
-            <result v-if="modInOne" type="info" :title="t('game.mod.setting.tip.selectMod')" :height="props.height+34"/>
-            <result v-else type="info" :title="t('game.mod.setting.tip.selectMod')" :height="props.height-12"/>
+            <result
+              v-if="modInOne"
+              type="info"
+              :title="t('game.mod.setting.tip.selectMod')"
+              :height="props.height+34"
+            />
+            <result
+              v-else
+              type="info"
+              :title="t('game.mod.setting.tip.selectMod')"
+              :height="props.height-12"
+            />
           </v-card-text>
         </v-card>
       </div>
@@ -132,16 +173,10 @@ import { ref } from 'vue'
 import SettingForm from '@/views/game/components/mod/settingForm.vue'
 import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar.js"
-import useGlobalStore from "@/plugins/store/global.js";
-import {useI18n} from "vue-i18n";
-import roomApi from "@/api/room.js";
+import useGlobalStore from "@store/global.js"
+import { useI18n } from "vue-i18n"
+import roomApi from "@/api/room.js"
 
-
-const globalStore = useGlobalStore()
-const { t } = useI18n()
-const dataGot = ref(false)
-const leftLoading = ref(false)
-const rightLoading = ref(false)
 
 const props = defineProps({
   height: {
@@ -150,13 +185,21 @@ const props = defineProps({
   },
 })
 
+const globalStore = useGlobalStore()
+const { t } = useI18n()
+const dataGot = ref(false)
+const leftLoading = ref(false)
+const rightLoading = ref(false)
+
 const selectedWorldId = ref(0)
 const modInOne = ref(true)
 const roomData = ref({})
 const worldData = ref([])
+
 const getRoomTotalInfo = async () => {
   if (globalStore.room.id !== 0) {
     const response = await roomApi.base.get({ id: globalStore.room.id })
+
     roomData.value = response.data.roomData
     worldData.value = response.data.worldData
     if (!roomData.value.modInOne) {
@@ -171,11 +214,14 @@ const getEnabledMods = async () => {
   modStruct.value = []
   modValue.value = []
   modName.value = ""
+
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: selectedWorldId.value,
   }
+
   const response = await modApi.setting.enabledMods.get(reqForm)
+
   enabledMods.value = response.data || []
   leftLoading.value = false
   dataGot.value = false
@@ -194,7 +240,7 @@ const getModConfig = async (id, worldID, file_url, name) => {
   } else {
     await Promise.all([
       getModStruct(id, worldID, file_url),
-      getModValue(id, worldID, file_url)
+      getModValue(id, worldID, file_url),
     ])
     modName.value = name
   }
@@ -209,7 +255,9 @@ const getModStruct = async (id, worldID, file_url) => {
     id: id,
     file_url: file_url,
   }
+
   const response = await modApi.setting.modConfigStruct.get(reqForm)
+
   modStruct.value = response.data || []
 }
 
@@ -220,7 +268,9 @@ const getModValue = async (id, worldID, file_url) => {
     id: id,
     file_url: file_url,
   }
+
   const response = await modApi.setting.modConfigValue.get(reqForm)
+
   modValue.value = response.data?.configuration_options || {}
 }
 
@@ -231,7 +281,7 @@ const modName = ref("")
 const currentWorldID = ref(0)
 const currentModID = ref(0)
 
-const handleFormChange = (event) => {
+const handleFormChange = event => {
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: selectedWorldId.value,
@@ -241,6 +291,7 @@ const handleFormChange = (event) => {
       enabled: true,
     },
   }
+
   modApi.setting.modConfigValue.put(reqForm).then(response => {
     showSnackbar(response.message)
   })
