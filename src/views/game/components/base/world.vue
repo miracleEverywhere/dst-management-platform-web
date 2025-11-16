@@ -1355,7 +1355,11 @@ watch(worldTabName, v => {
 })
 
 watch(() => worldForm.value.length, l => {
-  canCreateWorld.value = l < 2
+  if (props.maxWorlds === 0) {
+    canCreateWorld.value = true
+  } else {
+    canCreateWorld.value = l < props.maxWorlds
+  }
 },
 )
 </script>
