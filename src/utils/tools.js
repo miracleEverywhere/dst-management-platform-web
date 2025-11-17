@@ -195,7 +195,6 @@ export const timestamp2time = timestamp => {
   )
 }
 
-
 export const timestamp2timeWithoutDate = timestamp => {
   const date = new Date(timestamp)
   const hours = ('0' + date.getHours()).slice(-2)
