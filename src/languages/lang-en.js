@@ -16,6 +16,13 @@ export default {
       subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
       button: 'GOTO',
     },
+    timeRunning: {
+      second: 'Seconds',
+      minute: 'Minutes',
+      hour: 'Hours',
+      day: 'Days',
+      year: 'Years',
+    },
   },
   menu: {
     dashboard: "Dashboard",
@@ -453,6 +460,36 @@ export default {
           noEnabledMods: 'No enabled mods',
         },
       },
+    },
+  },
+  install: {
+    prepare: {
+      left: {
+        rating: {
+          hell: 'hell',
+          bad: 'bad',
+          ok: 'ok',
+          good: 'good',
+          great: 'great',
+        },
+        Architecture: "Architecture",
+        OS: "OS",
+        CPUModel: "CPU",
+        CPUCores: 'Cores',
+        MemorySize: 'Memory',
+        Platform: "System",
+        PlatformVersion: "Version",
+        Uptime: 'Uptime',
+      },
+      right: {
+        title: 'Click the button below to install the game',
+        subTitle: 'Currently supported systems include Ubuntu 24, Rocky 9, Debian 13. Installation may fail on other systems',
+        install: 'Install',
+        reinstall: 'Reinstall',
+      },
+    },
+    install: {
+      alert: 'Attention!!! Do not close or refresh this page during the installation process, as it may cause the game installation to fail',
     },
   },
 }

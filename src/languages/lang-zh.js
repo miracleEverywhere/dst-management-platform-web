@@ -16,6 +16,13 @@ export default {
       subTitle: '请前往房间总览页面，选择一个房间再执行配置',
       button: '前往选择',
     },
+    timeRunning: {
+      second: '秒',
+      minute: '分',
+      hour: '时',
+      day: '天',
+      year: '年',
+    },
   },
   menu: {
     dashboard: "控制面板",
@@ -433,6 +440,36 @@ export default {
           noEnabledMods: '无启用的模组',
         },
       },
+    },
+  },
+  install: {
+    prepare: {
+      left: {
+        rating: {
+          hell: '灾难',
+          bad: '差劲',
+          ok: '够用',
+          good: '不错',
+          great: '强大',
+        },
+        Architecture: "系统架构",
+        OS: "系统类型",
+        CPUModel: "CPU",
+        CPUCores: '核心数',
+        MemorySize: '内存',
+        Platform: "系统名",
+        PlatformVersion: "系统版本",
+        Uptime: '运行时间',
+      },
+      right: {
+        title: '点击下方按钮安装游戏',
+        subTitle: '目前支持的系统有Ubuntu24、Rocky9、Debian13，其他系统可能会安装失败',
+        install: '安装',
+        reinstall: '重新安装',
+      },
+    },
+    install: {
+      alert: '注意！！！安装过程中请勿关闭或刷新本页面，否则会导致游戏安装失败',
     },
   },
 }

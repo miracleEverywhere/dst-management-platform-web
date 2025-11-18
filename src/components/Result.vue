@@ -38,13 +38,13 @@
         icon="ri-close-circle-fill"
       />
       <div
-        style="font-size: 1.2rem; font-weight: 300; line-height: 1; letter-spacing: -0.015625em"
+        style="font-size: 1.2rem; line-height: 1.5rem; letter-spacing: -0.015625em;text-align: center;"
         class="mt-2"
       >
         {{ props.title }}
       </div>
       <div
-        style="font-size: 1rem; font-weight: 300; line-height: 1; letter-spacing: -0.015625em"
+        style="font-size: 1rem; line-height: 1.5rem; letter-spacing: -0.015625em;text-align: center;"
         class="mt-4"
       >
         {{ props.subTitle }}

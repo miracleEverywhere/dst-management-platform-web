@@ -13,4 +13,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  osInfo: {
+    url: `/platform/os_info`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+  },
 }

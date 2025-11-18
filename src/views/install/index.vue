@@ -1,34 +1,165 @@
 <template>
-  <div class="web-terminal-container">
-    <div class="status-bar">
-      <span :class="['status-indicator', { connected: connected }]">
-        {{ connected ? '已连接' : '未连接' }}
-      </span>
-      <button @click="reconnect" class="reconnect-btn">重新连接</button>
-
-      <!-- 命令按钮区域 -->
-      <div class="command-buttons">
-        <button @click="sendCommand('ls -la')" class="cmd-btn">ls -la</button>
-        <button @click="sendCommand('pwd')" class="cmd-btn">pwd</button>
-        <button @click="sendCommand('df -h')" class="cmd-btn">df -h</button>
-        <button @click="sendCommand('docker ps')" class="cmd-btn">docker ps</button>
-
-        <!-- 自定义命令输入 -->
-        <div class="custom-command">
-          <input
-              v-model="customCommand"
-              @keyup.enter="executeCustomCommand"
-              placeholder="输入自定义命令"
-              class="command-input"
-          >
-          <button @click="executeCustomCommand" class="cmd-btn">执行</button>
-        </div>
-      </div>
+  <transition name="fade">
+    <v-container v-if="!installing">
+      <v-row>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-card>
+            <v-card-text>
+              <div
+                class="d-flex align-center justify-start"
+                :style="{height: `${calculateContainerSize()-64}px`}"
+              >
+                <div class=" w-100">
+                  <v-row>
+                    <v-col cols="12" class="fcc">
+                      <v-rating
+                        v-model="rating"
+                        :item-labels="ratingLabels"
+                        density="default"
+                        readonly
+                      >
+                        <template v-slot:item-label="props">
+                          <span style="font-size: 0.66rem">
+                            {{ t(`install.prepare.left.rating.${props.label}`) }}
+                          </span>
+                        </template>
+                      </v-rating>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.Architecture')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ osInfo.Architecture }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.CPUModel')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ osInfo.CPUModel }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.CPUCores')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ osInfo.CPUCores }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.MemorySize')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ formatBytes(osInfo.MemorySize) }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.OS')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ osInfo.OS }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.Platform')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ osInfo.Platform }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.PlatformVersion')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      {{ osInfo.PlatformVersion }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="d-flex justify-end">
+                      <v-chip>
+                        {{t('install.prepare.left.Uptime')}}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="6">
+                      <time-running :seconds="osInfo.Uptime" />
+                    </v-col>
+                  </v-row>
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-card>
+            <v-card-text>
+              <result
+                :height="calculateContainerSize()-64"
+                type="info"
+                :title="t('install.prepare.right.title')"
+                :sub-title="t('install.prepare.right.subTitle')"
+              >
+                <v-btn
+                  v-if="globalStore.gameVersion.local===0"
+                  color="info"
+                  class="mt-4"
+                  @click="handleInstall"
+                >
+                  {{t('install.prepare.right.install')}}
+                </v-btn>
+                <v-btn
+                  v-else
+                  color="warning"
+                  class="mt-4"
+                  @click="handleInstall"
+                >
+                  {{t('install.prepare.right.reinstall')}}
+                </v-btn>
+              </result>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <div v-else>
+      <v-alert type="warning" theme="dark" density="compact" class="mb-4">
+        {{t('install.install.alert')}}
+      </v-alert>
+      <div
+        ref="terminalEl"
+        class="terminal"
+        :style="{height: `${calculateContainerSize()-78}px`}"
+      />
     </div>
-    <div ref="terminalContainer" class="terminal-wrapper">
-      <div ref="terminalEl" class="terminal"></div>
-    </div>
-  </div>
+
+  </transition>
 </template>
 
 <script setup>
@@ -36,7 +167,11 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
-import {getToken} from "@/utils/tools.js";
+import { formatBytes, getToken } from "@/utils/tools.js"
+import useGlobalStore from "@store/global.js"
+import platformApi from "@/api/platform.js"
+import { sleep } from "@antfu/utils"
+import {useI18n} from "vue-i18n";
 
 // 响应式数据
 const terminalContainer = ref(null)
@@ -46,16 +181,68 @@ const fitAddon = ref(null)
 const ws = ref(null)
 const connected = ref(false)
 const customCommand = ref('')
+const globalStore = useGlobalStore()
+const { t } = useI18n()
+
+const theme = computed(() => globalStore.theme)
+
+const installing = ref(false)
+
+const osInfo = ref({
+  Architecture: "",
+  OS: "",
+  CPUModel: "",
+  CPUCores: 2,
+  MemorySize: 0,
+  Platform: "",
+  PlatformVersion: "",
+  Uptime: 0,
+})
+
+const getOSInfo = () => {
+  platformApi.osInfo.get().then(response => {
+    osInfo.value = response.data
+  })
+}
+
+const rating = computed(() => {
+  let r = 5
+
+  // 小于4核
+  if (osInfo.value.CPUCores < 4) {
+    r--
+  }
+  // 小于4G
+  if (osInfo.value.MemorySize < 1750000000 * 2) {
+    r--
+  }
+
+  return r
+})
+
+const ratingLabels = ref(['hell', 'bad', 'ok', 'good', 'great'])
+
+const handleInstall = async () => {
+  installing.value = true
+  await initTerminal()
+  await connectWebSocket()
+
+  await sleep(2000)
+  await sendCommand('bash manual_install.sh')
+}
+
+const windowHeight = ref(window.innerHeight)
 
 // 初始化终端
 const initTerminal = async () => {
   term.value = new Terminal({
     cursorBlink: true,
-    fontSize: 14,
-    fontFamily: '"Cascadia Code", "Courier New", monospace',
+    fontSize: 15,
     theme: {
-      background: '#1e1e1e',
-      foreground: '#ffffff'
+      background: theme.value === 'dark' ? '#1e1e1e' : '#ffffff',
+      foreground: theme.value === 'dark' ? '#ffffff' : '#1e1e1e',
+      cursor: theme.value === 'dark' ? '#ffffff' : '#000000', // 根据主题设置光标颜色
+      cursorAccent: theme.value === 'dark' ? '#1e1e1e' : '#ffffff', // 光标聚焦色
     },
     cols: 120,
     rows: 30,
@@ -64,7 +251,7 @@ const initTerminal = async () => {
     cursorStyle: 'block',
     scrollback: 1000,
     tabStopWidth: 8,
-    bellStyle: 'none'
+    bellStyle: 'none',
   })
 
   fitAddon.value = new FitAddon()
@@ -80,10 +267,18 @@ const initTerminal = async () => {
 
 // 处理窗口大小调整
 const handleResize = () => {
+  windowHeight.value = window.innerHeight
   if (fitAddon.value) {
     fitAddon.value.fit()
     sendResizeMessage()
   }
+}
+
+const calculateContainerSize = () => {
+  // 64(navbar) + 72(step header) + 54(step action) + 24(card margins) = 304
+  const other = 120
+
+  return Math.max(2, Math.floor(windowHeight.value - other))
 }
 
 // 发送终端大小信息
@@ -93,16 +288,17 @@ const sendResizeMessage = () => {
   const dimensions = {
     cols: term.value.cols,
     rows: term.value.rows,
-    type: 'resize'
+    type: 'resize',
   }
 
   ws.value.send(JSON.stringify(dimensions))
 }
 
 // 发送命令到终端
-const sendCommand = (command) => {
+const sendCommand = command => {
   if (!ws.value || ws.value.readyState !== WebSocket.OPEN) {
     console.error('WebSocket未连接')
+    
     return
   }
 
@@ -139,9 +335,10 @@ const connectWebSocket = () => {
     term.value.write('\r\n\x1b[0m') // 重置终端样式
   }
 
-  ws.value.onmessage = (event) => {
+  ws.value.onmessage = event => {
     if (event.data instanceof Blob) {
       const reader = new FileReader()
+
       reader.onload = () => {
         term.value.write(reader.result)
       }
@@ -151,7 +348,7 @@ const connectWebSocket = () => {
     }
   }
 
-  ws.value.onclose = (event) => {
+  ws.value.onclose = event => {
     connected.value = false
     if (!event.wasClean) {
       term.value.write('\r\n\x1b[31m连接异常关闭，5秒后尝试重新连接...\x1b[0m\r\n')
@@ -161,7 +358,7 @@ const connectWebSocket = () => {
     }
   }
 
-  ws.value.onerror = (error) => {
+  ws.value.onerror = error => {
     console.error('WebSocket error:', error)
     connected.value = false
   }
@@ -201,110 +398,33 @@ const cleanup = () => {
 
 // 生命周期
 onMounted(async () => {
-  await initTerminal()
-  connectWebSocket()
+  window.addEventListener('resize', handleResize)
+  getOSInfo()
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
   cleanup()
 })
 </script>
 
 <style scoped>
-.web-terminal-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #1e1e1e;
-}
-
-.status-bar {
-  padding: 8px 16px;
-  background: #2d2d2d;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.status-indicator {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  background: #f56565;
-}
-
-.status-indicator.connected {
-  background: #48bb78;
-}
-
-.reconnect-btn {
-  padding: 4px 8px;
-  background: #4299e1;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.reconnect-btn:hover {
-  background: #3182ce;
-}
-
-.command-buttons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.cmd-btn {
-  padding: 4px 8px;
-  background: #38a169;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.cmd-btn:hover {
-  background: #2f855a;
-}
-
-.custom-command {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.command-input {
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 12px;
-  width: 150px;
-}
-
-.command-input:focus {
-  outline: none;
-  border-color: #4299e1;
-}
-
-.terminal-wrapper {
-  flex: 1;
-  padding: 8px;
-}
-
 .terminal {
   width: 100%;
-  height: 100%;
 }
 
 :deep(.xterm) * {
   letter-spacing: normal !important;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>

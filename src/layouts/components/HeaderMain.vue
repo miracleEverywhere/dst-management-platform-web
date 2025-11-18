@@ -90,6 +90,7 @@ const getGameVersion = async () => {
     const response = await platformApi.gameVersion.get()
 
     gameVersion.value = response.data
+    globalStore.gameVersion = gameVersion.value
   } catch {
 
   }
