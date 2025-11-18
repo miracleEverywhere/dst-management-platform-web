@@ -19,4 +19,12 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  user: {
+    list: {
+      url: `/platform/user/list`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
+  },
 }

@@ -1,218 +1,248 @@
 <template>
-  <template v-if="globalStore.room.name===''">
-    <result
-      type="error"
-      :title="t('global.result.title')"
-      :sub-title="t('global.result.subTitle')"
-      :height="windowHeight"
-    />
+  <template v-if="globalStore.gameVersion.local!==0">
+    <template v-if="globalStore.room.name===''">
+      <result
+        type="error"
+        :title="t('global.result.title')"
+        :sub-title="t('global.result.subTitle')"
+        :height="windowHeight"
+      />
+    </template>
+    <template v-else>
+      <v-stepper v-model="step">
+        <v-stepper-header>
+          <v-stepper-item
+            :color="step > 0 ? 'success' : ''"
+            :complete="step > 0"
+            :value="0"
+            :title="t('game.header.step1')"
+          >
+            <template #icon>
+              <v-icon
+                icon="ri-number-1"
+                size="12"
+              />
+            </template>
+          </v-stepper-item>
+          <v-divider />
+
+          <v-stepper-item
+            :color="step > 1 ? 'success' : ''"
+            :complete="step > 1"
+            :value="1"
+            :title="t('game.header.step2')"
+          >
+            <template #icon>
+              <v-icon
+                icon="ri-number-2"
+                size="12"
+              />
+            </template>
+          </v-stepper-item>
+          <v-divider />
+
+          <v-stepper-item
+            :color="step > 2 ? 'success' : ''"
+            :complete="step > 2"
+            :value="2"
+            :title="t('game.header.step3')"
+          >
+            <template #icon>
+              <v-icon
+                icon="ri-number-3"
+                size="12"
+              />
+            </template>
+          </v-stepper-item>
+          <v-divider />
+
+          <v-stepper-item
+            :color="step > 3 ? 'success' : ''"
+            :complete="step > 3"
+            :value="3"
+            :title="t('game.header.step4')"
+          >
+            <template #icon>
+              <v-icon
+                icon="ri-number-4"
+                size="12"
+              />
+            </template>
+          </v-stepper-item>
+          <v-divider />
+
+          <v-stepper-item
+            :color="step > 4 ? 'success' : ''"
+            :complete="step > 4"
+            :value="4"
+            :title="t('game.header.step5')"
+          >
+            <template #icon>
+              <v-icon
+                icon="ri-number-5"
+                size="12"
+              />
+            </template>
+          </v-stepper-item>
+        </v-stepper-header>
+
+        <v-stepper-window
+          v-model="step"
+          class="mt-4"
+        >
+          <v-stepper-window-item :value="0">
+            <v-container
+              v-if="dataGot"
+              :height="calculateContainerSize()"
+              style="overflow-y: auto"
+            >
+              <room
+                ref="roomRef"
+                :room-count="roomCount"
+                :max-players="userStore.userInfo.maxPlayers"
+                :form-data="roomData"
+              />
+            </v-container>
+            <result
+              v-else
+              type="info"
+              :title="t('game.base.loading')"
+              :height="calculateContainerSize()"
+            />
+          </v-stepper-window-item>
+          <v-stepper-window-item :value="1">
+            <v-container
+              v-if="dataGot"
+              :height="calculateContainerSize()"
+              style="overflow-y: auto"
+            >
+              <world
+                ref="worldRef"
+                :world-count="worldCount"
+                :form-data="worldData"
+                :game-mode="roomData.gameMode"
+                :max-worlds="userStore.userInfo.maxWorlds"
+                :theme="globalStore.theme"
+                :tab-window-height="calculateContainerSize()-300"
+              />
+            </v-container>
+            <result
+              v-else
+              type="info"
+              :title="t('game.base.loading')"
+              :height="calculateContainerSize()"
+            />
+          </v-stepper-window-item>
+          <v-stepper-window-item :value="2">
+            <v-container
+              v-if="dataGot"
+              :height="calculateContainerSize()"
+              style="overflow-y: auto"
+            >
+              <mod
+                ref="modRef"
+                :worlds="worldData"
+                :mod="roomData.modData"
+                :mod-in-one="roomData.modInOne"
+                :theme="globalStore.theme"
+                :tab-window-height="calculateContainerSize()-110"
+              />
+            </v-container>
+            <result
+              v-else
+              type="info"
+              :title="t('game.base.loading')"
+              :height="calculateContainerSize()"
+            />
+          </v-stepper-window-item>
+          <v-stepper-window-item :value="3">
+            <v-container
+              v-if="dataGot"
+              :height="calculateContainerSize()"
+              style="overflow-y: auto"
+            >
+              <room-setting
+                ref="roomSettingRef"
+                :room-setting="roomSettingData"
+              />
+            </v-container>
+            <result
+              v-else
+              type="info"
+              :title="t('game.base.loading')"
+              :height="calculateContainerSize()"
+            />
+          </v-stepper-window-item>
+          <v-stepper-window-item :value="4">
+            <result
+              type="success"
+              :height="calculateContainerSize()"
+              :title="t('game.base.step5.title')"
+              :sub-title="t('game.base.step5.subTitle')"
+            />
+          </v-stepper-window-item>
+        </v-stepper-window>
+
+        <v-stepper-actions class="mx-8">
+          <template #prev>
+            <v-btn
+              :disabled="step===0"
+              color="grey-lighten-3"
+              variant="elevated"
+              @click="handlePrev"
+            >
+              {{ t('game.prev') }}
+            </v-btn>
+          </template>
+          <template #next>
+            <v-btn
+              v-if="step!==4"
+              color="primary"
+              variant="elevated"
+              @click="handleNext"
+            >
+              {{ t('game.next.button') }}
+            </v-btn>
+            <v-btn
+              v-if="step===4"
+              color="success"
+              :disabled="false"
+              :loading="saveButtonLoading"
+              variant="elevated"
+              @click="handleSave"
+            >
+              {{ t('game.next.save') }}
+            </v-btn>
+          </template>
+        </v-stepper-actions>
+      </v-stepper>
+    </template>
   </template>
   <template v-else>
-    <v-stepper v-model="step">
-      <v-stepper-header>
-        <v-stepper-item
-          :color="step > 0 ? 'success' : ''"
-          :complete="step > 0"
-          :value="0"
-          :title="t('game.header.step1')"
-        >
-          <template #icon>
-            <v-icon
-              icon="ri-number-1"
-              size="12"
-            />
-          </template>
-        </v-stepper-item>
-        <v-divider />
-
-        <v-stepper-item
-          :color="step > 1 ? 'success' : ''"
-          :complete="step > 1"
-          :value="1"
-          :title="t('game.header.step2')"
-        >
-          <template #icon>
-            <v-icon
-              icon="ri-number-2"
-              size="12"
-            />
-          </template>
-        </v-stepper-item>
-        <v-divider />
-
-        <v-stepper-item
-          :color="step > 2 ? 'success' : ''"
-          :complete="step > 2"
-          :value="2"
-          :title="t('game.header.step3')"
-        >
-          <template #icon>
-            <v-icon
-              icon="ri-number-3"
-              size="12"
-            />
-          </template>
-        </v-stepper-item>
-        <v-divider />
-
-        <v-stepper-item
-          :color="step > 3 ? 'success' : ''"
-          :complete="step > 3"
-          :value="3"
-          :title="t('game.header.step4')"
-        >
-          <template #icon>
-            <v-icon
-              icon="ri-number-4"
-              size="12"
-            />
-          </template>
-        </v-stepper-item>
-        <v-divider />
-
-        <v-stepper-item
-          :color="step > 4 ? 'success' : ''"
-          :complete="step > 4"
-          :value="4"
-          :title="t('game.header.step5')"
-        >
-          <template #icon>
-            <v-icon
-              icon="ri-number-5"
-              size="12"
-            />
-          </template>
-        </v-stepper-item>
-      </v-stepper-header>
-
-      <v-stepper-window
-        v-model="step"
+    <result
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    >
+      <v-btn
+        to="/install"
         class="mt-4"
       >
-        <v-stepper-window-item :value="0">
-          <v-container
-            v-if="dataGot"
-            :height="calculateContainerSize()"
-            style="overflow-y: auto"
-          >
-            <room
-              ref="roomRef"
-              :room-count="roomCount"
-              :max-players="userStore.userInfo.maxPlayers"
-              :form-data="roomData"
-            />
-          </v-container>
-          <result
-            v-else
-            type="info"
-            :title="t('game.base.loading')"
-            :height="calculateContainerSize()"
-          />
-        </v-stepper-window-item>
-        <v-stepper-window-item :value="1">
-          <v-container
-            v-if="dataGot"
-            :height="calculateContainerSize()"
-            style="overflow-y: auto"
-          >
-            <world
-              ref="worldRef"
-              :world-count="worldCount"
-              :form-data="worldData"
-              :game-mode="roomData.gameMode"
-              :max-worlds="userStore.userInfo.maxWorlds"
-              :theme="globalStore.theme"
-              :tab-window-height="calculateContainerSize()-300"
-            />
-          </v-container>
-          <result
-            v-else
-            type="info"
-            :title="t('game.base.loading')"
-            :height="calculateContainerSize()"
-          />
-        </v-stepper-window-item>
-        <v-stepper-window-item :value="2">
-          <v-container
-            v-if="dataGot"
-            :height="calculateContainerSize()"
-            style="overflow-y: auto"
-          >
-            <mod
-              ref="modRef"
-              :worlds="worldData"
-              :mod="roomData.modData"
-              :mod-in-one="roomData.modInOne"
-              :theme="globalStore.theme"
-              :tab-window-height="calculateContainerSize()-110"
-            />
-          </v-container>
-          <result
-            v-else
-            type="info"
-            :title="t('game.base.loading')"
-            :height="calculateContainerSize()"
-          />
-        </v-stepper-window-item>
-        <v-stepper-window-item :value="3">
-          <v-container
-            v-if="dataGot"
-            :height="calculateContainerSize()"
-            style="overflow-y: auto"
-          >
-            <room-setting ref="roomSettingRef" />
-          </v-container>
-          <result
-            v-else
-            type="info"
-            :title="t('game.base.loading')"
-            :height="calculateContainerSize()"
-          />
-        </v-stepper-window-item>
-        <v-stepper-window-item :value="4">
-          <result
-            type="success"
-            :height="calculateContainerSize()"
-            :title="t('game.base.step5.title')"
-            :sub-title="t('game.base.step5.subTitle')"
-          />
-        </v-stepper-window-item>
-      </v-stepper-window>
-
-      <v-stepper-actions class="mx-8">
-        <template #prev>
-          <v-btn
-            :disabled="step===0"
-            color="grey-lighten-3"
-            variant="elevated"
-            @click="handlePrev"
-          >
-            {{ t('game.prev') }}
-          </v-btn>
-        </template>
-        <template #next>
-          <v-btn
-            v-if="step!==4"
-            color="primary"
-            variant="elevated"
-            @click="handleNext"
-          >
-            {{ t('game.next.button') }}
-          </v-btn>
-          <v-btn
-            v-if="step===4"
-            color="success"
-            :disabled="false"
-            :loading="saveButtonLoading"
-            variant="elevated"
-            @click="handleSave"
-          >
-            {{ t('game.next.save') }}
-          </v-btn>
-        </template>
-      </v-stepper-actions>
-    </v-stepper>
+        {{t('global.noGame.button')}}
+      </v-btn>
+    </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    >
+    </result>
   </template>
+
 </template>
 
 <script setup>

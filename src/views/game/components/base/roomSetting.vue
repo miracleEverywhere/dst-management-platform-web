@@ -400,6 +400,10 @@
             :label="t('game.base.step4.form.startType.64-bit')"
             value="64-bit"
           />
+          <v-radio
+            label="LuaJit"
+            value="luajit"
+          />
         </v-radio-group>
       </v-col>
       <v-spacer />

@@ -1,74 +1,101 @@
 <template>
-  <template v-if="globalStore.room.id!==0">
-    <v-tabs
-      v-model="activeTabName"
-      align-tabs="start"
-      color="primary"
-      show-arrows
-      @update:model-value="handleTabClick"
-    >
-      <v-tab value="Download">
-        {{ t('game.mod.download.tabName') }}
-      </v-tab>
-      <v-tab value="Add">
-        {{ t('game.mod.add.tabName') }}
-      </v-tab>
-      <v-tab value="Setting">
-        {{ t('game.mod.setting.tabName') }}
-      </v-tab>
-    </v-tabs>
+  <template v-if="globalStore.gameVersion.local!==0">
+    <template v-if="globalStore.room.id!==0">
+      <v-tabs
+        v-model="activeTabName"
+        align-tabs="start"
+        color="primary"
+        show-arrows
+        @update:model-value="handleTabClick"
+      >
+        <v-tab value="Download">
+          {{ t('game.mod.download.tabName') }}
+        </v-tab>
+        <v-tab value="Add">
+          {{ t('game.mod.add.tabName') }}
+        </v-tab>
+        <v-tab value="Setting">
+          {{ t('game.mod.setting.tabName') }}
+        </v-tab>
+      </v-tabs>
 
-    <v-tabs-window v-model="activeTabName">
-      <v-tabs-window-item value="Download">
-        <v-container
-          fluid
-          :height="calculateContainerSize()"
-          width="100%"
-          class="w-100"
-          style="overflow-y: auto"
+      <v-tabs-window v-model="activeTabName">
+        <v-tabs-window-item value="Download">
+          <v-container
+            fluid
+            :height="calculateContainerSize()"
+            width="100%"
+            class="w-100"
+            style="overflow-y: auto"
+          >
+            <download />
+          </v-container>
+        </v-tabs-window-item>
+        <v-tabs-window-item value="Add">
+          <v-container
+            fluid
+            :height="calculateContainerSize()"
+            width="100%"
+            class="w-100"
+            style="overflow-y: auto"
+          >
+            <add />
+          </v-container>
+        </v-tabs-window-item>
+        <v-tabs-window-item value="Setting">
+          <v-container
+            fluid
+            :height="calculateContainerSize()"
+            width="100%"
+            class="w-100"
+            style="overflow-y: auto"
+          >
+            <setting :height="calculateContainerSize()-106" />
+          </v-container>
+        </v-tabs-window-item>
+      </v-tabs-window>
+    </template>
+    <template v-else>
+      <result
+        :title="t('global.result.title')"
+        :sub-title="t('global.result.subTitle')"
+        type="error"
+        :height="calculateContainerSize()"
+      >
+        <v-btn
+          to="/rooms"
+          class="mt-4"
         >
-          <download />
-        </v-container>
-      </v-tabs-window-item>
-      <v-tabs-window-item value="Add">
-        <v-container
-          fluid
-          :height="calculateContainerSize()"
-          width="100%"
-          class="w-100"
-          style="overflow-y: auto"
-        >
-          <add />
-        </v-container>
-      </v-tabs-window-item>
-      <v-tabs-window-item value="Setting">
-        <v-container
-          fluid
-          :height="calculateContainerSize()"
-          width="100%"
-          class="w-100"
-          style="overflow-y: auto"
-        >
-          <setting :height="calculateContainerSize()-106" />
-        </v-container>
-      </v-tabs-window-item>
-    </v-tabs-window>
+          {{ t('global.result.button') }}
+        </v-btn>
+      </result>
+    </template>
   </template>
   <template v-else>
     <result
-      :title="t('global.result.title')"
-      :sub-title="t('global.result.subTitle')"
-      type="error"
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
       :height="calculateContainerSize()"
+      type="error"
     >
       <v-btn
-        to="/rooms"
+        to="/install"
         class="mt-4"
       >
-        {{ t('global.result.button') }}
+        {{t('global.noGame.button')}}
       </v-btn>
     </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    >
+    </result>
   </template>
+
 </template>
 
 <script setup>
@@ -78,6 +105,7 @@ import Add from "@/views/game/components/mod/add.vue"
 import Setting from "@/views/game/components/mod/setting.vue"
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global.js"
+import useUserStore from "@/plugins/store/user.js";
 
 
 onMounted(async () => {
@@ -97,6 +125,7 @@ onUnmounted(() => {
 
 const { t } = useI18n()
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
 const activeTabName = ref('Download')
 
 const handleTabClick = tab => {
