@@ -16,6 +16,15 @@ export default {
       subTitle: '请前往房间总览页面，选择一个房间再执行配置',
       button: '前往选择',
     },
+    noGame: {
+      title: '游戏未安装',
+      subTitle: '点击下方按钮安装游戏',
+      button: '前往安装',
+    },
+    noGameNoAdmin: {
+      title: '游戏未安装',
+      subTitle: '请联系饥荒管理平台管理员安装游戏',
+    },
     timeRunning: {
       second: '秒',
       minute: '分',
@@ -67,7 +76,7 @@ export default {
     header: {
       input: {
         label: '搜索',
-        placeholder: '请输入房间名或房间昵称搜索',
+        placeholder: '请输入房间名搜索',
       },
       button: {
         create: '新建房间',
@@ -378,7 +387,7 @@ export default {
             name: '启动类型',
             '32-bit': '32位',
             '64-bit': '64位',
-            tip: '游戏的启动类型，默认32位，64位专用服务器处理数据更快，但会带来更多的内存消耗',
+            tip: '游戏的启动类型，默认32位，64位专用服务器处理数据更快，但会带来更多的内存消耗，LuaJit留给大佬',
           },
         },
       },

@@ -16,6 +16,15 @@ export default {
       subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
       button: 'GOTO',
     },
+    noGame: {
+      title: 'Game Not Installed',
+      subTitle: 'Click the button below to install the game',
+      button: 'GOTO',
+    },
+    noGameNoAdmin: {
+      title: 'Game Not Installed',
+      subTitle: 'Please contact the administrator of the DMP to install the game',
+    },
     timeRunning: {
       second: 'Seconds',
       minute: 'Minutes',
@@ -67,7 +76,7 @@ export default {
     header: {
       input: {
         label: 'Search',
-        placeholder: 'Search by room name or room nickname',
+        placeholder: 'Search by room name',
       },
       button: {
         create: 'Create',
@@ -115,26 +124,6 @@ export default {
       noResult: {
         title: 'No Rooms Found By Search',
         subTitle: 'Please change your search content and try again',
-      },
-    },
-    dialog: {
-      create: {
-        title: 'Create Room',
-        form: {
-          name: 'Room Name',
-          displayName: 'Room Nickname',
-        },
-        rules: {
-          name: 'Please input the Room Name',
-        },
-        tips: {
-          name: 'Used to distinguish between different rooms and cannot be duplicated',
-          displayName: 'To help you distinguish between different rooms more easily, this serves only as an identifier. If left blank, it will default to the room name.',
-        },
-        actions: {
-          cancel: 'Cancel',
-          create: 'Create',
-        },
       },
     },
   },
@@ -398,7 +387,7 @@ export default {
             name: 'Game Start Type',
             '32-bit': '32 Bit',
             '64-bit': '64 Bit',
-            tip: 'A 64-bit dedicated server processes data faster but consumes more memory',
+            tip: 'A 64-bit dedicated server processes data faster but consumes more memory. LuaJit is for BRO',
           },
         },
       },
