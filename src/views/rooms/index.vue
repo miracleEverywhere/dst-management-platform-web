@@ -145,9 +145,9 @@
                   <v-col :cols="mobile?12:6">
                     <v-row>
                       <v-col cols="6">
-                      <span>
-                        {{ t('rooms.card.success.text.left.gameMode') }}
-                      </span>
+                        <span>
+                          {{ t('rooms.card.success.text.left.gameMode') }}
+                        </span>
                       </v-col>
                       <v-col cols="6">
                         <v-chip
@@ -160,9 +160,9 @@
                     </v-row>
                     <v-row>
                       <v-col cols="6">
-                      <span>
-                        {{ t('rooms.card.success.text.left.worldNum') }}
-                      </span>
+                        <span>
+                          {{ t('rooms.card.success.text.left.worldNum') }}
+                        </span>
                       </v-col>
                       <v-col cols="6">
                         <v-chip
@@ -175,9 +175,9 @@
                     </v-row>
                     <v-row>
                       <v-col cols="6">
-                      <span>
-                        {{ t('rooms.card.success.text.left.modNum') }}
-                      </span>
+                        <span>
+                          {{ t('rooms.card.success.text.left.modNum') }}
+                        </span>
                       </v-col>
                       <v-col cols="6">
                         <v-chip
@@ -190,9 +190,9 @@
                     </v-row>
                     <v-row>
                       <v-col cols="6">
-                      <span>
-                        {{ t('rooms.card.success.text.left.playerNum') }}
-                      </span>
+                        <span>
+                          {{ t('rooms.card.success.text.left.playerNum') }}
+                        </span>
                       </v-col>
                       <v-col cols="6">
                         <v-chip
@@ -222,12 +222,12 @@
                           {{ t('rooms.card.success.text.right.chartTitle') }}
                         </div>
                         <span class="text-h3 font-weight-black">
-                        <count-to
-                          :duration="4000"
-                          :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
-                          :start-val="0"
-                        />
-                      </span>
+                          <count-to
+                            :duration="4000"
+                            :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
+                            :start-val="0"
+                          />
+                        </span>
                         <strong>{{ t('rooms.card.success.text.right.unit') }}</strong>
                       </template>
                       <v-sheet color="transparent">
@@ -295,7 +295,7 @@
         to="/install"
         class="mt-4"
       >
-        {{t('global.noGame.button')}}
+        {{ t('global.noGame.button') }}
       </v-btn>
     </result>
     <result
@@ -304,10 +304,8 @@
       :sub-title="t('global.noGameNoAdmin.subTitle')"
       :height="calculateContainerSize()"
       type="error"
-    >
-    </result>
+    />
   </template>
-
 </template>
 
 <script setup>

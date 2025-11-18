@@ -92,117 +92,24 @@
                           />
                         </v-row>
                         <v-row class="mb-6">
-                          <v-col>
+                          <v-col v-for="i in 4" :key="i">
                             <v-badge
-                              v-if="registerForm.avatar==='1'"
-                              dot
-                              location="bottom right"
-                              offset-x="3"
-                              offset-y="3"
-                              color="success"
+                                dot
+                                location="bottom right"
+                                offset-x="3"
+                                offset-y="3"
+                                color="success"
+                                :model-value="registerForm.avatar === i.toString()"
                             >
                               <v-avatar
-                                v-ripple
-                                color="primary"
-                                variant="tonal"
-                                @click="registerForm.avatar='1'"
+                                  v-ripple
+                                  color="primary"
+                                  variant="tonal"
+                                  @click="registerForm.avatar = i.toString()"
                               >
-                                <v-img :src="avatar1" />
+                                <v-img :src="getAvatar(i)" />
                               </v-avatar>
                             </v-badge>
-                            <v-avatar
-                              v-else
-                              v-ripple
-                              color="primary"
-                              variant="tonal"
-                              @click="registerForm.avatar='1'"
-                            >
-                              <v-img :src="avatar1" />
-                            </v-avatar>
-                          </v-col>
-                          <v-col>
-                            <v-badge
-                              v-if="registerForm.avatar==='2'"
-                              dot
-                              location="bottom right"
-                              offset-x="3"
-                              offset-y="3"
-                              color="success"
-                            >
-                              <v-avatar
-                                v-ripple
-                                color="primary"
-                                variant="tonal"
-                                @click="registerForm.avatar='2'"
-                              >
-                                <v-img :src="avatar2" />
-                              </v-avatar>
-                            </v-badge>
-                            <v-avatar
-                              v-else
-                              v-ripple
-                              color="primary"
-                              variant="tonal"
-                              @click="registerForm.avatar='2'"
-                            >
-                              <v-img :src="avatar2" />
-                            </v-avatar>
-                          </v-col>
-                          <v-col>
-                            <v-badge
-                              v-if="registerForm.avatar==='3'"
-                              dot
-                              location="bottom right"
-                              offset-x="3"
-                              offset-y="3"
-                              color="success"
-                            >
-                              <v-avatar
-                                v-ripple
-                                color="primary"
-                                variant="tonal"
-                                @click="registerForm.avatar='3'"
-                              >
-                                <v-img :src="avatar3" />
-                              </v-avatar>
-                            </v-badge>
-                            <v-avatar
-                              v-else
-                              v-ripple
-                              color="primary"
-                              variant="tonal"
-                              @click="registerForm.avatar='3'"
-                            >
-                              <v-img :src="avatar3" />
-                            </v-avatar>
-                          </v-col>
-                          <v-col>
-                            <v-badge
-                              v-if="registerForm.avatar==='4'"
-                              dot
-                              location="bottom right"
-                              offset-x="3"
-                              offset-y="3"
-                              color="success"
-                            >
-                              <v-avatar
-                                v-ripple
-                                color="primary"
-                                variant="tonal"
-                                @click="registerForm.avatar='4'"
-                              >
-                                <v-img :src="avatar4" />
-                              </v-avatar>
-                            </v-badge>
-                            <v-avatar
-                              v-else
-                              v-ripple
-                              color="primary"
-                              variant="tonal"
-                              @click="registerForm.avatar='4'"
-                            >
-                              <v-img :src="avatar4" />
-                            </v-avatar>
                           </v-col>
                         </v-row>
                         <v-spacer />
@@ -394,6 +301,17 @@ const registerFormRules = {
       return t('login.registerFormRule.password')
     },
   ],
+}
+
+const avatars = {
+  1: avatar1,
+  2: avatar2,
+  3: avatar3,
+  4: avatar4
+}
+
+const getAvatar = (index) => {
+  return avatars[index]
 }
 
 const handleRegisterPost = async event => {

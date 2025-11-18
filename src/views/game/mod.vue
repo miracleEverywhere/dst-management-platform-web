@@ -83,7 +83,7 @@
         to="/install"
         class="mt-4"
       >
-        {{t('global.noGame.button')}}
+        {{ t('global.noGame.button') }}
       </v-btn>
     </result>
     <result
@@ -92,10 +92,8 @@
       :sub-title="t('global.noGameNoAdmin.subTitle')"
       :height="calculateContainerSize()"
       type="error"
-    >
-    </result>
+    />
   </template>
-
 </template>
 
 <script setup>
@@ -105,7 +103,7 @@ import Add from "@/views/game/components/mod/add.vue"
 import Setting from "@/views/game/components/mod/setting.vue"
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global.js"
-import useUserStore from "@/plugins/store/user.js";
+import useUserStore from "@store/user.js"
 
 
 onMounted(async () => {

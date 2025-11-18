@@ -1,6 +1,9 @@
 <template>
   <transition name="fade">
-    <v-container v-if="!installing">
+    <v-container
+      v-if="!installing"
+      fluid
+    >
       <v-row>
         <v-col
           cols="12"
@@ -14,14 +17,17 @@
               >
                 <div class=" w-100">
                   <v-row>
-                    <v-col cols="12" class="fcc">
+                    <v-col
+                      cols="12"
+                      class="fcc"
+                    >
                       <v-rating
                         v-model="rating"
                         :item-labels="ratingLabels"
                         density="default"
                         readonly
                       >
-                        <template v-slot:item-label="props">
+                        <template #item-label="props">
                           <span style="font-size: 0.66rem">
                             {{ t(`install.prepare.left.rating.${props.label}`) }}
                           </span>
@@ -30,82 +36,130 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.Architecture')}}
+                        {{ t('install.prepare.left.Architecture') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ osInfo.Architecture }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.CPUModel')}}
+                        {{ t('install.prepare.left.CPUModel') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ osInfo.CPUModel }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.CPUCores')}}
+                        {{ t('install.prepare.left.CPUCores') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ osInfo.CPUCores }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.MemorySize')}}
+                        {{ t('install.prepare.left.MemorySize') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ formatBytes(osInfo.MemorySize) }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.OS')}}
+                        {{ t('install.prepare.left.OS') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ osInfo.OS }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.Platform')}}
+                        {{ t('install.prepare.left.Platform') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ osInfo.Platform }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.PlatformVersion')}}
+                        {{ t('install.prepare.left.PlatformVersion') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       {{ osInfo.PlatformVersion }}
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="d-flex justify-end">
+                    <v-col
+                      cols="6"
+                      class="d-flex justify-end"
+                    >
                       <v-chip>
-                        {{t('install.prepare.left.Uptime')}}
+                        {{ t('install.prepare.left.Uptime') }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                      cols="6"
+                      class="d-flex align-center"
+                    >
                       <time-running :seconds="osInfo.Uptime" />
                     </v-col>
                   </v-row>
@@ -132,7 +186,7 @@
                   class="mt-4"
                   @click="handleInstall"
                 >
-                  {{t('install.prepare.right.install')}}
+                  {{ t('install.prepare.right.install') }}
                 </v-btn>
                 <v-btn
                   v-else
@@ -140,7 +194,7 @@
                   class="mt-4"
                   @click="handleInstall"
                 >
-                  {{t('install.prepare.right.reinstall')}}
+                  {{ t('install.prepare.right.reinstall') }}
                 </v-btn>
               </result>
             </v-card-text>
@@ -149,8 +203,13 @@
       </v-row>
     </v-container>
     <div v-else>
-      <v-alert type="warning" theme="dark" density="compact" class="mb-4">
-        {{t('install.install.alert')}}
+      <v-alert
+        type="warning"
+        theme="dark"
+        density="compact"
+        class="mb-4"
+      >
+        {{ t('install.install.alert') }}
       </v-alert>
       <div
         ref="terminalEl"
@@ -158,7 +217,6 @@
         :style="{height: `${calculateContainerSize()-78}px`}"
       />
     </div>
-
   </transition>
 </template>
 
@@ -171,7 +229,7 @@ import { formatBytes, getToken } from "@/utils/tools.js"
 import useGlobalStore from "@store/global.js"
 import platformApi from "@/api/platform.js"
 import { sleep } from "@antfu/utils"
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n"
 
 // 响应式数据
 const terminalContainer = ref(null)
@@ -212,8 +270,20 @@ const rating = computed(() => {
   if (osInfo.value.CPUCores < 4) {
     r--
   }
+  // 小于2核
+  if (osInfo.value.CPUCores < 2) {
+    r--
+  }
+  // 小于8G
+  if (osInfo.value.MemorySize < 1750000000 * 4) {
+    r--
+  }
   // 小于4G
   if (osInfo.value.MemorySize < 1750000000 * 2) {
+    r--
+  }
+  // 小于2G
+  if (osInfo.value.MemorySize < 1750000000) {
     r--
   }
 
@@ -426,5 +496,4 @@ onUnmounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>

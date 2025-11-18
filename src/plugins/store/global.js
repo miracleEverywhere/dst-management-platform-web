@@ -22,7 +22,7 @@ const globalStore = defineStore("global", {
       },
       gameVersion: {
         server: 0,
-        local: 0
+        local: 0,
       },
     }
   },

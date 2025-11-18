@@ -25,4 +25,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  list: {
+    url: `/user/list`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+  },
 }

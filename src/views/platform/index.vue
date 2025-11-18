@@ -43,7 +43,7 @@
 import { debounce } from "@/utils/tools.js"
 import { useI18n } from "vue-i18n"
 import Overview from "@/views/platform/components/overview.vue"
-import User from "@/views/platform/components/user.vue";
+import User from "@/views/platform/components/user.vue"
 
 
 const { t } = useI18n()

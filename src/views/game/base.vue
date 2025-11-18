@@ -230,7 +230,7 @@
         to="/install"
         class="mt-4"
       >
-        {{t('global.noGame.button')}}
+        {{ t('global.noGame.button') }}
       </v-btn>
     </result>
     <result
@@ -239,10 +239,8 @@
       :sub-title="t('global.noGameNoAdmin.subTitle')"
       :height="calculateContainerSize()"
       type="error"
-    >
-    </result>
+    />
   </template>
-
 </template>
 
 <script setup>
