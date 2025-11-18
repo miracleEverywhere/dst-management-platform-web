@@ -1,6 +1,5 @@
 <template>
   {{ overviewData }}
-  <runtime-display :seconds="overviewData.runningTime" />
   <div>
     {{ formatBytes(overviewData.memory) }}
   </div>
@@ -8,7 +7,6 @@
 
 <script setup>
 import platformApi from "@/api/platform.js"
-import RuntimeDisplay from "@/views/platform/components/runtimeDisplay.vue"
 import { formatBytes } from "@/utils/tools.js"
 
 const overviewData = ref({})

@@ -9,6 +9,9 @@
     <v-tab value="Overview">
       总览
     </v-tab>
+    <v-tab value="User">
+      用户
+    </v-tab>
   </v-tabs>
   <v-tabs-window v-model="activeTabName">
     <v-tabs-window-item value="Overview">
@@ -22,6 +25,17 @@
         <overview />
       </v-container>
     </v-tabs-window-item>
+    <v-tabs-window-item value="User">
+      <v-container
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
+      >
+        <user />
+      </v-container>
+    </v-tabs-window-item>
   </v-tabs-window>
 </template>
 
@@ -29,6 +43,7 @@
 import { debounce } from "@/utils/tools.js"
 import { useI18n } from "vue-i18n"
 import Overview from "@/views/platform/components/overview.vue"
+import User from "@/views/platform/components/user.vue";
 
 
 const { t } = useI18n()
