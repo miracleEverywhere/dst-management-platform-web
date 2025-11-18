@@ -3,7 +3,7 @@
     <v-card-text>
       <v-row>
         <v-col cols="12">
-          <v-text-field>
+          <v-text-field v-model="search" @keyup.enter="getUserListData">
 
           </v-text-field>
         </v-col>
