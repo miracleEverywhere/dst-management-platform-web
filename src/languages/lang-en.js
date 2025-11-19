@@ -60,6 +60,7 @@ export default {
       username: "Username",
       nickname: "Nickname",
       password: "Password",
+      avatar: "Avatar",
     },
     registerFormRule: {
       username: "Please input Username",
@@ -479,6 +480,69 @@ export default {
     },
     install: {
       alert: 'Attention!!! Do not close or refresh this page during the installation process, as it may cause the game installation to fail',
+    },
+  },
+  platform: {
+    overview: {},
+    user: {
+      form: {
+        username: {
+          title: 'Username',
+          tip: 'User unique identifier. The username is required during login',
+          required: 'Please input username',
+        },
+        nickname: {
+          title: 'Nickname',
+          tip: 'Used to identify the user and will be displayed in the upper right corner',
+          required: 'Please input nickname',
+        },
+        password: {
+          title: 'Password',
+          tip: 'A password is required during login',
+          required: 'Please input password',
+        },
+        role: {
+          title: 'Role',
+          tip: 'The Admin role has the highest permissions. The permission settings below do not apply to admins',
+          admin: 'Admin',
+          nonAdmin: 'Non-Admin',
+        },
+        avatar: {
+          title: 'Avatar',
+          tip: 'Choose one, it will be displayed in the upper right corner',
+        },
+        disabled: {
+          title: 'Disable',
+          tip: 'Disabled users cannot log in to the DMP',
+          yes: 'Yes',
+          no: 'No',
+        },
+        rooms: {
+          title: 'Room Permission',
+          tip: 'Rooms that non-admin users can manage',
+        },
+        roomCreation: {
+          title: 'Room Creation',
+          tip: 'Whether non-admin users can create rooms',
+          yes: 'Yes',
+          no: 'No',
+        },
+        maxWorlds: {
+          title: 'Max Worlds',
+          tip: 'The maximum number of worlds a non-admin user can create in a single room',
+        },
+        maxPlayers: {
+          title: 'Max Players',
+          tip: 'The maximum number of players a non-admin user can set in a single room',
+        },
+      },
+      table: {
+        admin: 'Admin',
+        nonAdmin: 'Non-Admin',
+        yes: 'Yes',
+        no: 'No',
+        noLimit: 'No Lim',
+      },
     },
   },
 }

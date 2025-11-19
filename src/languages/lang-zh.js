@@ -60,6 +60,7 @@ export default {
       username: "用户名",
       nickname: "用户昵称",
       password: "密码",
+      avatar: "头像",
     },
     registerFormRule: {
       username: "请输入用户名",
@@ -479,6 +480,69 @@ export default {
     },
     install: {
       alert: '注意！！！安装过程中请勿关闭或刷新本页面，否则会导致游戏安装失败',
+    },
+  },
+  platform: {
+    overview: {},
+    user: {
+      form: {
+        username: {
+          title: '用户名',
+          tip: '用户唯一标识符，登录时需要填写用户名',
+          required: '请输入用户名',
+        },
+        nickname: {
+          title: '用户昵称',
+          tip: '用于标识用户，会显示在右上角',
+          required: '请输入用户昵称',
+        },
+        password: {
+          title: '密码',
+          tip: '登录时需要输入密码',
+          required: '请输入密码',
+        },
+        role: {
+          title: '角色',
+          tip: '管理员角色拥有最高权限，下方关于权限的设置对管理员无效',
+          admin: 'Admin',
+          nonAdmin: 'Non-Admin',
+        },
+        avatar: {
+          title: '头像',
+          tip: '选一个吧，会显示在右上角',
+        },
+        disabled: {
+          title: '是否禁用',
+          tip: '禁用的用户无法登录饥荒管理平台',
+          yes: '是',
+          no: '否',
+        },
+        rooms: {
+          title: '房间权限',
+          tip: '非管理员可管理的房间',
+        },
+        roomCreation: {
+          title: '房间创建',
+          tip: '非管理员是否可以创建房间',
+          yes: '是',
+          no: '否',
+        },
+        maxWorlds: {
+          title: '最大世界数',
+          tip: '非管理员单个房间可创建的最大世界数',
+        },
+        maxPlayers: {
+          title: '最大玩家数',
+          tip: '非管理员单个房间可设置的最大玩家数',
+        },
+      },
+      table: {
+        admin: '管理员',
+        nonAdmin: '非管理员',
+        yes: '是',
+        no: '否',
+        noLimit: '不限制',
+      },
     },
   },
 }

@@ -270,18 +270,22 @@ const rating = computed(() => {
   if (osInfo.value.CPUCores < 4) {
     r--
   }
+
   // 小于2核
   if (osInfo.value.CPUCores < 2) {
     r--
   }
+
   // 小于8G
   if (osInfo.value.MemorySize < 1750000000 * 4) {
     r--
   }
+
   // 小于4G
   if (osInfo.value.MemorySize < 1750000000 * 2) {
     r--
   }
+
   // 小于2G
   if (osInfo.value.MemorySize < 1750000000) {
     r--

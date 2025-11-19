@@ -92,24 +92,43 @@
                           />
                         </v-row>
                         <v-row class="mb-6">
-                          <v-col v-for="i in 4" :key="i">
-                            <v-badge
-                                dot
-                                location="bottom right"
-                                offset-x="3"
-                                offset-y="3"
-                                color="success"
-                                :model-value="registerForm.avatar === i.toString()"
-                            >
-                              <v-avatar
-                                  v-ripple
-                                  color="primary"
-                                  variant="tonal"
-                                  @click="registerForm.avatar = i.toString()"
+                          <v-col
+                            cols="2"
+                            class="d-flex align-center"
+                          >
+                            <v-row>
+                              <v-col>
+                                <v-chip>
+                                  {{ t('login.registerForm.avatar') }}
+                                </v-chip>
+                              </v-col>
+                            </v-row>
+                          </v-col>
+                          <v-col cols="10">
+                            <v-row>
+                              <v-col
+                                v-for="i in 4"
+                                :key="i"
                               >
-                                <v-img :src="getAvatar(i)" />
-                              </v-avatar>
-                            </v-badge>
+                                <v-badge
+                                  dot
+                                  location="bottom right"
+                                  offset-x="3"
+                                  offset-y="3"
+                                  color="success"
+                                  :model-value="registerForm.avatar === i.toString()"
+                                >
+                                  <v-avatar
+                                    v-ripple
+                                    color="primary"
+                                    variant="tonal"
+                                    @click="registerForm.avatar = i.toString()"
+                                  >
+                                    <v-img :src="getAvatar(i)" />
+                                  </v-avatar>
+                                </v-badge>
+                              </v-col>
+                            </v-row>
                           </v-col>
                         </v-row>
                         <v-spacer />
@@ -163,6 +182,7 @@
       :src="authV1Tree2"
       :width="350"
       class="auth-footer-end-tree d-none d-md-block"
+      style="z-index: 0!important;"
     />
 
     <v-img
@@ -307,10 +327,10 @@ const avatars = {
   1: avatar1,
   2: avatar2,
   3: avatar3,
-  4: avatar4
+  4: avatar4,
 }
 
-const getAvatar = (index) => {
+const getAvatar = index => {
   return avatars[index]
 }
 

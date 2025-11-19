@@ -18,6 +18,9 @@ export default {
     get: async function(data){
       return await http.get(this.url, data)
     },
+    post: async function(data){
+      return await http.post(this.url, data)
+    },
   },
   menu: {
     url: `/user/menu`,

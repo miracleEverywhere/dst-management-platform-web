@@ -28,4 +28,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  basic: {
+    url: `/room/basic`,
+    get: async function(data){
+      return await http.get(this.url, data)
+    },
+  },
 }
