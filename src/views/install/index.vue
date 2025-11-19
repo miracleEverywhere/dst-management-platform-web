@@ -177,7 +177,7 @@
               <result
                 :height="calculateContainerSize()-64"
                 type="info"
-                :title="t('install.prepare.right.title')"
+                :title="globalStore.gameVersion.local===0?t('install.prepare.right.title'):t('install.prepare.right.varTitle')"
                 :sub-title="t('install.prepare.right.subTitle')"
               >
                 <v-btn
@@ -189,12 +189,20 @@
                   {{ t('install.prepare.right.install') }}
                 </v-btn>
                 <v-btn
-                  v-else
+                    v-if="globalStore.gameVersion.local!==0"
                   color="warning"
                   class="mt-4"
                   @click="handleInstall"
                 >
                   {{ t('install.prepare.right.reinstall') }}
+                </v-btn>
+                <v-btn
+                    v-if="globalStore.gameVersion.local!==0"
+                    color="primary"
+                    class="mt-4"
+                    @click="handleUpdate"
+                >
+                  {{ t('install.prepare.right.update') }}
                 </v-btn>
               </result>
             </v-card-text>
@@ -303,6 +311,15 @@ const handleInstall = async () => {
 
   await sleep(2000)
   await sendCommand('bash manual_install.sh')
+}
+
+const handleUpdate = async () => {
+  installing.value = true
+  await initTerminal()
+  await connectWebSocket()
+
+  await sleep(2000)
+  await sendCommand('cd ~/steamcmd ; ./steamcmd.sh +login anonymous +force_install_dir ~/dst +app_update 343050 validate +quit')
 }
 
 const windowHeight = ref(window.innerHeight)

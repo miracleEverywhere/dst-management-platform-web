@@ -32,6 +32,12 @@ export default {
       day: '天',
       year: '年',
     },
+    confirm: {
+      title: '请确认',
+      content: '您确定要执行这个操作吗？此操作不可恢复。',
+      cancel: '取消',
+      confirm: '确认'
+    },
   },
   menu: {
     dashboard: "控制面板",
@@ -42,7 +48,7 @@ export default {
     gamePlayer: '玩家设置',
     upload: '存档导入',
     install: '游戏安装',
-    tools: '游戏工具',
+    tools: '平台工具',
     toolsBackup: '备份管理',
     platform: '平台管理',
   },
@@ -473,13 +479,15 @@ export default {
       },
       right: {
         title: '点击下方按钮安装游戏',
+        varTitle: '点击下方按钮安装或更新游戏',
         subTitle: '目前支持的系统有Ubuntu24、Rocky9、Debian13，其他系统可能会安装失败',
         install: '安装',
         reinstall: '重新安装',
+        update: '更新游戏',
       },
     },
     install: {
-      alert: '注意！！！安装过程中请勿关闭或刷新本页面，否则会导致游戏安装失败',
+      alert: '注意！！！安装或更新过程中请勿关闭或刷新本页面，否则会导致操作失败',
     },
   },
   platform: {
@@ -504,8 +512,8 @@ export default {
         role: {
           title: '角色',
           tip: '管理员角色拥有最高权限，下方关于权限的设置对管理员无效',
-          admin: 'Admin',
-          nonAdmin: 'Non-Admin',
+          admin: '管理员',
+          nonAdmin: '普通',
         },
         avatar: {
           title: '头像',
@@ -537,11 +545,21 @@ export default {
         },
       },
       table: {
+        title: '用户列表',
+        create: '新增',
+        refresh: '刷新',
         admin: '管理员',
-        nonAdmin: '非管理员',
+        nonAdmin: '普通',
         yes: '是',
         no: '否',
         noLimit: '不限制',
+        actions: '操作',
+        update: '修改',
+        delete: '删除',
+      },
+      search: {
+        label: '搜索',
+        placeholder: '可通过用户名和用户昵称搜索',
       },
     },
   },

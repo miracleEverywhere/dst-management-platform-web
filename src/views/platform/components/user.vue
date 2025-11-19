@@ -5,10 +5,11 @@
         <v-col cols="12">
           <v-text-field
             v-model="search"
-            label="搜索"
-            placeholder="可通过用户名和用户昵称搜索"
+            :label="t('platform.user.search.label')"
+            :placeholder="t('platform.user.search.placeholder')"
             clearable
             @keyup.enter="getUserListData"
+            @click:clear="getUserListData"
           />
         </v-col>
         <v-col cols="12">
@@ -29,17 +30,17 @@
                 <v-toolbar flat>
                   <v-toolbar-title>
                     <v-icon
-                      icon="ri-user-settings-line"
+                      icon="ri-id-card-line"
                       start
                     />
-                    用户列表
+                    {{t('platform.user.table.title')}}
                   </v-toolbar-title>
                   <v-btn
                     prepend-icon="ri-add-line"
                     color="success"
                     @click="openCreateUserDialog"
                   >
-                    新增
+                    {{t('platform.user.table.create')}}
                   </v-btn>
                   <v-btn
                     prepend-icon="ri-refresh-line"
@@ -47,7 +48,7 @@
                     color="default"
                     @click="getUserListData"
                   >
-                    刷新
+                    {{t('platform.user.table.refresh')}}
                   </v-btn>
                 </v-toolbar>
               </template>
@@ -162,6 +163,48 @@
                 >
                   {{ item.maxPlayers }}
                 </v-chip>
+              </template>
+              <template #item.actions="{ item }">
+                <v-btn
+                    color="info"
+                    append-icon="ri-arrow-drop-down-line"
+                    variant="text"
+                >
+                  {{ t('platform.user.table.actions') }}
+                  <v-menu activator="parent">
+                    <v-list>
+                      <v-list-item
+                          class="text-warning"
+                          @click="handleAction('update', item)"
+                      >
+                        <template #prepend>
+                          <v-icon
+                              icon="ri-user-settings-line"
+                              size="22"
+                          />
+                        </template>
+                        <v-list-item-title>
+                          {{ t('platform.user.table.update') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item
+                          :disabled="item.role==='admin'"
+                          class="text-error"
+                          @click="handleAction('delete', item)"
+                      >
+                        <template #prepend>
+                          <v-icon
+                              icon="ri-user-unfollow-line"
+                              size="22"
+                          />
+                        </template>
+                        <v-list-item-title>
+                          {{ t('platform.user.table.delete') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-btn>
               </template>
             </v-data-table-server>
           </v-sheet>
@@ -295,7 +338,7 @@
               </v-row>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="!isEdit">
             <v-col>
               <v-text-field
                 v-model="userForm.password"
@@ -413,7 +456,7 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <v-card-actions class="mb-4">
+        <v-card-actions class="my-6">
           <v-spacer />
           <v-btn
             color="default"
@@ -432,6 +475,17 @@
       </v-form>
     </v-card>
   </v-dialog>
+  <confirm-box
+      v-model="confirmVisible"
+      type="warning"
+      :title="t('global.confirm.title')"
+      :content="t('global.confirm.content')"
+      :confirm-text="t('global.confirm.confirm')"
+      :cancel-text="t('global.confirm.cancel')"
+      :confirmLoading="confirmLoading"
+      @confirm="handleDelete"
+      @cancel="confirmVisible=false"
+  />
 </template>
 
 <script setup>
@@ -488,16 +542,16 @@ const getUserListData = () => {
 }
 
 const headers = [
-  { title: '用户名', value: 'username' },
-  { title: '昵称', value: 'nickname' },
-  { title: '角色', value: 'role' },
-  { title: '头像', value: 'avatar' },
-  { title: '禁用', value: 'disabled' },
-  { title: '房间数', value: 'rooms' },
-  { title: '房间创建', value: 'roomCreation' },
-  { title: '世界个数', value: 'maxWorlds' },
-  { title: '玩家个数', value: 'maxPlayers' },
-  { title: '玩家个数', value: 'maxPlayers' },
+  { title: t('platform.user.form.username.title'), value: 'username' },
+  { title: t('platform.user.form.nickname.title'), value: 'nickname' },
+  { title: t('platform.user.form.role.title'), value: 'role' },
+  { title: t('platform.user.form.avatar.title'), value: 'avatar' },
+  { title: t('platform.user.form.disabled.title'), value: 'disabled' },
+  { title: t('platform.user.form.rooms.title'), value: 'rooms' },
+  { title: t('platform.user.form.roomCreation.title'), value: 'roomCreation' },
+  { title: t('platform.user.form.maxWorlds.title'), value: 'maxWorlds' },
+  { title: t('platform.user.form.maxPlayers.title'), value: 'maxPlayers' },
+  { title: t('platform.user.table.actions'), value: 'actions' },
 ]
 
 const userFormRef = ref()
@@ -587,30 +641,108 @@ const handleUserSubmit = async () => {
 
   userSubmitLoading.value = true
 
-  const reqForm = {
-    username: userForm.value.username,
-    nickname: userForm.value.nickname,
-    role: userForm.value.role,
-    avatar: userForm.value.avatar,
-    password: SHA512(userForm.value.password),
-    disabled: userForm.value.disabled,
-    rooms: userForm.value.rooms.join(','),
-    roomCreation: userForm.value.roomCreation,
-    maxWorlds: userForm.value.maxWorlds,
-    maxPlayers: userForm.value.maxPlayers,
+  if (isEdit.value) {
+    // 编辑
+    const reqForm = {
+      username: userForm.value.username,
+      nickname: userForm.value.nickname,
+      role: userForm.value.role,
+      avatar: userForm.value.avatar,
+      password: '',
+      disabled: userForm.value.disabled,
+      rooms: userForm.value.rooms.join(','),
+      roomCreation: userForm.value.roomCreation,
+      maxWorlds: userForm.value.maxWorlds,
+      maxPlayers: userForm.value.maxPlayers,
+    }
+    userApi.base.put(reqForm).then(response => {
+      userDialogVisible.value = false
+      showSnackbar(response.message)
+      getUserListData()
+    }).finally(() => {
+      userSubmitLoading.value = false
+    })
+  } else {
+    // 创建
+    const reqForm = {
+      username: userForm.value.username,
+      nickname: userForm.value.nickname,
+      role: userForm.value.role,
+      avatar: userForm.value.avatar,
+      password: SHA512(userForm.value.password),
+      disabled: userForm.value.disabled,
+      rooms: userForm.value.rooms.join(','),
+      roomCreation: userForm.value.roomCreation,
+      maxWorlds: userForm.value.maxWorlds,
+      maxPlayers: userForm.value.maxPlayers,
+    }
+    userApi.base.post(reqForm).then(response => {
+      userDialogVisible.value = false
+      showSnackbar(response.message)
+      getUserListData()
+    }).finally(() => {
+      userSubmitLoading.value = false
+    })
   }
 
-  userApi.base.post(reqForm).then(response => {
-    userDialogVisible.value = false
-    showSnackbar(response.message)
-    getUserListData()
-  }).finally(() => {
-    userSubmitLoading.value = false
-  })
 }
 
 const dbRoomsToRooms = str =>
   str ? str.split(',').map(Number).filter(item => !isNaN(item)) : []
+
+const handleAction = (action, user) => {
+  switch (action) {
+    case "update":
+      openUpdateUserDialog(user)
+      break
+    case "delete":
+      currentUsername.value = user.username
+      confirmVisible.value = true
+      break
+    default:
+      showSnackbar("牛哇", "error")
+  }
+}
+
+const openUpdateUserDialog = (user) => {
+  userDialogVisible.value = true
+  isEdit.value = true
+  userForm.value = {
+    username: user.username,
+    nickname: user.nickname,
+    role: user.role,
+    avatar: user.avatar,
+    disabled: user.disabled,
+    rooms: dbRoomsToRooms(user.rooms),
+    roomCreation: user.roomCreation,
+    maxWorlds: user.maxWorlds,
+    maxPlayers: user.maxPlayers,
+  }
+  nextTick(() => {
+    if (userFormRef.value) {
+      userFormRef.value.resetValidation()
+    }
+  })
+}
+
+const confirmVisible = ref(false)
+const confirmLoading = ref(false)
+const currentUsername = ref('')
+const handleDelete = () => {
+  console.log(currentUsername.value)
+  confirmLoading.value = true
+  const reqForm = {
+    username: currentUsername.value,
+  }
+  userApi.base.delete(reqForm).then(response => {
+    confirmVisible.value = false
+    showSnackbar(response.message)
+    getUserListData()
+  }).finally(() => {
+    confirmLoading.value = false
+  })
+}
+
 
 onMounted(() => {
   getRoomBasic()

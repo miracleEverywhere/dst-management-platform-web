@@ -32,6 +32,12 @@ export default {
       day: 'Days',
       year: 'Years',
     },
+    confirm: {
+      title: 'Confirm',
+      content: 'Are you sure you want to perform this action? This action cannot be undone.',
+      cancel: 'Cancel',
+      confirm: 'Confirm'
+    },
   },
   menu: {
     dashboard: "Dashboard",
@@ -473,13 +479,15 @@ export default {
       },
       right: {
         title: 'Click the button below to install the game',
+        varTitle: 'Click the button below to install or update the game',
         subTitle: 'Currently supported systems include Ubuntu 24, Rocky 9, Debian 13. Installation may fail on other systems',
         install: 'Install',
         reinstall: 'Reinstall',
+        update: 'Update',
       },
     },
     install: {
-      alert: 'Attention!!! Do not close or refresh this page during the installation process, as it may cause the game installation to fail',
+      alert: 'Attention!!! Do not close or refresh this page during the installation process or Updating process, as it may cause the action to fail',
     },
   },
   platform: {
@@ -537,11 +545,21 @@ export default {
         },
       },
       table: {
+        title: 'User List',
+        create: 'Add',
+        refresh: 'Refresh',
         admin: 'Admin',
         nonAdmin: 'Non-Admin',
         yes: 'Yes',
         no: 'No',
         noLimit: 'No Lim',
+        actions: 'Actions',
+        update: 'Update',
+        delete: 'Delete',
+      },
+      search: {
+        label: 'Search',
+        placeholder: 'Searchable by username or nickname',
       },
     },
   },

@@ -148,9 +148,9 @@
           </template>
           <template #item.actions="{ item }">
             <v-btn
-              color="default"
+              color="info"
               append-icon="ri-arrow-drop-down-line"
-              variant="tonal"
+              variant="text"
             >
               {{ t('game.mod.add.actions') }}
               <v-menu activator="parent">
