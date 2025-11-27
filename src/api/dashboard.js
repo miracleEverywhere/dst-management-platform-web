@@ -1,10 +1,12 @@
 import http from "@/utils/axios"
 
 export default {
-  download: {
-    url: `/dashboard/download`,
-    post: async function (data) {
-      return await http.post(this.url, data)
+  exec: {
+    game: {
+      url: `/dashboard/exec/game`,
+      post: async function (data) {
+        return await http.post(this.url, data)
+      },
     },
   },
   info: {
