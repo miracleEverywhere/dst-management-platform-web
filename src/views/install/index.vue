@@ -189,7 +189,7 @@
                   {{ t('install.prepare.right.install') }}
                 </v-btn>
                 <v-btn
-                    v-if="globalStore.gameVersion.local!==0"
+                  v-if="globalStore.gameVersion.local!==0"
                   color="warning"
                   class="mt-4"
                   @click="handleInstall"
@@ -197,10 +197,10 @@
                   {{ t('install.prepare.right.reinstall') }}
                 </v-btn>
                 <v-btn
-                    v-if="globalStore.gameVersion.local!==0"
-                    color="primary"
-                    class="mt-4"
-                    @click="handleUpdate"
+                  v-if="globalStore.gameVersion.local!==0"
+                  color="primary"
+                  class="mt-4"
+                  @click="handleUpdate"
                 >
                   {{ t('install.prepare.right.update') }}
                 </v-btn>
