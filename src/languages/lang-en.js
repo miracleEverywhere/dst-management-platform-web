@@ -36,7 +36,7 @@ export default {
       title: 'Confirm',
       content: 'Are you sure you want to perform this action? This action cannot be undone.',
       cancel: 'Cancel',
-      confirm: 'Confirm'
+      confirm: 'Confirm',
     },
   },
   menu: {

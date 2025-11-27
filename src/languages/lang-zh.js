@@ -36,7 +36,7 @@ export default {
       title: '请确认',
       content: '您确定要执行这个操作吗？此操作不可恢复。',
       cancel: '取消',
-      confirm: '确认'
+      confirm: '确认',
     },
   },
   menu: {
@@ -561,6 +561,95 @@ export default {
         label: '搜索',
         placeholder: '可通过用户名和用户昵称搜索',
       },
+    },
+  },
+  dashboard: {
+    card1: {
+      title: '房间概览',
+      error: '💢获取失败',
+      season: {
+        summer: '🔥夏',
+        autumn: '🍁秋',
+        spring: '🌱春',
+        winter: '❄️冬',
+      },
+      phase: {
+        night: '夜晚',
+        day: '白天',
+        dusk: '黄昏',
+      },
+    },
+    card2: {
+      title: '系统信息',
+    },
+    card3: {
+      title: '房间控制',
+      startup: {
+        title: '启动游戏',
+        tip: '启动饥荒服务器',
+        confirm: '是否启动饥荒服务器？',
+      },
+      shutdown: {
+        title: '关闭游戏',
+        tip: '关闭饥荒服务器',
+        confirm: '是否关闭饥荒服务器？',
+      },
+      restart: {
+        title: '重启游戏',
+        tip: '重新启动饥荒服务器',
+        confirm: '是否重启饥荒服务器？',
+      },
+      update: {
+        title: '更新游戏',
+        tip: '更新饥荒专用服务器',
+        frontend: {
+          title: '前台更新',
+          tip: '如果关闭或刷新页面，会导致更新中断，但可以看到更新进度',
+        },
+        backend: {
+          title: '后台更新',
+          tip: '饥荒管理平台在后台进行更新，更新按钮进入载入状态，完成后，更新按钮则会退出载入状态',
+        },
+      },
+      reset: {
+        title: '重置游戏',
+        tip: '重置游戏，给你一个秋0',
+        forced: {
+          title: '强制重置',
+          tip: '强制重置会删除存档数据并重启游戏；注意：如果是多台云服合并开服，此功能无法重置所有的世界，需多台云服同时执行强制重置操作',
+        },
+        noForced: {
+          title: '普通重置',
+          tip: '普通重置需要游戏正常运行，各个世界都正常连接到主世界',
+        },
+      },
+      clean: {
+        title: '清空世界',
+        tip: '删除指定世界的存档数据(不包含配置数据)，类似于强制重置指定世界',
+        confirm: '是否清空该世界？',
+      },
+      quickCmd: {
+        title: '快捷指令',
+        tip: '执行一些服务器命令，要求服务器正常运行',
+      },
+      check: {
+        title: '检查世界',
+        tip: '查看你的房间能否在饥荒游戏大厅中搜索到',
+      },
+      rollback: {
+        title: '回档',
+        tip: '使用游戏命令进行回档，要求服务器正常运行',
+        confirm: {
+          c1: '是否回档',
+          c2: '天',
+        },
+      },
+    },
+    card4: {
+      title: '游戏指令',
+    },
+    card5: {
+      title: '世界信息',
     },
   },
 }
