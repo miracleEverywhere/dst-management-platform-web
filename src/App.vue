@@ -7,13 +7,15 @@
       :location="location"
       variant="flat"
       color="#FFFFFF00"
+      class="custom-snackbar"
     >
-      <v-card>
+      <v-card class="content-card">
         <v-alert
           :color="color"
           :icon="icon"
           variant="text"
           density="compact"
+          class="text-no-wrap pr-6"
         >
           {{ text }}
         </v-alert>
@@ -67,5 +69,18 @@ const initTheme = () => {
 
 }
 </script>
+
+<style scoped>
+.custom-snackbar {
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+}
+
+.content-card {
+  width: fit-content !important;
+  min-width: auto !important;
+}
+</style>
 
 
