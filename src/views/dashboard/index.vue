@@ -30,7 +30,7 @@
                       append-icon="ri-file-copy-line"
                       class="text-none"
                     >
-                      {{ baseInfo.room.gameName }}
+                      {{ truncateString(baseInfo.room.gameName, mobile?10:20) }}
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -391,7 +391,7 @@
 </template>
 
 <script setup>
-import { debounce } from "@/utils/tools.js"
+import { debounce, truncateString } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
