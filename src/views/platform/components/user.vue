@@ -33,14 +33,14 @@
                       icon="ri-id-card-line"
                       start
                     />
-                    {{t('platform.user.table.title')}}
+                    {{ t('platform.user.table.title') }}
                   </v-toolbar-title>
                   <v-btn
                     prepend-icon="ri-add-line"
                     color="success"
                     @click="openCreateUserDialog"
                   >
-                    {{t('platform.user.table.create')}}
+                    {{ t('platform.user.table.create') }}
                   </v-btn>
                   <v-btn
                     prepend-icon="ri-refresh-line"
@@ -48,7 +48,7 @@
                     color="default"
                     @click="getUserListData"
                   >
-                    {{t('platform.user.table.refresh')}}
+                    {{ t('platform.user.table.refresh') }}
                   </v-btn>
                 </v-toolbar>
               </template>
@@ -166,21 +166,21 @@
               </template>
               <template #item.actions="{ item }">
                 <v-btn
-                    color="info"
-                    append-icon="ri-arrow-drop-down-line"
-                    variant="text"
+                  color="info"
+                  append-icon="ri-arrow-drop-down-line"
+                  variant="text"
                 >
                   {{ t('platform.user.table.actions') }}
                   <v-menu activator="parent">
                     <v-list>
                       <v-list-item
-                          class="text-warning"
-                          @click="handleAction('update', item)"
+                        class="text-warning"
+                        @click="handleAction('update', item)"
                       >
                         <template #prepend>
                           <v-icon
-                              icon="ri-user-settings-line"
-                              size="22"
+                            icon="ri-user-settings-line"
+                            size="22"
                           />
                         </template>
                         <v-list-item-title>
@@ -188,14 +188,14 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                          :disabled="item.role==='admin'"
-                          class="text-error"
-                          @click="handleAction('delete', item)"
+                        :disabled="item.role==='admin'"
+                        class="text-error"
+                        @click="handleAction('delete', item)"
                       >
                         <template #prepend>
                           <v-icon
-                              icon="ri-user-unfollow-line"
-                              size="22"
+                            icon="ri-user-unfollow-line"
+                            size="22"
                           />
                         </template>
                         <v-list-item-title>
@@ -476,15 +476,15 @@
     </v-card>
   </v-dialog>
   <confirm-box
-      v-model="confirmVisible"
-      type="warning"
-      :title="t('global.confirm.title')"
-      :content="t('global.confirm.content')"
-      :confirm-text="t('global.confirm.confirm')"
-      :cancel-text="t('global.confirm.cancel')"
-      :confirmLoading="confirmLoading"
-      @confirm="handleDelete"
-      @cancel="confirmVisible=false"
+    v-model="confirmVisible"
+    type="warning"
+    :title="t('global.confirm.title')"
+    :content="t('global.confirm.content')"
+    :confirm-text="t('global.confirm.confirm')"
+    :cancel-text="t('global.confirm.cancel')"
+    :confirm-loading="confirmLoading"
+    @confirm="handleDelete"
+    @cancel="confirmVisible=false"
   />
 </template>
 
@@ -655,6 +655,7 @@ const handleUserSubmit = async () => {
       maxWorlds: userForm.value.maxWorlds,
       maxPlayers: userForm.value.maxPlayers,
     }
+
     userApi.base.put(reqForm).then(response => {
       userDialogVisible.value = false
       showSnackbar(response.message)
@@ -676,6 +677,7 @@ const handleUserSubmit = async () => {
       maxWorlds: userForm.value.maxWorlds,
       maxPlayers: userForm.value.maxPlayers,
     }
+
     userApi.base.post(reqForm).then(response => {
       userDialogVisible.value = false
       showSnackbar(response.message)
@@ -692,19 +694,19 @@ const dbRoomsToRooms = str =>
 
 const handleAction = (action, user) => {
   switch (action) {
-    case "update":
-      openUpdateUserDialog(user)
-      break
-    case "delete":
-      currentUsername.value = user.username
-      confirmVisible.value = true
-      break
-    default:
-      showSnackbar("牛哇", "error")
+  case "update":
+    openUpdateUserDialog(user)
+    break
+  case "delete":
+    currentUsername.value = user.username
+    confirmVisible.value = true
+    break
+  default:
+    showSnackbar("牛哇", "error")
   }
 }
 
-const openUpdateUserDialog = (user) => {
+const openUpdateUserDialog = user => {
   userDialogVisible.value = true
   isEdit.value = true
   userForm.value = {
@@ -728,12 +730,15 @@ const openUpdateUserDialog = (user) => {
 const confirmVisible = ref(false)
 const confirmLoading = ref(false)
 const currentUsername = ref('')
+
 const handleDelete = () => {
   console.log(currentUsername.value)
   confirmLoading.value = true
+
   const reqForm = {
     username: currentUsername.value,
   }
+
   userApi.base.delete(reqForm).then(response => {
     confirmVisible.value = false
     showSnackbar(response.message)
