@@ -17,7 +17,7 @@ export default {
 
       const result = document.execCommand('Copy')
       if (result) {
-        showSnackbar('复制成功')
+        showSnackbar(textarea.value)
       }
       document.body.removeChild(textarea)
     }
