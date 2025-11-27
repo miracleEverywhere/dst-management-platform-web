@@ -257,25 +257,6 @@ import roomApi from "@/api/room.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
 
-
-onMounted(async () => {
-  await Promise.all([getCount(), getRoomTotalInfo()])
-  dataGot.value = true
-
-  // 添加事件监听
-  window.addEventListener('resize', handleResize)
-})
-
-// 防抖处理resize事件
-const handleResize = debounce(() => {
-  windowHeight.value = window.innerHeight
-}, 200)
-
-// 在组件卸载时移除监听
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
-})
-
 const windowHeight = ref(window.innerHeight)
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
@@ -499,5 +480,23 @@ const handleSave = () => {
     })
   }
 }
+
+// 防抖处理resize事件
+const handleResize = debounce(() => {
+  windowHeight.value = window.innerHeight
+}, 200)
+
+onMounted(async () => {
+  await Promise.all([getCount(), getRoomTotalInfo()])
+  dataGot.value = true
+
+  // 添加事件监听
+  window.addEventListener('resize', handleResize)
+})
+
+// 在组件卸载时移除监听
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
