@@ -1,9 +1,9 @@
 <template>
   <v-dialog
-      :model-value="modelValue"
-      @update:model-value="$emit('update:modelValue', $event)"
-      max-width="500px"
-      persistent
+    :model-value="modelValue"
+    max-width="500px"
+    persistent
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <v-card>
       <!-- 标题区域 -->
@@ -14,11 +14,11 @@
       <!-- 内容区域 -->
       <v-card-text class="pt-4">
         <v-alert
-            v-if="content"
-            :text="content"
-            :type="type"
-            variant="tonal"
-        ></v-alert>
+          v-if="content"
+          :text="content"
+          :type="type"
+          variant="tonal"
+        />
         <slot name="content">
           <!-- 插槽用于自定义内容 -->
         </slot>
@@ -26,18 +26,19 @@
 
       <!-- 操作按钮区域 -->
       <v-card-actions class="pa-4">
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn
-            variant="elevated"
-            @click="handleCancel"
-            :color="cancelColor"
+          variant="elevated"
+          :color="cancelColor"
+          @click="handleCancel"
         >
           {{ cancelText }}
         </v-btn>
         <v-btn
-            variant="elevated"
-            @click="handleConfirm"
-            :color="confirmColor"
+          variant="elevated"
+          :loading="props.confirmLoading"
+          :color="confirmColor"
+          @click="handleConfirm"
         >
           {{ confirmText }}
         </v-btn>
@@ -50,41 +51,41 @@
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   type: {
     type: String,
     default: 'success',
-    validator: (value) => ['success', 'warning', 'error', 'info'].includes(value)
+    validator: value => ['success', 'warning', 'error', 'info'].includes(value),
   },
   title: {
     type: String,
-    default: '确认操作'
+    default: '确认操作',
   },
   content: {
     type: String,
-    default: '您确定要执行此操作吗？'
+    default: '您确定要执行此操作吗？',
   },
   confirmLoading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   confirmText: {
     type: String,
-    default: '确认'
+    default: '确认',
   },
   cancelText: {
     type: String,
-    default: '取消'
+    default: '取消',
   },
   confirmColor: {
     type: String,
-    default: 'primary'
+    default: 'primary',
   },
   cancelColor: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
@@ -95,8 +96,9 @@ const typeConfig = computed(() => {
     success: { icon: 'mdi-check-circle', color: 'success' },
     warning: { icon: 'mdi-alert-circle', color: 'warning' },
     error: { icon: 'mdi-close-circle', color: 'error' },
-    info: { icon: 'mdi-information', color: 'info' }
+    info: { icon: 'mdi-information', color: 'info' },
   }
+  
   return configs[props.type] || configs.info
 })
 
@@ -106,7 +108,8 @@ const typeColor = computed(() => typeConfig.value.color)
 // 处理确认
 const handleConfirm = () => {
   emit('confirm')
-  emit('update:modelValue', false)
+
+  // emit('update:modelValue', false)
 }
 
 // 处理取消
