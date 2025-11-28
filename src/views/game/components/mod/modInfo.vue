@@ -6,11 +6,23 @@
     class="fcc"
   >
     <div style="display: flex; align-items: center; margin: 5px; width:320px">
-      <v-img
-        :src="props.mod.preview_url"
-        aspect-ratio="1"
-        style="width: 80px; height: 80px"
-      />
+      <div style="width: 80px; height: 80px">
+        <v-img
+            :src="props.mod.preview_url"
+            cover
+            rounded
+            aspect-ratio="1"
+        >
+          <template v-slot:placeholder>
+            <div class="d-flex align-center justify-center fill-height">
+              <v-progress-circular
+                  color="grey-lighten-4"
+                  indeterminate
+              ></v-progress-circular>
+            </div>
+          </template>
+        </v-img>
+      </div>
       <div style="width: 200px">
         <div class="fcc">
           <v-chip
@@ -63,18 +75,32 @@
                   <v-table class="custom-table">
                     <tbody>
                       <tr>
-                        <td rowspan="2">
+                        <td rowspan="2"  class="text-center">
                           <v-icon icon="ri-image-line" />
                         </td>
-                        <td rowspan="2">
-                          <v-img
-                            :src="props.mod.preview_url"
-                            aspect-ratio="1"
-                            style="width: 150px; height: 150px"
-                          />
+                        <td rowspan="2" class="text-center">
+                          <div class="fcc my-2" style="width: 100%; height: 150px">
+                            <div style="width: 150px; height: 150px">
+                              <v-img
+                                  :src="props.mod.preview_url"
+                                  cover
+                                  rounded
+                                  aspect-ratio="1"
+                              >
+                                <template v-slot:placeholder>
+                                  <div class="d-flex align-center justify-center fill-height">
+                                    <v-progress-circular
+                                        color="grey-lighten-4"
+                                        indeterminate
+                                    ></v-progress-circular>
+                                  </div>
+                                </template>
+                              </v-img>
+                            </div>
+                          </div>
                         </td>
-                        <td>ID</td>
-                        <td>
+                        <td class="text-center">ID</td>
+                        <td class="text-center">
                           <v-chip
                             color="info"
                             label
@@ -84,8 +110,8 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>{{ t('game.mod.download.modInfo.size') }}</td>
-                        <td>
+                        <td class="text-center">{{ t('game.mod.download.modInfo.size') }}</td>
+                        <td class="text-center">
                           <v-chip
                             color="info"
                             label
@@ -95,13 +121,13 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td class="text-center">
                           <v-icon
                             icon="ri-thumb-up-fill"
                             color="success"
                           />
                         </td>
-                        <td>
+                        <td class="text-center">
                           <v-chip
                             color="success"
                             label
@@ -109,13 +135,13 @@
                             {{ props.mod.vote_data.votes_up }}
                           </v-chip>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <v-icon
                             icon="ri-thumb-down-fill"
                             color="error"
                           />
                         </td>
-                        <td>
+                        <td class="text-center">
                           <v-chip
                             color="error"
                             label
@@ -125,13 +151,13 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td class="text-center">
                           <v-icon
                             icon="ri-star-fill"
                             color="warning"
                           />
                         </td>
-                        <td colspan="3">
+                        <td colspan="3" class="text-center">
                           <precise-rating
                             :value="computedRate"
                             :length="5"
