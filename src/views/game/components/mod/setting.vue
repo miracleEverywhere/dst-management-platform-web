@@ -55,12 +55,23 @@
                 <div class="w-33">
                   <v-img
                     v-if="mod.id!==0"
+                    cover
+                    rounded
                     :width="100"
                     :height="100"
                     aspect-ratio="1/1"
                     :src="mod.preview_url"
                     class="ma-2"
-                  />
+                  >
+                    <template v-slot:placeholder>
+                      <div class="d-flex align-center justify-center fill-height">
+                        <v-progress-circular
+                            color="grey-lighten-4"
+                            indeterminate
+                        ></v-progress-circular>
+                      </div>
+                    </template>
+                  </v-img>
                   <v-img
                     v-else
                     :width="100"
