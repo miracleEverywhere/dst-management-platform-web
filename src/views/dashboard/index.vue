@@ -10,19 +10,19 @@
             cols="12"
             md="6"
           >
-            <v-card>
+            <v-card ref="card1Ref">
               <v-card-title>
                 {{ t('dashboard.card1.title') }}
               </v-card-title>
               <v-card-text class="my-4">
                 <v-row>
-                  <v-col cols="12">
+                  <v-col cols="12" md="6">
                     <v-chip
                       label
                       color="info"
                       class="mr-2"
                     >
-                      房间名
+                      房间名称
                     </v-chip>
                     <v-btn
                       v-copy="baseInfo.room.gameName"
@@ -30,84 +30,98 @@
                       append-icon="ri-file-copy-line"
                       class="text-none"
                     >
-                      {{ truncateString(baseInfo.room.gameName, mobile?10:20) }}
+                      {{ truncateString(baseInfo.room.gameName, mobile?(card1Width-200)/15:(card1Width-400)/30) }}
                     </v-btn>
                   </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <v-chip
-                      label
-                      color="info"
-                      class="mr-4"
-                    >
-                      天数
-                    </v-chip>
-                    <v-chip>{{ baseInfo.session.cycles }}</v-chip>
-                  </v-col>
-                  <v-col cols="6">
-                    <v-chip
-                      label
-                      color="info"
-                      class="mr-2"
+                        label
+                        color="info"
+                        class="mr-2"
                     >
                       直连代码
                     </v-chip>
                     <v-btn
-                      variant="text"
-                      icon="ri-file-copy-line"
+                        variant="text"
+                        icon="ri-file-copy-line"
                     />
                     <v-btn
-                      variant="text"
-                      color="default"
+                        variant="text"
+                        color="default"
                     >
                       自定义
                     </v-btn>
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <v-chip
                       label
                       color="info"
                       class="mr-4"
                     >
-                      季节
+                      游戏天数
                     </v-chip>
-                    <v-chip>
-                      {{ t(`dashboard.card1.season.${baseInfo.session.season}`) }}({{ baseInfo.session.elapsedDays }}/{{ baseInfo.session.seasonLength[baseInfo.session.season] }})
-                    </v-chip>
+                    <v-chip v-if="baseInfo.session.cycles!==-1">{{ baseInfo.session.cycles }}</v-chip>
+                    <v-chip v-else color="error">{{ t('dashboard.card1.error') }}</v-chip>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <v-chip
-                      label
-                      color="info"
-                      class="mr-4"
+                        label
+                        color="info"
+                        class="mr-4"
                     >
-                      阶段
+                      游戏模式
                     </v-chip>
-                    <v-chip>
-                      {{ t(`dashboard.card1.phase.${baseInfo.session.phase}`) }}
-                    </v-chip>
+                    <v-chip>{{t(`game.base.step1.gameMode.modes.${baseInfo.room.gameMode}`)}}</v-chip>
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <v-chip
                       label
                       color="info"
                       class="mr-4"
                     >
-                      模组
+                      游戏季节
                     </v-chip>
+                    <v-chip v-if="baseInfo.session.season!=='error'">
+                      {{ t(`dashboard.card1.season.${baseInfo.session.season}`) }}({{ baseInfo.session.elapsedDays }}/{{ baseInfo.session.seasonLength[baseInfo.session.season] }})
+                    </v-chip>
+                    <v-chip v-else color="error">{{ t('dashboard.card1.error') }}</v-chip>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <v-chip
                       label
                       color="info"
                       class="mr-4"
                     >
-                      玩家
+                      游戏阶段
+                    </v-chip>
+                    <v-chip v-if="baseInfo.session.phase!=='error'">
+                      {{ t(`dashboard.card1.phase.${baseInfo.session.phase}`) }}
+                    </v-chip>
+                    <v-chip v-else color="error">{{ t('dashboard.card1.error') }}</v-chip>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" md="6">
+                    <v-chip
+                      label
+                      color="info"
+                      class="mr-4"
+                    >
+                      游戏模组
+                    </v-chip>
+                    <v-chip @click="console.log(1)">{{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}</v-chip>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-chip
+                      label
+                      color="info"
+                      class="mr-4"
+                    >
+                      游戏玩家
                     </v-chip>
                   </v-col>
                 </v-row>
@@ -391,7 +405,7 @@
 </template>
 
 <script setup>
-import { debounce, truncateString } from "@/utils/tools.js"
+import {debounce, parseModLua, truncateString} from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -407,6 +421,10 @@ const { mobile } = useDisplay()
 const { t } = useI18n()
 
 const baseInfo = ref()
+
+const card1Ref = ref()
+
+const card1Width = ref(0)
 
 const getBaseInfo = async () => {
   if (globalStore.room.id === 0) {
@@ -471,6 +489,9 @@ const handleGameExec = (params, isActive=false) => {
 
 const handleResize = debounce(() => {
   windowHeight.value = window.innerHeight
+  if (card1Ref.value) {
+    card1Width.value = card1Ref.value.$el.offsetWidth
+  }
 }, 200)
 
 const calculateContainerSize = () => {
@@ -485,6 +506,7 @@ const dataGot = ref(false)
 onMounted(async () => {
   await Promise.all([getBaseInfo()])
   dataGot.value = true
+  handleResize()
 
   // 添加事件监听
   window.addEventListener('resize', handleResize)
@@ -494,6 +516,3 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
-
-
-
