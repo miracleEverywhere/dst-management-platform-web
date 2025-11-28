@@ -3,7 +3,7 @@
     :hover="true"
     variant="flat"
     height="135"
-    class="fcc"
+    class="fcc cursor-auto"
   >
     <div style="display: flex; align-items: center; margin: 5px; width:320px">
       <div style="width: 80px; height: 80px">
