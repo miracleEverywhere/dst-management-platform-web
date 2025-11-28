@@ -394,7 +394,7 @@ export default {
             name: 'Game Start Type',
             '32-bit': '32 Bit',
             '64-bit': '64 Bit',
-            tip: 'A 64-bit dedicated server processes data faster but consumes more memory. LuaJit is for BRO',
+            tip: 'A 64-bit dedicated server processes data faster but consumes more memory. LuaJIT is for PRO',
           },
         },
       },

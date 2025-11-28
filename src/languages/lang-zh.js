@@ -50,6 +50,13 @@ export default {
     install: '游戏安装',
     tools: '平台工具',
     toolsBackup: '备份管理',
+    logs: '日志管理',
+    logsGame: '游戏日志',
+    logsChat: '聊天日志',
+    logsSteam: 'Steam日志',
+    logsAccess: '请求日志',
+    logsRuntime: '运行日志',
+    logsClean: '日志清理',
     platform: '平台管理',
   },
   login: {
@@ -394,7 +401,7 @@ export default {
             name: '启动类型',
             '32-bit': '32位',
             '64-bit': '64位',
-            tip: '游戏的启动类型，默认32位，64位专用服务器处理数据更快，但会带来更多的内存消耗，LuaJit留给大佬',
+            tip: '游戏的启动类型，默认32位，64位专用服务器处理数据更快，但会带来更多的内存消耗，LuaJIT留给大佬',
           },
         },
       },
@@ -566,12 +573,13 @@ export default {
   dashboard: {
     card1: {
       title: '房间概览',
-      error: '💢获取失败',
+      error: '获取失败',
       season: {
         summer: '🔥夏',
         autumn: '🍁秋',
         spring: '🌱春',
         winter: '❄️冬',
+
       },
       phase: {
         night: '夜晚',
@@ -612,8 +620,8 @@ export default {
         },
       },
       reset: {
-        title: '重置游戏',
-        tip: '重置游戏，给你一个秋0',
+        title: '重置世界',
+        tip: '重置世界，给你一个秋0',
         forced: {
           title: '强制重置',
           tip: '强制重置会删除存档数据并重启游戏；注意：如果是多台云服合并开服，此功能无法重置所有的世界，需多台云服同时执行强制重置操作',
