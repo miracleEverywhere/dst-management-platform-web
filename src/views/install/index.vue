@@ -250,6 +250,10 @@ const customCommand = ref('')
 const globalStore = useGlobalStore()
 const { t } = useI18n()
 
+// 添加状态跟踪
+const terminalInitialized = ref(false)
+const fitAddonLoaded = ref(false)
+
 const theme = computed(() => globalStore.theme)
 
 const installing = ref(false)
@@ -274,27 +278,22 @@ const getOSInfo = () => {
 const rating = computed(() => {
   let r = 5
 
-  // 小于4核
   if (osInfo.value.CPUCores < 4) {
     r--
   }
 
-  // 小于2核
   if (osInfo.value.CPUCores < 2) {
     r--
   }
 
-  // 小于8G
   if (osInfo.value.MemorySize < 1750000000 * 4) {
     r--
   }
 
-  // 小于4G
   if (osInfo.value.MemorySize < 1750000000 * 2) {
     r--
   }
 
-  // 小于2G
   if (osInfo.value.MemorySize < 1750000000) {
     r--
   }
@@ -326,14 +325,17 @@ const windowHeight = ref(window.innerHeight)
 
 // 初始化终端
 const initTerminal = async () => {
+  // 先清理现有的终端实例
+  cleanupTerminal()
+
   term.value = new Terminal({
     cursorBlink: true,
     fontSize: 15,
     theme: {
       background: theme.value === 'dark' ? '#1e1e1e' : '#ffffff',
       foreground: theme.value === 'dark' ? '#ffffff' : '#1e1e1e',
-      cursor: theme.value === 'dark' ? '#ffffff' : '#000000', // 根据主题设置光标颜色
-      cursorAccent: theme.value === 'dark' ? '#1e1e1e' : '#ffffff', // 光标聚焦色
+      cursor: theme.value === 'dark' ? '#ffffff' : '#000000',
+      cursorAccent: theme.value === 'dark' ? '#1e1e1e' : '#ffffff',
     },
     cols: 120,
     rows: 30,
@@ -346,11 +348,30 @@ const initTerminal = async () => {
   })
 
   fitAddon.value = new FitAddon()
-  term.value.loadAddon(fitAddon.value)
+
+  try {
+    term.value.loadAddon(fitAddon.value)
+    fitAddonLoaded.value = true
+  } catch (error) {
+    console.error('Failed to load fit addon:', error)
+    fitAddonLoaded.value = false
+  }
 
   await nextTick()
-  term.value.open(terminalEl.value)
-  fitAddon.value.fit()
+
+  if (terminalEl.value) {
+    term.value.open(terminalEl.value)
+
+    if (fitAddonLoaded.value) {
+      try {
+        fitAddon.value.fit()
+      } catch (error) {
+        console.warn('Fit addon fit failed:', error)
+      }
+    }
+
+    terminalInitialized.value = true
+  }
 
   // 添加窗口大小调整监听
   window.addEventListener('resize', handleResize)
@@ -359,16 +380,18 @@ const initTerminal = async () => {
 // 处理窗口大小调整
 const handleResize = () => {
   windowHeight.value = window.innerHeight
-  if (fitAddon.value) {
-    fitAddon.value.fit()
-    sendResizeMessage()
+  if (fitAddonLoaded.value && fitAddon.value) {
+    try {
+      fitAddon.value.fit()
+      sendResizeMessage()
+    } catch (error) {
+      console.warn('Resize fit failed:', error)
+    }
   }
 }
 
 const calculateContainerSize = () => {
-  // 64(navbar) + 72(step header) + 54(step action) + 24(card margins) = 304
   const other = 120
-
   return Math.max(2, Math.floor(windowHeight.value - other))
 }
 
@@ -389,25 +412,18 @@ const sendResizeMessage = () => {
 const sendCommand = command => {
   if (!ws.value || ws.value.readyState !== WebSocket.OPEN) {
     console.error('WebSocket未连接')
-    
     return
   }
 
-  // 在命令末尾添加回车符来执行
   const commandToSend = command + '\r'
-
-  // 发送命令到WebSocket
   ws.value.send(commandToSend)
-
-  // 可选：在终端界面上也显示输入的命令（视觉反馈）
-  // term.value.write(`\r\n$ ${command}\r\n`)
 }
 
 // 执行自定义命令
 const executeCustomCommand = () => {
   if (customCommand.value.trim()) {
     sendCommand(customCommand.value.trim())
-    customCommand.value = '' // 清空输入框
+    customCommand.value = ''
   }
 }
 
@@ -422,14 +438,17 @@ const connectWebSocket = () => {
   ws.value.onopen = () => {
     connected.value = true
     sendResizeMessage()
-    term.value.focus()
-    term.value.write('\r\n\x1b[0m') // 重置终端样式
+    if (term.value) {
+      term.value.focus()
+      term.value.write('\r\n\x1b[0m')
+    }
   }
 
   ws.value.onmessage = event => {
+    if (!term.value) return
+
     if (event.data instanceof Blob) {
       const reader = new FileReader()
-
       reader.onload = () => {
         term.value.write(reader.result)
       }
@@ -441,6 +460,8 @@ const connectWebSocket = () => {
 
   ws.value.onclose = event => {
     connected.value = false
+    if (!term.value) return
+
     if (!event.wasClean) {
       term.value.write('\r\n\x1b[31m连接异常关闭，5秒后尝试重新连接...\x1b[0m\r\n')
       setTimeout(reconnect, 5000)
@@ -455,17 +476,19 @@ const connectWebSocket = () => {
   }
 
   // 终端输入处理
-  term.value.onData(data => {
-    if (ws.value && ws.value.readyState === WebSocket.OPEN) {
-      ws.value.send(data)
-    }
-  })
+  if (term.value) {
+    term.value.onData(data => {
+      if (ws.value && ws.value.readyState === WebSocket.OPEN) {
+        ws.value.send(data)
+      }
+    })
 
-  term.value.onBinary(data => {
-    if (ws.value && ws.value.readyState === WebSocket.OPEN) {
-      ws.value.send(data)
-    }
-  })
+    term.value.onBinary(data => {
+      if (ws.value && ws.value.readyState === WebSocket.OPEN) {
+        ws.value.send(data)
+      }
+    })
+  }
 }
 
 // 重新连接
@@ -476,14 +499,31 @@ const reconnect = () => {
   }, 1000)
 }
 
-// 清理资源
+// 清理终端资源
+const cleanupTerminal = () => {
+  if (term.value) {
+    try {
+      // 先移除所有事件监听器
+      term.value.dispose()
+    } catch (error) {
+      console.warn('Error disposing terminal:', error)
+    }
+    term.value = null
+  }
+
+  fitAddon.value = null
+  fitAddonLoaded.value = false
+  terminalInitialized.value = false
+}
+
+// 清理所有资源
 const cleanup = () => {
   if (ws.value) {
     ws.value.close()
+    ws.value = null
   }
-  if (term.value) {
-    term.value.dispose()
-  }
+
+  cleanupTerminal()
   window.removeEventListener('resize', handleResize)
 }
 
@@ -494,7 +534,6 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
   cleanup()
 })
 </script>
