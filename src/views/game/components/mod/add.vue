@@ -104,10 +104,23 @@
 
           <template #item.preview_url="{ value }">
             <v-img
-              :width="100"
-              :src="value"
-              class="ma-2"
-            />
+                :src="value"
+                :width="100"
+                cover
+                rounded
+                aspect-ratio="1"
+                class="ma-2"
+            >
+              <template v-slot:placeholder>
+                <div class="d-flex align-center justify-center fill-height">
+                  <v-progress-circular
+                      color="grey-lighten-4"
+                      indeterminate
+                  ></v-progress-circular>
+                </div>
+              </template>
+            </v-img>
+
           </template>
           <template #item.name="{ value }">
             <v-chip
@@ -275,9 +288,13 @@ const modUpdate = mod => {
     roomID: globalStore.room.id,
     id: mod.id,
     file_url: mod.file_url,
+    update: true,
   }
 
-  modApi.download.post(reqFrom).finally(() => {
+  modApi.download.post(reqFrom).then(response => {
+    showSnackbar(response.message)
+    getDownloadedMods()
+  }).finally(() => {
     modUpdateLoading.value = false
   })
 }
