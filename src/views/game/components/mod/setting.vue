@@ -108,7 +108,7 @@
             <result
               type="info"
               :title="t('game.mod.setting.tip.noEnabledMods')"
-              :height="props.height"
+              :height="props.height-48"
             />
           </v-container>
         </v-card-text>
