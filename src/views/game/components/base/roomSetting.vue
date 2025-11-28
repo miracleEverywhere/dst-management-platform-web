@@ -401,7 +401,7 @@
             value="64-bit"
           />
           <v-radio
-            label="LuaJit"
+            label="LuaJIT"
             value="luajit"
           />
         </v-radio-group>
