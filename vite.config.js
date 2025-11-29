@@ -20,9 +20,7 @@ export default defineConfig({
 
     // Vuetify 插件应该在 vue() 之后立即加载
     vuetify({
-      autoImport: {
-        labs: true,
-      },
+      autoImport: true,
       styles: {
         configFile: 'src/assets/styles/variables/_vuetify.scss',
       },
