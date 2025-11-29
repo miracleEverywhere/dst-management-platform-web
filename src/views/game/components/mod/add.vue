@@ -145,14 +145,20 @@
           </template>
           <template #item.update="{ item }">
             <v-chip
-              v-if="item.serverSize===item.localSize"
+                v-if="item.file_url!==''"
+                label
+            >
+              {{ t('game.mod.add.notUGC') }}
+            </v-chip>
+            <v-chip
+              v-if="item.file_url===''&&item.serverSize===item.localSize"
               label
               color="success"
             >
               {{ t('game.mod.add.needNoUpdate') }}
             </v-chip>
             <v-chip
-              v-if="item.serverSize!==item.localSize"
+              v-if="item.file_url===''&&item.serverSize!==item.localSize"
               label
               color="error"
             >
