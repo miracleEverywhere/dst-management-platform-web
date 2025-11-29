@@ -432,6 +432,7 @@ export default {
         name: '名称',
         size: '大小',
         update: '模组版本',
+        notUGC: '非UGC模组',
         needUpdate: '需要更新',
         needNoUpdate: '最新版本',
         actions: '操作',

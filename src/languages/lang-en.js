@@ -425,6 +425,7 @@ export default {
         name: 'Name',
         size: 'Size',
         update: 'Update',
+        notUGC: 'NOT UGC',
         needUpdate: 'Latest Version',
         needNoUpdate: 'Need Update',
         actions: 'Actions',
