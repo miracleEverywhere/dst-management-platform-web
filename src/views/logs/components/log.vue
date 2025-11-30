@@ -1,10 +1,5 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <MdPreview :modelValue="'```text ::open'+'\n'+props.content" :theme="editorTheme" previewTheme="github" class="mdp"/>
-    </v-card-text>
-  </v-card>
-
+  <MdPreview :modelValue="'```text ::open'+'\n'+props.content" :theme="editorTheme" previewTheme="github" class="mdp" :style="{'overflow-y': 'auto','height':props.height+'px'}"/>
 </template>
 
 <script setup>
@@ -18,6 +13,10 @@ const props = defineProps({
   content: {
     type: String,
     default: "",
+  },
+  height: {
+    type: Number,
+    default: 800,
   },
 })
 
