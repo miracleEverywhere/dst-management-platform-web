@@ -1,12 +1,18 @@
 <template>
-  <MdPreview :modelValue="'```text ::open'+'\n'+props.content" :theme="editorTheme" previewTheme="github" class="mdp" :style="{'overflow-y': 'auto','height':props.height+'px'}"/>
+  <md-preview
+    :model-value="'```text ::open'+'\n'+props.content"
+    :theme="editorTheme"
+    preview-theme="github"
+    class="mdp"
+    :style="{'overflow-y': 'auto','height':props.height+'px'}"
+  />
 </template>
 
 <script setup>
-import {MdPreview} from 'md-editor-v3';
-import 'md-editor-v3/lib/preview.css';
-import useGlobalStore from "@/plugins/store/global.js";
-import logsApi from "@/api/logs.js";
+import { MdPreview } from 'md-editor-v3'
+import 'md-editor-v3/lib/preview.css'
+import useGlobalStore from "@store/global.js"
+import logsApi from "@/api/logs.js"
 
 
 const props = defineProps({

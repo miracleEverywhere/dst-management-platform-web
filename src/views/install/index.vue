@@ -392,6 +392,7 @@ const handleResize = () => {
 
 const calculateContainerSize = () => {
   const other = 120
+  
   return Math.max(2, Math.floor(windowHeight.value - other))
 }
 
@@ -412,10 +413,12 @@ const sendResizeMessage = () => {
 const sendCommand = command => {
   if (!ws.value || ws.value.readyState !== WebSocket.OPEN) {
     console.error('WebSocket未连接')
+    
     return
   }
 
   const commandToSend = command + '\r'
+
   ws.value.send(commandToSend)
 }
 
@@ -449,6 +452,7 @@ const connectWebSocket = () => {
 
     if (event.data instanceof Blob) {
       const reader = new FileReader()
+
       reader.onload = () => {
         term.value.write(reader.result)
       }

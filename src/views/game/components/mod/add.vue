@@ -104,23 +104,22 @@
 
           <template #item.preview_url="{ value }">
             <v-img
-                :src="value"
-                :width="100"
-                cover
-                rounded
-                aspect-ratio="1"
-                class="ma-2"
+              :src="value"
+              :width="100"
+              cover
+              rounded
+              aspect-ratio="1"
+              class="ma-2"
             >
-              <template v-slot:placeholder>
+              <template #placeholder>
                 <div class="d-flex align-center justify-center fill-height">
                   <v-progress-circular
-                      color="grey-lighten-4"
-                      indeterminate
-                  ></v-progress-circular>
+                    color="grey-lighten-4"
+                    indeterminate
+                  />
                 </div>
               </template>
             </v-img>
-
           </template>
           <template #item.name="{ value }">
             <v-chip
@@ -145,8 +144,8 @@
           </template>
           <template #item.update="{ item }">
             <v-chip
-                v-if="item.file_url!==''"
-                label
+              v-if="item.file_url!==''"
+              label
             >
               {{ t('game.mod.add.notUGC') }}
             </v-chip>

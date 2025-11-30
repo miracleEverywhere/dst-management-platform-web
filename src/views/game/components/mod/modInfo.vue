@@ -8,17 +8,17 @@
     <div style="display: flex; align-items: center; margin: 5px; width:320px">
       <div style="width: 80px; height: 80px">
         <v-img
-            :src="props.mod.preview_url"
-            cover
-            rounded
-            aspect-ratio="1"
+          :src="props.mod.preview_url"
+          cover
+          rounded
+          aspect-ratio="1"
         >
-          <template v-slot:placeholder>
+          <template #placeholder>
             <div class="d-flex align-center justify-center fill-height">
               <v-progress-circular
-                  color="grey-lighten-4"
-                  indeterminate
-              ></v-progress-circular>
+                color="grey-lighten-4"
+                indeterminate
+              />
             </div>
           </template>
         </v-img>
@@ -75,31 +75,42 @@
                   <v-table class="custom-table">
                     <tbody>
                       <tr>
-                        <td rowspan="2"  class="text-center">
+                        <td
+                          rowspan="2"
+                          class="text-center"
+                        >
                           <v-icon icon="ri-image-line" />
                         </td>
-                        <td rowspan="2" class="text-center">
-                          <div class="fcc my-2" style="width: 100%; height: 150px">
+                        <td
+                          rowspan="2"
+                          class="text-center"
+                        >
+                          <div
+                            class="fcc my-2"
+                            style="width: 100%; height: 150px"
+                          >
                             <div style="width: 150px; height: 150px">
                               <v-img
-                                  :src="props.mod.preview_url"
-                                  cover
-                                  rounded
-                                  aspect-ratio="1"
+                                :src="props.mod.preview_url"
+                                cover
+                                rounded
+                                aspect-ratio="1"
                               >
-                                <template v-slot:placeholder>
+                                <template #placeholder>
                                   <div class="d-flex align-center justify-center fill-height">
                                     <v-progress-circular
-                                        color="grey-lighten-4"
-                                        indeterminate
-                                    ></v-progress-circular>
+                                      color="grey-lighten-4"
+                                      indeterminate
+                                    />
                                   </div>
                                 </template>
                               </v-img>
                             </div>
                           </div>
                         </td>
-                        <td class="text-center">ID</td>
+                        <td class="text-center">
+                          ID
+                        </td>
                         <td class="text-center">
                           <v-chip
                             color="info"
@@ -110,7 +121,9 @@
                         </td>
                       </tr>
                       <tr>
-                        <td class="text-center">{{ t('game.mod.download.modInfo.size') }}</td>
+                        <td class="text-center">
+                          {{ t('game.mod.download.modInfo.size') }}
+                        </td>
                         <td class="text-center">
                           <v-chip
                             color="info"
@@ -157,7 +170,10 @@
                             color="warning"
                           />
                         </td>
-                        <td colspan="3" class="text-center">
+                        <td
+                          colspan="3"
+                          class="text-center"
+                        >
                           <precise-rating
                             :value="computedRate"
                             :length="5"

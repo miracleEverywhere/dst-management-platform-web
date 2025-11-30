@@ -63,12 +63,12 @@
                     :src="mod.preview_url"
                     class="ma-2"
                   >
-                    <template v-slot:placeholder>
+                    <template #placeholder>
                       <div class="d-flex align-center justify-center fill-height">
                         <v-progress-circular
-                            color="grey-lighten-4"
-                            indeterminate
-                        ></v-progress-circular>
+                          color="grey-lighten-4"
+                          indeterminate
+                        />
                       </div>
                     </template>
                   </v-img>
