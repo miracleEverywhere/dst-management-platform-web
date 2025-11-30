@@ -34,4 +34,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  worlds: {
+    url: `/room/worlds`,
+    get: async function(data){
+      return await http.get(this.url, data)
+    },
+  },
 }
