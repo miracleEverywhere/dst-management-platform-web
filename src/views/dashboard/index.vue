@@ -10,11 +10,14 @@
             cols="12"
             md="6"
           >
-            <v-card ref="card1Ref">
+            <v-card
+              ref="card1Ref"
+              min-height="350"
+            >
               <v-card-title>
                 {{ t('dashboard.card1.title') }}
               </v-card-title>
-              <v-card-text class="my-4">
+              <v-card-text class="mt-8 mb-4">
                 <v-row>
                   <v-col
                     cols="12"
@@ -166,6 +169,9 @@
                     >
                       游戏玩家
                     </v-chip>
+                    <v-chip v-tooltip:="baseInfo.players.map(user => user.nickname).join(', ')">
+                      ({{ baseInfo.players?.length || 0 }}/{{ baseInfo.room.maxPlayer }})
+                    </v-chip>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -175,16 +181,83 @@
             cols="12"
             md="6"
           >
-            <v-card>
+            <v-card min-height="350">
               <v-card-title>
                 {{ t('dashboard.card2.title') }}
               </v-card-title>
               <v-card-text>
-                <v-row>
+                <v-row class="mt-4">
                   <v-col
                     cols="12"
-                    md="6"
-                  />
+                    md="5"
+                  >
+                    <div>
+                      <div class="fcc">
+                        <v-icon icon="ri-cpu-line" />
+                        <span class="mr-2 ml-1">CPU</span>
+                        <v-progress-linear
+                          :model-value="sysInfo.cpu"
+                          rounded
+                          height="8"
+                          :indeterminate="sysInfo.cpu===0"
+                          rounded-bar
+                          color="grey-lighten-2"
+                          class="w-33 ml-2"
+                        />
+                        <span class="ml-2">{{ sysInfo.cpu.toFixed(1) }}%</span>
+                      </div>
+                      <v-sparkline
+                        :width="(card1Width/12)*5"
+                        :height="350-44-22.5-72"
+                        :gradient="gradients"
+                        gradient-direction="top"
+                        line-width="2"
+                        :model-value="cpuList"
+                        padding="8"
+                        smooth
+                        stroke-linecap="round"
+                        type="trend"
+                        auto-draw
+                        class="mt-4"
+                      />
+                    </div>
+                  </v-col>
+                  <v-spacer v-if="!mobile" />
+                  <v-col
+                    cols="12"
+                    md="5"
+                  >
+                    <div>
+                      <div class="d-flex align-center justify-center">
+                        <v-icon icon="ri-ram-2-line" />
+                        <span class="mr-2 ml-1">内存</span>
+                        <v-progress-linear
+                          :model-value="sysInfo.memory"
+                          rounded
+                          height="8"
+                          :indeterminate="sysInfo.memory===0"
+                          rounded-bar
+                          color="grey-lighten-2"
+                          class="w-33 ml-2"
+                        />
+                        <span class="ml-2">{{ sysInfo.memory.toFixed(1) }}%</span>
+                      </div>
+                      <v-sparkline
+                        :width="(card1Width/12)*5"
+                        :height="350-44-22.5-72"
+                        :gradient="gradients"
+                        gradient-direction="top"
+                        line-width="2"
+                        :model-value="memoryList"
+                        padding="8"
+                        smooth
+                        stroke-linecap="round"
+                        type="trend"
+                        auto-draw
+                        class="mt-4"
+                      />
+                    </div>
+                  </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
@@ -195,7 +268,7 @@
             cols="12"
             md="6"
           >
-            <v-card>
+            <v-card min-height="260">
               <v-card-title>
                 {{ t('dashboard.card3.title') }}
               </v-card-title>
@@ -360,16 +433,50 @@
             cols="12"
             md="6"
           >
-            <v-card>
+            <v-card min-height="260">
               <v-card-title>
                 {{ t('dashboard.card4.title') }}
               </v-card-title>
               <v-card-text>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="6"
-                  />
+                <v-row class="mt-8">
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="announceMsg"
+                      append-inner-icon="ri-send-plane-fill"
+                      class="w-100"
+
+                      label="公告内容"
+                      clearable
+                      @click:append-inner="handleGameExec({type:'announce',extra:announceMsg})"
+                    />
+                  </v-col>
+                </v-row>
+
+                <v-row
+                  no-gutters
+                  class="my-8"
+                >
+                  <v-col cols="3">
+                    <v-select
+                      v-model="consoleForm.selectedWorldID"
+                      density="compact"
+                      label="世界"
+                      class="mr-1"
+                      item-title="worldName"
+                      item-value="id"
+                      :items="consoleForm.worlds"
+                    />
+                  </v-col>
+                  <v-col class="ml-2">
+                    <v-text-field
+                      v-model="consoleForm.cmd"
+                      density="compact"
+                      append-inner-icon="ri-send-plane-fill"
+                      label="命令内容"
+                      clearable
+                      @click:append-inner="handleGameExec({type:'console',extra:consoleForm.cmd,worldID:consoleForm.selectedWorldID})"
+                    />
+                  </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
@@ -381,11 +488,9 @@
               <v-card-title>
                 {{ t('dashboard.card5.title') }}
               </v-card-title>
-              <v-card-text>
+              <v-card-text class="my-8">
                 <v-row>
-                  <v-col
-                    cols="12"
-                  >
+                  <v-col cols="12">
                     <v-sheet
                       rounded
                       border
@@ -411,23 +516,17 @@
                           </v-chip>
                         </template>
                         <template #item.cpu="{ item }">
-                          <v-chip
-                            label
-                          >
+                          <v-chip label>
                             {{ item.performanceStatus.cpu.toFixed(2) }}%
                           </v-chip>
                         </template>
                         <template #item.mem="{ item }">
-                          <v-chip
-                            label
-                          >
-                            {{ item.performanceStatus.mem.toFixed(2) }}% ({{ item.performanceStatus.memSize }}MB)
+                          <v-chip label>
+                            {{ item.performanceStatus.mem.toFixed(2) }}% ({{ item.performanceStatus.memSize }} MB)
                           </v-chip>
                         </template>
                         <template #item.disk="{ item }">
-                          <v-chip
-                            label
-                          >
+                          <v-chip label>
                             {{ formatBytes(item.performanceStatus.disk) }}
                           </v-chip>
                         </template>
@@ -438,7 +537,7 @@
                             color="success"
                             hide-details
                             @change="item.status?handleGameExec({type:'startup',worldID:item.id}):handleGameExec({type:'shutdown',worldID:item.id})"
-                          ></v-switch>
+                          />
                         </template>
                       </v-data-table>
                     </v-sheet>
@@ -499,7 +598,7 @@
 </template>
 
 <script setup>
-import {debounce, formatBytes, parseModLua, truncateString} from "@/utils/tools.js"
+import { debounce, formatBytes, parseModLua, truncateString } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -534,6 +633,29 @@ const getBaseInfo = async () => {
   baseInfo.value = response.data
 }
 
+const sysInfo = ref()
+const gradients = ['#f72047', '#ffd200', '#1feaea']
+
+const cpuList = ref(Array(30).fill(0))
+const memoryList = ref(Array(30).fill(0))
+
+const getSysInfo = async () => {
+  const response = await dashboardApi.info.sys.get()
+  if (!response.data) return
+
+  const cpu = Number(response.data.cpu) || 0
+  const memory = Number(response.data.memory) || 0
+
+  sysInfo.value = {
+    ...response.data,
+    cpu,
+    memory,
+  }
+
+  cpuList.value = [...cpuList.value.slice(1), cpu]
+  memoryList.value = [...memoryList.value.slice(1), memory]
+}
+
 const confirmBoxVisible = ref({
   startup: {
     visible: false,
@@ -558,14 +680,16 @@ const confirmBoxVisible = ref({
 })
 
 const worldHeaders = [
-  {title: '名称', value: 'worldName'},
-  {title: '主节点', value: 'isMaster'},
-  {title: 'CPU', value: 'cpu'},
-  {title: '内存', value: 'mem'},
-  {title: '磁盘', value: 'disk'},
-  {title: '状态', value: 'status'},
+  { title: '名称', value: 'worldName' },
+  { title: '主节点', value: 'isMaster' },
+  { title: 'CPU', value: 'cpu' },
+  { title: '内存', value: 'mem' },
+  { title: '磁盘', value: 'disk' },
+  { title: '状态', value: 'status' },
 ]
+
 const worldStatusLoading = ref(false)
+
 const handleGameExec = (params, isActive=false) => {
   const reqForm = {
     type: params.type,
@@ -573,6 +697,7 @@ const handleGameExec = (params, isActive=false) => {
     worldID: params.worldID,
     extra: params.extra,
   }
+
   worldStatusLoading.value = true
   Object.keys(confirmBoxVisible.value).forEach(key => {
     confirmBoxVisible.value[key].loading = true
@@ -592,18 +717,40 @@ const handleGameExec = (params, isActive=false) => {
   })
 }
 
-let intervalId = null
+const announceMsg = ref('')
 
-const startRequests = () => {
-  intervalId = setInterval(() => {
+const consoleForm = ref({
+  worlds: [],
+  selectedWorldID: undefined,
+  cmd: '',
+})
+
+let intervalBaseId = null
+let intervalSysId = null
+
+const startBaseRequests = () => {
+  intervalBaseId = setInterval(() => {
     getBaseInfo()
   }, 10000)
 }
 
-const cancelRequests = () => {
-  if (intervalId) {
-    clearInterval(intervalId)
-    intervalId = null
+const startSysRequests = () => {
+  intervalSysId = setInterval(() => {
+    getSysInfo()
+  }, 2000)
+}
+
+const cancelBaseRequests = () => {
+  if (intervalBaseId) {
+    clearInterval(intervalBaseId)
+    intervalBaseId = null
+  }
+}
+
+const cancelSysRequests = () => {
+  if (intervalSysId) {
+    clearInterval(intervalSysId)
+    intervalSysId = null
   }
 }
 
@@ -624,18 +771,22 @@ const calculateContainerSize = () => {
 const dataGot = ref(false)
 
 onMounted(async () => {
-  await Promise.all([getBaseInfo()])
+  await Promise.all([getBaseInfo(), getSysInfo()])
   dataGot.value = true
+  consoleForm.value.worlds = baseInfo.value?.worlds || []
   handleResize()
 
   // 添加事件监听
   window.addEventListener('resize', handleResize)
-  startRequests()
+  startBaseRequests()
+  startSysRequests()
 })
 
 onUnmounted(() => {
-  cancelRequests()
-  window.removeEventListener('beforeunload', cancelRequests)
+  cancelBaseRequests()
+  cancelSysRequests()
+  window.removeEventListener('beforeunload', cancelBaseRequests)
+  window.removeEventListener('beforeunload', cancelSysRequests)
   window.removeEventListener('resize', handleResize)
 })
 </script>
