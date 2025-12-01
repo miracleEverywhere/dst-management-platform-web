@@ -16,5 +16,11 @@ export default {
         return await http.get(this.url, data)
       },
     },
+    sys: {
+      url: `/dashboard/info/sys`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
   },
 }
