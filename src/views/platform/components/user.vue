@@ -33,7 +33,7 @@
                       icon="ri-id-card-line"
                       start
                     />
-                    {{ t('platform.user.table.title') }}
+                    <span v-if="!mobile">{{ t('platform.user.table.title') }}</span>
                   </v-toolbar-title>
                   <v-btn
                     prepend-icon="ri-add-line"
