@@ -385,12 +385,63 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    md="6"
                   >
-                    <v-chip label>
-                      房间名
-                    </v-chip>
-                    <span>{{ baseInfo.room.gameName }}</span>
+                    <v-sheet
+                      rounded
+                      border
+                    >
+                      <v-data-table
+                        :items="baseInfo.worlds"
+                        :headers="worldHeaders"
+                        hide-default-footer
+                      >
+                        <template #item.isMaster="{ value }">
+                          <v-chip
+                            v-if="value"
+                            color="info"
+                            label
+                          >
+                            是
+                          </v-chip>
+                          <v-chip
+                            v-else
+                            label
+                          >
+                            否
+                          </v-chip>
+                        </template>
+                        <template #item.cpu="{ item }">
+                          <v-chip
+                            label
+                          >
+                            {{ item.performanceStatus.cpu.toFixed(2) }}%
+                          </v-chip>
+                        </template>
+                        <template #item.mem="{ item }">
+                          <v-chip
+                            label
+                          >
+                            {{ item.performanceStatus.mem.toFixed(2) }}% ({{ item.performanceStatus.memSize }}MB)
+                          </v-chip>
+                        </template>
+                        <template #item.disk="{ item }">
+                          <v-chip
+                            label
+                          >
+                            {{ formatBytes(item.performanceStatus.disk) }}
+                          </v-chip>
+                        </template>
+                        <template #item.status="{ item }">
+                          <v-switch
+                            v-model="item.status"
+                            :loading="worldStatusLoading"
+                            color="success"
+                            hide-details
+                            @change="item.status?handleGameExec({type:'startup',worldID:item.id}):handleGameExec({type:'shutdown',worldID:item.id})"
+                          ></v-switch>
+                        </template>
+                      </v-data-table>
+                    </v-sheet>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -448,7 +499,7 @@
 </template>
 
 <script setup>
-import { debounce, parseModLua, truncateString } from "@/utils/tools.js"
+import {debounce, formatBytes, parseModLua, truncateString} from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -506,6 +557,15 @@ const confirmBoxVisible = ref({
   },
 })
 
+const worldHeaders = [
+  {title: '名称', value: 'worldName'},
+  {title: '主节点', value: 'isMaster'},
+  {title: 'CPU', value: 'cpu'},
+  {title: '内存', value: 'mem'},
+  {title: '磁盘', value: 'disk'},
+  {title: '状态', value: 'status'},
+]
+const worldStatusLoading = ref(false)
 const handleGameExec = (params, isActive=false) => {
   const reqForm = {
     type: params.type,
@@ -513,7 +573,7 @@ const handleGameExec = (params, isActive=false) => {
     worldID: params.worldID,
     extra: params.extra,
   }
-
+  worldStatusLoading.value = true
   Object.keys(confirmBoxVisible.value).forEach(key => {
     confirmBoxVisible.value[key].loading = true
   })
@@ -527,7 +587,24 @@ const handleGameExec = (params, isActive=false) => {
     Object.keys(confirmBoxVisible.value).forEach(key => {
       confirmBoxVisible.value[key].loading = false
     })
+    worldStatusLoading.value = false
+    getBaseInfo()
   })
+}
+
+let intervalId = null
+
+const startRequests = () => {
+  intervalId = setInterval(() => {
+    getBaseInfo()
+  }, 10000)
+}
+
+const cancelRequests = () => {
+  if (intervalId) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
 }
 
 const handleResize = debounce(() => {
@@ -553,9 +630,12 @@ onMounted(async () => {
 
   // 添加事件监听
   window.addEventListener('resize', handleResize)
+  startRequests()
 })
 
 onUnmounted(() => {
+  cancelRequests()
+  window.removeEventListener('beforeunload', cancelRequests)
   window.removeEventListener('resize', handleResize)
 })
 </script>
