@@ -4,7 +4,7 @@
     icon="ri-book-marked-line"
     color="default"
     variant="text"
-    href="https://miraclesses.top"
+    href="https://miraclesses.top/"
     target="_blank"
     rel="noopener noreferrer"
   />
