@@ -557,6 +557,7 @@ export default {
         actions: 'Actions',
         update: 'Update',
         delete: 'Delete',
+        unit: 'Room',
       },
       search: {
         label: 'Search',

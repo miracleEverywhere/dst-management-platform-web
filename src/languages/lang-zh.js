@@ -564,6 +564,7 @@ export default {
         actions: '操作',
         update: '修改',
         delete: '删除',
+        unit: '个房间',
       },
       search: {
         label: '搜索',
