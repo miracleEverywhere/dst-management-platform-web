@@ -502,10 +502,18 @@
                         :headers="worldHeaders"
                         hide-default-footer
                       >
+                        <template #item.worldName="{ value }">
+                          <v-chip
+                            color="primary"
+                            label
+                          >
+                           {{value}}
+                          </v-chip>
+                        </template>
                         <template #item.isMaster="{ value }">
                           <v-chip
                             v-if="value"
-                            color="info"
+                            color="success"
                             label
                           >
                             是
@@ -518,17 +526,17 @@
                           </v-chip>
                         </template>
                         <template #item.cpu="{ item }">
-                          <v-chip label>
+                          <v-chip label color="info">
                             {{ item.performanceStatus.cpu.toFixed(2) }}%
                           </v-chip>
                         </template>
                         <template #item.mem="{ item }">
-                          <v-chip label>
+                          <v-chip label color="info">
                             {{ item.performanceStatus.mem.toFixed(2) }}% ({{ item.performanceStatus.memSize }} MB)
                           </v-chip>
                         </template>
                         <template #item.disk="{ item }">
-                          <v-chip label>
+                          <v-chip label color="info">
                             {{ formatBytes(item.performanceStatus.disk) }}
                           </v-chip>
                         </template>
