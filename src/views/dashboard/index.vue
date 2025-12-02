@@ -211,7 +211,7 @@
                         :height="350-44-22.5-72"
                         :gradient="gradients"
                         gradient-direction="top"
-                        line-width="2"
+                        :line-width="3"
                         :model-value="cpuList"
                         padding="8"
                         smooth
@@ -247,7 +247,7 @@
                         :height="350-44-22.5-72"
                         :gradient="gradients"
                         gradient-direction="top"
-                        line-width="2"
+                        :line-width="3"
                         :model-value="memoryList"
                         padding="8"
                         smooth
@@ -444,10 +444,10 @@
                       v-model="announceMsg"
                       append-inner-icon="ri-send-plane-fill"
                       class="w-100"
-
                       label="公告内容"
                       clearable
                       @click:append-inner="handleGameExec({type:'announce',extra:announceMsg})"
+                      @keyup.enter="handleGameExec({type:'announce',extra:announceMsg})"
                     />
                   </v-col>
                 </v-row>
@@ -474,7 +474,9 @@
                       append-inner-icon="ri-send-plane-fill"
                       label="命令内容"
                       clearable
+                      :disabled="consoleForm.selectedWorldID===undefined"
                       @click:append-inner="handleGameExec({type:'console',extra:consoleForm.cmd,worldID:consoleForm.selectedWorldID})"
+                      @keyup.enter="handleGameExec({type:'console',extra:consoleForm.cmd,worldID:consoleForm.selectedWorldID})"
                     />
                   </v-col>
                 </v-row>
