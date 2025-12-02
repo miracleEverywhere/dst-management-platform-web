@@ -49,10 +49,11 @@
     <v-row class="mt-8">
       <v-row>
         <v-col
-          v-for="room in rooms"
+          v-for="(room, index) in rooms"
           :cols="mobile?12:6"
         >
           <v-card
+            :ref="el => { if (index === 0) cardRef = el }"
             :hover="true"
             variant="flat"
             :height="mobile?'600px':'300px'"
@@ -206,15 +207,16 @@
                   </v-col>
                   <v-col :cols="mobile?12:6">
                     <v-card
-                      class="mx-auto"
-                      color="surface-light"
+                      :height="240"
+                      variant="flat"
+
                     >
                       <template #prepend>
                         <v-icon
                           color="primary"
                           class="me-8"
                           icon="ri-line-chart-line"
-                          size="64"
+                          size="48"
                         />
                       </template>
                       <template #title>
@@ -224,7 +226,7 @@
                         <span class="text-h3 font-weight-black">
                           <count-to
                             :duration="4000"
-                            :end-val="Math.max(...[0,1,4,2,6,2,3,5,7,9,0,1,9])"
+                            :end-val="Math.max(...generatePlayerList(room.players))"
                             :start-val="0"
                           />
                         </span>
@@ -232,9 +234,10 @@
                       </template>
                       <v-sheet color="transparent">
                         <v-sparkline
-                          :gradient="['#f72047', '#ffd200', '#1feaea']"
+                          :width="mobile?cardWidth:(cardWidth/2)"
+                          :gradient="['#1feaea']"
                           :line-width="3"
-                          :model-value="[0,1,4,2,6,2,3,5,7,9,0,1,9]"
+                          :model-value="generatePlayerList(room.players)"
                           :smooth="true"
                           padding="8"
                           stroke-linecap="round"
@@ -321,30 +324,6 @@ import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
 
 
-onMounted(() => {
-  // 初始获取房间
-  getRooms()
-
-  // 计算初始pageSize
-  reqForm.value.pageSize = calculateCardSize()
-
-
-  // 防抖处理resize事件
-  const handleResize = debounce(() => {
-    windowHeight.value = window.innerHeight
-    reqForm.value.pageSize = calculateCardSize()
-  }, 200)
-
-
-  // 添加事件监听
-  window.addEventListener('resize', handleResize)
-
-  // 在组件卸载时移除监听
-  onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
-  })
-})
-
 const { mobile } = useDisplay()
 const { t } = useI18n()
 const router = useRouter()
@@ -371,14 +350,12 @@ const rooms = ref([])
 const total = ref(0)
 const getRoomsLoading = ref(false)
 
-const getRooms = () => {
+const getRooms = async () => {
   getRoomsLoading.value = true
-  roomApi.list.get(reqForm.value).then(response => {
-    rooms.value = response.data.rows || []
-    total.value = response.data.total
-  }).finally(() => {
-    getRoomsLoading.value = false
-  })
+  const response = await roomApi.list.get(reqForm.value)
+  rooms.value = response.data.rows || []
+  total.value = response.data.total
+  getRoomsLoading.value = false
 }
 
 const handleCreate = async event => {
@@ -417,6 +394,21 @@ const selectRoom = room => {
   globalStore.room.gameName = room.gameName
 }
 
+const generatePlayerList = (players) => {
+  if (players.length === 0) {
+    return [0, 0]
+  }
+  const pc = []
+  for (let p of players) {
+    pc.push(p.playerInfo?.length || 0)
+  }
+
+  return pc
+}
+
+const cardRef = ref(null)
+const cardWidth = ref(0)
+
 const calculateContainerSize = () => {
   // 64(navbar) + 72(step header) + 54(step action) + 24(card margins) = 304
   const other = 120
@@ -424,9 +416,28 @@ const calculateContainerSize = () => {
   return Math.max(2, Math.floor(windowHeight.value - other))
 }
 
-
 watch(windowHeight, () => {
   getRooms()
 }, { immediate: true })
+
+const handleResize = debounce(() => {
+  windowHeight.value = window.innerHeight
+  reqForm.value.pageSize = calculateCardSize()
+  if (cardRef.value) {
+    cardWidth.value = cardRef.value.$el.offsetWidth
+  }
+}, 200)
+
+onMounted(async () => {
+  await getRooms()
+  reqForm.value.pageSize = calculateCardSize()
+  if (cardRef.value) {
+    cardWidth.value = cardRef.value.$el.offsetWidth
+  }
+  window.addEventListener('resize', handleResize)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
