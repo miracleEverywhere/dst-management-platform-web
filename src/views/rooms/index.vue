@@ -209,7 +209,6 @@
                     <v-card
                       :height="240"
                       variant="flat"
-
                     >
                       <template #prepend>
                         <v-icon
@@ -352,7 +351,9 @@ const getRoomsLoading = ref(false)
 
 const getRooms = async () => {
   getRoomsLoading.value = true
+
   const response = await roomApi.list.get(reqForm.value)
+
   rooms.value = response.data.rows || []
   total.value = response.data.total
   getRoomsLoading.value = false
@@ -394,7 +395,7 @@ const selectRoom = room => {
   globalStore.room.gameName = room.gameName
 }
 
-const generatePlayerList = (players) => {
+const generatePlayerList = players => {
   if (players.length === 0) {
     return [0, 0]
   }
