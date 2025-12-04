@@ -42,6 +42,7 @@
         >
           <v-number-input
             v-model="lines"
+            label="行"
             hide-details
             density="compact"
             class="mr-4"
@@ -118,7 +119,7 @@ const cancelRequests = () => {
 }
 
 const calculateLines = () => {
-  const other = 380
+  const other = 390
 
   // 只返回计算的行数，不设置 lines.value
   return Math.round(Math.max(2, Math.floor(windowHeight.value - other)) / 22.5)
