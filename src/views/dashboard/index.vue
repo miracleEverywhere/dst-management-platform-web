@@ -28,7 +28,7 @@
                       color="info"
                       class="mr-2"
                     >
-                      房间名称
+                      {{ t('dashboard.card1.item.roomName') }}
                     </v-chip>
                     <v-btn
                       v-copy="baseInfo.room.gameName"
@@ -48,7 +48,7 @@
                       color="info"
                       class="mr-2"
                     >
-                      直连代码
+                      {{ t('dashboard.card1.item.connectCode') }}
                     </v-chip>
                     <v-btn
                       variant="text"
@@ -72,7 +72,7 @@
                       color="info"
                       class="mr-4"
                     >
-                      游戏天数
+                      {{ t('dashboard.card1.item.cycles') }}
                     </v-chip>
                     <v-chip v-if="baseInfo.session.cycles!==-1">
                       {{ baseInfo.session.cycles }}
@@ -93,7 +93,7 @@
                       color="info"
                       class="mr-4"
                     >
-                      游戏模式
+                      {{ t('dashboard.card1.item.gameMode') }}
                     </v-chip>
                     <v-chip>{{ t(`game.base.step1.gameMode.modes.${baseInfo.room.gameMode}`) }}</v-chip>
                   </v-col>
@@ -108,7 +108,7 @@
                       color="info"
                       class="mr-4"
                     >
-                      游戏季节
+                      {{ t('dashboard.card1.item.gameSeason') }}
                     </v-chip>
                     <v-chip v-if="baseInfo.session.season!=='error'">
                       {{ t(`dashboard.card1.season.${baseInfo.session.season}`) }}({{ baseInfo.session.elapsedDays }}/{{ baseInfo.session.seasonLength[baseInfo.session.season] }})
@@ -129,7 +129,7 @@
                       color="info"
                       class="mr-4"
                     >
-                      游戏阶段
+                      {{ t('dashboard.card1.item.gamePhase') }}
                     </v-chip>
                     <v-chip v-if="baseInfo.session.phase!=='error'">
                       {{ t(`dashboard.card1.phase.${baseInfo.session.phase}`) }}
@@ -152,7 +152,7 @@
                       color="info"
                       class="mr-4"
                     >
-                      游戏模组
+                      {{ t('dashboard.card1.item.mods') }}
                     </v-chip>
                     <v-chip @click="console.log(1)">
                       {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
@@ -167,9 +167,9 @@
                       color="info"
                       class="mr-4"
                     >
-                      游戏玩家
+                      {{ t('dashboard.card1.item.players') }}
                     </v-chip>
-                    <v-chip v-tooltip:="baseInfo.players.map(user => user.nickname).join(', ')">
+                    <v-chip v-tooltip="baseInfo.players.map(user => user.nickname).join(', ')">
                       ({{ baseInfo.players?.length || 0 }}/{{ baseInfo.room.maxPlayer }})
                     </v-chip>
                   </v-col>
@@ -230,7 +230,7 @@
                     <div>
                       <div class="d-flex align-center justify-center">
                         <v-icon icon="ri-ram-2-line" />
-                        <span class="mr-2 ml-1">内存</span>
+                        <span class="mr-2 ml-1">{{ t('dashboard.card2.memory') }}</span>
                         <v-progress-linear
                           :model-value="sysInfo.memory"
                           rounded
@@ -338,25 +338,163 @@
                     v-tooltip="t('dashboard.card3.update.tip')"
                     class="mr-4 mb-4"
                     color="info"
+                    :disabled="userStore.userInfo.role!=='admin'"
+                    :loading="sysInfo.updating"
+                    @click="updateTypeDialog=true"
                   >
                     {{ t('dashboard.card3.update.title') }}
                   </v-btn>
+                  <v-dialog
+                    v-model="updateTypeDialog"
+                    :width="mobile?'85%':'40%'"
+                  >
+                    <v-card>
+                      <v-card-title>
+                        {{ t('dashboard.card3.update.title') }}
+                      </v-card-title>
+                      <v-card-text>
+                        <v-radio-group
+                          v-model="updateType"
+                          inline
+                          color="primary"
+                          class="mt-2"
+                        >
+                          <template #prepend>
+                            <v-chip>
+                              {{ t('dashboard.card3.update.type') }}
+                            </v-chip>
+                          </template>
+                          <v-radio
+                            v-tooltip="t('dashboard.card3.update.frontend.tip')"
+                            :label="t('dashboard.card3.update.frontend.title')"
+                            value="frontend"
+                          />
+                          <v-radio
+                            v-tooltip="t('dashboard.card3.update.backend.tip')"
+                            :label="t('dashboard.card3.update.backend.title')"
+                            value="backend"
+                          />
+                        </v-radio-group>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          color="default"
+                          variant="elevated"
+                          @click="updateTypeDialog=false"
+                        >
+                          {{ t('global.confirm.cancel') }}
+                        </v-btn>
+                        <v-btn
+                          v-if="updateType==='frontend'"
+                          variant="elevated"
+                          to="/install"
+                        >
+                          {{ t('global.confirm.confirm') }}
+                        </v-btn>
+                        <v-btn
+                          v-if="updateType==='backend'"
+                          variant="elevated"
+                          @click="handleGameExec({type:'update'});updateTypeDialog=false;sysInfo.updating=true"
+                        >
+                          {{ t('global.confirm.confirm') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </v-row>
                 <v-row class="mb-4">
                   <v-btn
                     v-tooltip="t('dashboard.card3.reset.tip')"
                     class="mr-4 mb-4"
                     :color="colors.purple.base"
+                    @click="resetTypeDialog=true"
                   >
                     {{ t('dashboard.card3.reset.title') }}
                   </v-btn>
+                  <v-dialog
+                    v-model="resetTypeDialog"
+                    :width="mobile?'85%':'40%'"
+                  >
+                    <v-card>
+                      <v-card-title>
+                        {{ t('dashboard.card3.reset.title') }}
+                      </v-card-title>
+                      <v-card-text>
+                        <v-radio-group
+                          v-model="resetType"
+                          inline
+                          color="primary"
+                          class="mt-2"
+                        >
+                          <template #prepend>
+                            <v-chip>
+                              {{ t('dashboard.card3.reset.resetType') }}
+                            </v-chip>
+                          </template>
+                          <v-radio
+                            v-tooltip="t('dashboard.card3.reset.noForced.tip')"
+                            :label="t('dashboard.card3.reset.noForced.title')"
+                            value="reset-no-force"
+                          />
+                          <v-radio
+                            v-tooltip="t('dashboard.card3.reset.forced.tip')"
+                            :label="t('dashboard.card3.reset.forced.title')"
+                            value="force"
+                          />
+                        </v-radio-group>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          color="default"
+                          variant="elevated"
+                          @click="resetTypeDialog=false"
+                        >
+                          {{ t('global.confirm.cancel') }}
+                        </v-btn>
+                        <v-btn
+                          variant="elevated"
+                          @click="handleGameExec({type:'reset',extra:resetType});resetTypeDialog=false"
+                        >
+                          {{ t('global.confirm.confirm') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+
                   <v-btn
                     v-tooltip="t('dashboard.card3.clean.tip')"
                     class="mr-4 mb-4"
                     :color="colors.brown.base"
                   >
                     {{ t('dashboard.card3.clean.title') }}
+                    <v-menu activator="parent">
+                      <v-list>
+                        <v-list-item
+                          v-for="(item, index) in consoleForm.worlds"
+                          :key="index"
+                          :value="item.id"
+                          @click="cleanWorldID=item.id;confirmBoxVisible.clean.visible=true"
+                        >
+                          <v-list-item-title>{{ item.worldName }}</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
                   </v-btn>
+                  <confirm-box
+                    v-model="confirmBoxVisible.clean.visible"
+                    type="info"
+                    :title="t('dashboard.card3.clean.title')"
+                    :content="t('dashboard.card3.clean.confirm')"
+                    :confirm-text="t('global.confirm.confirm')"
+                    :cancel-text="t('global.confirm.cancel')"
+                    :confirm-loading="confirmBoxVisible.clean.loading"
+                    @confirm="handleGameExec({type:'delete',worldID:cleanWorldID})"
+                    @cancel="confirmBoxVisible.clean.visible=false"
+                  />
+
+
                   <v-btn
                     v-tooltip="t('dashboard.card3.quickCmd.tip')"
                     class="mr-4 mb-4"
@@ -416,7 +554,7 @@
                             <v-btn
                               variant="elevated"
                               :loading="confirmBoxVisible.rollback.loading"
-                              @click="handleGameExec({type:'console',extra:`c_rollback(${i})`,worldID:baseInfo.worlds[0].id}, isActive)"
+                              @click="handleGameExec({type:'console',extra:`c_rollback(${i})`,worldID:baseInfo.worlds[0].id});isActive.value = false"
                             >
                               {{ t('global.confirm.confirm') }}
                             </v-btn>
@@ -507,7 +645,7 @@
                             color="primary"
                             label
                           >
-                           {{value}}
+                            {{ value }}
                           </v-chip>
                         </template>
                         <template #item.isMaster="{ value }">
@@ -526,17 +664,26 @@
                           </v-chip>
                         </template>
                         <template #item.cpu="{ item }">
-                          <v-chip label color="info">
+                          <v-chip
+                            label
+                            color="info"
+                          >
                             {{ item.performanceStatus.cpu.toFixed(2) }}%
                           </v-chip>
                         </template>
                         <template #item.mem="{ item }">
-                          <v-chip label color="info">
+                          <v-chip
+                            label
+                            color="info"
+                          >
                             {{ item.performanceStatus.mem.toFixed(2) }}% ({{ item.performanceStatus.memSize }} MB)
                           </v-chip>
                         </template>
                         <template #item.disk="{ item }">
-                          <v-chip label color="info">
+                          <v-chip
+                            label
+                            color="info"
+                          >
                             {{ formatBytes(item.performanceStatus.disk) }}
                           </v-chip>
                         </template>
@@ -700,7 +847,7 @@ const worldHeaders = [
 
 const worldStatusLoading = ref(false)
 
-const handleGameExec = (params, isActive=false) => {
+const handleGameExec = params => {
   const reqForm = {
     type: params.type,
     roomID: globalStore.room.id,
@@ -717,7 +864,6 @@ const handleGameExec = (params, isActive=false) => {
     Object.keys(confirmBoxVisible.value).forEach(key => {
       confirmBoxVisible.value[key].visible = false
     })
-    isActive.value = false
   }).finally(() => {
     Object.keys(confirmBoxVisible.value).forEach(key => {
       confirmBoxVisible.value[key].loading = false
@@ -734,6 +880,14 @@ const consoleForm = ref({
   selectedWorldID: undefined,
   cmd: '',
 })
+
+const updateTypeDialog = ref(false)
+const updateType = ref('frontend')
+
+const resetTypeDialog = ref(false)
+const resetType = ref('reset-no-force')
+
+const cleanWorldID = ref()
 
 let intervalBaseId = null
 let intervalSysId = null
