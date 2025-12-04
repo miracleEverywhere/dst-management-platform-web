@@ -47,7 +47,7 @@ instance.interceptors.response.use(
 
       showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
       await userStore.clearStore()
-      window.location.href = '/login'
+      window.location.href = '/#/login'
       
       return Promise.reject(response.data)
     } else {
