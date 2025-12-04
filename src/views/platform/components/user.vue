@@ -105,7 +105,7 @@
                   color="info"
                   label
                 >
-                  {{ dbRoomsToRooms(item.rooms).length }}{{t('platform.user.table.unit')}}
+                  {{ dbRoomsToRooms(item.rooms).length }}{{ t('platform.user.table.unit') }}
                 </v-chip>
               </template>
               <template #item.roomCreation="{ item }">
