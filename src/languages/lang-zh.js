@@ -588,9 +588,20 @@ export default {
         day: '白天',
         dusk: '黄昏',
       },
+      item: {
+        roomName: '游戏名称',
+        connectCode: '直连代码',
+        cycles: '游戏天数',
+        gameMode: '游戏模式',
+        gameSeason: '游戏季节',
+        gamePhase: '游戏阶段',
+        mods: '游戏模组',
+        players: '游戏玩家',
+      },
     },
     card2: {
       title: '系统信息',
+      memory: '内存',
     },
     card3: {
       title: '房间控制',
@@ -612,18 +623,20 @@ export default {
       update: {
         title: '更新游戏',
         tip: '更新饥荒专用服务器',
+        type: '更新方式',
         frontend: {
           title: '前台更新',
           tip: '如果关闭或刷新页面，会导致更新中断，但可以看到更新进度',
         },
         backend: {
           title: '后台更新',
-          tip: '饥荒管理平台在后台进行更新，更新按钮进入载入状态，完成后，更新按钮则会退出载入状态',
+          tip: '饥荒管理平台在后台进行更新，更新按钮进入Loading状态，完成后，更新按钮则会退出Loading状态',
         },
       },
       reset: {
         title: '重置世界',
         tip: '重置世界，给你一个秋0',
+        resetType: '重置方式',
         forced: {
           title: '强制重置',
           tip: '强制重置会删除存档数据并重启游戏；注意：如果是多台云服合并开服，此功能无法重置所有的世界，需多台云服同时执行强制重置操作',

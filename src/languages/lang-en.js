@@ -50,6 +50,13 @@ export default {
     install: 'Install',
     tools: 'Tools',
     toolsBackup: 'Backup',
+    logs: 'Logs',
+    logsGame: 'Game',
+    logsChat: 'Chat',
+    logsSteam: 'Steam',
+    logsAccess: 'Access',
+    logsRuntime: 'Runtime',
+    logsClean: 'Clean',
     platform: 'Platform',
   },
   login: {
@@ -563,6 +570,109 @@ export default {
         label: 'Search',
         placeholder: 'Searchable by username or nickname',
       },
+    },
+  },
+  dashboard: {
+    card1: {
+      title: 'Overview',
+      error: 'Error',
+      season: {
+        summer: '🔥Summer',
+        autumn: '🍁Autumn',
+        spring: '🌱Spring',
+        winter: '❄️Winter',
+
+      },
+      phase: {
+        night: 'Night',
+        day: 'Day',
+        dusk: 'Dusk',
+      },
+      item: {
+        roomName: 'Name',
+        connectCode: 'Code',
+        cycles: 'Cycles',
+        gameMode: 'Modes',
+        gameSeason: 'Season',
+        gamePhase: 'Phase',
+        mods: 'Mods',
+        players: 'Players',
+      },
+    },
+    card2: {
+      title: 'System',
+      memory: 'Mem',
+    },
+    card3: {
+      title: 'Control',
+      startup: {
+        title: 'Startup',
+        tip: 'Startup DST Dedicated Server',
+        confirm: 'Do you want to startup the DST Dedicated Server?',
+      },
+      shutdown: {
+        title: 'Shutdown',
+        tip: 'Shutdown DST Dedicated Server',
+        confirm: 'Do you want to shutdown the DST Dedicated Server',
+      },
+      restart: {
+        title: 'Restart',
+        tip: 'Restart DST Dedicated Server',
+        confirm: 'Do you want to restart the DST Dedicated Server',
+      },
+      update: {
+        title: 'Update',
+        tip: 'Update DST Dedicated Server',
+        type: 'Updating Type',
+        frontend: {
+          title: 'Frontend',
+          tip: 'If you close or refresh the page, the update will be interrupted, but you can still see the update progress',
+        },
+        backend: {
+          title: 'Backend',
+          tip: 'The DMP is performing updates in the background. The update button will enter a loading state, and once completed, it will return to its normal state',
+        },
+      },
+      reset: {
+        title: 'Reset',
+        tip: 'Reset all worlds to the first day',
+        resetType: 'Reset Type',
+        forced: {
+          title: 'Force Reset',
+          tip: 'Forced reset will delete the saved data and restart the game. Note: If the server is hosted across multiple cloud instances, this function cannot reset all worlds simultaneously; all cloud instances must perform the forced reset operation at the same time',
+        },
+        noForced: {
+          title: 'Normal Reset',
+          tip: 'A normal reset requires the game to be running properly, with all worlds connected normally to the main world',
+        },
+      },
+      clean: {
+        title: 'Clean',
+        tip: 'Delete the saved data (excluding configuration data) for the specified world, similar to a forced reset of that specific world',
+        confirm: 'Do you want to clean the world',
+      },
+      quickCmd: {
+        title: 'CMD',
+        tip: 'Execute some server commands, which require the server to be running normally',
+      },
+      check: {
+        title: 'Check',
+        tip: 'Check if your room can be found in the DST game lobby.',
+      },
+      rollback: {
+        title: 'Rollback',
+        tip: 'Use in-game commands to roll back the server, which requires the server to be running normally',
+        confirm: {
+          c1: 'Do you want to rollback',
+          c2: 'days',
+        },
+      },
+    },
+    card4: {
+      title: 'Console',
+    },
+    card5: {
+      title: 'Worlds',
     },
   },
 }
