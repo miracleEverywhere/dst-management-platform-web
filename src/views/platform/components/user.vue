@@ -526,11 +526,11 @@ const userListData = ref({
 
 const getUserListDataLoading = ref(false)
 
-const getUserListData = () => {
+const getUserListData = ({ page, itemsPerPage, sortBy }) => {
   const reqFrom = {
     q: search.value,
-    page: userListData.value.page,
-    pageSize: userListData.value.pageSize,
+    page: page,
+    pageSize: itemsPerPage,
   }
 
   getUserListDataLoading.value = true
