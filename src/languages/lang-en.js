@@ -597,6 +597,26 @@ export default {
         gamePhase: 'Phase',
         mods: 'Mods',
         players: 'Players',
+        custom: {
+          button: 'Custom',
+          title: 'Custom Connection Code',
+          tip: 'If you are using a proxy software or port forwarding, you can configure a custom connection code here',
+          ip: {
+            title: 'IP',
+            tip: 'The public IP address of the proxy software',
+            required: 'Please input IP',
+            required1: 'Please input the correct IP',
+          },
+          port: {
+            title: 'Port',
+            tip: 'The public Port of the proxy software',
+            required: 'Please input Port',
+          },
+          clear: {
+            title: 'Clear',
+            tip: 'Clear Custom Connection Code',
+          },
+        },
       },
     },
     card2: {

@@ -597,6 +597,26 @@ export default {
         gamePhase: '游戏阶段',
         mods: '游戏模组',
         players: '游戏玩家',
+        custom: {
+          button: '自定义',
+          title: '自定义直连代码',
+          tip: '如果你用到了内网穿透或端口映射，可在此配置自定义直连代码',
+          ip: {
+            title: 'IP',
+            tip: '代理软件的公网IP',
+            required: '请输入IP',
+            required1: '请输入正确的IP',
+          },
+          port: {
+            title: '端口',
+            tip: '代理软件的公网端口',
+            required: '请输入端口',
+          },
+          clear: {
+            title: '清除',
+            tip: '清除设置的自定义直连代码',
+          },
+        },
       },
     },
     card2: {
