@@ -154,9 +154,147 @@
                     >
                       {{ t('dashboard.card1.item.mods') }}
                     </v-chip>
-                    <v-chip @click="console.log(1)">
+                    <v-chip v-if="(baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length)===0">
                       {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
                     </v-chip>
+                    <v-chip v-else @click="modDialog=true;getEnabledMods()">
+                      {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
+                    </v-chip>
+                    <v-dialog v-model="modDialog" :width="mobile?'90%':'60%'">
+                      <v-card>
+                        <v-card-title>
+                          {{ t('dashboard.card1.item.mods') }}
+                        </v-card-title>
+                        <v-card-text v-if="!modLoading">
+                          <v-sheet
+                            border
+                            rounded
+                            class="mt-4"
+                          >
+                            <v-data-table
+                              :headers="headers"
+                              :items="modList"
+                            >
+                              <template #loading>
+                                <v-skeleton-loader type="table-row@10" />
+                              </template>
+
+                              <template #item.preview_url="{ value }">
+                                <v-img
+                                  :src="value"
+                                  :width="100"
+                                  cover
+                                  rounded
+                                  aspect-ratio="1"
+                                  class="ma-2"
+                                >
+                                  <template #placeholder>
+                                    <div class="d-flex align-center justify-center fill-height">
+                                      <v-progress-circular
+                                        color="grey-lighten-4"
+                                        indeterminate
+                                      />
+                                    </div>
+                                  </template>
+                                </v-img>
+                              </template>
+                              <template #item.name="{ value }">
+                                <v-chip
+                                  label
+                                  color="info"
+                                >
+                                  {{ value }}
+                                </v-chip>
+                              </template>
+                              <template #item.serverSize="{ value }">
+                                <v-chip
+                                  label
+                                  color="primary"
+                                >
+                                  {{ formatBytes(parseInt(value)) }}
+                                </v-chip>
+                              </template>
+                              <template #item.id="{ value }">
+                                <v-chip label>
+                                  {{ value }}
+                                </v-chip>
+                              </template>
+                              <template #item.update="{ item }">
+                                <v-chip
+                                  v-if="item.file_url!==''"
+                                  label
+                                >
+                                  {{ t('game.mod.add.notUGC') }}
+                                </v-chip>
+                                <v-chip
+                                  v-if="item.file_url===''&&item.serverSize===item.localSize"
+                                  label
+                                  color="success"
+                                >
+                                  {{ t('game.mod.add.needNoUpdate') }}
+                                </v-chip>
+                                <v-chip
+                                  v-if="item.file_url===''&&item.serverSize!==item.localSize"
+                                  label
+                                  color="error"
+                                >
+                                  {{ t('game.mod.add.needUpdate') }}
+                                </v-chip>
+                              </template>
+                              <template #item.actions="{ item }">
+                                <v-btn
+                                  color="info"
+                                  append-icon="ri-arrow-drop-down-line"
+                                  variant="text"
+                                >
+                                  {{ t('game.mod.add.actions') }}
+                                  <v-menu activator="parent">
+                                    <v-list>
+                                      <v-list-item
+                                        :disabled="modEnableLoading"
+                                        class="text-success"
+                                        @click="handleModAction('enable', item)"
+                                      >
+                                        <template #prepend>
+                                          <v-icon
+                                            icon="ri-file-check-line"
+                                            size="22"
+                                          />
+                                        </template>
+                                        <v-list-item-title>
+                                          {{ t('game.mod.add.enable') }}
+                                        </v-list-item-title>
+                                      </v-list-item>
+                                      <v-list-item
+                                        :disabled="modUpdateLoading"
+                                        class="text-info"
+                                        @click="handleModAction('update', item)"
+                                      >
+                                        <template #prepend>
+                                          <v-icon
+                                            icon="ri-arrow-up-circle-line"
+                                            size="22"
+                                          />
+                                        </template>
+                                        <v-list-item-title>
+                                          {{ t('game.mod.add.updateMod') }}
+                                        </v-list-item-title>
+                                      </v-list-item>
+                                    </v-list>
+                                  </v-menu>
+                                </v-btn>
+                              </template>
+                            </v-data-table>
+                          </v-sheet>
+                        </v-card-text>
+                        <v-card-text v-else>
+                          <result type="info"
+                                  :title="t('game.base.loading')"
+                                  :height="calculateContainerSize()/2">
+                          </result>
+                        </v-card-text>
+                      </v-card>
+                    </v-dialog>
                   </v-col>
                   <v-col
                     cols="12"
@@ -763,6 +901,7 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useUserStore from "@store/user.js"
+import modApi from "@/api/mod.js";
 
 const windowHeight = ref(window.innerHeight)
 const globalStore = useGlobalStore()
@@ -888,6 +1027,26 @@ const resetTypeDialog = ref(false)
 const resetType = ref('reset-no-force')
 
 const cleanWorldID = ref()
+
+const modDialog = ref(false)
+const modLoading = ref(false)
+const modList = ref([])
+const getEnabledMods = async () => {
+  modLoading.value = true
+  const reqForm = {
+    roomID: globalStore.room.id,
+    worldID: baseInfo.value.worlds[0].id,
+  }
+  const response = await modApi.setting.enabledMods.get(reqForm)
+  modList.value = response.data
+  modLoading.value = false
+}
+const headers = [
+  { key: 'preview_url', title: t('game.mod.add.preview') },
+  { key: 'name', title: t('game.mod.add.name') },
+  { key: 'serverSize', title: t('game.mod.add.size') },
+  { key: 'id', title: 'ID' },
+]
 
 let intervalBaseId = null
 let intervalSysId = null
