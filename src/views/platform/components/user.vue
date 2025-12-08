@@ -8,8 +8,14 @@
             :label="t('platform.user.search.label')"
             :placeholder="t('platform.user.search.placeholder')"
             clearable
-            @keyup.enter="getUserListData"
-            @click:clear="getUserListData"
+            @keyup.enter="getUserListData({page: userListData.page,
+                                           itemsPerPage: userListData.pageSize,
+                                           sortBy: undefined,
+            })"
+            @click:clear="getUserListData({page: userListData.page,
+                                           itemsPerPage: userListData.pageSize,
+                                           sortBy: undefined,
+            })"
           />
         </v-col>
         <v-col cols="12">
@@ -46,7 +52,10 @@
                     prepend-icon="ri-refresh-line"
                     :loading="getUserListDataLoading"
                     color="default"
-                    @click="getUserListData"
+                    @click="getUserListData({page: userListData.page,
+                                             itemsPerPage: userListData.pageSize,
+                                             sortBy: undefined,
+                    })"
                   >
                     {{ t('platform.user.table.refresh') }}
                   </v-btn>
@@ -659,7 +668,10 @@ const handleUserSubmit = async () => {
     userApi.base.put(reqForm).then(response => {
       userDialogVisible.value = false
       showSnackbar(response.message)
-      getUserListData()
+      getUserListData({ page: userListData.value.page,
+        itemsPerPage: userListData.value.pageSize,
+        sortBy: undefined,
+      })
     }).finally(() => {
       userSubmitLoading.value = false
     })
@@ -681,7 +693,10 @@ const handleUserSubmit = async () => {
     userApi.base.post(reqForm).then(response => {
       userDialogVisible.value = false
       showSnackbar(response.message)
-      getUserListData()
+      getUserListData({ page: userListData.value.page,
+        itemsPerPage: userListData.value.pageSize,
+        sortBy: undefined,
+      })
     }).finally(() => {
       userSubmitLoading.value = false
     })
@@ -732,7 +747,6 @@ const confirmLoading = ref(false)
 const currentUsername = ref('')
 
 const handleDelete = () => {
-  console.log(currentUsername.value)
   confirmLoading.value = true
 
   const reqForm = {
@@ -742,7 +756,11 @@ const handleDelete = () => {
   userApi.base.delete(reqForm).then(response => {
     confirmVisible.value = false
     showSnackbar(response.message)
-    getUserListData()
+    getUserListData({
+      page: userListData.value.page,
+      itemsPerPage: userListData.value.pageSize,
+      sortBy: undefined,
+    })
   }).finally(() => {
     confirmLoading.value = false
   })
