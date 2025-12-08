@@ -104,7 +104,7 @@ export const validateIpv4 = ip => {
   if (ipv4Pattern.test(ip)) {
     return true
   } else {
-    return "请输入正确的IP地址"
+    return false
   }
 }
 
