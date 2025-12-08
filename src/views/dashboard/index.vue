@@ -51,6 +51,8 @@
                       {{ t('dashboard.card1.item.connectCode') }}
                     </v-chip>
                     <v-btn
+                      v-copy="connectionCode"
+                      :loading="connectionCodeLoading"
                       variant="text"
                       icon="ri-file-copy-line"
                     />
@@ -902,6 +904,7 @@ import { useI18n } from "vue-i18n"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useUserStore from "@store/user.js"
 import modApi from "@/api/mod.js";
+import dashboard from "@/api/dashboard.js";
 
 const windowHeight = ref(window.innerHeight)
 const globalStore = useGlobalStore()
@@ -936,6 +939,9 @@ const cpuList = ref(Array(30).fill(0))
 const memoryList = ref(Array(30).fill(0))
 
 const getSysInfo = async () => {
+  if (globalStore.room.id === 0) {
+    return
+  }
   const response = await dashboardApi.info.sys.get()
   if (!response.data) return
 
@@ -1048,6 +1054,23 @@ const headers = [
   { key: 'id', title: 'ID' },
 ]
 
+const connectionCodeLoading = ref(false)
+const connectionCode = ref('')
+const getConnectionCode = () => {
+  if (globalStore.room.id === 0) {
+    return
+  }
+  connectionCodeLoading.value = true
+  const reqForm = {
+    roomID: globalStore.room.id,
+  }
+  dashboardApi.connectionCode.get(reqForm).then(response => {
+    connectionCode.value = response.data
+  }).finally(() => {
+    connectionCodeLoading.value = false
+  })
+}
+
 let intervalBaseId = null
 let intervalSysId = null
 
@@ -1096,6 +1119,7 @@ const dataGot = ref(false)
 onMounted(async () => {
   await Promise.all([getBaseInfo(), getSysInfo()])
   dataGot.value = true
+  getConnectionCode()
   consoleForm.value.worlds = baseInfo.value?.worlds || []
   handleResize()
 
