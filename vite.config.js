@@ -6,7 +6,8 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
 import svgLoader from 'vite-svg-loader'
-import { compression } from 'vite-plugin-compression2'
+
+// import { compression } from 'vite-plugin-compression2'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 
 export default defineConfig({
@@ -26,9 +27,10 @@ export default defineConfig({
       },
     }),
     vueJsx(),
-    compression({
-      algorithms: ['gzip'],
-    }),
+
+    // compression({
+    //   algorithms: ['gzip'],
+    // }),
     ViteImageOptimizer(),
     Components({
       dirs: ['src/@core/components', 'src/components'],
