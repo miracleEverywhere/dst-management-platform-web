@@ -52,16 +52,82 @@
                     </v-chip>
                     <v-btn
                       v-copy="connectionCode"
+                      v-tooltip="connectionCode"
                       :loading="connectionCodeLoading"
                       variant="text"
                       icon="ri-file-copy-line"
                     />
                     <v-btn
+                      v-tooltip="t('dashboard.card1.item.custom.tip')"
                       variant="text"
                       color="default"
+                      @click="customConnectionCodeDialog=true"
                     >
-                      自定义
+                      {{ t('dashboard.card1.item.custom.button') }}
                     </v-btn>
+                    <v-dialog
+                      v-model="customConnectionCodeDialog"
+                      :width="mobile?'90%':'60%'"
+                    >
+                      <v-card>
+                        <v-card-title>
+                          {{ t('dashboard.card1.item.custom.title') }}
+                        </v-card-title>
+                        <v-form
+                          ref="customConnectionCodeFormRef"
+                          @submit.prevent="handleUpdateConnectionCode"
+                        >
+                          <v-card-text>
+                            <v-alert
+                              :text="t('dashboard.card1.item.custom.tip')"
+                              type="info"
+                              variant="tonal"
+                              class="mb-8"
+                            />
+                            <v-text-field
+                              v-model="customConnectionCodeForm.ip"
+                              v-tooltip="t('dashboard.card1.item.custom.ip.tip')"
+                              :rules="customConnectionCodeFormRules.ip"
+                              :label="t('dashboard.card1.item.custom.ip.title')"
+                              class="mb-8"
+                            />
+                            <v-number-input
+                              v-model="customConnectionCodeForm.port"
+                              v-tooltip="t('dashboard.card1.item.custom.port.tip')"
+                              :rules="customConnectionCodeFormRules.port"
+                              :label="t('dashboard.card1.item.custom.port.title')"
+                              :min="1"
+                              :max="65535"
+                            />
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer />
+                            <v-btn
+                              variant="elevated"
+                              color="defalut"
+                              @click="customConnectionCodeDialog=false"
+                            >
+                              {{ t('global.confirm.cancel') }}
+                            </v-btn>
+                            <v-btn
+                              v-tooltip="t('dashboard.card1.item.custom.clear.tip')"
+                              variant="elevated"
+                              color="warning"
+                              @click="handleClearConnectionCode"
+                            >
+                              {{ t('dashboard.card1.item.custom.clear.title') }}
+                            </v-btn>
+                            <v-btn
+                              variant="elevated"
+                              color="primary"
+                              type="submit"
+                            >
+                              {{ t('global.confirm.confirm') }}
+                            </v-btn>
+                          </v-card-actions>
+                        </v-form>
+                      </v-card>
+                    </v-dialog>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -159,10 +225,16 @@
                     <v-chip v-if="(baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length)===0">
                       {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
                     </v-chip>
-                    <v-chip v-else @click="modDialog=true;getEnabledMods()">
+                    <v-chip
+                      v-else
+                      @click="modDialog=true;getEnabledMods()"
+                    >
                       {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
                     </v-chip>
-                    <v-dialog v-model="modDialog" :width="mobile?'90%':'60%'">
+                    <v-dialog
+                      v-model="modDialog"
+                      :width="mobile?'90%':'60%'"
+                    >
                       <v-card>
                         <v-card-title>
                           {{ t('dashboard.card1.item.mods') }}
@@ -290,10 +362,11 @@
                           </v-sheet>
                         </v-card-text>
                         <v-card-text v-else>
-                          <result type="info"
-                                  :title="t('game.base.loading')"
-                                  :height="calculateContainerSize()/2">
-                          </result>
+                          <result
+                            type="info"
+                            :title="t('game.base.loading')"
+                            :height="calculateContainerSize()/2"
+                          />
                         </v-card-text>
                       </v-card>
                     </v-dialog>
@@ -895,7 +968,7 @@
 </template>
 
 <script setup>
-import { debounce, formatBytes, parseModLua, truncateString } from "@/utils/tools.js"
+import { debounce, formatBytes, parseModLua, truncateString, validateIpv4 } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -903,8 +976,8 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useUserStore from "@store/user.js"
-import modApi from "@/api/mod.js";
-import dashboard from "@/api/dashboard.js";
+import modApi from "@/api/mod.js"
+import dashboard from "@/api/dashboard.js"
 
 const windowHeight = ref(window.innerHeight)
 const globalStore = useGlobalStore()
@@ -1037,16 +1110,21 @@ const cleanWorldID = ref()
 const modDialog = ref(false)
 const modLoading = ref(false)
 const modList = ref([])
+
 const getEnabledMods = async () => {
   modLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: baseInfo.value.worlds[0].id,
   }
+
   const response = await modApi.setting.enabledMods.get(reqForm)
+
   modList.value = response.data
   modLoading.value = false
 }
+
 const headers = [
   { key: 'preview_url', title: t('game.mod.add.preview') },
   { key: 'name', title: t('game.mod.add.name') },
@@ -1056,18 +1134,86 @@ const headers = [
 
 const connectionCodeLoading = ref(false)
 const connectionCode = ref('')
+
 const getConnectionCode = () => {
   if (globalStore.room.id === 0) {
     return
   }
   connectionCodeLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
   }
+
   dashboardApi.connectionCode.get(reqForm).then(response => {
     connectionCode.value = response.data
   }).finally(() => {
     connectionCodeLoading.value = false
+  })
+}
+
+const customConnectionCodeDialog = ref(false)
+const customConnectionCodeFormRef = ref()
+
+const customConnectionCodeForm = ref({
+  id: '',
+  port: undefined,
+})
+
+const customConnectionCodeFormRules = ref({
+  ip: [
+    value => {
+      if (!value) return t('dashboard.card1.item.custom.ip.required')
+      if (!validateIpv4(value)) return t('dashboard.card1.item.custom.ip.required1')
+      
+      return true
+    },
+  ],
+  port: [
+    value => {
+      if (value) return true
+
+      return t('dashboard.card1.item.custom.port.required')
+    },
+  ],
+})
+
+const updateConnectionCodeLoading = ref(false)
+
+const handleUpdateConnectionCode = async () => {
+  const { valid } = await customConnectionCodeFormRef.value.validate()
+  if (!valid) return
+  updateConnectionCodeLoading.value = true
+
+  const reqForm ={
+    roomID: globalStore.room.id,
+    ip: customConnectionCodeForm.value.ip,
+    port: customConnectionCodeForm.value.port,
+  }
+
+  const response = await dashboardApi.connectionCode.put(reqForm)
+
+  updateConnectionCodeLoading.value = false
+  customConnectionCodeDialog.value = false
+  showSnackbar(response.message)
+  getConnectionCode()
+}
+
+const handleClearConnectionCode = () => {
+  updateConnectionCodeLoading.value = true
+
+  const reqForm ={
+    roomID: globalStore.room.id,
+    ip: '',
+    port: 0,
+  }
+
+  dashboardApi.connectionCode.put(reqForm).then(response => {
+    customConnectionCodeDialog.value = false
+    showSnackbar(response.message)
+    getConnectionCode()
+  }).finally(() => {
+    updateConnectionCodeLoading.value = false
   })
 }
 
