@@ -707,7 +707,6 @@
                     @cancel="confirmBoxVisible.clean.visible=false"
                   />
 
-
                   <v-btn
                     v-tooltip="t('dashboard.card3.quickCmd.tip')"
                     class="mr-4 mb-4"
@@ -721,6 +720,58 @@
                     :color="colors.teal.base"
                   >
                     {{ t('dashboard.card3.check.title') }}
+                    <v-dialog
+                      activator="parent"
+                      :width="mobile?'90%':'60%'"
+                      @after-enter="checkLobby"
+                    >
+                      <template #default="{ isActive }">
+                        <v-card min-height="520">
+                          <v-card-title>
+                            {{ t('dashboard.card3.check.title') }}
+                          </v-card-title>
+                          <v-card-text>
+                            <v-select
+                              v-model="selectRegions"
+                              multiple
+                              chips
+                              density="compact"
+                              :label="t('dashboard.card3.check.region')"
+                              class="mt-8"
+                              item-title="label"
+                              item-value="value"
+                              :items="regions"
+                              :disabled="checkLobbyLoading"
+                              @update:menu="checkLobby"
+                            />
+                            <template v-if="checkLobbyLoading">
+                              <result
+                                :height="520-44"
+                                type="info"
+                                :title="t('dashboard.card3.check.result.loading.title')"
+                                :sub-title="t('dashboard.card3.check.result.loading.subTitle')"
+                              />
+                            </template>
+                            <template v-else>
+                              <result
+                                v-if="checkLobbyResult"
+                                :height="520-44"
+                                type="success"
+                                :title="t('dashboard.card3.check.result.success.title')"
+                                :sub-title="t('dashboard.card3.check.result.success.subTitle')"
+                              />
+                              <result
+                                v-else
+                                :height="520-44"
+                                type="error"
+                                :title="t('dashboard.card3.check.result.error.title')"
+                                :sub-title="t('dashboard.card3.check.result.error.subTitle')"
+                              />
+                            </template>
+                          </v-card-text>
+                        </v-card>
+                      </template>
+                    </v-dialog>
                   </v-btn>
                 </v-row>
                 <v-row>
@@ -795,14 +846,13 @@
                       v-model="announceMsg"
                       append-inner-icon="ri-send-plane-fill"
                       class="w-100"
-                      label="公告内容"
+                      :label="t('dashboard.card4.announce')"
                       clearable
                       @click:append-inner="handleGameExec({type:'announce',extra:announceMsg})"
                       @keyup.enter="handleGameExec({type:'announce',extra:announceMsg})"
                     />
                   </v-col>
                 </v-row>
-
                 <v-row
                   no-gutters
                   class="my-8"
@@ -811,7 +861,7 @@
                     <v-select
                       v-model="consoleForm.selectedWorldID"
                       density="compact"
-                      label="世界"
+                      :label="t('dashboard.card4.world')"
                       class="mr-1"
                       item-title="worldName"
                       item-value="id"
@@ -823,7 +873,7 @@
                       v-model="consoleForm.cmd"
                       density="compact"
                       append-inner-icon="ri-send-plane-fill"
-                      label="命令内容"
+                      :label="t('dashboard.card4.cmd')"
                       clearable
                       :disabled="consoleForm.selectedWorldID===undefined"
                       @click:append-inner="handleGameExec({type:'console',extra:consoleForm.cmd,worldID:consoleForm.selectedWorldID})"
@@ -1055,12 +1105,12 @@ const confirmBoxVisible = ref({
 })
 
 const worldHeaders = [
-  { title: '名称', value: 'worldName' },
-  { title: '主节点', value: 'isMaster' },
+  { title: t('dashboard.card5.worldName'), value: 'worldName' },
+  { title: t('dashboard.card5.isMaster'), value: 'isMaster' },
   { title: 'CPU', value: 'cpu' },
-  { title: '内存', value: 'mem' },
-  { title: '磁盘', value: 'disk' },
-  { title: '状态', value: 'status' },
+  { title: t('dashboard.card5.mem'), value: 'mem' },
+  { title: t('dashboard.card5.disk'), value: 'disk' },
+  { title: t('dashboard.card5.status'), value: 'status', minWidth: 100 },
 ]
 
 const worldStatusLoading = ref(false)
@@ -1214,6 +1264,48 @@ const handleClearConnectionCode = () => {
     getConnectionCode()
   }).finally(() => {
     updateConnectionCodeLoading.value = false
+  })
+}
+
+const checkLobbyResult = ref(false)
+const checkLobbyLoading = ref(false)
+
+const regions = [
+  {
+    label: 'ap-southeast-1',
+    value: 'ap-southeast-1',
+  },
+  {
+    label: 'ap-east-1',
+    value: 'ap-east-1',
+  },
+  {
+    label: 'us-east-1',
+    value: 'us-east-1',
+  },
+  {
+    label: 'eu-central-1',
+    value: 'eu-central-1',
+  },
+]
+
+const selectRegions = ref(['ap-southeast-1', 'ap-east-1'])
+
+const checkLobby = (isOpen=false) => {
+  if (isOpen) return
+
+  checkLobbyLoading.value = true
+
+  const reqForm = {
+    gameName: baseInfo.value.room.gameName,
+    maxPlayer: baseInfo.value.room.maxPlayer,
+    regions: selectRegions.value,
+  }
+
+  dashboardApi.check.lobby.post(reqForm).then(response => {
+    checkLobbyResult.value = response.data
+  }).finally(() => {
+    checkLobbyLoading.value = false
   })
 }
 
