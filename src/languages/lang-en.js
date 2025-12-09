@@ -242,6 +242,12 @@ export default {
           tip: 'The authentication password for the connection between the world and the master world',
           required: 'Please input Cluster Key',
         },
+        emoji: {
+          title: 'Emoji',
+          insert: 'Insert',
+          copy: 'Copy',
+          thanks: 'Thanks to Bilibili user 长鸽门徒 for providing the DST emoji font',
+        },
       },
       step2: {
         oneClickSet: {

@@ -242,6 +242,12 @@ export default {
           tip: '从世界与主世界连接的认证密码',
           required: '请输入世界认证密码',
         },
+        emoji: {
+          title: '表情',
+          insert: '插入',
+          copy: '复制',
+          thanks: '感谢B站长鸽门徒提供的饥荒表情字体',
+        },
       },
       step2: {
         oneClickSet: {
