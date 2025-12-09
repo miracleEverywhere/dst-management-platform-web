@@ -7,10 +7,10 @@
     @update:model-value="handleTabClick"
   >
     <v-tab value="Overview">
-      总览
+      {{ t('platform.tab.overview') }}
     </v-tab>
     <v-tab value="User">
-      用户
+      {{ t('platform.tab.user') }}
     </v-tab>
   </v-tabs>
   <v-tabs-window v-model="activeTabName">
