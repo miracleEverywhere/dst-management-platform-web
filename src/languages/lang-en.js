@@ -677,7 +677,22 @@ export default {
       },
       check: {
         title: 'Check',
-        tip: 'Check if your room can be found in the DST game lobby.',
+        tip: 'Check if your room can be found in the DST game lobby',
+        region: 'Regions',
+        result: {
+          loading: {
+            title: 'Checking',
+            subTitle: '',
+          },
+          success: {
+            title: 'Success',
+            subTitle: 'The current room has been found in the game lobby',
+          },
+          error: {
+            title: 'Fail',
+            subTitle: 'The current room was not found in the game lobby. You can expand the search scope using the dropdown menu above',
+          },
+        },
       },
       rollback: {
         title: 'Rollback',
@@ -690,9 +705,17 @@ export default {
     },
     card4: {
       title: 'Console',
+      announce: 'Announce',
+      world: 'Worlds',
+      cmd: 'Command',
     },
     card5: {
       title: 'Worlds',
+      worldName: 'Name',
+      isMaster: 'Master',
+      mem: 'Memory',
+      disk: 'Disk',
+      status: 'Status',
     },
   },
 }

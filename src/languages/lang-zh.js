@@ -678,6 +678,21 @@ export default {
       check: {
         title: '检查世界',
         tip: '查看你的房间能否在饥荒游戏大厅中搜索到',
+        region: '游戏大区',
+        result: {
+          loading: {
+            title: '正在查询中',
+            subTitle: '',
+          },
+          success: {
+            title: '检查通过',
+            subTitle: '已在游戏大厅中搜索到当前房间',
+          },
+          error: {
+            title: '检查不通过',
+            subTitle: '未在游戏大厅中搜索到当前房间，可通过上方下拉框扩大搜索范围',
+          },
+        },
       },
       rollback: {
         title: '回档',
@@ -690,9 +705,17 @@ export default {
     },
     card4: {
       title: '游戏指令',
+      announce: '公告内容',
+      world: '世界',
+      cmd: '命令内容',
     },
     card5: {
       title: '世界信息',
+      worldName: '世界名',
+      isMaster: '主节点',
+      mem: '内存',
+      disk: '磁盘',
+      status: '状态',
     },
   },
 }
