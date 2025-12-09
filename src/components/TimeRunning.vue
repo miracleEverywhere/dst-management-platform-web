@@ -2,20 +2,30 @@
   <span
     v-if="timeDisplay.years > 0"
     class="mr-1"
-  >{{ timeDisplay.years + t('global.timeRunning.year') }}</span>
+  >
+    {{ timeDisplay.years + t('global.timeRunning.year') }}
+  </span>
   <span
     v-if="timeDisplay.days > 0"
     class="mr-1"
-  >{{ timeDisplay.days + t('global.timeRunning.day') }}</span>
+  >
+    {{ timeDisplay.days + t('global.timeRunning.day') }}
+  </span>
   <span
     v-if="timeDisplay.hours > 0"
     class="mr-1"
-  >{{ timeDisplay.hours + t('global.timeRunning.hour') }}</span>
+  >
+    {{ timeDisplay.hours + t('global.timeRunning.hour') }}
+  </span>
   <span
     v-if="timeDisplay.minutes > 0"
     class="mr-1"
-  >{{ timeDisplay.minutes + t('global.timeRunning.minute') }}</span>
-  <span class="mr-1">{{ timeDisplay.seconds + t('global.timeRunning.second') }}</span>
+  >
+    {{ timeDisplay.minutes + t('global.timeRunning.minute') }}
+  </span>
+  <span class="mr-1">
+    {{ timeDisplay.seconds + t('global.timeRunning.second') }}
+  </span>
 </template>
 
 <script setup>
