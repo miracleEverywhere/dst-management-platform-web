@@ -342,7 +342,7 @@ const calculateCardSize = () => {
 const reqForm = ref({
   gameName: '',
   page: 1,
-  pageSize: 6,
+  pageSize: 0,
 })
 
 const rooms = ref([])
@@ -407,7 +407,7 @@ const generatePlayerList = players => {
   return pc
 }
 
-const cardRef = ref(null)
+const cardRef = ref()
 const cardWidth = ref(0)
 
 const calculateContainerSize = () => {
@@ -419,7 +419,7 @@ const calculateContainerSize = () => {
 
 watch(windowHeight, () => {
   getRooms()
-}, { immediate: true })
+}, { immediate: false })
 
 const handleResize = debounce(() => {
   windowHeight.value = window.innerHeight
@@ -430,11 +430,11 @@ const handleResize = debounce(() => {
 }, 200)
 
 onMounted(async () => {
-  await getRooms()
   reqForm.value.pageSize = calculateCardSize()
   if (cardRef.value) {
     cardWidth.value = cardRef.value.$el.offsetWidth
   }
+  await getRooms()
   window.addEventListener('resize', handleResize)
 })
 onUnmounted(() => {
