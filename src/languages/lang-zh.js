@@ -499,7 +499,18 @@ export default {
     },
   },
   platform: {
-    overview: {},
+    tab: {
+      overview: '总览',
+      user: '用户',
+    },
+    overview: {
+      memory: '平台内存使用',
+      runningTime: '平台运行时长',
+      roomCount: '房间总数',
+      worldCount: '世界总数',
+      userCount: '用户总数',
+      uidCount: 'UID总数',
+    },
     user: {
       form: {
         username: {

@@ -499,7 +499,18 @@ export default {
     },
   },
   platform: {
-    overview: {},
+    tab: {
+      overview: 'Overview',
+      user: 'User',
+    },
+    overview: {
+      memory: 'DMP Memory Used',
+      runningTime: 'DMP Running Time',
+      roomCount: 'Room Count',
+      worldCount: 'World Count',
+      userCount: 'User Count',
+      uidCount: 'UID Count',
+    },
     user: {
       form: {
         username: {
