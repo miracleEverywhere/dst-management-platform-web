@@ -8,6 +8,8 @@
           v-tooltip="t('game.base.step1.gameName.tip')"
           :rules="roomFormRules.gameName"
           :label="t('game.base.step1.gameName.name')"
+          append-inner-icon="ri-emotion-happy-line"
+          @click:append-inner="emojiDialog=true;emojiGameName=true"
         />
       </v-col>
     </v-row>
@@ -18,6 +20,8 @@
           v-model="roomForm.description"
           v-tooltip="t('game.base.step1.description.tip')"
           :label="t('game.base.step1.description.name')"
+          append-inner-icon="ri-emotion-happy-line"
+          @click:append-inner="emojiDialog=true;emojiGameName=false"
         />
       </v-col>
     </v-row>
@@ -304,6 +308,63 @@
       </v-col>
     </v-row>
   </v-form>
+  <v-dialog v-model="emojiDialog" :width="mobile?'90%':'60%'">
+    <v-card>
+      <v-card-title>
+        <div class="card-header">
+          <div>
+            {{t('game.base.step1.emoji.title')}}
+          </div>
+          <div>
+            <v-radio-group
+              v-model="emojiInsertMode"
+              inline
+            >
+              <v-radio
+                :label="t('game.base.step1.emoji.insert')"
+                :value="true"
+                class="mr-4"
+              />
+              <v-radio
+                :label="t('game.base.step1.emoji.copy')"
+                :value="false"
+              />
+            </v-radio-group>
+          </div>
+        </div>
+      </v-card-title>
+      <v-card-text class="mt-4">
+        <div v-if="emojiInsertMode">
+          <v-text-field
+            v-if="emojiGameName"
+            ref="emojiInputNameRef"
+            v-model="roomForm.gameName"
+            :label="t('game.base.step1.gameName.name')"
+          />
+          <v-text-field
+            v-else
+            ref="emojiInputDescriptionRef"
+            v-model="roomForm.description"
+            :label="t('game.base.step1.description.name')"
+          />
+        </div>
+        <div class="emoji-container mt-8">
+          <div v-for="e in Emoji" class="emoji-item" @click="handleEmoji(e)">
+            {{e}}
+          </div>
+        </div>
+      </v-card-text>
+      <v-card-actions v-if="!mobile">
+        <v-spacer/>
+        <v-btn variant="text" color="info"
+               href="https://www.bilibili.com/opus/814456568458248259"
+               target="_blank"
+               append-icon="ri-share-box-line">
+          {{t('game.base.step1.emoji.thanks')}}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -311,6 +372,8 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import { GamePortFactor } from "@/config/index.js"
 import { generateRandomString, getDstToken } from "@/utils/tools.js"
+import Emoji from "@/views/game/components/base/emoji.js";
+import {showSnackbar} from "@/utils/snackbar.js";
 
 const props = defineProps({
   formData: {
@@ -416,6 +479,113 @@ const handleAddToken = () => {
   roomForm.value.token = getDstToken()
 }
 
+const emojiGameName = ref(false) // 游戏名为true 游戏描述为false
+const emojiInsertMode = ref(true) // 插入模式为true 复制模式为false
+const emojiDialog = ref(false)
+const emojiInputNameRef = ref()
+const emojiInputDescriptionRef = ref()
+const cursorPosition = ref(0)
+const handleEmoji = (e) => {
+  if (emojiInsertMode.value) {
+    let input, currentValue
+    if (emojiGameName.value) {
+      input = emojiInputNameRef.value?.$el.querySelector('input')
+      if (!input) return
+      currentValue = roomForm.value.gameName
+    } else {
+      input = emojiInputDescriptionRef.value?.$el.querySelector('input')
+      if (!input) return
+      currentValue = roomForm.value.description
+    }
+
+
+
+    const startPos = input.selectionStart || cursorPosition.value
+    const endPos = input.selectionEnd || cursorPosition.value
+
+    // 更新值
+    if (emojiGameName.value) {
+      roomForm.value.gameName =
+        currentValue.substring(0, startPos) +
+        e +
+        currentValue.substring(endPos)
+    } else {
+      roomForm.value.description =
+        currentValue.substring(0, startPos) +
+        e +
+        currentValue.substring(endPos)
+    }
+
+
+    // 更新光标
+    const newCursorPos = startPos + e.length
+    cursorPosition.value = newCursorPos
+
+    // 设置光标位置
+    nextTick(() => {
+      input.setSelectionRange(newCursorPos, newCursorPos)
+      input.focus()
+    })
+  } else {
+    copyToClipboard(e).then(() => {
+      let message
+      showSnackbar('复制成功')
+      emojiDialog.value = false
+    }).catch(() => {
+      showSnackbar('复制失败', 'error')
+    })
+  }
+}
+function copyToClipboard(text, onSuccess, onError) {
+  // 返回一个Promise以便可以使用await或.then()
+  return new Promise((resolve, reject) => {
+    // 检查是否支持navigator.clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      // 使用现代剪贴板API
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          if (typeof onSuccess === 'function') onSuccess(text);
+          resolve(text);
+        })
+        .catch(err => {
+          if (typeof onError === 'function') onError(err, text);
+          reject(err);
+        });
+    } else {
+      // 降级方案：使用document.execCommand
+      try {
+        // 创建一个临时的textarea元素
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed'; // 防止页面滚动
+        textarea.style.opacity = '0'; // 隐藏元素
+
+        // 将textarea添加到DOM中
+        document.body.appendChild(textarea);
+
+        // 选中文本
+        textarea.select();
+
+        // 执行复制命令
+        const success = document.execCommand('copy');
+
+        // 移除临时元素
+        document.body.removeChild(textarea);
+
+        if (success) {
+          if (typeof onSuccess === 'function') onSuccess(text);
+          resolve(text);
+        } else {
+          throw new Error('复制失败，execCommand返回false');
+        }
+      } catch (err) {
+        if (typeof onError === 'function') onError(err, text);
+        reject(err);
+      }
+    }
+  });
+}
+
 const validate = async () => {
   const { valid } = await roomFormRef.value.validate()
   if (valid) {
@@ -439,6 +609,28 @@ defineExpose({
 <style scoped>
 .layout-wrapper .v-row {
   margin-bottom: 1.25rem;
+}
+
+.emoji-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.emoji-item {
+  font-size: 3rem;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease; /* 添加过渡效果 */
+}
+
+.emoji-item:hover {
+  transform: scale(1.5); /* 放大1.5倍 */
 }
 </style>
 
