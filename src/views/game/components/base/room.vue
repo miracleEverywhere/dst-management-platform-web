@@ -308,12 +308,15 @@
       </v-col>
     </v-row>
   </v-form>
-  <v-dialog v-model="emojiDialog" :width="mobile?'90%':'60%'">
+  <v-dialog
+    v-model="emojiDialog"
+    :width="mobile?'90%':'60%'"
+  >
     <v-card>
       <v-card-title>
         <div class="card-header">
           <div>
-            {{t('game.base.step1.emoji.title')}}
+            {{ t('game.base.step1.emoji.title') }}
           </div>
           <div>
             <v-radio-group
@@ -349,18 +352,25 @@
           />
         </div>
         <div class="emoji-container mt-8">
-          <div v-for="e in Emoji" class="emoji-item" @click="handleEmoji(e)">
-            {{e}}
+          <div
+            v-for="e in Emoji"
+            class="emoji-item"
+            @click="handleEmoji(e)"
+          >
+            {{ e }}
           </div>
         </div>
       </v-card-text>
       <v-card-actions v-if="!mobile">
-        <v-spacer/>
-        <v-btn variant="text" color="info"
-               href="https://www.bilibili.com/opus/814456568458248259"
-               target="_blank"
-               append-icon="ri-share-box-line">
-          {{t('game.base.step1.emoji.thanks')}}
+        <v-spacer />
+        <v-btn
+          variant="text"
+          color="info"
+          href="https://www.bilibili.com/opus/814456568458248259"
+          target="_blank"
+          append-icon="ri-share-box-line"
+        >
+          {{ t('game.base.step1.emoji.thanks') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -372,8 +382,8 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import { GamePortFactor } from "@/config/index.js"
 import { generateRandomString, getDstToken } from "@/utils/tools.js"
-import Emoji from "@/views/game/components/base/emoji.js";
-import {showSnackbar} from "@/utils/snackbar.js";
+import Emoji from "@/views/game/components/base/emoji.js"
+import { showSnackbar } from "@/utils/snackbar.js"
 
 const props = defineProps({
   formData: {
@@ -485,7 +495,8 @@ const emojiDialog = ref(false)
 const emojiInputNameRef = ref()
 const emojiInputDescriptionRef = ref()
 const cursorPosition = ref(0)
-const handleEmoji = (e) => {
+
+const handleEmoji = e => {
   if (emojiInsertMode.value) {
     let input, currentValue
     if (emojiGameName.value) {
@@ -519,6 +530,7 @@ const handleEmoji = (e) => {
 
     // 更新光标
     const newCursorPos = startPos + e.length
+
     cursorPosition.value = newCursorPos
 
     // 设置光标位置
@@ -536,6 +548,7 @@ const handleEmoji = (e) => {
     })
   }
 }
+
 function copyToClipboard(text, onSuccess, onError) {
   // 返回一个Promise以便可以使用await或.then()
   return new Promise((resolve, reject) => {
@@ -544,46 +557,47 @@ function copyToClipboard(text, onSuccess, onError) {
       // 使用现代剪贴板API
       navigator.clipboard.writeText(text)
         .then(() => {
-          if (typeof onSuccess === 'function') onSuccess(text);
-          resolve(text);
+          if (typeof onSuccess === 'function') onSuccess(text)
+          resolve(text)
         })
         .catch(err => {
-          if (typeof onError === 'function') onError(err, text);
-          reject(err);
-        });
+          if (typeof onError === 'function') onError(err, text)
+          reject(err)
+        })
     } else {
       // 降级方案：使用document.execCommand
       try {
         // 创建一个临时的textarea元素
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed'; // 防止页面滚动
-        textarea.style.opacity = '0'; // 隐藏元素
+        const textarea = document.createElement('textarea')
+
+        textarea.value = text
+        textarea.style.position = 'fixed' // 防止页面滚动
+        textarea.style.opacity = '0' // 隐藏元素
 
         // 将textarea添加到DOM中
-        document.body.appendChild(textarea);
+        document.body.appendChild(textarea)
 
         // 选中文本
-        textarea.select();
+        textarea.select()
 
         // 执行复制命令
-        const success = document.execCommand('copy');
+        const success = document.execCommand('copy')
 
         // 移除临时元素
-        document.body.removeChild(textarea);
+        document.body.removeChild(textarea)
 
         if (success) {
-          if (typeof onSuccess === 'function') onSuccess(text);
-          resolve(text);
+          if (typeof onSuccess === 'function') onSuccess(text)
+          resolve(text)
         } else {
-          throw new Error('复制失败，execCommand返回false');
+          throw new Error('复制失败，execCommand返回false')
         }
       } catch (err) {
-        if (typeof onError === 'function') onError(err, text);
-        reject(err);
+        if (typeof onError === 'function') onError(err, text)
+        reject(err)
       }
     }
-  });
+  })
 }
 
 const validate = async () => {
