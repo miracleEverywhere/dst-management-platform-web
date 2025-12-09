@@ -32,4 +32,12 @@ export default {
       return await http.put(this.url, data)
     },
   },
+  check: {
+    lobby: {
+      url: `/dashboard/check/lobby`,
+      post: async function (data) {
+        return await http.post(this.url, data)
+      },
+    },
+  },
 }
