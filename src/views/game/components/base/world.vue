@@ -22,7 +22,7 @@
       {{ t('game.base.step2.addWorld') }}
     </v-btn>
     <v-menu
-      v-if="props.gameMode!=='custom'"
+      v-if="!(props.gameMode==='custom' || props.gameMode === 'lavaarena' || props.gameMode === 'quagmire' )"
       open-on-click
     >
       <template #activator="{ props }">
@@ -152,6 +152,7 @@
             <v-text-field
               v-model="world.worldName"
               v-tooltip="t('game.base.step2.worldName.tip')"
+              :disabled="(props.formData?.length||0) !== 0"
               :rules="worldFormRules.worldName"
               :label="t('game.base.step2.worldName.name')"
             />
@@ -162,6 +163,7 @@
             <v-number-input
               v-model="world.gameID"
               v-tooltip="t('game.base.step2.gameID.tip')"
+              :disabled="(props.formData?.length||0) !== 0"
               :rules="worldFormRules.gameID"
               :label="t('game.base.step2.gameID.name')"
               :min="1"
@@ -949,10 +951,13 @@ onMounted(async () => {
     worldForm.value[0].masterServerPort = portFactor.value + GamePortFactor.masterServerPort
     worldForm.value[0].authenticationPort = portFactor.value + GamePortFactor.authenticationPort
 
-    if (props.gameMode !== 'custom') {
+    if (!(props.gameMode === 'lavaarena' || props.gameMode === 'quagmire' || props.gameMode === 'custom')) {
       worldForm.value[0].levelData = eval(props.gameMode).master
       await handleWorldTabsEdit('', 'add')
       worldForm.value[1].levelData = eval(props.gameMode).caves
+    }
+    if (props.gameMode === 'lavaarena' || props.gameMode === 'quagmire') {
+      worldForm.value[0].levelData = eval(props.gameMode).master
     }
 
   }
@@ -1360,7 +1365,7 @@ watch(() => worldForm.value.length, l => {
   } else {
     canCreateWorld.value = l < props.maxWorlds
   }
-},
+},{ immediate: true }
 )
 </script>
 
