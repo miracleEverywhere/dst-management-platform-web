@@ -6,6 +6,7 @@
         <div>
           <v-btn
             append-icon="ri-arrow-drop-down-line"
+            :loading="preDownloadLoading||multiEnableLoading"
             color="primary"
           >
             {{ t('game.mod.add.headerMenuButton') }}
@@ -219,6 +220,8 @@ import useGlobalStore from "@store/global.js"
 import { formatBytes } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useI18n } from "vue-i18n"
+import roomApi from "@/api/room.js"
+import { ref } from "vue"
 
 const globalStore = useGlobalStore()
 const { t } = useI18n()
@@ -233,7 +236,7 @@ const getDownloadedMods = () => {
 
   downloadedModsLoading.value = true
   modApi.downloaded.get(reqForm).then(response => {
-    downloadedMods.value = response.data
+    downloadedMods.value = response.data || []
   }).finally(() => {
     downloadedModsLoading.value = false
   })
@@ -336,32 +339,37 @@ const multiEnable = async () => {
 
 const preDownloadLoading = ref(false)
 
-const preDownload = () => {
+const preDownload = async () => {
   preDownloadLoading.value = true
+
+  const response = await roomApi.base.get({ id: globalStore.room.id })
+  let worlds = response.data.worldData || []
+  if (worlds.length===0) {
+    showSnackbar(t('game.mod.add.preDownloadFail'), 'error')
+    
+    return
+  }
 
   const reqForm = {
     roomID: globalStore.room.id,
-    worldID: 24,
+    worldID: worlds[0]?.id || 0,
   }
 
   modApi.setting.enabledMods.get(reqForm).then(async response => {
-    let allSuccess = true
     for (let mod of response.data) {
       const reqFrom = {
         roomID: globalStore.room.id,
         id: mod.id,
         file_url: mod.file_url,
+        update: true,
       }
 
       try {
         const res = await modApi.download.post(reqFrom)
-      } catch {
-        allSuccess = false
-        showSnackbar(`${mod.name} ${t('game.mod.add.preDownloadFail')}`, 'error')
-      }
 
-      if (allSuccess) {
-        showSnackbar(t('game.mod.add.preDownloadSuccess'))
+        showSnackbar(`${mod.name} ${t('game.mod.add.preDownloadSuccess')}`)
+      } catch {
+        showSnackbar(`${mod.name} ${t('game.mod.add.preDownloadFail')}`, 'error')
       }
     }
   }).finally(() => {
