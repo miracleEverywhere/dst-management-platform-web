@@ -99,7 +99,7 @@
               <room
                 ref="roomRef"
                 :room-count="roomCount"
-                :max-players="userStore.userInfo.maxPlayers"
+                :max-players="userStore.userInfo.role==='admin'?0:userStore.userInfo.maxPlayers"
                 :form-data="roomData"
               />
             </v-container>
@@ -121,7 +121,7 @@
                 :world-count="worldCount"
                 :form-data="worldData"
                 :game-mode="roomData.gameMode"
-                :max-worlds="userStore.userInfo.maxWorlds"
+                :max-worlds="userStore.userInfo.role==='admin'?0:userStore.userInfo.maxWorlds"
                 :theme="globalStore.theme"
                 :tab-window-height="calculateContainerSize()-300"
               />
