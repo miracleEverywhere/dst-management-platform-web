@@ -36,6 +36,11 @@ instance.interceptors.request.use(
 // 响应拦截器：处理响应数据
 instance.interceptors.response.use(
   async response => {
+    // 1. 如果是文件下载（responseType 为 blob），直接返回
+    if (response.config.responseType === 'blob') {
+      return response
+    }
+
     const status = response.data.status || response.data.code
     if (status === 200) {
       // 服务器连接状态，非后端返回的status 或者 code
@@ -75,7 +80,57 @@ const http = {
   get: (url, params) => instance.get(url, { params }),
   post: (url, data) => instance.post(url, data),
   put: (url, data) => instance.put(url, data),
-  delete: (url, data) => instance.delete(url, { headers: { 'Content-Type': 'application/json' }, data: data }),
+  delete: (url, data) => instance.delete(url, {
+    headers: { 'Content-Type': 'application/json' },
+    data: data
+  }),
+  download: async (url, params, filename) => {
+    try {
+      // 设置 responseType 为 blob
+      const response = await instance.get(url, {
+        params,
+        responseType: 'blob'
+      })
+
+      // 创建 Blob 对象
+      const blob = new Blob([response.data])
+
+      // 创建下载链接
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+
+      // 设置文件名
+      if (filename) {
+        link.download = filename
+      } else {
+        // 尝试从响应头获取文件名
+        const contentDisposition = response.headers['content-disposition']
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename\*?=(?:utf-8'')?([^;]+)/i)
+          if (filenameMatch && filenameMatch[1]) {
+            link.download = decodeURIComponent(filenameMatch[1])
+          }
+        } else {
+          // 如果没有文件名，使用默认文件名
+          link.download = 'download'
+        }
+      }
+
+      // 触发下载
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // 释放 URL 对象
+      window.URL.revokeObjectURL(downloadUrl)
+
+      return response
+    } catch (error) {
+      console.error('下载文件失败:', error)
+      throw error
+    }
+  }
 }
 
 export default http
