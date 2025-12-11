@@ -735,4 +735,21 @@ export default {
       status: '状态',
     },
   },
+  tools: {
+    backup: {
+      gameName: '房间名',
+      cycles: '天数',
+      size: '大小',
+      timestamp: '备份时间',
+      actions: '操作',
+      restore: '恢复',
+      download: '下载',
+      delete: '删除',
+      title: '备份列表',
+      backup: '立即备份',
+      multiDelete: '批量删除',
+      deleteMessage1: '删除备份：',
+      deleteMessage2: '个',
+    }
+  },
 }

@@ -735,4 +735,21 @@ export default {
       status: 'Status',
     },
   },
+  tools: {
+    backup: {
+      gameName: 'Name',
+      cycles: 'Cycles',
+      size: 'Size',
+      timestamp: 'Time',
+      actions: 'Actions',
+      restore: 'Restore',
+      download: 'Download',
+      delete: 'Delete',
+      title: 'Backups',
+      backup: 'Backup',
+      multiDelete: 'Multi Delete',
+      deleteMessage1: 'Deleted Backups: ',
+      deleteMessage2: '',
+    }
+  },
 }
