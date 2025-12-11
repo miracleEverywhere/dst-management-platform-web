@@ -100,7 +100,7 @@
                               :max="65535"
                             />
                           </v-card-text>
-                          <v-card-actions>
+                          <v-card-actions class="mr-4 mb-4">
                             <v-spacer />
                             <v-btn
                               variant="elevated"
@@ -481,7 +481,7 @@
             cols="12"
             md="6"
           >
-            <v-card min-height="260">
+            <v-card min-height="295">
               <v-card-title>
                 {{ t('dashboard.card3.title') }}
               </v-card-title>
@@ -835,7 +835,7 @@
             cols="12"
             md="6"
           >
-            <v-card min-height="260">
+            <v-card min-height="295">
               <v-card-title>
                 {{ t('dashboard.card4.title') }}
               </v-card-title>
@@ -853,14 +853,13 @@
                     />
                   </v-col>
                 </v-row>
-                <v-row
-                  no-gutters
-                  class="my-8"
-                >
-                  <v-col cols="3">
+                <v-row class="my-8">
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
                     <v-select
                       v-model="consoleForm.selectedWorldID"
-                      density="compact"
                       :label="t('dashboard.card4.world')"
                       class="mr-1"
                       item-title="worldName"
@@ -868,10 +867,12 @@
                       :items="consoleForm.worlds"
                     />
                   </v-col>
-                  <v-col class="ml-2">
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
                     <v-text-field
                       v-model="consoleForm.cmd"
-                      density="compact"
                       append-inner-icon="ri-send-plane-fill"
                       :label="t('dashboard.card4.cmd')"
                       clearable

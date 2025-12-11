@@ -750,7 +750,7 @@ export default {
       multiDelete: '批量删除',
       deleteMessage1: '删除备份：',
       deleteMessage2: '个',
-    }
+    },
   },
   upload: {
     title: '存档导入',
@@ -774,7 +774,7 @@ export default {
       },
     },
     tree: {
-      caves: 'Caves (如果包含，则内部图钉文件必须)'
+      caves: 'Caves (如果包含，则内部图钉文件必须)',
     },
     dialog: {
       title: '存档上传',

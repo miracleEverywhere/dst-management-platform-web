@@ -82,14 +82,14 @@ const http = {
   put: (url, data) => instance.put(url, data),
   delete: (url, data) => instance.delete(url, {
     headers: { 'Content-Type': 'application/json' },
-    data: data
+    data: data,
   }),
   download: async (url, params, filename) => {
     try {
       // 设置 responseType 为 blob
       const response = await instance.get(url, {
         params,
-        responseType: 'blob'
+        responseType: 'blob',
       })
 
       // 创建 Blob 对象
@@ -98,6 +98,7 @@ const http = {
       // 创建下载链接
       const downloadUrl = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
+
       link.href = downloadUrl
 
       // 设置文件名
@@ -130,7 +131,7 @@ const http = {
       console.error('下载文件失败:', error)
       throw error
     }
-  }
+  },
 }
 
 export default http

@@ -31,7 +31,7 @@
             </template>
             <template #default="{ isActive }">
               <v-card
-               :title="t('upload.dialog.title')"
+                :title="t('upload.dialog.title')"
                 min-height="500"
               >
                 <v-card-text>
@@ -41,7 +41,7 @@
                       density="compact"
                       class="mt-2 mb-2"
                     >
-                      {{t('upload.dialog.tip')}}
+                      {{ t('upload.dialog.tip') }}
                     </v-alert>
                     <v-radio-group
                       v-model="uploadType"
@@ -83,9 +83,7 @@
           </v-dialog>
         </v-toolbar>
         <v-expansion-panels>
-          <v-expansion-panel
-            :text="t('upload.expansions.panel1.text')"
-          >
+          <v-expansion-panel :text="t('upload.expansions.panel1.text')">
             <template #title>
               <v-icon
                 icon="ri-error-warning-line"
@@ -93,13 +91,11 @@
                 color="error"
               />
               <span class="text-error">
-                {{t('upload.expansions.panel1.title')}}
+                {{ t('upload.expansions.panel1.title') }}
               </span>
             </template>
           </v-expansion-panel>
-          <v-expansion-panel
-            :text="t('upload.expansions.panel2.text')"
-          >
+          <v-expansion-panel :text="t('upload.expansions.panel2.text')">
             <template #title>
               <v-icon
                 icon="ri-error-warning-line"
@@ -107,14 +103,11 @@
                 color="error"
               />
               <span class="text-error">
-                {{t('upload.expansions.panel2.title')}}
+                {{ t('upload.expansions.panel2.title') }}
               </span>
-
             </template>
           </v-expansion-panel>
-          <v-expansion-panel
-            :text="t('upload.expansions.panel3.text')"
-          >
+          <v-expansion-panel :text="t('upload.expansions.panel3.text')">
             <template #title>
               <v-icon
                 icon="ri-error-warning-line"
@@ -122,7 +115,7 @@
                 color="error"
               />
               <span class="text-error">
-                {{t('upload.expansions.panel3.title')}}
+                {{ t('upload.expansions.panel3.title') }}
               </span>
             </template>
           </v-expansion-panel>
@@ -146,13 +139,23 @@
         open-on-click
         no-filter
       >
-        <template v-slot:prepend="{ item, isOpen }">
-          <v-icon v-if="!item.file" :icon="isOpen ? 'ri-folder-open-fill' : 'ri-folder-fill'"></v-icon>
-          <v-icon v-else :icon="files[item.file]"></v-icon>
+        <template #prepend="{ item, isOpen }">
+          <v-icon
+            v-if="!item.file"
+            :icon="isOpen ? 'ri-folder-open-fill' : 'ri-folder-fill'"
+          />
+          <v-icon
+            v-else
+            :icon="files[item.file]"
+          />
         </template>
 
         <template #append="{ item }">
-          <v-icon v-if="item.required" icon="ri-pushpin-fill" color="error"></v-icon>
+          <v-icon
+            v-if="item.required"
+            icon="ri-pushpin-fill"
+            color="error"
+          />
         </template>
       </v-treeview>
     </v-col>
@@ -163,9 +166,9 @@
 import { showSnackbar } from "@/utils/snackbar.js"
 import roomApi from "@/api/room.js"
 import { useDisplay } from "vuetify/framework"
-import {useI18n} from "vue-i18n";
-import useGlobalStore from "@/plugins/store/global.js";
-import useUserStore from "@/plugins/store/user.js";
+import { useI18n } from "vue-i18n"
+import useGlobalStore from "@store/global.js"
+import useUserStore from "@store/user.js"
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
@@ -186,6 +189,7 @@ const canCreateRoom = () => {
   if (userStore.userInfo.role === 'admin') {
     return true
   }
+  
   return userStore.userInfo.roomCreation
 }
 
@@ -214,6 +218,7 @@ const handleUpload = file => {
 }
 
 const open = shallowRef([1, 14])
+
 const files = shallowRef({
   ini: 'ri-file-settings-line',
   lua: 'ri-file-code-line',
@@ -247,7 +252,7 @@ const items = [
             id: 6,
             title: 'leveldataoverride.lua',
             file: 'lua',
-            required: true
+            required: true,
           },
           {
             id: 7,
@@ -257,7 +262,7 @@ const items = [
           {
             id: 8,
             title: 'save',
-            required: true
+            required: true,
           },
           {
             id: 9,
@@ -268,20 +273,20 @@ const items = [
             id: 10,
             title: 'server.ini',
             file: 'ini',
-            required: true
+            required: true,
           },
           {
             id: 11,
             title: 'server_log.txt',
             file: 'txt',
           },
-        ]
+        ],
       },
       {
         id: 12,
         title: 'cluster.ini',
         file: 'ini',
-        required: true
+        required: true,
       },
       {
         id: 13,
@@ -300,7 +305,7 @@ const items = [
             id: 16,
             title: 'leveldataoverride.lua',
             file: 'lua',
-            required: true
+            required: true,
           },
           {
             id: 17,
@@ -310,7 +315,7 @@ const items = [
           {
             id: 18,
             title: 'save',
-            required: true
+            required: true,
           },
           {
             id: 19,
@@ -321,7 +326,7 @@ const items = [
             id: 20,
             title: 'server.ini',
             file: 'ini',
-            required: true
+            required: true,
           },
           {
             id: 21,
@@ -329,15 +334,15 @@ const items = [
             file: 'txt',
           },
         ],
-        required: true
+        required: true,
       },
       {
         id: 22,
         title: 'whitelist.txt',
         file: 'txt',
       },
-    ]
-  }
+    ],
+  },
 ]
 </script>
 

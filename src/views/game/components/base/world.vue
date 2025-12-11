@@ -1365,7 +1365,7 @@ watch(() => worldForm.value.length, l => {
   } else {
     canCreateWorld.value = l < props.maxWorlds
   }
-},{ immediate: true }
+}, { immediate: true },
 )
 </script>
 

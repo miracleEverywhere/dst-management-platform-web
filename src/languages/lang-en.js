@@ -750,7 +750,7 @@ export default {
       multiDelete: 'Multi Delete',
       deleteMessage1: 'Deleted Backups: ',
       deleteMessage2: '',
-    }
+    },
   },
   upload: {
     title: 'Upload',
@@ -774,7 +774,7 @@ export default {
       },
     },
     tree: {
-      caves: 'Caves (If included, the internal pinned files are mandatory)'
+      caves: 'Caves (If included, the internal pinned files are mandatory)',
     },
     dialog: {
       title: 'Upload',

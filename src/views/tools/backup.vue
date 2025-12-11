@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>
-
-    </v-card-title>
+    <v-card-title />
     <v-card-text>
       <v-sheet
         border
@@ -153,11 +151,11 @@
 
 <script setup>
 import toolsApi from "@/api/tools.js"
-import useGlobalStore from "@/plugins/store/global.js";
-import {useI18n} from "vue-i18n";
-import {formatBytes, timestamp2time} from "@/utils/tools.js";
-import {showSnackbar} from "@/utils/snackbar.js";
-import {useDisplay} from "vuetify/framework";
+import useGlobalStore from "@store/global.js"
+import { useI18n } from "vue-i18n"
+import { formatBytes, timestamp2time } from "@/utils/tools.js"
+import { showSnackbar } from "@/utils/snackbar.js"
+import { useDisplay } from "vuetify/framework"
 
 
 const globalStore = useGlobalStore()
@@ -166,11 +164,14 @@ const { mobile } = useDisplay()
 
 const getBackupFilesLoading = ref(false)
 const backupFiles = ref([])
+
 const getBackupFiles = () => {
   getBackupFilesLoading.value = true
+
   const reqForm = {
-    roomID: globalStore.room.id
+    roomID: globalStore.room.id,
   }
+
   toolsApi.backup.get(reqForm).then(response => {
     backupFiles.value = response.data
     backupFiles.value.sort((a, b) => b.timestamp - a.timestamp)
@@ -178,7 +179,9 @@ const getBackupFiles = () => {
     getBackupFilesLoading.value = false
   })
 }
+
 const selectedFiles = ref([])
+
 const headers = [
   { key: 'gameName', title: t('tools.backup.gameName') },
   { key: 'cycles', title: t('tools.backup.cycles') },
@@ -190,11 +193,14 @@ const headers = [
 const actionButtonLoading = ref(false)
 
 const createBackupLoading = ref(false)
+
 const createBackup = () => {
   createBackupLoading.value = true
+
   const reqForm = {
-    roomID: globalStore.room.id
+    roomID: globalStore.room.id,
   }
+
   toolsApi.backup.post(reqForm).then(response => {
     getBackupFiles()
     showSnackbar(response.message)
@@ -204,13 +210,16 @@ const createBackup = () => {
 }
 
 const singleDeleteLoading = ref(false)
-const deleteBackup = (filename) => {
+
+const deleteBackup = filename => {
   singleDeleteLoading.value = true
   actionButtonLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     filenames: [filename],
   }
+
   toolsApi.backup.delete(reqForm).then(response => {
     getBackupFiles()
     showSnackbar(t('tools.backup.deleteMessage1')+response.data+t('tools.backup.deleteMessage2'))
@@ -223,10 +232,12 @@ const deleteBackup = (filename) => {
 const multiDeleteBackup = () => {
   singleDeleteLoading.value = true
   actionButtonLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     filenames: selectedFiles.value.map(item => item.fileName),
   }
+
   toolsApi.backup.delete(reqForm).then(response => {
     getBackupFiles()
     selectedFiles.value = []
@@ -238,13 +249,16 @@ const multiDeleteBackup = () => {
 }
 
 const restoreLoading = ref(false)
-const restore = (filename) => {
+
+const restore = filename => {
   actionButtonLoading.value = true
   restoreLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     filename: filename,
   }
+
   toolsApi.backup.restore.post(reqForm).then(response => {
     showSnackbar(response.message)
   }).finally(() => {
@@ -253,12 +267,14 @@ const restore = (filename) => {
   })
 }
 
-const downloadBackup = (filename) => {
+const downloadBackup = filename => {
   actionButtonLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     filename: filename,
   }
+
   toolsApi.backup.download.download(reqForm, "dmp_backup.zip").finally(() => {
     actionButtonLoading.value = false
   })
@@ -269,5 +285,3 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-</style>
