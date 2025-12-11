@@ -752,4 +752,38 @@ export default {
       deleteMessage2: '',
     }
   },
+  upload: {
+    title: 'Upload',
+    button: 'Click Upload',
+    expansions: {
+      panel1: {
+        title: '[MUST READ] Type of files to upload',
+        text: 'The uploaded file must be a compressed archive with the .zip extension. The platform will verify the uploaded file; other archive formats may cause the upload to fail.',
+      },
+      panel2: {
+        title: '[MUST READ] Compressed file contents',
+        text: 'A standard DST save file must include the files indicated in the prompt below. Missing any of these files will cause the import to fail. The archive can contain multiple worlds, but it must include at least one world. If the token file is missing, the platform will use the default token. If certain fields are missing from the save file, the platform will fill them with default settings. To reiterate: in the file tree below, files marked with a pin icon on the right are mandatory, and their absence will cause the save import to fail.',
+      },
+      panel3: {
+        title: '[MUST READ] Precautions after the upload is complete',
+        text: 'After the upload is complete, you can go to the Game Settings > Room Settings page to manually configure functions such as scheduled backups and restarts in the system settings. To avoid missing mods, be sure to go to the Game Settings > Mod Settings page and click Pre-download Mods (note: rooms created directly on the platform do not require pre-downloading).',
+      },
+      panel4: {
+        title: 'Where are the local save files?',
+        text: 'Generally, it is located in the Documents/Klei/DoNotStarveTogether folder. This folder typically contains directories like Cluster_1, Cluster_2, Cluster_3, etc. You can right-click on a Cluster_x folder, select [Compress to...] > [Zip File] to create a .zip archive.',
+      },
+    },
+    tree: {
+      caves: 'Caves (If included, the internal pinned files are mandatory)'
+    },
+    dialog: {
+      title: 'Upload',
+      tip: 'Please upload a .zip-compressed file. Before uploading, carefully read the precautions. Do not omit files marked with a pushpin icon',
+      uploadType: 'Import Type',
+      uploadNew: 'Import to new room',
+      uploadOld: 'Overwrite the current room',
+      uploadingTitle: 'Uploading, please wait',
+      uploadingSubTitle: 'The upload time depends on your local network speed and the cloud server\'s network speed. Please wait patiently',
+    },
+  },
 }
