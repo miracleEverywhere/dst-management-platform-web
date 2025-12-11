@@ -47,7 +47,7 @@
       />
     </div>
     <v-row class="mt-8">
-      <v-row>
+      <v-row class="mx-1">
         <v-col
           v-for="(room, index) in rooms"
           :cols="mobile?12:6"
