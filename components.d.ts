@@ -14,6 +14,7 @@ declare module 'vue' {
     CodeEditor: typeof import('./src/components/CodeEditor.vue')['default']
     ConfirmBox: typeof import('./src/components/ConfirmBox.vue')['default']
     ErrorHeader: typeof import('./src/components/ErrorHeader.vue')['default']
+    Message: typeof import('./src/components/Message.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     PreciseRating: typeof import('./src/components/PreciseRating.vue')['default']
     Result: typeof import('./src/components/Result.vue')['default']
