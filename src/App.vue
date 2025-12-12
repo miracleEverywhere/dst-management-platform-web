@@ -1,26 +1,6 @@
 <template>
   <v-app>
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="timeout"
-      transition="slide-y-transition"
-      :location="location"
-      variant="flat"
-      color="#FFFFFF00"
-      class="custom-snackbar"
-    >
-      <v-card class="content-card">
-        <v-alert
-          :color="color"
-          :icon="icon"
-          variant="text"
-          density="compact"
-          class="text-no-wrap pr-6"
-        >
-          {{ text }}
-        </v-alert>
-      </v-card>
-    </v-snackbar>
+    <message />
     <router-view />
   </v-app>
 </template>
@@ -28,7 +8,6 @@
 <script setup>
 import useGlobalStore from '@store/global'
 import { useI18n } from "vue-i18n"
-import { useSnackbar } from './utils/snackbar'
 import { getBrowserLang } from "@/utils/tools.js"
 import { useLocale } from "vuetify/framework"
 
@@ -37,11 +16,7 @@ const i18n = useI18n()
 const globalStore = useGlobalStore()
 const { current } = useLocale()
 
-const { snackbar, color, text, location, icon, timeout } = useSnackbar()
 
-onMounted(() => {
-  initI18n()
-})
 
 const initI18n = () => {
   let language
@@ -65,22 +40,7 @@ const initI18n = () => {
   }
 }
 
-const initTheme = () => {
-
-}
+onMounted(() => {
+  initI18n()
+})
 </script>
-
-<style scoped>
-.custom-snackbar {
-  width: auto !important;
-  min-width: auto !important;
-  max-width: none !important;
-}
-
-.content-card {
-  width: fit-content !important;
-  min-width: auto !important;
-}
-</style>
-
-
