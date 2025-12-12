@@ -1,5 +1,9 @@
 <template>
-  <v-card>
+  <!-- 游戏是否安装 -->
+  <template v-if="globalStore.gameVersion.local!==0">
+    <!-- 房间是否选择 -->
+    <template v-if="globalStore.room.id!==0">
+      <v-card>
     <v-card-title />
     <v-card-text>
       <v-sheet
@@ -147,25 +151,68 @@
       </v-sheet>
     </v-card-text>
   </v-card>
+    </template>
+    <template v-else>
+      <result
+        :title="t('global.result.title')"
+        :sub-title="t('global.result.subTitle')"
+        type="error"
+        :height="calculateContainerSize()"
+      >
+        <v-btn
+          to="/rooms"
+          class="mt-4"
+        >
+          {{ t('global.result.button') }}
+        </v-btn>
+      </result>
+    </template>
+  </template>
+  <template v-else>
+    <result
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    >
+      <v-btn
+        to="/install"
+        class="mt-4"
+      >
+        {{ t('global.noGame.button') }}
+      </v-btn>
+    </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    />
+  </template>
 </template>
 
 <script setup>
 import toolsApi from "@/api/tools.js"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
-import { formatBytes, timestamp2time } from "@/utils/tools.js"
+import {debounce, formatBytes, timestamp2time} from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useDisplay } from "vuetify/framework"
+import useUserStore from "@/plugins/store/user.js";
 
 
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
 const { t } = useI18n()
 const { mobile } = useDisplay()
-
+const windowHeight = ref(window.innerHeight)
 const getBackupFilesLoading = ref(false)
 const backupFiles = ref([])
 
 const getBackupFiles = () => {
+  if (globalStore.room.id === 0) return
   getBackupFilesLoading.value = true
 
   const reqForm = {
@@ -278,6 +325,17 @@ const downloadBackup = filename => {
   toolsApi.backup.download.download(reqForm, "dmp_backup.zip").finally(() => {
     actionButtonLoading.value = false
   })
+}
+
+const handleResize = debounce(() => {
+  windowHeight.value = window.innerHeight
+}, 200)
+
+const calculateContainerSize = () => {
+  // 64(navbar) + 37(tab header) + 20(card padding) + 16(card padding) = 137
+  const other = 150
+
+  return Math.max(2, Math.floor(windowHeight.value - other))
 }
 
 onMounted(() => {

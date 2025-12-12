@@ -1,165 +1,193 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-sheet
-        border
-        rounded
-      >
-        <v-toolbar flat>
-          <v-toolbar-title>
-            <v-icon
-              icon="ri-contacts-book-upload-line"
-              start
-            />
-            <span v-if="!mobile">{{ t('upload.title') }}</span>
-          </v-toolbar-title>
-          <v-dialog
-            v-model="uploadDialogVisible"
-            :persistent="uploadLoading"
-            class="flex-wrap"
-            :width="mobile?'90%':'40%'"
-          >
-            <template #activator="{ props: activatorProps }">
-              <v-btn
-                class="mr-2"
-                color="primary"
-                prepend-icon="ri-upload-line"
-                v-bind="activatorProps"
-              >
-                {{ t('upload.button') }}
-              </v-btn>
-            </template>
-            <template #default="{ isActive }">
-              <v-card
-                :title="t('upload.dialog.title')"
-                min-height="500"
-              >
-                <v-card-text>
-                  <template v-if="!uploadLoading">
-                    <v-alert
-                      color="warning"
-                      density="compact"
-                      class="mt-2 mb-2"
-                    >
-                      {{ t('upload.dialog.tip') }}
-                    </v-alert>
-                    <v-radio-group
-                      v-model="uploadType"
-                      inline
-                      color="primary"
-                      class="my-4"
-                    >
-                      <template #prepend>
-                        <v-chip>
-                          {{ t('upload.dialog.uploadType') }}
-                        </v-chip>
-                      </template>
-                      <v-radio
-                        :label="t('upload.dialog.uploadNew')"
-                        :disabled="!canCreateRoom()"
-                        value="new"
-                      />
-                      <v-radio
-                        :label="t('upload.dialog.uploadOld')"
-                        value="old"
-                      />
-                    </v-radio-group>
-                    <v-file-upload
-                      density="default"
-                      icon="ri-upload-cloud-2-line"
-                      @update:model-value="handleUpload"
-                    />
-                  </template>
-                  <template v-else>
-                    <result
-                      :height="400"
-                      :title="t('upload.dialog.uploadingTitle')"
-                      :sub-title="t('upload.dialog.uploadingSubTitle')"
-                    />
-                  </template>
-                </v-card-text>
-              </v-card>
-            </template>
-          </v-dialog>
-        </v-toolbar>
-        <v-expansion-panels>
-          <v-expansion-panel :text="t('upload.expansions.panel1.text')">
-            <template #title>
+  <!-- 游戏是否安装 -->
+  <template v-if="globalStore.gameVersion.local!==0">
+    <v-row>
+      <v-col>
+        <v-sheet
+          border
+          rounded
+        >
+          <v-toolbar flat>
+            <v-toolbar-title>
               <v-icon
-                icon="ri-error-warning-line"
+                icon="ri-contacts-book-upload-line"
                 start
-                color="error"
               />
-              <span class="text-error">
+              <span v-if="!mobile">{{ t('upload.title') }}</span>
+            </v-toolbar-title>
+            <v-dialog
+              v-model="uploadDialogVisible"
+              :persistent="uploadLoading"
+              class="flex-wrap"
+              :width="mobile?'90%':'40%'"
+            >
+              <template #activator="{ props: activatorProps }">
+                <v-btn
+                  class="mr-2"
+                  color="primary"
+                  prepend-icon="ri-upload-line"
+                  v-bind="activatorProps"
+                >
+                  {{ t('upload.button') }}
+                </v-btn>
+              </template>
+              <template #default="{ isActive }">
+                <v-card
+                  :title="t('upload.dialog.title')"
+                  min-height="500"
+                >
+                  <v-card-text>
+                    <template v-if="!uploadLoading">
+                      <v-alert
+                        color="warning"
+                        density="compact"
+                        class="mt-2 mb-2"
+                      >
+                        {{ t('upload.dialog.tip') }}
+                      </v-alert>
+                      <v-radio-group
+                        v-model="uploadType"
+                        inline
+                        color="primary"
+                        class="my-4"
+                      >
+                        <template #prepend>
+                          <v-chip>
+                            {{ t('upload.dialog.uploadType') }}
+                          </v-chip>
+                        </template>
+                        <v-radio
+                          :label="t('upload.dialog.uploadNew')"
+                          :disabled="!canCreateRoom()"
+                          value="new"
+                        />
+                        <v-radio
+                          :label="t('upload.dialog.uploadOld')"
+                          :disabled="globalStore.room.id===0"
+                          value="old"
+                        />
+                      </v-radio-group>
+                      <v-file-upload
+                        density="default"
+                        icon="ri-upload-cloud-2-line"
+                        @update:model-value="handleUpload"
+                      />
+                    </template>
+                    <template v-else>
+                      <result
+                        :height="400"
+                        :title="t('upload.dialog.uploadingTitle')"
+                        :sub-title="t('upload.dialog.uploadingSubTitle')"
+                      />
+                    </template>
+                  </v-card-text>
+                </v-card>
+              </template>
+            </v-dialog>
+          </v-toolbar>
+          <v-expansion-panels>
+            <v-expansion-panel :text="t('upload.expansions.panel1.text')">
+              <template #title>
+                <v-icon
+                  icon="ri-error-warning-line"
+                  start
+                  color="error"
+                />
+                <span class="text-error">
                 {{ t('upload.expansions.panel1.title') }}
               </span>
-            </template>
-          </v-expansion-panel>
-          <v-expansion-panel :text="t('upload.expansions.panel2.text')">
-            <template #title>
-              <v-icon
-                icon="ri-error-warning-line"
-                start
-                color="error"
-              />
-              <span class="text-error">
+              </template>
+            </v-expansion-panel>
+            <v-expansion-panel :text="t('upload.expansions.panel2.text')">
+              <template #title>
+                <v-icon
+                  icon="ri-error-warning-line"
+                  start
+                  color="error"
+                />
+                <span class="text-error">
                 {{ t('upload.expansions.panel2.title') }}
               </span>
-            </template>
-          </v-expansion-panel>
-          <v-expansion-panel :text="t('upload.expansions.panel3.text')">
-            <template #title>
-              <v-icon
-                icon="ri-error-warning-line"
-                start
-                color="error"
-              />
-              <span class="text-error">
+              </template>
+            </v-expansion-panel>
+            <v-expansion-panel :text="t('upload.expansions.panel3.text')">
+              <template #title>
+                <v-icon
+                  icon="ri-error-warning-line"
+                  start
+                  color="error"
+                />
+                <span class="text-error">
                 {{ t('upload.expansions.panel3.title') }}
               </span>
-            </template>
-          </v-expansion-panel>
-          <v-expansion-panel
-            :title="t('upload.expansions.panel4.title')"
-            :text="t('upload.expansions.panel4.text')"
-          />
-        </v-expansion-panels>
-      </v-sheet>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <v-treeview
-        v-model:opened="open"
-        :items="items"
-        item-value="id"
-        variant="flat"
-        density="compact"
-        activatable
-        open-on-click
-        no-filter
-      >
-        <template #prepend="{ item, isOpen }">
-          <v-icon
-            v-if="!item.file"
-            :icon="isOpen ? 'ri-folder-open-fill' : 'ri-folder-fill'"
-          />
-          <v-icon
-            v-else
-            :icon="files[item.file]"
-          />
-        </template>
+              </template>
+            </v-expansion-panel>
+            <v-expansion-panel
+              :title="t('upload.expansions.panel4.title')"
+              :text="t('upload.expansions.panel4.text')"
+            />
+          </v-expansion-panels>
+        </v-sheet>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-treeview
+          v-model:opened="open"
+          :items="items"
+          item-value="id"
+          variant="flat"
+          density="compact"
+          activatable
+          open-on-click
+          no-filter
+        >
+          <template #prepend="{ item, isOpen }">
+            <v-icon
+              v-if="!item.file"
+              :icon="isOpen ? 'ri-folder-open-fill' : 'ri-folder-fill'"
+            />
+            <v-icon
+              v-else
+              :icon="files[item.file]"
+            />
+          </template>
 
-        <template #append="{ item }">
-          <v-icon
-            v-if="item.required"
-            icon="ri-pushpin-fill"
-            color="error"
-          />
-        </template>
-      </v-treeview>
-    </v-col>
-  </v-row>
+          <template #append="{ item }">
+            <v-icon
+              v-if="item.required"
+              icon="ri-pushpin-fill"
+              color="error"
+            />
+          </template>
+        </v-treeview>
+      </v-col>
+    </v-row>
+  </template>
+  <template v-else>
+    <result
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    >
+      <v-btn
+        to="/install"
+        class="mt-4"
+      >
+        {{ t('global.noGame.button') }}
+      </v-btn>
+    </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateContainerSize()"
+      type="error"
+    />
+  </template>
+
 </template>
 
 <script setup>
@@ -169,15 +197,16 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global.js"
 import useUserStore from "@store/user.js"
+import {debounce} from "@/utils/tools.js";
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
-
+const windowHeight = ref(window.innerHeight)
 const uploadLoading = ref(false)
 const uploadDialogVisible = ref(false)
-const uploadType = ref('old')
+const uploadType = ref('')
 
 const checkUploadFile = param => {
   const zipPattern = /\.zip$/i
@@ -194,8 +223,13 @@ const canCreateRoom = () => {
 }
 
 const handleUpload = file => {
+  if (uploadType.value !== 'old' && uploadType.value !== 'new') {
+    showSnackbar(t('upload.dialog.uploadTypeTip'), 'error')
+
+    return
+  }
   if (!checkUploadFile(file)) {
-    showSnackbar('请上传zip文件', 'error')
+    showSnackbar(t('upload.dialog.zipTip'), 'error')
     uploadDialogVisible.value = false
     
     return
@@ -344,5 +378,23 @@ const items = [
     ],
   },
 ]
+
+const handleResize = debounce(() => {
+  windowHeight.value = window.innerHeight
+}, 200)
+
+const calculateContainerSize = () => {
+  // 64(navbar) + 37(tab header) + 20(card padding) + 16(card padding) = 137
+  const other = 150
+
+  return Math.max(2, Math.floor(windowHeight.value - other))
+}
+
+onMounted(() => {
+  handleResize()
+
+  // 添加事件监听
+  window.addEventListener('resize', handleResize)
+})
 </script>
 
