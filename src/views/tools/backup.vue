@@ -4,153 +4,153 @@
     <!-- 房间是否选择 -->
     <template v-if="globalStore.room.id!==0">
       <v-card>
-    <v-card-title />
-    <v-card-text>
-      <v-sheet
-        border
-        rounded
-        class="mt-4"
-      >
-        <v-data-table
-          v-model="selectedFiles"
-          show-select
-          return-object
-          :headers="headers"
-          :items="backupFiles"
-          :loading="getBackupFilesLoading"
-        >
-          <template #loading>
-            <v-skeleton-loader type="table-row@10" />
-          </template>
-          <template #top>
-            <v-toolbar flat>
-              <v-toolbar-title>
-                <v-icon
-                  icon="ri-save-2-line"
-                  start
-                />
-                <span v-if="!mobile">{{ t('tools.backup.title') }}</span>
-              </v-toolbar-title>
-              <v-btn
-                prepend-icon="ri-add-line"
-                color="success"
-                :loading="createBackupLoading"
-                @click="createBackup"
-              >
-                {{ t('tools.backup.backup') }}
-              </v-btn>
-              <v-btn
-                prepend-icon="ri-add-line"
-                color="error"
-                :disabled="selectedFiles.length===0"
-                :loading="singleDeleteLoading"
-                @click="multiDeleteBackup"
-              >
-                {{ t('tools.backup.multiDelete') }}
-              </v-btn>
-              <v-btn
-                v-if="!mobile"
-                prepend-icon="ri-refresh-line"
-                :loading="getBackupFilesLoading"
-                color="default"
-                @click="getBackupFiles"
-              >
-                {{ t('platform.user.table.refresh') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
-          <template #item.gameName="{ value }">
-            <v-chip
-              label
-              color="primary"
+        <v-card-title />
+        <v-card-text>
+          <v-sheet
+            border
+            rounded
+            class="mt-4"
+          >
+            <v-data-table
+              v-model="selectedFiles"
+              show-select
+              return-object
+              :headers="headers"
+              :items="backupFiles"
+              :loading="getBackupFilesLoading"
             >
-              {{ value }}
-            </v-chip>
-          </template>
-          <template #item.cycles="{ value }">
-            <v-chip
-              label
-              color="info"
-            >
-              {{ value }}
-            </v-chip>
-          </template>
-          <template #item.size="{ value }">
-            <v-chip
-              label
-              color="success"
-            >
-              {{ formatBytes(value) }}
-            </v-chip>
-          </template>
-          <template #item.timestamp="{ value }">
-            <v-chip
-              label
-              color="default"
-            >
-              {{ timestamp2time(value) }}
-            </v-chip>
-          </template>
-          <template #item.actions="{ item }">
-            <v-btn
-              color="info"
-              append-icon="ri-arrow-drop-down-line"
-              variant="text"
-              :loading="actionButtonLoading"
-            >
-              {{ t('tools.backup.actions') }}
-              <v-menu activator="parent">
-                <v-list>
-                  <v-list-item
-                    class="text-success"
-                    @click="restore(item.fileName)"
+              <template #loading>
+                <v-skeleton-loader type="table-row@10" />
+              </template>
+              <template #top>
+                <v-toolbar flat>
+                  <v-toolbar-title>
+                    <v-icon
+                      icon="ri-save-2-line"
+                      start
+                    />
+                    <span v-if="!mobile">{{ t('tools.backup.title') }}</span>
+                  </v-toolbar-title>
+                  <v-btn
+                    prepend-icon="ri-add-line"
+                    color="success"
+                    :loading="createBackupLoading"
+                    @click="createBackup"
                   >
-                    <template #prepend>
-                      <v-icon
-                        icon="ri-device-recover-line"
-                        size="22"
-                      />
-                    </template>
-                    <v-list-item-title>
-                      {{ t('tools.backup.restore') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item
-                    class="text-info"
-                    @click="downloadBackup(item.fileName)"
+                    {{ t('tools.backup.backup') }}
+                  </v-btn>
+                  <v-btn
+                    prepend-icon="ri-add-line"
+                    color="error"
+                    :disabled="selectedFiles.length===0"
+                    :loading="singleDeleteLoading"
+                    @click="multiDeleteBackup"
                   >
-                    <template #prepend>
-                      <v-icon
-                        icon="ri-download-line"
-                        size="22"
-                      />
-                    </template>
-                    <v-list-item-title>
-                      {{ t('tools.backup.download') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item
-                    class="text-error"
-                    @click="deleteBackup(item.fileName)"
+                    {{ t('tools.backup.multiDelete') }}
+                  </v-btn>
+                  <v-btn
+                    v-if="!mobile"
+                    prepend-icon="ri-refresh-line"
+                    :loading="getBackupFilesLoading"
+                    color="default"
+                    @click="getBackupFiles"
                   >
-                    <template #prepend>
-                      <v-icon
-                        icon="ri-delete-bin-line"
-                        size="22"
-                      />
-                    </template>
-                    <v-list-item-title>
-                      {{ t('tools.backup.delete') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-btn>
-          </template>
-        </v-data-table>
-      </v-sheet>
-    </v-card-text>
-  </v-card>
+                    {{ t('platform.user.table.refresh') }}
+                  </v-btn>
+                </v-toolbar>
+              </template>
+              <template #item.gameName="{ value }">
+                <v-chip
+                  label
+                  color="primary"
+                >
+                  {{ value }}
+                </v-chip>
+              </template>
+              <template #item.cycles="{ value }">
+                <v-chip
+                  label
+                  color="info"
+                >
+                  {{ value }}
+                </v-chip>
+              </template>
+              <template #item.size="{ value }">
+                <v-chip
+                  label
+                  color="success"
+                >
+                  {{ formatBytes(value) }}
+                </v-chip>
+              </template>
+              <template #item.timestamp="{ value }">
+                <v-chip
+                  label
+                  color="default"
+                >
+                  {{ timestamp2time(value) }}
+                </v-chip>
+              </template>
+              <template #item.actions="{ item }">
+                <v-btn
+                  color="info"
+                  append-icon="ri-arrow-drop-down-line"
+                  variant="text"
+                  :loading="actionButtonLoading"
+                >
+                  {{ t('tools.backup.actions') }}
+                  <v-menu activator="parent">
+                    <v-list>
+                      <v-list-item
+                        class="text-success"
+                        @click="restore(item.fileName)"
+                      >
+                        <template #prepend>
+                          <v-icon
+                            icon="ri-device-recover-line"
+                            size="22"
+                          />
+                        </template>
+                        <v-list-item-title>
+                          {{ t('tools.backup.restore') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item
+                        class="text-info"
+                        @click="downloadBackup(item.fileName)"
+                      >
+                        <template #prepend>
+                          <v-icon
+                            icon="ri-download-line"
+                            size="22"
+                          />
+                        </template>
+                        <v-list-item-title>
+                          {{ t('tools.backup.download') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item
+                        class="text-error"
+                        @click="deleteBackup(item.fileName)"
+                      >
+                        <template #prepend>
+                          <v-icon
+                            icon="ri-delete-bin-line"
+                            size="22"
+                          />
+                        </template>
+                        <v-list-item-title>
+                          {{ t('tools.backup.delete') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </v-sheet>
+        </v-card-text>
+      </v-card>
     </template>
     <template v-else>
       <result
@@ -197,10 +197,10 @@
 import toolsApi from "@/api/tools.js"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
-import {debounce, formatBytes, timestamp2time} from "@/utils/tools.js"
+import { debounce, formatBytes, timestamp2time } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useDisplay } from "vuetify/framework"
-import useUserStore from "@/plugins/store/user.js";
+import useUserStore from "@store/user.js"
 
 
 const globalStore = useGlobalStore()
