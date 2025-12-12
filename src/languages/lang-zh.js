@@ -506,9 +506,10 @@ export default {
   },
   platform: {
     tab: {
-      overview: '总览',
-      user: '用户',
-      metrics: '监控',
+      overview: '平台总览',
+      user: '用户设置',
+      metrics: '系统监控',
+      settings: '平台设置',
     },
     overview: {
       memory: '平台内存使用',
@@ -594,6 +595,42 @@ export default {
       timeRange: '时间范围',
       hour: '小时',
       refresh: '刷新',
+    },
+    settings: {
+      title: '平台设置',
+      submit: '提交',
+      form: {
+        playerGetFrequency: {
+          title: '在线玩家获取频率',
+          tip: '隔多长时间，就获取一次在线玩家',
+          required: '请输入在线玩家获取频率',
+          unit: '秒',
+        },
+        UIDMaintainEnable: {
+          title: '昵称字典维护',
+          tip: '打开后可以记录玩家的游戏昵称，让你更好的区分谁是谁',
+        },
+        sysMetricsEnable: {
+          title: '系统监控',
+          tip: '打开后可以查看系统的CPU、内存等资源的使用信息',
+        },
+        sysMetricsSetting: {
+          title: '系统监控数据保留时长',
+          tip: '默认6小时，最多24小时',
+          required: '请输入系统监控数据保留时长',
+          unit: '小时',
+        },
+        autoUpdateEnable: {
+          title: '自动更新游戏',
+          tip: '当然，饥荒专用服务器也是需要更新的',
+        },
+        autoUpdateSetting: {
+          title: '自动更新时间',
+          tip: '在这个时间，查询游戏是否需要更新，如需，则更',
+        },
+      },
+      noChange: '配置未修改',
+      fetching: '正在获取数据',
     },
   },
   dashboard: {

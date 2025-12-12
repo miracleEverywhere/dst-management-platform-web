@@ -509,6 +509,7 @@ export default {
       overview: 'Overview',
       user: 'User',
       metrics: 'Metrics',
+      settings: 'Settings',
     },
     overview: {
       memory: 'DMP Memory Used',
@@ -594,6 +595,42 @@ export default {
       timeRange: 'Time Range',
       hour: 'Hour',
       refresh: 'Refresh',
+    },
+    settings: {
+      title: 'Setting',
+      submit: 'Submit',
+      form: {
+        playerGetFrequency: {
+          title: 'Player Get Frequency',
+          tip: 'frequency to fetch the list of online players',
+          required: 'Please enter the frequency for fetching online players',
+          unit: 'Sec',
+        },
+        UIDMaintainEnable: {
+          title: 'UID Map',
+          tip: 'After enabling, it can record players\' in-game nicknames, helping you better distinguish players',
+        },
+        sysMetricsEnable: {
+          title: 'System Metrics',
+          tip: 'After enabling, you can view system resource usage information such as CPU and memory',
+        },
+        sysMetricsSetting: {
+          title: 'Metrics Retaining',
+          tip: 'Default is 6 hours, maximum is 24 hours',
+          required: 'Please enter the Metrics Retaining Time',
+          unit: 'Hour',
+        },
+        autoUpdateEnable: {
+          title: 'Auto Update Game',
+          tip: 'Of course, the DST dedicated server also needs to be updated',
+        },
+        autoUpdateSetting: {
+          title: 'Update Check Time',
+          tip: 'At this scheduled time, check if the game requires an update, and if so, perform the update',
+        },
+      },
+      noChange: 'Settings No Changed',
+      fetching: 'Fetching',
     },
   },
   dashboard: {
