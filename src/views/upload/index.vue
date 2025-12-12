@@ -94,8 +94,8 @@
                   color="error"
                 />
                 <span class="text-error">
-                {{ t('upload.expansions.panel1.title') }}
-              </span>
+                  {{ t('upload.expansions.panel1.title') }}
+                </span>
               </template>
             </v-expansion-panel>
             <v-expansion-panel :text="t('upload.expansions.panel2.text')">
@@ -106,8 +106,8 @@
                   color="error"
                 />
                 <span class="text-error">
-                {{ t('upload.expansions.panel2.title') }}
-              </span>
+                  {{ t('upload.expansions.panel2.title') }}
+                </span>
               </template>
             </v-expansion-panel>
             <v-expansion-panel :text="t('upload.expansions.panel3.text')">
@@ -118,8 +118,8 @@
                   color="error"
                 />
                 <span class="text-error">
-                {{ t('upload.expansions.panel3.title') }}
-              </span>
+                  {{ t('upload.expansions.panel3.title') }}
+                </span>
               </template>
             </v-expansion-panel>
             <v-expansion-panel
@@ -187,7 +187,6 @@
       type="error"
     />
   </template>
-
 </template>
 
 <script setup>
@@ -197,7 +196,7 @@ import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global.js"
 import useUserStore from "@store/user.js"
-import {debounce} from "@/utils/tools.js";
+import { debounce } from "@/utils/tools.js"
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
