@@ -784,6 +784,8 @@ export default {
       uploadOld: '覆盖当前房间',
       uploadingTitle: '上传中，请稍后',
       uploadingSubTitle: '上传时间取决于你本机网速和云服务器网速，请耐心等待',
+      zipTip: '请上传zip文件',
+      uploadTypeTip: '请选择导入模式',
     },
   },
 }

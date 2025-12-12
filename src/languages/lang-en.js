@@ -784,6 +784,8 @@ export default {
       uploadOld: 'Overwrite the current room',
       uploadingTitle: 'Uploading, please wait',
       uploadingSubTitle: 'The upload time depends on your local network speed and the cloud server\'s network speed. Please wait patiently',
+      zipTip: 'please upload .zip file',
+      uploadTypeTip: 'please choose a upload type',
     },
   },
 }
