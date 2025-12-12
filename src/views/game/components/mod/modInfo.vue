@@ -5,7 +5,10 @@
     height="135"
     class="cursor-auto"
   >
-    <div class="fcc" style="height: 135px">
+    <div
+      class="fcc"
+      style="height: 135px"
+    >
       <div style="width: 80px; height: 80px">
         <v-img
           :src="props.mod.preview_url"
