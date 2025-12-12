@@ -7,8 +7,12 @@
     transition="slide-y-transition"
     variant="flat"
   >
-    <v-icon :icon="icon" />
-    {{ text }}
+    <div class="d-flex justify-start align-center">
+      <v-icon :icon="icon" />
+      <span class="ml-2">
+        {{ text }}
+      </span>
+    </div>
   </v-snackbar>
 </template>
 
