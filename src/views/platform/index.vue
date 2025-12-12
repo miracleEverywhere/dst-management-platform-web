@@ -12,6 +12,9 @@
     <v-tab value="User">
       {{ t('platform.tab.user') }}
     </v-tab>
+    <v-tab value="Metrics">
+      {{ t('platform.tab.metrics') }}
+    </v-tab>
   </v-tabs>
   <v-tabs-window v-model="activeTabName">
     <v-tabs-window-item value="Overview">
@@ -36,6 +39,17 @@
         <user />
       </v-container>
     </v-tabs-window-item>
+    <v-tabs-window-item value="Metrics">
+      <v-container
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
+      >
+        <metrics />
+      </v-container>
+    </v-tabs-window-item>
   </v-tabs-window>
 </template>
 
@@ -44,6 +58,7 @@ import { debounce } from "@/utils/tools.js"
 import { useI18n } from "vue-i18n"
 import Overview from "@/views/platform/components/overview.vue"
 import User from "@/views/platform/components/user.vue"
+import Metrics from "@/views/platform/components/metrics.vue"
 
 
 const { t } = useI18n()
