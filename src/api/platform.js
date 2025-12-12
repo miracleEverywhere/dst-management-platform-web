@@ -19,4 +19,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  metrics: {
+    url: `/platform/metrics`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+  },
 }
