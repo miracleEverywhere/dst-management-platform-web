@@ -20,6 +20,7 @@ declare module 'vue' {
     Result: typeof import('./src/components/Result.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScEcharts: typeof import('./src/components/scEcharts/index.vue')['default']
     ThemeSwitcher: typeof import('./src/@core/components/ThemeSwitcher.vue')['default']
     TimeRunning: typeof import('./src/components/TimeRunning.vue')['default']
   }
