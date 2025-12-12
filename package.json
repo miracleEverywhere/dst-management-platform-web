@@ -21,6 +21,7 @@
     "crypto-js": "^4.2.0",
     "echarts": "^5.5.1",
     "js-bbcode-parser": "^5.1.0",
+    "lodash": "^4.17.21",
     "lua-format": "^1.5.2",
     "luaparse": "^0.3.1",
     "md-editor-v3": "^5.4.1",
