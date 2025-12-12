@@ -508,6 +508,7 @@ export default {
     tab: {
       overview: '总览',
       user: '用户',
+      metrics: '监控',
     },
     overview: {
       memory: '平台内存使用',
@@ -587,6 +588,12 @@ export default {
         label: '搜索',
         placeholder: '可通过用户名和用户昵称搜索',
       },
+    },
+    metrics: {
+      title: '系统监控',
+      timeRange: '时间范围',
+      hour: '小时',
+      refresh: '刷新',
     },
   },
   dashboard: {

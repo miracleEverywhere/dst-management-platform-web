@@ -508,6 +508,7 @@ export default {
     tab: {
       overview: 'Overview',
       user: 'User',
+      metrics: 'Metrics',
     },
     overview: {
       memory: 'DMP Memory Used',
@@ -587,6 +588,12 @@ export default {
         label: 'Search',
         placeholder: 'Searchable by username or nickname',
       },
+    },
+    metrics: {
+      title: 'System Metrics',
+      timeRange: 'Time Range',
+      hour: 'Hour',
+      refresh: 'Refresh',
     },
   },
   dashboard: {
