@@ -3,9 +3,9 @@
     :hover="true"
     variant="flat"
     height="135"
-    class="fcc cursor-auto"
+    class="cursor-auto"
   >
-    <div style="display: flex; align-items: center; margin: 5px; width:320px">
+    <div class="fcc" style="height: 135px">
       <div style="width: 80px; height: 80px">
         <v-img
           :src="props.mod.preview_url"
@@ -14,7 +14,7 @@
           aspect-ratio="1"
         >
           <template #placeholder>
-            <div class="d-flex align-center justify-center fill-height">
+            <div class="fcc fill-height">
               <v-progress-circular
                 color="grey-lighten-4"
                 indeterminate
