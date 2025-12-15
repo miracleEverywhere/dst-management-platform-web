@@ -50,6 +50,7 @@ export default {
     install: '游戏安装',
     tools: '平台工具',
     toolsBackup: '备份管理',
+    toolsAnnounce: '定时通知',
     logs: '日志管理',
     logsGame: '游戏日志',
     logsChat: '聊天日志',
@@ -794,6 +795,33 @@ export default {
       multiDelete: '批量删除',
       deleteMessage1: '删除备份：',
       deleteMessage2: '个',
+    },
+    announce: {
+      title: '定时通知',
+      add: '新增',
+      refresh: '刷新',
+      actions: '操作',
+      update: '编辑',
+      delete: '删除',
+      deleteMessage: '删除成功',
+      form: {
+        status: {
+          title: '状态',
+          tip: '关闭后不再自动发送通知',
+          y: '开启',
+          n: '关闭',
+        },
+        interval: {
+          title: '通知间隔',
+          tip: '每隔多少秒，发送一次通知',
+          unit: '秒',
+        },
+        content: {
+          title: '通知内容',
+          tip: '通知的内容',
+          required: '请输入通知内容',
+        },
+      },
     },
   },
   upload: {

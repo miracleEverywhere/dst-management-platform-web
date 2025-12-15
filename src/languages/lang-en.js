@@ -50,6 +50,7 @@ export default {
     install: 'Install',
     tools: 'Tools',
     toolsBackup: 'Backup',
+    toolsAnnounce: 'Announce',
     logs: 'Logs',
     logsGame: 'Game',
     logsChat: 'Chat',
@@ -794,6 +795,33 @@ export default {
       multiDelete: 'Multi Delete',
       deleteMessage1: 'Deleted Backups: ',
       deleteMessage2: '',
+    },
+    announce: {
+      title: 'Announce',
+      add: 'Add',
+      refresh: 'Refresh',
+      actions: 'Actions',
+      update: 'Update',
+      delete: 'Delete',
+      deleteMessage: 'Delete Success',
+      form: {
+        status: {
+          title: 'Status',
+          tip: 'After turning it off, notifications will no longer be sent automatically',
+          y: 'Activate',
+          n: 'Deactivate',
+        },
+        interval: {
+          title: 'Interval',
+          tip: 'Seconds between each notification sent',
+          unit: 'Sec',
+        },
+        content: {
+          title: 'Content',
+          tip: 'Content',
+          required: 'Please enter content',
+        },
+      },
     },
   },
   upload: {
