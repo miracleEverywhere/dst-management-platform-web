@@ -628,7 +628,6 @@ const openCreateUserDialog = () => {
   })
 }
 
-
 const avatars = {
   1: avatar1,
   2: avatar2,
