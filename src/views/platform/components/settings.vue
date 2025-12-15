@@ -24,7 +24,7 @@
           density="compact"
           class="mt-4"
           variant="tonal"
-          icon="ri-vip-diamond-line"
+          icon="ri-profile-line"
         />
         <v-row class="mt-2">
           <v-col>
@@ -52,7 +52,7 @@
           density="compact"
           class="mt-8"
           variant="tonal"
-          icon="ri-vip-diamond-line"
+          icon="ri-flip-horizontal-line"
         />
         <v-row class="mt-2">
           <v-col>
@@ -86,13 +86,10 @@
           density="compact"
           class="mt-8"
           variant="tonal"
-          icon="ri-vip-diamond-line"
+          icon="ri-file-chart-line"
         />
         <v-row class="mt-2">
-          <v-col
-            cols="12"
-            md="6"
-          >
+          <v-col>
             <v-radio-group
               v-model="globalSettingsForm.sysMetricsEnable"
               v-tooltip="t('platform.settings.form.sysMetricsEnable.tip')"
@@ -114,10 +111,10 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col
-            cols="12"
-            md="6"
-          >
+          <v-spacer v-if="!mobile" />
+        </v-row>
+        <v-row>
+          <v-col>
             <v-number-input
               v-model="globalSettingsForm.sysMetricsSetting"
               v-tooltip="t('platform.settings.form.sysMetricsSetting.tip')"
@@ -143,13 +140,10 @@
           density="compact"
           class="mt-8"
           variant="tonal"
-          icon="ri-vip-diamond-line"
+          icon="ri-arrow-down-box-line"
         />
         <v-row class="mt-2">
-          <v-col
-            cols="12"
-            md="6"
-          >
+          <v-col>
             <v-radio-group
               v-model="globalSettingsForm.autoUpdateEnable"
               v-tooltip="t('platform.settings.form.autoUpdateEnable.tip')"
@@ -171,10 +165,9 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col
-            cols="12"
-            md="6"
-          >
+        </v-row>
+        <v-row>
+          <v-col>
             <v-text-field
               v-model="globalSettingsForm.autoUpdateSetting"
               v-tooltip="t('platform.settings.form.autoUpdateSetting.tip')"
