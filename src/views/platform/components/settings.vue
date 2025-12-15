@@ -4,20 +4,20 @@
       <v-card-title>
         <div class="card-header">
           <div>
-            {{t('platform.settings.title')}}
+            {{ t('platform.settings.title') }}
           </div>
           <div>
             <v-btn
               :loading="updateLoading"
               @click="handleUpdate"
             >
-              {{t('platform.settings.submit')}}
+              {{ t('platform.settings.submit') }}
             </v-btn>
           </div>
         </div>
       </v-card-title>
       <v-card-text>
-        <!--在线玩家获取频率-->
+        <!-- 在线玩家获取频率 -->
         <v-alert
           color="primary"
           :title="t('platform.settings.form.playerGetFrequency.title')"
@@ -43,9 +43,9 @@
               </template>
             </v-number-input>
           </v-col>
-          <v-spacer v-if="!mobile"/>
+          <v-spacer v-if="!mobile" />
         </v-row>
-        <!--uid map-->
+        <!-- uid map -->
         <v-alert
           color="primary"
           :title="t('platform.settings.form.UIDMaintainEnable.title')"
@@ -77,9 +77,9 @@
               />
             </v-radio-group>
           </v-col>
-          <v-spacer v-if="!mobile"/>
+          <v-spacer v-if="!mobile" />
         </v-row>
-        <!--系统监控-->
+        <!-- 系统监控 -->
         <v-alert
           color="primary"
           :title="t('platform.settings.form.sysMetricsEnable.title')"
@@ -89,7 +89,10 @@
           icon="ri-vip-diamond-line"
         />
         <v-row class="mt-2">
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-radio-group
               v-model="globalSettingsForm.sysMetricsEnable"
               v-tooltip="t('platform.settings.form.sysMetricsEnable.tip')"
@@ -111,7 +114,10 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-number-input
               v-model="globalSettingsForm.sysMetricsSetting"
               v-tooltip="t('platform.settings.form.sysMetricsSetting.tip')"
@@ -128,9 +134,9 @@
               </template>
             </v-number-input>
           </v-col>
-          <v-spacer v-if="!mobile"/>
+          <v-spacer v-if="!mobile" />
         </v-row>
-        <!--游戏更新-->
+        <!-- 游戏更新 -->
         <v-alert
           color="primary"
           :title="t('platform.settings.form.autoUpdateEnable.title')"
@@ -140,7 +146,10 @@
           icon="ri-vip-diamond-line"
         />
         <v-row class="mt-2">
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-radio-group
               v-model="globalSettingsForm.autoUpdateEnable"
               v-tooltip="t('platform.settings.form.autoUpdateEnable.tip')"
@@ -162,7 +171,10 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-text-field
               v-model="globalSettingsForm.autoUpdateSetting"
               v-tooltip="t('platform.settings.form.autoUpdateSetting.tip')"
@@ -181,23 +193,27 @@
               </v-menu>
             </v-text-field>
           </v-col>
-          <v-spacer v-if="!mobile"/>
+          <v-spacer v-if="!mobile" />
         </v-row>
       </v-card-text>
     </v-form>
   </v-card>
   <v-card v-else>
-    <result :height="props.height" :title="t('platform.settings.fetching')" type="info"/>
+    <result
+      :height="props.height"
+      :title="t('platform.settings.fetching')"
+      type="info"
+    />
   </v-card>
 </template>
 
 <script setup>
 import platformApi from "@/api/platform.js"
-import {useDisplay} from "vuetify/framework";
-import {useI18n} from "vue-i18n";
-import {deepCopy} from "@/utils/tools.js";
+import { useDisplay } from "vuetify/framework"
+import { useI18n } from "vue-i18n"
+import { deepCopy } from "@/utils/tools.js"
 import _ from 'lodash'
-import {showSnackbar} from "@/utils/snackbar.js";
+import { showSnackbar } from "@/utils/snackbar.js"
 
 
 const props = defineProps({
@@ -211,6 +227,7 @@ const { mobile } = useDisplay()
 const { t } = useI18n()
 
 const globalSettingsFormRef = ref()
+
 const globalSettingsFormOld = ref({
   playerGetFrequency: undefined,
   UIDMaintainEnable: false,
@@ -219,6 +236,7 @@ const globalSettingsFormOld = ref({
   autoUpdateEnable: false,
   autoUpdateSetting: '',
 })
+
 const globalSettingsForm = ref({
   playerGetFrequency: undefined,
   UIDMaintainEnable: false,
@@ -227,6 +245,7 @@ const globalSettingsForm = ref({
   autoUpdateEnable: false,
   autoUpdateSetting: '',
 })
+
 const globalSettingsFormRules = ref({
   playerGetFrequency: [
     value => {
@@ -245,6 +264,7 @@ const globalSettingsFormRules = ref({
 })
 
 const getGlobalSettingsLoading = ref(false)
+
 const getGlobalSettings = () => {
   getGlobalSettingsLoading.value = true
   platformApi.globalSettings.get().then(response => {
@@ -256,6 +276,7 @@ const getGlobalSettings = () => {
 }
 
 const updateLoading = ref(false)
+
 const handleUpdate = async () => {
   const { valid } = await globalSettingsFormRef.value.validate()
   if (valid) {
@@ -277,5 +298,3 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-</style>
