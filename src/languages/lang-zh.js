@@ -820,6 +820,7 @@ export default {
           title: '通知内容',
           tip: '通知的内容',
           required: '请输入通知内容',
+          rule: '通知内容不能包含单双引号',
         },
       },
     },

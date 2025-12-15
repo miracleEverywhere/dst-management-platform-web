@@ -820,6 +820,7 @@ export default {
           title: 'Content',
           tip: 'Content',
           required: 'Please enter content',
+          rule: 'content must not contain single or double quotation marks',
         },
       },
     },
