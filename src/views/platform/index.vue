@@ -50,7 +50,7 @@
         class="w-100"
         style="overflow-y: auto"
       >
-        <settings :height="calculateContainerSize()-32"/>
+        <settings :height="calculateContainerSize()-32" />
       </v-container>
     </v-tabs-window-item>
     <v-tabs-window-item value="Metrics">
@@ -73,7 +73,7 @@ import { useI18n } from "vue-i18n"
 import Overview from "@/views/platform/components/overview.vue"
 import User from "@/views/platform/components/user.vue"
 import Metrics from "@/views/platform/components/metrics.vue"
-import Settings from "@/views/platform/components/settings.vue";
+import Settings from "@/views/platform/components/settings.vue"
 
 
 const { t } = useI18n()
