@@ -431,10 +431,10 @@ const handleResize = debounce(() => {
 
 onMounted(async () => {
   reqForm.value.pageSize = calculateCardSize()
+  await getRooms()
   if (cardRef.value) {
     cardWidth.value = cardRef.value.$el.offsetWidth
   }
-  await getRooms()
   window.addEventListener('resize', handleResize)
 })
 onUnmounted(() => {
