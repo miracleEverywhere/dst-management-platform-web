@@ -314,8 +314,12 @@ const announceForm = ref({
 const announceFormRules = ref({
   content: [
     value => {
-      if (value) return true
-
+      if (value) {
+        if (value.includes('"') || value.includes("'")) {
+          return t('tools.announce.form.content.rule')
+        }
+        return true
+      }
       return t('tools.announce.form.content.required')
     },
   ],
