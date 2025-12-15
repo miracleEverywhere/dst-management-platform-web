@@ -378,6 +378,7 @@ const roomSettingToDB = () => {
     scheduledStartStopSetting: JSON.stringify(roomSettingData.value.scheduledStartStop.setting),
     tickRate: roomSettingData.value.tickRate,
     startType: roomSettingData.value.startType,
+    announceSetting: roomSettingData.value.announceSetting,
   }
 }
 
@@ -405,6 +406,7 @@ const DBToRoomSetting = data => {
     },
     tickRate: data.tickRate,
     startType: data.startType,
+    announceSetting: data.announceSetting,
   }
 }
 
