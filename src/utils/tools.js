@@ -1,6 +1,7 @@
 import { PiniaPrefix } from "@/config/index"
 import CryptoJS from 'crypto-js'
 import luaparse from "luaparse"
+import { v4 as uuidv4 } from 'uuid'
 
 export function getBrowserLang() {
   // 获取浏览器语言，默认回退到 'zh'（中文）
@@ -126,34 +127,6 @@ export const formatBytes = bytes => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
 }
 
-export const saveFile = (base64Data, fileName) => {
-  // 解码 Base64 数据
-  const byteCharacters = atob(base64Data)
-  const byteNumbers = new Array(byteCharacters.length)
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i)
-  }
-  const byteArray = new Uint8Array(byteNumbers)
-
-  // 创建 Blob 对象
-  const blob = new Blob([byteArray], { type: "application/octet-stream" })
-
-  // 适用于其他现代浏览器
-  const url = window.URL.createObjectURL(blob)
-  const link = document.createElement("a")
-
-  link.href = url
-  link.download = fileName
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-  window.URL.revokeObjectURL(url)
-}
-
-export const createMdEditorValue = (value, lang, stat) => {
-  return "```" + lang + " ::" + stat + "\n" + value
-}
-
 export function seconds2Time(totalSeconds) {
   const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60))
 
@@ -236,25 +209,6 @@ export const deepCopy = (target, myMap = new WeakMap()) => {
   return copyTarget
 }
 
-export function parseJwt(token) {
-  try {
-    // 分割 JWT 的三个部分
-    const [headerBase64, payloadBase64, signature] = token.split('.')
-
-    // Base64 解码（注意处理 URL 安全的 Base64）
-    const header = JSON.parse(atob(headerBase64.replace(/-/g, '+').replace(/_/g, '/')))
-    const payload = JSON.parse(atob(payloadBase64.replace(/-/g, '+').replace(/_/g, '/')))
-
-    return {
-      header,
-      payload,
-      signature,
-    }
-  } catch (e) {
-    return null
-  }
-}
-
 export const getToken = () => {
   const auth = window.localStorage.getItem(PiniaPrefix + "user")
   if (auth != null && auth !== "" && auth !== undefined) {
@@ -329,4 +283,8 @@ export const getDstToken = () => {
   }
 
   return decoded
+}
+
+export const generateUUID = () => {
+  return uuidv4()
 }
