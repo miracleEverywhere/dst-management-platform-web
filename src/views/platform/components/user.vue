@@ -520,7 +520,7 @@ const roomBasic = ref([{
 
 const getRoomBasic = () => {
   roomApi.basic.get().then(response => {
-    roomBasic.value = response.data
+    roomBasic.value = response.data || []
   })
 }
 
