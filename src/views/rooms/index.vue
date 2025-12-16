@@ -117,21 +117,6 @@
                         {{ t('rooms.card.success.header.menu.deactivate') }}
                       </v-list-item-title>
                     </v-list-item>
-                    <v-list-item
-                      class="text-error"
-                      @click="console.log(room.name)"
-                    >
-                      <template #prepend>
-                        <v-icon
-                          icon="ri-delete-bin-line"
-                          color="error"
-                          size="22"
-                        />
-                      </template>
-                      <v-list-item-title>
-                        {{ t('rooms.card.success.header.menu.delete') }}
-                      </v-list-item-title>
-                    </v-list-item>
                   </v-list>
                 </v-menu>
               </div>
