@@ -112,6 +112,7 @@
                   color="info"
                   append-icon="ri-arrow-drop-down-line"
                   variant="text"
+                  :loading="activateLoading||deactivateLoading"
                 >
                   {{ t('platform.user.table.actions') }}
                   <v-menu activator="parent">
@@ -132,6 +133,7 @@
                       </v-list-item>
                       <v-list-item
                         class="text-success"
+                        :disabled="item.status"
                         @click="handleAction('activate', item)"
                       >
                         <template #prepend>
@@ -146,6 +148,7 @@
                       </v-list-item>
                       <v-list-item
                         class="text-warning"
+                        :disabled="!item.status"
                         @click="handleAction('deactivate', item)"
                       >
                         <template #prepend>
@@ -406,7 +409,49 @@ const handleAction = (actionType, row) => {
   case 'details':
     openDetailDialog(row)
     break
+    case 'activate':
+      activate(row)
+      break
+    case 'deactivate':
+      deactivate(row)
+      break
   }
+}
+
+const activateLoading = ref(false)
+const activate = (row) => {
+  activateLoading.value = true
+  const reqForm = {
+    roomID: row.id
+  }
+  roomApi.activate.post(reqForm).then(response => {
+    showSnackbar(response.message)
+    getRoomsData({
+      page: roomsData.value.page,
+      itemsPerPage: roomsData.value.pageSize,
+      sortBy: undefined,
+    })
+  }).finally(() => {
+    activateLoading.value = false
+  })
+}
+
+const deactivateLoading = ref(false)
+const deactivate = (row) => {
+  deactivateLoading.value = true
+  const reqForm = {
+    roomID: row.id
+  }
+  roomApi.deactivate.post(reqForm).then(response => {
+    showSnackbar(response.message)
+    getRoomsData({
+      page: roomsData.value.page,
+      itemsPerPage: roomsData.value.pageSize,
+      sortBy: undefined,
+    })
+  }).finally(() => {
+    deactivateLoading.value = false
+  })
 }
 </script>
 

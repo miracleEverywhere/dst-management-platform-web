@@ -82,15 +82,16 @@
                     <v-btn
                       v-bind="props"
                       :disabled="getRoomsLoading"
+                      :loading="activateLoading||deactivateLoading"
                       color="primary"
                       icon="ri-more-2-line"
                     />
                   </template>
-
                   <v-list>
                     <v-list-item
                       class="text-success"
-                      @click="console.log(room.name)"
+                      :disabled="room.status"
+                      @click="handleAction('activate', room)"
                     >
                       <template #prepend>
                         <v-icon
@@ -104,7 +105,8 @@
                     </v-list-item>
                     <v-list-item
                       class="text-warning"
-                      @click="console.log(room.name)"
+                      :disabled="!room.status"
+                      @click="handleAction('deactivate', room)"
                     >
                       <template #prepend>
                         <v-icon
@@ -390,6 +392,45 @@ const generatePlayerList = players => {
   }
 
   return pc
+}
+
+const handleAction = (actionType, row) => {
+  switch (actionType) {
+    case 'activate':
+      activate(row)
+      break
+    case 'deactivate':
+      deactivate(row)
+      break
+  }
+}
+
+const activateLoading = ref(false)
+const activate = (row) => {
+  activateLoading.value = true
+  const reqForm = {
+    roomID: row.id
+  }
+  roomApi.activate.post(reqForm).then(response => {
+    showSnackbar(response.message)
+    getRooms()
+  }).finally(() => {
+    activateLoading.value = false
+  })
+}
+
+const deactivateLoading = ref(false)
+const deactivate = (row) => {
+  deactivateLoading.value = true
+  const reqForm = {
+    roomID: row.id
+  }
+  roomApi.deactivate.post(reqForm).then(response => {
+    showSnackbar(response.message)
+    getRooms()
+  }).finally(() => {
+    deactivateLoading.value = false
+  })
 }
 
 const cardRef = ref()
