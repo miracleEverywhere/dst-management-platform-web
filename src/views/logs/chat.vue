@@ -5,9 +5,9 @@
         <span>游戏日志</span>
         <div class="fcc">
           <v-switch
-              v-model="autoPull"
-              color="info"
-              hide-details
+            v-model="autoPull"
+            color="info"
+            hide-details
           >
             <template #prepend>
               <v-chip color="info">
@@ -20,22 +20,22 @@
     </v-card-title>
     <v-card-text>
       <log
-          :content="content"
-          :height="calculateHeight()-150"
+        :content="content"
+        :height="calculateHeight()-150"
       />
       <v-row class="my-4">
         <v-spacer />
         <v-col
-            cols="6"
-            md="2"
-            class="fcc"
+          cols="6"
+          md="2"
+          class="fcc"
         >
           <v-number-input
-              v-model="lines"
-              label="行"
-              hide-details
-              density="compact"
-              class="mr-4"
+            v-model="lines"
+            label="行"
+            hide-details
+            density="compact"
+            class="mr-4"
           />
           <v-btn @click="getLogContent">
             刷新
@@ -47,10 +47,10 @@
 </template>
 
 <script setup>
-import Log from "@/views/logs/components/log.vue";
-import useGlobalStore from "@/plugins/store/global.js";
-import logsApi from "@/api/logs.js";
-import {debounce} from "@/utils/tools.js";
+import Log from "@/views/logs/components/log.vue"
+import useGlobalStore from "@store/global.js"
+import logsApi from "@/api/logs.js"
+import { debounce } from "@/utils/tools.js"
 
 const globalStore = useGlobalStore()
 const content = ref('')
@@ -118,6 +118,3 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
