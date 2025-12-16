@@ -9,6 +9,9 @@
     <v-tab value="Overview">
       {{ t('platform.tab.overview') }}
     </v-tab>
+    <v-tab value="Rooms">
+      {{ t('platform.tab.rooms') }}
+    </v-tab>
     <v-tab value="User">
       {{ t('platform.tab.user') }}
     </v-tab>
@@ -29,6 +32,17 @@
         style="overflow-y: auto"
       >
         <overview />
+      </v-container>
+    </v-tabs-window-item>
+    <v-tabs-window-item value="Rooms">
+      <v-container
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
+      >
+        <rooms />
       </v-container>
     </v-tabs-window-item>
     <v-tabs-window-item value="User">
@@ -74,6 +88,7 @@ import Overview from "@/views/platform/components/overview.vue"
 import User from "@/views/platform/components/user.vue"
 import Metrics from "@/views/platform/components/metrics.vue"
 import Settings from "@/views/platform/components/settings.vue"
+import Rooms from "@/views/platform/components/rooms.vue"
 
 
 const { t } = useI18n()
