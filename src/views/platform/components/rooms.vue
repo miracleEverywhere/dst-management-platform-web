@@ -112,7 +112,7 @@
                   color="info"
                   append-icon="ri-arrow-drop-down-line"
                   variant="text"
-                  :loading="activateLoading||deactivateLoading"
+                  :loading="activateLoading||deactivateLoading||deleteRoomLoading"
                 >
                   {{ t('platform.user.table.actions') }}
                   <v-menu activator="parent">
@@ -288,6 +288,17 @@
       </v-card-text>
     </v-card>
   </v-dialog>
+  <confirm-box
+    v-model="confirmVisible"
+    type="warning"
+    :title="t('global.confirm.title')"
+    :content="t('global.confirm.content')"
+    :confirm-text="t('global.confirm.confirm')"
+    :cancel-text="t('global.confirm.cancel')"
+    :confirm-loading="deleteRoomLoading"
+    @confirm="deleteRoom"
+    @cancel="confirmVisible=false"
+  />
 </template>
 
 <script setup>
@@ -415,6 +426,10 @@ const handleAction = (actionType, row) => {
   case 'deactivate':
     deactivate(row)
     break
+  case 'delete':
+    currentRoomID.value = row.id
+    confirmVisible.value = true
+    break
   }
 }
 
@@ -457,6 +472,30 @@ const deactivate = row => {
     })
   }).finally(() => {
     deactivateLoading.value = false
+  })
+}
+
+const confirmVisible = ref(false)
+const currentRoomID = ref(0)
+const deleteRoomLoading = ref(false)
+
+const deleteRoom = () => {
+  deleteRoomLoading.value = true
+
+  const reqForm = {
+    roomID: currentRoomID.value,
+  }
+
+  roomApi.base.delete(reqForm).then(response => {
+    confirmVisible.value = false
+    showSnackbar(response.message)
+    getRoomsData({
+      page: roomsData.value.page,
+      itemsPerPage: roomsData.value.pageSize,
+      sortBy: undefined,
+    })
+  }).finally(() => {
+    deleteRoomLoading.value = false
   })
 }
 </script>
