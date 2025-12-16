@@ -46,4 +46,16 @@ export default {
       return await http.post(this.url, data)
     },
   },
+  activate: {
+    url: `/room/activate`,
+    post: async function(data){
+      return await http.post(this.url, data)
+    },
+  },
+  deactivate: {
+    url: `/room/deactivate`,
+    post: async function(data){
+      return await http.post(this.url, data)
+    },
+  },
 }
