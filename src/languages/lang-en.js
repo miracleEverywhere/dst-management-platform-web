@@ -508,9 +508,10 @@ export default {
   platform: {
     tab: {
       overview: 'Overview',
-      user: 'User',
+      user: 'Users',
       metrics: 'Metrics',
       settings: 'Settings',
+      rooms: 'Rooms',
     },
     overview: {
       memory: 'DMP Memory Used',
@@ -632,6 +633,38 @@ export default {
       },
       noChange: 'Settings No Changed',
       fetching: 'Fetching',
+    },
+    rooms: {
+      title: 'Rooms',
+      headers: {
+        gameName: 'Room Name',
+        status: 'Status',
+        maxPlayer: 'Max Players',
+        worldNum: 'Worlds',
+        modNum: 'Mods',
+        serverPort: 'Server Port',
+        actions: 'Actions',
+      },
+      activate: 'Activate',
+      deactivate: 'Deactivate',
+      actions: {
+        details: 'Details',
+        activate: 'Activate',
+        deactivate: 'Deactivate',
+        delete: 'Delete',
+      },
+      dialog: {
+        title: 'Details',
+        data: {
+          gameName: 'Room Name',
+          gameMode: 'Game Mode',
+          ports: 'Ports',
+          screens: 'Screens',
+          screenTip: 'Screen Name Format：DMP_Cluster_{Room ID}_{World Name}',
+          noScreenTip: 'Running Screen Not Fount',
+          kill: 'Kill',
+        },
+      },
     },
   },
   dashboard: {

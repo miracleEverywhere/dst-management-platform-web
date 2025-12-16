@@ -511,6 +511,7 @@ export default {
       user: '用户设置',
       metrics: '系统监控',
       settings: '平台设置',
+      rooms: '房间总览',
     },
     overview: {
       memory: '平台内存使用',
@@ -632,6 +633,38 @@ export default {
       },
       noChange: '配置未修改',
       fetching: '正在获取数据',
+    },
+    rooms: {
+      title: '房间总览',
+      headers: {
+        gameName: '房间名',
+        status: '状态',
+        maxPlayer: '最大玩家数',
+        worldNum: '世界数',
+        modNum: '模组数',
+        serverPort: '直连端口',
+        actions: '操作',
+      },
+      activate: '激活',
+      deactivate: '关闭',
+      actions: {
+        details: '查看详情',
+        activate: '激活房间',
+        deactivate: '关闭房间',
+        delete: '删除房间',
+      },
+      dialog: {
+        title: '详细信息',
+        data: {
+          gameName: '房间名',
+          gameMode: '游戏模式',
+          ports: '端口占用',
+          screens: '运行的Screen',
+          screenTip: 'Screen名的格式为：DMP_Cluster_{房间ID}_{世界名}',
+          noScreenTip: '未发现正在运行的Screen',
+          kill: '关闭',
+        },
+      },
     },
   },
   dashboard: {
