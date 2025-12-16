@@ -396,21 +396,24 @@ const generatePlayerList = players => {
 
 const handleAction = (actionType, row) => {
   switch (actionType) {
-    case 'activate':
-      activate(row)
-      break
-    case 'deactivate':
-      deactivate(row)
-      break
+  case 'activate':
+    activate(row)
+    break
+  case 'deactivate':
+    deactivate(row)
+    break
   }
 }
 
 const activateLoading = ref(false)
-const activate = (row) => {
+
+const activate = row => {
   activateLoading.value = true
+
   const reqForm = {
-    roomID: row.id
+    roomID: row.id,
   }
+
   roomApi.activate.post(reqForm).then(response => {
     showSnackbar(response.message)
     getRooms()
@@ -420,11 +423,14 @@ const activate = (row) => {
 }
 
 const deactivateLoading = ref(false)
-const deactivate = (row) => {
+
+const deactivate = row => {
   deactivateLoading.value = true
+
   const reqForm = {
-    roomID: row.id
+    roomID: row.id,
   }
+
   roomApi.deactivate.post(reqForm).then(response => {
     showSnackbar(response.message)
     getRooms()
