@@ -498,6 +498,9 @@ export default {
         uidValid: 'Please enter the correct UID',
         refreshSuccess: 'Refresh Success',
       },
+      history: {
+        tabName: 'History',
+      },
     },
   },
   install: {

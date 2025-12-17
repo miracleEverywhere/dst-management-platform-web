@@ -498,6 +498,9 @@ export default {
         uidValid: '请输入正确的UID',
         refreshSuccess: '刷新成功',
       },
+      history: {
+        tabName: '历史玩家',
+      },
     },
   },
   install: {
