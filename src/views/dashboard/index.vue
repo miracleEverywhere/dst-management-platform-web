@@ -775,7 +775,7 @@
                               v-model="quickCmdWorldId"
                               :disabled="quickCmdType!=='world'"
                               :items="quickCmdWorldOptions"
-                              :label="t('dashboard.card3.quickCmd.playerCmd')"
+                              :label="t('dashboard.card3.quickCmd.worldCmd')"
                               item-title="label"
                               item-value="value"
                               @update:model-value="quickCmdWorldGenerate"
