@@ -16,7 +16,7 @@
         <v-toolbar flat>
           <v-toolbar-title>
             <v-icon
-              icon="ri-ghost-line"
+              icon="ri-user-location-line"
               start
             />
             <span v-if="!mobile">{{ t('game.player.online.tabName') }}</span>
@@ -68,7 +68,7 @@
               >
                 <template #prepend>
                   <v-icon
-                    icon="ri-information-2-line"
+                    icon="ri-user-star-line"
                     size="22"
                   />
                 </template>
@@ -77,12 +77,12 @@
                 </v-list-item-title>
               </v-list-item>
               <v-list-item
-                class="text-info"
+                class="text-error"
                 @click="handleList(item.uid, 'blocklist', 'add')"
               >
                 <template #prepend>
                   <v-icon
-                    icon="ri-information-2-line"
+                    icon="ri-user-forbid-line"
                     size="22"
                   />
                 </template>
@@ -91,12 +91,12 @@
                 </v-list-item-title>
               </v-list-item>
               <v-list-item
-                class="text-info"
+                class="text-success"
                 @click="handleList(item.uid, 'whitelist', 'add')"
               >
                 <template #prepend>
                   <v-icon
-                    icon="ri-information-2-line"
+                    icon="ri-user-heart-line"
                     size="22"
                   />
                 </template>
