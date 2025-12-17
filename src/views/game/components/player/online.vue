@@ -149,10 +149,10 @@ const getOnlinePlayers = () => {
 }
 
 const headers = [
-  { key: 'uid', title: t('game.mod.add.preview') },
-  { key: 'nickname', title: t('game.mod.add.name') },
-  { key: 'prefab', title: t('game.mod.add.size') },
-  { key: 'actions', title: t('game.mod.add.actions') },
+  { key: 'uid', title: t('game.player.online.header.uid') },
+  { key: 'nickname', title: t('game.player.online.header.nickname') },
+  { key: 'prefab', title: t('game.player.online.header.prefab') },
+  { key: 'actions', title: t('game.player.online.header.actions') },
 ]
 
 const actionsLoading = ref(false)
