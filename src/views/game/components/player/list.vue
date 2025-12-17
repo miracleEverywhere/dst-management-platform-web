@@ -18,6 +18,7 @@
     </v-card-title>
     <v-card-text>
       <v-container
+        fluid
         :height="props.height-152"
         style="overflow-y: auto"
       >
@@ -43,7 +44,7 @@
           >
             {{ uid }}
             <span v-if="(props.uidmap.find(item => item.uid === uid)?.nickname||'')!==''">
-              ({{props.uidmap.find(item => item.uid === uid)?.nickname||''}})
+              ({{ props.uidmap.find(item => item.uid === uid)?.nickname||'' }})
             </span>
           </v-chip>
           <div
