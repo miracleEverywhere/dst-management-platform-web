@@ -12,7 +12,6 @@
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import useGlobalStore from "@store/global.js"
-import logsApi from "@/api/logs.js"
 
 
 const props = defineProps({
