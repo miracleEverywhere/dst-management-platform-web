@@ -472,6 +472,33 @@ export default {
         },
       },
     },
+    player: {
+      online: {
+        tabName: 'Players',
+        header: {
+          uid: 'ID',
+          nickname: 'Nickname',
+          prefab: 'Role',
+          actions: 'Actions',
+        },
+        actions: {
+          admin: 'Add Admin List',
+          block: 'Add Block List',
+          white: 'Add White List',
+        },
+      },
+      list: {
+        adminlist: 'Admin',
+        blocklist: 'Block',
+        whitelist: 'White',
+        refresh: 'Refresh',
+        tip: 'Tip: Click the "×" next to a player\'s UID to delete it',
+        add: 'Add',
+        placeholder: 'Starts with KU_',
+        uidValid: 'Please enter the correct UID',
+        refreshSuccess: 'Refresh Success',
+      },
+    },
   },
   install: {
     prepare: {

@@ -472,6 +472,33 @@ export default {
         },
       },
     },
+    player: {
+      online: {
+        tabName: '在线玩家',
+        header: {
+          uid: 'ID',
+          nickname: '昵称',
+          prefab: '角色',
+          actions: '操作',
+        },
+        actions: {
+          admin: '添加管理员',
+          block: '添加黑名单',
+          white: '添加预留位',
+        },
+      },
+      list: {
+        adminlist: '管理员',
+        blocklist: '黑名单',
+        whitelist: '预留位',
+        refresh: '刷新',
+        tip: '提示：点击玩家UID后的 "×" 即可删除',
+        add: '添加',
+        placeholder: '以KU_开头',
+        uidValid: '请输入正确的UID',
+        refreshSuccess: '刷新成功',
+      },
+    },
   },
   install: {
     prepare: {
