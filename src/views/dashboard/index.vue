@@ -711,9 +711,96 @@
                     v-tooltip="t('dashboard.card3.quickCmd.tip')"
                     class="mr-4 mb-4"
                     :color="colors.cyan.darken1"
+                    @click="quickCmdDialog=true"
                   >
                     {{ t('dashboard.card3.quickCmd.title') }}
                   </v-btn>
+                  <v-dialog v-model="quickCmdDialog" :width="mobile?'90%':'60%'">
+                    <v-card>
+                      <v-card-title>
+                        {{t('dashboard.card3.quickCmd.title')}}
+                      </v-card-title>
+                      <v-card-text>
+                        <v-row>
+                          <v-col>
+                            <v-radio-group
+                              v-model="quickCmdType"
+                              inline
+                              color="primary"
+                              class="my-4"
+                            >
+                              <v-radio
+                                :label="t('dashboard.card3.quickCmd.player')"
+                                value="player"
+                              />
+                              <v-radio
+                                :label="t('dashboard.card3.quickCmd.world')"
+                                value="world"
+                              />
+                            </v-radio-group>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            <v-btn
+                              v-for="player in baseInfo.players"
+                              variant="text"
+                              class="mr-2"
+                              @click="quickCmdUid=player.uid"
+                            >
+                              {{player.nickname}}
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            <v-select
+                              v-model="quickCmdPlayerId"
+                              :disabled="quickCmdUid===''||quickCmdType!=='player'"
+                              :items="quickCmdPlayerOptions"
+                              :label="t('dashboard.card3.quickCmd.playerCmd')"
+                              item-title="label"
+                              item-value="value"
+                              @update:model-value="quickCmdPlayerGenerate"
+                            ></v-select>
+                          </v-col>
+                          <v-spacer v-if="!mobile"/>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            <v-select
+                              v-model="quickCmdWorldId"
+                              :disabled="quickCmdType!=='world'"
+                              :items="quickCmdWorldOptions"
+                              :label="t('dashboard.card3.quickCmd.playerCmd')"
+                              item-title="label"
+                              item-value="value"
+                              @update:model-value="quickCmdWorldGenerate"
+                            ></v-select>
+                          </v-col>
+                          <v-spacer v-if="!mobile"/>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            <md-preview
+                              :model-value="'```lua ::open'+'\n'+quickCmd"
+                              :theme="editorTheme"
+                              preview-theme="github"
+                              class="mdp"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer/>
+                        <v-btn
+                          variant="elevated"
+                          :text="t('dashboard.card3.quickCmd.insert')"
+                          @click="quickCmdInsert"
+                        />
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                   <v-btn
                     v-tooltip="t('dashboard.card3.check.tip')"
                     class="mr-4 mb-4"
@@ -1028,7 +1115,9 @@ import { useI18n } from "vue-i18n"
 import { showSnackbar } from "@/utils/snackbar.js"
 import useUserStore from "@store/user.js"
 import modApi from "@/api/mod.js"
-import dashboard from "@/api/dashboard.js"
+import { MdPreview } from 'md-editor-v3'
+import 'md-editor-v3/lib/preview.css'
+
 
 const windowHeight = ref(window.innerHeight)
 const globalStore = useGlobalStore()
@@ -1308,6 +1397,125 @@ const checkLobby = (isOpen=false) => {
   }).finally(() => {
     checkLobbyLoading.value = false
   })
+}
+
+const quickCmdDialog = ref(false)
+const editorTheme = computed(() => globalStore.theme)
+const quickCmdType = ref('player')
+const quickCmdPlayerId = ref()
+const quickCmdUid = ref('')
+const quickCmdWorldId = ref()
+const quickCmd = ref('')
+const quickCmdPlayerOptions = [
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.godmode'),
+    value: 0
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.buildermode'),
+    value: 1
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.invisiblemode'),
+    value: 2
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.oneattacktokill'),
+    value: 3
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.unlockalltech'),
+    value: 4
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.movingspeed4'),
+    value: 5
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.reselectcharacter'),
+    value: 6
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.respawn'),
+    value: 7
+  },
+  {
+    label: t('dashboard.card3.quickCmd.playerOptions.mapclear'),
+    value: 8
+  },
+]
+const quickCmdPlayerGenerate = () => {
+  if (!(/^KU_/.test(quickCmdUid.value))) {
+    koiMsgError(language.value === 'zh' ? '请输入正确的玩家UID' : 'Please input the correct player UID')
+    return
+  }
+  if (quickCmdPlayerId.value === 0) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.health:SetInvincible(true)`
+  }
+  if (quickCmdPlayerId.value === 1) {
+    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k].components.builder:GiveAllRecipes() end end`
+  }
+  if (quickCmdPlayerId.value === 2) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}'):AddTag('debugnoattack')`
+  }
+  if (quickCmdPlayerId.value === 3) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.combat.CalcDamage = function() return 9999999999 * 9 end`
+  }
+  if (quickCmdPlayerId.value === 4) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.builder:UnlockRecipesForTech({SCIENCE = 1, MAGIC = 1, ANCIENT = 1, SHADOW = 1, CARTOGRAPHY = 1})`
+  }
+  if (quickCmdPlayerId.value === 5) {
+    quickCmd.value = `UserToPlayer('${quickCmdUid.value}').components.locomotor:SetExternalSpeedMultiplier(UserToPlayer('${quickCmdUid.value}'), 'c_speedmult', 4)`
+  }
+  if (quickCmdPlayerId.value === 6) {
+    quickCmd.value = `c_despawn(UserToPlayer('${quickCmdUid.value}'))`
+  }
+  if (quickCmdPlayerId.value === 7) {
+    quickCmd.value = `for k, v in pairs(AllPlayers) do if v.userid=='${quickCmdUid.value}' then AllPlayers[k]:PushEvent('respawnfromghost') end end`
+  }
+  if (quickCmdPlayerId.value === 8) {
+    quickCmd.value = `local p=UserToPlayer('${quickCmdUid.value}')if p then local s=2*TheWorld.Map:GetSize()for x=-s,s,32 do for z=-s,s,32 do p.player_classified.MapExplorer:RevealArea(x,0,z)end end end`
+  }
+}
+const quickCmdWorldOptions = [
+  {
+    label: t('dashboard.card3.quickCmd.worldOptions.rollback6days'),
+    value: 0
+  },
+  {
+    label: t('dashboard.card3.quickCmd.worldOptions.skip1day'),
+    value: 1
+  },
+  {
+    label: t('dashboard.card3.quickCmd.worldOptions.nextphase'),
+    value: 2
+  },
+  {
+    label: t('dashboard.card3.quickCmd.worldOptions.save'),
+    value: 3
+  },
+]
+const quickCmdWorldGenerate = () => {
+  if (quickCmdWorldId.value === 0) {
+    quickCmd.value = `c_rollback(6)`
+  }
+  if (quickCmdWorldId.value === 1) {
+    quickCmd.value = `c_skip(1)`
+  }
+  if (quickCmdWorldId.value === 2) {
+    quickCmd.value = `TheWorld:PushEvent('ms_nextphase')`
+  }
+  if (quickCmdWorldId.value === 3) {
+    quickCmd.value = `c_save()`
+  }
+}
+const quickCmdInsert = () => {
+  consoleForm.value.cmd = quickCmd.value
+  quickCmdDialog.value = false
+  quickCmd.value = ''
+  quickCmdUid.value = ''
+  quickCmdPlayerId.value = undefined
+  quickCmdWorldId.value = undefined
 }
 
 let intervalBaseId = null
