@@ -22,6 +22,9 @@
         <v-tab value="whitelist">
           {{ t('game.player.list.whitelist') }}
         </v-tab>
+        <v-tab value="history">
+          {{ t('game.player.history.tabName') }}
+        </v-tab>
       </v-tabs>
       <v-tabs-window v-model="activeTabName">
         <v-tabs-window-item value="online">
@@ -80,6 +83,17 @@
             />
           </v-container>
         </v-tabs-window-item>
+        <v-tabs-window-item value="history">
+          <v-container
+            fluid
+            :height="calculateContainerSize()"
+            width="100%"
+            class="w-100"
+            style="overflow-y: auto"
+          >
+            <history :uidmap="uidmap" />
+          </v-container>
+        </v-tabs-window-item>
       </v-tabs-window>
     </template>
     <template v-else>
@@ -132,6 +146,7 @@ import useUserStore from "@store/user.js"
 import { useDisplay } from "vuetify/framework"
 import List from "@/views/game/components/player/list.vue"
 import playerApi from "@/api/player.js"
+import History from "@/views/game/components/player/history.vue";
 
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
