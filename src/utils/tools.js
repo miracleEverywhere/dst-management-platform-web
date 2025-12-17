@@ -288,3 +288,56 @@ export const getDstToken = () => {
 export const generateUUID = () => {
   return uuidv4()
 }
+
+export const getDstRoleName = (name, lang) => {
+  const RoleMap = {
+    "zh": {
+      "wilson": "威尔逊",
+      "willow": "薇洛",
+      "wolfgang": "沃尔夫冈",
+      "wendy": "温蒂",
+      "wx78": "WX-78",
+      "wickerbottom": "薇克巴顿",
+      "woodie": "伍迪",
+      "wes": "韦斯",
+      "waxwell": "麦斯威尔",
+      "wathgrithr": "薇格弗德",
+      "webber": "韦伯",
+      "winona": "薇诺娜",
+      "warly": "沃利",
+      "walter": "沃尔特",
+      "wortox": "沃拓克斯",
+      "wormwood": "沃姆伍德",
+      "wurt": "沃特",
+      "wanda": "旺达",
+      "wonkey": "芜猴",
+    },
+    "en": {
+      "wilson": "Wilson",
+      "willow": "Willow",
+      "wolfgang": "Wolfgang",
+      "wendy": "Wendy",
+      "wx78": "WX-78",
+      "wickerbottom": "Wickerbottom",
+      "woodie": "Woodie",
+      "wes": "Wes",
+      "waxwell": "Waxwell",
+      "wathgrithr": "Wathgrithr",
+      "webber": "Webber",
+      "winona": "Winona",
+      "warly": "Warly",
+      "walter": "Walter",
+      "wortox": "Wortox",
+      "wormwood": "Wormwood",
+      "wurt": "Wurt",
+      "wanda": "Wanda",
+      "wonkey": "Wonkey",
+    },
+  }
+
+  const translations = RoleMap[lang]
+
+  if (!translations) return name
+
+  return translations[name] ?? name
+}
