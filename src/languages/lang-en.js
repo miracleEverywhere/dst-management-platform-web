@@ -799,6 +799,28 @@ export default {
       quickCmd: {
         title: 'CMD',
         tip: 'Execute some server commands, which require the server to be running normally',
+        player: 'Player',
+        playerCmd: 'Player CMD',
+        world: 'World',
+        worldCmd: 'World CMD',
+        playerOptions: {
+          godmode: 'God Mod',
+          buildermode: 'Builder Mode',
+          invisiblemode: 'Invisible Mode',
+          oneattacktokill: 'One attack to kill',
+          unlockalltech: 'Unlock all tech',
+          movingspeed4: 'Moving speed × 4',
+          reselectcharacter: 'Reselect Character',
+          respawn: 'Respawn Player',
+          mapclear: 'Map Insight',
+        },
+        worldOptions: {
+          rollback6days: 'Rollback 6 days',
+          skip1day: 'Skip 1 day',
+          nextphase: 'Next Phase',
+          save: 'Save Game',
+        },
+        insert: 'Insert',
       },
       check: {
         title: 'Check',

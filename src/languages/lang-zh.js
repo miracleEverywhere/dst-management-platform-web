@@ -799,6 +799,28 @@ export default {
       quickCmd: {
         title: '快捷指令',
         tip: '执行一些服务器命令，要求服务器正常运行',
+        player: '玩家',
+        playerCmd: '玩家命令',
+        world: '世界',
+        worldCmd: '世界命令',
+        playerOptions: {
+          godmode: '开启上帝模式',
+          buildermode: '开启建造模式',
+          invisiblemode: '开启隐身模式',
+          oneattacktokill: '开启一击必杀',
+          unlockalltech: '解锁所有科技',
+          movingspeed4: '移速×4(按需更改)',
+          reselectcharacter: '重选角色',
+          respawn: '复活玩家',
+          mapclear: '开全图',
+        },
+        worldOptions: {
+          rollback6days: '回档6天(按需更改)',
+          skip1day: '跳过1天(按需更改)',
+          nextphase: '下一阶段',
+          save: '保存游戏',
+        },
+        insert: '插入',
       },
       check: {
         title: '检查世界',
