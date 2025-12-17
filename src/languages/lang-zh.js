@@ -549,7 +549,7 @@ export default {
       roomCount: '房间总数',
       worldCount: '世界总数',
       userCount: '用户总数',
-      uidCount: 'UID总数',
+      uidCount: '历史玩家数',
     },
     user: {
       form: {

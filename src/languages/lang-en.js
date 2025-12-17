@@ -549,7 +549,7 @@ export default {
       roomCount: 'Room Count',
       worldCount: 'World Count',
       userCount: 'User Count',
-      uidCount: 'UID Count',
+      uidCount: 'History Player Count',
     },
     user: {
       form: {
