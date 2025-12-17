@@ -146,7 +146,7 @@ import useUserStore from "@store/user.js"
 import { useDisplay } from "vuetify/framework"
 import List from "@/views/game/components/player/list.vue"
 import playerApi from "@/api/player.js"
-import History from "@/views/game/components/player/history.vue";
+import History from "@/views/game/components/player/history.vue"
 
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
@@ -156,10 +156,12 @@ const activeTabName = ref('online')
 
 
 const uidmap = ref([])
+
 const getUidmap = () => {
   const reqForm = {
     roomID: globalStore.room.id,
   }
+
   playerApi.uidmap.get(reqForm).then(response => {
     uidmap.value = response.data
   })
@@ -186,6 +188,7 @@ const handleTabClick = tab => {
 
 onMounted(async () => {
   getUidmap()
+
   // 添加事件监听
   window.addEventListener('resize', handleResize)
 })

@@ -715,10 +715,13 @@
                   >
                     {{ t('dashboard.card3.quickCmd.title') }}
                   </v-btn>
-                  <v-dialog v-model="quickCmdDialog" :width="mobile?'90%':'60%'">
+                  <v-dialog
+                    v-model="quickCmdDialog"
+                    :width="mobile?'90%':'60%'"
+                  >
                     <v-card>
                       <v-card-title>
-                        {{t('dashboard.card3.quickCmd.title')}}
+                        {{ t('dashboard.card3.quickCmd.title') }}
                       </v-card-title>
                       <v-card-text>
                         <v-row>
@@ -748,7 +751,7 @@
                               class="mr-2"
                               @click="quickCmdUid=player.uid"
                             >
-                              {{player.nickname}}
+                              {{ player.nickname }}
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -762,9 +765,9 @@
                               item-title="label"
                               item-value="value"
                               @update:model-value="quickCmdPlayerGenerate"
-                            ></v-select>
+                            />
                           </v-col>
-                          <v-spacer v-if="!mobile"/>
+                          <v-spacer v-if="!mobile" />
                         </v-row>
                         <v-row>
                           <v-col>
@@ -776,9 +779,9 @@
                               item-title="label"
                               item-value="value"
                               @update:model-value="quickCmdWorldGenerate"
-                            ></v-select>
+                            />
                           </v-col>
-                          <v-spacer v-if="!mobile"/>
+                          <v-spacer v-if="!mobile" />
                         </v-row>
                         <v-row>
                           <v-col>
@@ -792,7 +795,7 @@
                         </v-row>
                       </v-card-text>
                       <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
                         <v-btn
                           variant="elevated"
                           :text="t('dashboard.card3.quickCmd.insert')"
@@ -1406,47 +1409,50 @@ const quickCmdPlayerId = ref()
 const quickCmdUid = ref('')
 const quickCmdWorldId = ref()
 const quickCmd = ref('')
+
 const quickCmdPlayerOptions = [
   {
     label: t('dashboard.card3.quickCmd.playerOptions.godmode'),
-    value: 0
+    value: 0,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.buildermode'),
-    value: 1
+    value: 1,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.invisiblemode'),
-    value: 2
+    value: 2,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.oneattacktokill'),
-    value: 3
+    value: 3,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.unlockalltech'),
-    value: 4
+    value: 4,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.movingspeed4'),
-    value: 5
+    value: 5,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.reselectcharacter'),
-    value: 6
+    value: 6,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.respawn'),
-    value: 7
+    value: 7,
   },
   {
     label: t('dashboard.card3.quickCmd.playerOptions.mapclear'),
-    value: 8
+    value: 8,
   },
 ]
+
 const quickCmdPlayerGenerate = () => {
   if (!(/^KU_/.test(quickCmdUid.value))) {
     koiMsgError(language.value === 'zh' ? '请输入正确的玩家UID' : 'Please input the correct player UID')
+    
     return
   }
   if (quickCmdPlayerId.value === 0) {
@@ -1477,24 +1483,26 @@ const quickCmdPlayerGenerate = () => {
     quickCmd.value = `local p=UserToPlayer('${quickCmdUid.value}')if p then local s=2*TheWorld.Map:GetSize()for x=-s,s,32 do for z=-s,s,32 do p.player_classified.MapExplorer:RevealArea(x,0,z)end end end`
   }
 }
+
 const quickCmdWorldOptions = [
   {
     label: t('dashboard.card3.quickCmd.worldOptions.rollback6days'),
-    value: 0
+    value: 0,
   },
   {
     label: t('dashboard.card3.quickCmd.worldOptions.skip1day'),
-    value: 1
+    value: 1,
   },
   {
     label: t('dashboard.card3.quickCmd.worldOptions.nextphase'),
-    value: 2
+    value: 2,
   },
   {
     label: t('dashboard.card3.quickCmd.worldOptions.save'),
-    value: 3
+    value: 3,
   },
 ]
+
 const quickCmdWorldGenerate = () => {
   if (quickCmdWorldId.value === 0) {
     quickCmd.value = `c_rollback(6)`
@@ -1509,6 +1517,7 @@ const quickCmdWorldGenerate = () => {
     quickCmd.value = `c_save()`
   }
 }
+
 const quickCmdInsert = () => {
   consoleForm.value.cmd = quickCmd.value
   quickCmdDialog.value = false

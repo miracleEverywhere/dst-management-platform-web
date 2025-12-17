@@ -96,11 +96,11 @@
 </template>
 
 <script setup>
-import useGlobalStore from "@/plugins/store/global.js";
-import {useDisplay} from "vuetify/framework";
-import {useI18n} from "vue-i18n";
-import playerApi from "@/api/player.js";
-import {showSnackbar} from "@/utils/snackbar.js";
+import useGlobalStore from "@store/global.js"
+import { useDisplay } from "vuetify/framework"
+import { useI18n } from "vue-i18n"
+import playerApi from "@/api/player.js"
+import { showSnackbar } from "@/utils/snackbar.js"
 
 const props = defineProps({
   uidmap: {
@@ -139,5 +139,3 @@ const handleList = (uid, listType, actionType) => {
 }
 </script>
 
-<style scoped>
-</style>
