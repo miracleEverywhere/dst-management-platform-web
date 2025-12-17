@@ -26,11 +26,11 @@ export default {
       subTitle: 'Please contact the administrator of the DMP to install the game',
     },
     timeRunning: {
-      second: 'Seconds',
-      minute: 'Minutes',
-      hour: 'Hours',
-      day: 'Days',
-      year: 'Years',
+      second: 'Sec',
+      minute: 'Min',
+      hour: 'Hr',
+      day: 'Day',
+      year: 'Yr',
     },
     confirm: {
       title: 'Confirm',
