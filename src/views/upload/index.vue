@@ -76,6 +76,7 @@
                     <template v-else>
                       <result
                         :height="400"
+                        type="info"
                         :title="t('upload.dialog.uploadingTitle')"
                         :sub-title="t('upload.dialog.uploadingSubTitle')"
                       />
