@@ -7,4 +7,18 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  history: {
+    list: {
+      url: `/logs/history/list`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
+    content: {
+      url: `/logs/history/content`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
+  }
 }
