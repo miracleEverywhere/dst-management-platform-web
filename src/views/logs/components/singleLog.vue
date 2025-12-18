@@ -2,8 +2,11 @@
   <v-card :height="calculateHeight()" flat>
     <v-card-title class="my-2">
       <div class="card-header">
-        <span>
-          {{props.type}}
+        <span v-if="props.chat">
+          {{t('logs.current')}}
+        </span>
+        <span v-else>
+          {{t(`logs.${props.type}`)}}
         </span>
         <div class="fcc">
           <v-switch
@@ -13,7 +16,7 @@
           >
             <template #prepend>
               <v-chip color="info">
-                自动刷新
+                {{t('logs.autoPull')}}
               </v-chip>
             </template>
           </v-switch>
@@ -21,26 +24,39 @@
       </div>
     </v-card-title>
     <v-card-text>
-      <log
-        :content="content"
-        :height="calculateHeight()-150"
-      />
+      <template v-if="firstPullFinished">
+        <log
+          v-if="content"
+          :content="content"
+          :height="calculateHeight()-150"
+        />
+        <result
+          v-else
+          type="info"
+          :height="calculateHeight()-150"
+          :title="t('logs.noContent')"
+        />
+      </template>
+      <template v-else>
+        <result
+          type="info"
+          :title="t('logs.fetching')"
+          :height="calculateHeight()-150"
+        />
+      </template>
       <v-row class="my-4">
         <v-spacer />
-        <v-col
-          cols="6"
-          md="2"
-          class="fcc"
-        >
+        <v-col class="d-flex align-center justify-end">
           <v-number-input
             v-model="lines"
-            label="行"
+            :label="t('logs.line')"
             hide-details
             density="compact"
             class="mr-4"
+            max-width="120"
           />
           <v-btn @click="getLogContent">
-            刷新
+            {{t('logs.pull')}}
           </v-btn>
         </v-col>
       </v-row>
@@ -53,8 +69,11 @@ import Log from "@/views/logs/components/log.vue"
 import useGlobalStore from "@store/global.js"
 import logsApi from "@/api/logs.js"
 import { debounce } from "@/utils/tools.js"
+import {useI18n} from "vue-i18n";
 
 const globalStore = useGlobalStore()
+const { t } = useI18n()
+
 const content = ref('')
 const autoPull= ref(true)
 const lines = ref(0)
@@ -70,6 +89,7 @@ const props = defineProps({
   }
 })
 
+const firstPullFinished = ref(false)
 const getLogContent = () => {
   const reqForm = {
     roomID: globalStore.room.id,
@@ -80,6 +100,7 @@ const getLogContent = () => {
 
   logsApi.content.get(reqForm).then(response => {
     content.value = response.data.join("\n")
+    firstPullFinished.value = true
   })
 }
 

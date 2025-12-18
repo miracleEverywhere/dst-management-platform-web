@@ -8,12 +8,13 @@
         align-tabs="start"
         color="primary"
         show-arrows
+        @update:model-value="handleTabClick"
       >
         <v-tab value="current">
-          当前日志
+          {{t('logs.current')}}
         </v-tab>
         <v-tab value="history">
-          历史日志
+          {{t('logs.history')}}
         </v-tab>
       </v-tabs>
       <v-tabs-window v-model="activeTabName" class="mt-4">
@@ -21,14 +22,16 @@
           <v-card :height="calculateHeight()">
             <v-card-title class="my-2">
               <div class="card-header">
-                <span>游戏日志</span>
+                <span>
+                  {{t('logs.current')}}
+                </span>
                 <div class="fcc">
                   <v-select
                     v-model="selectedWorldID"
                     :items="worlds"
                     item-title="worldName"
                     item-value="id"
-                    label="世界"
+                    :label="t('logs.world')"
                     density="compact"
                     class="mr-4"
                     @update:model-value="content=''"
@@ -40,7 +43,7 @@
                   >
                     <template #prepend>
                       <v-chip color="info">
-                        自动刷新
+                        {{t('logs.autoPull')}}
                       </v-chip>
                     </template>
                   </v-switch>
@@ -48,26 +51,39 @@
               </div>
             </v-card-title>
             <v-card-text>
-              <log
-                :content="content"
-                :height="calculateHeight()-150"
-              />
+              <template v-if="firstPullFinished">
+                <log
+                  v-if="content"
+                  :content="content"
+                  :height="calculateHeight()-150"
+                />
+                <result
+                  v-else
+                  type="info"
+                  :height="calculateHeight()-150"
+                  :title="t('logs.noContent')"
+                />
+              </template>
+              <template v-else>
+                <result
+                  type="info"
+                  :title="t('logs.fetching')"
+                  :height="calculateHeight()-150"
+                />
+              </template>
               <v-row class="my-4">
                 <v-spacer />
-                <v-col
-                  cols="6"
-                  md="2"
-                  class="fcc"
-                >
+                <v-col class="d-flex align-center justify-end">
                   <v-number-input
                     v-model="lines"
-                    label="行"
+                    :label="t('logs.line')"
                     hide-details
                     density="compact"
                     class="mr-4"
+                    max-width="120"
                   />
                   <v-btn @click="getLogContent">
-                    刷新
+                    {{t('logs.pull')}}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -75,6 +91,66 @@
           </v-card>
         </v-tabs-window-item>
         <v-tabs-window-item value="history">
+          <v-card :height="calculateHeight()">
+            <v-card-title class="my-2">
+              <div class="card-header">
+                <span>
+                  {{t('logs.history')}}
+                </span>
+                <div class="fcc">
+                  <v-select
+                    v-model="selectedWorldID"
+                    :items="worlds"
+                    item-title="worldName"
+                    item-value="id"
+                    :label="t('logs.world')"
+                    density="compact"
+                    class="mr-4"
+                    min-width="100px"
+                    @update:model-value="content=''"
+                  />
+                  <v-select
+                    v-model="selectedFilename"
+                    :items="list"
+                    :disabled="getHistoryFileContentLoading"
+                    :loading="getHistoryFileContentLoading"
+                    :label="t('logs.logFile')"
+                    density="compact"
+                    min-width="100px"
+                    @update:model-value="getHistoryFileContent"
+                  />
+                </div>
+              </div>
+            </v-card-title>
+            <v-card-text>
+              <template v-if="selectedFilename">
+                <log
+                  v-if="!getHistoryFileContentLoading&&historyContent"
+                  :content="historyContent"
+                  :height="calculateHeight()-150"
+                />
+                <result
+                  v-if="getHistoryFileContentLoading"
+                  type="info"
+                  :title="t('logs.fetching')"
+                  :height="calculateHeight()-150"
+                />
+                <result
+                  v-if="!getHistoryFileContentLoading&&!historyContent"
+                  type="info"
+                  :height="calculateHeight()-150"
+                  :title="t('logs.noContent')"
+                />
+              </template>
+              <template v-else>
+                <result
+                  type="info"
+                  :height="calculateHeight()-150"
+                  :title="t('logs.noLogFile')"
+                />
+              </template>
+            </v-card-text>
+          </v-card>
         </v-tabs-window-item>
       </v-tabs-window>
     </template>
@@ -141,8 +217,21 @@ const selectedWorldID = ref(0)
 const autoPull= ref(true)
 const lines = ref(0)
 
+const handleTabClick = tab => {
+  if (tab === "current") {
+    shouldPull.value = true
+  }
+  if (tab === "history") {
+    shouldPull.value = false
+  }
+}
+const firstPullFinished = ref(false)
+const shouldPull = ref(true)
 const getLogContent = () => {
   if (selectedWorldID.value === 0) {
+    return
+  }
+  if (!shouldPull.value) {
     return
   }
 
@@ -155,6 +244,7 @@ const getLogContent = () => {
 
   logsApi.content.get(reqForm).then(response => {
     content.value = response.data.join("\n")
+    firstPullFinished.value = true
   })
 }
 
@@ -169,6 +259,36 @@ const getWorlds = async () => {
 
   worlds.value = response.data
   selectedWorldID.value = worlds.value[0]?.id || 0
+}
+
+const list = ref([])
+const getList = () => {
+  const reqForm = {
+    roomID: globalStore.room.id,
+    worldID: selectedWorldID.value,
+    logType: 'game',
+  }
+  logsApi.history.list.get(reqForm).then(response => {
+    list.value = response.data
+  })
+}
+const selectedFilename = ref('')
+const historyContent = ref('')
+const getHistoryFileContentLoading = ref(false)
+const getHistoryFileContent = () => {
+  getHistoryFileContentLoading.value = true
+  const reqForm = {
+    roomID: globalStore.room.id,
+    worldID: selectedWorldID.value,
+    logType: 'game',
+    logFile: selectedFilename.value,
+  }
+  logsApi.history.content.get(reqForm).then(response => {
+    historyContent.value = ""
+    historyContent.value = response.data
+  }).finally(() => {
+    getHistoryFileContentLoading.value = false
+  })
 }
 
 let intervalId = null
@@ -209,6 +329,7 @@ const handleResize = debounce(() => {
 onMounted(async () => {
   window.addEventListener('resize', handleResize)
   await getWorlds()
+  getList()
   lines.value = calculateLines()
   startRequests()
 })

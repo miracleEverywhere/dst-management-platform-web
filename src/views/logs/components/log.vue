@@ -2,6 +2,7 @@
   <md-preview
     :model-value="'```text ::open'+'\n'+props.content"
     :theme="editorTheme"
+    :language="editorLanguage"
     preview-theme="github"
     class="mdp"
     :style="{'overflow-y': 'auto','height':props.height+'px'}"
@@ -27,6 +28,16 @@ const props = defineProps({
 
 const globalStore = useGlobalStore()
 const editorTheme = computed(() => globalStore.theme)
+const editorLanguage = computed(() => {
+  switch (globalStore.language) {
+    case "zh":
+      return 'zh-CN'
+    case "en":
+      return 'en-US'
+    default:
+      return 'zh-CN'
+  }
+})
 </script>
 
 <style scoped>
