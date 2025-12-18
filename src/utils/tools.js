@@ -94,6 +94,17 @@ export function getBrowserLang() {
   return defaultBrowserLang
 }
 
+export const getEditorLang = lang => {
+  switch (lang) {
+    case "zh":
+      return 'zh-CN'
+    case "en":
+      return 'en-US'
+    default:
+      return 'zh-CN'
+  }
+}
+
 export const sleep = function (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }

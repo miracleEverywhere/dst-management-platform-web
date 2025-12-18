@@ -788,6 +788,7 @@
                             <md-preview
                               :model-value="'```lua ::open'+'\n'+quickCmd"
                               :theme="editorTheme"
+                              :language="editorLanguage"
                               preview-theme="github"
                               class="mdp"
                             />
@@ -1109,7 +1110,7 @@
 </template>
 
 <script setup>
-import { debounce, formatBytes, parseModLua, truncateString, validateIpv4 } from "@/utils/tools.js"
+import {debounce, formatBytes, getEditorLang, parseModLua, truncateString, validateIpv4} from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -1526,6 +1527,8 @@ const quickCmdInsert = () => {
   quickCmdPlayerId.value = undefined
   quickCmdWorldId.value = undefined
 }
+
+const editorLanguage = computed(() => getEditorLang(globalStore.language))
 
 let intervalBaseId = null
 let intervalSysId = null

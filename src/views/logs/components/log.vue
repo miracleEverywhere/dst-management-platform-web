@@ -13,6 +13,7 @@
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import useGlobalStore from "@store/global.js"
+import {getEditorLang} from "@/utils/tools.js";
 
 
 const props = defineProps({
@@ -28,16 +29,7 @@ const props = defineProps({
 
 const globalStore = useGlobalStore()
 const editorTheme = computed(() => globalStore.theme)
-const editorLanguage = computed(() => {
-  switch (globalStore.language) {
-    case "zh":
-      return 'zh-CN'
-    case "en":
-      return 'en-US'
-    default:
-      return 'zh-CN'
-  }
-})
+const editorLanguage = computed(() => getEditorLang(globalStore.language))
 </script>
 
 <style scoped>
