@@ -1,120 +1,99 @@
 <template>
-  <v-card :height="calculateHeight()">
-    <v-card-title class="my-2">
-      <div class="card-header">
-        <span>游戏日志</span>
-        <div class="fcc">
-          <v-switch
-            v-model="autoPull"
-            color="info"
-            hide-details
-          >
-            <template #prepend>
-              <v-chip color="info">
-                自动刷新
-              </v-chip>
-            </template>
-          </v-switch>
-        </div>
-      </div>
-    </v-card-title>
-    <v-card-text>
-      <log
-        :content="content"
-        :height="calculateHeight()-150"
-      />
-      <v-row class="my-4">
-        <v-spacer />
-        <v-col
-          cols="6"
-          md="2"
-          class="fcc"
+  <!-- 游戏是否安装 -->
+  <template v-if="globalStore.gameVersion.local!==0">
+    <!-- 房间是否选择 -->
+    <template v-if="globalStore.room.id!==0">
+      <v-tabs
+        v-model="activeTabName"
+        align-tabs="start"
+        color="primary"
+        show-arrows
+      >
+        <v-tab value="current">
+          当前日志
+        </v-tab>
+        <v-tab value="history">
+          历史日志
+        </v-tab>
+      </v-tabs>
+      <v-tabs-window v-model="activeTabName" class="mt-4">
+        <v-tabs-window-item value="current">
+          <single-log type="chat" chat/>
+        </v-tabs-window-item>
+        <v-tabs-window-item value="history">
+        </v-tabs-window-item>
+      </v-tabs-window>
+    </template>
+    <template v-else>
+      <result
+        :title="t('global.result.title')"
+        :sub-title="t('global.result.subTitle')"
+        type="error"
+        :height="calculateHeight()"
+      >
+        <v-btn
+          to="/rooms"
+          class="mt-4"
         >
-          <v-number-input
-            v-model="lines"
-            label="行"
-            hide-details
-            density="compact"
-            class="mr-4"
-          />
-          <v-btn @click="getLogContent">
-            刷新
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+          {{ t('global.result.button') }}
+        </v-btn>
+      </result>
+    </template>
+  </template>
+  <template v-else>
+    <result
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
+      :height="calculateHeight()"
+      type="error"
+    >
+      <v-btn
+        to="/install"
+        class="mt-4"
+      >
+        {{ t('global.noGame.button') }}
+      </v-btn>
+    </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateHeight()"
+      type="error"
+    />
+  </template>
 </template>
-
 <script setup>
-import Log from "@/views/logs/components/log.vue"
-import useGlobalStore from "@store/global.js"
-import logsApi from "@/api/logs.js"
-import { debounce } from "@/utils/tools.js"
+import SingleLog from "@/views/logs/components/singleLog.vue";
+import {debounce} from "@/utils/tools.js";
+import useGlobalStore from "@/plugins/store/global.js";
+import useUserStore from "@/plugins/store/user.js";
+import {useDisplay} from "vuetify/framework";
+import {useI18n} from "vue-i18n";
+
 
 const globalStore = useGlobalStore()
-const content = ref('')
-const autoPull= ref(true)
-const lines = ref(0)
-
-const getLogContent = () => {
-  const reqForm = {
-    roomID: globalStore.room.id,
-    worldID: 0,
-    logType: 'chat',
-    lines: lines.value,
-  }
-
-  logsApi.content.get(reqForm).then(response => {
-    content.value = response.data.join("\n")
-  })
-}
-
-let intervalId = null
-
-const startRequests = () => {
-  intervalId = setInterval(() => {
-    if (autoPull.value) {
-      getLogContent()
-    }
-  }, 2000)
-}
-
-const cancelRequests = () => {
-  if (intervalId) {
-    clearInterval(intervalId)
-    intervalId = null
-  }
-}
-
-const calculateLines = () => {
-  const other = 390
-
-  // 只返回计算的行数，不设置 lines.value
-  return Math.round(Math.max(2, Math.floor(windowHeight.value - other)) / 22.5)
-}
+const userStore = useUserStore()
+const { mobile } = useDisplay()
+const { t } = useI18n()
+const activeTabName = ref('current')
 
 const calculateHeight = () => {
-  return Math.max(2, Math.floor(windowHeight.value - 160))
+  return Math.max(2, Math.floor(windowHeight.value - 160 - 37))
 }
 
 const windowHeight = ref(window.innerHeight)
 
 const handleResize = debounce(() => {
   windowHeight.value = window.innerHeight
-  lines.value = calculateLines()
 }, 200)
 
 onMounted(async () => {
   window.addEventListener('resize', handleResize)
-  lines.value = calculateLines()
-  startRequests()
 })
 
 onBeforeUnmount(() => {
-  cancelRequests()
-  window.removeEventListener('beforeunload', cancelRequests)
   window.removeEventListener('resize', handleResize)
 })
 </script>
-
