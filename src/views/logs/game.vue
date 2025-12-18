@@ -1,59 +1,122 @@
 <template>
-  <v-card :height="calculateHeight()">
-    <v-card-title class="my-2">
-      <div class="card-header">
-        <span>游戏日志</span>
-        <div class="fcc">
-          <v-select
-            v-model="selectedWorldID"
-            :items="worlds"
-            item-title="worldName"
-            item-value="id"
-            label="世界"
-            density="compact"
-            class="mr-4"
-            @update:model-value="content=''"
-          />
-          <v-switch
-            v-model="autoPull"
-            color="info"
-            hide-details
-          >
-            <template #prepend>
-              <v-chip color="info">
-                自动刷新
-              </v-chip>
-            </template>
-          </v-switch>
-        </div>
-      </div>
-    </v-card-title>
-    <v-card-text>
-      <log
-        :content="content"
-        :height="calculateHeight()-150"
-      />
-      <v-row class="my-4">
-        <v-spacer />
-        <v-col
-          cols="6"
-          md="2"
-          class="fcc"
+  <!-- 游戏是否安装 -->
+  <template v-if="globalStore.gameVersion.local!==0">
+    <!-- 房间是否选择 -->
+    <template v-if="globalStore.room.id!==0">
+      <v-tabs
+        v-model="activeTabName"
+        align-tabs="start"
+        color="primary"
+        show-arrows
+      >
+        <v-tab value="current">
+          当前日志
+        </v-tab>
+        <v-tab value="history">
+          历史日志
+        </v-tab>
+      </v-tabs>
+      <v-tabs-window v-model="activeTabName" class="mt-4">
+        <v-tabs-window-item value="current">
+          <v-card :height="calculateHeight()">
+            <v-card-title class="my-2">
+              <div class="card-header">
+                <span>游戏日志</span>
+                <div class="fcc">
+                  <v-select
+                    v-model="selectedWorldID"
+                    :items="worlds"
+                    item-title="worldName"
+                    item-value="id"
+                    label="世界"
+                    density="compact"
+                    class="mr-4"
+                    @update:model-value="content=''"
+                  />
+                  <v-switch
+                    v-model="autoPull"
+                    color="info"
+                    hide-details
+                  >
+                    <template #prepend>
+                      <v-chip color="info">
+                        自动刷新
+                      </v-chip>
+                    </template>
+                  </v-switch>
+                </div>
+              </div>
+            </v-card-title>
+            <v-card-text>
+              <log
+                :content="content"
+                :height="calculateHeight()-150"
+              />
+              <v-row class="my-4">
+                <v-spacer />
+                <v-col
+                  cols="6"
+                  md="2"
+                  class="fcc"
+                >
+                  <v-number-input
+                    v-model="lines"
+                    label="行"
+                    hide-details
+                    density="compact"
+                    class="mr-4"
+                  />
+                  <v-btn @click="getLogContent">
+                    刷新
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-tabs-window-item>
+        <v-tabs-window-item value="history">
+        </v-tabs-window-item>
+      </v-tabs-window>
+    </template>
+    <template v-else>
+      <result
+        :title="t('global.result.title')"
+        :sub-title="t('global.result.subTitle')"
+        type="error"
+        :height="calculateHeight()"
+      >
+        <v-btn
+          to="/rooms"
+          class="mt-4"
         >
-          <v-number-input
-            v-model="lines"
-            label="行"
-            hide-details
-            density="compact"
-            class="mr-4"
-          />
-          <v-btn @click="getLogContent">
-            刷新
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+          {{ t('global.result.button') }}
+        </v-btn>
+      </result>
+    </template>
+  </template>
+  <template v-else>
+    <result
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
+      :height="calculateHeight()"
+      type="error"
+    >
+      <v-btn
+        to="/install"
+        class="mt-4"
+      >
+        {{ t('global.noGame.button') }}
+      </v-btn>
+    </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateHeight()"
+      type="error"
+    />
+  </template>
 </template>
 
 <script setup>
@@ -62,9 +125,17 @@ import logsApi from "@/api/logs.js"
 import roomApi from "@/api/room.js"
 import useGlobalStore from "@store/global.js"
 import { debounce } from "@/utils/tools.js"
+import useUserStore from "@/plugins/store/user.js";
+import {useDisplay} from "vuetify/framework";
+import {useI18n} from "vue-i18n";
 
 
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
+const { mobile } = useDisplay()
+const { t } = useI18n()
+const activeTabName = ref('current')
+
 const content = ref('')
 const selectedWorldID = ref(0)
 const autoPull= ref(true)
@@ -118,14 +189,14 @@ const cancelRequests = () => {
 }
 
 const calculateLines = () => {
-  const other = 390
+  const other = 390 + 37
 
   // 只返回计算的行数，不设置 lines.value
   return Math.round(Math.max(2, Math.floor(windowHeight.value - other)) / 22.5)
 }
 
 const calculateHeight = () => {
-  return Math.max(2, Math.floor(windowHeight.value - 160))
+  return Math.max(2, Math.floor(windowHeight.value - 160 - 37))
 }
 
 const windowHeight = ref(window.innerHeight)
