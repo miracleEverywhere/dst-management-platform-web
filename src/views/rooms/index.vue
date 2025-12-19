@@ -56,7 +56,7 @@
             :ref="el => { if (index === 0) cardRef = el }"
             :hover="true"
             variant="flat"
-            :height="mobile?'600px':'300px'"
+            height="300px"
           >
             <v-card-title>
               <div class="fcb">
@@ -206,7 +206,10 @@
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col :cols="mobile?12:6">
+                  <v-col
+                    v-if="!mobile"
+                    :cols="mobile?12:6"
+                  >
                     <v-card
                       :height="240"
                       variant="flat"
