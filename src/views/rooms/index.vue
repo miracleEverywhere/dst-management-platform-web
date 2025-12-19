@@ -90,6 +90,20 @@
                   <v-list>
                     <v-list-item
                       class="text-success"
+                      @click="gotoDashboard(room)"
+                    >
+                      <template #prepend>
+                        <v-icon
+                          icon="ri-checkbox-circle-line"
+                          size="22"
+                        />
+                      </template>
+                      <v-list-item-title>
+                        {{ t('rooms.card.success.header.menu.select') }}
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                      class="text-success"
                       :disabled="room.status"
                       @click="handleAction('activate', room)"
                     >
@@ -380,6 +394,12 @@ const toggleMenu = () => {
 const selectRoom = room => {
   globalStore.room.id = room.id
   globalStore.room.gameName = room.gameName
+}
+
+const gotoDashboard = async room => {
+  globalStore.room.id = room.id
+  globalStore.room.gameName = room.gameName
+  await router.push('/dashboard')
 }
 
 const generatePlayerList = players => {
