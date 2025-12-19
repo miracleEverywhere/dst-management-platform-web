@@ -20,5 +20,5 @@ export default {
         return await http.get(this.url, data)
       },
     },
-  }
+  },
 }
