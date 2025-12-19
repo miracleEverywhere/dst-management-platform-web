@@ -538,6 +538,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
   cleanup()
 })
 </script>
