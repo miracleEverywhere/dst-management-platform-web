@@ -96,12 +96,12 @@ export function getBrowserLang() {
 
 export const getEditorLang = lang => {
   switch (lang) {
-    case "zh":
-      return 'zh-CN'
-    case "en":
-      return 'en-US'
-    default:
-      return 'zh-CN'
+  case "zh":
+    return 'zh-CN'
+  case "en":
+    return 'en-US'
+  default:
+    return 'zh-CN'
   }
 }
 
