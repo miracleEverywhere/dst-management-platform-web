@@ -40,4 +40,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  myself: {
+    url: `/user/myself`,
+    put: async function (data) {
+      return await http.put(this.url, data)
+    },
+  },
 }
