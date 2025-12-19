@@ -114,6 +114,7 @@ export default {
             activate: 'Activate',
             deactivate: 'Deactivate',
             delete: 'Delete',
+            select: 'Select',
           },
         },
         text: {
@@ -767,7 +768,7 @@ export default {
       },
       update: {
         title: 'Update',
-        tip: 'Update DST Dedicated Server',
+        tip: 'Update DST Dedicated Server, when updating is finished, please refresh the page',
         type: 'Updating Type',
         frontend: {
           title: 'Frontend',
@@ -775,7 +776,7 @@ export default {
         },
         backend: {
           title: 'Backend',
-          tip: 'The DMP is performing updates in the background. The update button will enter a loading state, and once completed, it will return to its normal state',
+          tip: 'The DMP is performing updates in the background. The update button will enter a loading state, and once completed, it will return to its normal state, when updating is finished, please refresh the page',
         },
       },
       reset: {

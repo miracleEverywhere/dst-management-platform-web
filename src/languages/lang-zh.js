@@ -114,6 +114,7 @@ export default {
             activate: '激活',
             deactivate: '关闭',
             delete: '删除',
+            select: '选择',
           },
         },
         text: {
@@ -767,7 +768,7 @@ export default {
       },
       update: {
         title: '更新游戏',
-        tip: '更新饥荒专用服务器',
+        tip: '更新饥荒专用服务器，更新完成后请刷新页面',
         type: '更新方式',
         frontend: {
           title: '前台更新',
@@ -775,7 +776,7 @@ export default {
         },
         backend: {
           title: '后台更新',
-          tip: '饥荒管理平台在后台进行更新，更新按钮进入Loading状态，完成后，更新按钮则会退出Loading状态',
+          tip: '饥荒管理平台在后台进行更新，更新按钮进入Loading状态，完成后，更新按钮则会退出Loading状态，刷新页面即可',
         },
       },
       reset: {
