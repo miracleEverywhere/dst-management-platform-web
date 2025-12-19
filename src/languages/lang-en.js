@@ -963,4 +963,10 @@ export default {
     noLogFile: 'Please Select a log file',
     clean: {},
   },
+  profile: {
+    title: 'Info',
+    submit: 'Update',
+    username: 'Username',
+    nickname: 'Nickname',
+  },
 }

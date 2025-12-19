@@ -963,4 +963,10 @@ export default {
     noLogFile: '请选择一个日志文件',
     clean: {},
   },
+  profile: {
+    title: '个人信息',
+    submit: '更新',
+    username: '用户名',
+    nickname: '用户昵称',
+  },
 }
