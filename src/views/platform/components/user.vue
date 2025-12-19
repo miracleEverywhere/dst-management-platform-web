@@ -309,7 +309,7 @@
           </v-row>
           <v-row>
             <v-col
-              cols="2"
+              :cols="mobile?4:2"
               class="d-flex align-center"
             >
               <v-row>
@@ -320,11 +320,12 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="10">
+            <v-col :cols="mobile?8:10">
               <v-row>
                 <v-col
                   v-for="i in 4"
                   :key="i"
+                  :cols="mobile?6:3"
                 >
                   <v-badge
                     dot
