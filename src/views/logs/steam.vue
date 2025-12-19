@@ -1,6 +1,7 @@
 <template>
-  <single-log type="steam"/>
+  <single-log type="steam" />
 </template>
+
 <script setup>
-import SingleLog from "@/views/logs/components/singleLog.vue";
+import SingleLog from "@/views/logs/components/singleLog.vue"
 </script>

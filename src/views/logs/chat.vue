@@ -10,22 +10,29 @@
         show-arrows
       >
         <v-tab value="current">
-          {{t('logs.current')}}
+          {{ t('logs.current') }}
         </v-tab>
         <v-tab value="history">
-          {{t('logs.history')}}
+          {{ t('logs.history') }}
         </v-tab>
       </v-tabs>
-      <v-tabs-window v-model="activeTabName" class="mt-4">
+      <v-tabs-window
+        v-model="activeTabName"
+        class="mt-4"
+      >
         <v-tabs-window-item value="current">
-          <single-log v-if="activeTabName==='current'" type="chat" chat/>
+          <single-log
+            v-if="activeTabName==='current'"
+            type="chat"
+            chat
+          />
         </v-tabs-window-item>
         <v-tabs-window-item value="history">
           <v-card :height="calculateHeight()">
             <v-card-title class="my-2">
               <div class="card-header">
                 <span>
-                  {{t('logs.history')}}
+                  {{ t('logs.history') }}
                 </span>
                 <div class="fcc">
                   <v-select
@@ -113,15 +120,16 @@
     />
   </template>
 </template>
+
 <script setup>
-import SingleLog from "@/views/logs/components/singleLog.vue";
-import {debounce} from "@/utils/tools.js";
-import useGlobalStore from "@/plugins/store/global.js";
-import useUserStore from "@/plugins/store/user.js";
-import {useDisplay} from "vuetify/framework";
-import {useI18n} from "vue-i18n";
-import Log from "@/views/logs/components/log.vue";
-import logsApi from "@/api/logs.js";
+import SingleLog from "@/views/logs/components/singleLog.vue"
+import { debounce } from "@/utils/tools.js"
+import useGlobalStore from "@store/global.js"
+import useUserStore from "@store/user.js"
+import { useDisplay } from "vuetify/framework"
+import { useI18n } from "vue-i18n"
+import Log from "@/views/logs/components/log.vue"
+import logsApi from "@/api/logs.js"
 
 
 const globalStore = useGlobalStore()
@@ -132,27 +140,33 @@ const activeTabName = ref('current')
 
 
 const list = ref([])
+
 const getList = () => {
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: 0,
     logType: 'chat',
   }
+
   logsApi.history.list.get(reqForm).then(response => {
     list.value = response.data
   })
 }
+
 const selectedFilename = ref('')
 const historyContent = ref('')
 const getHistoryFileContentLoading = ref(false)
+
 const getHistoryFileContent = () => {
   getHistoryFileContentLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: 0,
     logType: 'chat',
     logFile: selectedFilename.value,
   }
+
   logsApi.history.content.get(reqForm).then(response => {
     historyContent.value = ""
     historyContent.value = response.data

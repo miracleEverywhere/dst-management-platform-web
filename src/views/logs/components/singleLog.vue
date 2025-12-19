@@ -1,12 +1,15 @@
 <template>
-  <v-card :height="calculateHeight()" flat>
+  <v-card
+    :height="calculateHeight()"
+    flat
+  >
     <v-card-title class="my-2">
       <div class="card-header">
         <span v-if="props.chat">
-          {{t('logs.current')}}
+          {{ t('logs.current') }}
         </span>
         <span v-else>
-          {{t(`logs.${props.type}`)}}
+          {{ t(`logs.${props.type}`) }}
         </span>
         <div class="fcc">
           <v-switch
@@ -16,7 +19,7 @@
           >
             <template #prepend>
               <v-chip color="info">
-                {{t('logs.autoPull')}}
+                {{ t('logs.autoPull') }}
               </v-chip>
             </template>
           </v-switch>
@@ -56,7 +59,7 @@
             max-width="120"
           />
           <v-btn @click="getLogContent">
-            {{t('logs.pull')}}
+            {{ t('logs.pull') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -69,14 +72,7 @@ import Log from "@/views/logs/components/log.vue"
 import useGlobalStore from "@store/global.js"
 import logsApi from "@/api/logs.js"
 import { debounce } from "@/utils/tools.js"
-import {useI18n} from "vue-i18n";
-
-const globalStore = useGlobalStore()
-const { t } = useI18n()
-
-const content = ref('')
-const autoPull= ref(true)
-const lines = ref(0)
+import { useI18n } from "vue-i18n"
 
 const props = defineProps({
   type: {
@@ -86,10 +82,18 @@ const props = defineProps({
   chat: {
     type: Boolean,
     default: false,
-  }
+  },
 })
 
+const globalStore = useGlobalStore()
+const { t } = useI18n()
+
+const content = ref('')
+const autoPull= ref(true)
+const lines = ref(0)
+
 const firstPullFinished = ref(false)
+
 const getLogContent = () => {
   const reqForm = {
     roomID: globalStore.room.id,
@@ -138,6 +142,7 @@ const calculateHeight = () => {
   if (props.chat) {
     other = 37
   }
+  
   return Math.max(2, Math.floor(windowHeight.value - 160 - other))
 }
 

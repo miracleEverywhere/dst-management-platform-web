@@ -11,19 +11,22 @@
         @update:model-value="handleTabClick"
       >
         <v-tab value="current">
-          {{t('logs.current')}}
+          {{ t('logs.current') }}
         </v-tab>
         <v-tab value="history">
-          {{t('logs.history')}}
+          {{ t('logs.history') }}
         </v-tab>
       </v-tabs>
-      <v-tabs-window v-model="activeTabName" class="mt-4">
+      <v-tabs-window
+        v-model="activeTabName"
+        class="mt-4"
+      >
         <v-tabs-window-item value="current">
           <v-card :height="calculateHeight()">
             <v-card-title class="my-2">
               <div class="card-header">
                 <span>
-                  {{t('logs.current')}}
+                  {{ t('logs.current') }}
                 </span>
                 <div class="fcc">
                   <v-select
@@ -43,7 +46,7 @@
                   >
                     <template #prepend>
                       <v-chip color="info">
-                        {{t('logs.autoPull')}}
+                        {{ t('logs.autoPull') }}
                       </v-chip>
                     </template>
                   </v-switch>
@@ -83,7 +86,7 @@
                     max-width="120"
                   />
                   <v-btn @click="getLogContent">
-                    {{t('logs.pull')}}
+                    {{ t('logs.pull') }}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -95,7 +98,7 @@
             <v-card-title class="my-2">
               <div class="card-header">
                 <span>
-                  {{t('logs.history')}}
+                  {{ t('logs.history') }}
                 </span>
                 <div class="fcc">
                   <v-select
@@ -201,9 +204,9 @@ import logsApi from "@/api/logs.js"
 import roomApi from "@/api/room.js"
 import useGlobalStore from "@store/global.js"
 import { debounce } from "@/utils/tools.js"
-import useUserStore from "@/plugins/store/user.js";
-import {useDisplay} from "vuetify/framework";
-import {useI18n} from "vue-i18n";
+import useUserStore from "@store/user.js"
+import { useDisplay } from "vuetify/framework"
+import { useI18n } from "vue-i18n"
 
 
 const globalStore = useGlobalStore()
@@ -225,8 +228,10 @@ const handleTabClick = tab => {
     shouldPull.value = false
   }
 }
+
 const firstPullFinished = ref(false)
 const shouldPull = ref(true)
+
 const getLogContent = () => {
   if (selectedWorldID.value === 0) {
     return
@@ -262,27 +267,33 @@ const getWorlds = async () => {
 }
 
 const list = ref([])
+
 const getList = () => {
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: selectedWorldID.value,
     logType: 'game',
   }
+
   logsApi.history.list.get(reqForm).then(response => {
     list.value = response.data
   })
 }
+
 const selectedFilename = ref('')
 const historyContent = ref('')
 const getHistoryFileContentLoading = ref(false)
+
 const getHistoryFileContent = () => {
   getHistoryFileContentLoading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     worldID: selectedWorldID.value,
     logType: 'game',
     logFile: selectedFilename.value,
   }
+
   logsApi.history.content.get(reqForm).then(response => {
     historyContent.value = ""
     historyContent.value = response.data

@@ -1110,7 +1110,7 @@
 </template>
 
 <script setup>
-import {debounce, formatBytes, getEditorLang, parseModLua, truncateString, validateIpv4} from "@/utils/tools.js"
+import { debounce, formatBytes, getEditorLang, parseModLua, truncateString, validateIpv4 } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'

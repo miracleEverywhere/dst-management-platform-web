@@ -1,6 +1,7 @@
 <template>
-  <single-log type="access"/>
+  <single-log type="access" />
 </template>
+
 <script setup>
-import SingleLog from "@/views/logs/components/singleLog.vue";
+import SingleLog from "@/views/logs/components/singleLog.vue"
 </script>

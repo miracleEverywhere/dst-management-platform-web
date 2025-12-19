@@ -13,7 +13,7 @@
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import useGlobalStore from "@store/global.js"
-import {getEditorLang} from "@/utils/tools.js";
+import { getEditorLang } from "@/utils/tools.js"
 
 
 const props = defineProps({
