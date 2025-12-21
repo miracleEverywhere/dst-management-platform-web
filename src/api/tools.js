@@ -34,4 +34,10 @@ export default {
       return await http.put(this.url, data)
     },
   },
+  map: {
+    url: `/tools/map`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+  },
 }
