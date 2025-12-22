@@ -554,6 +554,7 @@ export default {
       uidCount: '历史玩家数',
     },
     user: {
+      dialogTitle: '新增用户',
       form: {
         username: {
           title: '用户名',

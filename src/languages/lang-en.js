@@ -554,6 +554,7 @@ export default {
       uidCount: 'History Player Count',
     },
     user: {
+      dialogTitle: 'Add User',
       form: {
         username: {
           title: 'Username',
