@@ -1523,7 +1523,7 @@ const quickCmdInsert = () => {
   consoleForm.value.cmd = quickCmd.value
   quickCmdDialog.value = false
   quickCmd.value = ''
-  quickCmdUid.value = ''
+  // quickCmdUid.value = ''
   quickCmdPlayerId.value = undefined
   quickCmdWorldId.value = undefined
 }
