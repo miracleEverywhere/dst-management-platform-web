@@ -61,6 +61,16 @@
                   </v-btn>
                 </v-toolbar>
               </template>
+              <template #item.username="{ value }">
+                <v-chip label>
+                  {{value}}
+                </v-chip>
+              </template>
+              <template #item.nickname="{ value }">
+                <v-chip label>
+                  {{value}}
+                </v-chip>
+              </template>
               <template #item.role="{ value }">
                 <v-chip
                   v-if="value==='admin'"
@@ -227,7 +237,7 @@
   >
     <v-card>
       <v-card-title>
-        新建用户
+        {{t('platform.user.dialogTitle')}}
       </v-card-title>
       <v-form
         ref="userFormRef"
@@ -262,6 +272,7 @@
             >
               <v-radio-group
                 v-model="userForm.role"
+                :disabled="userForm.username===userStore.userInfo.username"
                 inline
               >
                 <template #prepend>
@@ -287,6 +298,7 @@
             >
               <v-radio-group
                 v-model="userForm.disabled"
+                :disabled="userForm.username===userStore.userInfo.username"
                 inline
               >
                 <template #prepend>
@@ -509,8 +521,11 @@ import avatar3 from "@images/avatars/avatar-3.png"
 import avatar4 from "@images/avatars/avatar-4.png"
 import { SHA512 } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
+import globalStore from "@/plugins/store/global.js";
+import useUserStore from "@/plugins/store/user.js";
 
 
+const userStore = useUserStore()
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
