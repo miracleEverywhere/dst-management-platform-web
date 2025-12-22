@@ -20,7 +20,7 @@
                 class="mr-4"
                 @update:model-value="getSummary"
               />
-              <v-btn @click="getSummary">
+              <v-btn @click="getSummary" color="default">
                 {{ t('tools.map.refresh') }}
               </v-btn>
             </div>
@@ -790,6 +790,9 @@ const getSummary = async () => {
   Data.value = response.data
   if (Data.value.players === null) {
     Data.value.players = []
+  }
+  if (Data.value.prefabs === null) {
+    Data.value.prefabs = []
   }
   dataGot.value = true
   await generateImage()
