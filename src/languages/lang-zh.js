@@ -912,6 +912,15 @@ export default {
       },
     },
     map: {
+      title: '地图预览',
+      world: '世界',
+      refresh: '刷新',
+      fetch: '正在渲染地图中',
+      panels: {
+        p1: '地图图例',
+        p2: '地图资源',
+        p3: '玩家图例',
+      },
       colorScheme: {
         '#000000': '未定义',
         '#546E7A': '边缘等',
@@ -943,6 +952,12 @@ export default {
         '#0D47A1': '深海',
         '#F5FFFA': '海盐',
         '#00897B': '水中木',
+      },
+      prefabs: {
+        walrus_camp: '海象巢穴',
+        wasphive: '杀人蜂巢',
+        ruins_statue_mage: '远古雕像',
+        archive_moon_statue: '远古月亮雕像',
       },
     },
   },

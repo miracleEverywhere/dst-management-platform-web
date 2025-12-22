@@ -912,6 +912,15 @@ export default {
       },
     },
     map: {
+      title: 'Map Overview',
+      world: 'Worlds',
+      refresh: 'Refresh',
+      fetch: 'Rendering map in progress',
+      panels: {
+        p1: 'Map legend',
+        p2: 'Map resources',
+        p3: 'Player legend',
+      },
       colorScheme: {
         '#000000': 'Undefined',
         '#546E7A': 'Edge .etc',
@@ -943,6 +952,12 @@ export default {
         '#0D47A1': 'Deep Ocean',
         '#F5FFFA': 'Sea Salt',
         '#00897B': 'Submerged Wood',
+      },
+      prefabs: {
+        walrus_camp: 'walrus camp',
+        wasphive: 'wasphive',
+        ruins_statue_mage: 'ruins statue mage',
+        archive_moon_statue: 'archive moon statue',
       },
     },
   },
