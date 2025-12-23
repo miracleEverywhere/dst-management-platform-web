@@ -20,7 +20,10 @@
                 class="mr-4"
                 @update:model-value="getSummary"
               />
-              <v-btn @click="getSummary" color="default">
+              <v-btn
+                color="default"
+                @click="getSummary"
+              >
                 {{ t('tools.map.refresh') }}
               </v-btn>
             </div>

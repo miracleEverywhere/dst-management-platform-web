@@ -222,8 +222,8 @@
       <v-col>
         <v-text-field
           v-model="roomForm.password"
-          autocomplete="new-password"
           v-tooltip="t('game.base.step1.password.tip')"
+          autocomplete="new-password"
           :label="t('game.base.step1.password.name')"
           :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
           :type="isPasswordVisible ? 'text' : 'password'"
