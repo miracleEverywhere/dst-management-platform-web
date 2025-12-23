@@ -63,12 +63,12 @@
               </template>
               <template #item.username="{ value }">
                 <v-chip label>
-                  {{value}}
+                  {{ value }}
                 </v-chip>
               </template>
               <template #item.nickname="{ value }">
                 <v-chip label>
-                  {{value}}
+                  {{ value }}
                 </v-chip>
               </template>
               <template #item.role="{ value }">
@@ -237,7 +237,7 @@
   >
     <v-card>
       <v-card-title>
-        {{t('platform.user.dialogTitle')}}
+        {{ t('platform.user.dialogTitle') }}
       </v-card-title>
       <v-form
         ref="userFormRef"
@@ -521,8 +521,8 @@ import avatar3 from "@images/avatars/avatar-3.png"
 import avatar4 from "@images/avatars/avatar-4.png"
 import { SHA512 } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
-import globalStore from "@/plugins/store/global.js";
-import useUserStore from "@/plugins/store/user.js";
+import globalStore from "@store/global.js"
+import useUserStore from "@store/user.js"
 
 
 const userStore = useUserStore()
