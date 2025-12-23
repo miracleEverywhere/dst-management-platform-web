@@ -1,61 +1,242 @@
-// @see: http://eslint.cn
-
 module.exports = {
-  root: true,
   env: {
     browser: true,
-    node: true,
-    es6: true
+    es2021: true,
   },
-  // 指定如何解析语法
-  parser: "vue-eslint-parser",
-  // 优先级低于 parse 的语法解析配置
+  extends: [
+    '.eslintrc-auto-import.json',
+    'plugin:vue/vue3-recommended',
+    'plugin:import/recommended',
+    'plugin:promise/recommended',
+    'plugin:sonarjs/recommended',
+    'plugin:case-police/recommended',
+    'plugin:regexp/recommended',
+
+    // 'plugin:unicorn/recommended',
+  ],
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: "@typescript-eslint/parser",
-    ecmaVersion: 2020,
-    sourceType: "module",
-    jsxPragma: "React",
-    ecmaFeatures: {
-      jsx: true
-    }
+    ecmaVersion: 13,
+    sourceType: 'module',
   },
-  // 继承某些已有的规则
-  extends: ["plugin:vue/vue3-recommended", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
-  /**
-   * "off" 或 0    ==>  关闭规则
-   * "warn" 或 1   ==>  打开的规则作为警告[不影响代码执行]
-   * "error" 或 2  ==>  规则作为一个错误[代码不能执行，界面报错]
-   */
+  plugins: [
+    'vue',
+    'regex',
+    'regexp',
+  ],
+  ignorePatterns: ['src/plugins/iconify/*.js', 'node_modules', 'dist', '*.d.ts', 'vendor', '*.json'],
   rules: {
-    // eslint (http://eslint.cn/docs/rules)
-    "no-var": "error", // 要求使用 let 或 const 而不是 var
-    "no-multiple-empty-lines": ["error", { max: 1 }], // 不允许多个空行
-    "prefer-const": "off", // 使用 let 关键字声明但在初始分配后从未重新分配的变量，要求使用 const
-    "no-use-before-define": "off", // 禁止在 函数/类/变量 定义之前使用它们
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
-    // typeScript (https://typescript-eslint.io/rules)
-    "@typescript-eslint/no-unused-vars": "error", // 禁止定义未使用的变量
-    "@typescript-eslint/no-empty-function": "error", // 禁止空函数
-    "@typescript-eslint/prefer-ts-expect-error": "error", // 禁止使用 @ts-ignore
-    "@typescript-eslint/ban-ts-comment": "error", // 禁止 @ts-<directive> 使用注释或要求在指令后进行描述
-    "@typescript-eslint/no-inferrable-types": "off", // 可以轻松推断的显式类型可能会增加不必要的冗长
-    "@typescript-eslint/no-namespace": "off", // 禁止使用自定义 TypeScript 模块和命名空间
-    "@typescript-eslint/no-explicit-any": "off", // 禁止使用 any 类型
-    "@typescript-eslint/ban-types": "off", // 禁止使用特定类型
-    "@typescript-eslint/no-var-requires": "off", // 允许使用 require() 函数导入模块
-    "@typescript-eslint/no-non-null-assertion": "off", // 不允许使用后缀运算符的非空断言(!)
+    // indentation (Already present in TypeScript)
+    'comma-spacing': ['error', { before: false, after: true }],
+    'key-spacing': ['error', { afterColon: true }],
+    'n/prefer-global/process': ['off'],
+    'sonarjs/cognitive-complexity': ['off'],
 
-    // vue (https://eslint.vuejs.org/rules)
-    "vue/script-setup-uses-vars": "error", // 防止<script setup>使用的变量<template>被标记为未使用，此规则仅在启用该 no-unused-vars 规则时有效
-    "vue/v-slot-style": "error", // 强制执行 v-slot 指令样式
-    "vue/no-mutating-props": "error", // 不允许改变组件 prop
-    "vue/custom-event-name-casing": "error", // 为自定义事件名称强制使用特定大小写
-    "vue/html-closing-bracket-newline": "error", // 在标签的右括号之前要求或禁止换行
-    "vue/attribute-hyphenation": "error", // 对模板中的自定义组件强制执行属性命名样式：my-prop="prop"
-    "vue/attributes-order": "off", // vue api使用顺序，强制执行属性顺序
-    "vue/no-v-html": "off", // 禁止使用 v-html
-    "vue/require-default-prop": "off", // 此规则要求为每个 prop 为必填时，必须提供默认值
-    "vue/multi-word-component-names": "off", // 要求组件名称始终为 “-” 链接的单词
-    "vue/no-setup-props-destructure": "off" // 禁止解构 props 传递给 setup
-  }
-};
+    'vue/first-attribute-linebreak': ['error', {
+      singleline: 'beside',
+      multiline: 'below',
+    }],
+
+
+    // indentation (Already present in TypeScript)
+    'indent': ['error', 2],
+
+    // Enforce trailing comma (Already present in TypeScript)
+    'comma-dangle': ['error', 'always-multiline'],
+
+    // Enforce consistent spacing inside braces of object (Already present in TypeScript)
+    'object-curly-spacing': ['error', 'always'],
+
+    // Enforce camelCase naming convention
+    'camelcase': 'error',
+
+    // Disable max-len
+    'max-len': 'off',
+
+    // we don't want it
+    'semi': ['error', 'never'],
+
+    // add parens ony when required in arrow function
+    'arrow-parens': ['error', 'as-needed'],
+
+    // add new line above comment
+    'newline-before-return': 'error',
+
+    // add new line above comment
+    'lines-around-comment': [
+      'error',
+      {
+        beforeBlockComment: true,
+        beforeLineComment: true,
+        allowBlockStart: true,
+        allowClassStart: true,
+        allowObjectStart: true,
+        allowArrayStart: true,
+
+        // We don't want to add extra space above closing SECTION
+        ignorePattern: '!SECTION',
+      },
+    ],
+
+    // Ignore _ as unused variable
+
+    'array-element-newline': ['error', 'consistent'],
+    'array-bracket-newline': ['error', 'consistent'],
+
+    'vue/multi-word-component-names': 'off',
+
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: 'expression', next: 'const' },
+      { blankLine: 'always', prev: 'const', next: 'expression' },
+      { blankLine: 'always', prev: 'multiline-const', next: '*' },
+      { blankLine: 'always', prev: '*', next: 'multiline-const' },
+    ],
+
+    // Plugin: eslint-plugin-import
+    'import/prefer-default-export': 'off',
+    'import/newline-after-import': ['error', { count: 1 }],
+    'no-restricted-imports': ['error', 'vuetify/components', {
+      name: 'vue3-apexcharts',
+      message: 'apexcharts are auto imported',
+    }],
+
+    // For omitting extension for ts files
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+
+    // ignore virtual files
+    'import/no-unresolved': [2, {
+      ignore: [
+        '~pages$',
+        'virtual:generated-layouts',
+        '#auth$',
+        '#components$',
+
+        // Ignore vite's ?raw imports
+        '.*\?raw',
+      ],
+    }],
+
+    // Thanks: https://stackoverflow.com/a/63961972/10796681
+    'no-shadow': 'off',
+
+
+    // Plugin: eslint-plugin-promise
+    'promise/always-return': 'off',
+    'promise/catch-or-return': 'off',
+
+    // ESLint plugin vue
+    'vue/block-tag-newline': 'error',
+    'vue/component-api-style': 'error',
+    'vue/component-name-in-template-casing': ['error', 'kebab-case', { registeredComponentsOnly: false, ignores: ['/^swiper-/'] }],
+    'vue/custom-event-name-casing': ['error', 'camelCase', {
+      ignores: [
+        '/^(click):[a-z]+((\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?/',
+      ],
+    }],
+    'vue/define-macros-order': 'error',
+    'vue/html-comment-content-newline': 'error',
+    'vue/html-comment-content-spacing': 'error',
+    'vue/html-comment-indent': 'error',
+    'vue/match-component-file-name': 'error',
+    'vue/no-child-content': 'error',
+    'vue/require-default-prop': 'off',
+
+    'vue/no-duplicate-attr-inheritance': 'error',
+    'vue/no-empty-component-block': 'error',
+    'vue/no-multiple-objects-in-class': 'error',
+    'vue/no-reserved-component-names': 'error',
+    'vue/no-template-target-blank': 'error',
+    'vue/no-useless-mustaches': 'error',
+    'vue/no-useless-v-bind': 'error',
+    'vue/padding-line-between-blocks': 'error',
+    'vue/prefer-separate-static-class': 'error',
+    'vue/prefer-true-attribute-shorthand': 'error',
+    'vue/v-on-function-call': 'error',
+    'vue/valid-v-slot': ['error', {
+      allowModifiers: true,
+    }],
+
+    // -- Extension Rules
+    'vue/no-irregular-whitespace': 'error',
+    'vue/template-curly-spacing': 'error',
+
+    // -- Sonarlint
+    'sonarjs/no-duplicate-string': 'off',
+    'sonarjs/no-nested-template-literals': 'off',
+
+    // -- Unicorn
+    // 'unicorn/filename-case': 'off',
+    // 'unicorn/prevent-abbreviations': ['error', {
+    //   replacements: {
+    //     props: false,
+    //   },
+    // }],
+
+    // Internal Rules
+
+    // https://github.com/gmullerb/eslint-plugin-regex
+    'regex/invalid': [
+      'error',
+      [
+        {
+          regex: '@/assets/images',
+          replacement: '@images',
+          message: 'Use \'@images\' path alias for image imports',
+        },
+        {
+          regex: '@/plugins/store',
+          replacement: '@store',
+          message: 'Use \'@store\' path alias for store imports',
+        },
+        {
+          regex: '@/assets/styles',
+          replacement: '@styles',
+          message: 'Use \'@styles\' path alias for importing styles from \'src/assets/styles\'',
+        },
+
+        {
+          id: 'Disallow icon of icon library',
+          regex: 'tabler-\\w',
+          message: 'Only \'mdi\' icons are allowed',
+        },
+
+        {
+          regex: '@core/\\w',
+          message: 'You can\'t use @core when you are in @layouts module',
+          files: {
+            inspect: '@layouts/.*',
+          },
+        },
+        {
+          regex: 'useLayouts\\(',
+          message: '`useLayouts` composable is only allowed in @layouts & @core directory. Please use `useThemeConfig` composable instead.',
+          files: {
+            inspect: '^(?!.*(@core|@layouts)).*',
+          },
+        },
+      ],
+
+      // Ignore files
+      '\.eslintrc\.cjs',
+    ],
+  },
+  settings: {
+    'import/resolver': {
+      node: true,
+      typescript: { project: './jsconfig.json' },
+    },
+  },
+}

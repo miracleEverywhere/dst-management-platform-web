@@ -1,62 +1,46 @@
 <template>
-  <el-config-provider :locale="locale" :size="dimension">
-    <router-view></router-view>
-  </el-config-provider>
+  <v-app>
+    <message />
+    <router-view />
+  </v-app>
 </template>
 
-<script setup lang="ts">
-import { onMounted, nextTick, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { getBrowserLang } from "@/utils/index.ts";
-import { useTheme } from "@/utils/theme.ts";
-import en from "element-plus/es/locale/lang/en";
-import zhCn from "element-plus/es/locale/lang/zh-cn";
-import { autoRefresh } from "@/utils/autoUpdate.ts";
+<script setup>
+import useGlobalStore from '@store/global'
+import { useI18n } from "vue-i18n"
+import { getBrowserLang } from "@/utils/tools.js"
+import { useLocale } from "vuetify/framework"
 
-import useGlobalStore from "@/stores/modules/global.ts";
-const globalStore = useGlobalStore();
 
-const dimension = computed(() => globalStore.dimension);
-const { initThemeConfig } = useTheme();
+const i18n = useI18n()
+const globalStore = useGlobalStore()
+const { current } = useLocale()
 
-// 初始化语言
-const i18n = useI18n();
+
+
+const initI18n = () => {
+  let language
+  if (globalStore.language === "") {
+    language = getBrowserLang()
+    i18n.locale.value = language
+    globalStore.language = language
+    current.value = language
+  } else {
+    i18n.locale.value = globalStore.language
+    switch (globalStore.language) {
+    case 'zh':
+      current.value = 'zhHans'
+      break
+    case 'en':
+      current.value = 'en'
+      break
+    default:
+      current.value = 'zhHans'
+    }
+  }
+}
+
 onMounted(() => {
-  // 初始化主题配置
-  handleThemeConfig();
-  // 初始化语言配置
-  handleI18nConfig();
-  // 自动检测更新
-  handleAutoUpdate();
-});
-
-// 语言配置
-const locale = computed(() => {
-  if (globalStore.language == "zh") return zhCn;
-  if (globalStore.language == "en") return en;
-  return getBrowserLang() == "zh" ? zhCn : en;
-});
-
-// 初始化语言配置
-const handleI18nConfig = () => {
-  const language = globalStore.language ?? getBrowserLang();
-  i18n.locale.value = language;
-  globalStore.setGlobalState("language", language);
-};
-
-// 初始化主题配置
-const handleThemeConfig = () => {
-  nextTick(() => {
-    initThemeConfig();
-  });
-};
-
-// 自动检测更新
-const handleAutoUpdate = () => {
-  nextTick(() => {
-    if (import.meta.env.VITE_ENV === "production") autoRefresh();
-  });
-};
+  initI18n()
+})
 </script>
-
-<style scoped></style>

@@ -1,149 +1,257 @@
 <template>
-  <div class="page-div">
-    <el-row :gutter="10">
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" style="min-height: 70vh">
-          <template #header>
-            <div class="card-header">
-                  <span>
-                    {{t('profile.cardHeaderInfo')}}
-                  </span>
-            </div>
-          </template>
-          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh">
-            <div  style="height: 12vh; width: 35vh">
-              <el-image :src="logo" fit="contain"></el-image>
-            </div>
-            <div style="font-size: 32px; font-weight: 800;">
-              {{userInfo.nickname}}
-            </div>
-            <div style="font-size: 24px; color: #909399; margin-top: 10px">
-              {{userInfo.username}}
-            </div>
-            <div style="font-size: 24px; color: #606266; margin-top: 10px">
-              {{userInfo.role}}
-            </div>
+  <v-card :height="calculateContainerSize()">
+    <v-card-title>
+      <div class="card-header">
+        <span>
+          {{ t('profile.title') }}
+        </span>
+        <v-btn
+          :loading="submitLoading"
+          @click="handleSubmit"
+        >
+          {{ t('profile.submit') }}
+        </v-btn>
+      </div>
+    </v-card-title>
+    <v-card-text class="mx-4 mt-4">
+      <v-row>
+        <v-col
+          v-if="!mobile"
+          cols="12"
+          md="6"
+        >
+          <div
+            class="fcc"
+            :style="{height: calculateContainerSize()-54+'px'}"
+          >
+            <v-img
+              :src="avatarImageFull"
+              height="356"
+              width="178"
+            />
           </div>
-        </el-card>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="24" :span="12" :xs="24" style="margin-top: 10px">
-        <el-card shadow="never" style="min-height: 70vh">
-          <template #header>
-            <div class="card-header">
-              <span>
-                {{t('profile.cardHeaderPassword')}}
-              </span>
-            </div>
-          </template>
-          <el-form ref="updatePasswordFormRef" :model="updatePasswordForm" :rules="updatePasswordRules" label-position="top"
-                   label-width="150" style="margin-top: 20px">
-            <el-form-item :label="$t('profile.oldPassword')" prop="oldPassword">
-              <el-input v-model="updatePasswordForm.oldPassword" show-password></el-input>
-            </el-form-item>
-            <el-form-item :label="$t('profile.password')" prop="password">
-              <el-input v-model="updatePasswordForm.password" show-password></el-input>
-              <sc-password-strength v-model="updatePasswordForm.password"></sc-password-strength>
-              <div class="el-form-item-msg">{{ t('profile.suggestedPassword') }}</div>
-            </el-form-item>
-            <el-form-item :label="$t('profile.passwordTwice')" prop="passwordTwice">
-              <el-input v-model="updatePasswordForm.passwordTwice" show-password></el-input>
-            </el-form-item>
-            <div style="display: flex; justify-content: flex-end; padding-top: 10px">
-              <el-button type="primary" @click="handleUpdatePassword">{{ t('profile.update') }}</el-button>
-            </div>
-          </el-form>
-        </el-card>
-      </el-col>
-    </el-row>
-  </div>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+          :style="{height: calculateContainerSize()-54+'px'}"
+          class="d-flex justify-center align-center"
+        >
+          <div class="form-container">
+            <v-form ref="userInfoRef">
+              <v-text-field
+                v-model="userInfo.username"
+                disabled
+                :label="t('profile.username')"
+                class="mb-8"
+              />
+              <v-text-field
+                v-model="userInfo.nickname"
+                :label="t('profile.nickname')"
+                class="mb-8"
+              />
+              <v-row class="mb-8">
+                <v-col
+                  :cols="mobile?4:2"
+                  class="d-flex align-center"
+                >
+                  <v-row>
+                    <v-col>
+                      <v-chip v-tooltip="t('platform.user.form.avatar.tip')">
+                        {{ t('platform.user.form.avatar.title') }}
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col :cols="mobile?8:10">
+                  <v-row>
+                    <v-col
+                      v-for="i in 4"
+                      :key="i"
+                      :cols="mobile?6:3"
+                    >
+                      <v-badge
+                        dot
+                        location="bottom right"
+                        offset-x="3"
+                        offset-y="3"
+                        color="success"
+                        :model-value="userInfo.avatar === i.toString()"
+                      >
+                        <v-avatar
+                          v-ripple
+                          color="primary"
+                          variant="tonal"
+                          @click="userInfo.avatar = i.toString()"
+                        >
+                          <v-img :src="getAvatar(i)" />
+                        </v-avatar>
+                      </v-badge>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-text-field
+                v-model="userInfo.password"
+                v-tooltip="t('platform.user.form.password.tip')"
+                :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                autocomplete="password"
+                :label="t('platform.user.form.password.title')"
+                :rules="userInfoRules.password"
+                clearable
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />
+            </v-form>
+          </div>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
-<script name="profile" setup>
-import ScPasswordStrength from "@/components/scPasswordStrength/index.vue"
-import {computed, reactive, ref} from "vue";
-import useAuthStore from "@/stores/modules/auth.ts";
-import {useI18n} from "vue-i18n";
-import systemApi from "@/api/system"
-import {deepCopy, SHA512, sleep} from "@/utils/tools.js";
-import {koiMsgInfo, koiMsgSuccess, koiNoticeWarning} from "@/utils/koi.ts";
-import {koiLocalStorage, koiSessionStorage} from "@/utils/storage.ts";
-import useGlobalStore from "@/stores/modules/global.ts";
-import {ElMessageBox} from "element-plus";
+<script setup>
+import avatar1 from '@images/avatars/avatar-1.png'
+import avatar2 from '@images/avatars/avatar-2.png'
+import avatar3 from '@images/avatars/avatar-3.png'
+import avatar4 from '@images/avatars/avatar-4.png'
+import avatar1full from '@images/avatars/avatar-1-full.png'
+import avatar2full from '@images/avatars/avatar-2-full.png'
+import avatar3full from '@images/avatars/avatar-3-full.png'
+import avatar4full from '@images/avatars/avatar-4-full.png'
+import useUserStore from "@store/user"
+import { useDisplay } from "vuetify/framework"
+import { useI18n } from "vue-i18n"
+import { SHA512, sleep } from "@/utils/tools.js"
+import userApi from "@/api/user.js"
+import { showSnackbar } from "@/utils/snackbar.js"
+import { useRouter } from "vue-router"
 
-const authStore = useAuthStore()
-const {t} = useI18n()
-const userInfo = authStore.userInfo
-const globalStore = useGlobalStore();
-const language = computed(() => globalStore.language);
 
-const updatePasswordFormRef = ref()
-const updatePasswordForm = reactive({
-  oldPassword: '',
+const userStore = useUserStore()
+const router = useRouter()
+const { mobile } = useDisplay()
+const { t } = useI18n()
+
+const userInfo = ref({
+  username: userStore.userInfo.username,
+  nickname: userStore.userInfo.nickname,
+  avatar: userStore.userInfo.avatar,
   password: '',
-  passwordTwice: ''
 })
-const updatePasswordRules = {
-  oldPassword: [
-    {required: true, message: t('profile.plzInputOldPassword')}
+
+const avatarImage = ref()
+const avatarImageFull = ref()
+
+switch (userInfo.value.avatar) {
+case '1':
+  avatarImage.value = avatar1
+  avatarImageFull.value = avatar1full
+  break
+case '2':
+  avatarImage.value = avatar2
+  avatarImageFull.value = avatar2full
+  break
+case '3':
+  avatarImage.value = avatar3
+  avatarImageFull.value = avatar3full
+  break
+case '4':
+  avatarImage.value = avatar4
+  avatarImageFull.value = avatar4full
+  break
+default:
+  avatarImage.value = avatar1
+  avatarImageFull.value = avatar1full
+}
+
+const avatars = {
+  1: avatar1,
+  2: avatar2,
+  3: avatar3,
+  4: avatar4,
+}
+
+const getAvatar = index => {
+  return avatars[index]
+}
+
+const userInfoRef = ref()
+const isPasswordVisible = ref(false)
+
+const userInfoRules = {
+  username: [
+    value => {
+      if (value) return true
+
+      return t('platform.user.form.username.required')
+    },
+  ],
+  nickname: [
+    value => {
+      if (value) return true
+
+      return t('platform.user.form.nickname.required')
+    },
   ],
   password: [
-    {required: true, message: t('profile.plzInputPassword')}
-  ],
-  passwordTwice: [
-    {required: true, message: t('profile.plzInputAgainPassword')},
-    {
-      validator: (rule, value, callback) => {
-        if (value !== updatePasswordForm.password) {
-          callback(new Error(t('profile.passwordNotMatch')));
-        } else {
-          callback();
-        }
-      }
-    }
+    value => {
+      if (value) return true
+
+      return t('platform.user.form.password.required')
+    },
   ],
 }
 
-const handleUpdatePassword = () => {
-  updatePasswordFormRef.value.validate(valid => {
-    if (valid) {
-      const reqForm = {
-        username: userInfo.username,
-        oldPassword: SHA512(updatePasswordForm.oldPassword),
-        password: SHA512(updatePasswordForm.password),
-      }
-      systemApi.updatePassword.post(reqForm).then(async response => {
-        koiMsgSuccess(response.message)
-        await sleep(1000)
-        koiNoticeWarning(t('profile.passwordUpdated'), t('profile.passwordUpdatedTitle'), 3000)
-        await sleep(3000)
-        koiSessionStorage.clear();
-        // 如果不想要保存上次登录设置的全局颜色、布局等，则将下方第一行清空全部代码打开。
-        // koiLocalStorage.clear();
-        koiLocalStorage.remove("user");
-        koiLocalStorage.remove("keepAlive");
-        koiLocalStorage.remove("tabs");
-        // 退出登录。必须使用replace把页面缓存刷掉。
-        window.location.replace('/')
-      })
-    }
+const submitLoading = ref(false)
+
+const handleSubmit = async () => {
+  const { valid } = await userInfoRef.value.validate()
+  if (!valid) return
+  submitLoading.value = true
+
+  const reqFrom = {
+    username: userInfo.value.username,
+    nickname: userInfo.value.nickname,
+    avatar: userInfo.value.avatar,
+    password: SHA512(userInfo.value.password),
+  }
+
+  userApi.myself.put(reqFrom).then(async response => {
+    showSnackbar(response.message)
+    await sleep(3000)
+    await userStore.clearStore()
+    await router.push('/dashboard')
+  }).finally(() => {
+    submitLoading.value = false
   })
 }
 
-const logo = new URL('./images/logo.svg', import.meta.url).href
+const windowHeight = ref(window.innerHeight)
+
+const handleResize = () => {
+  windowHeight.value = window.innerHeight
+}
+
+const calculateContainerSize = () => {
+  const other = 120
+  
+  return Math.max(2, Math.floor(windowHeight.value - other))
+}
+
+onMounted(async () => {
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <style scoped>
-.parent {
-  display: flex;
-  flex-direction: column; /* 使子元素纵向排列 */
-  align-items: center; /* 子元素水平居中 */
-  justify-content: center; /* 子元素垂直居中 */
-  margin-top: 50px;
-}
-
-.child {
-  width: 80%; /* 子元素的宽度 */
-  margin: 10px 0; /* 子元素之间的间距 */
-  text-align: center; /* 文本居中 */
+.form-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
 }
 </style>
