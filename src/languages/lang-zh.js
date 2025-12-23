@@ -552,6 +552,10 @@ export default {
       worldCount: '世界总数',
       userCount: '用户总数',
       uidCount: '历史玩家数',
+      maxCpu: '一小时CPU最大占用',
+      maxMemory: '一小时内存最大占用',
+      maxNetUp: '一小时网络上行最大值',
+      maxNetDown: '一小时网络下行最大值',
     },
     user: {
       dialogTitle: '新增用户',
@@ -955,9 +959,12 @@ export default {
         '#00897B': '水中木',
       },
       prefabs: {
+        // eslint-disable-next-line camelcase
         walrus_camp: '海象巢穴',
         wasphive: '杀人蜂巢',
+        // eslint-disable-next-line camelcase
         ruins_statue_mage: '远古雕像',
+        // eslint-disable-next-line camelcase
         archive_moon_statue: '远古月亮雕像',
       },
     },

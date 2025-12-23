@@ -552,6 +552,10 @@ export default {
       worldCount: 'World Count',
       userCount: 'User Count',
       uidCount: 'History Player Count',
+      maxCpu: 'Maximum CPU usage within one hour',
+      maxMemory: 'Maximum memory usage within one hour',
+      maxNetUp: 'Maximum network upload within one hour',
+      maxNetDown: 'Maximum network download within one hour',
     },
     user: {
       dialogTitle: 'Add User',
