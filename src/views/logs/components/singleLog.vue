@@ -103,7 +103,11 @@ const getLogContent = () => {
   }
 
   logsApi.content.get(reqForm).then(response => {
-    content.value = response.data.join("\n")
+    if (response.data === null) {
+      content.value = ""
+    } else {
+      content.value = response.data.join("\n")
+    }
     firstPullFinished.value = true
   })
 }

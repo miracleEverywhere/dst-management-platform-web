@@ -248,7 +248,11 @@ const getLogContent = () => {
   }
 
   logsApi.content.get(reqForm).then(response => {
-    content.value = response.data.join("\n")
+    if (response.data === null) {
+      content.value = ""
+    } else {
+      content.value = response.data.join("\n")
+    }
     firstPullFinished.value = true
   })
 }
@@ -338,6 +342,9 @@ const handleResize = debounce(() => {
 }, 200)
 
 onMounted(async () => {
+  if (globalStore.room.id === 0) {
+    return
+  }
   window.addEventListener('resize', handleResize)
   await getWorlds()
   getList()

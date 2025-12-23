@@ -123,13 +123,13 @@
 
 <script setup>
 import SingleLog from "@/views/logs/components/singleLog.vue"
-import { debounce } from "@/utils/tools.js"
-import useGlobalStore from "@store/global.js"
-import useUserStore from "@store/user.js"
+import { debounce } from "@/utils/tools"
+import useGlobalStore from "@store/global"
+import useUserStore from "@store/user"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import Log from "@/views/logs/components/log.vue"
-import logsApi from "@/api/logs.js"
+import logsApi from "@/api/logs"
 
 
 const globalStore = useGlobalStore()
@@ -186,6 +186,9 @@ const handleResize = debounce(() => {
 }, 200)
 
 onMounted(async () => {
+  if (globalStore.room.id === 0) {
+    return
+  }
   getList()
   window.addEventListener('resize', handleResize)
 })
