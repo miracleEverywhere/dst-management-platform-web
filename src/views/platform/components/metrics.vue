@@ -270,7 +270,7 @@ const netUplinkOption = ref({
   yAxis: {
     type: 'value',
     axisLabel: {
-      formatter: '{value} KiB/s',
+      formatter: '{value} KB/s',
     },
   },
   series: [
@@ -320,7 +320,7 @@ const netDownlinkOption = ref({
   yAxis: {
     type: 'value',
     axisLabel: {
-      formatter: '{value} KiB/s',
+      formatter: '{value} KB/s',
     },
   },
   series: [
