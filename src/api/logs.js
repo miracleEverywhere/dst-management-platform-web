@@ -21,4 +21,16 @@ export default {
       },
     },
   },
+  clean: {
+    url: `/logs/clean`,
+    delete: async function (data) {
+      return await http.delete(this.url, data)
+    },
+    info: {
+      url: `/logs/clean/info`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
+  },
 }

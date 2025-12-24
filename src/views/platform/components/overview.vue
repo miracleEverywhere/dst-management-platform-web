@@ -151,7 +151,7 @@
           <v-icon
             color="primary"
             class="me-8"
-            icon="ri-id-card-line"
+            icon="ri-cpu-line"
             size="48"
           />
           <span>
@@ -172,7 +172,7 @@
           <v-icon
             color="primary"
             class="me-8"
-            icon="ri-id-card-line"
+            icon="ri-ram-line"
             size="48"
           />
           <span>
@@ -193,7 +193,7 @@
           <v-icon
             color="primary"
             class="me-8"
-            icon="ri-id-card-line"
+            icon="ri-upload-line"
             size="48"
           />
           <span>
@@ -214,7 +214,7 @@
           <v-icon
             color="primary"
             class="me-8"
-            icon="ri-id-card-line"
+            icon="ri-download-line"
             size="48"
           />
           <span>

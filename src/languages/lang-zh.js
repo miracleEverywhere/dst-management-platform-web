@@ -534,7 +534,7 @@ export default {
       },
     },
     install: {
-      alert: '注意！！！安装或更新过程中请勿关闭或刷新本页面，否则会导致操作失败',
+      alert: '注意！！！安装或更新过程中请勿关闭或刷新本页面，否则会导致操作失败；如果网页出现安装异常，请前往终端输入./manual_install.sh 进行手动安装',
     },
   },
   platform: {
@@ -1019,7 +1019,20 @@ export default {
     fetching: '正在获取中',
     noContent: '日志无内容',
     noLogFile: '请选择一个日志文件',
-    clean: {},
+    clean: {
+      title: '日志清理',
+      selectAll: '全选',
+      delete: '删除',
+      refresh: '刷新',
+      game: '游戏日志',
+      chat: '聊天日志',
+      steam: 'Steam日志',
+      access: '请求日志',
+      runtime: '运行日志',
+      selected: '已选择',
+      select: '请选择',
+      noSelected: '请至少选择一种日志',
+    },
   },
   profile: {
     title: '个人信息',

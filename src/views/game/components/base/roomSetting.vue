@@ -37,7 +37,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <v-row class="mt-0">
       <v-col
@@ -112,7 +112,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <v-row class="mt-0">
       <v-col :cols="mobile?12:4">
@@ -132,7 +132,7 @@
           </template>
         </v-number-input>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <!-- 自动重启 -->
     <v-alert
@@ -167,7 +167,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <v-row class="mt-0">
       <v-col :cols="mobile?12:4">
@@ -189,7 +189,7 @@
           </v-menu>
         </v-text-field>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <!-- 自动保活 -->
     <v-alert
@@ -224,7 +224,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <v-row class="mt-0">
       <v-col :cols="mobile?12:4">
@@ -244,7 +244,7 @@
           </template>
         </v-number-input>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <!-- 自动开启关闭 -->
     <v-alert
@@ -279,7 +279,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <v-row class="mt-0">
       <v-col :cols="mobile?12:4">
@@ -320,7 +320,7 @@
           </v-menu>
         </v-text-field>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <!-- Tick Rate -->
     <v-alert
@@ -367,7 +367,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
     <!-- 启动类型 -->
     <v-alert
@@ -406,7 +406,7 @@
           />
         </v-radio-group>
       </v-col>
-      <v-spacer />
+      <v-spacer v-if="!mobile" />
     </v-row>
   </v-form>
 </template>
