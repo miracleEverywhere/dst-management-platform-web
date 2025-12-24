@@ -212,10 +212,9 @@
     </v-container>
     <div v-else>
       <v-alert
-        type="warning"
-        theme="dark"
+        color="warning"
         density="compact"
-        class="mb-4"
+        class="mt-2 mb-2"
       >
         {{ t('install.install.alert') }}
       </v-alert>
