@@ -959,9 +959,12 @@ export default {
         '#00897B': 'Submerged Wood',
       },
       prefabs: {
+        // eslint-disable-next-line camelcase
         walrus_camp: 'walrus camp',
         wasphive: 'wasphive',
+        // eslint-disable-next-line camelcase
         ruins_statue_mage: 'ruins statue mage',
+        // eslint-disable-next-line camelcase
         archive_moon_statue: 'archive moon statue',
       },
     },
@@ -1016,7 +1019,20 @@ export default {
     fetching: 'Fetching',
     noContent: 'No Content',
     noLogFile: 'Please Select a log file',
-    clean: {},
+    clean: {
+      title: 'Logs Clean',
+      selectAll: 'Select All',
+      delete: 'Delete',
+      refresh: 'Refresh',
+      game: 'Game Log',
+      chat: 'Chat Log',
+      steam: 'Steam Log',
+      access: 'Access Log',
+      runtime: 'Runtime Log',
+      selected: 'Selected',
+      select: 'Select',
+      noSelected: 'Please select one type of log at least',
+    },
   },
   profile: {
     title: 'Info',
