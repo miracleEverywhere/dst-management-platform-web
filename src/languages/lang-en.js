@@ -451,6 +451,11 @@ export default {
         preDownload: 'Pre-Download',
         preDownloadFail: 'Download Fail',
         preDownloadSuccess: 'Pre-Download Success',
+        preDownloadDialog: {
+          title: 'Pre-Download',
+          button: 'Download',
+          tip: 'Pre-downloading refers to downloading all the mods configured in your mod configuration file (modoverrides.lua) with a single click. This is done for configuration purposes and to prevent issues of missing mods during gameplay',
+        },
         enableMulti: 'Multi-Enable',
         enableMultiFail: 'Enable Fail',
         enableMultiSuccess: 'Multi-Enable Success',

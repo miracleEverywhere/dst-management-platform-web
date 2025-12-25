@@ -451,6 +451,11 @@ export default {
         preDownload: '预下载',
         preDownloadFail: '下载失败',
         preDownloadSuccess: '预下载成功',
+        preDownloadDialog: {
+          title: '预下载',
+          button: '开始下载',
+          tip: '预下载是指，一键下载你模组配置文件(modoverrides.lua)中配置的所有模组，以便配置，防止游戏中模组不全的问题出现',
+        },
         enableMulti: '批量启用',
         enableMultiFail: '启用失败',
         enableMultiSuccess: '批量启用成功',
