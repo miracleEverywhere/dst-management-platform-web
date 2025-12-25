@@ -343,7 +343,7 @@ const getRoomsData = ({ page, itemsPerPage, sortBy }) => {
 
 const headers = [
   { title: 'ID', value: 'id' },
-  { title: t('platform.rooms.headers.gameName'), value: 'gameName' },
+  { title: t('platform.rooms.headers.gameName'), value: 'gameName', minWidth: 150 },
   { title: t('platform.rooms.headers.status'), value: 'status' },
   { title: t('platform.rooms.headers.maxPlayer'), value: 'maxPlayer', minWidth: 120 },
   { title: t('platform.rooms.headers.worldNum'), value: 'worldNum' },
