@@ -237,7 +237,7 @@ import useGlobalStore from "@store/global.js"
 import platformApi from "@/api/platform.js"
 import { sleep } from "@antfu/utils"
 import { useI18n } from "vue-i18n"
-import {showSnackbar} from "@/utils/snackbar.js";
+import { showSnackbar } from "@/utils/snackbar.js"
 
 // 响应式数据
 const terminalContainer = ref(null)
