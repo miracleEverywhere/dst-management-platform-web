@@ -6,7 +6,7 @@
         <div>
           <v-btn
             append-icon="ri-arrow-drop-down-line"
-            :loading="preDownloadLoading||multiEnableLoading"
+            :loading="multiEnableLoading"
             color="primary"
           >
             {{ t('game.mod.add.headerMenuButton') }}
@@ -15,7 +15,7 @@
                 <v-list-item
                   :disabled="preDownloadLoading"
                   class="text-info"
-                  @click="preDownload"
+                  @click="openPreDownloadDialog"
                 >
                   <template #prepend>
                     <v-icon
@@ -60,6 +60,63 @@
               </v-list>
             </v-menu>
           </v-btn>
+          <v-dialog
+            v-model="preDownloadDialog"
+            :persistent="preDownloadLoading"
+            :width="mobile?'90%':'40%'"
+          >
+            <v-card min-height="300">
+              <v-card-title>
+                <div class="card-header">
+                  <span>
+                    {{ t('game.mod.add.preDownloadDialog.title') }}
+                  </span>
+                  <v-btn
+                    :disabled="preDownloadFetchInfoLoading"
+                    :loading="preDownloadLoading"
+                    @click="preDownload"
+                  >
+                    {{ t('game.mod.add.preDownloadDialog.button') }}
+                  </v-btn>
+                </div>
+              </v-card-title>
+              <v-card-text v-if="!preDownloadFetchInfoLoading">
+                <v-alert
+                  color="warning"
+                  density="compact"
+                  class="mt-2 mb-4"
+                >
+                  {{ t('game.mod.add.preDownloadDialog.tip') }}
+                </v-alert>
+
+                <v-progress-linear
+                  v-model="preDownloadProgress"
+                  color="info"
+                  height="12"
+                  rounded
+                  rounded-bar
+                  class="mb-4"
+                />
+
+                <v-chip
+                  v-for="mod in modList"
+                  :key="mod.id"
+                  :color="mod.color"
+                  label
+                  class="mr-4 mt-4"
+                >
+                  {{ mod.name }}
+                </v-chip>
+              </v-card-text>
+              <v-card-actions v-else>
+                <result
+                  :height="230"
+                  color="info"
+                  :title="t('game.mod.setting.tip.fetching')"
+                />
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </div>
       </div>
     </v-card-title>
@@ -222,8 +279,10 @@ import { showSnackbar } from "@/utils/snackbar.js"
 import { useI18n } from "vue-i18n"
 import roomApi from "@/api/room.js"
 import { ref } from "vue"
+import { useDisplay } from "vuetify/framework"
 
 const globalStore = useGlobalStore()
+const { mobile } = useDisplay()
 const { t } = useI18n()
 
 const downloadedMods = ref([])
@@ -277,6 +336,7 @@ const modEnable = mod => {
     roomID: globalStore.room.id,
     worldID: 0,
     id: mod.id,
+    // eslint-disable-next-line camelcase
     file_url: mod.file_url,
   }
 
@@ -295,6 +355,7 @@ const modUpdate = mod => {
   const reqFrom = {
     roomID: globalStore.room.id,
     id: mod.id,
+    // eslint-disable-next-line camelcase
     file_url: mod.file_url,
     update: true,
   }
@@ -318,6 +379,7 @@ const multiEnable = async () => {
       roomID: globalStore.room.id,
       worldID: 0,
       id: mod.id,
+      // eslint-disable-next-line camelcase
       file_url: mod.file_url,
     }
 
@@ -338,47 +400,79 @@ const multiEnable = async () => {
 }
 
 const preDownloadLoading = ref(false)
+const preDownloadProgress = ref(0)
 
 const preDownload = async () => {
   preDownloadLoading.value = true
 
-  const response = await roomApi.base.get({ id: globalStore.room.id })
-  let worlds = response.data.worldData || []
-  if (worlds.length===0) {
-    showSnackbar(t('game.mod.add.preDownloadFail'), 'error')
-    
-    return
+  for (let i = 0; i < modList.value.length; i++) {
+    const reqFrom = {
+      roomID: globalStore.room.id,
+      id: modList.value[i].id,
+      // eslint-disable-next-line camelcase
+      file_url: modList.value[i].file_url,
+      update: true,
+    }
+
+    try {
+      const res = await modApi.download.post(reqFrom)
+
+      modList.value[i].color = 'success'
+      preDownloadProgress.value = ((i+1) / modList.value.length) * 100
+    } catch {
+      showSnackbar(`${modList.value[i].name} ${t('game.mod.add.preDownloadFail')}`, 'error')
+    }
   }
+
+  preDownloadProgress.value = 100
+  preDownloadLoading.value = false
+}
+
+const preDownloadDialog = ref(false)
+
+const preDownloadFetchInfoLoading = ref(false)
+
+const openPreDownloadDialog = () => {
+  preDownloadDialog.value = true
+  preDownloadFetchInfoLoading.value = true
+  getEnabledMods().finally(() => {
+    preDownloadFetchInfoLoading.value = false
+  })
+}
+
+const modList = ref([])
+
+const worlds = ref([])
+
+const getWorlds = async () => {
+  const reqForm = {
+    roomID: globalStore.room.id,
+  }
+
+  const response = await roomApi.worlds.get(reqForm)
+
+  worlds.value = response.data
+}
+
+const getEnabledMods = async () => {
+  modList.value = []
 
   const reqForm = {
     roomID: globalStore.room.id,
-    worldID: worlds[0]?.id || 0,
+    worldID: worlds.value[0]?.id,
   }
 
-  modApi.setting.enabledMods.get(reqForm).then(async response => {
-    for (let mod of response.data) {
-      const reqFrom = {
-        roomID: globalStore.room.id,
-        id: mod.id,
-        file_url: mod.file_url,
-        update: true,
-      }
-
-      try {
-        const res = await modApi.download.post(reqFrom)
-
-        showSnackbar(`${mod.name} ${t('game.mod.add.preDownloadSuccess')}`)
-      } catch {
-        showSnackbar(`${mod.name} ${t('game.mod.add.preDownloadFail')}`, 'error')
-      }
-    }
-  }).finally(() => {
-    preDownloadLoading.value = false
-  })
+  const response = await modApi.setting.enabledMods.get(reqForm)
+  const responseData = response.data || []
+  for (let mod of responseData) {
+    mod.color = 'default'
+    modList.value.push(mod)
+  }
 }
 
 
 onMounted(() => {
+  getWorlds()
   getDownloadedMods()
 })
 </script>
