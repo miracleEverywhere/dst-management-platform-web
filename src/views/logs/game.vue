@@ -37,7 +37,7 @@
                     :label="t('logs.world')"
                     density="compact"
                     class="mr-4"
-                    @update:model-value="content=''"
+                    @update:model-value="content='';firstPullFinished=false"
                   />
                   <v-switch
                     v-model="autoPull"
