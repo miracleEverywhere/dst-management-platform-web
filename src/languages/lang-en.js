@@ -531,6 +531,7 @@ export default {
         install: 'Install',
         reinstall: 'Reinstall',
         update: 'Update',
+        tip: 'Please refresh the page after the installation',
       },
     },
     install: {

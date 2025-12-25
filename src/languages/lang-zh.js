@@ -531,6 +531,7 @@ export default {
         install: '安装',
         reinstall: '重新安装',
         update: '更新游戏',
+        tip: '安装完成后请手动刷新页面',
       },
     },
     install: {
