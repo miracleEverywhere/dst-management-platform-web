@@ -1,22 +1,66 @@
 <template>
-  <v-card :height="calculateHeight()">
-    <v-card-text>
+  <!-- 游戏是否安装 -->
+  <template v-if="globalStore.gameVersion.local!==0">
+    <!-- 房间是否选择 -->
+    <template v-if="globalStore.room.id!==0">
+      <v-card :height="calculateHeight()">
+        <v-card-text>
+          <result
+            :height="calculateHeight()"
+            type="info"
+            :title="t('logs.download.title')"
+            :sub-title="t('logs.download.subTitle')"
+          >
+            <v-btn
+              :loading="downloadLoading"
+              class="mt-4"
+              @click="downloadLog"
+            >
+              {{ t('logs.download.button') }}
+            </v-btn>
+          </result>
+        </v-card-text>
+      </v-card>
+    </template>
+    <template v-else>
       <result
+        :title="t('global.result.title')"
+        :sub-title="t('global.result.subTitle')"
+        type="error"
         :height="calculateHeight()"
-        type="info"
-        :title="t('logs.download.title')"
-        :sub-title="t('logs.download.subTitle')"
       >
         <v-btn
-          :loading="downloadLoading"
+          to="/rooms"
           class="mt-4"
-          @click="downloadLog"
         >
-          {{ t('logs.download.button') }}
+          {{ t('global.result.button') }}
         </v-btn>
       </result>
-    </v-card-text>
-  </v-card>
+    </template>
+  </template>
+  <template v-else>
+    <result
+      v-if="userStore.userInfo.role==='admin'"
+      :title="t('global.noGame.title')"
+      :sub-title="t('global.noGame.subTitle')"
+      :height="calculateHeight()"
+      type="error"
+    >
+      <v-btn
+        to="/install"
+        class="mt-4"
+      >
+        {{ t('global.noGame.button') }}
+      </v-btn>
+    </result>
+    <result
+      v-else
+      :title="t('global.noGameNoAdmin.title')"
+      :sub-title="t('global.noGameNoAdmin.subTitle')"
+      :height="calculateHeight()"
+      type="error"
+    />
+  </template>
 </template>
 
 <script setup>
@@ -24,12 +68,12 @@ import logsApi from "@/api/logs"
 import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import { debounce } from "@/utils/tools.js"
-import Result from "@/components/Result.vue"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { debounce } from "@/utils/tools"
+import useUserStore from "@store/user"
 
 
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
@@ -65,4 +109,5 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
+
 
