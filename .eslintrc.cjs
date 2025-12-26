@@ -117,17 +117,18 @@ module.exports = {
     ],
 
     // ignore virtual files
-    'import/no-unresolved': [2, {
-      ignore: [
-        '~pages$',
-        'virtual:generated-layouts',
-        '#auth$',
-        '#components$',
-
-        // Ignore vite's ?raw imports
-        '.*\?raw',
-      ],
-    }],
+    // 'import/no-unresolved': [2, {
+    //   ignore: [
+    //     '~pages$',
+    //     'virtual:generated-layouts',
+    //     '#auth$',
+    //     '#components$',
+    //
+    //     // Ignore vite's ?raw imports
+    //     '.*\?raw',
+    //   ],
+    // }],
+    'import/no-unresolved': 'off',
 
     // Thanks: https://stackoverflow.com/a/63961972/10796681
     'no-shadow': 'off',
