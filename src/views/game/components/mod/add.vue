@@ -411,7 +411,7 @@ const preDownload = async () => {
       id: modList.value[i].id,
       // eslint-disable-next-line camelcase
       file_url: modList.value[i].file_url,
-      update: true,
+      update: false,
     }
 
     try {
