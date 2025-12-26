@@ -59,7 +59,10 @@
     </template>
     <template v-else>
       <div class="item-container my-8">
-        <template v-for="mod in modSearchData.rows" :key="mod.id">
+        <template
+          v-for="mod in modSearchData.rows"
+          :key="mod.id"
+        >
           <mod-info
             :mod="mod"
             :room-i-d="globalStore.room.id"

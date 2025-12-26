@@ -3,9 +3,9 @@
     <template v-if="globalStore.room.name===''">
       <result
         type="error"
-        :title="t('global.result.title')"
-        :sub-title="t('global.result.subTitle')"
-        :height="windowHeight"
+        :title="t('global.noRoomSelected.title')"
+        :sub-title="t('global.noRoomSelected.subTitle')"
+        :height="calculateContainerSize()"
       />
     </template>
     <template v-else>

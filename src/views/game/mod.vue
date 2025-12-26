@@ -57,8 +57,8 @@
     </template>
     <template v-else>
       <result
-        :title="t('global.result.title')"
-        :sub-title="t('global.result.subTitle')"
+        :title="t('global.noRoomSelected.title')"
+        :sub-title="t('global.noRoomSelected.subTitle')"
         type="error"
         :height="calculateContainerSize()"
       >
@@ -66,7 +66,7 @@
           to="/rooms"
           class="mt-4"
         >
-          {{ t('global.result.button') }}
+          {{ t('global.noRoomSelected.button') }}
         </v-btn>
       </result>
     </template>

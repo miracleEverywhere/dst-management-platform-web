@@ -494,6 +494,9 @@ const deleteRoom = () => {
       itemsPerPage: roomsData.value.pageSize,
       sortBy: undefined,
     })
+    if (globalStore.room.id === currentRoomID.value) {
+      globalStore.room.id = 0
+    }
   }).finally(() => {
     deleteRoomLoading.value = false
   })

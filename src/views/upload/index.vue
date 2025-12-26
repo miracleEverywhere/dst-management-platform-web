@@ -191,13 +191,13 @@
 </template>
 
 <script setup>
-import { showSnackbar } from "@/utils/snackbar.js"
-import roomApi from "@/api/room.js"
+import { showSnackbar } from "@/utils/snackbar"
+import roomApi from "@/api/room"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global.js"
 import useUserStore from "@store/user.js"
-import { debounce } from "@/utils/tools.js"
+import { debounce } from "@/utils/tools"
 
 const { mobile } = useDisplay()
 const { t } = useI18n()

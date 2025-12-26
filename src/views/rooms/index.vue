@@ -349,7 +349,7 @@ import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useI18n } from "vue-i18n"
 import { debounce, parseModLua, truncateString } from "@/utils/tools"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { showSnackbar } from "@/utils/snackbar"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
 
