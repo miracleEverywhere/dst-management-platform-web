@@ -1040,6 +1040,11 @@ export default {
       select: '请选择',
       noSelected: '请至少选择一种日志',
     },
+    download: {
+      title: '日志下载',
+      subTitle: '如果你遇到一些问题无法自己解决，那就点击下方的下载按钮，将日志发到群里，让大家一块看看吧',
+      button: '下载',
+    },
   },
   profile: {
     title: '个人信息',

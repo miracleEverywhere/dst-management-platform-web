@@ -1040,6 +1040,11 @@ export default {
       select: 'Select',
       noSelected: 'Please select one type of log at least',
     },
+    download: {
+      title: 'Download Logs',
+      subTitle: 'If you encounter issues that you cannot resolve on your own, click the download button below to save the log file. Then, share it in the group chat so everyone can take a look together',
+      button: 'Download',
+    },
   },
   profile: {
     title: 'Info',
