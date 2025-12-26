@@ -1,5 +1,4 @@
 <template>
-
   <v-card :height="calculateHeight()">
     <v-card-text>
       <result
@@ -8,8 +7,12 @@
         :title="t('logs.download.title')"
         :sub-title="t('logs.download.subTitle')"
       >
-        <v-btn :loading="downloadLoading" @click="downloadLog" class="mt-4">
-          {{t('logs.download.button')}}
+        <v-btn
+          :loading="downloadLoading"
+          class="mt-4"
+          @click="downloadLog"
+        >
+          {{ t('logs.download.button') }}
         </v-btn>
       </result>
     </v-card-text>
@@ -21,9 +24,9 @@ import logsApi from "@/api/logs"
 import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import {debounce} from "@/utils/tools.js";
-import Result from "@/components/Result.vue";
-import {showSnackbar} from "@/utils/snackbar.js";
+import { debounce } from "@/utils/tools.js"
+import Result from "@/components/Result.vue"
+import { showSnackbar } from "@/utils/snackbar.js"
 
 
 const globalStore = useGlobalStore()

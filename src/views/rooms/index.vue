@@ -451,10 +451,10 @@ const handleAction = (actionType, row) => {
   case 'deactivate':
     deactivate(row)
     break
-    case 'delete':
-      deleteRoomID.value = row.id
-      confirmVisible.value = true
-      break
+  case 'delete':
+    deleteRoomID.value = row.id
+    confirmVisible.value = true
+    break
   }
 }
 
