@@ -231,7 +231,7 @@
     :title="t('install.install.success')"
     :content="t('install.install.success')"
     :confirm-text="t('install.install.confirm')"
-    :cancel-text="t('global.confirm.cancel')"
+    :cancel-button="false"
     @confirm="reloadPage"
   />
   <confirm-box
@@ -240,7 +240,7 @@
     :title="t('install.install.fail')"
     :content="t('install.install.fail')"
     :confirm-text="t('install.install.confirm')"
-    :cancel-text="t('global.confirm.cancel')"
+    :cancel-button="false"
     @confirm="reloadPage"
   />
 </template>
