@@ -133,6 +133,21 @@
                         {{ t('rooms.card.success.header.menu.deactivate') }}
                       </v-list-item-title>
                     </v-list-item>
+                    <v-list-item
+                      class="text-error"
+                      :disabled="userStore.userInfo.role!=='admin'"
+                      @click="handleAction('delete', room)"
+                    >
+                      <template #prepend>
+                        <v-icon
+                          icon="ri-delete-bin-line"
+                          size="22"
+                        />
+                      </template>
+                      <v-list-item-title>
+                        {{ t('platform.rooms.actions.delete') }}
+                      </v-list-item-title>
+                    </v-list-item>
                   </v-list>
                 </v-menu>
               </div>
@@ -312,6 +327,17 @@
       type="error"
     />
   </template>
+  <confirm-box
+    v-model="confirmVisible"
+    type="warning"
+    :title="t('global.confirm.title')"
+    :content="t('global.confirm.content')"
+    :confirm-text="t('global.confirm.confirm')"
+    :cancel-text="t('global.confirm.cancel')"
+    :confirm-loading="deleteRoomLoading"
+    @confirm="deleteRoom"
+    @cancel="confirmVisible=false"
+  />
 </template>
 
 <script setup>
@@ -425,6 +451,10 @@ const handleAction = (actionType, row) => {
   case 'deactivate':
     deactivate(row)
     break
+    case 'delete':
+      deleteRoomID.value = row.id
+      confirmVisible.value = true
+      break
   }
 }
 
@@ -459,6 +489,26 @@ const deactivate = row => {
     getRooms()
   }).finally(() => {
     deactivateLoading.value = false
+  })
+}
+
+const deleteRoomLoading = ref(false)
+const deleteRoomID = ref(0)
+const confirmVisible = ref(false)
+
+const deleteRoom = () => {
+  deleteRoomLoading.value = true
+
+  const reqForm = {
+    roomID: deleteRoomID.value,
+  }
+
+  roomApi.base.delete(reqForm).then(response => {
+    confirmVisible.value = false
+    showSnackbar(response.message)
+    getRooms()
+  }).finally(() => {
+    deleteRoomLoading.value = false
   })
 }
 
