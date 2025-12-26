@@ -1110,7 +1110,7 @@
 </template>
 
 <script setup>
-import { debounce, formatBytes, getEditorLang, parseModLua, truncateString, validateIpv4 } from "@/utils/tools.js"
+import { debounce, formatBytes, getEditorLang, parseModLua, truncateString } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -1308,7 +1308,6 @@ const customConnectionCodeFormRules = ref({
   ip: [
     value => {
       if (!value) return t('dashboard.card1.item.custom.ip.required')
-      if (!validateIpv4(value)) return t('dashboard.card1.item.custom.ip.required1')
       
       return true
     },
