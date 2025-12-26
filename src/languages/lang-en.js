@@ -55,7 +55,7 @@ export default {
     logs: 'Logs',
     logsGame: 'Game',
     logsChat: 'Chat',
-    logsExport: 'Export',
+    logsDownload: 'Download',
     logsSteam: 'Steam',
     logsAccess: 'Access',
     logsRuntime: 'Runtime',

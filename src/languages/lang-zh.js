@@ -55,7 +55,7 @@ export default {
     logs: '日志管理',
     logsGame: '游戏日志',
     logsChat: '聊天日志',
-    logsExport: '导出日志',
+    logsDownload: '下载日志',
     logsSteam: 'Steam日志',
     logsAccess: '请求日志',
     logsRuntime: '运行日志',
