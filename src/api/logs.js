@@ -33,4 +33,10 @@ export default {
       },
     },
   },
+  download: {
+    url: `/logs/download`,
+    download: async function (data, saveName) {
+      return await http.download(this.url, data, saveName)
+    },
+  },
 }

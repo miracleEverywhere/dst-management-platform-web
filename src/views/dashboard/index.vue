@@ -1070,8 +1070,8 @@
     </template>
     <template v-else>
       <result
-        :title="t('global.result.title')"
-        :sub-title="t('global.result.subTitle')"
+        :title="t('global.noRoomSelected.title')"
+        :sub-title="t('global.noRoomSelected.subTitle')"
         type="error"
         :height="calculateContainerSize()"
       >
@@ -1079,7 +1079,7 @@
           to="/rooms"
           class="mt-4"
         >
-          {{ t('global.result.button') }}
+          {{ t('global.noRoomSelected.button') }}
         </v-btn>
       </result>
     </template>
@@ -1110,7 +1110,7 @@
 </template>
 
 <script setup>
-import { debounce, formatBytes, getEditorLang, parseModLua, truncateString, validateIpv4 } from "@/utils/tools.js"
+import { debounce, formatBytes, getEditorLang, parseModLua, truncateString } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import colors from 'vuetify/lib/util/colors'
@@ -1308,7 +1308,6 @@ const customConnectionCodeFormRules = ref({
   ip: [
     value => {
       if (!value) return t('dashboard.card1.item.custom.ip.required')
-      if (!validateIpv4(value)) return t('dashboard.card1.item.custom.ip.required1')
       
       return true
     },

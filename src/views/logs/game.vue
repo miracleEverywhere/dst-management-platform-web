@@ -37,7 +37,7 @@
                     :label="t('logs.world')"
                     density="compact"
                     class="mr-4"
-                    @update:model-value="content=''"
+                    @update:model-value="content='';firstPullFinished=false"
                   />
                   <v-switch
                     v-model="autoPull"
@@ -75,7 +75,7 @@
                 />
               </template>
               <v-row class="my-4">
-                <v-spacer />
+                <v-spacer v-if="!mobile" />
                 <v-col class="d-flex align-center justify-end">
                   <v-number-input
                     v-model="lines"
@@ -159,8 +159,8 @@
     </template>
     <template v-else>
       <result
-        :title="t('global.result.title')"
-        :sub-title="t('global.result.subTitle')"
+        :title="t('global.noRoomSelected.title')"
+        :sub-title="t('global.noRoomSelected.subTitle')"
         type="error"
         :height="calculateHeight()"
       >
@@ -168,7 +168,7 @@
           to="/rooms"
           class="mt-4"
         >
-          {{ t('global.result.button') }}
+          {{ t('global.noRoomSelected.button') }}
         </v-btn>
       </result>
     </template>

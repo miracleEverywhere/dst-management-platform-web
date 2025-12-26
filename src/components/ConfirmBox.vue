@@ -28,6 +28,7 @@
       <v-card-actions class="pa-4">
         <v-spacer />
         <v-btn
+          v-if="props.cancelButton"
           variant="elevated"
           :color="cancelColor"
           @click="handleCancel"
@@ -69,6 +70,10 @@ const props = defineProps({
   confirmLoading: {
     type: Boolean,
     default: false,
+  },
+  cancelButton: {
+    type: Boolean,
+    default: true,
   },
   confirmText: {
     type: String,

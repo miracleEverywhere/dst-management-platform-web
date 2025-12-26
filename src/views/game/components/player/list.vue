@@ -8,12 +8,42 @@
         <span>
           {{ t(`game.player.list.${props.listType}`) }}
         </span>
-        <v-btn
-          color="default"
-          @click="getListData(true)"
-        >
-          {{ t('game.player.list.refresh') }}
-        </v-btn>
+        <div>
+          <v-btn
+            class="mr-2"
+            @click="handleOpenImportDialog"
+          >
+            {{ t('game.player.list.import.title') }}
+          </v-btn>
+          <v-dialog
+            v-model="importDialog"
+            :width="mobile?'90%':'45%'"
+          >
+            <v-card>
+              <v-card-title />
+              <v-card-text>
+                <v-alert
+                  color="warning"
+                  density="compact"
+                  class="mt-2 mb-2"
+                >
+                  {{ t('game.player.list.import.tip') }}
+                </v-alert>
+                <v-file-upload
+                  density="default"
+                  icon="ri-upload-cloud-2-line"
+                  @update:model-value="handleImport"
+                />
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+          <v-btn
+            color="default"
+            @click="getListData(true)"
+          >
+            {{ t('game.player.list.refresh') }}
+          </v-btn>
+        </div>
       </div>
     </v-card-title>
     <v-card-text>
@@ -35,6 +65,7 @@
           />
           <v-chip
             v-for="uid in listData"
+            :key="uid"
             closable
             color="info"
             class="mt-2 mr-2"
@@ -57,7 +88,7 @@
               v-model="inputValue"
               density="compact"
               :placeholder="t('game.player.list.placeholder')"
-              class="mt-4"
+              class="mt-2"
               @keyup.enter="handleInputConfirm"
               @blur="handleInputConfirm"
             />
@@ -82,8 +113,8 @@
 import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import playerApi from "@/api/player.js"
-import { showSnackbar } from "@/utils/snackbar.js"
+import playerApi from "@/api/player"
+import { showSnackbar } from "@/utils/snackbar"
 
 const props = defineProps({
   listType: {
@@ -133,7 +164,7 @@ const handleListChange = (uid, actionType) => {
   const reqForm = {
     roomID: globalStore.room.id,
     listType: props.listType,
-    uid: uid,
+    uids: [uid],
     actionType: actionType,
   }
 
@@ -167,6 +198,73 @@ const handleInputConfirm = () => {
   }
   inputVisible.value = false
   inputValue.value = ''
+}
+
+const importDialog = ref(false)
+
+const handleOpenImportDialog = () => {
+  importDialog.value = true
+}
+
+const checkUploadFile = param => {
+  const zipPattern = /\.txt$/i
+
+  return zipPattern.test(param.name)
+}
+
+const importLoading = ref(false)
+
+const handleImport = file => {
+  importLoading.value = true
+  if (!checkUploadFile(file)) {
+    showSnackbar(t('game.player.list.import.fileTypeError'), 'error')
+    importDialog.value = false
+    importLoading.value = false
+
+    return
+  }
+
+  // 创建FileReader对象
+  const reader = new FileReader()
+
+  // 读取为文本
+  reader.readAsText(file)
+
+  // 读取完成时的回调
+  reader.onload = () => {
+    const fileContent = reader.result
+
+    const uidsFile = fileContent.split('\n')
+    // eslint-disable-next-line sonarjs/no-unused-collection
+    const uids = []
+    for (let uid of uidsFile) {
+      if (uid !== "") {
+        uids.push(uid)
+      }
+    }
+
+    const reqForm = {
+      roomID: globalStore.room.id,
+      listType: props.listType,
+      uids: uids,
+      actionType: 'add',
+    }
+
+    playerApi.list.post(reqForm).then(response => {
+      showSnackbar(response.message)
+      getListData()
+    }).finally(() => {
+      importLoading.value = false
+      importDialog.value = false
+    })
+  }
+
+  // 读取错误时的回调
+  reader.onerror = () => {
+    showSnackbar(t('game.player.list.import.fileReadError'), 'error')
+    importLoading.value = false
+    importDialog.value = false
+  }
 }
 
 

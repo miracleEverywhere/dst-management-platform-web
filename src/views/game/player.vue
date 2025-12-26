@@ -98,8 +98,8 @@
     </template>
     <template v-else>
       <result
-        :title="t('global.result.title')"
-        :sub-title="t('global.result.subTitle')"
+        :title="t('global.noRoomSelected.title')"
+        :sub-title="t('global.noRoomSelected.subTitle')"
         type="error"
         :height="calculateContainerSize()"
       >
@@ -107,7 +107,7 @@
           to="/rooms"
           class="mt-4"
         >
-          {{ t('global.result.button') }}
+          {{ t('global.noRoomSelected.button') }}
         </v-btn>
       </result>
     </template>
@@ -140,12 +140,12 @@
 <script setup>
 import Online from "@/views/game/components/player/online.vue"
 import { useI18n } from "vue-i18n"
-import { debounce } from "@/utils/tools.js"
+import { debounce } from "@/utils/tools"
 import useGlobalStore from "@store/global.js"
 import useUserStore from "@store/user.js"
 import { useDisplay } from "vuetify/framework"
 import List from "@/views/game/components/player/list.vue"
-import playerApi from "@/api/player.js"
+import playerApi from "@/api/player"
 import History from "@/views/game/components/player/history.vue"
 
 const globalStore = useGlobalStore()

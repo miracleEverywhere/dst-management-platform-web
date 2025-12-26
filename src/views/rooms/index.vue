@@ -50,11 +50,12 @@
       <v-row class="mx-1">
         <v-col
           v-for="(room, index) in rooms"
+          :key="index"
           :cols="mobile?12:6"
         >
           <v-card
             :ref="el => { if (index === 0) cardRef = el }"
-            :hover="true"
+            hover
             variant="flat"
             height="300px"
           >
@@ -131,6 +132,21 @@
                       </template>
                       <v-list-item-title>
                         {{ t('rooms.card.success.header.menu.deactivate') }}
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                      class="text-error"
+                      :disabled="userStore.userInfo.role!=='admin'"
+                      @click="handleAction('delete', room)"
+                    >
+                      <template #prepend>
+                        <v-icon
+                          icon="ri-delete-bin-line"
+                          size="22"
+                        />
+                      </template>
+                      <v-list-item-title>
+                        {{ t('platform.rooms.actions.delete') }}
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -241,7 +257,7 @@
                           :gradient="['#1feaea']"
                           :line-width="3"
                           :model-value="generatePlayerList(room.players)"
-                          :smooth="true"
+                          smooth
                           padding="8"
                           stroke-linecap="round"
                           auto-draw
@@ -275,7 +291,7 @@
     <div v-if="rooms.length===0&&reqForm.gameName!==''">
       <result
         type="warning"
-        :height="windowHeight"
+        :height="calculateContainerSize() - 72"
         :title="t('rooms.result.noResult.title')"
         :sub-title="t('rooms.result.noResult.subTitle')"
       />
@@ -283,7 +299,7 @@
     <div v-if="rooms.length===0&&reqForm.gameName===''">
       <result
         type="warning"
-        :height="windowHeight"
+        :height="calculateContainerSize() - 72"
         :title="t('rooms.result.noRoom.title')"
         :sub-title="t('rooms.result.noRoom.subTitle')"
       />
@@ -312,6 +328,17 @@
       type="error"
     />
   </template>
+  <confirm-box
+    v-model="confirmVisible"
+    type="warning"
+    :title="t('global.confirm.title')"
+    :content="t('global.confirm.content')"
+    :confirm-text="t('global.confirm.confirm')"
+    :cancel-text="t('global.confirm.cancel')"
+    :confirm-loading="deleteRoomLoading"
+    @confirm="deleteRoom"
+    @cancel="confirmVisible=false"
+  />
 </template>
 
 <script setup>
@@ -322,7 +349,7 @@ import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useI18n } from "vue-i18n"
 import { debounce, parseModLua, truncateString } from "@/utils/tools"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { showSnackbar } from "@/utils/snackbar"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
 
@@ -425,6 +452,10 @@ const handleAction = (actionType, row) => {
   case 'deactivate':
     deactivate(row)
     break
+  case 'delete':
+    deleteRoomID.value = row.id
+    confirmVisible.value = true
+    break
   }
 }
 
@@ -459,6 +490,29 @@ const deactivate = row => {
     getRooms()
   }).finally(() => {
     deactivateLoading.value = false
+  })
+}
+
+const deleteRoomLoading = ref(false)
+const deleteRoomID = ref(0)
+const confirmVisible = ref(false)
+
+const deleteRoom = () => {
+  deleteRoomLoading.value = true
+
+  const reqForm = {
+    roomID: deleteRoomID.value,
+  }
+
+  roomApi.base.delete(reqForm).then(response => {
+    confirmVisible.value = false
+    showSnackbar(response.message)
+    getRooms()
+    if (globalStore.room.id === deleteRoomID.value) {
+      globalStore.room.id = 0
+    }
+  }).finally(() => {
+    deleteRoomLoading.value = false
   })
 }
 

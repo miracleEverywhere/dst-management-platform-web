@@ -11,7 +11,7 @@ export default {
     dark: "Dark",
     profile: "Profile",
     logout: "Logout",
-    result: {
+    noRoomSelected: {
       title: 'No Room Selected',
       subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
       button: 'GOTO',
@@ -55,6 +55,7 @@ export default {
     logs: 'Logs',
     logsGame: 'Game',
     logsChat: 'Chat',
+    logsDownload: 'Download',
     logsSteam: 'Steam',
     logsAccess: 'Access',
     logsRuntime: 'Runtime',
@@ -442,8 +443,8 @@ export default {
         size: 'Size',
         update: 'Update',
         notUGC: 'NOT UGC',
-        needUpdate: 'Latest Version',
-        needNoUpdate: 'Need Update',
+        needUpdate: 'Need Update',
+        needNoUpdate: 'Latest Version',
         actions: 'Actions',
         enable: 'Enable',
         updateMod: 'Update',
@@ -451,6 +452,11 @@ export default {
         preDownload: 'Pre-Download',
         preDownloadFail: 'Download Fail',
         preDownloadSuccess: 'Pre-Download Success',
+        preDownloadDialog: {
+          title: 'Pre-Download',
+          button: 'Download',
+          tip: 'Pre-downloading refers to downloading all the mods configured in your mod configuration file (modoverrides.lua) with a single click. This is done for configuration purposes and to prevent issues of missing mods during gameplay',
+        },
         enableMulti: 'Multi-Enable',
         enableMultiFail: 'Enable Fail',
         enableMultiSuccess: 'Multi-Enable Success',
@@ -499,6 +505,12 @@ export default {
         placeholder: 'Starts with KU_',
         uidValid: 'Please enter the correct UID',
         refreshSuccess: 'Refresh Success',
+        import: {
+          title: 'Import',
+          tip: 'Please upload a TXT file, with one user ID per line',
+          fileTypeError: 'Please upload a TXT file',
+          fileReadError: 'File read error',
+        },
       },
       history: {
         tabName: 'History',
@@ -531,10 +543,14 @@ export default {
         install: 'Install',
         reinstall: 'Reinstall',
         update: 'Update',
+        tip: 'Installing',
       },
     },
     install: {
       alert: 'Attention!!! Do not close or refresh this page during the installation process or Updating process, as it may cause the action to fail',
+      success: 'Game Install Success',
+      fail: 'Game Install Failed',
+      confirm: 'Got it',
     },
   },
   platform: {
@@ -1032,6 +1048,11 @@ export default {
       selected: 'Selected',
       select: 'Select',
       noSelected: 'Please select one type of log at least',
+    },
+    download: {
+      title: 'Download Logs',
+      subTitle: 'If you encounter issues that you cannot resolve on your own, click the download button below to save the log file. Then, share it in the group chat so everyone can take a look together',
+      button: 'Download',
     },
   },
   profile: {

@@ -1,6 +1,6 @@
 <template>
   <v-card
-    :hover="true"
+    hover
     variant="flat"
     height="135"
     class="cursor-auto"
@@ -50,7 +50,7 @@
           <precise-rating
             :value="computedRate"
             :length="5"
-            :show-actual-value="true"
+            show-actual-value
             size="24"
           />
         </div>
@@ -198,6 +198,7 @@
             color="success"
             density="compact"
             size="small"
+            :loading="downloadLoading"
             @click="handleDownload"
           >
             {{ t('game.mod.download.modInfo.download') }}
@@ -209,7 +210,7 @@
 </template>
 
 <script setup>
-import { formatBytes } from "@/utils/tools.js"
+import { formatBytes } from "@/utils/tools"
 
 import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar"
@@ -221,7 +222,7 @@ import { useI18n } from "vue-i18n"
 const props = defineProps({
   mod: {
     type: Object,
-    default: {},
+    default: () => ({}),
   },
   roomID: {
     type: Number,
@@ -245,16 +246,25 @@ const computedName = computed(() => {
 })
 
 const dialogVisible = ref(false)
+const downloadLoading = ref(false)
 
 const handleDownload = () => {
+  downloadLoading.value = true
+
   const reqFrom = {
     roomID: props.roomID,
     id: props.mod.id,
+    // eslint-disable-next-line camelcase
     file_url: props.mod.file_url,
+    update: false,
+    size: props.mod.size,
+    name: props.mod.name,
   }
 
   modApi.download.post(reqFrom).then(response => {
     showSnackbar(response.message)
+  }).finally(() => {
+    downloadLoading.value = false
   })
 }
 </script>

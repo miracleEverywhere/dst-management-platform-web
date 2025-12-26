@@ -11,7 +11,7 @@ export default {
     dark: "黑暗",
     profile: "个人中心",
     logout: "退出平台",
-    result: {
+    noRoomSelected: {
       title: '未选择房间',
       subTitle: '请前往房间总览页面，选择一个房间再执行配置',
       button: '前往选择',
@@ -55,6 +55,7 @@ export default {
     logs: '日志管理',
     logsGame: '游戏日志',
     logsChat: '聊天日志',
+    logsDownload: '下载日志',
     logsSteam: 'Steam日志',
     logsAccess: '请求日志',
     logsRuntime: '运行日志',
@@ -451,6 +452,11 @@ export default {
         preDownload: '预下载',
         preDownloadFail: '下载失败',
         preDownloadSuccess: '预下载成功',
+        preDownloadDialog: {
+          title: '预下载',
+          button: '开始下载',
+          tip: '预下载是指，一键下载你模组配置文件(modoverrides.lua)中配置的所有模组，以便配置，防止游戏中模组不全的问题出现',
+        },
         enableMulti: '批量启用',
         enableMultiFail: '启用失败',
         enableMultiSuccess: '批量启用成功',
@@ -499,6 +505,12 @@ export default {
         placeholder: '以KU_开头',
         uidValid: '请输入正确的UID',
         refreshSuccess: '刷新成功',
+        import: {
+          title: '导入',
+          tip: '请上传TXT文件，每行一个用户ID',
+          fileTypeError: '请上传TXT文件',
+          fileReadError: '文件读取错误',
+        },
       },
       history: {
         tabName: '历史玩家',
@@ -531,10 +543,14 @@ export default {
         install: '安装',
         reinstall: '重新安装',
         update: '更新游戏',
+        tip: '开始安装游戏',
       },
     },
     install: {
       alert: '注意！！！安装或更新过程中请勿关闭或刷新本页面，否则会导致操作失败；如果网页出现安装异常，请前往终端输入./manual_install.sh 进行手动安装',
+      success: '游戏安装成功',
+      fail: '游戏安装失败',
+      confirm: '我知道了',
     },
   },
   platform: {
@@ -1032,6 +1048,11 @@ export default {
       selected: '已选择',
       select: '请选择',
       noSelected: '请至少选择一种日志',
+    },
+    download: {
+      title: '日志下载',
+      subTitle: '如果你遇到一些问题无法自己解决，那就点击下方的下载按钮，将日志发到群里，让大家一块看看吧',
+      button: '下载',
     },
   },
   profile: {
