@@ -505,6 +505,12 @@ export default {
         placeholder: 'Starts with KU_',
         uidValid: 'Please enter the correct UID',
         refreshSuccess: 'Refresh Success',
+        import: {
+          title: 'Import',
+          tip: 'Please upload a TXT file, with one user ID per line',
+          fileTypeError: 'Please upload a TXT file',
+          fileReadError: 'File read error',
+        },
       },
       history: {
         tabName: 'History',

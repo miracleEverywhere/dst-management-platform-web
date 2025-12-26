@@ -505,6 +505,12 @@ export default {
         placeholder: '以KU_开头',
         uidValid: '请输入正确的UID',
         refreshSuccess: '刷新成功',
+        import: {
+          title: '导入',
+          tip: '请上传TXT文件，每行一个用户ID',
+          fileTypeError: '请上传TXT文件',
+          fileReadError: '文件读取错误',
+        },
       },
       history: {
         tabName: '历史玩家',
