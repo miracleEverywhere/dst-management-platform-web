@@ -48,7 +48,7 @@
         />
       </template>
       <v-row class="my-4">
-        <v-spacer />
+        <v-spacer v-if="!mobile" />
         <v-col class="d-flex align-center justify-end">
           <v-number-input
             v-model="lines"
@@ -73,6 +73,7 @@ import useGlobalStore from "@store/global.js"
 import logsApi from "@/api/logs.js"
 import { debounce } from "@/utils/tools.js"
 import { useI18n } from "vue-i18n"
+import { useDisplay } from "vuetify/framework"
 
 const props = defineProps({
   type: {
@@ -86,6 +87,7 @@ const props = defineProps({
 })
 
 const globalStore = useGlobalStore()
+const { mobile } = useDisplay()
 const { t } = useI18n()
 
 const content = ref('')

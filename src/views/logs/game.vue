@@ -75,7 +75,7 @@
                 />
               </template>
               <v-row class="my-4">
-                <v-spacer />
+                <v-spacer v-if="!mobile" />
                 <v-col class="d-flex align-center justify-end">
                   <v-number-input
                     v-model="lines"
