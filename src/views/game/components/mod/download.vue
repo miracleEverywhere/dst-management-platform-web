@@ -59,7 +59,7 @@
     </template>
     <template v-else>
       <div class="item-container my-8">
-        <template v-for="mod in modSearchData.rows">
+        <template v-for="mod in modSearchData.rows" :key="mod.id">
           <mod-info
             :mod="mod"
             :room-i-d="globalStore.room.id"
@@ -89,7 +89,7 @@
 <script setup>
 import ModInfo from "@/views/game/components/mod/modInfo.vue"
 import modApi from "@/api/mod"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { showSnackbar } from "@/utils/snackbar"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify/framework"

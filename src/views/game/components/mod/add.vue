@@ -274,10 +274,10 @@
 <script setup>
 import modApi from "@/api/mod"
 import useGlobalStore from "@store/global.js"
-import { formatBytes } from "@/utils/tools.js"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { formatBytes } from "@/utils/tools"
+import { showSnackbar } from "@/utils/snackbar"
 import { useI18n } from "vue-i18n"
-import roomApi from "@/api/room.js"
+import roomApi from "@/api/room"
 import { ref } from "vue"
 import { useDisplay } from "vuetify/framework"
 
@@ -412,6 +412,8 @@ const preDownload = async () => {
       // eslint-disable-next-line camelcase
       file_url: modList.value[i].file_url,
       update: false,
+      name: modList.value[i].name,
+      size: modList.value[i].size,
     }
 
     try {
@@ -466,7 +468,16 @@ const getEnabledMods = async () => {
   const responseData = response.data || []
   for (let mod of responseData) {
     mod.color = 'default'
-    modList.value.push(mod)
+
+    const m = {
+      id: mod.id,
+      name: mod.name,
+      // eslint-disable-next-line camelcase
+      file_url: mod.file_url,
+      size: mod.serverSize,
+    }
+
+    modList.value.push(m)
   }
 }
 

@@ -257,6 +257,8 @@ const handleDownload = () => {
     // eslint-disable-next-line camelcase
     file_url: props.mod.file_url,
     update: false,
+    size: props.mod.size,
+    name: props.mod.name,
   }
 
   modApi.download.post(reqFrom).then(response => {
