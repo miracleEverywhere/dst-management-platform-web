@@ -74,6 +74,7 @@ import { useDisplay } from "vuetify"
 import { truncateString } from "@/utils/tools.js"
 import useGlobalStore from "@store/global"
 import platformApi from "@/api/platform.js"
+import roomApi from "@/api/room.js"
 
 
 const { t } = useI18n()
@@ -96,6 +97,19 @@ const getGameVersion = async () => {
   }
 }
 
+const getRoomBasic = () => {
+  roomApi.basic.get().then(response => {
+    const roomBasic = response.data || []
+    for (let room of roomBasic) {
+      if (room.roomID === globalStore.room.id && room.roomName === globalStore.room.gameName) {
+        return
+      }
+    }
+    globalStore.room.id = 0
+    globalStore.room.gameName = ""
+  })
+}
+
 const getColor = () => {
   if (gameVersion.value.local === 0) {
     return 'error'
@@ -109,6 +123,7 @@ const getColor = () => {
 
 onMounted(async () => {
   await getGameVersion()
+  getRoomBasic()
 })
 </script>
 
