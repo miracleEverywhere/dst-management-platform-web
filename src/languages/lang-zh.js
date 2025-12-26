@@ -543,11 +543,15 @@ export default {
         install: '安装',
         reinstall: '重新安装',
         update: '更新游戏',
-        tip: '安装完成后请手动刷新页面',
+        tip: '开始安装游戏',
       },
     },
     install: {
       alert: '注意！！！安装或更新过程中请勿关闭或刷新本页面，否则会导致操作失败；如果网页出现安装异常，请前往终端输入./manual_install.sh 进行手动安装',
+      success: '游戏安装成功',
+      fail: '游戏安装失败',
+      confirm: '我知道了',
+      cancel: '取消',
     },
   },
   platform: {

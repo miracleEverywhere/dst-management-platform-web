@@ -543,11 +543,15 @@ export default {
         install: 'Install',
         reinstall: 'Reinstall',
         update: 'Update',
-        tip: 'Please refresh the page after the installation',
+        tip: 'Installing',
       },
     },
     install: {
       alert: 'Attention!!! Do not close or refresh this page during the installation process or Updating process, as it may cause the action to fail',
+      success: 'Game Install Success',
+      fail: 'Game Install Failed',
+      confirm: 'Got it',
+      cancel: 'Cancel',
     },
   },
   platform: {
