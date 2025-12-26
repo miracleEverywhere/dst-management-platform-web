@@ -225,6 +225,24 @@
       />
     </div>
   </transition>
+  <confirm-box
+    v-model="installSuccessDialog"
+    type="success"
+    :title="t('install.install.success')"
+    :content="t('install.install.success')"
+    :confirm-text="t('install.install.confirm')"
+    :cancel-text="t('global.confirm.cancel')"
+    @confirm="reloadPage"
+  />
+  <confirm-box
+    v-model="installErrorDialog"
+    type="error"
+    :title="t('install.install.fail')"
+    :content="t('install.install.fail')"
+    :confirm-text="t('install.install.confirm')"
+    :cancel-text="t('global.confirm.cancel')"
+    @confirm="reloadPage"
+  />
 </template>
 
 <script setup>
@@ -423,12 +441,11 @@ const sendCommand = command => {
   ws.value.send(commandToSend)
 }
 
-// 执行自定义命令
-const executeCustomCommand = () => {
-  if (customCommand.value.trim()) {
-    sendCommand(customCommand.value.trim())
-    customCommand.value = ''
-  }
+const installSuccessDialog = ref(false)
+const installErrorDialog = ref(false)
+
+const reloadPage = () => {
+  window.location.reload()
 }
 
 // 连接WebSocket
@@ -436,6 +453,8 @@ const connectWebSocket = () => {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
   const token = getToken()
   const wsUrl = `${protocol}//${window.location.host}/v3/platform/webssh?token=${token}`
+  const regexSuccess = /==>dmp@@ 安装完成 @@dmp<==/
+  const regexFail = /==>dmp@@ 安装失败 @@dmp<==/
 
   ws.value = new WebSocket(wsUrl)
 
@@ -456,6 +475,14 @@ const connectWebSocket = () => {
 
       reader.onload = () => {
         term.value.write(reader.result)
+
+        const str = reader.result || ''
+        if (str.match(regexSuccess)) {
+          installSuccessDialog.value = true
+        }
+        if (str.match(regexFail)) {
+          installErrorDialog.value = true
+        }
       }
       reader.readAsText(event.data)
     } else {
