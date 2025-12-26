@@ -50,11 +50,12 @@
       <v-row class="mx-1">
         <v-col
           v-for="(room, index) in rooms"
+          :key="index"
           :cols="mobile?12:6"
         >
           <v-card
             :ref="el => { if (index === 0) cardRef = el }"
-            :hover="true"
+            hover
             variant="flat"
             height="300px"
           >
@@ -256,7 +257,7 @@
                           :gradient="['#1feaea']"
                           :line-width="3"
                           :model-value="generatePlayerList(room.players)"
-                          :smooth="true"
+                          smooth
                           padding="8"
                           stroke-linecap="round"
                           auto-draw
@@ -290,7 +291,7 @@
     <div v-if="rooms.length===0&&reqForm.gameName!==''">
       <result
         type="warning"
-        :height="windowHeight"
+        :height="calculateContainerSize() - 72"
         :title="t('rooms.result.noResult.title')"
         :sub-title="t('rooms.result.noResult.subTitle')"
       />
@@ -298,7 +299,7 @@
     <div v-if="rooms.length===0&&reqForm.gameName===''">
       <result
         type="warning"
-        :height="windowHeight"
+        :height="calculateContainerSize() - 72"
         :title="t('rooms.result.noRoom.title')"
         :sub-title="t('rooms.result.noRoom.subTitle')"
       />
@@ -507,6 +508,9 @@ const deleteRoom = () => {
     confirmVisible.value = false
     showSnackbar(response.message)
     getRooms()
+    if (globalStore.room.id === deleteRoomID.value) {
+      globalStore.room.id = 0
+    }
   }).finally(() => {
     deleteRoomLoading.value = false
   })
