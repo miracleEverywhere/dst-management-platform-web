@@ -358,6 +358,8 @@ const modUpdate = mod => {
     // eslint-disable-next-line camelcase
     file_url: mod.file_url,
     update: true,
+    name: mod.name,
+    size: mod.serverSize,
   }
 
   modApi.download.post(reqFrom).then(response => {
