@@ -551,7 +551,6 @@ export default {
       success: 'Game Install Success',
       fail: 'Game Install Failed',
       confirm: 'Got it',
-      cancel: 'Cancel',
     },
   },
   platform: {

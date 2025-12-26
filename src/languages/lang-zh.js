@@ -551,7 +551,6 @@ export default {
       success: '游戏安装成功',
       fail: '游戏安装失败',
       confirm: '我知道了',
-      cancel: '取消',
     },
   },
   platform: {
