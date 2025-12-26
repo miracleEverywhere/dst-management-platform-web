@@ -183,10 +183,10 @@
 import { ref } from 'vue'
 import SettingForm from '@/views/game/components/mod/settingForm.vue'
 import modApi from "@/api/mod"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { showSnackbar } from "@/utils/snackbar"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
-import roomApi from "@/api/room.js"
+import roomApi from "@/api/room"
 
 
 const props = defineProps({

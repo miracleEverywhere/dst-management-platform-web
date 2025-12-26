@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import { debounce } from "@/utils/tools.js"
+import { debounce } from "@/utils/tools"
 import Download from "@/views/game/components/mod/download.vue"
 import Add from "@/views/game/components/mod/add.vue"
 import Setting from "@/views/game/components/mod/setting.vue"
