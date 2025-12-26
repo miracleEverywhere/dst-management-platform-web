@@ -11,7 +11,7 @@ export default {
     dark: "Dark",
     profile: "Profile",
     logout: "Logout",
-    result: {
+    noRoomSelected: {
       title: 'No Room Selected',
       subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
       button: 'GOTO',

@@ -11,7 +11,7 @@ export default {
     dark: "黑暗",
     profile: "个人中心",
     logout: "退出平台",
-    result: {
+    noRoomSelected: {
       title: '未选择房间',
       subTitle: '请前往房间总览页面，选择一个房间再执行配置',
       button: '前往选择',
