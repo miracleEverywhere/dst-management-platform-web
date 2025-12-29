@@ -375,7 +375,6 @@ const multiEnableLoading = ref(false)
 const multiEnable = async () => {
   let allSuccess = true
   multiEnableLoading.value = true
-  console.log(selectedMods.value)
   for (let mod of selectedMods.value) {
     const reqForm = {
       roomID: globalStore.room.id,
