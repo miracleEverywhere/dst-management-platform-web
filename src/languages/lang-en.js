@@ -331,6 +331,11 @@ export default {
           lua: 'World code configuration format error',
         },
         levelDataNeeded: '',
+        deleteModTip: {
+          title: 'Please confirm this action',
+          cancel: 'Cancel',
+          confirm: 'Confirm',
+        },
       },
       step3: {
         modInOne: {

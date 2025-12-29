@@ -330,7 +330,11 @@ export default {
           required: '请输入世界代码配置',
           lua: '世界代码配置格式错误',
         },
-
+        deleteModTip: {
+          title: '是否删除世界',
+          cancel: '取消',
+          confirm: '删除',
+        },
       },
       step3: {
         modInOne: {
