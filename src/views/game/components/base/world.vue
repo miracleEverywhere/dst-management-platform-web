@@ -13,6 +13,11 @@
       />
       <confirm-box
         v-model="deleteWorldDialog"
+        type="warning"
+        :title="t('game.base.step2.deleteModTip.title')"
+        :content="t('game.base.step2.deleteModTip.title')"
+        :cancel-text="t('game.base.step2.deleteModTip.cancel')"
+        :confirm-text="t('game.base.step2.deleteModTip.confirm')"
         @cancel="deleteWorldConfirm=false"
         @confirm="deleteWorldConfirm=true"
       />
@@ -905,7 +910,7 @@ import {
   groundWorldRule,
   overrides,
 } from "./levelDataMap.js"
-import ConfirmBox from "@/components/ConfirmBox.vue";
+import ConfirmBox from "@/components/ConfirmBox.vue"
 
 
 const props = defineProps({
@@ -1078,11 +1083,12 @@ const handleWorldTabsEdit = async (targetName, action) => {
     deleteWorldDialog.value = true
     deleteWorldConfirm.value = undefined
 
-    return new Promise((resolve) => {
-      const unwatch = watch(deleteWorldConfirm, (value) => {
+    return new Promise(resolve => {
+      const unwatch = watch(deleteWorldConfirm, value => {
         if (value === true) {
           // 用户确认，执行删除
           const tabs = worldForm.value
+
           worldForm.value = tabs.filter(tab => tab.name !== targetName)
           delete dynamicWorldRefs[targetName]
 
