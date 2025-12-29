@@ -57,7 +57,13 @@
     </div>
     <div>
       <template v-if="dmpVersionGap&&!globalStore.dmpVersion.noTip">
-        <v-badge v-tooltip="latestVersion" location="top right" color="error" offset-x="24" class="cursor-pointer">
+        <v-badge
+          v-tooltip="latestVersion"
+          location="top right"
+          color="error"
+          offset-x="24"
+          class="cursor-pointer"
+        >
           <template #badge>
             <div class="fcc">
               <span @click="noTip">
@@ -150,12 +156,14 @@ const getLatestVersion = async () => {
       'https://api.github.com/repos/miracleEverywhere/dst-management-platform-api/releases/latest',
       {
         headers: {
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      }
+          'Accept': 'application/vnd.github.v3+json',
+        },
+      },
     )
+
     if (!response.ok) {
       dmpVersionGap.value = false
+      
       return
     }
 
@@ -166,6 +174,7 @@ const getLatestVersion = async () => {
     if (releases.tag_name !== globalStore.dmpVersion.closeVersion) {
       globalStore.dmpVersion.noTip = false
     }
+
     // dmpVersionGap.value = true
   } catch {
     dmpVersionGap.value = false
