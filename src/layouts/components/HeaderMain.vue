@@ -56,13 +56,26 @@
       </v-chip>
     </div>
     <div>
-      <v-chip
-        color="info"
-        class="mr-4"
-        prepend-icon="ri-medal-2-line"
-      >
-        {{ t('global.dmpVersion') + Version }}
-      </v-chip>
+      <template v-if="dmpVersionGap!==0">
+        <v-badge location="top right" color="error" :content="dmpVersionGap" offset-x="24">
+          <v-chip
+            color="info"
+            class="mr-4"
+            prepend-icon="ri-medal-2-line"
+          >
+            {{ t('global.dmpVersion') + Version }}
+          </v-chip>
+        </v-badge>
+      </template>
+      <template v-else>
+        <v-chip
+          color="info"
+          class="mr-4"
+          prepend-icon="ri-medal-2-line"
+        >
+          {{ t('global.dmpVersion') + Version }}
+        </v-chip>
+      </template>
     </div>
   </div>
 </template>
@@ -121,9 +134,46 @@ const getColor = () => {
   return 'success'
 }
 
+const dmpVersionGap = ref(0)
+
+const getLatestVersion = async () => {
+  try {
+    const response = await fetch(
+      'https://api.github.com/repos/miracleEverywhere/dst-management-platform-api/releases',
+      {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      }
+    )
+    if (!response.ok) {
+      dmpVersionGap.value = 0
+      return
+    }
+
+    const releases = await response.json()
+
+    // 使用 findIndex 找到当前版本的索引
+    const currentVersionIndex = releases.findIndex(release =>
+      release.tag_name === Version
+    )
+
+    if (currentVersionIndex === -1) {
+      // 当前版本不在列表中
+      dmpVersionGap.value = releases.length
+    } else {
+      // 当前版本是第几个（索引值）
+      dmpVersionGap.value = currentVersionIndex
+    }
+  } catch (err) {
+    dmpVersionGap.value = 0
+  }
+}
+
 onMounted(async () => {
   await getGameVersion()
   getRoomBasic()
+  await getLatestVersion()
 })
 </script>
 
