@@ -24,6 +24,10 @@ const globalStore = defineStore("global", {
         server: 0,
         local: 0,
       },
+      dmpVersion: {
+        noTip: false, // 是否要提醒
+        closeVersion: '', // 点击时的最新版本
+      },
     }
   },
   actions: {},
