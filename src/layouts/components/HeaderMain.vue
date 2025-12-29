@@ -56,8 +56,15 @@
       </v-chip>
     </div>
     <div>
-      <template v-if="dmpVersionGap!==0">
-        <v-badge location="top right" color="error" :content="dmpVersionGap" offset-x="24">
+      <template v-if="dmpVersionGap&&!globalStore.dmpVersion.noTip">
+        <v-badge v-tooltip="latestVersion" location="top right" color="error" offset-x="24" class="cursor-pointer">
+          <template #badge>
+            <div class="fcc">
+              <span @click="noTip">
+                New
+              </span>
+            </div>
+          </template>
           <v-chip
             color="info"
             class="mr-4"
@@ -134,12 +141,13 @@ const getColor = () => {
   return 'success'
 }
 
-const dmpVersionGap = ref(0)
+const dmpVersionGap = ref(false)
+const latestVersion = ref('')
 
 const getLatestVersion = async () => {
   try {
     const response = await fetch(
-      'https://api.github.com/repos/miracleEverywhere/dst-management-platform-api/releases',
+      'https://api.github.com/repos/miracleEverywhere/dst-management-platform-api/releases/latest',
       {
         headers: {
           'Accept': 'application/vnd.github.v3+json'
@@ -147,27 +155,26 @@ const getLatestVersion = async () => {
       }
     )
     if (!response.ok) {
-      dmpVersionGap.value = 0
+      dmpVersionGap.value = false
       return
     }
 
     const releases = await response.json()
 
-    // 使用 findIndex 找到当前版本的索引
-    const currentVersionIndex = releases.findIndex(release =>
-      release.tag_name === Version
-    )
-
-    if (currentVersionIndex === -1) {
-      // 当前版本不在列表中
-      dmpVersionGap.value = releases.length
-    } else {
-      // 当前版本是第几个（索引值）
-      dmpVersionGap.value = currentVersionIndex
+    latestVersion.value = releases.tag_name
+    dmpVersionGap.value = releases.tag_name !== Version
+    if (releases.tag_name !== globalStore.dmpVersion.closeVersion) {
+      globalStore.dmpVersion.noTip = false
     }
-  } catch (err) {
-    dmpVersionGap.value = 0
+    // dmpVersionGap.value = true
+  } catch {
+    dmpVersionGap.value = false
   }
+}
+
+const noTip = () => {
+  globalStore.dmpVersion.noTip = true
+  globalStore.dmpVersion.closeVersion = latestVersion.value
 }
 
 onMounted(async () => {
