@@ -56,4 +56,10 @@ export default {
       },
     },
   },
+  delete: {
+    url: `/mod/delete`,
+    post: async function(data){
+      return await http.post(this.url, data)
+    },
+  },
 }
