@@ -261,6 +261,21 @@
                       {{ t('game.mod.add.updateMod') }}
                     </v-list-item-title>
                   </v-list-item>
+                  <v-list-item
+                    :disabled="deleteModLoading"
+                    class="text-error"
+                    @click="handleModAction('delete', item)"
+                  >
+                    <template #prepend>
+                      <v-icon
+                        icon="ri-delete-bin-line"
+                        size="22"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('game.mod.add.deleteMod') }}
+                    </v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </v-btn>
@@ -322,6 +337,9 @@ const handleModAction = (action, mod) => {
   case "update":
     modUpdate(mod)
     break
+    case "delete":
+      handleDeleteMod(mod)
+      break
   default:
     showSnackbar("牛哇", "error")
   }
@@ -480,6 +498,24 @@ const getEnabledMods = async () => {
 
     modList.value.push(m)
   }
+}
+
+const deleteModLoading = ref(false)
+
+const handleDeleteMod = (mod) => {
+  deleteModLoading.value = true
+  const reqFrom = {
+    roomID: globalStore.room.id,
+    id: mod.id,
+    // eslint-disable-next-line camelcase
+    file_url: mod.file_url,
+  }
+  modApi.delete.post(reqFrom).then(response => {
+    showSnackbar(response.message)
+    getDownloadedMods()
+  }).finally(() => {
+    deleteModLoading.value = false
+  })
 }
 
 
