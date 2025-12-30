@@ -453,6 +453,7 @@ export default {
         actions: 'Actions',
         enable: 'Enable',
         updateMod: 'Update',
+        deleteMod: 'Delete',
         headerMenuButton: 'Mod Actions',
         preDownload: 'Pre-Download',
         preDownloadFail: 'Download Fail',

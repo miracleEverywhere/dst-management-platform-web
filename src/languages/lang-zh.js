@@ -452,6 +452,7 @@ export default {
         actions: '操作',
         enable: '启用',
         updateMod: '更新',
+        deleteMod: '删除',
         headerMenuButton: '模组操作',
         preDownload: '预下载',
         preDownloadFail: '下载失败',
