@@ -337,9 +337,9 @@ const handleModAction = (action, mod) => {
   case "update":
     modUpdate(mod)
     break
-    case "delete":
-      handleDeleteMod(mod)
-      break
+  case "delete":
+    handleDeleteMod(mod)
+    break
   default:
     showSnackbar("牛哇", "error")
   }
@@ -502,14 +502,16 @@ const getEnabledMods = async () => {
 
 const deleteModLoading = ref(false)
 
-const handleDeleteMod = (mod) => {
+const handleDeleteMod = mod => {
   deleteModLoading.value = true
+
   const reqFrom = {
     roomID: globalStore.room.id,
     id: mod.id,
     // eslint-disable-next-line camelcase
     file_url: mod.file_url,
   }
+
   modApi.delete.post(reqFrom).then(response => {
     showSnackbar(response.message)
     getDownloadedMods()
