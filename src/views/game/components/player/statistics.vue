@@ -2,7 +2,9 @@
   <v-card class="mb-8">
     <v-card-title>
       <div class="card-header">
-        在线玩家数
+        <span>
+          {{ t('game.player.statistics.lineChart.title') }}
+        </span>
         <v-btn
           :loading="getPlayerCountLoading"
           color="default"
@@ -23,7 +25,9 @@
   <v-card>
     <v-card-title>
       <div class="card-header">
-        在线时长Top-10
+        <span>
+          {{ t('game.player.statistics.pieChart.title') }}
+        </span>
         <v-btn
           :loading="getOnlineTimeLoading"
           color="default"
@@ -133,6 +137,29 @@ const optionPie = ref({
   ],
 })
 
+const getPlayerCountLoading = ref(false)
+
+const getPlayerCount = () => {
+  getPlayerCountLoading.value = true
+
+  const reqForm = {
+    roomID: globalStore.room.id,
+  }
+
+  playerApi.statistics.playerCount.get(reqForm).then(response => {
+    if (response.data != null) {
+      option.value.xAxis.data = []
+      option.value.series[0].data = []
+      for (let item of response.data) {
+        option.value.xAxis.data.push(timestamp2time(item.timestamp))
+        option.value.series[0].data.push(item?.playerInfo?.length || 0)
+      }
+    }
+  }).finally(() => {
+    getPlayerCountLoading.value = false
+  })
+}
+
 const getOnlineTimeLoading = ref(false)
 
 const getOnlineTime = () => {
@@ -158,32 +185,9 @@ const getOnlineTime = () => {
   })
 }
 
-const getPlayerCountLoading = ref(false)
-
-const getPlayerCount = () => {
-  getPlayerCountLoading.value = true
-
-  const reqForm = {
-    roomID: globalStore.room.id,
-  }
-
-  playerApi.statistics.playerCount.get(reqForm).then(response => {
-    if (response.data != null) {
-      option.value.xAxis.data = []
-      option.value.series[0].data = []
-      for (let item of response.data) {
-        option.value.xAxis.data.push(timestamp2time(item.timestamp))
-        option.value.series[0].data.push(item?.playerInfo?.length || 0)
-      }
-    }
-  }).finally(() => {
-    getPlayerCountLoading.value = false
-  })
-}
-
 onMounted(() => {
-  getOnlineTime()
   getPlayerCount()
+  getOnlineTime()
 })
 </script>
 
