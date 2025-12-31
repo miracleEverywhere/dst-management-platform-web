@@ -522,6 +522,12 @@ export default {
       history: {
         tabName: '历史玩家',
       },
+      statistics: {
+        tabName: '玩家统计',
+        pieChart: {
+          unit: '天',
+        },
+      },
     },
   },
   install: {

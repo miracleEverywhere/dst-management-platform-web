@@ -523,6 +523,12 @@ export default {
       history: {
         tabName: 'History',
       },
+      statistics: {
+        tabName: 'Statistics',
+        pieChart: {
+          unit: 'Day',
+        },
+      },
     },
   },
   install: {
