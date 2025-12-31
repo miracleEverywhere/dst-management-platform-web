@@ -399,7 +399,10 @@
                 {{ t('dashboard.card2.title') }}
               </v-card-title>
               <v-card-text>
-                <v-row v-if="!mobile" class="mt-4">
+                <v-row
+                  v-if="!mobile"
+                  class="mt-4"
+                >
                   <v-col
                     cols="12"
                     md="5"
@@ -435,7 +438,7 @@
                       />
                     </div>
                   </v-col>
-                  <v-spacer/>
+                  <v-spacer />
                   <v-col
                     cols="12"
                     md="5"
@@ -472,8 +475,15 @@
                     </div>
                   </v-col>
                 </v-row>
-                <v-row v-else class="mt-4">
-                  <v-col cols="6" class="fcc" style="height: 240px">
+                <v-row
+                  v-else
+                  class="mt-4"
+                >
+                  <v-col
+                    cols="6"
+                    class="fcc"
+                    style="height: 240px"
+                  >
                     <v-progress-circular
                       :model-value="sysInfo.cpu.toFixed(1)"
                       :size="140"
@@ -491,7 +501,11 @@
                       </div>
                     </v-progress-circular>
                   </v-col>
-                  <v-col cols="6" class="fcc" style="height: 240px">
+                  <v-col
+                    cols="6"
+                    class="fcc"
+                    style="height: 240px"
+                  >
                     <v-progress-circular
                       :model-value="sysInfo.memory.toFixed(1)"
                       :size="140"
