@@ -25,10 +25,14 @@
         <v-tab value="history">
           {{ t('game.player.history.tabName') }}
         </v-tab>
+        <v-tab value="statistics">
+          {{ t('game.player.statistics.tabName') }}
+        </v-tab>
       </v-tabs>
       <v-tabs-window v-model="activeTabName">
         <v-tabs-window-item value="online">
           <v-container
+            v-if="activeTabName==='online'"
             fluid
             :height="calculateContainerSize()"
             width="100%"
@@ -40,6 +44,7 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="adminlist">
           <v-container
+            v-if="activeTabName==='adminlist'"
             fluid
             :height="calculateContainerSize()"
             width="100%"
@@ -55,6 +60,7 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="blocklist">
           <v-container
+            v-if="activeTabName==='blocklist'"
             fluid
             :height="calculateContainerSize()"
             width="100%"
@@ -70,6 +76,7 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="whitelist">
           <v-container
+            v-if="activeTabName==='whitelist'"
             fluid
             :height="calculateContainerSize()"
             width="100%"
@@ -85,6 +92,7 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="history">
           <v-container
+            v-if="activeTabName==='history'"
             fluid
             :height="calculateContainerSize()"
             width="100%"
@@ -92,6 +100,16 @@
             style="overflow-y: auto"
           >
             <history :uidmap="uidmap" />
+          </v-container>
+        </v-tabs-window-item>
+        <v-tabs-window-item value="statistics">
+          <v-container
+            v-if="activeTabName==='statistics'"
+            fluid
+            width="100%"
+            class="w-100"
+          >
+            <statistics />
           </v-container>
         </v-tabs-window-item>
       </v-tabs-window>
@@ -147,6 +165,7 @@ import { useDisplay } from "vuetify/framework"
 import List from "@/views/game/components/player/list.vue"
 import playerApi from "@/api/player"
 import History from "@/views/game/components/player/history.vue"
+import Statistics from "@/views/game/components/player/statistics.vue"
 
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
