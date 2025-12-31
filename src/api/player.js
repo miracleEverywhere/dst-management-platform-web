@@ -22,4 +22,18 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  statistics: {
+    onlineTime: {
+      url: `/player/statistics/online_time`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
+    playerCount: {
+      url: `/player/statistics/player_count`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
+  },
 }
