@@ -524,7 +524,11 @@ export default {
       },
       statistics: {
         tabName: '玩家统计',
+        lineChart: {
+          title: '在线玩家数',
+        },
         pieChart: {
+          title: '在线时长Top-10',
           unit: '天',
         },
       },

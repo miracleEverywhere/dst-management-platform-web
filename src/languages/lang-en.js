@@ -525,7 +525,11 @@ export default {
       },
       statistics: {
         tabName: 'Statistics',
+        lineChart: {
+          title: 'Online Players Count',
+        },
         pieChart: {
+          title: 'Online Time Top-10',
           unit: 'Day',
         },
       },
