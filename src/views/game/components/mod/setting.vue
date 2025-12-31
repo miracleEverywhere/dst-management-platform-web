@@ -25,15 +25,27 @@
         <v-card-title>
           <div class="card-header">
             <span>{{ t('game.mod.setting.enabledMods') }}</span>
-            <v-btn
-              prepend-icon="ri-refresh-line"
-              color="default"
-              variant="text"
-              :loading="leftLoading"
-              @click="getEnabledMods"
-            >
-              {{ t('game.mod.setting.refresh') }}
-            </v-btn>
+            <div>
+              <v-btn
+                v-if="!mobile"
+                prepend-icon="ri-prohibited-2-line"
+                color="error"
+                variant="text"
+                :loading="multiDisableLoading"
+                @click="handleMultiDisable"
+              >
+                {{ t('game.mod.setting.multiDisable') }}
+              </v-btn>
+              <v-btn
+                prepend-icon="ri-refresh-line"
+                color="default"
+                variant="text"
+                :loading="leftLoading"
+                @click="getEnabledMods"
+              >
+                {{ t('game.mod.setting.refresh') }}
+              </v-btn>
+            </div>
           </div>
         </v-card-title>
         <v-card-text>
@@ -47,12 +59,12 @@
               style="height: 120px;"
             >
               <v-divider v-if="idx!==0" />
-              <div
-                v-ripple
-                class="fcc cursor-pointer"
-                @click="getModConfig(mod.id, selectedWorldId, mod.file_url, mod.name)"
-              >
-                <div class="w-33">
+              <div class="fcc">
+                <div
+                  v-ripple
+                  class="w-33 cursor-pointer"
+                  @click="getModConfig(mod.id, selectedWorldId, mod.file_url, mod.name)"
+                >
                   <v-img
                     v-if="mod.id!==0"
                     cover
@@ -82,17 +94,27 @@
                   />
                 </div>
                 <div class="w-66 d-flex justify-start align-center ml-4">
+                  <v-checkbox
+                    v-if="!mobile"
+                    v-model="selectedMod"
+                    :value="mod.id"
+                    class="mr-2"
+                  />
                   <v-chip
                     v-if="mod.id!==0"
+                    v-ripple
                     color="info"
                     label
+                    @click="getModConfig(mod.id, selectedWorldId, mod.file_url, mod.name)"
                   >
                     {{ mod.name }}
                   </v-chip>
                   <v-chip
                     v-else
+                    v-ripple
                     color="info"
                     label
+                    @click="getModConfig(mod.id, selectedWorldId, mod.file_url, mod.name)"
                   >
                     {{ t('game.mod.setting.clientModsDisabled') }}
                   </v-chip>
@@ -187,6 +209,7 @@ import { showSnackbar } from "@/utils/snackbar"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
 import roomApi from "@/api/room"
+import { useDisplay } from "vuetify/framework"
 
 
 const props = defineProps({
@@ -198,6 +221,8 @@ const props = defineProps({
 
 const globalStore = useGlobalStore()
 const { t } = useI18n()
+const { mobile } = useDisplay()
+
 const dataGot = ref(false)
 const leftLoading = ref(false)
 const rightLoading = ref(false)
@@ -222,6 +247,7 @@ const getRoomTotalInfo = async () => {
 
 const getEnabledMods = async () => {
   leftLoading.value = true
+  selectedMod.value = []
   modStruct.value = []
   modValue.value = []
   modName.value = ""
@@ -309,6 +335,29 @@ const handleFormChange = event => {
 }
 
 const forbidLocalIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#9FCFF8"><path d="M21 11.6736C20.0907 11.2417 19.0736 11 18 11C14.134 11 11 14.134 11 18C11 19.4872 11.4638 20.8662 12.2547 22H3.9934C3.44476 22 3 21.5447 3 21.0082V2.9918C3 2.44405 3.44495 2 3.9934 2H16L21 7V11.6736ZM18 23C15.2386 23 13 20.7614 13 18C13 15.2386 15.2386 13 18 13C20.7614 13 23 15.2386 23 18C23 20.7614 20.7614 23 18 23ZM16.7066 20.7076C17.0982 20.895 17.5369 21 18 21C19.6569 21 21 19.6569 21 18C21 17.5369 20.895 17.0982 20.7076 16.7066L16.7066 20.7076ZM15.2924 19.2934L19.2934 15.2924C18.9018 15.105 18.4631 15 18 15C16.3431 15 15 16.3431 15 18C15 18.4631 15.105 18.9018 15.2924 19.2934Z"></path></svg>`
+
+const selectedMod = ref([])
+const multiDisableLoading = ref(false)
+
+const handleMultiDisable = async () => {
+  if (!selectedMod.value.length) {
+    showSnackbar(t('game.mod.setting.tip.selectModToDisable'), 'error')
+    
+    return
+  }
+  multiDisableLoading.value = true
+  for (let modID of selectedMod.value) {
+    const reqForm = {
+      roomID: globalStore.room.id,
+      id: modID,
+    }
+
+    await modApi.setting.disableMod.post(reqForm)
+  }
+  selectedMod.value = []
+  multiDisableLoading.value = false
+  await getEnabledMods()
+}
 
 onMounted(async () => {
   await getRoomTotalInfo()

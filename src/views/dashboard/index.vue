@@ -399,7 +399,10 @@
                 {{ t('dashboard.card2.title') }}
               </v-card-title>
               <v-card-text>
-                <v-row class="mt-4">
+                <v-row
+                  v-if="!mobile"
+                  class="mt-4"
+                >
                   <v-col
                     cols="12"
                     md="5"
@@ -435,7 +438,7 @@
                       />
                     </div>
                   </v-col>
-                  <v-spacer v-if="!mobile" />
+                  <v-spacer />
                   <v-col
                     cols="12"
                     md="5"
@@ -470,6 +473,55 @@
                         class="mt-4"
                       />
                     </div>
+                  </v-col>
+                </v-row>
+                <v-row
+                  v-else
+                  class="mt-4"
+                >
+                  <v-col
+                    cols="6"
+                    class="fcc"
+                    style="height: 240px"
+                  >
+                    <v-progress-circular
+                      :model-value="sysInfo.cpu.toFixed(1)"
+                      :size="140"
+                      :width="10"
+                      color="primary"
+                      rounded
+                    >
+                      <div class="d-flex flex-column align-center justify-center">
+                        <div>
+                          <span>CPU</span>
+                        </div>
+                        <div>
+                          {{ sysInfo.cpu.toFixed(1) }}%
+                        </div>
+                      </div>
+                    </v-progress-circular>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    class="fcc"
+                    style="height: 240px"
+                  >
+                    <v-progress-circular
+                      :model-value="sysInfo.memory.toFixed(1)"
+                      :size="140"
+                      :width="10"
+                      color="primary"
+                      rounded
+                    >
+                      <div class="d-flex flex-column align-center justify-center">
+                        <div>
+                          <span>{{ t('dashboard.card2.memory') }}</span>
+                        </div>
+                        <div>
+                          {{ sysInfo.memory.toFixed(1) }}%
+                        </div>
+                      </div>
+                    </v-progress-circular>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -721,7 +773,15 @@
                   >
                     <v-card>
                       <v-card-title>
-                        {{ t('dashboard.card3.quickCmd.title') }}
+                        <span>{{ t('dashboard.card3.quickCmd.title') }}</span>
+                        <v-chip
+                          v-if="quickCmdUid!==''"
+                          label
+                          color="success"
+                          class="ml-2"
+                        >
+                          {{ baseInfo.players.find(item => item.uid === quickCmdUid).nickname }}
+                        </v-chip>
                       </v-card-title>
                       <v-card-text>
                         <v-row>

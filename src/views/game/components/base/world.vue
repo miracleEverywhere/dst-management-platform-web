@@ -11,6 +11,16 @@
         class="ml-4"
         @click="handleWorldTabsEdit(world.name, 'remove')"
       />
+      <confirm-box
+        v-model="deleteWorldDialog"
+        type="warning"
+        :title="t('game.base.step2.deleteModTip.title')"
+        :content="t('game.base.step2.deleteModTip.title')"
+        :cancel-text="t('game.base.step2.deleteModTip.cancel')"
+        :confirm-text="t('game.base.step2.deleteModTip.confirm')"
+        @cancel="deleteWorldConfirm=false"
+        @confirm="deleteWorldConfirm=true"
+      />
     </v-tab>
     <v-btn
       prepend-icon="ri-function-add-line"
@@ -900,6 +910,7 @@ import {
   groundWorldRule,
   overrides,
 } from "./levelDataMap.js"
+import ConfirmBox from "@/components/ConfirmBox.vue"
 
 
 const props = defineProps({
@@ -1027,6 +1038,10 @@ const globalWorldIndex = ref(0)
 // 防止端口冲突
 const portFactor = ref(0)
 
+// 删除世界确认
+const deleteWorldDialog = ref(false)
+const deleteWorldConfirm = ref(undefined)
+
 const handleWorldTabsEdit = async (targetName, action) => {
   if (action === 'add') {
     globalWorldIndex.value = globalWorldIndex.value + 1
@@ -1056,18 +1071,45 @@ const handleWorldTabsEdit = async (targetName, action) => {
       modData: '',
     })
     worldTabName.value = newWorldName
+
+    worldLevelDataTabName.value = 'Code'
   } else if (action === 'remove') {
     if (worldForm.value.length === 1) {
       showSnackbar('每个房间至少含有一个世界', 'error')
-      
+
       return
     }
-    const tabs = worldForm.value
 
-    worldForm.value = tabs.filter(tab => tab.name !== targetName)
-    delete dynamicWorldRefs[targetName]
+    deleteWorldDialog.value = true
+    deleteWorldConfirm.value = undefined
+
+    return new Promise(resolve => {
+      const unwatch = watch(deleteWorldConfirm, value => {
+        if (value === true) {
+          // 用户确认，执行删除
+          const tabs = worldForm.value
+
+          worldForm.value = tabs.filter(tab => tab.name !== targetName)
+          delete dynamicWorldRefs[targetName]
+
+          worldLevelDataTabName.value = 'Code'
+          worldTabName.value = undefined
+
+          // 清理
+          deleteWorldConfirm.value = undefined
+          deleteWorldDialog.value = false
+          unwatch() // 停止监听
+          resolve(true)
+        } else if (value === false) {
+          // 清理
+          deleteWorldConfirm.value = undefined
+          deleteWorldDialog.value = false
+          unwatch() // 停止监听
+          resolve(false)
+        }
+      })
+    })
   }
-  worldLevelDataTabName.value = 'Code'
 }
 
 const handleCreateWorld = cmd => {
@@ -1357,7 +1399,7 @@ watch(worldTabName, v => {
     worldTabName.value = worldForm.value[worldForm.value.length - 1].name
   }
   worldLevelDataTabName.value = 'Code'
-})
+}, { immediate: true })
 
 watch(() => worldForm.value.length, l => {
   if (props.maxWorlds === 0) {

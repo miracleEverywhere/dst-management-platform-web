@@ -92,7 +92,7 @@
         >
           <v-stepper-window-item :value="0">
             <v-container
-              v-if="dataGot"
+              v-if="dataGot&&step===0"
               :height="calculateContainerSize()"
               style="overflow-y: auto"
             >
@@ -112,7 +112,7 @@
           </v-stepper-window-item>
           <v-stepper-window-item :value="1">
             <v-container
-              v-if="dataGot"
+              v-if="dataGot&&step===1"
               :height="calculateContainerSize()"
               style="overflow-y: auto"
             >
@@ -135,7 +135,7 @@
           </v-stepper-window-item>
           <v-stepper-window-item :value="2">
             <v-container
-              v-if="dataGot"
+              v-if="dataGot&&step===2"
               :height="calculateContainerSize()"
               style="overflow-y: auto"
             >
@@ -157,7 +157,7 @@
           </v-stepper-window-item>
           <v-stepper-window-item :value="3">
             <v-container
-              v-if="dataGot"
+              v-if="dataGot&&step===3"
               :height="calculateContainerSize()"
               style="overflow-y: auto"
             >
@@ -175,6 +175,7 @@
           </v-stepper-window-item>
           <v-stepper-window-item :value="4">
             <result
+              v-if="step===4"
               type="success"
               :height="calculateContainerSize()"
               :title="t('game.base.step5.title')"

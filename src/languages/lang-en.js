@@ -331,6 +331,11 @@ export default {
           lua: 'World code configuration format error',
         },
         levelDataNeeded: '',
+        deleteModTip: {
+          title: 'Please confirm this action',
+          cancel: 'Cancel',
+          confirm: 'Confirm',
+        },
       },
       step3: {
         modInOne: {
@@ -448,6 +453,7 @@ export default {
         actions: 'Actions',
         enable: 'Enable',
         updateMod: 'Update',
+        deleteMod: 'Delete',
         headerMenuButton: 'Mod Actions',
         preDownload: 'Pre-Download',
         preDownloadFail: 'Download Fail',
@@ -466,6 +472,7 @@ export default {
         tabName: 'Setting',
         enabledMods: 'Enabled Mods',
         refresh: 'Refresh',
+        multiDisable: 'Multi-Disable',
         disable: 'Disable',
         clientModsDisabled: 'Disable Client Mods',
         add: 'Add',
@@ -477,6 +484,7 @@ export default {
           fetching: 'Fetching',
           noConfig: 'This mod has no configuration options',
           noEnabledMods: 'No enabled mods',
+          selectModToDisable: 'Please select one mod at least',
         },
       },
     },
@@ -514,6 +522,16 @@ export default {
       },
       history: {
         tabName: 'History',
+      },
+      statistics: {
+        tabName: 'Statistics',
+        lineChart: {
+          title: 'Online Players Count',
+        },
+        pieChart: {
+          title: 'Online Time Top-10',
+          unit: 'Day',
+        },
       },
     },
   },

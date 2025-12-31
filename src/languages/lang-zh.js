@@ -330,7 +330,11 @@ export default {
           required: '请输入世界代码配置',
           lua: '世界代码配置格式错误',
         },
-
+        deleteModTip: {
+          title: '是否删除世界',
+          cancel: '取消',
+          confirm: '删除',
+        },
       },
       step3: {
         modInOne: {
@@ -448,6 +452,7 @@ export default {
         actions: '操作',
         enable: '启用',
         updateMod: '更新',
+        deleteMod: '删除',
         headerMenuButton: '模组操作',
         preDownload: '预下载',
         preDownloadFail: '下载失败',
@@ -466,6 +471,7 @@ export default {
         tabName: '配置模组',
         enabledMods: '启用的模组',
         refresh: '刷新',
+        multiDisable: '批量禁用',
         disable: '禁用',
         clientModsDisabled: '禁本地模组',
         add: '添加一条',
@@ -477,6 +483,7 @@ export default {
           fetching: '正在获取中',
           noConfig: '该模组无配置项',
           noEnabledMods: '无启用的模组',
+          selectModToDisable: '请至少选择一个模组',
         },
       },
     },
@@ -514,6 +521,16 @@ export default {
       },
       history: {
         tabName: '历史玩家',
+      },
+      statistics: {
+        tabName: '玩家统计',
+        lineChart: {
+          title: '在线玩家数',
+        },
+        pieChart: {
+          title: '在线时长Top-10',
+          unit: '天',
+        },
       },
     },
   },
