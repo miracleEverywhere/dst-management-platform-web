@@ -773,7 +773,15 @@
                   >
                     <v-card>
                       <v-card-title>
-                        {{ t('dashboard.card3.quickCmd.title') }}
+                        <span>{{ t('dashboard.card3.quickCmd.title') }}</span>
+                        <v-chip
+                          v-if="quickCmdUid!==''"
+                          label
+                          color="success"
+                          class="ml-2"
+                        >
+                          {{ baseInfo.players.find(item => item.uid === quickCmdUid).nickname }}
+                        </v-chip>
                       </v-card-title>
                       <v-card-text>
                         <v-row>
