@@ -253,7 +253,7 @@
 </template>
 
 <script setup>
-import {formatBytes, timestamp2time} from "@/utils/tools"
+import { formatBytes, timestamp2time } from "@/utils/tools"
 
 import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar"
