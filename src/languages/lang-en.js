@@ -1003,6 +1003,20 @@ export default {
         archive_moon_statue: 'archive moon statue',
       },
     },
+    token: {
+      title: 'DMP Token',
+      tip: 'This token is an authentication token for the DMP\'s OpenAPI. It can only be created by admins and is not related to the in-game server token.',
+      select: {
+        label: 'Token Expiration',
+        day: 'One Day',
+        week: 'One Week',
+        month: 'One Month',
+        year: 'One Year',
+        permanent: 'Permanent',
+      },
+      create: 'Create',
+      noSelected: 'Please select the expiration',
+    },
   },
   upload: {
     title: 'Upload',
