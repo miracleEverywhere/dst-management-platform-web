@@ -40,4 +40,10 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  token: {
+    url: `/tools/token`,
+    post: async function (data) {
+      return await http.post(this.url, data)
+    },
+  },
 }
