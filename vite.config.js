@@ -73,5 +73,6 @@ export default defineConfig({
     entries: [
       './src/**/*.vue',
     ],
+    ...(process.env.NODE_ENV === 'development' && { force: true }),
   },
 })
