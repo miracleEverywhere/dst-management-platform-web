@@ -4,7 +4,6 @@
       <v-text-field
         v-model="reqForm.gameName"
         :label="t('rooms.header.input.label')"
-        :placeholder="t('rooms.header.input.placeholder')"
         append-inner-icon="ri-search-line"
         class="mr-4"
         :loading="getRoomsLoading"
