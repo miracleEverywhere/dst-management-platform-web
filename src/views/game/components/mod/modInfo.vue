@@ -82,7 +82,10 @@
                           rowspan="2"
                           class="text-center"
                         >
-                          <v-icon icon="ri-image-line" />
+                          <v-icon
+                            icon="ri-image-line"
+                            color="info"
+                          />
                         </td>
                         <td
                           rowspan="2"
@@ -168,6 +171,46 @@
                       </tr>
                       <tr>
                         <td class="text-center">
+                          {{ t('game.mod.download.modInfo.createTime') }}
+                        </td>
+                        <td class="text-center">
+                          <v-chip
+                            color="success"
+                            label
+                          >
+                            {{ timestamp2time(props.mod.time_created * 1000) }}
+                          </v-chip>
+                        </td>
+                        <td class="text-center">
+                          {{ t('game.mod.download.modInfo.updateTime') }}
+                        </td>
+                        <td class="text-center">
+                          <v-chip
+                            color="info"
+                            label
+                          >
+                            {{ timestamp2time(props.mod.time_updated * 1000) }}
+                          </v-chip>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          {{ t('game.mod.download.modInfo.subscriptions') }}
+                        </td>
+                        <td
+                          colspan="3"
+                          class="text-center"
+                        >
+                          <v-chip
+                            color="default"
+                            label
+                          >
+                            {{ props.mod.subscriptions }}
+                          </v-chip>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
                           <v-icon
                             icon="ri-star-fill"
                             color="warning"
@@ -210,7 +253,7 @@
 </template>
 
 <script setup>
-import { formatBytes } from "@/utils/tools"
+import {formatBytes, timestamp2time} from "@/utils/tools"
 
 import modApi from "@/api/mod"
 import { showSnackbar } from "@/utils/snackbar"
