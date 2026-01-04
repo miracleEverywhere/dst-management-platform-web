@@ -52,6 +52,7 @@ export default {
     toolsBackup: 'Backup',
     toolsAnnounce: 'Announce',
     toolsMap: 'Map',
+    toolsToken: 'DMP Token',
     logs: 'Logs',
     logsGame: 'Game',
     logsChat: 'Chat',

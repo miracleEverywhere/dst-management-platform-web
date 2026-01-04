@@ -52,6 +52,7 @@ export default {
     toolsBackup: '备份管理',
     toolsAnnounce: '定时通知',
     toolsMap: '地图预览',
+    toolsToken: '平台令牌',
     logs: '日志管理',
     logsGame: '游戏日志',
     logsChat: '聊天日志',
@@ -1000,6 +1001,20 @@ export default {
         // eslint-disable-next-line camelcase
         archive_moon_statue: '远古月亮雕像',
       },
+    },
+    token: {
+      title: '平台令牌创建',
+      tip: '该令牌是饥荒管理平台OpenAPI的鉴权令牌，仅限管理员创建，与游戏令牌无关',
+      select: {
+        label: '令牌时效',
+        day: '一天',
+        week: '一周',
+        month: '一月',
+        year: '一年',
+        permanent: '永久',
+      },
+      create: '创建',
+      noSelected: '请选择令牌时效',
     },
   },
   upload: {
