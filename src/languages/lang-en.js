@@ -438,6 +438,9 @@ export default {
           detail: 'Detail',
           download: 'Download',
           size: 'Size',
+          createTime: 'Create Time',
+          updateTime: 'Update Time',
+          subscriptions: 'Subscriptions',
         },
       },
       add: {

@@ -437,6 +437,9 @@ export default {
           detail: '详情',
           download: '下载',
           size: '模组大小',
+          createTime: '创建时间',
+          updateTime: '更新时间',
+          subscriptions: '订阅数',
         },
       },
       add: {
