@@ -488,7 +488,7 @@
                       :model-value="sysInfo.cpu.toFixed(1)"
                       :size="140"
                       :width="10"
-                      color="primary"
+                      :color="getProgressColor(sysInfo.cpu)"
                       rounded
                     >
                       <div class="d-flex flex-column align-center justify-center">
@@ -510,7 +510,7 @@
                       :model-value="sysInfo.memory.toFixed(1)"
                       :size="140"
                       :width="10"
-                      color="primary"
+                      :color="getProgressColor(sysInfo.memory)"
                       rounded
                     >
                       <div class="d-flex flex-column align-center justify-center">
@@ -1589,6 +1589,23 @@ const quickCmdInsert = () => {
 }
 
 const editorLanguage = computed(() => getEditorLang(globalStore.language))
+
+const getProgressColor = n => {
+  if (n >= 0 && n < 25) {
+    return 'success'
+  }
+  if (n >= 25 && n < 50) {
+    return 'info'
+  }
+  if (n >= 50 && n < 75) {
+    return 'warning'
+  }
+  if (n >= 75) {
+    return 'error'
+  }
+
+  return 'primary'
+}
 
 let intervalBaseId = null
 let intervalSysId = null
