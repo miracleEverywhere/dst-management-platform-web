@@ -211,7 +211,7 @@ import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useRouter } from 'vue-router'
 import NavHeader from "@/layouts/components/NavHeader.vue"
-import Github from "@/layouts/components/GitHub.vue"
+import Github from "@/layouts/components/Github.vue"
 import LangSelect from "@/layouts/components/LangSelect.vue"
 import Document from "@/layouts/components/Document.vue"
 import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue"

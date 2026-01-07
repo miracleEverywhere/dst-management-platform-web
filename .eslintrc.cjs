@@ -9,7 +9,8 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:promise/recommended',
     'plugin:sonarjs/recommended',
-    'plugin:case-police/recommended',
+
+    // 'plugin:case-police/recommended',
     'plugin:regexp/recommended',
 
     // 'plugin:unicorn/recommended',
