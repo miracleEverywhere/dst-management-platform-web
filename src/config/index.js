@@ -1,6 +1,6 @@
 export const PiniaPrefix = "dmp-"
 
-export const Version = "v3.0.5"
+export const Version = "v3.0.6"
 
 export const ApiVersion = "v3"
 
