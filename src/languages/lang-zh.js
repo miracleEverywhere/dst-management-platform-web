@@ -53,6 +53,7 @@ export default {
     toolsAnnounce: '定时通知',
     toolsMap: '地图预览',
     toolsToken: '平台令牌',
+    toolsSnapshot: '游戏存档',
     logs: '日志管理',
     logsGame: '游戏日志',
     logsChat: '聊天日志',
