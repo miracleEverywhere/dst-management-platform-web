@@ -46,4 +46,10 @@ export default {
       return await http.post(this.url, data)
     },
   },
+  snapshot: {
+    url: `/tools/snapshot`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    }
+  }
 }
