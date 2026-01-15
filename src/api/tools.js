@@ -50,6 +50,9 @@ export default {
     url: `/tools/snapshot`,
     get: async function (data) {
       return await http.get(this.url, data)
-    }
-  }
+    },
+    delete: async function (data) {
+      return await http.delete(this.url, data)
+    },
+  },
 }
