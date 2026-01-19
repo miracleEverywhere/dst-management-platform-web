@@ -372,7 +372,7 @@ const handleRegisterPost = async event => {
 const registered = ref(false)
 
 const getRegistered = () => {
-  userApi.register.get().then((response) => {
+  userApi.register.get().then(response => {
     registered.value = response.data || false
   })
 }
