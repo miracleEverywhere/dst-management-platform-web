@@ -530,7 +530,7 @@ const roomForm = ref({
   gameMode: '',
   customGameMode: '',
   pvp: false,
-  maxPlayer: 2,
+  maxPlayer: 6,
   maxRollBack: 10,
   modInOne: false,
   modData: '',
