@@ -56,6 +56,7 @@
               >
                 <template #activator="{ props: activatorProps }">
                   <v-btn
+                    v-if="registered"
                     :color="colors.grey.lighten3"
                     block
                     class="my-6"
@@ -225,10 +226,6 @@ const globalStore = useGlobalStore()
 
 const { mobile } = useDisplay()
 
-onMounted(() => {
-
-})
-
 const loginForm = ref({
   username: '',
   password: '',
@@ -367,9 +364,22 @@ const handleRegisterPost = async event => {
     }
   }).finally(() => {
     registerLoading.value = false
+    getRegistered()
   })
 
 }
+
+const registered = ref(false)
+
+const getRegistered = () => {
+  userApi.register.get().then((response) => {
+    registered.value = response.data || false
+  })
+}
+
+onMounted(() => {
+  getRegistered()
+})
 </script>
 
 <style lang="scss" scoped>
