@@ -15,5 +15,15 @@ const app = createApp(App)
 registerPlugins(app)
 app.use(directives)
 
+// 在挂载前确保index.html中的loading样式还在
+const loadingStyle = document.createElement('style')
+
+loadingStyle.textContent = `
+#loading-bg {
+  display: none !important;
+}
+`
+document.head.appendChild(loadingStyle)
+
 // Mount vue app
 app.mount('#app')
