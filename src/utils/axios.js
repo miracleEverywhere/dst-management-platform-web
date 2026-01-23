@@ -52,7 +52,9 @@ instance.interceptors.response.use(
 
       showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
       await userStore.clearStore()
-      window.location.href = '/#/login'
+      if (window.location.hash !== '#/login') {
+        window.location.href = '/#/login'
+      }
 
       return Promise.reject(response.data)
     } else {
@@ -63,20 +65,6 @@ instance.interceptors.response.use(
   },
   error => {
     // 响应错误处理
-    const status = Number(error?.response?.data?.status ?? error?.response?.data?.code ?? error?.response?.status ?? error?.data?.code)
-    if (status === 420) {
-      const userStore = useUserStore()
-
-      showSnackbar(error?.response?.data?.message || error?.data?.message || "登录状态已失效", 'error')
-      userStore.clearStore().finally(() => {
-        if (window.location.hash !== '#/login') {
-          window.location.href = '/#/login'
-        }
-      })
-      
-      return Promise.reject(error)
-    }
-
     error.data = error.data || {}
     if (error.data.message) {
       showSnackbar(error.status + " " + error.data.message, 'error')
