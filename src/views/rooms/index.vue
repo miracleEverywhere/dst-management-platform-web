@@ -220,7 +220,7 @@
                             v-if="getCurrentPlayersNum(room.players)!==0"
                             activator="parent"
                           >
-                            {{ getCurrentPlayersNickname() }}
+                            {{ getCurrentPlayersNickname(room.players) }}
                           </v-tooltip>
                           ({{ getCurrentPlayersNum(room.players) }}/{{ room.maxPlayer }})
                         </v-chip>
