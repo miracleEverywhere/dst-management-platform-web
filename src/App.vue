@@ -125,7 +125,6 @@ onMounted(() => {
   // 防抖：如果超过5秒还没隐藏loading，强制隐藏
   setTimeout(() => {
     if (showInitialLoading.value) {
-      console.warn('Loading超时，强制隐藏')
       hideLoading()
     }
   }, 5000)
