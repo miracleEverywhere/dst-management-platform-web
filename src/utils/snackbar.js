@@ -1,6 +1,6 @@
 // src/utils/snackbar.js
 import { ref } from 'vue'
-import {sleep} from "@/utils/tools.js";
+import { sleep } from "@/utils/tools.js"
 
 // 定义 Snackbar 的状态
 const snackbar = ref(false)
