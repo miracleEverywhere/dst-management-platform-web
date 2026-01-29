@@ -46,6 +46,13 @@ instance.interceptors.response.use(
       // 服务器连接状态，非后端返回的status 或者 code
       // 这里的后端可能是code OR status 和 message OR message需要看后端传递的是什么？
       // console.log("200状态", status);
+      const newToken = response.headers['x-dmp-new-token'] || response.headers['X-Dmp-New-Token']
+      if (newToken && newToken !== getToken()) {
+        const userStore = useUserStore()
+
+        userStore.token = newToken
+      }
+      
       return response.data
     } else if (status === 420) {
       const userStore = useUserStore()
