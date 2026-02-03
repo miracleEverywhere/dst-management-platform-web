@@ -6,10 +6,12 @@ import directives from "@/directives"
 // Styles
 import '@core/scss/template/index.scss'
 import '@layouts/styles/index.scss'
+import { printLogo } from "@/utils/logo.js"
 
 // Create vue app
 const app = createApp(App)
 
+printLogo()
 
 // Register plugins
 registerPlugins(app)
