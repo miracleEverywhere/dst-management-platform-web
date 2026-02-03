@@ -89,26 +89,28 @@ export const generateLogo = (color="#8C57FF") => {
 export const printLogo = () => {
   const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', '/', '.', '-', '_']
   const idx = [7, 19, 19, 15, 18, 62, 63, 63, 6, 8, 19, 7, 20, 1, 64, 2, 14, 12, 63, 12, 8, 17, 0, 2, 11, 4, 30, 21, 4, 17, 24, 22, 7, 4, 17, 4, 63, 3, 18, 19, 65, 12, 0, 13, 0, 6, 4, 12, 4, 13, 19, 65, 15, 11, 0, 19, 5, 14, 17, 12, 65, 0, 15, 8]
-  let str1= '', str2= ''
+  let profile= '', repository= '', star= ''
   for (let i = 0; i < idx.length; i++) {
     if (i > 35) break
-    str1 = str1 + chars[idx[i]]
+    profile = profile + chars[idx[i]]
   }
   for (let i = 0; i < idx.length; i++) {
-    str2 = str2 + chars[idx[i]]
+    repository = repository + chars[idx[i]]
   }
+  star = '\n\n『如果你觉得饥荒管理平台对你有帮助的话，那就来🌟一下吧』\n\n'
+
   console.log(
-    "%c  ",
+    `%c  `,
     `background-image: url("${generateLogo()}");
    background-size: contain;
    background-repeat: no-repeat;
-   padding: 200px;
+   padding: 100px;
   `,
   )
   console.log(
-    `%c🍒 我的主页：\n${str1}\n\n` +
-      `🍑 项目地址：\n${str2}\n\n` +
-      `🍓 如果你觉得饥荒管理平台对你有帮助的话，那就来🌟一下吧`,
+    `%c\n\n🍒 我的主页 🍒 \n${profile}\n\n\n` +
+      `🍑 项目地址 🍑 \n${repository}\n\n` +
+      star,
     `color: #16B1FF;font-size: 18px`,
   )
 }
