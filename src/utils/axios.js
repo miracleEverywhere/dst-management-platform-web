@@ -48,10 +48,9 @@ instance.interceptors.response.use(
       // console.log("200状态", status);
 
       // 后端如果传回token，则使用新token
-      const newToken = response.headers['X-DMP-NEW-TOKEN'] || ''
+      const newToken = response.headers['x-dmp-new-token'] || ''
       if (newToken && newToken !== getToken()) {
         const userStore = useUserStore()
-
         userStore.token = newToken
       }
       
