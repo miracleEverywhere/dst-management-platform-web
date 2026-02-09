@@ -51,6 +51,7 @@ instance.interceptors.response.use(
       const newToken = response.headers['x-dmp-new-token'] || ''
       if (newToken && newToken !== getToken()) {
         const userStore = useUserStore()
+
         userStore.token = newToken
       }
       
