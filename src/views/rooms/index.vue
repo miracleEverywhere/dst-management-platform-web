@@ -148,6 +148,20 @@
                         {{ t('platform.rooms.actions.delete') }}
                       </v-list-item-title>
                     </v-list-item>
+                    <v-list-item
+                      class="text-primary"
+                      @click="generateGameInfo(room)"
+                    >
+                      <template #prepend>
+                        <v-icon
+                          icon="ri-file-copy-2-line"
+                          size="22"
+                        />
+                      </template>
+                      <v-list-item-title>
+                        {{ t('rooms.card.success.header.menu.copy') }}
+                      </v-list-item-title>
+                    </v-list-item>
                   </v-list>
                 </v-menu>
               </div>
@@ -357,6 +371,8 @@ import { debounce, parseModLua, truncateString } from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
+import modApi from "@/api/mod.js"
+import dashboardApi from "@/api/dashboard.js"
 
 
 const { mobile } = useDisplay()
@@ -562,6 +578,85 @@ const handleResize = debounce(() => {
     cardWidth.value = cardRef.value.$el.offsetWidth
   }
 }, 200)
+
+const copyToClipboard = async text => {
+  try {
+    await navigator.clipboard.writeText(text)
+    
+    return true
+  } catch {
+    // 降级方案
+    const textArea = document.createElement('textarea')
+
+    textArea.value = text
+    document.body.appendChild(textArea)
+    textArea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textArea)
+    
+    return true
+  }
+}
+
+const getEnabledMods = async room => {
+  const reqForm = {
+    roomID: room.id,
+    worldID: room.worlds[0].id,
+  }
+
+  const response = await modApi.setting.enabledMods.get(reqForm)
+
+  return response.data
+}
+
+const getConnectionCode = async room => {
+  const reqForm = {
+    roomID: room.id,
+  }
+
+  const response = await dashboardApi.connectionCode.get(reqForm)
+
+  return response.data
+}
+
+const generateGameInfo = async room => {
+  const modData = await getEnabledMods(room)
+  const connectionCode = await getConnectionCode(room)
+  const players = await getCurrentPlayersNickname(room.players)
+
+  let modInfo = modData.map(mod => mod.name).join(', ')
+  let info = ''
+  let copyMessage = ''
+
+  switch (globalStore.language) {
+  case 'zh':
+    info = info + `✅房间名称: ${room.gameName}\n`
+    info = info + `✅房间描述: ${room.description ? room.description : '无描述'}\n`
+    info = info + `✅游戏模式: ${t('game.base.step1.gameMode.modes.' + room.gameMode)}\n`
+    info = info + `✅模组个数: ${room.modInOne ? parseModLua(room.modData).length : parseModLua(room.worlds[0].modData).length}\n`
+    info = info + `✅玩家个数: ${getCurrentPlayersNum(room.players)}/${room.maxPlayer}\n`
+    info = info + `✅直连代码: ${connectionCode}\n`
+    info = info + `✅在线玩家: ${players ? players : '无在线玩家'}\n`
+    info = info + `✅模组信息: ${modInfo ? modInfo : '无模组'}\n`
+    copyMessage = '复制成功'
+    break
+  case 'en':
+    info = info + `✅Game Name: ${room.gameName}\n`
+    info = info + `✅Game Desc: ${room.description ? room.description : 'No Desc'}\n`
+    info = info + `✅Game Mode: ${t('game.base.step1.gameMode.modes.' + room.gameMode)}\n`
+    info = info + `✅Mods: ${room.modInOne ? parseModLua(room.modData).length : parseModLua(room.worlds[0].modData).length}\n`
+    info = info + `✅Players: ${getCurrentPlayersNum(room.players)}/${room.maxPlayer}\n`
+    info = info + `✅Code: ${connectionCode}\n`
+    info = info + `✅Online: ${players ? players : 'No Online Players'}\n`
+    info = info + `✅Mods: ${modInfo ? modInfo : 'No Mods'}\n`
+    copyMessage = 'Copy Success'
+    break
+  }
+
+  await copyToClipboard(info)
+
+  await showSnackbar(copyMessage)
+}
 
 onMounted(async () => {
   reqForm.value.pageSize = calculateCardSize()
