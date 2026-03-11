@@ -121,6 +121,7 @@ export default {
             deactivate: '关闭',
             delete: '删除',
             select: '选择',
+            copy: '复制信息'
           },
         },
         text: {
