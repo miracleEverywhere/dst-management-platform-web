@@ -594,7 +594,7 @@ export default {
           SkinAnnouncement: '玩家皮肤',
           SystemMessage: '系统信息',
           VoteAnnouncement: '玩家投票',
-          Undefined: '未识别'
+          Undefined: '未识别',
         },
         vote: {
           'rollback passed': '回档成功',

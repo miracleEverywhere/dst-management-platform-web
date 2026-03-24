@@ -102,7 +102,7 @@
             class="w-100"
             style="overflow-y: auto"
           >
-            <chat :height="calculateContainerSize()"/>
+            <chat :height="calculateContainerSize()" />
           </v-container>
         </v-tabs-window-item>
         <v-tabs-window-item value="history">

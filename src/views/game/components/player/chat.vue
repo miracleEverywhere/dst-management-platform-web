@@ -6,7 +6,7 @@
     <v-card-title>
       <div class="fcb">
         <span v-if="!mobile">
-          {{t('game.player.chat.title')}}
+          {{ t('game.player.chat.title') }}
         </span>
         <div class="fcc">
           <v-number-input
@@ -31,9 +31,16 @@
             class="mr-4"
             @update:menu="getChatMessages"
           >
-            <template v-slot:selection="{ item, index }">
-              <v-chip v-if="index < 1" label :text="item.title"></v-chip>
-              <v-chip v-if="index === 1" label>
+            <template #selection="{ item, index }">
+              <v-chip
+                v-if="index < 1"
+                label
+                :text="item.title"
+              />
+              <v-chip
+                v-if="index === 1"
+                label
+              >
                 +{{ selectedTypes.length - 1 }}
               </v-chip>
             </template>
@@ -44,8 +51,8 @@
             size="large"
             class="mr-4"
           >
-            <span  class="mr-2">
-              {{t('game.player.chat.needTime.text')}}
+            <span class="mr-2">
+              {{ t('game.player.chat.needTime.text') }}
             </span>
             <v-switch
               v-model="needTime"
@@ -60,7 +67,7 @@
             :loading="loading"
             @click="getChatMessages(false)"
           >
-            {{t('game.player.chat.refresh')}}
+            {{ t('game.player.chat.refresh') }}
           </v-btn>
         </div>
       </div>
@@ -90,24 +97,39 @@
                 />
               </div>
               <v-chip class="ml-2">
-                {{t(`game.player.chat.type.${p.type}`)}}
+                {{ t(`game.player.chat.type.${p.type}`) }}
               </v-chip>
             </v-col>
-            <v-col v-if="needTime"  class="d-flex align-center">
+            <v-col
+              v-if="needTime"
+              class="d-flex align-center"
+            >
               <v-chip label>
-                {{timestamp2time(p.time*1000)}}
+                {{ timestamp2time(p.time*1000) }}
               </v-chip>
             </v-col>
             <v-col class="d-flex align-center">
-              <v-chip label color="info" class="mr-2">
-                {{p.nickname}}
+              <v-chip
+                label
+                color="info"
+                class="mr-2"
+              >
+                {{ p.nickname }}
               </v-chip>
             </v-col>
             <v-col class="d-flex align-center">
-              <v-chip v-if="p.type==='VoteAnnouncement'" label color="success">
+              <v-chip
+                v-if="p.type==='VoteAnnouncement'"
+                label
+                color="success"
+              >
                 {{ t(`game.player.chat.type['${p.message}']`) }}
               </v-chip>
-              <v-chip v-else-if="p.type==='SkinAnnouncement'" label color="success">
+              <v-chip
+                v-else-if="p.type==='SkinAnnouncement'"
+                label
+                color="success"
+              >
                 <template #append>
                   <v-btn
                     v-tooltip="t(`game.player.chat.gotoWiki`)"
@@ -121,17 +143,21 @@
                     class="ml-2"
                   />
                 </template>
-                {{p.message}}
+                {{ p.message }}
               </v-chip>
-              <v-chip v-else label color="success">
+              <v-chip
+                v-else
+                label
+                color="success"
+              >
                 <v-tooltip
                   v-if="mobile"
                   activator="parent"
                   location="top"
                 >
-                  {{p.message}}
+                  {{ p.message }}
                 </v-tooltip>
-                {{p.message}}
+                {{ p.message }}
               </v-chip>
             </v-col>
           </v-row>
@@ -148,22 +174,21 @@
           color="info"
           @click="getChatMessages"
         >
-          {{t('game.player.chat.clickRefresh')}}
+          {{ t('game.player.chat.clickRefresh') }}
         </v-btn>
       </result>
     </v-card-text>
-
   </v-card>
 </template>
 
 <script setup>
 import playerApi from "@/api/player"
-import useGlobalStore from "@/plugins/store/global";
-import {useDisplay} from "vuetify/framework";
-import {useI18n} from "vue-i18n";
-import Result from "@/components/Result.vue";
-import {timestamp2time} from "@/utils/tools.js";
-import {showSnackbar} from "@/utils/snackbar.js";
+import useGlobalStore from "@store/global"
+import { useDisplay } from "vuetify/framework"
+import { useI18n } from "vue-i18n"
+import Result from "@/components/Result.vue"
+import { timestamp2time } from "@/utils/tools.js"
+import { showSnackbar } from "@/utils/snackbar.js"
 
 
 const props = defineProps({
@@ -193,7 +218,7 @@ const scrollToBottom = () => {
   }, 100)
 }
 
-watch(chatMessages, (newVal) => {
+watch(chatMessages, newVal => {
   if (newVal && newVal.length > 0) {
     nextTick(() => {
       scrollToBottom()
@@ -204,6 +229,7 @@ watch(chatMessages, (newVal) => {
 const getChatMessages = (isOpen=false) => {
   if (isOpen) return
   loading.value = true
+
   const reqForm = {
     roomID: globalStore.room.id,
     lines: lines.value,
@@ -212,6 +238,7 @@ const getChatMessages = (isOpen=false) => {
 
   playerApi.chat.get(reqForm).then(response => {
     const messages = response.data || []
+
     chatMessages.value = []
     if (selectedTypes.value.length === 0) {
       selectedTypes.value = types
@@ -227,7 +254,7 @@ const getChatMessages = (isOpen=false) => {
 }
 
 const generateSkinUrl = name => {
-  if (!name) return name;
+  if (!name) return name
   const wikiName = name.charAt(0).toUpperCase() + name.slice(1)
 
   return `https://dontstarve.huijiwiki.com/wiki/文件:${wikiName}_icon.png`
@@ -245,7 +272,7 @@ const types = [
   'Say',
   'SkinAnnouncement',
   'SystemMessage',
-  'VoteAnnouncement'
+  'VoteAnnouncement',
 ]
 
 const getImage = type => {
@@ -270,6 +297,4 @@ onMounted(() => {
   selectedTypes.value = types
   getChatMessages()
 })
-
-
 </script>

@@ -595,7 +595,7 @@ export default {
           SkinAnnouncement: 'Skin',
           SystemMessage: 'System',
           VoteAnnouncement: 'Vote',
-          Undefined: 'Undefined'
+          Undefined: 'Undefined',
         },
         vote: {
           'rollback passed': 'Rollback Passed',
