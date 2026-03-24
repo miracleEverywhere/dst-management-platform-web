@@ -5,37 +5,62 @@
   >
     <v-card-title>
       <div class="fcb">
-        <span>日志</span>
+        <span v-if="!mobile">
+          {{t('game.player.chat.title')}}
+        </span>
         <div class="fcc">
           <v-number-input
             v-model="lines"
-            label="条数"
+            :label="t('game.player.chat.lines')"
             density="compact"
-            min-width="100"
+            width="120"
             hide-details
             :min="1"
-            class="mr-2"
+            :loading="loading"
+            class="mr-4"
           />
+          <v-select
+            v-if="!mobile"
+            v-model="selectedTypes"
+            :items="allTypes"
+            density="compact"
+            :label="t('game.player.chat.typeSelect')"
+            multiple
+            clearable
+            :width="globalStore.language==='zh'?240:280"
+            class="mr-4"
+            @update:menu="getChatMessages"
+          >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="index < 1" label :text="item.title"></v-chip>
+              <v-chip v-if="index === 1" label>
+                +{{ selectedTypes.length - 1 }}
+              </v-chip>
+            </template>
+          </v-select>
           <v-chip
+            v-tooltip="t('game.player.chat.needTime.tip')"
             label
             size="large"
-            class="mr-2"
+            class="mr-4"
           >
             <span  class="mr-2">
-              时间预测
+              {{t('game.player.chat.needTime.text')}}
             </span>
             <v-switch
               v-model="needTime"
               hide-details
               color="info"
-              @update:model-value="getChatMessages"
+              :loading="loading"
+              @update:model-value="getChatMessages(false)"
             />
           </v-chip>
           <v-btn
             color="x"
-            @click="getChatMessages"
+            :loading="loading"
+            @click="getChatMessages(false)"
           >
-            刷新
+            {{t('game.player.chat.refresh')}}
           </v-btn>
         </div>
       </div>
@@ -43,8 +68,9 @@
 
     <v-card-text
       v-if="chatMessages.length"
+      ref="chatContainer"
       class="overflow-y-auto"
-      :style="{ height: `${props.height - 100}px` }"
+      :style="{ height: `${props.height - 125}px` }"
     >
       <v-list lines="two">
         <v-list-item
@@ -55,22 +81,58 @@
           class="mb-2"
         >
           <v-row>
-            <v-col>
-              <v-img
-                :src="getImageUrl(p.type)"
-                fit="fill"
-                style="width: 75px; height: 75px"
-              />
-
+            <v-col class="d-flex align-center">
+              <div style="width: 75px; height: 75px; flex-shrink: 0;">
+                <v-img
+                  :src="getImage(p.type)"
+                  contain
+                  style="width: 100%; height: 100%;"
+                />
+              </div>
+              <v-chip class="ml-2">
+                {{t(`game.player.chat.type.${p.type}`)}}
+              </v-chip>
             </v-col>
-            <v-col v-if="needTime">
-              {{timestamp2time(p.time*1000)}}
+            <v-col v-if="needTime"  class="d-flex align-center">
+              <v-chip label>
+                {{timestamp2time(p.time*1000)}}
+              </v-chip>
             </v-col>
-            <v-col>
-              {{p.nickname}} : {{p.message}}
+            <v-col class="d-flex align-center">
+              <v-chip label color="info" class="mr-2">
+                {{p.nickname}}
+              </v-chip>
             </v-col>
-            <v-col>
-              {{generateSkinUrl(p.message)}}
+            <v-col class="d-flex align-center">
+              <v-chip v-if="p.type==='VoteAnnouncement'" label color="success">
+                {{ t(`game.player.chat.type['${p.message}']`) }}
+              </v-chip>
+              <v-chip v-else-if="p.type==='SkinAnnouncement'" label color="success">
+                <template #append>
+                  <v-btn
+                    v-tooltip="t(`game.player.chat.gotoWiki`)"
+                    icon="ri-question-line"
+                    color="success"
+                    density="compact"
+                    variant="text"
+                    :href="generateSkinUrl(p.message)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ml-2"
+                  />
+                </template>
+                {{p.message}}
+              </v-chip>
+              <v-chip v-else label color="success">
+                <v-tooltip
+                  v-if="mobile"
+                  activator="parent"
+                  location="top"
+                >
+                  {{p.message}}
+                </v-tooltip>
+                {{p.message}}
+              </v-chip>
             </v-col>
           </v-row>
         </v-list-item>
@@ -80,13 +142,13 @@
       <result
         :height="props.height - 70"
         type="info"
-        title="没有聊天记录"
+        :title="t('game.player.chat.noMessage')"
       >
         <v-btn
           color="info"
           @click="getChatMessages"
         >
-          点我刷新
+          {{t('game.player.chat.clickRefresh')}}
         </v-btn>
       </result>
     </v-card-text>
@@ -101,6 +163,7 @@ import {useDisplay} from "vuetify/framework";
 import {useI18n} from "vue-i18n";
 import Result from "@/components/Result.vue";
 import {timestamp2time} from "@/utils/tools.js";
+import {showSnackbar} from "@/utils/snackbar.js";
 
 
 const props = defineProps({
@@ -117,15 +180,49 @@ const { t } = useI18n()
 const chatMessages = ref([])
 const lines = ref(20)
 const needTime = ref(false)
+const chatContainer = ref()
+const loading = ref(false)
 
-const getChatMessages = () => {
+const scrollToBottom = () => {
+  setTimeout(() => {
+    if (chatContainer.value && chatContainer.value.$el) {
+      chatContainer.value.$el.scrollTop = chatContainer.value.$el.scrollHeight
+    } else if (chatContainer.value) {
+      chatContainer.value.scrollTop = chatContainer.value.scrollHeight
+    }
+  }, 100)
+}
+
+watch(chatMessages, (newVal) => {
+  if (newVal && newVal.length > 0) {
+    nextTick(() => {
+      scrollToBottom()
+    })
+  }
+}, { deep: true })
+
+const getChatMessages = (isOpen=false) => {
+  if (isOpen) return
+  loading.value = true
   const reqForm = {
     roomID: globalStore.room.id,
     lines: lines.value,
     needTime: needTime.value,
   }
+
   playerApi.chat.get(reqForm).then(response => {
-    chatMessages.value = response.data || []
+    const messages = response.data || []
+    chatMessages.value = []
+    if (selectedTypes.value.length === 0) {
+      selectedTypes.value = types
+    }
+    for (const m of messages) {
+      if (selectedTypes.value.includes(m.type)) {
+        chatMessages.value.push(m)
+      }
+    }
+  }).finally(() => {
+    loading.value = false
   })
 }
 
@@ -136,18 +233,22 @@ const generateSkinUrl = name => {
   return `https://dontstarve.huijiwiki.com/wiki/文件:${wikiName}_icon.png`
 }
 
-const getImageUrl = type => {
-  const types = [
-    'Announcement',
-    'DeathAnnouncement',
-    'JoinAnnouncement',
-    'ResurrectAnnouncement',
-    'RollAnnouncement',
-    'Say',
-    'SkinAnnouncement',
-    'SystemMessage',
-    'VoteAnnouncement'
-  ]
+const types = [
+  'Announcement',
+  'BanAnnouncement',
+  'DeathAnnouncement',
+  'JoinAnnouncement',
+  'KickAnnouncement',
+  'LeaveAnnouncement',
+  'ResurrectAnnouncement',
+  'RollAnnouncement',
+  'Say',
+  'SkinAnnouncement',
+  'SystemMessage',
+  'VoteAnnouncement'
+]
+
+const getImage = type => {
   let name = 'Undefined'
   if (types.includes(type)) {
     name = type
@@ -156,7 +257,19 @@ const getImageUrl = type => {
   return new URL(`./images/${name}.png`, import.meta.url).href
 }
 
+const selectedTypes = ref([])
+const allTypes = ref([])
+
 onMounted(() => {
+  for (const i of types) {
+    allTypes.value.push({
+      title: t(`game.player.chat.type.${i}`),
+      value: i,
+    })
+  }
+  selectedTypes.value = types
   getChatMessages()
 })
+
+
 </script>

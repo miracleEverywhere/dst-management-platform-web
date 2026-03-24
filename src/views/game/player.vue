@@ -23,7 +23,7 @@
           {{ t('game.player.list.whitelist') }}
         </v-tab>
         <v-tab value="chat">
-          chat
+          {{ t('game.player.chat.title') }}
         </v-tab>
         <v-tab value="history">
           {{ t('game.player.history.tabName') }}
