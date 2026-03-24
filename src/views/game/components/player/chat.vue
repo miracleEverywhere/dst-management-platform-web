@@ -63,14 +63,11 @@
               />
 
             </v-col>
-            <v-col>
-              {{p.nickname}}
-            </v-col>
-            <v-col>
-              {{p.message}}
-            </v-col>
             <v-col v-if="needTime">
               {{timestamp2time(p.time*1000)}}
+            </v-col>
+            <v-col>
+              {{p.nickname}} : {{p.message}}
             </v-col>
             <v-col>
               {{generateSkinUrl(p.message)}}
