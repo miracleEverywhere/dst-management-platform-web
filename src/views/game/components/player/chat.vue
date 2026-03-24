@@ -28,6 +28,7 @@
               v-model="needTime"
               hide-details
               color="info"
+              @update:model-value="getChatMessages"
             />
           </v-chip>
           <v-btn
@@ -124,7 +125,7 @@ const getChatMessages = () => {
   const reqForm = {
     roomID: globalStore.room.id,
     lines: lines.value,
-    needTime: true,
+    needTime: needTime.value,
   }
   playerApi.chat.get(reqForm).then(response => {
     chatMessages.value = response.data || []
@@ -139,7 +140,23 @@ const generateSkinUrl = name => {
 }
 
 const getImageUrl = type => {
-  return new URL(`./images/${type}.png`, import.meta.url).href
+  const types = [
+    'Announcement',
+    'DeathAnnouncement',
+    'JoinAnnouncement',
+    'ResurrectAnnouncement',
+    'RollAnnouncement',
+    'Say',
+    'SkinAnnouncement',
+    'SystemMessage',
+    'VoteAnnouncement'
+  ]
+  let name = 'Undefined'
+  if (types.includes(type)) {
+    name = type
+  }
+
+  return new URL(`./images/${name}.png`, import.meta.url).href
 }
 
 onMounted(() => {
