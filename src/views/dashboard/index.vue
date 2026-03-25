@@ -545,7 +545,6 @@
               </v-card-title>
               <v-card-text class="mx-4">
                 <v-row class="mt-4">
-
                   <v-btn
                     v-tooltip="t('dashboard.card3.startup.tip')"
                     class="mr-4 mb-4"
@@ -810,7 +809,7 @@
                             </v-radio-group>
                           </v-col>
                         </v-row>
-                        <v-row  v-if="quickCmdType==='player'">
+                        <v-row v-if="quickCmdType==='player'">
                           <v-col v-if="baseInfo.players.length">
                             <v-btn
                               v-for="player in baseInfo.players"
@@ -1586,6 +1585,7 @@ const quickCmdPlayerGenerate = () => {
     showSnackbar(t('dashboard.card3.quickCmd.playerUidError'), 'error')
     quickCmdPlayerId.value = undefined
     quickCmd.value = ''
+    
     return
   }
 
@@ -1672,7 +1672,7 @@ const quickCmdWorldGenerate = () => {
 const quickCmdExec = () => {
   quickCmdDialog.value = false
 
-  handleGameExec({type:'console',extra:quickCmd.value,worldID:quickCmdGameWorldId.value.id})
+  handleGameExec({ type: 'console', extra: quickCmd.value, worldID: quickCmdGameWorldId.value.id })
 
   // quickCmdUid.value = ''
   quickCmd.value = ''

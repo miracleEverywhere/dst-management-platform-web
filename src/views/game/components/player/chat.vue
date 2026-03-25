@@ -8,7 +8,7 @@
         <div v-if="!mobile">
           {{ t('game.player.chat.title') }}
         </div>
-        <div v-if="mobile"/>
+        <div v-if="mobile" />
 
         <div class="fcc">
           <v-number-input
@@ -67,8 +67,8 @@
           </v-chip>
           <v-switch
             v-if="mobile"
-            v-tooltip="t('game.player.chat.needTime.tip')"
             v-model="needTime"
+            v-tooltip="t('game.player.chat.needTime.tip')"
             hide-details
             color="info"
             :loading="loading"
@@ -226,12 +226,12 @@ const scrollToBottom = () => {
     if (chatContainer.value && chatContainer.value.$el) {
       chatContainer.value.$el.scrollTo({
         top: chatContainer.value.$el.scrollHeight,
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     } else if (chatContainer.value) {
       chatContainer.value.scrollTo({
         top: chatContainer.value.scrollHeight,
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }, 100)

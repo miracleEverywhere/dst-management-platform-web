@@ -949,7 +949,7 @@ export default {
           reselectcharacter: 'Reselect Character',
           respawn: 'Respawn Player',
           mapclear: 'Map Insight',
-          kick:'Kick',
+          kick: 'Kick',
         },
         worldOptions: {
           rollback6days: 'Rollback 6 days',

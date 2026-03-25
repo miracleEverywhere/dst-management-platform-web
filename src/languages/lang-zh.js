@@ -948,7 +948,7 @@ export default {
           reselectcharacter: '重选角色',
           respawn: '复活玩家',
           mapclear: '开全图',
-          kick:'踢出玩家',
+          kick: '踢出玩家',
         },
         worldOptions: {
           rollback6days: '回档6天(按需更改)',
