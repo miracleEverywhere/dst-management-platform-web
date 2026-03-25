@@ -5,9 +5,11 @@
   >
     <v-card-title>
       <div class="fcb">
-        <span v-if="!mobile">
+        <div v-if="!mobile">
           {{ t('game.player.chat.title') }}
-        </span>
+        </div>
+        <div v-if="mobile"/>
+
         <div class="fcc">
           <v-number-input
             v-model="lines"
@@ -46,6 +48,7 @@
             </template>
           </v-select>
           <v-chip
+            v-if="!mobile"
             v-tooltip="t('game.player.chat.needTime.tip')"
             label
             size="large"
@@ -62,6 +65,16 @@
               @update:model-value="getChatMessages(false)"
             />
           </v-chip>
+          <v-switch
+            v-if="mobile"
+            v-tooltip="t('game.player.chat.needTime.tip')"
+            v-model="needTime"
+            hide-details
+            color="info"
+            :loading="loading"
+            class="mr-4"
+            @update:model-value="getChatMessages(false)"
+          />
           <v-btn
             color="x"
             :loading="loading"
@@ -211,9 +224,15 @@ const loading = ref(false)
 const scrollToBottom = () => {
   setTimeout(() => {
     if (chatContainer.value && chatContainer.value.$el) {
-      chatContainer.value.$el.scrollTop = chatContainer.value.$el.scrollHeight
+      chatContainer.value.$el.scrollTo({
+        top: chatContainer.value.$el.scrollHeight,
+        behavior: 'smooth'
+      })
     } else if (chatContainer.value) {
-      chatContainer.value.scrollTop = chatContainer.value.scrollHeight
+      chatContainer.value.scrollTo({
+        top: chatContainer.value.scrollHeight,
+        behavior: 'smooth'
+      })
     }
   }, 100)
 }
