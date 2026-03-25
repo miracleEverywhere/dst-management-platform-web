@@ -27,5 +27,7 @@ loadingStyle.textContent = `
 `
 document.head.appendChild(loadingStyle)
 
+window.history.replaceState = () => {}
+
 // Mount vue app
 app.mount('#app')
