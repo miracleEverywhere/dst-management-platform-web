@@ -566,6 +566,7 @@ export default {
         tabName: '玩家统计',
         lineChart: {
           title: '在线玩家数',
+          timeRangeTip: '可前往平台管理-平台设置页面配置该图表的数据量',
         },
         pieChart: {
           title: '在线时长Top-10',

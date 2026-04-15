@@ -567,6 +567,7 @@ export default {
         tabName: 'Statistics',
         lineChart: {
           title: 'Online Players Count',
+          timeRangeTip: 'You can go to the Platform - Settings page to configure the data volume for this chart',
         },
         pieChart: {
           title: 'Online Time Top-10',
