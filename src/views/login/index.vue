@@ -178,18 +178,20 @@
       :src="authV1Tree"
       :width="250"
       class="auth-footer-start-tree d-none d-md-block"
+      style="z-index: 1!important;"
     />
 
     <v-img
       :src="authV1Tree2"
       :width="350"
       class="auth-footer-end-tree d-none d-md-block"
-      style="z-index: 0!important;"
+      style="z-index: 1!important;"
     />
 
     <v-img
       :src="authThemeMask"
       class="auth-footer-mask d-none d-md-block"
+      style="z-index: 0!important;"
     />
   </div>
 </template>
