@@ -262,9 +262,7 @@ const handleLogin = async () => {
   reqForm.password = SHA512(loginForm.value.password)
 
   userApi.login.post(reqForm).then(async response => {
-    const resLogin = await userApi.login.post(reqForm)
-
-    userStore.token = resLogin.data
+    userStore.token = response.data
 
     const resUser = await userApi.base.get()
 
