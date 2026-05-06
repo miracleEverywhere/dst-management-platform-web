@@ -373,6 +373,7 @@ import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
 import modApi from "@/api/mod.js"
 import dashboardApi from "@/api/dashboard.js"
+import {sleep} from "@antfu/utils";
 
 
 const { mobile } = useDisplay()
@@ -442,9 +443,11 @@ const toggleMenu = () => {
   eventBus.emit('toggleMenu', 3)
 }
 
-const selectRoom = room => {
+const selectRoom = async room => {
   globalStore.room.id = room.id
   globalStore.room.gameName = room.gameName
+  await sleep(200)
+  await gotoDashboard(room)
 }
 
 const gotoDashboard = async room => {
