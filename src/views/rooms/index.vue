@@ -229,6 +229,7 @@
                         <v-chip
                           color="info"
                           label
+                          @click.stop="() => {}"
                         >
                           <v-tooltip
                             v-if="getCurrentPlayersNum(room.players)!==0"
@@ -373,7 +374,7 @@ import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
 import modApi from "@/api/mod.js"
 import dashboardApi from "@/api/dashboard.js"
-import {sleep} from "@antfu/utils";
+import { sleep } from "@antfu/utils"
 
 
 const { mobile } = useDisplay()
