@@ -97,20 +97,20 @@ const userInfo = userStore.userInfo
 const avatarImage = ref()
 
 switch (userInfo.avatar) {
-case '1':
-  avatarImage.value = avatar1
-  break
-case '2':
-  avatarImage.value = avatar2
-  break
-case '3':
-  avatarImage.value = avatar3
-  break
-case '4':
-  avatarImage.value = avatar4
-  break
-default:
-  avatarImage.value = avatar1
+  case '1':
+    avatarImage.value = avatar1
+    break
+  case '2':
+    avatarImage.value = avatar2
+    break
+  case '3':
+    avatarImage.value = avatar3
+    break
+  case '4':
+    avatarImage.value = avatar4
+    break
+  default:
+    avatarImage.value = avatar1
 }
 
 const handleLogout = async () => {

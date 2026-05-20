@@ -65,14 +65,14 @@ const handleChangeLanguage = lang => {
   globalStore.language = lang
 
   switch (lang) {
-  case 'zh':
-    current.value = 'zhHans'
-    break
-  case 'en':
-    current.value = 'en'
-    break
-  default:
-    current.value = 'zhHans'
+    case 'zh':
+      current.value = 'zhHans'
+      break
+    case 'en':
+      current.value = 'en'
+      break
+    default:
+      current.value = 'zhHans'
   }
 }
 </script>

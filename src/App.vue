@@ -62,14 +62,14 @@ const initI18n = () => {
   } else {
     i18n.locale.value = globalStore.language
     switch (globalStore.language) {
-    case 'zh':
-      current.value = 'zhHans'
-      break
-    case 'en':
-      current.value = 'en'
-      break
-    default:
-      current.value = 'zhHans'
+      case 'zh':
+        current.value = 'zhHans'
+        break
+      case 'en':
+        current.value = 'en'
+        break
+      default:
+        current.value = 'zhHans'
     }
   }
 }
