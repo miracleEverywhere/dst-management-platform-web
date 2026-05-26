@@ -26,8 +26,8 @@ function vuetifyConfigStyles(configFilePath) {
       if (!id.includes('node_modules/vuetify/')) return null
       if (!id.endsWith('.sass') && !id.endsWith('.scss')) return null
       const suffix = id.endsWith('.scss') ? ';\n' : '\n'
-      
-      return `@use "${configFileAbsolute}"${suffix}${code}`
+
+      return `@use "${configFileAbsolute}" as *${suffix}${code}`
     },
   }
 }
