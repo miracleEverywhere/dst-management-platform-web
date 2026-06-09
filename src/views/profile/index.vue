@@ -122,7 +122,7 @@ import avatar4full from '@images/avatars/avatar-4-full.png'
 import useUserStore from "@store/user"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
-import { SHA512, sleep } from "@/utils/tools.js"
+import { sleep } from "@/utils/tools.js"
 import userApi from "@/api/user.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
@@ -192,7 +192,7 @@ const handleSubmit = async () => {
     username: userInfo.value.username,
     nickname: userInfo.value.nickname,
     avatar: userInfo.value.avatar,
-    password: SHA512(userInfo.value.password),
+    password: userInfo.value.password,
   }
 
   userApi.myself.put(reqFrom).then(async response => {

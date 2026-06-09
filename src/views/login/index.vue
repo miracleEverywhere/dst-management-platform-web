@@ -208,7 +208,7 @@ import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import colors from 'vuetify/lib/util/colors'
 import userApi from '@/api/user'
-import { deepCopy, getBrowserLang, SHA512 } from "@/utils/tools"
+import { deepCopy, getBrowserLang } from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
@@ -259,7 +259,7 @@ const handleLogin = async () => {
 
   const reqForm = deepCopy(loginForm.value)
 
-  reqForm.password = SHA512(loginForm.value.password)
+  reqForm.password = loginForm.value.password
 
   userApi.login.post(reqForm).then(async response => {
     userStore.token = response.data
@@ -343,7 +343,7 @@ const handleRegisterPost = async event => {
     return
   }
 
-  const password = SHA512(registerForm.value.password)
+  const password = registerForm.value.password
 
   const reqForm = {
     username: registerForm.value.username,
