@@ -194,6 +194,20 @@
                   <v-menu activator="parent">
                     <v-list>
                       <v-list-item
+                        class="text-info"
+                        @click="handleAction('revoke', item)"
+                      >
+                        <template #prepend>
+                          <v-icon
+                            icon="ri-key-2-line"
+                            size="22"
+                          />
+                        </template>
+                        <v-list-item-title>
+                          {{ t('platform.user.table.revoke') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item
                         class="text-warning"
                         @click="handleAction('update', item)"
                       >
@@ -506,7 +520,7 @@
     :confirm-text="t('global.confirm.confirm')"
     :cancel-text="t('global.confirm.cancel')"
     :confirm-loading="confirmLoading"
-    @confirm="handleDelete"
+    @confirm="handleConfirm"
     @cancel="confirmVisible=false"
   />
 </template>
@@ -726,7 +740,13 @@ const handleAction = (action, user) => {
     case "update":
       openUpdateUserDialog(user)
       break
+    case "revoke":
+      currentAction.value = 'revoke'
+      currentUsername.value = user.username
+      confirmVisible.value = true
+      break
     case "delete":
+      currentAction.value = 'delete'
       currentUsername.value = user.username
       confirmVisible.value = true
       break
@@ -759,15 +779,20 @@ const openUpdateUserDialog = user => {
 const confirmVisible = ref(false)
 const confirmLoading = ref(false)
 const currentUsername = ref('')
+const currentAction = ref('delete')
 
-const handleDelete = () => {
+const handleConfirm = () => {
   confirmLoading.value = true
 
   const reqForm = {
     username: currentUsername.value,
   }
 
-  userApi.base.delete(reqForm).then(response => {
+  const apiCall = currentAction.value === 'revoke'
+    ? userApi.revoke.post(reqForm)
+    : userApi.base.delete(reqForm)
+
+  apiCall.then(response => {
     confirmVisible.value = false
     showSnackbar(response.message)
     getUserListData({
