@@ -507,13 +507,133 @@
       </v-col>
       <v-spacer v-if="!mobile" />
     </v-row>
+    <!-- Webhook 通知 -->
+    <v-alert
+      color="primary"
+      :title="t('game.base.step4.form.webhook.name')"
+      density="compact"
+      class="mt-8"
+      variant="tonal"
+      icon="ri-notification-3-line"
+    />
+    <v-row
+      v-for="(item, index) in roomSettingForm.webhook"
+      :key="index"
+      class="mt-2"
+    >
+      <v-col :cols="12">
+        <v-card variant="outlined">
+          <v-card-text>
+            <v-row>
+              <v-col :cols="mobile?12:6">
+                <v-text-field
+                  v-model="item.name"
+                  :label="t('game.base.step4.form.webhook.form.name')"
+                  :rules="[v => !!v || t('game.base.step4.form.webhook.form.nameRequired')]"
+                  density="compact"
+                />
+              </v-col>
+              <v-col :cols="mobile?12:6">
+                <v-text-field
+                  v-model="item.url"
+                  :label="t('game.base.step4.form.webhook.form.url')"
+                  :rules="[v => !!v || t('game.base.step4.form.webhook.form.urlRequired')]"
+                  density="compact"
+                />
+              </v-col>
+              <v-col :cols="12">
+                <v-select
+                  v-model="item.events"
+                  :items="webhookEventItems"
+                  :label="t('game.base.step4.form.webhook.form.events')"
+                  :rules="[v => v && v.length > 0 || t('game.base.step4.form.webhook.form.eventsRequired')]"
+                  item-title="label"
+                  item-value="value"
+                  multiple
+                  density="compact"
+                  chips
+                />
+              </v-col>
+              <v-col :cols="mobile?12:6">
+                <v-text-field
+                  v-model="item.secret"
+                  :append-inner-icon="isWebhookSecretVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+                  :type="isWebhookSecretVisible ? 'text' : 'password'"
+                  :label="t('game.base.step4.form.webhook.form.secret')"
+                  density="compact"
+                  class="mt-2"
+                  @click:append-inner="isWebhookSecretVisible = !isWebhookSecretVisible"
+                />
+              </v-col>
+              <v-col
+                :cols="mobile?4:2"
+                class="d-flex align-center"
+              >
+                <v-switch
+                  v-model="item.enabled"
+                  :label="item.enabled ? t('game.base.step4.form.webhook.enable') : t('game.base.step4.form.webhook.disable')"
+                  color="primary"
+                  density="compact"
+                  hide-details
+                />
+              </v-col>
+              <v-col
+                :cols="mobile?4:2"
+                class="d-flex align-center"
+              >
+                <v-btn
+                  size="default"
+                  variant="text"
+                  color="success"
+                  :loading="testLoading[index]"
+                  :disabled="!(item.url && item.name)"
+                  @click="handleWebhookTest(item, index)"
+                >
+                  {{ t('platform.settings.form.webhook.test') }}
+                </v-btn>
+              </v-col>
+              <v-col
+                :cols="mobile?4:2"
+                class="d-flex align-center"
+              >
+                <v-btn
+                  size="default"
+                  variant="text"
+                  color="error"
+                  @click="deleteWebhook(index)"
+                >
+                  {{ t('game.base.step4.form.webhook.delete') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row class="mt-2">
+      <v-col>
+        <v-btn
+          v-tooltip="t('game.base.step4.form.webhook.tip.name')"
+          variant="text"
+          color="primary"
+          prepend-icon="ri-add-line"
+          @click="addWebhook"
+        >
+          {{ t('game.base.step4.form.webhook.add') }}
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-form>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify/framework"
-import { showSnackbar } from "@/utils/snackbar.js"
+import { showSnackbar } from "@/utils/snackbar"
+import roomApi from "@/api/room"
+import { v4 as uuidv4 } from "uuid"
+import useGlobalStore from "@/plugins/store/global"
+
 
 const props = defineProps({
   roomSetting: {
@@ -522,7 +642,10 @@ const props = defineProps({
   },
 })
 
+const globalStore = useGlobalStore()
+
 onMounted(() => {
+  fetchWebhookEvents()
   if (Object.keys(props.roomSetting).length !== 0) {
     roomSettingForm.value = props.roomSetting
   }
@@ -569,7 +692,45 @@ const roomSettingForm = ref({
   },
   tickRate: 15,
   startType: '32-bit',
+  webhook: [],
 })
+
+const webhookEventItems = ref([])
+const testLoading = ref({})
+const isWebhookSecretVisible = ref(false)
+
+const fetchWebhookEvents = async () => {
+  const response = await roomApi.webhook.events.get()
+
+  webhookEventItems.value = response.data.map(e => ({
+    label: e[globalStore.language],
+    value: e.type,
+  }))
+}
+
+const addWebhook = () => {
+  roomSettingForm.value.webhook.push({
+    id: uuidv4(),
+    name: '',
+    url: '',
+    events: webhookEventItems.value.map(i => i.value),
+    enabled: true,
+    secret: '',
+  })
+}
+
+const deleteWebhook = index => {
+  roomSettingForm.value.webhook.splice(index, 1)
+}
+
+const handleWebhookTest = (item, index) => {
+  testLoading.value[index] = true
+  roomApi.webhook.test.post({ url: item.url, secret: item.secret }).then(response => {
+    showSnackbar(response.message)
+  }).finally(() => {
+    testLoading.value[index] = false
+  })
+}
 
 const roomSettingFormRules = ref({
   backupClean: [
