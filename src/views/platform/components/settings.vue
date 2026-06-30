@@ -561,6 +561,8 @@ const handleUpdate = async () => {
         showSnackbar(response.message)
       }).finally(() => {
         updateLoading.value = false
+      }).finally(() => {
+        getGlobalSettings()
       })
     }
   }
