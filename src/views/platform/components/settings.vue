@@ -237,8 +237,8 @@
           icon="ri-notification-3-line"
         />
         <v-row
-          v-for="(item, index) in globalSettingsForm.webhook"
-          :key="index"
+          v-for="(webhook, i) in globalSettingsForm.webhook"
+          :key="i"
           class="mt-2"
         >
           <v-col :cols="12">
@@ -247,7 +247,7 @@
                 <v-row>
                   <v-col :cols="mobile?12:6">
                     <v-text-field
-                      v-model="item.name"
+                      v-model="webhook.name"
                       :label="t('platform.settings.form.webhook.form.name')"
                       :rules="[v => !!v || t('platform.settings.form.webhook.form.nameRequired')]"
                       density="compact"
@@ -255,7 +255,7 @@
                   </v-col>
                   <v-col :cols="mobile?12:6">
                     <v-text-field
-                      v-model="item.url"
+                      v-model="webhook.url"
                       :label="t('platform.settings.form.webhook.form.url')"
                       :rules="[v => !!v || t('platform.settings.form.webhook.form.urlRequired')]"
                       density="compact"
@@ -263,7 +263,7 @@
                   </v-col>
                   <v-col :cols="mobile?12:6">
                     <v-select
-                      v-model="item.roomIds"
+                      v-model="webhook.roomIds"
                       v-tooltip="t('platform.settings.form.webhook.form.roomIdsHint')"
                       :items="roomOptions"
                       :label="t('platform.settings.form.webhook.form.roomIds')"
@@ -271,13 +271,29 @@
                       item-value="roomID"
                       multiple
                       density="compact"
-                      chips
                       clearable
-                    />
+                    >
+                      <template #selection="{ item, index }">
+                        <v-chip
+                          v-if="index < (mobile?1:5)"
+                          label
+                          :text="item.title"
+                        />
+                        <v-chip
+                          v-if="index === (mobile?1:5)"
+                          label
+                        >
+                          <span v-tooltip="webhook.roomIds.slice(mobile ? 1 : 5).map(key => roomOptions.find(i => i.roomID === key)?.roomName || key).join(', ')">
+                            +{{ webhook.roomIds.length - (mobile ? 1 : 5) }}
+                          </span>
+                        </v-chip>
+                      </template>
+                    </v-select>
                   </v-col>
                   <v-col :cols="mobile?12:6">
                     <v-text-field
-                      v-model="item.secret"
+                      v-model="webhook.secret"
+                      v-tooltip="t('platform.settings.form.webhook.form.secretPlaceholder')"
                       :append-inner-icon="isWebhookSecretVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
                       :type="isWebhookSecretVisible ? 'text' : 'password'"
                       :label="t('platform.settings.form.webhook.form.secret')"
@@ -287,7 +303,7 @@
                   </v-col>
                   <v-col :cols="12">
                     <v-select
-                      v-model="item.events"
+                      v-model="webhook.events"
                       :items="webhookEventItems"
                       :label="t('platform.settings.form.webhook.form.events')"
                       :rules="[v => v && v.length > 0 || t('platform.settings.form.webhook.form.eventsRequired')]"
@@ -295,16 +311,31 @@
                       item-value="value"
                       multiple
                       density="compact"
-                      chips
-                    />
+                    >
+                      <template #selection="{ item, index }">
+                        <v-chip
+                          v-if="index < (mobile?1:5)"
+                          label
+                          :text="item.title"
+                        />
+                        <v-chip
+                          v-if="index === (mobile?1:5)"
+                          label
+                        >
+                          <span v-tooltip="webhook.events.slice(mobile ? 1 : 5).map(key => webhookEventItems.find(i => i.value === key)?.label || key).join(', ')">
+                            +{{ webhook.events.length - (mobile ? 1 : 5) }}
+                          </span>
+                        </v-chip>
+                      </template>
+                    </v-select>
                   </v-col>
                   <v-col
                     :cols="mobile?4:2"
                     class="d-flex align-center"
                   >
                     <v-switch
-                      v-model="item.enabled"
-                      :label="item.enabled ? t('platform.settings.form.webhook.enable') : t('platform.settings.form.webhook.disable')"
+                      v-model="webhook.enabled"
+                      :label="webhook.enabled ? t('platform.settings.form.webhook.enable') : t('platform.settings.form.webhook.disable')"
                       color="primary"
                       hide-details
                       density="comfortable"
@@ -316,11 +347,11 @@
                   >
                     <v-btn
                       size="default"
-                      variant="text"
+                      variant="tonal"
                       color="success"
-                      :loading="testLoading[index]"
-                      :disabled="!(item.url && item.name)"
-                      @click="handleWebhookTest(item, index)"
+                      :loading="testLoading[i]"
+                      :disabled="!(webhook.url && webhook.name)"
+                      @click="handleWebhookTest(webhook, i)"
                     >
                       {{ t('platform.settings.form.webhook.test') }}
                     </v-btn>
@@ -331,9 +362,9 @@
                   >
                     <v-btn
                       size="default"
-                      variant="text"
+                      variant="tonal"
                       color="error"
-                      @click="deleteWebhook(index)"
+                      @click="deleteWebhook(i)"
                     >
                       {{ t('platform.settings.form.webhook.delete') }}
                     </v-btn>
