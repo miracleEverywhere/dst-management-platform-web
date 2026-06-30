@@ -855,6 +855,7 @@ export default {
             events: '通知事件',
             eventsRequired: '请选择至少一个事件',
             secret: '签名密钥（可选）',
+            secretPlaceholder: '用于 HMAC-SHA256 签名验证',
             roomIds: '通知房间',
             roomIdsHint: '不选表示所有房间，如果选择指定房间后，则无法接收房间创建通知',
           },
