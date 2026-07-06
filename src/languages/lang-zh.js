@@ -13,6 +13,8 @@ export default {
     dark: "黑暗",
     profile: "个人中心",
     logout: "退出平台",
+    refresh: '刷新页面',
+    backEntry: '返回饥荒管理平台选择页',
     noRoomSelected: {
       title: '未选择房间',
       subTitle: '请前往房间总览页面，选择一个房间再执行配置',
@@ -739,6 +741,7 @@ export default {
     },
     user: {
       dialogTitle: '新增用户',
+      dialogWarning: '从v3.1.5版本开始，饥荒管理平台使用bcrypt进行密码加密，请勿使用v3.1.5及以上版本App管理v3.1.4及以下版本，网页上操作无影响',
       form: {
         username: {
           title: '用户名',
@@ -1500,5 +1503,33 @@ export default {
     submit: '更新',
     username: '用户名',
     nickname: '用户昵称',
+  },
+  entry: {
+    refresh: '刷 新',
+    edit: '编 辑',
+    delete: '删 除',
+    enter: '进入',
+    mem: '内存',
+    rooms: '房间',
+    worlds: '世界',
+    ip: 'IP/域名',
+    port: '端口',
+    protocol: '协议',
+    token: '平台令牌',
+    remark: '备注',
+    submit: '提交',
+    cancel: '取消',
+    validate: {
+      ip: '请输入IP或域名',
+      port: '请输入正确的端口',
+      token: '请输入正确的饥荒管理平台令牌',
+    },
+    createSuccess: '新建成功',
+    updateSuccess: '更新成功',
+    deleteSuccess: '删除成功',
+    deleteFail: '删除失败',
+    create: '新建',
+    clickCreate: '点击新建',
+    tokenTip: '请前往网页版饥荒管理平台，点击 平台工具-平台令牌 进行创建',
   },
 }

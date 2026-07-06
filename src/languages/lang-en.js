@@ -13,6 +13,8 @@ export default {
     dark: "Dark",
     profile: "Profile",
     logout: "Logout",
+    refresh: 'Refresh Page',
+    backEntry: 'Back to dmp select page',
     noRoomSelected: {
       title: 'No Room Selected',
       subTitle: 'Please go to the Rooms page, select a room, and then proceed with the configuration',
@@ -739,6 +741,7 @@ export default {
     },
     user: {
       dialogTitle: 'Add User',
+      dialogWarning: 'Starting from version v3.1.5, the Dont Starve management platform uses bcrypt for password encryption. Please do not use v3.1.5 or above App to manage v3.1.4 or below versions. Operations on the web page are not affected',
       form: {
         username: {
           title: 'Username',
@@ -1500,5 +1503,33 @@ export default {
     submit: 'Update',
     username: 'Username',
     nickname: 'Nickname',
+  },
+  entry: {
+    refresh: 'Refresh',
+    edit: 'Edit',
+    delete: 'Delete',
+    enter: 'Enter',
+    mem: 'Mem',
+    rooms: 'Rooms',
+    worlds: 'Worlds',
+    ip: 'IP/Domain',
+    port: 'Port',
+    protocol: 'Protocol',
+    token: 'DMP Token',
+    remark: 'Remarks',
+    submit: 'Submit',
+    cancel: 'Cancel',
+    validate: {
+      ip: 'Please enter a valid IP address or domain',
+      port: 'Please enter a valid port',
+      token: 'Please enter a valid token',
+    },
+    createSuccess: 'Create Success',
+    updateSuccess: 'Update Success',
+    deleteSuccess: 'Delete Success',
+    deleteFail: 'Delete Fail',
+    create: 'Create',
+    clickCreate: 'Click to create',
+    tokenTip: 'Please go to the web version of the DMP, click Tools-Token to create one',
   },
 }
