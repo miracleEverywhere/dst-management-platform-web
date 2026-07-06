@@ -89,7 +89,7 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        class="text-info"
+                        class="text-success"
                         @click="handleAction('install', item)"
                       >
                         <template #prepend>
@@ -104,7 +104,7 @@
                       </v-list-item>
                       <v-list-item
                         :disabled="item.step!==100||item.status"
-                        class="text-info"
+                        class="text-primary"
                         @click="handleAction('enable', item)"
                       >
                         <template #prepend>
@@ -119,7 +119,7 @@
                       </v-list-item>
                       <v-list-item
                         :disabled="item.step!==100||!item.status"
-                        class="text-info"
+                        class="text-warning"
                         @click="handleAction('disable', item)"
                       >
                         <template #prepend>
@@ -148,7 +148,7 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        class="text-info"
+                        class="text-error"
                         @click="handleAction('uninstall', item)"
                       >
                         <template #prepend>
