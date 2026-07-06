@@ -94,7 +94,7 @@
                     :key="items"
                     :value="items"
                   >
-                    {{ items }}
+                    {{ t(`tools.tmi.categories.${items}`) }}
                   </v-tab>
                 </v-tabs>
                 <div class="flex-fill overflow-y-auto pa-4 align-self-stretch">

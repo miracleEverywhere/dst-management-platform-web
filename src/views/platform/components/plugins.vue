@@ -89,7 +89,7 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        class="text-success"
+                        class="text-primary"
                         @click="handleAction('install', item)"
                       >
                         <template #prepend>
@@ -104,12 +104,12 @@
                       </v-list-item>
                       <v-list-item
                         :disabled="item.step!==100||item.status"
-                        class="text-primary"
+                        class="text-success"
                         @click="handleAction('enable', item)"
                       >
                         <template #prepend>
                           <v-icon
-                            icon="ri-install-line"
+                            icon="ri-checkbox-circle-line"
                             size="22"
                           />
                         </template>
@@ -124,7 +124,7 @@
                       >
                         <template #prepend>
                           <v-icon
-                            icon="ri-install-line"
+                            icon="ri-close-circle-line"
                             size="22"
                           />
                         </template>
@@ -139,7 +139,7 @@
                       >
                         <template #prepend>
                           <v-icon
-                            icon="ri-install-line"
+                            icon="ri-loop-left-line"
                             size="22"
                           />
                         </template>
@@ -153,7 +153,7 @@
                       >
                         <template #prepend>
                           <v-icon
-                            icon="ri-install-line"
+                            icon="ri-uninstall-line"
                             size="22"
                           />
                         </template>
