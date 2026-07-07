@@ -961,14 +961,14 @@ export default {
         tmi: {
           desc: 'tmi(Too Many Items)插件即游戏中的T键模组，你可以给任意玩家刷任意物品。该功能依赖于Stex工具(https://github.com/oblivioncth/Stexatlaser)，TMIR模组(3638290455)',
           warning: '该插件会极大的降低游戏乐趣和游戏生命，请勿滥用；该功能也可能导致游戏崩溃(就像你在游戏中乱T)',
-          os: 'tmi插件只能安装在ubuntu 24系统上(Stex工具要求)，当前系统为：',
+          os: 'tmi插件只能在ubuntu 24系统上才能正常运行(Stex工具要求)，非ubuntu 24系统仅可使用基本功能，但无法显示图片。当前系统为：',
         },
       },
       install: {
         tmi: {
           proxy: {
             name: '代理',
-            tip: '需要从github下载Stex，如不需要代理则留空',
+            tip: '需要从github下载Stex，如不需要代理则留空，非ubuntu 24系统无需填写',
           },
         },
         cancel: '取消',

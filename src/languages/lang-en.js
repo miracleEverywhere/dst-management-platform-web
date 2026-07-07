@@ -961,14 +961,14 @@ export default {
         tmi: {
           desc: 'tmi(Too Many Items) Plugin is same as T-MOD in Game, you can create anything to anyone. This plugin depends on Stex(https://github.com/oblivioncth/Stexatlaser) and TMIR mod(3638290455)',
           warning: 'This plugin significantly reduces game enjoyment and lifespan; please refrain from overusing it. This plugin may also cause game crashes, similar to improper use of console commands in-game',
-          os: 'The tmi plugin can only be installed on Ubuntu 24 systems as required by the Stex tool; the current system is: ',
+          os: 'The TMI plugin can only function properly on Ubuntu 24 systems as required by the Stex tool. On non-Ubuntu 24 systems, only basic features are available and images cannot be displayed. The current system is: ',
         },
       },
       install: {
         tmi: {
           proxy: {
             name: 'Proxy',
-            tip: 'The Stex tool needs to be downloaded from GitHub; if a proxy is not required, leave it blank',
+            tip: 'The Stex tool needs to be downloaded from GitHub; if a proxy is not required, leave it blank. This field is not required for non-Ubuntu 24 systems',
           },
         },
         cancel: 'Cancel',

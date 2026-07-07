@@ -193,7 +193,7 @@
         </v-alert>
         <v-alert
           border="start"
-          color="warning"
+          color="error"
           variant="tonal"
           class="mb-4"
         >
@@ -201,12 +201,12 @@
         </v-alert>
         <v-alert
           border="start"
-          color="x"
+          color="warning"
           variant="tonal"
           class="mb-4"
         >
           {{ t(`platform.plugin.introduce.${currentPlugin}.os`) }}
-          {{ osInfo.Platform }} {{ osInfo.PlatformVersion }}
+          {{ osPlatform }} {{ osPlatformVersion }}
         </v-alert>
       </v-card-text>
     </v-card>
@@ -238,7 +238,7 @@
           class="mb-4"
         >
           {{ t(`platform.plugin.introduce.${currentPlugin}.os`) }}
-          {{ osInfo.Platform }} {{ osInfo.PlatformVersion }}
+          {{ osPlatform }} {{ osPlatformVersion }}
         </v-alert>
         <v-text-field
           v-model="installTmiForm.proxy"
@@ -286,20 +286,13 @@ import { showSnackbar } from "@/utils/snackbar.js"
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
-const osInfo = ref({
-  Architecture: "",
-  OS: "",
-  CPUModel: "",
-  CPUCores: 2,
-  MemorySize: 0,
-  Platform: "",
-  PlatformVersion: "",
-  Uptime: 0,
-})
+const osPlatform = ref('')
+const osPlatformVersion = ref('')
 
 const getOSInfo = () => {
   platformApi.osInfo.get().then(response => {
-    osInfo.value = response.data
+    osPlatform.value = response.data?.Platform || ''
+    osPlatformVersion.value = response.data?.PlatformVersion || ''
   })
 }
 
