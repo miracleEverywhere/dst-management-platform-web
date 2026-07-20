@@ -70,6 +70,7 @@ export default {
     toolsToken: 'DMP Token',
     toolsSnapshot: 'Snapshot',
     toolsTmi: 'TMI',
+    toolsAI: 'AI Chat',
     logs: 'Logs',
     logsGame: 'Game',
     logsChat: 'Chat',
@@ -608,6 +609,14 @@ export default {
           fileTypeError: 'Please upload a TXT file',
           fileReadError: 'File read error',
         },
+        dstBlock: {
+          introduce: 'DST Block is a community-driven blacklist management platform for Don\'t Starve Together, allowing you to import recorded disruptive player IDs with one click',
+          urlText: 'The address for DST Block is:',
+          tip: 'You can also submit reports on DST Block, and every submission helps purify the game environment',
+          import: 'Import',
+          cancel: 'Cancel',
+        },
+        deleteAll: 'CleanUp',
       },
       history: {
         tabName: 'History',
@@ -941,6 +950,7 @@ export default {
           4: 'Install Failed',
           5: 'Install Failed',
           100: 'Install Succeeded',
+          builtin: 'Built-in',
         },
         actions: {
           action: 'Actions',
@@ -1158,6 +1168,36 @@ export default {
     },
   },
   tools: {
+    ai: {
+      title: 'In-game AI Chat',
+      tabs: {
+        room: 'Room Settings',
+        default: 'Global Defaults',
+      },
+      actions: {
+        save: 'Save settings',
+        refresh: 'Refresh settings',
+        importDefault: 'Import global defaults',
+      },
+      form: {
+        enabled: 'Enable in-game AI chat',
+        prefix: 'Trigger prefix',
+        baseURL: 'Base URL',
+        apiKey: 'API Key',
+        model: 'Model',
+        systemPrompt: 'System prompt',
+        temperature: 'Temperature',
+        maxTokens: 'Maximum output tokens',
+        requestTimeoutSeconds: 'Request timeout (seconds)',
+        contextMaxMessages: 'Context message limit',
+        contextTTLMinutes: 'Context lifetime (minutes)',
+      },
+      validation: {
+        required: 'This field is required',
+        positive: 'Enter a number greater than 0',
+        prefix: 'The prefix cannot contain line breaks and must be at most 64 characters',
+      },
+    },
     backup: {
       gameName: 'Name',
       cycles: 'Cycles',

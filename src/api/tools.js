@@ -75,4 +75,30 @@ export default {
       },
     },
   },
+  ai: {
+    setting: {
+      url: `/tools/ai/setting`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+      put: async function (data) {
+        return await http.put(this.url, data)
+      },
+      importDefault: {
+        url: `/tools/ai/setting/import-default`,
+        post: async function (data) {
+          return await http.post(this.url, data)
+        },
+      },
+    },
+    default: {
+      url: `/tools/ai/default`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+      put: async function (data) {
+        return await http.put(this.url, data)
+      },
+    },
+  },
 }

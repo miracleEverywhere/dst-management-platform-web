@@ -9,7 +9,7 @@
     "preview": "vite preview --port 5050",
     "lint": "eslint . --fix",
     "build:icons": "tsx src/plugins/iconify/build-icons.js",
-    "postinstall": "npm run build:icons"
+    "postinstall": "pnpm run build:icons"
   },
   "dependencies": {
     "@floating-ui/dom": "1.6.8",
