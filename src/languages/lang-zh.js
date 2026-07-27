@@ -129,7 +129,9 @@ export default {
           title: {
             name: '房间名: ',
             activated: '已激活',
+            activatedTip: '该房间已激活，后台任务运行中',
             deactivated: '已关闭',
+            deactivatedTip: '该房间已关闭，后台任务不会运行，无法获取在线玩家等数据',
           },
           menu: {
             activate: '激活',

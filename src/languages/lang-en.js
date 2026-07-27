@@ -129,7 +129,9 @@ export default {
           title: {
             name: 'Room Name: ',
             activated: 'Activated',
+            activatedTip: 'The room has been activated, and background tasks are running',
             deactivated: 'Deactivated',
+            deactivatedTip: 'The room has been deactivated. Background tasks will not run, and data such as online players cannot be retrieved',
           },
           menu: {
             activate: 'Activate',
