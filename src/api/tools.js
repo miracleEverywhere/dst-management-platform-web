@@ -75,29 +75,39 @@ export default {
       },
     },
   },
-  ai: {
+  aichat: {
     setting: {
-      url: `/tools/ai/setting`,
+      url: `/tools/aichat/setting`,
       get: async function (data) {
         return await http.get(this.url, data)
       },
       put: async function (data) {
         return await http.put(this.url, data)
       },
-      importDefault: {
-        url: `/tools/ai/setting/import-default`,
+      base: {
+        url: `/tools/aichat/setting/base`,
+        get: async function (data) {
+          return await http.get(this.url, data)
+        },
+        put: async function (data) {
+          return await http.put(this.url, data)
+        },
+      },
+    },
+    keyword: {
+      rebuild: {
+        url: `/tools/aichat/keyword/rebuild`,
         post: async function (data) {
           return await http.post(this.url, data)
         },
       },
     },
-    default: {
-      url: `/tools/ai/default`,
-      get: async function (data) {
-        return await http.get(this.url, data)
-      },
-      put: async function (data) {
-        return await http.put(this.url, data)
+    embedding: {
+      rebuild: {
+        url: `/tools/aichat/embedding/rebuild`,
+        post: async function (data) {
+          return await http.post(this.url, data)
+        },
       },
     },
   },
