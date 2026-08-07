@@ -1174,29 +1174,99 @@ export default {
       title: '游戏内 AI 对话',
       tabs: {
         room: '房间配置',
-        default: '全局默认配置',
+        base: '基础配置',
       },
       actions: {
         save: '保存配置',
         refresh: '刷新配置',
-        importDefault: '导入全局默认配置',
+        rebuildKeyword: '重建关键词索引',
+        rebuildKeywordConfirm: '确定要重建关键词索引吗？重建期间关键词检索可能暂时不可用。',
+        rebuildEmbedding: '重建向量索引',
+        rebuildEmbeddingConfirm: '确定要重建向量索引吗？该操作会调用嵌入模型、消耗大量 token，并可能耗时较长。',
+        rebuildEmbeddingTip: '重建向量索引会消耗大量的token(≥80w)，如果你是第一次使用，配置完嵌入模型后(点击右上角的保存配置按钮)，需要手动创建一次向量索引(点击重建向量索引按钮)',
+      },
+      sections: {
+        chatModel: '对话模型',
+        embeddingModel: '嵌入模型',
+        generation: '生成参数',
+        context: '上下文设置',
+        maintenance: '资料索引',
       },
       form: {
-        enabled: '启用游戏内 AI 对话',
-        prefix: '触发前缀',
-        baseURL: 'Base URL',
-        apiKey: 'API Key',
-        model: '模型名称',
-        systemPrompt: '系统提示词',
-        temperature: 'Temperature',
-        maxTokens: '最大输出 Token',
-        requestTimeoutSeconds: '请求超时（秒）',
-        contextMaxMessages: '上下文消息上限',
-        contextTTLMinutes: '上下文有效期（分钟）',
+        enabled: {
+          name: '启用游戏内 AI 对话',
+          tip: '启用后，玩家可以在当前房间的游戏聊天中触发 AI 对话',
+        },
+        prefix: {
+          name: '触发前缀',
+          tip: '只有以前缀开头的消息会触发 AI；留空时所有非空聊天消息都会触发，最多 64 个字符',
+        },
+        maxResults: {
+          name: '最大返回文档数',
+          tip: '每次回答最多从游戏资料库中检索并提供给模型的相关文档数，范围 1-20',
+        },
+        maxReplyLength: {
+          name: 'AI 回复最大字数',
+          tip: '追加到系统提示词中的回复字数限制，范围 1-180',
+        },
+        chatBaseURL: {
+          name: '对话模型 Base URL',
+          tip: '兼容 OpenAI Chat Completions API 的服务地址；未以 /chat/completions 结尾时会自动补全',
+        },
+        chatApiKey: {
+          name: '对话模型 API Key',
+          tip: '调用对话模型服务时使用的 Bearer Token；服务无需鉴权时可留空',
+        },
+        chatModel: {
+          name: '对话模型名称',
+          tip: '对话请求中传递给模型服务的模型名称',
+        },
+        embeddingTip: '使用嵌入模型能极大的提高AI的理解能力，强烈建议配置；没有配置嵌入模型系统会回退到关键词搜索',
+        embeddingBaseURL: {
+          name: '嵌入模型 Base URL',
+          tip: '兼容 OpenAI Embeddings API 的服务地址，系统会自动追加 /embeddings；不使用向量检索时可留空',
+        },
+        embeddingApiKey: {
+          name: '嵌入模型 API Key',
+          tip: '调用嵌入模型服务时使用的 Bearer Token；不使用向量检索或服务无需鉴权时可留空',
+        },
+        embeddingModel: {
+          name: '嵌入模型名称',
+          tip: '构建和查询游戏资料向量索引时使用的模型名称；不使用向量检索时可留空',
+        },
+        systemPrompt: {
+          name: '系统提示词',
+          tip: '每次对话前发送给模型的系统指令，最多 8000 个字符；留空时使用平台默认提示词',
+          advice: '如果你没有其他特别的需要，请不要配置系统提示词，留空即可',
+        },
+        temperature: {
+          name: 'Temperature',
+          tip: '控制回复随机性，值越低结果越稳定，范围 0-2',
+        },
+        maxTokens: {
+          name: '最大输出 Token',
+          tip: '单次模型回复允许生成的最大 Token 数，范围 1-32768',
+        },
+        requestTimeoutSeconds: {
+          name: '请求超时（秒）',
+          tip: '等待对话模型接口响应的最长时间，范围 1-300 秒',
+        },
+        contextMaxMessages: {
+          name: '上下文消息上限',
+          tip: '每个玩家对话保留的最大上下文消息数，范围 2-100；奇数会按较小的偶数处理',
+        },
+        contextTTLMinutes: {
+          name: '上下文有效期（分钟）',
+          tip: '玩家无新消息后上下文的保留时间，范围 1-10080 分钟',
+        },
       },
       validation: {
         required: '该字段不能为空',
-        positive: '请输入大于 0 的数字',
+        range: '请输入 {minimum} 到 {maximum} 之间的数字',
+        integerRange: '请输入 {minimum} 到 {maximum} 之间的整数',
+        maxLength: '最多可输入 {maximum} 个字符',
+        apiKey: 'API Key 不能超过 16 KB',
+        url: '请输入有效的 HTTP 或 HTTPS 地址',
         prefix: '前缀不能换行且最多 64 个字符',
       },
     },
