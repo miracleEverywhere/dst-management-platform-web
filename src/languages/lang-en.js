@@ -975,8 +975,16 @@ export default {
           warning: 'This plugin significantly reduces game enjoyment and lifespan; please refrain from overusing it. This plugin may also cause game crashes, similar to improper use of console commands in-game',
           os: 'The TMI plugin can only function properly on Ubuntu 24 systems as required by the Stex tool. On non-Ubuntu 24 systems, only basic features are available and images cannot be displayed. The current system is: ',
         },
+        'ai_chat': {
+          desc: 'The ai_chat plugin provides AI conversations through in-game chat and uses the game knowledge base to answer player questions.',
+          warning: 'This plugin requires a working chat model configuration. Configuring an embedding model may also incur additional model usage costs.',
+        },
       },
       install: {
+        proxy: {
+          name: 'Proxy',
+          tip: 'The plugin needs to download files from GitHub. Enter a proxy URL if GitHub is not directly accessible; otherwise leave it blank',
+        },
         tmi: {
           proxy: {
             name: 'Proxy',

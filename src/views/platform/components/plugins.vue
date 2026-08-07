@@ -59,10 +59,10 @@
               </template>
               <template #item.step="{ item, value }">
                 <v-chip
-                  :color="item.name === 'chat' ? 'info' : value === 100 ? 'success' : 'warning'"
+                  :color="getPluginConfig(item.name).builtin ? 'info' : value === 100 ? 'success' : 'warning'"
                   label
                 >
-                  {{ item.name === 'chat'
+                  {{ getPluginConfig(item.name).builtin
                     ? t('platform.plugin.table.step.builtin')
                     : t(`platform.plugin.table.step.${value}`) }}
                 </v-chip>
@@ -77,7 +77,7 @@
                   <v-menu activator="parent">
                     <v-list>
                       <v-list-item
-                        v-if="item.name !== 'chat'"
+                        v-if="getPluginConfig(item.name).actions.introduce"
                         class="text-info"
                         @click="handleAction('introduce', item)"
                       >
@@ -92,7 +92,7 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        v-if="item.name !== 'chat'"
+                        v-if="getPluginConfig(item.name).actions.install"
                         class="text-primary"
                         @click="handleAction('install', item)"
                       >
@@ -107,7 +107,8 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        :disabled="(item.name !== 'chat' && item.step !== 100) || item.status"
+                        v-if="getPluginConfig(item.name).actions.enable"
+                        :disabled="(!getPluginConfig(item.name).builtin && item.step !== 100) || item.status"
                         class="text-success"
                         @click="handleAction('enable', item)"
                       >
@@ -122,7 +123,8 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        :disabled="(item.name !== 'chat' && item.step !== 100) || !item.status"
+                        v-if="getPluginConfig(item.name).actions.disable"
+                        :disabled="(!getPluginConfig(item.name).builtin && item.step !== 100) || !item.status"
                         class="text-warning"
                         @click="handleAction('disable', item)"
                       >
@@ -137,7 +139,7 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        v-if="item.name !== 'chat'"
+                        v-if="getPluginConfig(item.name).actions.update"
                         :disabled="item.step!==100"
                         class="text-info"
                         @click="handleAction('update', item)"
@@ -153,7 +155,7 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item
-                        v-if="item.name !== 'chat'"
+                        v-if="getPluginConfig(item.name).actions.uninstall"
                         class="text-error"
                         @click="handleAction('uninstall', item)"
                       >
@@ -206,6 +208,7 @@
           {{ t(`platform.plugin.introduce.${currentPlugin}.warning`) }}
         </v-alert>
         <v-alert
+          v-if="currentPluginConfig.showOsInfo"
           border="start"
           color="warning"
           variant="tonal"
@@ -219,9 +222,9 @@
   </v-dialog>
 
   <v-dialog
-    v-model="installTmiDialogVisible"
+    v-model="installDialogVisible"
     :width="mobile?'90%':'50%'"
-    :persistent="installTmiLoading"
+    :persistent="installLoading"
   >
     <v-card>
       <v-card-title>
@@ -238,6 +241,7 @@
           {{ t(`platform.plugin.introduce.info`) }}
         </v-alert>
         <v-alert
+          v-if="currentPluginConfig.showOsInfo"
           border="start"
           color="x"
           variant="tonal"
@@ -247,21 +251,22 @@
           {{ osPlatform }} {{ osPlatformVersion }}
         </v-alert>
         <v-text-field
-          v-model="installTmiForm.proxy"
-          v-tooltip="t('platform.plugin.install.tmi.proxy.tip')"
-          :label="t('platform.plugin.install.tmi.proxy.name')"
+          v-if="currentPluginConfig.installProxy"
+          v-model="installForm.proxy"
+          v-tooltip="t('platform.plugin.install.proxy.tip')"
+          :label="t('platform.plugin.install.proxy.name')"
         />
       </v-card-text>
       <v-card-actions>
         <v-btn
           color="x"
-          @click="installTmiDialogVisible=false"
+          @click="installDialogVisible=false"
         >
           {{ t('platform.plugin.install.cancel') }}
         </v-btn>
         <v-btn
-          :loading="installTmiLoading"
-          @click="installTmi"
+          :loading="installLoading"
+          @click="installPlugin"
         >
           {{ t('platform.plugin.install.install') }}
         </v-btn>
@@ -335,6 +340,57 @@ const headers = [
   { title: t('platform.plugin.table.actions.action'), value: 'actions' },
 ]
 
+// New plugins inherit these defaults; pluginConfigs only declares exceptions.
+const defaultPluginConfig = {
+  builtin: false,
+  showOsInfo: false,
+  installProxy: true,
+  defaultProxy: '',
+  actions: {
+    introduce: true,
+    install: true,
+    enable: true,
+    disable: true,
+    update: true,
+    uninstall: true,
+  },
+}
+
+const pluginConfigs = {
+  chat: {
+    builtin: true,
+    actions: {
+      introduce: false,
+      install: false,
+      update: false,
+      uninstall: false,
+    },
+  },
+  tmi: {
+    showOsInfo: true,
+    defaultProxy: 'https://ghfast.top/',
+  },
+  'ai_chat': {
+    defaultProxy: 'https://ghfast.top/',
+    actions: {
+      update: false,
+    },
+  },
+}
+
+const getPluginConfig = pluginName => {
+  const config = pluginConfigs[pluginName] || {}
+
+  return {
+    ...defaultPluginConfig,
+    ...config,
+    actions: {
+      ...defaultPluginConfig.actions,
+      ...config.actions,
+    },
+  }
+}
+
 const handleAction = (action, item) => {
   currentPlugin.value = item.name
 
@@ -344,7 +400,11 @@ const handleAction = (action, item) => {
     return
   }
   if (action === 'install') {
-    installTmiDialogVisible.value = true
+    installForm.value = {
+      name: item.name,
+      proxy: getPluginConfig(item.name).defaultProxy,
+    }
+    installDialogVisible.value = true
 
     return
   }
@@ -358,19 +418,20 @@ const handleAction = (action, item) => {
 }
 
 const currentPlugin = ref('')
+const currentPluginConfig = computed(() => getPluginConfig(currentPlugin.value))
 const introduceDialogVisible = ref(false)
-const installTmiDialogVisible = ref(false)
-const installTmiLoading = ref(false)
+const installDialogVisible = ref(false)
+const installLoading = ref(false)
 
-const installTmiForm = ref({
-  name: 'tmi',
-  proxy: 'https://gh-proxy.com/',
+const installForm = ref({
+  name: '',
+  proxy: '',
 })
 
-const installTmi = () => {
-  installTmiLoading.value = true
-  platformApi.plugin.install.post(installTmiForm.value).then(response => {
-    installTmiDialogVisible.value = false
+const installPlugin = () => {
+  installLoading.value = true
+  platformApi.plugin.install.post(installForm.value).then(response => {
+    installDialogVisible.value = false
     showSnackbar(response.message)
     getPluginListData({
       page: pluginListData.value.page,
@@ -378,7 +439,7 @@ const installTmi = () => {
       sortBy: undefined,
     })
   }).finally(() => {
-    installTmiLoading.value = false
+    installLoading.value = false
   })
 }
 
