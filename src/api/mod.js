@@ -19,6 +19,12 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  downloadedIds: {
+    url: `/mod/downloaded/ids`,
+    get: async function(data){
+      return await http.get(this.url, data)
+    },
+  },
   add: {
     enable: {
       url: `/mod/add/enable`,

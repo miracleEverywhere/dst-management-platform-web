@@ -51,7 +51,7 @@
         </template>
       </v-text-field>
     </template>
-    <template v-if="modSearchLoading">
+    <template v-if="modSearchLoading || downloadedModIdsLoading">
       <v-skeleton-loader
         type="table-row@20"
         class="my-8"
@@ -66,6 +66,8 @@
           <mod-info
             :mod="mod"
             :room-i-d="globalStore.room.id"
+            :downloaded="downloadedModIds.has(Number(mod.id))"
+            @downloaded="markModDownloaded"
           />
         </template>
       </div>
@@ -108,6 +110,25 @@ const searchTypeMap = ref([
 ])
 
 const modSearchLoading = ref(false)
+const downloadedModIdsLoading = ref(false)
+const downloadedModIds = ref(new Set())
+
+const getDownloadedModIds = () => {
+  const reqForm = {
+    roomID: globalStore.room.id,
+  }
+
+  downloadedModIdsLoading.value = true
+  modApi.downloadedIds.get(reqForm).then(response => {
+    downloadedModIds.value = new Set((response.data || []).map(Number))
+  }).finally(() => {
+    downloadedModIdsLoading.value = false
+  })
+}
+
+const markModDownloaded = modId => {
+  downloadedModIds.value = new Set(downloadedModIds.value).add(Number(modId))
+}
 
 const modSearchData = ref({
   total: 0,
@@ -142,6 +163,7 @@ const handleModSearch = (resetPage = true) => {
 
 
 onMounted(() => {
+  getDownloadedModIds()
   handleModSearch()
 })
 </script>

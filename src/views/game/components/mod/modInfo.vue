@@ -3,10 +3,17 @@
     hover
     variant="flat"
     height="135"
-    class="cursor-auto"
+    class="cursor-auto mod-card"
   >
+    <v-icon
+      v-if="props.downloaded"
+      class="downloaded-check"
+      color="success"
+      icon="ri-checkbox-circle-line"
+      size="96"
+    />
     <div
-      class="fcc"
+      class="fcc mod-card-content"
       style="height: 135px"
     >
       <div style="width: 80px; height: 80px">
@@ -273,7 +280,13 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  downloaded: {
+    type: Boolean,
+    default: false,
+  },
 })
+
+const emit = defineEmits(['downloaded'])
 
 const { t } = useI18n()
 
@@ -308,6 +321,7 @@ const handleDownload = () => {
 
   modApi.download.post(reqFrom).then(response => {
     showSnackbar(response.message)
+    emit('downloaded', props.mod.id)
   }).finally(() => {
     downloadLoading.value = false
   })
@@ -315,6 +329,24 @@ const handleDownload = () => {
 </script>
 
 <style scoped>
+.mod-card {
+  overflow: hidden;
+  position: relative;
+}
+
+.mod-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.downloaded-check {
+  inset-block-start: 18px;
+  inset-inline-end: 8px;
+  opacity: 0.38;
+  pointer-events: none;
+  position: absolute;
+}
+
 .custom-table {
   border-collapse: collapse;
   width: 100%;
