@@ -5,13 +5,21 @@
     height="135"
     class="cursor-auto mod-card"
   >
-    <v-icon
+    <v-tooltip
       v-if="props.downloaded"
-      class="downloaded-check"
-      color="success"
-      icon="ri-checkbox-circle-line"
-      size="96"
-    />
+      location="top"
+    >
+      <template #activator="{ props: tooltipProps }">
+        <v-icon
+          v-bind="tooltipProps"
+          class="downloaded-check"
+          color="success"
+          icon="ri-checkbox-circle-line"
+          size="96"
+        />
+      </template>
+      {{ t('game.mod.download.modInfo.downloaded') }}
+    </v-tooltip>
     <div
       class="fcc mod-card-content"
       style="height: 135px"
@@ -343,8 +351,8 @@ const handleDownload = () => {
   inset-block-start: 18px;
   inset-inline-end: 8px;
   opacity: 0.38;
-  pointer-events: none;
   position: absolute;
+  z-index: 2;
 }
 
 .custom-table {

@@ -521,6 +521,7 @@ export default {
         modInfo: {
           detail: '详情',
           download: '下载',
+          downloaded: '模组已下载',
           size: '模组大小',
           createTime: '创建时间',
           updateTime: '更新时间',

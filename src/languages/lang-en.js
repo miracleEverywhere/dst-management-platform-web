@@ -521,6 +521,7 @@ export default {
         modInfo: {
           detail: 'Detail',
           download: 'Download',
+          downloaded: 'Mod downloaded',
           size: 'Size',
           createTime: 'Create Time',
           updateTime: 'Update Time',
