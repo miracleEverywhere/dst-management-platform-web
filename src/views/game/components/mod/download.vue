@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="downloadPageRef">
     <template v-if="mobile">
       <v-row class="ma-1">
         <v-select
@@ -80,10 +80,6 @@
           variant="text"
           :length="Math.ceil(modSearchData.total/modSearchForm.pageSize)"
           :total-visible="7"
-          @first="handleModSearch(false)"
-          @last="handleModSearch(false)"
-          @next="handleModSearch(false)"
-          @prev="handleModSearch(false)"
           @update:model-value="handleModSearch(false)"
         />
       </div>
@@ -136,6 +132,7 @@ const modSearchData = ref({
 })
 
 const modSearchFormRef = ref()
+const downloadPageRef = ref()
 
 const modSearchForm = ref({
   page: 1,
@@ -144,20 +141,31 @@ const modSearchForm = ref({
   searchType: "text",
 })
 
-const handleModSearch = (resetPage = true) => {
+const handleModSearch = async (resetPage = true) => {
   if (resetPage) {
     modSearchForm.value.page = 1
   }
   modSearchLoading.value = true
-  modApi.search.get(modSearchForm.value).then(response => {
+
+  try {
+    const response = await modApi.search.get(modSearchForm.value)
+
     modSearchData.value.rows = response.data.rows
     modSearchData.value.total = response.data.total
     if (modSearchForm.value.searchType === "id") {
       showSnackbar('ID搜索不显示评分', 'info')
     }
-  }).finally(() => {
+  } finally {
     modSearchLoading.value = false
-  })
+  }
+
+  if (!resetPage) {
+    await nextTick()
+    downloadPageRef.value?.parentElement?.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
 }
 
 
