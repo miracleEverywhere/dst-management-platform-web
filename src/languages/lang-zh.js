@@ -622,6 +622,10 @@ export default {
       },
       history: {
         tabName: '历史玩家',
+        search: {
+          label: '搜索',
+          placeholder: '可通过玩家 ID 或昵称搜索',
+        },
       },
       statistics: {
         tabName: '玩家统计',

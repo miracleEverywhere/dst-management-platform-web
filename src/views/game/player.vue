@@ -57,7 +57,6 @@
           <list
             :height="calculateContainerSize()"
             list-type="adminlist"
-            :uidmap="uidmap"
           />
         </v-container>
       </v-tabs-window-item>
@@ -73,7 +72,6 @@
           <list
             :height="calculateContainerSize()"
             list-type="blocklist"
-            :uidmap="uidmap"
           />
         </v-container>
       </v-tabs-window-item>
@@ -89,7 +87,6 @@
           <list
             :height="calculateContainerSize()"
             list-type="whitelist"
-            :uidmap="uidmap"
           />
         </v-container>
       </v-tabs-window-item>
@@ -114,7 +111,7 @@
           class="w-100"
           style="overflow-y: auto"
         >
-          <history :uidmap="uidmap" />
+          <history />
         </v-container>
       </v-tabs-window-item>
       <v-tabs-window-item value="statistics">
@@ -135,37 +132,14 @@
 import Online from "@/views/game/components/player/online.vue"
 import { useI18n } from "vue-i18n"
 import { debounce } from "@/utils/tools"
-import useGlobalStore from "@store/global.js"
-import useUserStore from "@store/user.js"
-import { useDisplay } from "vuetify/framework"
 import List from "@/views/game/components/player/list.vue"
-import playerApi from "@/api/player"
 import History from "@/views/game/components/player/history.vue"
 import Statistics from "@/views/game/components/player/statistics.vue"
 import Chat from "@/views/game/components/player/chat.vue"
 
-const globalStore = useGlobalStore()
-const userStore = useUserStore()
-const { mobile } = useDisplay()
 const { t } = useI18n()
 const activeTabName = ref('online')
 const otherHeight = 150
-
-
-const uidmap = ref([])
-
-const getUidmap = () => {
-  if (globalStore.room.id===0) return
-
-  const reqForm = {
-    roomID: globalStore.room.id,
-  }
-
-  playerApi.uidmap.get(reqForm).then(response => {
-    uidmap.value = response.data
-  })
-}
-
 
 const windowHeight = ref(window.innerHeight)
 
@@ -185,8 +159,6 @@ const handleTabClick = tab => {
 }
 
 onMounted(async () => {
-  getUidmap()
-
   // 添加事件监听
   window.addEventListener('resize', handleResize)
 })
@@ -194,4 +166,3 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
-

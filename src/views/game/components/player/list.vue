@@ -142,9 +142,6 @@
             @click:close="handleListChange(uid,'delete')"
           >
             {{ uid }}
-            <span v-if="(props.uidmap.find(item => item.uid === uid)?.nickname||'')!==''">
-              ({{ props.uidmap.find(item => item.uid === uid)?.nickname||'' }})
-            </span>
           </v-chip>
           <div
             class="d-flex align-center"
@@ -205,10 +202,6 @@ const props = defineProps({
   height: {
     type: Number,
     default: 0,
-  },
-  uidmap: {
-    type: Array,
-    default: () => [],
   },
 })
 
@@ -368,4 +361,3 @@ onMounted(() => {
   getListData()
 })
 </script>
-

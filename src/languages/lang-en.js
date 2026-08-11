@@ -622,6 +622,10 @@ export default {
       },
       history: {
         tabName: 'History',
+        search: {
+          label: 'Search',
+          placeholder: 'Search by player ID or nickname',
+        },
       },
       statistics: {
         tabName: 'Statistics',
