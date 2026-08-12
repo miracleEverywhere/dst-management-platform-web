@@ -53,6 +53,11 @@ export default {
       cancel: '取消',
       confirm: '确认',
     },
+    readme: {
+      title: '重要提示',
+      content: '所有关于游戏的改动例如：房间、模组、玩家等，都需要重启游戏才能生效；如果遇到不懂的地方，点击右上角的文档按钮，文档中都有详细介绍',
+      confirm: '我已知晓',
+    },
   },
   menu: {
     dashboard: "控制面板",

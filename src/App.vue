@@ -23,6 +23,7 @@
   <!-- 应用主内容 -->
   <v-app v-if="!showInitialLoading">
     <message />
+    <readme-dialog />
     <router-view />
   </v-app>
 </template>

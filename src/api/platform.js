@@ -34,6 +34,15 @@ export default {
       return await http.post(this.url, data)
     },
   },
+  readme: {
+    url: `/platform/readme`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+    post: async function (data) {
+      return await http.post(this.url, data)
+    },
+  },
   runningScreens: {
     url: `/platform/running_screens`,
     get: async function (data) {

@@ -53,6 +53,11 @@ export default {
       cancel: 'Cancel',
       confirm: 'Confirm',
     },
+    readme: {
+      title: 'Important Notice',
+      content: 'All game changes, such as rooms, mods, and players, require a game restart to take effect. If you need help, click the Documents button in the upper-right corner for detailed instructions.',
+      confirm: 'I Understand',
+    },
   },
   menu: {
     dashboard: "Dashboard",
