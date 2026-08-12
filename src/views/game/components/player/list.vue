@@ -53,13 +53,15 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-btn
+                    variant="elevated"
                     color="x"
                     @click="dstBlockDialog=false"
                   >
                     {{ t('game.player.list.dstBlock.cancel') }}
                   </v-btn>
                   <v-btn
-                    color="info"
+                    variant="elevated"
+                    color="primary"
                     @click="handleListChange('', 'import')"
                   >
                     {{ t('game.player.list.dstBlock.import') }}
