@@ -1196,10 +1196,10 @@ export default {
         rebuildKeywordConfirm: 'Are you sure you want to rebuild the keyword index? Keyword search may be temporarily unavailable during the rebuild.',
         rebuildEmbedding: 'Rebuild embedding index',
         rebuildEmbeddingConfirm: 'Are you sure you want to rebuild the embedding index? This operation calls the embedding model, consumes a large number of tokens, and may take a while.',
-        rebuildEmbeddingTip: 'Rebuilding the embedding index will consume a large number of tokens (≥800,000). If this is your first time using it, after configuring the embedding model (click the "Save settings" button in the upper right corner), you will need to manually create the embedding index once (click the "Rebuild embedding index" button).',
+        rebuildEmbeddingTip: 'Rebuilding the embedding index will consume a large number of tokens (>800,000). If this is your first time using it, after configuring the embedding model (click the "Save settings" button in the upper right corner), you will need to manually create the embedding index once (click the "Rebuild embedding index" button).',
       },
       sections: {
-        chatModel: 'Chat Model',
+        chatModel: 'Chat Model (LLM)',
         embeddingModel: 'Embedding Model',
         generation: 'Generation',
         context: 'Context',
