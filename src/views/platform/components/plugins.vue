@@ -93,6 +93,7 @@
                       </v-list-item>
                       <v-list-item
                         v-if="getPluginConfig(item.name).actions.install"
+                        :disabled="item.step===100"
                         class="text-primary"
                         @click="handleAction('install', item)"
                       >
@@ -156,6 +157,7 @@
                       </v-list-item>
                       <v-list-item
                         v-if="getPluginConfig(item.name).actions.uninstall"
+                        :disabled="item.step!==100"
                         class="text-error"
                         @click="handleAction('uninstall', item)"
                       >
@@ -255,6 +257,14 @@
           v-model="installForm.proxy"
           v-tooltip="t('platform.plugin.install.proxy.tip')"
           :label="t('platform.plugin.install.proxy.name')"
+        />
+        <v-checkbox
+          v-if="currentPlugin === 'tmi'"
+          v-model="installForm.imageParse"
+          v-tooltip="t('platform.plugin.install.tmi.imageParse.tip')"
+          :label="t('platform.plugin.install.tmi.imageParse.name')"
+          hide-details
+          class="mt-2"
         />
       </v-card-text>
       <v-card-actions>
@@ -403,6 +413,10 @@ const handleAction = (action, item) => {
     installForm.value = {
       name: item.name,
       proxy: getPluginConfig(item.name).defaultProxy,
+      ...(item.name === 'tmi' && {
+        imageParse: osPlatform.value.toLowerCase() === 'ubuntu'
+          && osPlatformVersion.value.split('.')[0] === '24',
+      }),
     }
     installDialogVisible.value = true
 

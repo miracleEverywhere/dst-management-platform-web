@@ -1009,6 +1009,10 @@ export default {
             name: '代理',
             tip: '需要从github下载Stex，如不需要代理则留空，非ubuntu 24系统无需填写',
           },
+          imageParse: {
+            name: '解析物品图片',
+            tip: '启用后将使用Stex解析物品图片，仅支持Ubuntu 24系统；其他系统请勿勾选',
+          },
         },
         cancel: '取消',
         install: '安装',

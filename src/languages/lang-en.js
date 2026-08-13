@@ -1009,6 +1009,10 @@ export default {
             name: 'Proxy',
             tip: 'The Stex tool needs to be downloaded from GitHub; if a proxy is not required, leave it blank. This field is not required for non-Ubuntu 24 systems',
           },
+          imageParse: {
+            name: 'Parse item images',
+            tip: 'When enabled, Stex parses item images. This is supported only on Ubuntu 24; leave it unchecked on other systems',
+          },
         },
         cancel: 'Cancel',
         install: 'Install',
