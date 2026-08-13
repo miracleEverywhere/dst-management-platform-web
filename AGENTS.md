@@ -1,78 +1,82 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+本文件用于指导 Codex（Codex.ai/code）在此代码仓库中开展工作。
 
-## Project overview
+## 项目概述
 
-This is the frontend for [DMP (Don't Starve Together Management Platform)](https://github.com/miracleEverywhere/dst-management-platform-api), a web admin panel for managing DST game servers. It's built on the [materio-vuetify-vuejs-admin-template](https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free). The build output is embedded into the Go backend's `embedFS/dist` directory.
+本项目是 [DMP（Don't Starve Together Management Platform）](https://github.com/miracleEverywhere/dst-management-platform-api) 的前端，是一个用于管理《饥荒联机版》（DST）游戏服务器的 Web 管理后台。项目基于 [materio-vuetify-vuejs-admin-template](https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free) 构建，构建产物会嵌入 Go 后端的 `embedFS/dist` 目录。
 
-**Stack:** Vue 3 (Composition API), Vite 7, Vuetify 3, Pinia 3, Vue Router 4 (hash mode), Vue I18n, ECharts 5, Axios
+**技术栈：** Vue 3（Composition API）、Vite 7、Vuetify 3、Pinia 3、Vue Router 4（Hash 模式）、Vue I18n、ECharts 5、Axios
 
-## Commands
+## 常用命令
 
 ```bash
-pnpm run dev          # Start dev server (port 5173, strict)
-pnpm run build        # Production build
-pnpm run lint         # ESLint with auto-fix (.eslintrc.cjs)
-pnpm run preview      # Preview production build (port 5050)
-pnpm run build:icons  # Build iconify icon bundle (runs on postinstall)
+pnpm run dev          # 启动开发服务器（固定端口 5173）
+pnpm run build        # 执行生产环境构建
+pnpm run lint         # 运行 ESLint 并自动修复（.eslintrc.cjs）
+pnpm run preview      # 预览生产构建（端口 5050）
+pnpm run build:icons  # 构建 Iconify 图标包（postinstall 时自动运行）
 ```
 
-There is no test suite.
+项目目前没有测试套件。
 
-## Architecture
+## 项目架构
 
-### Plugin auto-registration (`src/@core/utils/plugins.js`)
+### 插件自动注册（`src/@core/utils/plugins.js`）
 
-The entry point (`src/main.js`) calls `registerPlugins(app)`, which uses `import.meta.glob` to scan `src/plugins/**/index.{ts,js}` and `src/plugins/*.{ts,js}` files. Each plugin file exports a default function that receives the Vue app instance and calls `app.use(...)`. Plugin load order is alphabetically sorted.
+入口文件 `src/main.js` 会调用 `registerPlugins(app)`。该函数使用 `import.meta.glob` 扫描 `src/plugins/**/index.{ts,js}` 和 `src/plugins/*.{ts,js}` 文件。每个插件文件默认导出一个函数，该函数接收 Vue 应用实例并调用 `app.use(...)`。插件按文件名的字母顺序加载。
 
-### Routing (`src/plugins/router/`)
+### 路由（`src/plugins/router/`）
 
-Uses hash-mode history. Static routes (defined in `routes.js`) are minimal: `/login` and a catch-all error page. Dynamic routes are created after login via `createDynamicRouter(router, userStore.menus)` — the backend returns a menu tree that maps to view components under `src/views/`. The router guard in `src/plugins/router/index.js` redirects unauthenticated users to `/login` and injects dynamic routes on first navigation after login.
+项目使用 Hash 模式的路由历史。`routes.js` 中定义的静态路由很少，仅包含 `/login` 和一个捕获所有未匹配路径的错误页面。用户登录后，通过 `createDynamicRouter(router, userStore.menus)` 创建动态路由；后端返回的菜单树会映射到 `src/views/` 下的视图组件。
 
-### State management (`src/plugins/store/`)
+`src/plugins/router/index.js` 中的路由守卫会将未登录用户重定向到 `/login`，并在登录后的首次导航中注入动态路由。
 
-Two Pinia stores, both persisted to localStorage with prefix `dmp-`:
+### 状态管理（`src/plugins/store/`）
 
-- **`user`** (`user.js`) — token, userInfo (username, nickname, role, avatar, permissions like roomCreation/maxWorlds/maxPlayers), and menus (the dynamic route tree from backend)
-- **`global`** (`global.js`) — theme, language, current room context (id, gameName), game/DMP version tracking
+项目包含两个 Pinia Store，二者都持久化到 `localStorage`，键名前缀为 `dmp-`：
 
-### API layer (`src/api/`, `src/utils/axios.js`)
+- **`user`**（`user.js`）：保存 `token`、`userInfo`（`username`、`nickname`、`role`、`avatar`，以及 `roomCreation`、`maxWorlds`、`maxPlayers` 等权限）和 `menus`（后端返回的动态路由树）。
+- **`global`**（`global.js`）：保存主题、语言、当前房间上下文（`id`、`gameName`），以及游戏与 DMP 的版本信息。
 
-Each domain has a file in `src/api/` exporting endpoint definitions as a nested object with `url` and HTTP methods (`get`, `post`, `put`, `delete`). All use the shared Axios instance from `src/utils/axios.js` which:
-- Base URL is `/api/v3` (from `ApiVersion` in config)
-- Sends `X-DMP-TOKEN` header on every request
-- Sends `X-I18n-Lang` header for i18n
-- On status 420 → clears auth and redirects to login
-- On non-200 → shows snackbar error and rejects
-- On successful response → returns `response.data` directly (callers get the unwrapped data)
+### API 层（`src/api/`、`src/utils/axios.js`）
 
-### Layout system
+`src/api/` 中的每个业务域都有对应文件，以嵌套对象形式导出接口定义，接口包含 `url` 和 HTTP 方法（`get`、`post`、`put`、`delete`）。所有接口都使用 `src/utils/axios.js` 中的共享 Axios 实例，该实例具有以下行为：
 
-Two directories with an enforced boundary:
+- 基础 URL 为 `/api/v3`，版本号取自配置中的 `ApiVersion`。
+- 每个请求都会发送 `X-DMP-TOKEN` 请求头。
+- 每个请求都会发送用于国际化的 `X-I18n-Lang` 请求头。
+- 响应状态码为 420 时，清除认证信息并跳转到登录页。
+- 响应状态码不是 200 时，显示 Snackbar 错误提示并拒绝 Promise。
+- 请求成功时直接返回 `response.data`，调用方获取的是已解包的数据。
 
-- **`src/@core/`** — Base theme: SCSS foundations (variables, mixins, utilities), shared SCSS components. Imported by both base and custom layouts.
-- **`src/@layouts/`** — Layout framework: `VerticalNavLayout` component, navigation utilities, layout enums/types. **Cannot import from `@core/`** (enforced by ESLint regex rule).
+### 布局系统
 
-Application layouts live in `src/layouts/`:
-- `blank.vue` — minimal layout for login/error pages
-- `default.vue` — main layout wrapping `DefaultLayoutWithVerticalNav` with a `provide("refresh", ...)` for page re-rendering
+以下两个目录之间存在强制边界：
 
-### Config (`src/config/index.js`)
+- **`src/@core/`**：基础主题层，包含 SCSS 基础设施（变量、Mixin、工具类）和共享 SCSS 组件，可由基础布局和自定义布局共同引用。
+- **`src/@layouts/`**：布局框架层，包含 `VerticalNavLayout` 组件、导航工具以及布局枚举和类型。**该目录不能从 `@core/` 导入内容**，此限制由 ESLint 正则规则强制执行。
+
+应用布局位于 `src/layouts/`：
+
+- `blank.vue`：用于登录页和错误页的最简布局。
+- `default.vue`：主布局，封装 `DefaultLayoutWithVerticalNav`，并通过 `provide("refresh", ...)` 提供页面重新渲染能力。
+
+### 配置（`src/config/index.js`）
 
 - `PiniaPrefix` = `"dmp-"`
-- `Version` = current app version
-- `ApiVersion` = `"v3"` (used as Axios baseURL)
-- `GamePortFactor` — port offset constants for DST server components
+- `Version`：当前应用版本。
+- `ApiVersion` = `"v3"`，用作 Axios 的 `baseURL`。
+- `GamePortFactor`：DST 服务器各组件的端口偏移常量。
 
-### i18n (`src/languages/`)
+### 国际化（`src/languages/`）
 
-Two locale files: `lang-zh.js` and `lang-en.js`. Uses `vue-i18n` with Composition API mode. Language is persisted in the global store and initialized from browser language on first load. Vuetify locale is synced separately.
+项目包含两个语言文件：`lang-zh.js` 和 `lang-en.js`。国际化基于 `vue-i18n`，使用 Composition API 模式。语言设置会持久化到全局 Store；首次加载时根据浏览器语言初始化。Vuetify 的语言环境会单独同步。
 
-### Path aliases (from `vite.config.js`)
+### 路径别名（定义于 `vite.config.js`）
 
-| Alias | Path |
-|-------|------|
+| 别名 | 路径 |
+| --- | --- |
 | `@` | `src/` |
 | `@core` | `src/@core/` |
 | `@layouts` | `src/@layouts/` |
@@ -80,35 +84,35 @@ Two locale files: `lang-zh.js` and `lang-en.js`. Uses `vue-i18n` with Compositio
 | `@styles` | `src/assets/styles/` |
 | `@store` | `src/plugins/store/` |
 
-### Auto-imports
+### 自动导入
 
-Configured via `unplugin-auto-import`: `vue`, `vue-router`, `@vueuse/core`, `@vueuse/math`, `pinia` are globally available without explicit imports. Components from `src/@core/components` and `src/components` are auto-registered.
+项目通过 `unplugin-auto-import` 配置自动导入，`vue`、`vue-router`、`@vueuse/core`、`@vueuse/math` 和 `pinia` 中的 API 无需显式导入即可使用。`src/@core/components` 和 `src/components` 中的组件会自动注册。
 
-### Custom directives (`src/directives/`)
+### 自定义指令（`src/directives/`）
 
-Currently only `v-copy` (clipboard copy).
+目前仅包含 `v-copy`，用于将内容复制到剪贴板。
 
-### Views structure (`src/views/`)
+### 视图目录结构（`src/views/`）
 
-| Directory | Purpose |
-|-----------|---------|
-| `login/` | Login & registration |
-| `dashboard/` | Dashboard with ECharts (server info, sys stats) |
-| `rooms/` | Room list — the default landing page |
-| `game/` | Game management: base settings, mods, player management |
-| `tools/` | Server tools: announce, backup, map viewer, snapshots, token management |
-| `logs/` | Chat logs, game logs, access logs, download logs, cleanup logs |
-| `platform/` | Platform settings |
-| `profile/` | User profile/account settings |
-| `install/` | DST server installation wizard |
+| 目录 | 用途 |
+| --- | --- |
+| `login/` | 登录与注册 |
+| `dashboard/` | 仪表盘，展示服务器信息和系统统计数据 |
+| `rooms/` | 房间列表，也是默认入口页面 |
+| `game/` | 游戏管理，包括基础设置、模组和玩家管理 |
+| `tools/` | 服务器工具，包括公告、备份、地图查看器、快照和令牌管理 |
+| `logs/` | 聊天日志、游戏日志、访问日志、下载日志和清理日志 |
+| `platform/` | 平台设置 |
+| `profile/` | 用户资料与账号设置 |
+| `install/` | DST 服务器安装向导 |
 
-## Code conventions
+## 代码规范
 
-- Vue files use `<script setup>` with Composition API
-- JS with semicolons disabled (`semi: never`)
-- 2-space indentation
-- Trailing commas in multiline (`comma-dangle: always-multiline`)
-- CamelCase enforced
-- Component names in templates use kebab-case
-- Only `mdi` (Material Design Icons) icon prefix is allowed (ESLint regex rule)
-- Use `@images` alias for image imports, `@store` for store imports (ESLint regex enforces this)
+- Vue 文件使用 `<script setup>` 和 Composition API。
+- JavaScript 不使用分号（`semi: never`）。
+- 使用 2 个空格缩进。
+- 多行结构保留尾随逗号（`comma-dangle: always-multiline`）。
+- 强制使用驼峰命名法。
+- 模板中的组件名使用 kebab-case。
+- 图标仅允许使用 `ri`（Remix Icons）前缀，此规则由 ESLint 正则规则强制执行。
+- 图片导入使用 `@images` 别名，Store 导入使用 `@store` 别名，此规则由 ESLint 正则规则强制执行。
