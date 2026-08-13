@@ -643,6 +643,15 @@ export default {
           title: 'Online Time Top-10',
           unit: 'Day',
         },
+        ganttChart: {
+          title: 'Player Online Time',
+          timeRangeTip: 'Show player sessions from the most recent number of hours',
+          uid: 'Player UID',
+          character: 'Character',
+          startTime: 'Online At',
+          endTime: 'Offline At',
+          duration: 'Online Time',
+        },
       },
       chat: {
         title: 'Chat',

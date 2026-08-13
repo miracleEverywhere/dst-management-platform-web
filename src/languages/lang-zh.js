@@ -643,6 +643,15 @@ export default {
           title: '在线时长Top-10',
           unit: '天',
         },
+        ganttChart: {
+          title: '玩家在线时长',
+          timeRangeTip: '展示最近多少小时的玩家在线记录',
+          uid: '玩家 UID',
+          character: '角色',
+          startTime: '上线时间',
+          endTime: '下线时间',
+          duration: '在线时长',
+        },
       },
       chat: {
         title: '聊天信息',

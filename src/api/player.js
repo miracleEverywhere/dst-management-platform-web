@@ -7,6 +7,12 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  gantt: {
+    url: `/player/gantt`,
+    get: async function (data) {
+      return await http.get(this.url, data)
+    },
+  },
   list: {
     url: `/player/list`,
     get: async function (data) {
