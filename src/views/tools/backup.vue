@@ -156,6 +156,7 @@ import { debounce, formatBytes, timestamp2time } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useDisplay } from "vuetify/framework"
 import useUserStore from "@store/user.js"
+import { ApiVersion } from "@/config/index.js"
 
 
 const globalStore = useGlobalStore()
@@ -276,11 +277,18 @@ const downloadBackup = filename => {
   const reqForm = {
     roomID: globalStore.room.id,
     filename: filename,
+    token: userStore.token,
   }
 
-  toolsApi.backup.download.download(reqForm, "dmp_backup.zip").finally(() => {
-    actionButtonLoading.value = false
-  })
+  // 使用原生下载
+  const queryString = new URLSearchParams(reqForm).toString()
+  const link = document.createElement('a')
+
+  link.href = ApiVersion + "/tools/backup/download.zip?" + queryString.toString()
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  actionButtonLoading.value = false
 }
 
 const handleResize = debounce(() => {
