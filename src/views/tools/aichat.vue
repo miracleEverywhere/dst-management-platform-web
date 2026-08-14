@@ -104,7 +104,10 @@
                       {{ t('tools.ai.tabTip') }}
                     </v-alert>
                   </v-col>
-                  <v-col cols="12">
+                  <v-col
+                    cols="12"
+                    class="mb-2"
+                  >
                     <div class="d-flex align-center">
                       <v-chip
                         v-tooltip="t('tools.ai.form.enabled.tip')"
