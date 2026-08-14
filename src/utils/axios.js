@@ -5,6 +5,12 @@ import useUserStore from "@store/user"
 import { ApiVersion } from "@/config"
 import useGlobalStore from "@store/global.js"
 
+import streamSaver from 'streamsaver'
+
+streamSaver.mitm = window.location.origin + '/mitm.html'
+
+// 保存下载的取消控制器（用于支持中途取消）
+let downloadController = null
 
 // 创建一个 axios 实例
 const instance = axios.create({
@@ -95,52 +101,103 @@ const http = {
     headers: { 'Content-Type': 'application/json' },
     data: data,
   }),
+
+  // 使用 streamsaver 下载
   download: async (url, params, filename) => {
+    downloadController = new AbortController()
+
+    const { signal } = downloadController
+
+    // 1. 拼接 URL 查询参数
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : ''
+    const fullUrl = "/v3" + url + queryString
+
+    // 2. 组装请求头
+    const token = getToken()
+
+    const headers = {
+      'X-DMP-TOKEN': token ? `${token}` : '',
+      ...(instance.defaults?.headers?.common || {}),
+    }
+
+    let response
     try {
-      // 设置 responseType 为 blob
-      const response = await instance.get(url, {
-        params,
-        responseType: 'blob',
+      // 3. 发起请求
+      response = await fetch(fullUrl, {
+        method: 'GET',
+        headers,
+        signal,
       })
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.warn('用户已手动取消下载')
 
-      // 创建 Blob 对象
-      const blob = new Blob([response.data])
+        return // 被取消时直接退出，不向上抛异常
+      }
+      console.error('网络请求失败:', error)
+      throw error // 真正的网络异常抛给上层业务组件处理
+    } finally {
+      downloadController = null
+    }
 
-      // 创建下载链接
-      const downloadUrl = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
+    // 4. 检查响应状态（放在 try 外部，不再触发“本地捕获异常”警告）
+    if (!response.ok) {
+      const errorMsg = `下载失败，HTTP 状态码: ${response.status}`
 
-      link.href = downloadUrl
+      console.error(errorMsg)
+      throw new Error(errorMsg)
+    }
 
-      // 设置文件名
-      if (filename) {
-        link.download = filename
-      } else {
-        // 尝试从响应头获取文件名
-        const contentDisposition = response.headers['content-disposition']
-        if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(/filename\*?=(?:utf-8'')?([^;]+)/i)
-          if (filenameMatch && filenameMatch[1]) {
-            link.download = decodeURIComponent(filenameMatch[1])
-          }
-        } else {
-          // 如果没有文件名，使用默认文件名
-          link.download = 'download'
+    // 5. 解析文件名
+    let targetFilename = filename
+    if (!targetFilename) {
+      const contentDisposition = response.headers.get('content-disposition')
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename\*?=(?:utf-8'')?([^;]+)/i)
+        if (filenameMatch && filenameMatch[1]) {
+          targetFilename = decodeURIComponent(filenameMatch[1].replace(/['"]/g, ''))
         }
       }
+    }
+    if (!targetFilename) {
+      targetFilename = 'download'
+    }
 
-      // 触发下载
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+    // 6. 流传输落盘
+    try {
+      const fileStream = streamSaver.createWriteStream(targetFilename, {
+        size: response.headers.get('content-length') || undefined,
+      })
 
-      // 释放 URL 对象
-      window.URL.revokeObjectURL(downloadUrl)
+      if (window.WritableStream && response.body.pipeTo) {
+        await response.body.pipeTo(fileStream, { signal })
+      } else {
+        const writer = fileStream.getWriter()
+        const reader = response.body.getReader()
+
+        const pump = () => reader.read().then(res =>
+          res.done ? writer.close() : writer.write(res.value).then(pump),
+        )
+
+        await pump()
+      }
 
       return response
-    } catch (error) {
-      console.error('下载文件失败:', error)
-      throw error
+    } catch (streamError) {
+      if (streamError.name === 'AbortError') {
+        console.warn('写入过程被中断')
+      } else {
+        console.error('文件写入磁盘失败:', streamError)
+        throw streamError
+      }
+    }
+  },
+
+  // 取消当前正在进行的下载
+  cancelDownload: () => {
+    if (downloadController) {
+      downloadController.abort() // 打断 fetch 请求并关闭写入流
+      downloadController = null
     }
   },
 }

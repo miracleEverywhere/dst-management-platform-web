@@ -277,18 +277,11 @@ const downloadBackup = filename => {
   const reqForm = {
     roomID: globalStore.room.id,
     filename: filename,
-    token: userStore.token,
   }
 
-  // 使用原生下载
-  const queryString = new URLSearchParams(reqForm).toString()
-  const link = document.createElement('a')
-
-  link.href = "/" + ApiVersion + "/tools/backup/download.zip?" + queryString.toString()
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-  actionButtonLoading.value = false
+  toolsApi.backup.download.download(reqForm).finally(() => {
+    actionButtonLoading.value = false
+  })
 }
 
 const handleResize = debounce(() => {
