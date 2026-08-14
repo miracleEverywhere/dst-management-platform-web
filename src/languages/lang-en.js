@@ -1207,6 +1207,7 @@ export default {
         room: 'Room Settings',
         base: 'Base Settings',
       },
+      tabTip: 'If this is your first time configuring it, please refer to the documentation',
       actions: {
         save: 'Save settings',
         refresh: 'Refresh settings',

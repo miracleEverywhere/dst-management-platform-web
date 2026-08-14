@@ -1207,6 +1207,7 @@ export default {
         room: '房间配置',
         base: '基础配置',
       },
+      tabTip: '如果你是第一次配置，请务必查看文档',
       actions: {
         save: '保存配置',
         refresh: '刷新配置',
