@@ -92,14 +92,14 @@
             color="info"
             append-icon="ri-arrow-drop-down-line"
             variant="text"
-            :loading="actionButtonLoading"
+            :loading="item.actionButtonLoading"
           >
             {{ t('tools.backup.actions') }}
             <v-menu activator="parent">
               <v-list>
                 <v-list-item
                   class="text-success"
-                  @click="restore(item.fileName)"
+                  @click="restore(item)"
                 >
                   <template #prepend>
                     <v-icon
@@ -113,7 +113,7 @@
                 </v-list-item>
                 <v-list-item
                   class="text-info"
-                  @click="downloadBackup(item.fileName)"
+                  @click="downloadBackup(item)"
                 >
                   <template #prepend>
                     <v-icon
@@ -176,7 +176,7 @@ const getBackupFiles = () => {
   }
 
   toolsApi.backup.get(reqForm).then(response => {
-    backupFiles.value = response.data
+    backupFiles.value = response.data.map(item => ({ ...item, actionButtonLoading: false }))
     backupFiles.value.sort((a, b) => b.timestamp - a.timestamp)
   }).finally(() => {
     getBackupFilesLoading.value = false
@@ -192,8 +192,6 @@ const headers = [
   { key: 'timestamp', title: t('tools.backup.timestamp') },
   { key: 'actions', title: t('tools.backup.actions') },
 ]
-
-const actionButtonLoading = ref(false)
 
 const createBackupLoading = ref(false)
 
@@ -214,27 +212,27 @@ const createBackup = () => {
 
 const singleDeleteLoading = ref(false)
 
-const deleteBackup = filename => {
+const deleteBackup = item => {
   singleDeleteLoading.value = true
-  actionButtonLoading.value = true
+  item.actionButtonLoading = true
 
   const reqForm = {
     roomID: globalStore.room.id,
-    filenames: [filename],
+    filenames: [item.fileName],
   }
 
   toolsApi.backup.delete(reqForm).then(response => {
     getBackupFiles()
-    showSnackbar(t('tools.backup.deleteMessage1')+response.data+t('tools.backup.deleteMessage2'))
+    showSnackbar(t('tools.backup.deleteMessage1') + response.data + t('tools.backup.deleteMessage2'))
   }).finally(() => {
     singleDeleteLoading.value = false
-    actionButtonLoading.value = false
+    item.actionButtonLoading = false
   })
 }
 
 const multiDeleteBackup = () => {
   singleDeleteLoading.value = true
-  actionButtonLoading.value = true
+  selectedFiles.value.forEach(item => { item.actionButtonLoading = true })
 
   const reqForm = {
     roomID: globalStore.room.id,
@@ -244,42 +242,42 @@ const multiDeleteBackup = () => {
   toolsApi.backup.delete(reqForm).then(response => {
     getBackupFiles()
     selectedFiles.value = []
-    showSnackbar(t('tools.backup.deleteMessage1')+response.data+t('tools.backup.deleteMessage2'))
+    showSnackbar(t('tools.backup.deleteMessage1') + response.data + t('tools.backup.deleteMessage2'))
   }).finally(() => {
     singleDeleteLoading.value = false
-    actionButtonLoading.value = false
+    selectedFiles.value.forEach(item => { item.actionButtonLoading = false })
   })
 }
 
 const restoreLoading = ref(false)
 
-const restore = filename => {
-  actionButtonLoading.value = true
+const restore = item => {
+  item.actionButtonLoading = true
   restoreLoading.value = true
 
   const reqForm = {
     roomID: globalStore.room.id,
-    filename: filename,
+    filename: item.fileName,
   }
 
   toolsApi.backup.restore.post(reqForm).then(response => {
     showSnackbar(response.message)
   }).finally(() => {
     restoreLoading.value = false
-    actionButtonLoading.value = false
+    item.actionButtonLoading = false
   })
 }
 
-const downloadBackup = filename => {
-  actionButtonLoading.value = true
+const downloadBackup = item => {
+  item.actionButtonLoading = true
 
   const reqForm = {
     roomID: globalStore.room.id,
-    filename: filename,
+    filename: item.fileName,
   }
 
   toolsApi.backup.download.download(reqForm, "dmp_backup.zip").finally(() => {
-    actionButtonLoading.value = false
+    item.actionButtonLoading = false
   })
 }
 
