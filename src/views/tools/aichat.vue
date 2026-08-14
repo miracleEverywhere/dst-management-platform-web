@@ -45,6 +45,7 @@
                   {{ t('tools.ai.tabs.room') }}
                 </v-toolbar-title>
                 <v-spacer />
+
                 <v-btn
                   v-if="mobile"
                   v-tooltip="t('tools.ai.actions.refresh')"
@@ -94,14 +95,35 @@
               >
                 <v-row>
                   <v-col cols="12">
-                    <v-switch
-                      v-model="roomForm.enabled"
-                      v-tooltip="t('tools.ai.form.enabled.tip')"
-                      :label="t('tools.ai.form.enabled.name')"
-                      color="primary"
-                      hide-details
-                      inset
-                    />
+                    <v-alert
+                      border="start"
+                      color="error"
+                      variant="tonal"
+                      class="my-4"
+                    >
+                      {{ t('tools.ai.tabTip') }}
+                    </v-alert>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="mb-2"
+                  >
+                    <div class="d-flex align-center">
+                      <v-chip
+                        v-tooltip="t('tools.ai.form.enabled.tip')"
+                        label
+                        class="mr-4"
+                      >
+                        {{ t('tools.ai.form.enabled.name') }}
+                      </v-chip>
+                      <v-switch
+                        v-model="roomForm.enabled"
+                        color="primary"
+                        hide-details
+                        inset
+                      />
+                    </div>
+
                   </v-col>
                   <v-col
                     cols="12"
@@ -137,8 +159,8 @@
                       v-tooltip="t('tools.ai.form.maxReplyLength.tip')"
                       :label="t('tools.ai.form.maxReplyLength.name')"
                       :rules="roomFormRules.maxReplyLength"
-                      :min="1"
-                      :max="180"
+                      :min="100"
+                      :max="300"
                     />
                   </v-col>
                 </v-row>
@@ -221,6 +243,15 @@
                 v-else
                 class="pt-6"
               >
+                <v-alert
+                  border="start"
+                  color="error"
+                  variant="tonal"
+                  class="my-4"
+                >
+                  {{ t('tools.ai.tabTip') }}
+                </v-alert>
+
                 <v-alert
                   :title="t('tools.ai.sections.chatModel')"
                   color="primary"
@@ -360,6 +391,7 @@
                       :min="0"
                       :max="2"
                       :step="0.1"
+                      :precision="1"
                     />
                   </v-col>
                   <v-col
@@ -517,8 +549,8 @@ const createRoomForm = () => ({
   roomID: globalStore.room.id,
   enabled: false,
   prefix: '',
-  maxResults: 3,
-  maxReplyLength: 60,
+  maxResults: 10,
+  maxReplyLength: 200,
 })
 
 const createBaseForm = () => ({
@@ -593,7 +625,7 @@ const roomFormRules = {
   prefix: [value => !/[\r\n]/u.test(value ?? '') && getCharacterLength(value) <= 64
     || t('tools.ai.validation.prefix')],
   maxResults: [integerRangeRule(1, 20)],
-  maxReplyLength: [integerRangeRule(1, 180)],
+  maxReplyLength: [integerRangeRule(100, 300)],
 }
 
 const baseFormRules = {

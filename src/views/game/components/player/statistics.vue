@@ -124,11 +124,13 @@ import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import playerApi from "@/api/player.js"
+import echartsTheme from "@/components/scEcharts/echarts-theme-T.js"
 import { getDstRoleName, timestamp2time } from "@/utils/tools.js"
 
 const globalStore = useGlobalStore()
 const { mobile } = useDisplay()
 const { t } = useI18n()
+const ganttColors = echartsTheme.color
 
 const playerChartRef = ref()
 
@@ -277,7 +279,7 @@ const renderGanttItem = (params, api) => {
       r: Math.min(barHeight / 2, rectangle.width / 2),
     },
     style: api.style({
-      fill: '#8C57FF',
+      fill: ganttColors[categoryIndex % ganttColors.length],
     }),
   }
 }
@@ -446,7 +448,7 @@ const applyGanttResponsiveOptions = () => {
   optionGantt.value.grid = mobile.value
     ? {
       top: 16,
-      right: 12,
+      right: 44,
       bottom: 58,
       left: 12,
     }
@@ -473,7 +475,9 @@ const applyGanttResponsiveOptions = () => {
   optionGantt.value.dataZoom[1].bottom = mobile.value ? 12 : 18
   optionGantt.value.dataZoom[2].startValue = 0
   optionGantt.value.dataZoom[2].endValue = visiblePlayerCount - 1
-  optionGantt.value.dataZoom[3].show = !mobile.value
+  optionGantt.value.dataZoom[3].show = true
+  optionGantt.value.dataZoom[3].right = mobile.value ? 6 : 12
+  optionGantt.value.dataZoom[3].width = mobile.value ? 18 : 14
 }
 
 const getPlayerCountLoading = ref(false)
