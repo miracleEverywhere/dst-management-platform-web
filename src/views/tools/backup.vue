@@ -127,7 +127,7 @@
                 </v-list-item>
                 <v-list-item
                   class="text-error"
-                  @click="deleteBackup(item.fileName)"
+                  @click="deleteBackup(item)"
                 >
                   <template #prepend>
                     <v-icon
