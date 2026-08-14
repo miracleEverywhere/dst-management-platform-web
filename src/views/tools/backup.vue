@@ -284,7 +284,7 @@ const downloadBackup = filename => {
   const queryString = new URLSearchParams(reqForm).toString()
   const link = document.createElement('a')
 
-  link.href = ApiVersion + "/tools/backup/download.zip?" + queryString.toString()
+  link.href = "/" + ApiVersion + "/tools/backup/download.zip?" + queryString.toString()
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
