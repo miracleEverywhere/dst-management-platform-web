@@ -19,7 +19,7 @@ export default {
       },
     },
     download: {
-      url: `/tools/backup/download.zip`,
+      url: `/tools/backup/download`,
       download: async function (data, saveName) {
         return await http.download(this.url, data, saveName)
       },
