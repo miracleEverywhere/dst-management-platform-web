@@ -152,7 +152,7 @@
 import toolsApi from "@/api/tools.js"
 import useGlobalStore from "@store/global.js"
 import { useI18n } from "vue-i18n"
-import { debounce, formatBytes, timestamp2time } from "@/utils/tools.js"
+import { debounce, formatBytes, getToken, timestamp2time } from "@/utils/tools.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useDisplay } from "vuetify/framework"
 import useUserStore from "@store/user.js"
@@ -274,6 +274,7 @@ const downloadBackup = item => {
   const reqForm = {
     roomID: globalStore.room.id,
     filename: item.fileName,
+    token: getToken(),
   }
 
   // 使用浏览器底的下载管理器
