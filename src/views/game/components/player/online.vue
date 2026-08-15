@@ -1,9 +1,36 @@
 <template>
-  <v-sheet
+  <v-card
     border
-    rounded
+    flat
     class="mt-4"
   >
+    <!-- 卡片头部区域 -->
+    <v-card-item class="py-4">
+      <!-- 左侧图标 -->
+      <template #prepend>
+        <v-icon icon="ri-user-location-line" />
+      </template>
+
+      <!-- 标题 -->
+      <v-card-title v-if="!mobile">
+        {{ t('game.player.online.tabName') }}
+      </v-card-title>
+
+      <!-- 右侧操作按钮 -->
+      <template #append>
+        <v-btn
+          prepend-icon="ri-refresh-line"
+          :loading="getOnlinePlayersLoading"
+          color="default"
+          @click="getOnlinePlayers"
+        >
+          {{ t('platform.user.table.refresh') }}
+        </v-btn>
+      </template>
+    </v-card-item>
+
+    <!-- 分割线（可选，按需保留） -->
+    <v-divider />
     <v-data-table
       :headers="headers"
       :items="onlinePlayers"
@@ -11,25 +38,6 @@
     >
       <template #loading>
         <v-skeleton-loader type="table-row@10" />
-      </template>
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title>
-            <v-icon
-              icon="ri-user-location-line"
-              start
-            />
-            <span v-if="!mobile">{{ t('game.player.online.tabName') }}</span>
-          </v-toolbar-title>
-          <v-btn
-            prepend-icon="ri-refresh-line"
-            :loading="getOnlinePlayersLoading"
-            color="default"
-            @click="getOnlinePlayers"
-          >
-            {{ t('platform.user.table.refresh') }}
-          </v-btn>
-        </v-toolbar>
       </template>
       <template #item.uid="{value}">
         <v-chip label>
@@ -109,7 +117,7 @@
         </v-btn>
       </template>
     </v-data-table>
-  </v-sheet>
+  </v-card>
 </template>
 
 <script setup>

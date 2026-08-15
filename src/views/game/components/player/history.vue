@@ -1,19 +1,61 @@
 <template>
-  <v-text-field
-    v-model="search"
-    class="mt-4"
-    :label="t('game.player.history.search.label')"
-    :placeholder="t('game.player.history.search.placeholder')"
-    persistent-placeholder
-    clearable
-    @keyup.enter="searchUidmap"
-    @click:clear="searchUidmap"
-  />
-  <v-sheet
+  <v-card
     border
-    rounded
+    flat
     class="mt-4"
   >
+    <!-- 卡片头部（包含标题 + 右侧搜索框） -->
+    <v-card-title class="py-4">
+      <div class="d-flex align-center justify-space-between w-100 ga-2">
+        <!-- 左侧图标与标题（仅在非移动端或有标题时渲染） -->
+        <div
+          v-if="!mobile"
+          class="d-flex align-center ga-2 flex-shrink-0"
+        >
+          <v-icon icon="ri-contacts-line" />
+          <v-card-title class="pa-0">
+            {{ t('game.player.history.tabName') }}
+          </v-card-title>
+        </div>
+
+        <!-- 移动端保留一个独立图标（可选，如果移动端完全不需要图标可删掉此块） -->
+        <v-icon
+          v-else
+          icon="ri-contacts-line"
+          class="flex-shrink-0"
+        />
+
+        <!-- 右侧搜索区域：移动端自动占满剩余空间 -->
+        <div class="d-flex align-center ga-2 flex-grow-1 flex-sm-grow-0 min-w-0">
+          <v-text-field
+            v-model="search"
+            :label="t('game.player.history.search.label')"
+            :placeholder="t('game.player.history.search.placeholder')"
+            persistent-placeholder
+            clearable
+            density="compact"
+            hide-details
+            variant="outlined"
+            prepend-inner-icon="ri-search-line"
+            class="flex-grow-1"
+            :style="{ width: mobile ? 'auto' : '280px' }"
+            @keyup.enter="searchUidmap"
+            @click:clear="searchUidmap"
+          />
+          <v-btn
+            color="primary"
+            class="flex-shrink-0"
+            @click="searchUidmap"
+          >
+            {{ t('game.player.history.search.label') }}
+          </v-btn>
+        </div>
+      </div>
+    </v-card-title>
+
+    <v-divider />
+
+    <!-- 表格区域 -->
     <v-data-table-server
       v-model:page="uidmapData.page"
       v-model:items-per-page="uidmapData.pageSize"
@@ -25,17 +67,6 @@
     >
       <template #loading>
         <v-skeleton-loader type="table-row@10" />
-      </template>
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title>
-            <v-icon
-              icon="ri-contacts-line"
-              start
-            />
-            <span v-if="!mobile">{{ t('game.player.history.tabName') }}</span>
-          </v-toolbar-title>
-        </v-toolbar>
       </template>
       <template #item.uid="{value}">
         <v-chip label>
@@ -107,7 +138,7 @@
         </v-btn>
       </template>
     </v-data-table-server>
-  </v-sheet>
+  </v-card>
 </template>
 
 <script setup>

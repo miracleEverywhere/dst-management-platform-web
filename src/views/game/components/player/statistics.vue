@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-8">
-    <v-card-title>
+    <v-card-title class="py-4">
       <div class="fcb">
         <div v-if="!mobile">
           {{ t('game.player.statistics.lineChart.title') }}
@@ -43,7 +43,7 @@
     </v-card-text>
   </v-card>
   <v-card class="mb-8">
-    <v-card-title>
+    <v-card-title class="py-4">
       <div class="fcb">
         <div v-if="!mobile">
           {{ t('game.player.statistics.pieChart.title') }}
@@ -71,7 +71,7 @@
     </v-card-text>
   </v-card>
   <v-card class="gantt-card">
-    <v-card-title class="gantt-card-title">
+    <v-card-title class="gantt-card-title py-4">
       <div class="fcb">
         <div v-if="!mobile">
           {{ t('game.player.statistics.ganttChart.title') }}
