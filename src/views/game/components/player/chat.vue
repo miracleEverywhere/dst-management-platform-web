@@ -1,9 +1,10 @@
 <template>
   <v-card
+    border
+    flat
     class="mt-4"
-    :height="props.height-70"
   >
-    <v-card-title>
+    <v-card-title class="py-4">
       <div class="fcb">
         <div v-if="!mobile">
           {{ t('game.player.chat.title') }}
@@ -171,97 +172,96 @@
       </div>
     </v-card-title>
 
-    <v-card-text
+    <v-data-table
       v-if="chatMessages.length"
-      ref="chatContainer"
-      class="overflow-y-auto"
-      :style="{ height: `${props.height - 125}px` }"
+      :headers="headers"
+      :items="chatMessages"
     >
-      <v-list lines="two">
-        <v-list-item
-          v-for="(p, i) in chatMessages"
-          :key="i"
-          variant="outlined"
-          rounded
-          class="mb-2"
+      <template #item.uid="{ value }">
+        <v-chip
+          v-show="value!==''"
+          label
         >
-          <v-row>
-            <v-col class="d-flex align-center">
-              <div style="width: 75px; height: 75px; flex-shrink: 0;">
-                <v-img
-                  :src="getImage(p.type)"
-                  contain
-                  style="width: 100%; height: 100%;"
-                />
-              </div>
-              <v-chip class="ml-2">
-                {{ t(`game.player.chat.type.${p.type}`) }}
-              </v-chip>
-            </v-col>
-            <v-col
-              v-if="needTime"
-              class="d-flex align-center"
-            >
-              <v-chip label>
-                {{ timestamp2time(p.time*1000) }}
-              </v-chip>
-            </v-col>
-            <v-col class="d-flex align-center">
-              <v-chip
-                label
-                color="info"
-                class="mr-2"
-              >
-                {{ p.nickname }}
-              </v-chip>
-            </v-col>
-            <v-col class="d-flex align-center">
-              <v-chip
-                v-if="p.type==='VoteAnnouncement'"
-                label
-                color="success"
-              >
-                {{ t(`game.player.chat.type['${p.message}']`) }}
-              </v-chip>
-              <v-chip
-                v-else-if="p.type==='SkinAnnouncement'"
-                label
-                color="success"
-              >
-                <template #append>
-                  <v-btn
-                    v-tooltip="t(`game.player.chat.gotoWiki`)"
-                    icon="ri-question-line"
-                    color="success"
-                    density="compact"
-                    variant="text"
-                    :href="generateSkinUrl(p.message)"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="ml-2"
-                  />
-                </template>
-                {{ p.message }}
-              </v-chip>
-              <v-chip
-                v-else
-                label
-                color="success"
-              >
-                <v-tooltip
-                  v-if="mobile"
-                  activator="parent"
-                  location="top"
-                >
-                  {{ p.message }}
-                </v-tooltip>
-                {{ p.message }}
-              </v-chip>
-            </v-col>
-          </v-row>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
+          {{ value }}
+        </v-chip>
+      </template>
+
+      <template #item.nickname="{ value }">
+        <v-chip
+          label
+          color="info"
+          class="mr-2"
+        >
+          {{ value }}
+        </v-chip>
+      </template>
+
+      <template #item.type="{ value }">
+        <div class="d-flex align-center justify-start text-left">
+          <v-img
+            :src="getImage(value)"
+            contain
+            max-width="40"
+            height="40"
+            class="flex-shrink-0"
+          />
+          <v-chip class="ml-2">
+            {{ t(`game.player.chat.type.${value}`) }}
+          </v-chip>
+        </div>
+      </template>
+
+      <template #item.time="{ value }">
+        <v-chip label>
+          {{ timestamp2time(value*1000) }}
+        </v-chip>
+      </template>
+
+      <template #item.message="{ item }">
+        <v-chip
+          v-if="item.type==='VoteAnnouncement'"
+          label
+          color="success"
+        >
+          {{ t(`game.player.chat.type['${item.message}']`) }}
+        </v-chip>
+        <v-chip
+          v-else-if="item.type==='SkinAnnouncement'"
+          label
+          color="success"
+        >
+          <template #append>
+            <v-btn
+              v-tooltip="t(`game.player.chat.gotoWiki`)"
+              icon="ri-question-line"
+              color="success"
+              density="compact"
+              variant="text"
+              :href="generateSkinUrl(item.message)"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ml-2"
+            />
+          </template>
+          {{ item.message }}
+        </v-chip>
+        <v-chip
+          v-else
+          label
+          color="success"
+        >
+          <v-tooltip
+            v-if="mobile"
+            activator="parent"
+            location="top"
+          >
+            {{ item.message }}
+          </v-tooltip>
+          {{ item.message }}
+        </v-chip>
+      </template>
+    </v-data-table>
+    
     <v-card-text v-else>
       <result
         :height="props.height - 70"
@@ -364,6 +364,26 @@ const generateSkinUrl = name => {
 
   return `https://dontstarve.huijiwiki.com/wiki/文件:${wikiName}_icon.png`
 }
+
+const allHeaders = [
+  { key: 'uid', title: t('game.player.online.header.uid'), align: 'start' },
+  { key: 'nickname', title: t('game.player.online.header.nickname'), align: 'start' },
+  { key: 'type', title: t('game.player.chat.typeSelect'), align: 'start' },
+  { key: 'time', title: t('game.player.chat.needTime.text'), align: 'start' },
+  { key: 'message', title: t('game.player.chat.title'), align: 'start' },
+]
+
+// 2. 使用 computed 根据 needTime 动态过滤表头
+const headers = computed(() => {
+  return allHeaders.filter(header => {
+    // 如果是 time 列，根据 needTime 的布尔值决定是否保留
+    if (header.key === 'time') {
+      return needTime.value // 如果是 Vue 2，直接写 this.needTime
+    }
+
+    return true
+  })
+})
 
 const types = [
   'Announcement',
