@@ -176,6 +176,8 @@
       ref="chatContainer"
       class="overflow-y-auto"
       :style="{ height: `${props.height - 125}px` }"
+      @wheel="handleChatWheel"
+      @scroll="handleChatScroll"
     >
       <v-list lines="two">
         <v-list-item
@@ -309,6 +311,24 @@ const lines = ref(20)
 const needTime = ref(false)
 const chatContainer = ref()
 const loading = ref(false)
+const autoPull = ref(true)
+
+const handleChatWheel = event => {
+  if (event.deltaY < 0 && autoPull.value) {
+    autoPull.value = false
+    showSnackbar(t('game.player.chat.autoPullDisabledByScroll'), 'info')
+  }
+}
+
+const handleChatScroll = event => {
+  const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
+  const distanceToBottom = scrollHeight - scrollTop - clientHeight
+
+  if (distanceToBottom <= 2 && !autoPull.value) {
+    autoPull.value = true
+    showSnackbar(t('game.player.chat.autoPullEnabledAtBottom'), 'info')
+  }
+}
 
 const scrollToBottom = () => {
   setTimeout(() => {
@@ -419,7 +439,6 @@ const handleSendMessage = () => {
 }
 
 let intervalId = null
-const autoPull = ref(true)
 
 const startRequests = () => {
   intervalId = setInterval(() => {

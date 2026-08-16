@@ -686,6 +686,8 @@ export default {
         refreshSuccess: '刷新成功',
         autoPull: '自动刷新',
         autoPullTip: '每5秒刷新一次聊天记录',
+        autoPullDisabledByScroll: '向上滚动，已关闭自动刷新',
+        autoPullEnabledAtBottom: '已滚动到底部，自动刷新已开启',
         noMessage: '没有聊天记录',
         clickRefresh: '点我刷新',
         gotoWiki: '在饥荒维基上查看',

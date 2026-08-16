@@ -686,6 +686,8 @@ export default {
         refreshSuccess: 'Refresh Success',
         autoPull: 'Auto Refresh',
         autoPullTip: 'Refresh per 5 seconds',
+        autoPullDisabledByScroll: 'Auto refresh disabled while scrolling up',
+        autoPullEnabledAtBottom: 'Reached the bottom; auto refresh enabled',
         noMessage: 'No Chat Messages',
         clickRefresh: 'Click to refresh',
         gotoWiki: 'View on the DST Wiki',
