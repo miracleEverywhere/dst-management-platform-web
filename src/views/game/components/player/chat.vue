@@ -14,7 +14,8 @@
           <v-dialog
             v-model="chatDialogVisible"
             class="flex-wrap"
-            :width="mobile?'90%':'60%'"
+            :width="mobile?'90%':'40%'"
+            min-height="200px"
           >
             <template #activator="{ props: activatorProps }">
               <v-btn
@@ -191,7 +192,7 @@
             class="chat-message"
             :class="{ 'chat-message--with-time': needTime }"
           >
-            <div class="chat-message__type d-flex align-center">
+            <div class="chat-message__type">
               <div style="width: 75px; height: 75px; flex-shrink: 0;">
                 <v-img
                   :src="getImage(p.type)"
@@ -476,14 +477,14 @@ onBeforeUnmount(() => {
 <style scoped>
 .chat-message {
   display: grid;
-  grid-template-columns: minmax(165px, 1.1fr) minmax(120px, 0.9fr) minmax(0, 3.8fr);
+  grid-template-columns: max-content max-content minmax(0, 1fr);
   align-items: center;
-  gap: 16px;
+  gap: 20px 24px;
   width: 100%;
 }
 
 .chat-message--with-time {
-  grid-template-columns: minmax(165px, 1.1fr) auto minmax(120px, 0.9fr) minmax(0, 3.8fr);
+  grid-template-columns: max-content max-content max-content minmax(0, 1fr);
 }
 
 .chat-message__type,
@@ -491,6 +492,11 @@ onBeforeUnmount(() => {
 .chat-message__nickname,
 .chat-message__content {
   min-width: 0;
+}
+
+.chat-message__type {
+  display: flex;
+  align-items: center;
 }
 
 .chat-message__content {
@@ -515,16 +521,64 @@ onBeforeUnmount(() => {
 
 @media (max-width: 960px) {
   .chat-message {
-    grid-template-columns: minmax(145px, 1fr) minmax(0, 2fr);
-    gap: 10px 12px;
+    grid-template-columns: 75px minmax(0, 1fr);
+    gap: 16px 12px;
   }
 
   .chat-message__type {
-    grid-row: span 3;
+    display: contents;
+  }
+
+  .chat-message__type > div {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+
+  .chat-message--with-time .chat-message__type > div {
+    grid-row: 1 / span 4;
+  }
+
+  .chat-message__type :deep(.v-chip) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+    max-width: 100%;
+    height: auto;
+    min-height: 32px;
+    margin-inline-start: 0 !important;
+    white-space: normal;
+  }
+
+  .chat-message__type :deep(.v-chip__content) {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+    padding-block: 4px;
+  }
+
+  .chat-message__time {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .chat-message__nickname {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .chat-message--with-time .chat-message__nickname {
+    grid-row: 3;
   }
 
   .chat-message__content {
     grid-column: 2;
+    grid-row: 3;
+  }
+
+  .chat-message--with-time .chat-message__content {
+    grid-row: 4;
   }
 }
 </style>
