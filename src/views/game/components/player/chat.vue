@@ -185,8 +185,11 @@
           rounded
           class="mb-2"
         >
-          <v-row>
-            <v-col class="d-flex align-center">
+          <div
+            class="chat-message"
+            :class="{ 'chat-message--with-time': needTime }"
+          >
+            <div class="chat-message__type d-flex align-center">
               <div style="width: 75px; height: 75px; flex-shrink: 0;">
                 <v-img
                   :src="getImage(p.type)"
@@ -197,16 +200,16 @@
               <v-chip class="ml-2">
                 {{ t(`game.player.chat.type.${p.type}`) }}
               </v-chip>
-            </v-col>
-            <v-col
+            </div>
+            <div
               v-if="needTime"
-              class="d-flex align-center"
+              class="chat-message__time d-flex align-center"
             >
               <v-chip label>
                 {{ timestamp2time(p.time*1000) }}
               </v-chip>
-            </v-col>
-            <v-col class="d-flex align-center">
+            </div>
+            <div class="chat-message__nickname d-flex align-center">
               <v-chip
                 label
                 color="info"
@@ -214,8 +217,8 @@
               >
                 {{ p.nickname }}
               </v-chip>
-            </v-col>
-            <v-col class="d-flex align-center">
+            </div>
+            <div class="chat-message__content d-flex align-center">
               <v-chip
                 v-if="p.type==='VoteAnnouncement'"
                 label
@@ -257,8 +260,8 @@
                 </v-tooltip>
                 {{ p.message }}
               </v-chip>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
         </v-list-item>
       </v-list>
     </v-card-text>
@@ -450,3 +453,59 @@ onBeforeUnmount(() => {
   window.removeEventListener('beforeunload', cancelRequests)
 })
 </script>
+
+<style scoped>
+.chat-message {
+  display: grid;
+  grid-template-columns: minmax(165px, 1.1fr) minmax(120px, 0.9fr) minmax(0, 3.8fr);
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.chat-message--with-time {
+  grid-template-columns: minmax(165px, 1.1fr) auto minmax(120px, 0.9fr) minmax(0, 3.8fr);
+}
+
+.chat-message__type,
+.chat-message__time,
+.chat-message__nickname,
+.chat-message__content {
+  min-width: 0;
+}
+
+.chat-message__content {
+  justify-content: flex-start;
+}
+
+.chat-message__content :deep(.v-chip) {
+  max-width: 100%;
+  height: auto;
+  min-height: 32px;
+  white-space: normal;
+}
+
+.chat-message__content :deep(.v-chip__content) {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.5;
+  padding-block: 6px;
+}
+
+@media (max-width: 960px) {
+  .chat-message {
+    grid-template-columns: minmax(145px, 1fr) minmax(0, 2fr);
+    gap: 10px 12px;
+  }
+
+  .chat-message__type {
+    grid-row: span 3;
+  }
+
+  .chat-message__content {
+    grid-column: 2;
+  }
+}
+</style>
