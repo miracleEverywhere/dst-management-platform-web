@@ -896,6 +896,10 @@ export default {
           title: '更新后重启',
           tip: '游戏更新完成后，重启所有的房间',
         },
+        customStartupCmd: {
+          title: '游戏启动命令',
+          tip: '自定义游戏启动程序，64位/LuaJIT模式会自动追加 _x64 或 _x64_luajit，默认为./dontstarve_dedicated_server_nullrenderer；32位路径为dst/bin，64位/LuaJIT路径为dst/bin64',
+        },
         webhook: {
           title: 'Webhook 通知',
           add: '添加 Webhook',

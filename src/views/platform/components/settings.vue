@@ -227,6 +227,26 @@
             </v-radio-group>
           </v-col>
         </v-row>
+        <!-- 游戏启动命令 -->
+        <v-alert
+          color="primary"
+          :title="t('platform.settings.form.customStartupCmd.title')"
+          density="compact"
+          class="mt-8"
+          variant="tonal"
+          icon="ri-terminal-box-line"
+        />
+        <v-row class="mt-2">
+          <v-col>
+            <v-text-field
+              v-model="globalSettingsForm.customStartupCmd"
+              v-tooltip="t('platform.settings.form.customStartupCmd.tip')"
+              :label="t('platform.settings.form.customStartupCmd.title')"
+              style="margin-bottom: -1.25rem"
+            />
+          </v-col>
+          <v-spacer v-if="!mobile" />
+        </v-row>
         <!-- Webhook 通知 -->
         <v-alert
           color="primary"
@@ -433,6 +453,7 @@ const globalSettingsFormOld = ref({
   autoUpdateEnable: false,
   autoUpdateSetting: '',
   autoUpdateRestart: false,
+  customStartupCmd: './dontstarve_dedicated_server_nullrenderer',
   webhook: [],
 })
 
@@ -445,6 +466,7 @@ const globalSettingsForm = ref({
   autoUpdateEnable: false,
   autoUpdateSetting: '',
   autoUpdateRestart: false,
+  customStartupCmd: './dontstarve_dedicated_server_nullrenderer',
   webhook: [],
 })
 
@@ -573,4 +595,3 @@ onMounted(() => {
   fetchRoomOptions()
 })
 </script>
-

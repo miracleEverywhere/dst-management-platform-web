@@ -896,6 +896,10 @@ export default {
           title: 'Restart After Updating',
           tip: 'After the game update is complete, restart all rooms',
         },
+        customStartupCmd: {
+          title: 'Game Startup Command',
+          tip: 'The custom game startup executable. _x64 or _x64_luajit is appended automatically in 64-bit/LuaJIT modes. The default is ./dontstarve_dedicated_server_nullrenderer; the 32-bit path is dst/bin, and the 64-bit/LuaJIT path is dst/bin64.',
+        },
         webhook: {
           title: 'Webhook',
           add: 'Add',
