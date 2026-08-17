@@ -898,6 +898,9 @@ export default {
         },
         customStartupCmd: {
           title: '游戏启动命令',
+          info1: '方便在ARM环境运行或绑定指定核心等',
+          info2: '例如 box64 ./dontstarve_dedicated_server_nullrenderer',
+          info3: '例如 taskset -c 0 ./dontstarve_dedicated_server_nullrenderer',
           tip: '自定义游戏启动程序，64位/LuaJIT模式会自动追加 _x64 或 _x64_luajit，默认为./dontstarve_dedicated_server_nullrenderer；32位路径为dst/bin，64位/LuaJIT路径为dst/bin64',
         },
         webhook: {

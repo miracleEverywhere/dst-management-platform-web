@@ -237,12 +237,28 @@
           icon="ri-terminal-box-line"
         />
         <v-row class="mt-2">
+          <v-col cols="12">
+            <v-alert
+              border="start"
+              color="info"
+              variant="tonal"
+            >
+              <div class="mb-2" >
+                {{ t('platform.settings.form.customStartupCmd.info1') }}
+              </div>
+              <div>
+                {{ t('platform.settings.form.customStartupCmd.info2') }}
+              </div>
+              <div>
+                {{ t('platform.settings.form.customStartupCmd.info3') }}
+              </div>
+            </v-alert>
+          </v-col>
           <v-col>
             <v-text-field
               v-model="globalSettingsForm.customStartupCmd"
               v-tooltip="t('platform.settings.form.customStartupCmd.tip')"
               :label="t('platform.settings.form.customStartupCmd.title')"
-              style="margin-bottom: -1.25rem"
             />
           </v-col>
           <v-spacer v-if="!mobile" />
