@@ -309,7 +309,7 @@ const { t } = useI18n()
 
 const chatMessages = ref([])
 const lines = ref(20)
-const needTime = ref(false)
+const needTime = ref(true)
 const chatContainer = ref()
 const loading = ref(false)
 const autoPull = ref(true)
@@ -477,14 +477,14 @@ onBeforeUnmount(() => {
 <style scoped>
 .chat-message {
   display: grid;
-  grid-template-columns: max-content max-content minmax(0, 1fr);
+  grid-template-columns: max-content 160px minmax(0, 1fr);
   align-items: center;
   gap: 20px 24px;
   width: 100%;
 }
 
 .chat-message--with-time {
-  grid-template-columns: max-content max-content max-content minmax(0, 1fr);
+  grid-template-columns: max-content max-content 160px minmax(0, 1fr);
 }
 
 .chat-message__type,
@@ -501,6 +501,16 @@ onBeforeUnmount(() => {
 
 .chat-message__content {
   justify-content: flex-start;
+}
+
+.chat-message__nickname :deep(.v-chip) {
+  max-width: 100%;
+}
+
+.chat-message__nickname :deep(.v-chip__content) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chat-message__content :deep(.v-chip) {
