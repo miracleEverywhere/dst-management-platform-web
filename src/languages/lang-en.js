@@ -901,6 +901,7 @@ export default {
           info1: 'It is convenient for running in an ARM environment or binding to specific CPU cores, etc.',
           info2: 'e.g. box64 ./dontstarve_dedicated_server_nullrenderer',
           info3: 'e.g. taskset -c 0 ./dontstarve_dedicated_server_nullrenderer',
+          alertTip: 'The startup command automatically assembled by the platform such as: cd dst/bin64/ && screen -d -h 200 -m -S {screen name} taskset -c 0 ./dontstarve_dedicated_server_nullrenderer_x64 -console -cluster {cluster name} -shard {world name}',
           tip: 'The custom game startup executable. _x64 or _x64_luajit is appended automatically in 64-bit/LuaJIT modes. The default is ./dontstarve_dedicated_server_nullrenderer; the 32-bit path is dst/bin, and the 64-bit/LuaJIT path is dst/bin64.',
         },
         webhook: {

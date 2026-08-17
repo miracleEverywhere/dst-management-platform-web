@@ -901,6 +901,7 @@ export default {
           info1: '方便在ARM环境运行或绑定指定核心等',
           info2: '例如 box64 ./dontstarve_dedicated_server_nullrenderer',
           info3: '例如 taskset -c 0 ./dontstarve_dedicated_server_nullrenderer',
+          alertTip: '平台自动拼接的启动命令例如: cd dst/bin64/ && screen -d -h 200 -m -S {screen名} taskset -c 0 ./dontstarve_dedicated_server_nullrenderer_x64 -console -cluster {集群名} -shard {世界名}',
           tip: '自定义游戏启动程序，64位/LuaJIT模式会自动追加 _x64 或 _x64_luajit，默认为./dontstarve_dedicated_server_nullrenderer；32位路径为dst/bin，64位/LuaJIT路径为dst/bin64',
         },
         webhook: {

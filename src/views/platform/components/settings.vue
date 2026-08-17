@@ -239,14 +239,15 @@
         <v-row class="mt-2">
           <v-col cols="12">
             <v-alert
+              v-tooltip="t('platform.settings.form.customStartupCmd.alertTip')"
               border="start"
               color="info"
               variant="tonal"
             >
-              <div class="mb-2" >
+              <div>
                 {{ t('platform.settings.form.customStartupCmd.info1') }}
               </div>
-              <div>
+              <div class="mt-2">
                 {{ t('platform.settings.form.customStartupCmd.info2') }}
               </div>
               <div>
