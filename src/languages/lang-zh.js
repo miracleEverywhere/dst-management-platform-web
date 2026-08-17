@@ -898,7 +898,7 @@ export default {
         },
         customStartupCmd: {
           title: '游戏启动命令',
-          info1: '方便在ARM环境运行或绑定指定核心等',
+          info1: '方便在ARM环境运行或绑定指定核心等，如果你不需要转译或绑定核心，请不要修改此配置',
           info2: '例如 box64 ./dontstarve_dedicated_server_nullrenderer',
           info3: '例如 taskset -c 0 ./dontstarve_dedicated_server_nullrenderer',
           alertTip: '平台自动拼接的启动命令例如: cd dst/bin64/ && screen -d -h 200 -m -S {screen名} taskset -c 0 ./dontstarve_dedicated_server_nullrenderer_x64 -console -cluster {集群名} -shard {世界名}',
