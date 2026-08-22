@@ -18,6 +18,7 @@ declare module 'vue' {
     Message: typeof import('./src/components/Message.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     PreciseRating: typeof import('./src/components/PreciseRating.vue')['default']
+    ProgressButton: typeof import('./src/components/ProgressButton.vue')['default']
     ReadmeDialog: typeof import('./src/components/ReadmeDialog.vue')['default']
     Result: typeof import('./src/components/Result.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
