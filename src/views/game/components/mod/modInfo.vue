@@ -1,7 +1,5 @@
 <template>
   <v-card
-    hover
-    variant="flat"
     height="135"
     class="cursor-auto mod-card"
   >
@@ -10,13 +8,11 @@
       location="top"
     >
       <template #activator="{ props: tooltipProps }">
-        <v-icon
+        <span
           v-bind="tooltipProps"
-          class="downloaded-check"
-          color="success"
-          icon="ri-checkbox-circle-line"
-          size="96"
-        />
+          class="downloaded-corner bg-success"
+          aria-hidden="true"
+        ></span>
       </template>
       {{ t('game.mod.download.modInfo.downloaded') }}
     </v-tooltip>
@@ -331,12 +327,21 @@ const handleDownload = () => {
   z-index: 1;
 }
 
-.downloaded-check {
-  inset-block-start: 18px;
-  inset-inline-end: 8px;
-  opacity: 0.38;
+.downloaded-corner {
+  block-size: 28px;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  inline-size: 28px;
+  inset-block-start: 0;
+  inset-inline-end: 0;
   position: absolute;
   z-index: 2;
+}
+
+.downloaded-corner::after {
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  opacity: 0.28;
+  position: absolute;
 }
 
 .custom-table {
