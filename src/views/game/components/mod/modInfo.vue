@@ -254,15 +254,15 @@
               </v-card>
             </template>
           </v-dialog>
-          <v-btn
+          <progress-button
+            :progress="props.downloadProgress"
             color="success"
             density="compact"
             size="small"
-            :loading="downloadLoading"
             @click="handleDownload"
           >
             {{ t('game.mod.download.modInfo.download') }}
-          </v-btn>
+          </progress-button>
         </div>
       </div>
     </div>
@@ -272,8 +272,6 @@
 <script setup>
 import { formatBytes, timestamp2time } from "@/utils/tools"
 
-import modApi from "@/api/mod"
-import { showSnackbar } from "@/utils/snackbar"
 import PreciseRating from "@/components/PreciseRating.vue"
 import bbCodeParser from 'js-bbcode-parser'
 import { useI18n } from "vue-i18n"
@@ -292,9 +290,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  downloadProgress: {
+    type: Number,
+    default: 0,
+  },
 })
 
-const emit = defineEmits(['downloaded'])
+const emit = defineEmits(['download'])
 
 const { t } = useI18n()
 
@@ -312,27 +314,9 @@ const computedName = computed(() => {
 })
 
 const dialogVisible = ref(false)
-const downloadLoading = ref(false)
 
 const handleDownload = () => {
-  downloadLoading.value = true
-
-  const reqFrom = {
-    roomID: props.roomID,
-    id: props.mod.id,
-    // eslint-disable-next-line camelcase
-    file_url: props.mod.file_url,
-    update: false,
-    size: props.mod.size,
-    name: props.mod.name,
-  }
-
-  modApi.download.post(reqFrom).then(response => {
-    showSnackbar(response.message)
-    emit('downloaded', props.mod.id)
-  }).finally(() => {
-    downloadLoading.value = false
-  })
+  emit('download', props.mod)
 }
 </script>
 

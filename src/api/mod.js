@@ -6,6 +6,12 @@ export default {
     post: async function(data){
       return await http.post(this.url, data)
     },
+    status: {
+      url: `/mod/download/status`,
+      get: async function(data){
+        return await http.get(this.url, data)
+      },
+    },
   },
   search: {
     url: `/mod/search`,
