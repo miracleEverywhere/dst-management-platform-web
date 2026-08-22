@@ -160,6 +160,7 @@ const updateDownloadProgress = async modId => {
 
     if (progress >= 100) {
       markModDownloaded(modId)
+      downloadProgress.delete(modId)
     }
   } catch {
     // 共享 Axios 拦截器已经显示请求错误。
@@ -212,7 +213,6 @@ const handleDownload = async mod => {
   if (downloadProgress.get(modId) > 0 && downloadProgress.get(modId) < 100) return
 
   downloadProgress.set(modId, 1)
-  ensureProgressPolling()
 
   const reqForm = {
     roomID: globalStore.room.id,
@@ -228,6 +228,7 @@ const handleDownload = async mod => {
     const response = await modApi.download.post(reqForm)
 
     showSnackbar(response.message)
+    ensureProgressPolling()
   } catch {
     downloadProgress.delete(modId)
   }
