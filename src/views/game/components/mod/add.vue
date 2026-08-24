@@ -126,7 +126,7 @@
               <v-card-text v-else>
                 <result
                   :height="230"
-                  color="info"
+                  type="info"
                   :title="t('game.mod.setting.tip.fetching')"
                 />
               </v-card-text>
@@ -478,6 +478,7 @@ const preDownload = async () => {
       update: false,
       name: modList.value[i].name,
       size: modList.value[i].size,
+      sync: true,
     }
 
     try {
