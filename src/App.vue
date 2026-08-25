@@ -24,21 +24,45 @@
   <v-app v-if="!showInitialLoading">
     <message />
     <readme-dialog />
-    <router-view />
+    <router-view
+      v-if="showRouter"
+      :key="routerKey"
+    />
   </v-app>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from "vue-i18n"
 import { getBrowserLang } from "@/utils/tools.js"
 import { useLocale } from "vuetify/framework"
 import useGlobalStore from '@store/global'
 
 const router = useRouter()
+const route = useRoute()
 const i18n = useI18n()
 const globalStore = useGlobalStore()
 const { current } = useLocale()
+
+const showRouter = ref(true)
+const routerKey = ref(0)
+
+const refresh = async () => {
+  // 1. 隐藏 router-view
+  showRouter.value = false
+
+  // 2. 等待 DOM 更新
+  await nextTick()
+
+  // 3. 改变 key（可选）
+  routerKey.value += 1
+
+  // 4. 再次等待 DOM 更新
+  await nextTick()
+
+  // 5. 重新显示 router-view
+  showRouter.value = true
+}
 
 // 控制loading显示
 const showInitialLoading = ref(true)
