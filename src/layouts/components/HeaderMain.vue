@@ -5,22 +5,15 @@
     style="user-select: none;"
   >
     <div>
-      <v-chip
-        v-if="globalStore.room.id"
-        label
+      <chip-select
+        v-model="globalStore.room.id"
+        :items="roomBasic"
+        :max-width="200"
         color="primary"
         prepend-icon="ri-honour-line"
-      >
-        {{ truncateString(globalStore.room.gameName, 8) }}
-      </v-chip>
-      <v-chip
-        v-else
-        label
-        color="primary"
-        prepend-icon="ri-honour-line"
-      >
-        {{ t('global.noRoom') }}
-      </v-chip>
+        class="mr-4"
+        @change="handleRoomChange"
+      />
     </div>
   </div>
   <div
@@ -29,22 +22,19 @@
     style="user-select: none;"
   >
     <div>
-      <v-chip
-        v-if="globalStore.room.id"
+      <chip-select
+        v-model="globalStore.room.id"
+        :items="roomBasic"
+        :max-width="300"
         color="primary"
-        class="mr-4"
         prepend-icon="ri-honour-line"
-      >
-        {{ t('global.room') + truncateString(globalStore.room.gameName, 15) }}
-      </v-chip>
-      <v-chip
-        v-else
-        color="primary"
         class="mr-4"
-        prepend-icon="ri-honour-line"
+        @change="handleRoomChange"
       >
-        {{ t('global.room') + t('global.noRoom') }}
-      </v-chip>
+        <span class="mr-2">
+          {{ t('global.room') }}
+        </span>
+      </chip-select>
     </div>
     <div>
       <v-chip
@@ -106,11 +96,15 @@ import { truncateString } from "@/utils/tools.js"
 import useGlobalStore from "@store/global"
 import platformApi from "@/api/platform.js"
 import roomApi from "@/api/room.js"
+import ChipSelect from "./ChipSelect.vue"
 
 
 const { t } = useI18n()
 const { mobile } = useDisplay()
 const globalStore = useGlobalStore()
+const refresh = inject('refresh')
+
+const roomBasic = ref([])
 
 const gameVersion = ref({
   local: 0,
@@ -128,10 +122,10 @@ const getGameVersion = async () => {
   }
 }
 
-const getRoomBasic = () => {
-  roomApi.basic.get().then(response => {
-    const roomBasic = response.data || []
-    for (let room of roomBasic) {
+const getRoomPermittedBasic = () => {
+  roomApi.permittedBasic.get().then(response => {
+    roomBasic.value = response.data || []
+    for (let room of roomBasic.value) {
       if (room.roomID === globalStore.room.id && room.roomName === globalStore.room.gameName) {
         return
       }
@@ -191,9 +185,13 @@ const noTip = () => {
   globalStore.dmpVersion.closeVersion = latestVersion.value
 }
 
+const handleRoomChange = async () => {
+  await refresh()
+}
+
 onMounted(async () => {
   await getGameVersion()
-  getRoomBasic()
+  getRoomPermittedBasic()
   await getLatestVersion()
 })
 </script>
