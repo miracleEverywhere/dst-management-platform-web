@@ -1012,7 +1012,7 @@ export default {
         },
         'ai_chat': {
           desc: 'ai_chat 插件为游戏内聊天提供 AI 对话能力，并结合游戏资料库为玩家回答问题。',
-          warning: '该插件需要配置可用的对话模型；如启用嵌入模型，还会产生额外的模型调用费用。',
+          warning: '该插件需要配置可用的对话模型；如启用向量模型，还会产生额外的模型调用费用。',
         },
       },
       install: {
@@ -1230,12 +1230,14 @@ export default {
         rebuildKeyword: '重建关键词索引',
         rebuildKeywordConfirm: '确定要重建关键词索引吗？重建期间关键词检索可能暂时不可用。',
         rebuildEmbedding: '重建向量索引',
-        rebuildEmbeddingConfirm: '确定要重建向量索引吗？该操作会调用嵌入模型、消耗大量 token，并可能耗时较长。',
-        rebuildEmbeddingTip: '重建向量索引会消耗大量的token(>80w)，如果你是第一次使用，配置完嵌入模型后(点击右上角的保存配置按钮)，需要手动创建一次向量索引(点击重建向量索引按钮)',
+        rebuildEmbeddingConfirm: '确定要重建向量索引吗？该操作会调用向量模型、消耗大量 token，并可能耗时较长。',
+        rebuildEmbeddingTip: '重建向量索引会消耗大量的token，如果你是第一次使用，配置完向量模型后(点击右上角的保存配置按钮)，需要手动创建一次向量索引(点击重建向量索引按钮)',
+        confirmButton: '开始构建',
+        cancelButton: '取消构建',
       },
       sections: {
         chatModel: '对话模型(LLM)',
-        embeddingModel: '嵌入模型(Embedding)',
+        embeddingModel: '向量模型(Embedding)',
         generation: '生成参数',
         context: '上下文设置',
         maintenance: '资料索引',
@@ -1269,17 +1271,17 @@ export default {
           name: '对话模型名称',
           tip: '对话请求中传递给模型服务的模型名称',
         },
-        embeddingTip: '使用嵌入模型能极大的提高AI的理解能力，强烈建议配置；没有配置嵌入模型系统会回退到关键词搜索',
+        embeddingTip: '使用向量模型能极大的提高AI的理解能力，强烈建议配置；没有配置向量模型系统会回退到关键词搜索',
         embeddingBaseURL: {
-          name: '嵌入模型 Base URL',
+          name: '向量模型 Base URL',
           tip: '兼容 OpenAI Embeddings API 的服务地址，系统会自动追加 /embeddings；不使用向量检索时可留空',
         },
         embeddingApiKey: {
-          name: '嵌入模型 API Key',
-          tip: '调用嵌入模型服务时使用的 Bearer Token；不使用向量检索或服务无需鉴权时可留空',
+          name: '向量模型 API Key',
+          tip: '调用向量模型服务时使用的 Bearer Token；不使用向量检索或服务无需鉴权时可留空',
         },
         embeddingModel: {
-          name: '嵌入模型名称',
+          name: '向量模型名称',
           tip: '构建和查询游戏资料向量索引时使用的模型名称；不使用向量检索时可留空',
         },
         systemPrompt: {

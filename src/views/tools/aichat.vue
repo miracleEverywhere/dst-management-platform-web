@@ -510,11 +510,11 @@
                   type="warning"
                   :title="t('tools.ai.actions.rebuildEmbedding')"
                   :content="t('tools.ai.actions.rebuildEmbeddingConfirm')"
-                  :confirm-text="t('global.confirm.confirm')"
-                  :cancel-text="t('global.confirm.cancel')"
+                  :confirm-text="t('tools.ai.actions.confirmButton')"
+                  :cancel-text="t('tools.ai.actions.cancelButton')"
                   :confirm-loading="embeddingRebuildLoading"
                   @confirm="handleEmbeddingRebuild"
-                  @cancel="embeddingRebuildConfirmVisible = false"
+                  @cancel="handleEmbeddingCancel"
                 />
               </v-card-text>
             </v-form>
@@ -750,6 +750,17 @@ const handleEmbeddingRebuild = () => {
 
   embeddingRebuildLoading.value = true
   toolsApi.aichat.embedding.rebuild.post().then(response => {
+    showSnackbar(response.message)
+    embeddingRebuildConfirmVisible.value = false
+  }).finally(() => {
+    embeddingRebuildLoading.value = false
+  })
+}
+
+const handleEmbeddingCancel = () => {
+  if (!isAdmin.value) return
+
+  toolsApi.aichat.embedding.cancel.post().then(response => {
     showSnackbar(response.message)
     embeddingRebuildConfirmVisible.value = false
   }).finally(() => {
