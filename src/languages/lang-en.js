@@ -508,6 +508,12 @@ export default {
               name: 'Upon triggering of the specified event, an HTTP POST notification will be delivered to the configured URL. The notification can be restricted to apply only to selected rooms',
             },
           },
+          playerUpdateModEnable: {
+            name: 'Player Update Mod',
+            enable: 'Enable',
+            disable: 'Disable',
+            tip: 'Players can update the mod by entering the specified content in the in-game chat box',
+          },
         },
       },
       step5: {

@@ -508,6 +508,12 @@ export default {
               name: '当触发指定事件时，向配置的 URL 发送 HTTP POST 通知',
             },
           },
+          playerUpdateModEnable: {
+            name: '玩家更新模组',
+            enable: '开启',
+            disable: '关闭',
+            tip: '玩家在游戏聊天框中输入指定的内容即可更新模组',
+          },
         },
       },
       step5: {

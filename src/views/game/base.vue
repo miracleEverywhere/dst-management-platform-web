@@ -353,6 +353,7 @@ const roomSettingToDB = () => {
     startType: roomSettingData.value.startType,
     announceSetting: roomSettingData.value.announceSetting,
     webhookSetting: JSON.stringify(roomSettingData.value.webhook),
+    playerUpdateModEnable: roomSettingData.value.playerUpdateModEnable,
   }
 }
 
@@ -405,6 +406,7 @@ const DBToRoomSetting = data => {
     startType: data.startType,
     announceSetting: data.announceSetting,
     webhook: data.webhookSetting ? JSON.parse(data.webhookSetting) : [],
+    playerUpdateModEnable: data.playerUpdateModEnable,
   }
 }
 
