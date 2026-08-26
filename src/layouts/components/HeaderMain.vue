@@ -92,7 +92,6 @@
 import { Version } from "@/config/index"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify"
-import { truncateString } from "@/utils/tools.js"
 import useGlobalStore from "@store/global"
 import platformApi from "@/api/platform.js"
 import roomApi from "@/api/room.js"
@@ -186,6 +185,7 @@ const noTip = () => {
 }
 
 const handleRoomChange = async () => {
+  globalStore.room.gameName = roomBasic.value.find(item => item.roomID === globalStore.room.id)?.roomName
   await refresh()
 }
 
