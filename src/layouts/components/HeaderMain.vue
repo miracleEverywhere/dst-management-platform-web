@@ -52,28 +52,41 @@
     </div>
     <div>
       <template v-if="dmpVersionGap&&!globalStore.dmpVersion.noTip">
-        <v-badge
-          v-tooltip="latestVersion"
-          location="top right"
-          color="error"
-          offset-x="24"
-          class="cursor-pointer"
-        >
-          <template #badge>
-            <div class="fcc">
-              <span @click="noTip">
-                New
-              </span>
-            </div>
+        <v-tooltip>
+          <template #activator="{ props }">
+            <v-badge
+              v-bind="props"
+              location="top right"
+              color="error"
+              offset-x="24"
+              class="cursor-pointer"
+            >
+              <template #badge>
+                <div class="fcc">
+                  <span @click="noTip">
+                    New
+                  </span>
+                </div>
+              </template>
+              <v-chip
+                color="info"
+                class="mr-4"
+                prepend-icon="ri-medal-2-line"
+              >
+                {{ t('global.dmpVersion') + Version }}
+              </v-chip>
+            </v-badge>
           </template>
-          <v-chip
-            color="info"
-            class="mr-4"
-            prepend-icon="ri-medal-2-line"
+          <div>
+            {{ latestVersion }}
+          </div>
+          <div
+            v-for="(line, i) in releaseInfo"
+            :key="i"
           >
-            {{ t('global.dmpVersion') + Version }}
-          </v-chip>
-        </v-badge>
+            {{ line }}
+          </div>
+        </v-tooltip>
       </template>
       <template v-else>
         <v-chip
@@ -147,6 +160,7 @@ const getColor = () => {
 
 const dmpVersionGap = ref(false)
 const latestVersion = ref('')
+const releaseInfo = ref([])
 
 const getLatestVersion = async () => {
   try {
@@ -172,6 +186,12 @@ const getLatestVersion = async () => {
     if (releases.tag_name !== globalStore.dmpVersion.closeVersion) {
       globalStore.dmpVersion.noTip = false
     }
+
+    let releaseBody = releases.body || ''
+    if (releaseBody === '') {
+      return
+    }
+    releaseInfo.value = releaseBody.replace(/[#`*-]+/g, '').split('\n')
 
     // dmpVersionGap.value = true
   } catch {
