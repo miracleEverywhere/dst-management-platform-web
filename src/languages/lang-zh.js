@@ -566,6 +566,7 @@ export default {
         enableMulti: '批量启用',
         enableMultiFail: '启用失败',
         enableMultiSuccess: '批量启用成功',
+        deleteMulti: '批量删除',
         addClientModsDisabled: '禁本地',
         deleteAcf: '删除ACF',
         deleteAcfTitle: '删除Steam Acf文件',

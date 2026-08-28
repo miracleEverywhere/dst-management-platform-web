@@ -566,6 +566,7 @@ export default {
         enableMulti: 'Multi-Enable',
         enableMultiFail: 'Enable Fail',
         enableMultiSuccess: 'Multi-Enable Success',
+        deleteMulti: 'Multi-Delete',
         addClientModsDisabled: 'Disable Client Mods',
         deleteAcf: 'Delete ACF',
         deleteAcfTitle: 'Delete Steam Acf file',

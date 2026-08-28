@@ -175,7 +175,7 @@
           v-model="roomSettingForm.restart.setting"
           v-tooltip="t('game.base.step4.form.restart.tip.time')"
           :disabled="!roomSettingForm.restart.enable"
-          :label="t('game.base.step4.form.backup.time')"
+          :label="t('game.base.step4.form.restart.time')"
         >
           <v-menu
             :close-on-content-click="false"
