@@ -252,12 +252,17 @@
           </v-dialog>
           <progress-button
             :progress="props.downloadProgress"
-            color="success"
+            :color="downloaded?'warning':'success'"
             density="compact"
             size="small"
             @click="handleDownload"
           >
-            {{ t('game.mod.download.modInfo.download') }}
+            <span v-if="downloaded">
+              {{ t('game.mod.add.updateMod') }}
+            </span>
+            <span v-else>
+              {{ t('game.mod.download.modInfo.download') }}
+            </span>
           </progress-button>
         </div>
       </div>
