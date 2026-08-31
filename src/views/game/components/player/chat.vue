@@ -177,8 +177,7 @@
       ref="chatContainer"
       class="overflow-y-auto"
       :style="{ height: `${props.height - 125}px` }"
-      @wheel="handleChatWheel"
-      @scroll="handleChatScroll"
+      @scroll.passive="handleChatScroll"
     >
       <v-list lines="two">
         <v-list-item
@@ -313,26 +312,29 @@ const needTime = ref(true)
 const chatContainer = ref()
 const loading = ref(false)
 const autoPull = ref(true)
-
-const handleChatWheel = event => {
-  if (event.deltaY < 0 && autoPull.value) {
-    autoPull.value = false
-    showSnackbar(t('game.player.chat.autoPullDisabledByScroll'), 'info')
-  }
-}
+let lastScrollTop = null
 
 const handleChatScroll = event => {
   const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
   const distanceToBottom = scrollHeight - scrollTop - clientHeight
+  const isAtBottom = distanceToBottom <= 8
+  const isScrollingUp = lastScrollTop !== null && scrollTop < lastScrollTop - 1
 
-  if (distanceToBottom <= 2 && !autoPull.value) {
+  if (isScrollingUp && autoPull.value) {
+    autoPull.value = false
+    showSnackbar(t('game.player.chat.autoPullDisabledByScroll'), 'info')
+  } else if (isAtBottom && !autoPull.value) {
     autoPull.value = true
     showSnackbar(t('game.player.chat.autoPullEnabledAtBottom'), 'info')
   }
+
+  lastScrollTop = scrollTop
 }
 
 const scrollToBottom = () => {
   setTimeout(() => {
+    if (!autoPull.value) return
+
     if (chatContainer.value && chatContainer.value.$el) {
       chatContainer.value.$el.scrollTo({
         top: chatContainer.value.$el.scrollHeight,
@@ -348,7 +350,7 @@ const scrollToBottom = () => {
 }
 
 watch(chatMessages, newVal => {
-  if (newVal && newVal.length > 0) {
+  if (newVal && newVal.length > 0 && autoPull.value) {
     nextTick(() => {
       scrollToBottom()
     })
