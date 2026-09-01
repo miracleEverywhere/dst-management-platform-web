@@ -78,4 +78,10 @@ export default {
       },
     },
   },
+  customCmd: {
+    url: `/room/worlds/custom/cmd`,
+    put: async function (data) {
+      return await http.put(this.url, data)
+    },
+  },
 }
