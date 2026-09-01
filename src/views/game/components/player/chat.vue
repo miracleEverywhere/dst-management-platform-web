@@ -177,6 +177,9 @@
       ref="chatContainer"
       class="overflow-y-auto"
       :style="{ height: `${props.height - 125}px` }"
+      @wheel="handleChatWheel"
+      @touchstart.passive="handleChatTouchStart"
+      @touchmove.passive="handleChatTouchMove"
       @scroll.passive="handleChatScroll"
     >
       <v-list lines="two">
@@ -312,23 +315,55 @@ const needTime = ref(true)
 const chatContainer = ref()
 const loading = ref(false)
 const autoPull = ref(true)
-let lastScrollTop = null
 
-const handleChatScroll = event => {
-  const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
-  const distanceToBottom = scrollHeight - scrollTop - clientHeight
-  const isAtBottom = distanceToBottom <= 8
-  const isScrollingUp = lastScrollTop !== null && scrollTop < lastScrollTop - 1
+const bottomThreshold = 16
+let lastTouchY = null
 
-  if (isScrollingUp && autoPull.value) {
+const getScrollMetrics = element => {
+  const maxScrollTop = Math.max(0, element.scrollHeight - element.clientHeight)
+  const scrollTop = Math.min(Math.max(element.scrollTop, 0), maxScrollTop)
+
+  return {
+    distanceToBottom: maxScrollTop - scrollTop,
+  }
+}
+
+const disableAutoPull = () => {
+  if (autoPull.value) {
     autoPull.value = false
     showSnackbar(t('game.player.chat.autoPullDisabledByScroll'), 'info')
-  } else if (isAtBottom && !autoPull.value) {
+  }
+}
+
+const handleChatWheel = event => {
+  if (event.deltaY < 0 && getScrollMetrics(event.currentTarget).distanceToBottom > bottomThreshold) {
+    disableAutoPull()
+  }
+}
+
+const handleChatTouchStart = event => {
+  lastTouchY = event.touches[0]?.clientY ?? null
+}
+
+const handleChatTouchMove = event => {
+  const currentTouchY = event.touches[0]?.clientY
+  if (currentTouchY === undefined || lastTouchY === null) return
+
+  const isMovingDown = currentTouchY > lastTouchY + 2
+  const { distanceToBottom } = getScrollMetrics(event.currentTarget)
+
+  if (isMovingDown && distanceToBottom > bottomThreshold) {
+    disableAutoPull()
+  }
+
+  lastTouchY = currentTouchY
+}
+
+const handleChatScroll = event => {
+  if (getScrollMetrics(event.currentTarget).distanceToBottom <= bottomThreshold && !autoPull.value) {
     autoPull.value = true
     showSnackbar(t('game.player.chat.autoPullEnabledAtBottom'), 'info')
   }
-
-  lastScrollTop = scrollTop
 }
 
 const scrollToBottom = () => {
