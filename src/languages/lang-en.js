@@ -981,6 +981,7 @@ export default {
         info1: 'It is convenient for running in an ARM environment or binding to specific CPU cores, etc.',
         info2: 'Translation emulation, for example, box64',
         info3: 'CPU core binding, for example, taskset -c 0',
+        buttonTaskset: 'Binding Core',
       },
     },
     plugin: {

@@ -981,6 +981,7 @@ export default {
         info1: '方便在ARM环境运行或绑定指定核心等，如果你不需要转译或绑定核心，请不要修改此配置',
         info2: '转译例如 box64',
         info3: '绑定核心例如 taskset -c 0 ',
+        buttonTaskset: '绑定核心',
       },
     },
     plugin: {

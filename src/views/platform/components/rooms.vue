@@ -331,7 +331,7 @@
           </v-chip>
         </div>
       </v-card-title>
-      <v-card-text>
+      <v-card-text class="my-4">
         <v-alert
           border="start"
           color="info"
@@ -349,14 +349,13 @@
           </div>
         </v-alert>
         <v-row
-          v-for="world in selectWorlds"
+          v-for="(world, index) in selectWorlds"
           :key="world.id"
           class="mt-4"
         >
           <v-col
-            md="2"
+            v-if="mobile"
             cols="12"
-            :class="mobile?'d-flex align-center':'d-flex justify-end align-center'"
           >
             <v-chip
               color="info"
@@ -366,14 +365,34 @@
               ({{ world.id }})
             </v-chip>
           </v-col>
-          <v-col
-            md="10"
-            cols="12"
-          >
+          <v-col>
             <v-text-field
               v-model="world.customStartupCmd"
               :label="t('platform.rooms.customDialog.label')"
-            />
+              density="compact"
+            >
+              <template
+                v-if="!mobile"
+                #prepend
+              >
+                <v-chip
+                  color="info"
+                  label
+                >
+                  {{ world.worldName }}
+                  ({{ world.id }})
+                </v-chip>
+              </template>
+              <template #append>
+                <v-btn
+                  color="info"
+                  @click="addTaskset(index)"
+                >
+                  {{ t('platform.rooms.customDialog.buttonTaskset') }}
+                  {{ index }}
+                </v-btn>
+              </template>
+            </v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
@@ -660,6 +679,13 @@ const handleUpdateCustomCmd = () => {
   }).finally(() => {
     customCmdSubmitLoading.value = false
   })
+}
+
+const addTaskset = index => {
+  const world = selectWorlds.value[index]
+  if (world) {
+    world.customStartupCmd = `taskset -c ${index}`
+  }
 }
 </script>
 
