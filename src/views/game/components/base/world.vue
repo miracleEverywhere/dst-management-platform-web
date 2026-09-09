@@ -963,18 +963,43 @@ onMounted(async () => {
     worldForm.value[0].masterServerPort = portFactor.value + GamePortFactor.masterServerPort
     worldForm.value[0].authenticationPort = portFactor.value + GamePortFactor.authenticationPort
 
-    if (!(props.gameMode === 'lavaarena' || props.gameMode === 'quagmire' || props.gameMode === 'custom')) {
-      // eslint-disable-next-line sonarjs/code-eval
-      worldForm.value[0].levelData = eval(props.gameMode).master
+    if (props.gameMode === 'endless') {
+      worldForm.value[0].levelData = endless.master
       await handleWorldTabsEdit('', 'add')
-      // eslint-disable-next-line sonarjs/code-eval
-      worldForm.value[1].levelData = eval(props.gameMode).caves
-    }
-    if (props.gameMode === 'lavaarena' || props.gameMode === 'quagmire') {
-      // eslint-disable-next-line sonarjs/code-eval
-      worldForm.value[0].levelData = eval(props.gameMode).master
+      worldForm.value[1].levelData = endless.caves
     }
 
+    if (props.gameMode === 'survival') {
+      worldForm.value[0].levelData = survival.master
+      await handleWorldTabsEdit('', 'add')
+      worldForm.value[1].levelData = survival.caves
+    }
+
+    if (props.gameMode === 'relaxed') {
+      worldForm.value[0].levelData = relaxed.master
+      await handleWorldTabsEdit('', 'add')
+      worldForm.value[1].levelData = relaxed.caves
+    }
+
+    if (props.gameMode === 'wilderness') {
+      worldForm.value[0].levelData = wilderness.master
+      await handleWorldTabsEdit('', 'add')
+      worldForm.value[1].levelData = wilderness.caves
+    }
+
+    if (props.gameMode === 'lightsOut') {
+      worldForm.value[0].levelData = lightsOut.master
+      await handleWorldTabsEdit('', 'add')
+      worldForm.value[1].levelData = lightsOut.caves
+    }
+
+    if (props.gameMode === 'lavaarena') {
+      worldForm.value[0].levelData = lavaarena.master
+    }
+
+    if (props.gameMode === 'quagmire') {
+      worldForm.value[0].levelData = quagmire.master
+    }
   }
 
   worldTabName.value = worldForm.value[0].name
