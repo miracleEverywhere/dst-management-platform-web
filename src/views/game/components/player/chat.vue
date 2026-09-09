@@ -202,7 +202,10 @@
                   style="width: 100%; height: 100%;"
                 />
               </div>
-              <v-chip class="ml-2">
+              <v-chip
+                color="primary"
+                class="ml-2"
+              >
                 {{ t(`game.player.chat.type.${p.type}`) }}
               </v-chip>
             </div>
