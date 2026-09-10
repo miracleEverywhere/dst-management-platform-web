@@ -1262,6 +1262,10 @@ export default {
           name: 'Enable in-game AI chat',
           tip: 'Allows players to trigger AI conversations from the current room\'s in-game chat',
         },
+        allowChat: {
+          name: 'Allow casual chat',
+          tip: 'Once enabled, the AI will continue to reply even if no documents are retrieved',
+        },
         prefix: {
           name: 'Trigger prefix',
           tip: 'Only messages starting with this prefix trigger AI; when empty, every non-empty chat message triggers it; maximum 64 characters',

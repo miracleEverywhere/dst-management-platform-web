@@ -1262,6 +1262,10 @@ export default {
           name: '启用游戏内 AI 对话',
           tip: '启用后，玩家可以在当前房间的游戏聊天中触发 AI 对话',
         },
+        allowChat: {
+          name: '允许闲聊',
+          tip: '启用后，就算没有检索到文档，AI也会继续回复',
+        },
         prefix: {
           name: '触发前缀',
           tip: '只有以前缀开头的消息会触发 AI；留空时所有非空聊天消息都会触发，最多 64 个字符',
@@ -1272,7 +1276,7 @@ export default {
         },
         maxReplyLength: {
           name: 'AI 回复最大字数',
-          tip: '追加到系统提示词中的回复字数限制，范围 1-180',
+          tip: '追加到系统提示词中的回复字数限制，范围 1-300',
         },
         chatBaseURL: {
           name: '对话模型 Base URL',
