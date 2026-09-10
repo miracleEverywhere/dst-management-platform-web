@@ -381,6 +381,22 @@ export default {
           hostileCreaturesAndSpawners: 'Hostile Creatures And Spawners',
           tip: ' (This configuration only takes effect before the game is generated)',
         },
+        customOverrides: {
+          title: 'Mod / Unrecognized Settings ({count})',
+          description: 'These settings may come from a mod or a game update. The platform has no predefined options or dedicated icons for them, so verify their meaning before editing.',
+          value: 'Current value',
+          rawValue: 'Raw Lua value',
+          enabled: 'Enabled',
+          disabled: 'Disabled',
+          readOnly: 'Complex Lua values are read-only here. Edit them in Code instead.',
+          updateFailed: 'Failed to update the setting. Check this field in Code.',
+          types: {
+            string: 'Text',
+            number: 'Number',
+            boolean: 'Boolean',
+            complex: 'Complex',
+          },
+        },
         levelData: {
           required: 'Please input world code configuration',
           lua: 'World code configuration format error',
