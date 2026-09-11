@@ -382,7 +382,7 @@ export default {
           tip: ' (This configuration only takes effect before the game is generated)',
         },
         customOverrides: {
-          title: 'Mod / Unrecognized Settings ({count})',
+          title: 'Unrecognized Settings {count}',
           summary: 'These settings are hidden from the standard list. Open the details to review them.',
           description: 'These settings may come from a mod or a game update. The platform has no predefined options for them, so verify their meaning before editing.',
           viewDetails: 'View details',

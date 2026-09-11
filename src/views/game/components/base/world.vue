@@ -913,7 +913,7 @@
 
   <v-dialog
     v-model="customOverridesDialog"
-    :fullscreen="mobile"
+    :width="mobile?'90%':'55%'"
     max-width="960"
     scrollable
   >
@@ -1482,7 +1482,6 @@ watch(() => worldForm.value.length, l => {
   grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr);
   gap: 16px;
   padding: 8px 12px;
-  font-size: 1rem;
   font-weight: bolder;
 }
 

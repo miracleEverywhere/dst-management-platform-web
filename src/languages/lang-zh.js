@@ -382,7 +382,7 @@ export default {
           tip: ' (该配置仅游戏生成前生效)',
         },
         customOverrides: {
-          title: 'Mod / 未识别配置（{count}）',
+          title: '未识别配置{count}个',
           summary: '这些配置不会在标准配置列表中直接展示，可打开详情查看。',
           description: '这些配置可能由 Mod 或游戏更新添加。平台没有对应的预定义选项，请确认含义后再修改。',
           viewDetails: '查看详情',
