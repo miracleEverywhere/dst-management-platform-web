@@ -94,7 +94,6 @@ watch(() => props.item.value, value => {
 
 .custom-setting-key {
   overflow-wrap: anywhere;
-  font-family: monospace;
   font-size: 0.875rem;
 }
 
