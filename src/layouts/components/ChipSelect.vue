@@ -108,7 +108,7 @@ const emit = defineEmits(['change'])
 
 const { t } = useI18n()
 
-const model = defineModel({ default: undefined })
+const model = defineModel({ default: undefined, type: Number })
 
 const menu = ref(false)
 const activatorRef = ref(null)
