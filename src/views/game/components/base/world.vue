@@ -257,6 +257,25 @@
           />
         </v-tabs-window-item>
         <v-tabs-window-item value="Visualization">
+          <v-alert
+            v-if="customOverrides.length !== 0"
+            color="warning"
+            :title="t('game.base.step2.customOverrides.title', { count: customOverrides.length })"
+            :text="t('game.base.step2.customOverrides.summary')"
+            density="compact"
+            class="mt-4 mb-2"
+            variant="tonal"
+          >
+            <template #append>
+              <v-btn
+                size="small"
+                variant="outlined"
+                @click="customOverridesDialog = true"
+              >
+                {{ t('game.base.step2.customOverrides.viewDetails') }}
+              </v-btn>
+            </template>
+          </v-alert>
           <template v-if="visualizationType==='forest' && Object.keys(overridesObj).length!==0">
             <v-alert
               color="info"
@@ -890,6 +909,51 @@
       </v-tabs-window>
     </v-tabs-window-item>
   </v-tabs-window>
+
+  <v-dialog
+    v-model="customOverridesDialog"
+    :fullscreen="mobile"
+    max-width="960"
+    scrollable
+  >
+    <v-card>
+      <v-card-title>
+        {{ t('game.base.step2.customOverrides.title', { count: customOverrides.length }) }}
+      </v-card-title>
+      <v-divider />
+      <v-card-text class="custom-overrides-dialog-content">
+        <v-alert
+          :text="t('game.base.step2.customOverrides.description')"
+          color="warning"
+          density="compact"
+          class="mb-4"
+          variant="tonal"
+        />
+        <div class="custom-overrides-kv-list">
+          <div class="custom-overrides-kv-header">
+            <span>{{ t('game.base.step2.customOverrides.key') }}</span>
+            <span>{{ t('game.base.step2.customOverrides.value') }}</span>
+          </div>
+          <custom-level-data-setting
+            v-for="item in customOverrides"
+            :key="item.name"
+            :item="item"
+            @change-value="handleCustomOverrideChange"
+          />
+        </div>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          variant="text"
+          @click="customOverridesDialog = false"
+        >
+          {{ t('game.base.step2.customOverrides.close') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -902,7 +966,9 @@ import luaparse from 'luaparse'
 import luamin from 'lua-format'
 import CodeEditor from "@/components/CodeEditor.vue"
 import { endless, survival, relaxed, wilderness, lightsOut, lavaarena, quagmire } from "./leveldataoverride.js"
+import CustomLevelDataSetting from './customLevelDataSetting.vue'
 import LevelDataSetting from "./levelDataSetting.vue"
+import { readLevelDataOverrides, replaceLevelDataOverride } from './levelDataOverrides.js'
 import {
   caveOverrideWorldGenerationWorld,
   cavesWorldGeneration,
@@ -1206,6 +1272,24 @@ const handleCreateWorld = cmd => {
 
 const worldLevelDataTabName = ref('Code')
 const visualizationType = ref('')
+const customOverrides = ref([])
+const customOverridesDialog = ref(false)
+
+const visibleOverrideNames = new Set([
+  ...Object.values(groundWorldRule).flat(),
+  ...Object.values(groundWorldGeneration).flat(),
+  ...Object.values(cavesWorldRule).flat(),
+  ...Object.values(cavesWorldGeneration).flat(),
+])
+
+const engineOverrideNames = new Set([
+  'has_ocean',
+  'keep_disconnected_tiles',
+  'layout_mode',
+  'no_joining_islands',
+  'no_wormholes_to_disconnected_tiles',
+  'wormhole_prefab',
+])
 
 const handleWorldTabChange = async name => {
   if (name === 'Visualization') {
@@ -1248,42 +1332,18 @@ const overridesObj = ref({})
 
 const generateOverridesObj = levelData => {
   if (levelData === '') {
+    overridesObj.value = {}
+    customOverrides.value = []
+
     return
   }
-  const ast = luaparse.parse(levelData)
 
-  // 提取 overrides 字段
-  const overridesTable = extractOverrides(ast)
+  const parsedOverrides = readLevelDataOverrides(levelData)
 
-
-  // 将 Lua 表转换为 JavaScript 对象
-  overridesObj.value = convertLuaTableToObject(overridesTable)
-}
-
-function extractOverrides(ast) {
-  // 找到 return 语句中的 overrides 字段
-  const returnStatement = ast.body[0] // 假设只有一个 return 语句
-  const returnTable = returnStatement.arguments[0] // return 语句的参数是一个表
-
-  // 遍历表中的字段，找到 overrides 字段
-  for (const field of returnTable.fields) {
-    if (field.key.type === 'Identifier' && field.key.name === 'overrides') {
-      return field.value
-    }
-  }
-
-  return null
-}
-
-function convertLuaTableToObject(luaTable) {
-  const obj = {}
-  for (const field of luaTable.fields) {
-    const key = field.key.name
-
-    obj[key] = field.value.raw.replace(/"/g, '')
-  }
-
-  return obj
+  overridesObj.value = parsedOverrides.values
+  customOverrides.value = parsedOverrides.entries.filter(item => (
+    !visibleOverrideNames.has(item.name) && !engineOverrideNames.has(item.name)
+  ))
 }
 
 const beautifyLua = luaScript => {
@@ -1305,69 +1365,30 @@ const beautifyLua = luaScript => {
   return removedWatermark
 }
 
-const handleModelValueChange = debounce(data => {
-  const key = data.name
-  const value = data.value
-  for (let world of worldForm.value) {
-    if (world.name === worldTabName.value) {
-      const ast = luaparse.parse(world.levelData)
-
-      // 提取 overrides 字段
-      const overridesTable = extractOverrides(ast)
-      for (let field of overridesTable.fields) {
-        if (field.key.name === key) {
-          field.value.raw = `"${value}"`
-        }
+const updateOverrideValue = data => {
+  try {
+    for (const world of worldForm.value) {
+      if (world.name === worldTabName.value) {
+        world.levelData = replaceLevelDataOverride(
+          world.levelData,
+          data.name,
+          data.type,
+          data.value,
+        )
+        generateOverridesObj(world.levelData)
+        break
       }
-      world.levelData = astToLua(ast)
-      break
     }
-  }
-}, 100)
-
-const astToLua = (astNode, indentLevel = 0) => {
-  const indent = '    '.repeat(indentLevel)
-  switch (astNode.type) {
-    case 'Chunk':
-      return astNode.body.map(node => astToLua(node, indentLevel)).join('\n')
-    case 'LocalStatement':
-      return `${indent}local ${astNode.variables.map(astToLua).join(', ')} = ${astNode.init.map(astToLua).join(', ')}`
-    case 'FunctionDeclaration':
-      return `${indent}function ${astToLua(astNode.identifier)}(${astNode.parameters.map(astToLua).join(', ')}) \n${astToLua(astNode.body, indentLevel + 1)}\n${indent}end`
-    case 'ReturnStatement':
-      return `${indent}return ${astNode.arguments.map(astToLua).join(', ')}`
-    case 'BinaryExpression':
-      return `${astToLua(astNode.left)} ${astNode.operator} ${astToLua(astNode.right)}`
-    case 'CallStatement':
-      return `${indent}${astToLua(astNode.expression)}`
-    case 'Identifier':
-      return astNode.name
-    case 'StringLiteral':
-      return `${astNode.raw}`
-    case 'NumericLiteral':
-      return astNode.raw
-    case 'VarargLiteral':
-      return '...'
-    case 'TableConstructorExpression':
-      return `${indent}{ ${astNode.fields.map(field => astToLua(field, indentLevel + 1)).join(',\n' + indent)} }`
-    case 'Field':
-      return astNode.key ? `${astToLua(astNode.key)} = ${astToLua(astNode.value)}` : astToLua(astNode.value)
-    case 'AssignmentStatement':
-      return `${indent}${astNode.variables.map(astToLua).join(', ')} = ${astNode.init.map(astToLua).join(', ')}`
-    case 'CallExpression':
-      return `${astToLua(astNode.base)}(${astNode.arguments.map(astToLua).join(', ')})`
-    case 'TableKeyString':
-      return `${astToLua(astNode.key)} = ${astToLua(astNode.value)}`
-    case 'BooleanLiteral':
-      return astNode.raw
-    case 'TableKey':
-      return `[${astToLua(astNode.key)}] = ${astToLua(astNode.value)}`
-    case 'TableValue':
-      return astToLua(astNode.value)
-    default:
-      throw new Error(`Unsupported node type: ${astNode.type}`)
+  } catch {
+    showSnackbar(t('game.base.step2.customOverrides.updateFailed'), 'error')
   }
 }
+
+const handleModelValueChange = debounce(data => {
+  updateOverrideValue({ ...data, type: 'string' })
+}, 100)
+
+const handleCustomOverrideChange = data => updateOverrideValue(data)
 
 const handleIsMasterChange = () => {
   for (let world of worldForm.value) {
@@ -1447,5 +1468,32 @@ watch(() => worldForm.value.length, l => {
   grid-template-columns: repeat(auto-fill, minmax(240.5px, 1fr));
   gap: 10px;
   min-width: 360px;
+}
+
+.custom-overrides-kv-list {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.custom-overrides-kv-header {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr);
+  gap: 16px;
+  padding: 8px 12px;
+  color: rgb(var(--v-theme-on-surface-variant));
+  background: rgba(var(--v-theme-on-surface), 0.04);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.custom-overrides-dialog-content {
+  max-height: 72vh;
+}
+
+@media (max-width: 600px) {
+  .custom-overrides-kv-header {
+    display: none;
+  }
 }
 </style>
