@@ -6,7 +6,7 @@
   >
     <v-menu
       v-model="menu"
-      :close-on-content-click="false"
+      :close-on-content-click="true"
       location="bottom start"
       origin="top start"
       transition="slide-y-transition"
@@ -19,7 +19,9 @@
           class="chip-select__activator"
         >
           <slot />
-          <span class="chip-select__label">{{ t('global.noRoom') }}</span>
+          <span class="chip-select__label">
+            {{ t('global.noRoom') }}
+          </span>
           <template #prepend>
             <v-icon
               :icon="props.prependIcon"
@@ -62,21 +64,28 @@
         </v-chip>
       </template>
 
-      <div
+      <v-list
         class="chip-select__dropdown"
         :style="{ width: menuWidth ? menuWidth + 'px' : null }"
       >
-        <v-chip
+        <v-list-item
           v-for="item in items"
           :key="getKey(item)"
-          :color="color"
-          variant="tonal"
-          class="chip-select__option"
           @click="onSelect(item)"
         >
-          <span class="chip-select__label">{{ getLabel(item) }}</span>
-        </v-chip>
-      </div>
+          <v-list-item-title class="chip-select__label">
+            {{ getLabel(item) }}
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          v-if="userStore.userInfo.roomCreation||userStore.userInfo.role==='admin'"
+          @click="gotoGameBase"
+        >
+          <v-list-item-title class="chip-select__label text-primary">
+            {{ t('rooms.header.button.create') }}
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
     </v-menu>
   </span>
 </template>
@@ -84,6 +93,10 @@
 <script setup>
 import { computed, mergeProps, nextTick, onMounted, ref, watch } from 'vue'
 import { useI18n } from "vue-i18n"
+import useUserStore from "@store/user"
+import useGlobalStore from "@store/global"
+import {useRouter} from "vue-router";
+import eventBus from "@/utils/eventBus.js";
 
 const props = defineProps({
   items: {
@@ -107,6 +120,10 @@ const props = defineProps({
 const emit = defineEmits(['change'])
 
 const { t } = useI18n()
+const router = useRouter()
+const userStore = useUserStore()
+const globalStore = useGlobalStore()
+
 
 const model = defineModel({ default: undefined, type: Number })
 
@@ -149,6 +166,19 @@ function measure() {
   }
 }
 
+const toggleMenu = () => {
+  eventBus.emit('toggleMenu', 3)
+}
+
+const gotoGameBase = async () => {
+  globalStore.room = {
+    id: 0,
+    gameName: '',
+  }
+  toggleMenu()
+  await router.push('/game/base')
+}
+
 watch(menu, open => {
   if (open) nextTick(measure)
 })
@@ -164,12 +194,6 @@ onMounted(() => nextTick(measure))
 }
 
 .chip-select__activator {
-  max-width: var(--chip-select-max-width);
-  cursor: pointer;
-}
-
-.chip-select__option {
-  width: 100%;
   max-width: var(--chip-select-max-width);
   cursor: pointer;
 }
