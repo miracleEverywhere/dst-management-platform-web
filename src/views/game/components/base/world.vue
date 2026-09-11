@@ -259,12 +259,13 @@
         <v-tabs-window-item value="Visualization">
           <v-alert
             v-if="customOverrides.length !== 0"
+            v-tooltip="t('game.base.step2.customOverrides.summary')"
             color="warning"
             :title="t('game.base.step2.customOverrides.title', { count: customOverrides.length })"
-            :text="t('game.base.step2.customOverrides.summary')"
             density="compact"
             class="mt-4 mb-2"
             variant="tonal"
+            icon="ri-settings-5-fill"
           >
             <template #append>
               <v-btn
@@ -920,8 +921,8 @@
       <v-card-title>
         {{ t('game.base.step2.customOverrides.title', { count: customOverrides.length }) }}
       </v-card-title>
-      <v-divider />
-      <v-card-text class="custom-overrides-dialog-content">
+
+      <v-card-text class="custom-overrides-dialog-content mt-4">
         <v-alert
           :text="t('game.base.step2.customOverrides.description')"
           color="warning"
@@ -942,8 +943,8 @@
           />
         </div>
       </v-card-text>
-      <v-divider />
-      <v-card-actions>
+
+      <v-card-actions class="mt-2">
         <v-spacer />
         <v-btn
           variant="text"
@@ -1481,10 +1482,8 @@ watch(() => worldForm.value.length, l => {
   grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr);
   gap: 16px;
   padding: 8px 12px;
-  color: rgb(var(--v-theme-on-surface-variant));
-  background: rgba(var(--v-theme-on-surface), 0.04);
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: bolder;
 }
 
 .custom-overrides-dialog-content {

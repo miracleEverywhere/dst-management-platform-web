@@ -25,8 +25,8 @@
         v-else-if="item.type === 'boolean'"
         v-model="setting"
         :label="setting
-          ? t('game.base.step2.customOverrides.enabled')
-          : t('game.base.step2.customOverrides.disabled')"
+          ? 'true'
+          : 'false'"
         color="primary"
         density="compact"
         hide-details
@@ -39,7 +39,7 @@
         density="compact"
         hide-details
         max-rows="6"
-        readonly
+        disabled
         rows="2"
         variant="outlined"
       />
