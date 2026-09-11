@@ -7,7 +7,7 @@
     <div>
       <chip-select
         v-model="globalStore.room.id"
-        :items="roomBasic"
+        :items="globalStore.roomBasic"
         :max-width="200"
         color="primary"
         prepend-icon="ri-honour-line"
@@ -24,7 +24,7 @@
     <div>
       <chip-select
         v-model="globalStore.room.id"
-        :items="roomBasic"
+        :items="globalStore.roomBasic"
         :max-width="300"
         color="primary"
         prepend-icon="ri-honour-line"
@@ -116,8 +116,6 @@ const { mobile } = useDisplay()
 const globalStore = useGlobalStore()
 const refresh = inject('refresh')
 
-const roomBasic = ref([])
-
 const gameVersion = ref({
   local: 0,
   server: 0,
@@ -136,8 +134,8 @@ const getGameVersion = async () => {
 
 const getRoomPermittedBasic = () => {
   roomApi.permittedBasic.get().then(response => {
-    roomBasic.value = response.data || []
-    for (let room of roomBasic.value) {
+    globalStore.roomBasic = response.data || []
+    for (let room of globalStore.roomBasic) {
       if (room.roomID === globalStore.room.id && room.roomName === globalStore.room.gameName) {
         return
       }
@@ -205,7 +203,7 @@ const noTip = () => {
 }
 
 const handleRoomChange = async () => {
-  globalStore.room.gameName = roomBasic.value.find(item => item.roomID === globalStore.room.id)?.roomName
+  globalStore.room.gameName = globalStore.roomBasic.find(item => item.roomID === globalStore.room.id)?.roomName
   await refresh()
 }
 

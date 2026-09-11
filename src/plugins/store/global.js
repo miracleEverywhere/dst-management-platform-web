@@ -20,6 +20,11 @@ const globalStore = defineStore("global", {
         id: 0,
         gameName: '',
       },
+
+      // 这里的roomBasic的内容和room没对上，是后端写接口时的疏忽
+      // room中是id和gameName，roomBasic中是roomID和roomName，这两个没对上
+      // 就先这样吧
+      roomBasic: [],
       gameVersion: {
         server: 0,
         local: 0,

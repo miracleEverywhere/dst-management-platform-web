@@ -415,12 +415,9 @@ const saveButtonLoading = ref(false)
 const refreshCurrentPage = inject("refresh")
 
 const reloadPage = () => {
-  setTimeout(() => {
-    refreshCurrentPage(false)
-    nextTick(() => {
-      refreshCurrentPage(true)
-    })
-  }, 0)
+  nextTick(() => {
+    refreshCurrentPage()
+  })
 }
 
 const handleSave = () => {
@@ -452,6 +449,12 @@ const handleSave = () => {
         id: response.data.id,
         gameName: response.data.gameName,
       }
+
+      const room = globalStore.roomBasic.find(item => item.roomID === response.data.id)
+
+      if (room) {
+        room.roomName = response.data.gameName
+      }
       reloadPage()
     }).finally(() => {
       saveButtonLoading.value = false
@@ -476,6 +479,11 @@ const handleSave = () => {
         id: response.data.id,
         gameName: response.data.gameName,
       }
+      globalStore.roomBasic.push({
+        roomID: response.data.id,
+        roomName: response.data.gameName,
+        status: true,
+      })
       reloadPage()
     }).finally(() => {
       saveButtonLoading.value = false
