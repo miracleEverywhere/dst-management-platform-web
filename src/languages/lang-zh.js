@@ -383,7 +383,10 @@ export default {
         },
         customOverrides: {
           title: 'Mod / 未识别配置（{count}）',
+          summary: '这些配置不会在标准配置列表中直接展示，可打开详情查看。',
           description: '这些配置可能由 Mod 或游戏更新添加。平台没有对应的选项和专用图标，请确认含义后再修改。',
+          viewDetails: '查看详情',
+          close: '关闭',
           value: '当前值',
           rawValue: 'Lua 原始值',
           enabled: '开启',

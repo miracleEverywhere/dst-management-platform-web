@@ -257,6 +257,27 @@
           />
         </v-tabs-window-item>
         <v-tabs-window-item value="Visualization">
+          <v-alert
+            v-if="customOverrides.length !== 0"
+            color="warning"
+            :title="t('game.base.step2.customOverrides.title', { count: customOverrides.length })"
+            :text="t('game.base.step2.customOverrides.summary')"
+            density="compact"
+            class="mt-4 mb-2"
+            variant="tonal"
+            icon="ri-puzzle-2-line"
+          >
+            <template #append>
+              <v-btn
+                prepend-icon="ri-eye-line"
+                size="small"
+                variant="outlined"
+                @click="customOverridesDialog = true"
+              >
+                {{ t('game.base.step2.customOverrides.viewDetails') }}
+              </v-btn>
+            </template>
+          </v-alert>
           <template v-if="visualizationType==='forest' && Object.keys(overridesObj).length!==0">
             <v-alert
               color="info"
@@ -886,29 +907,55 @@
               </template>
             </div>
           </template>
-          <template v-if="customOverrides.length !== 0">
-            <v-alert
-              color="warning"
-              :title="t('game.base.step2.customOverrides.title', { count: customOverrides.length })"
-              :text="t('game.base.step2.customOverrides.description')"
-              density="compact"
-              class="mt-4 mb-2"
-              variant="tonal"
-              icon="ri-puzzle-2-line"
-            />
-            <div class="custom-item-container">
-              <custom-level-data-setting
-                v-for="item in customOverrides"
-                :key="item.name"
-                :item="item"
-                @change-value="handleCustomOverrideChange"
-              />
-            </div>
-          </template>
         </v-tabs-window-item>
       </v-tabs-window>
     </v-tabs-window-item>
   </v-tabs-window>
+
+  <v-dialog
+    v-model="customOverridesDialog"
+    :fullscreen="mobile"
+    max-width="960"
+    scrollable
+  >
+    <v-card>
+      <v-card-title class="d-flex align-center ga-2">
+        <v-icon
+          color="warning"
+          icon="ri-puzzle-2-line"
+        />
+        <span>{{ t('game.base.step2.customOverrides.title', { count: customOverrides.length }) }}</span>
+      </v-card-title>
+      <v-divider />
+      <v-card-text class="custom-overrides-dialog-content">
+        <v-alert
+          :text="t('game.base.step2.customOverrides.description')"
+          color="warning"
+          density="compact"
+          class="mb-4"
+          variant="tonal"
+        />
+        <div class="custom-item-container">
+          <custom-level-data-setting
+            v-for="item in customOverrides"
+            :key="item.name"
+            :item="item"
+            @change-value="handleCustomOverrideChange"
+          />
+        </div>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          variant="text"
+          @click="customOverridesDialog = false"
+        >
+          {{ t('game.base.step2.customOverrides.close') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -1228,6 +1275,7 @@ const handleCreateWorld = cmd => {
 const worldLevelDataTabName = ref('Code')
 const visualizationType = ref('')
 const customOverrides = ref([])
+const customOverridesDialog = ref(false)
 
 const visibleOverrideNames = new Set([
   ...Object.values(groundWorldRule).flat(),
@@ -1428,5 +1476,9 @@ watch(() => worldForm.value.length, l => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 12px;
+}
+
+.custom-overrides-dialog-content {
+  max-height: 72vh;
 }
 </style>
