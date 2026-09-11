@@ -12,7 +12,7 @@
           v-bind="tooltipProps"
           class="downloaded-corner bg-success"
           aria-hidden="true"
-        ></span>
+        />
       </template>
       {{ t('game.mod.download.modInfo.downloaded') }}
     </v-tooltip>

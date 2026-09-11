@@ -104,9 +104,9 @@ const props = defineProps({
   },
 })
 
-const { t } = useI18n()
-
 const emit = defineEmits(['change'])
+
+const { t } = useI18n()
 
 const model = defineModel({ default: undefined })
 
