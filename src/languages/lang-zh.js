@@ -384,21 +384,16 @@ export default {
         customOverrides: {
           title: 'Mod / 未识别配置（{count}）',
           summary: '这些配置不会在标准配置列表中直接展示，可打开详情查看。',
-          description: '这些配置可能由 Mod 或游戏更新添加。平台没有对应的选项和专用图标，请确认含义后再修改。',
+          description: '这些配置可能由 Mod 或游戏更新添加。平台没有对应的预定义选项，请确认含义后再修改。',
           viewDetails: '查看详情',
           close: '关闭',
+          key: '配置键',
           value: '当前值',
           rawValue: 'Lua 原始值',
           enabled: '开启',
           disabled: '关闭',
           readOnly: '复杂 Lua 值仅展示，需在“代码配置”中修改。',
           updateFailed: '配置更新失败，请在代码配置中检查该字段',
-          types: {
-            string: '文本',
-            number: '数字',
-            boolean: '开关',
-            complex: '复杂值',
-          },
         },
         levelData: {
           required: '请输入世界代码配置',

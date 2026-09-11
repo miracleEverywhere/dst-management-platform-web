@@ -265,11 +265,9 @@
             density="compact"
             class="mt-4 mb-2"
             variant="tonal"
-            icon="ri-puzzle-2-line"
           >
             <template #append>
               <v-btn
-                prepend-icon="ri-eye-line"
                 size="small"
                 variant="outlined"
                 @click="customOverridesDialog = true"
@@ -919,12 +917,8 @@
     scrollable
   >
     <v-card>
-      <v-card-title class="d-flex align-center ga-2">
-        <v-icon
-          color="warning"
-          icon="ri-puzzle-2-line"
-        />
-        <span>{{ t('game.base.step2.customOverrides.title', { count: customOverrides.length }) }}</span>
+      <v-card-title>
+        {{ t('game.base.step2.customOverrides.title', { count: customOverrides.length }) }}
       </v-card-title>
       <v-divider />
       <v-card-text class="custom-overrides-dialog-content">
@@ -935,7 +929,11 @@
           class="mb-4"
           variant="tonal"
         />
-        <div class="custom-item-container">
+        <div class="custom-overrides-kv-list">
+          <div class="custom-overrides-kv-header">
+            <span>{{ t('game.base.step2.customOverrides.key') }}</span>
+            <span>{{ t('game.base.step2.customOverrides.value') }}</span>
+          </div>
           <custom-level-data-setting
             v-for="item in customOverrides"
             :key="item.name"
@@ -1472,13 +1470,30 @@ watch(() => worldForm.value.length, l => {
   min-width: 360px;
 }
 
-.custom-item-container {
+.custom-overrides-kv-list {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.custom-overrides-kv-header {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr);
+  gap: 16px;
+  padding: 8px 12px;
+  color: rgb(var(--v-theme-on-surface-variant));
+  background: rgba(var(--v-theme-on-surface), 0.04);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .custom-overrides-dialog-content {
   max-height: 72vh;
+}
+
+@media (max-width: 600px) {
+  .custom-overrides-kv-header {
+    display: none;
+  }
 }
 </style>

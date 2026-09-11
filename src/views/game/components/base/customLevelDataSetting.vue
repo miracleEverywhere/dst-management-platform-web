@@ -1,35 +1,12 @@
 <template>
-  <v-card
-    variant="tonal"
-    class="custom-setting-card"
-  >
-    <v-card-text>
-      <div class="d-flex align-center ga-3 mb-4">
-        <v-avatar
-          color="secondary"
-          variant="tonal"
-          rounded
-        >
-          <v-icon icon="ri-puzzle-2-line" />
-        </v-avatar>
-        <div class="flex-grow-1 overflow-hidden">
-          <div class="text-body-1 font-weight-medium text-truncate">
-            {{ item.name }}
-          </div>
-          <v-chip
-            size="x-small"
-            color="secondary"
-            variant="outlined"
-          >
-            {{ t(`game.base.step2.customOverrides.types.${item.type}`) }}
-          </v-chip>
-        </div>
-      </div>
-
+  <div class="custom-setting-row">
+    <div class="custom-setting-key">
+      {{ item.name }}
+    </div>
+    <div class="custom-setting-value">
       <v-text-field
         v-if="item.type === 'string'"
         v-model="setting"
-        :label="t('game.base.step2.customOverrides.value')"
         density="compact"
         hide-details
         variant="outlined"
@@ -38,7 +15,6 @@
       <v-text-field
         v-else-if="item.type === 'number'"
         v-model="setting"
-        :label="t('game.base.step2.customOverrides.value')"
         density="compact"
         hide-details
         type="number"
@@ -58,7 +34,6 @@
       />
       <v-textarea
         v-else
-        :label="t('game.base.step2.customOverrides.rawValue')"
         :model-value="item.raw"
         auto-grow
         density="compact"
@@ -75,8 +50,8 @@
       >
         {{ t('game.base.step2.customOverrides.readOnly') }}
       </div>
-    </v-card-text>
-  </v-card>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -108,7 +83,34 @@ watch(() => props.item.value, value => {
 </script>
 
 <style scoped>
-.custom-setting-card {
-  height: 100%;
+.custom-setting-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr);
+  gap: 16px;
+  align-items: center;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+.custom-setting-key {
+  overflow-wrap: anywhere;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  .custom-setting-row {
+    display: block;
+    border-top: 0;
+    border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  }
+
+  .custom-setting-row:last-child {
+    border-bottom: 0;
+  }
+
+  .custom-setting-key {
+    margin-bottom: 8px;
+  }
 }
 </style>

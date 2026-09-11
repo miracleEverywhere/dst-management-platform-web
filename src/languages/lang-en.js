@@ -384,21 +384,16 @@ export default {
         customOverrides: {
           title: 'Mod / Unrecognized Settings ({count})',
           summary: 'These settings are hidden from the standard list. Open the details to review them.',
-          description: 'These settings may come from a mod or a game update. The platform has no predefined options or dedicated icons for them, so verify their meaning before editing.',
+          description: 'These settings may come from a mod or a game update. The platform has no predefined options for them, so verify their meaning before editing.',
           viewDetails: 'View details',
           close: 'Close',
+          key: 'Key',
           value: 'Current value',
           rawValue: 'Raw Lua value',
           enabled: 'Enabled',
           disabled: 'Disabled',
           readOnly: 'Complex Lua values are read-only here. Edit them in Code instead.',
           updateFailed: 'Failed to update the setting. Check this field in Code.',
-          types: {
-            string: 'Text',
-            number: 'Number',
-            boolean: 'Boolean',
-            complex: 'Complex',
-          },
         },
         levelData: {
           required: 'Please input world code configuration',
