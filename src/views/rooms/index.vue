@@ -543,9 +543,7 @@ const deleteRoom = () => {
     confirmVisible.value = false
     showSnackbar(response.message)
     getRooms()
-    if (globalStore.room.id === deleteRoomID.value) {
-      globalStore.room.id = 0
-    }
+    globalStore.deleteRoom(deleteRoomID.value)
   }).finally(() => {
     deleteRoomLoading.value = false
   })

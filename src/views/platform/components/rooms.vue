@@ -630,9 +630,7 @@ const deleteRoom = () => {
       itemsPerPage: roomsData.value.pageSize,
       sortBy: undefined,
     })
-    if (globalStore.room.id === currentRoomID.value) {
-      globalStore.room.id = 0
-    }
+    globalStore.deleteRoom(currentRoomID.value)
   }).finally(() => {
     deleteRoomLoading.value = false
   })

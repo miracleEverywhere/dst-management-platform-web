@@ -35,7 +35,17 @@ const globalStore = defineStore("global", {
       },
     }
   },
-  actions: {},
+  actions: {
+    deleteRoom(id) {
+      if (this.room.id === id) {
+        this.room.id = 0
+      }
+      const index = this.roomBasic.findIndex(item => item.roomID === id)
+      if (index !== -1) {
+        this.roomBasic.splice(index, 1)
+      }
+    },
+  },
 
   // 计算属性，和vuex是使用一样，getters里面不是方法，是计算返回的结果值
   getters: {},
