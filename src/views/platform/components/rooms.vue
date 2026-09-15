@@ -370,6 +370,7 @@
               v-model="world.customStartupCmd"
               :label="t('platform.rooms.customDialog.label')"
               density="compact"
+              clearable
             >
               <template
                 v-if="!mobile"
@@ -672,7 +673,11 @@ const handleUpdateCustomCmd = () => {
 
   roomApi.customCmd.put(reqForm).then(response => {
     showSnackbar(response.message)
-    getRoomsData()
+    getRoomsData({
+      page: roomsData.value.page,
+      itemsPerPage: roomsData.value.pageSize,
+      sortBy: undefined,
+    })
     customCmdDialogVisible.value = false
   }).finally(() => {
     customCmdSubmitLoading.value = false
