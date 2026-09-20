@@ -1317,6 +1317,10 @@ export default {
           name: '向量模型名称',
           tip: '构建和查询游戏资料向量索引时使用的模型名称；不使用向量检索时可留空',
         },
+        embeddingDimensions: {
+          name: '向量维度',
+          tip: '0 表示不向向量模型发送 dimensions 参数，由模型决定原生维度（BGE-M3 等不支持该参数的模型必须填 0）；填其他值时必须是 64-8192 的整数，且要与模型实际输出维度一致',
+        },
         systemPrompt: {
           name: '系统提示词',
           tip: '每次对话前发送给模型的系统指令，最多 8000 个字符；留空时使用平台默认提示词',
@@ -1351,6 +1355,13 @@ export default {
         apiKey: 'API Key 不能超过 16 KB',
         url: '请输入有效的 HTTP 或 HTTPS 地址',
         prefix: '前缀不能换行且最多 64 个字符',
+        embeddingDimensions: '向量维度必须为 0（不指定）或 64 到 8192 之间的整数',
+        embeddingDimensionsNeedModel: '未配置向量模型时不能指定向量维度',
+      },
+      indexStatus: {
+        none: '尚未构建向量索引，保存配置后请点击「重建向量索引」',
+        current: '当前向量索引维度：{dimensions}',
+        mismatch: '当前向量索引维度为 {index}，与配置的向量维度 {configured} 不一致：请重建向量索引，或将向量维度改回 {index}（模型不支持 dimensions 参数时填 0）',
       },
     },
     backup: {
