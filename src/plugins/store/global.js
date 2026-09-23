@@ -34,7 +34,7 @@ const globalStore = defineStore("global", {
         closeVersion: '', // 点击时的最新版本
       },
 
-      // GitHub 最新 Release 缓存，避免频繁请求触发 GitHub 限流
+      // GitHub 最新 Release 缓存，避免频繁请求触发 GitHub 限流，60 per Hour
       latestRelease: {
         latestVersion: '', // 最新版本号，即 tag_name
         releaseInfo: [], // 版本更新内容

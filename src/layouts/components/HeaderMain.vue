@@ -140,6 +140,7 @@ const getRoomPermittedBasic = () => {
         return
       }
     }
+
     globalStore.room.id = 0
     globalStore.room.gameName = ""
   })
