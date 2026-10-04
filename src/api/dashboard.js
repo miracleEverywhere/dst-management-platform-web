@@ -8,6 +8,12 @@ export default {
         return await http.post(this.url, data)
       },
     },
+    op: {
+      url: `/dashboard/exec/op`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
   },
   info: {
     base: {

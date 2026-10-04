@@ -545,10 +545,23 @@
             </v-card-title>
             <v-card-text class="mx-4">
               <v-row class="mt-4">
+                <v-alert
+                  v-if="currentOp"
+                  type="info"
+                  variant="tonal"
+                  density="compact"
+                  class="mb-4"
+                >
+                  <b>{{ opTypeLabel(currentOp.type) }}</b> 正在后台执行（已进行
+                  {{ Math.max(0, Math.round((Date.now() - new Date(currentOp.startedAt).getTime()) / 1000)) }} 秒）：
+                  {{ currentOp.stage }}
+                </v-alert>
+
                 <v-btn
                   v-tooltip="t('dashboard.card3.startup.tip')"
                   class="mr-4 mb-4"
                   color="success"
+                  :disabled="opRunning"
                   @click="confirmBoxVisible.startup.visible=true"
                 >
                   {{ t('dashboard.card3.startup.title') }}
@@ -569,6 +582,7 @@
                   v-tooltip="t('dashboard.card3.shutdown.tip')"
                   class="mr-4 mb-4"
                   color="error"
+                  :disabled="opRunning"
                   @click="confirmBoxVisible.shutdown.visible=true"
                 >
                   {{ t('dashboard.card3.shutdown.title') }}
@@ -589,6 +603,7 @@
                   v-tooltip="t('dashboard.card3.restart.tip')"
                   class="mr-4 mb-4"
                   color="warning"
+                  :disabled="opRunning"
                   @click="confirmBoxVisible.restart.visible=true"
                 >
                   {{ t('dashboard.card3.restart.title') }}
@@ -609,7 +624,7 @@
                   v-tooltip="t('dashboard.card3.update.tip')"
                   class="mr-4 mb-4"
                   color="info"
-                  :disabled="userStore.userInfo.role!=='admin'"
+                  :disabled="userStore.userInfo.role!=='admin'||opRunning"
                   :loading="sysInfo.updating"
                   @click="updateTypeDialog=true"
                 >
@@ -679,6 +694,7 @@
                   v-tooltip="t('dashboard.card3.reset.tip')"
                   class="mr-4 mb-4"
                   :color="colors.purple.base"
+                  :disabled="opRunning"
                   @click="resetTypeDialog=true"
                 >
                   {{ t('dashboard.card3.reset.title') }}
@@ -1172,6 +1188,7 @@
                         <v-switch
                           v-model="item.status"
                           :loading="worldStatusLoading"
+                          :disabled="opRunning"
                           color="success"
                           hide-details
                           @change="item.status?handleGameExec({type:'startup',worldID:item.id}):handleGameExec({type:'shutdown',worldID:item.id})"
@@ -1297,12 +1314,58 @@ const worldHeaders = [
 
 const worldStatusLoading = ref(false)
 
+// ---- 后台操作(opmgr)进度：受理后轮询状态，刷新页面后自动恢复 ----
+const currentOp = ref(null)
+let opPollTimer = null
+
+const opTypeLabel = t =>
+  ({ startup: '启动游戏', shutdown: '关闭游戏', restart: '重启游戏', update: '更新游戏', reset: '重置世界' }[t] || t)
+
+const stopOpPoll = () => {
+  if (opPollTimer) {
+    clearTimeout(opPollTimer)
+    opPollTimer = null
+  }
+}
+
+const pollOpStatus = async () => {
+  try {
+    const res = await dashboardApi.exec.op.get({ roomID: globalStore.room.id })
+    const payload = res.data ?? res
+    const data = payload.data ?? payload
+    const prev = currentOp.value
+    currentOp.value = data.current ?? null
+    if (!currentOp.value && prev) {
+      const last = (data.history && data.history[0]) || null
+      if (last && last.id === prev.id) {
+        if (last.state === 'success') {
+          showSnackbar(`${opTypeLabel(last.type)}完成`, 'success')
+        } else {
+          showSnackbar(`${opTypeLabel(last.type)}失败：${last.error || '未知原因'}`, 'error')
+        }
+      }
+      getBaseInfo()
+    }
+    if (currentOp.value) {
+      opPollTimer = setTimeout(pollOpStatus, 3000)
+    }
+  } catch (e) {
+    opPollTimer = setTimeout(pollOpStatus, 5000)
+  }
+}
+
+const opRunning = computed(() => !!currentOp.value)
+
 const handleGameExec = params => {
   const reqForm = {
     type: params.type,
     roomID: globalStore.room.id,
     worldID: params.worldID,
     extra: params.extra,
+  }
+  const isLongOp = ['startup', 'shutdown', 'restart', 'update', 'reset'].includes(params.type)
+  if (isLongOp) {
+    reqForm.async = true
   }
 
   worldStatusLoading.value = true
@@ -1314,6 +1377,9 @@ const handleGameExec = params => {
     Object.keys(confirmBoxVisible.value).forEach(key => {
       confirmBoxVisible.value[key].visible = false
     })
+    if (reqForm.async) {
+      pollOpStatus()
+    }
   }).finally(() => {
     Object.keys(confirmBoxVisible.value).forEach(key => {
       confirmBoxVisible.value[key].loading = false
@@ -1714,6 +1780,9 @@ onMounted(async () => {
   quickCmdGameWorldId.value = consoleForm.value.worlds[0]
   handleResize()
 
+  // 恢复后台操作进度展示（页面刷新后不丢失）
+  pollOpStatus()
+
   // 添加事件监听
   window.addEventListener('resize', handleResize)
   startBaseRequests()
@@ -1723,6 +1792,7 @@ onMounted(async () => {
 onUnmounted(() => {
   cancelBaseRequests()
   cancelSysRequests()
+  stopOpPoll()
   window.removeEventListener('beforeunload', cancelBaseRequests)
   window.removeEventListener('beforeunload', cancelSysRequests)
   window.removeEventListener('resize', handleResize)
