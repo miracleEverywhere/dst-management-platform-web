@@ -89,6 +89,7 @@ import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import useUserStore from '@store/user'
 import { useI18n } from "vue-i18n"
+import userApi from "@/api/user"
 
 
 const { t } = useI18n()
@@ -116,4 +117,10 @@ switch (userInfo.avatar) {
 const handleLogout = async () => {
   await userStore.clearStore()
 }
+
+onMounted(async () => {
+  const resMenu = await userApi.menu.get()
+
+  userStore.menus = resMenu.data
+})
 </script>
