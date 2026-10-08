@@ -620,6 +620,10 @@ export default {
           uid: 'ID',
           nickname: '昵称',
           prefab: '角色',
+          playerAge: '天数',
+          netScore: '网络',
+          color: '颜色',
+          netID: 'Steam ID',
           actions: '操作',
         },
         actions: {
@@ -628,6 +632,11 @@ export default {
           white: '添加预留位',
         },
         noSelected: '未选择',
+        netScore: {
+          '0': '良好',
+          '1': '一般',
+          '2': '较差',
+        },
       },
       list: {
         adminlist: '管理员',

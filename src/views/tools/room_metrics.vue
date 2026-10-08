@@ -47,10 +47,6 @@
               :key="world.worldID"
               :value="world.worldID"
             >
-              <v-icon
-                icon="ri-earth-line"
-                start
-              />
               {{ world.worldName }}
             </v-tab>
           </v-tabs>

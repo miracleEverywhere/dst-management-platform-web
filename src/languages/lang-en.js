@@ -620,6 +620,10 @@ export default {
           uid: 'ID',
           nickname: 'Nickname',
           prefab: 'Role',
+          playerAge: 'Age',
+          netScore: 'Network',
+          color: 'Color',
+          netID: 'Steam ID',
           actions: 'Actions',
         },
         actions: {
@@ -628,6 +632,11 @@ export default {
           white: 'Add White List',
         },
         noSelected: 'No Selected',
+        netScore: {
+          '0': 'Good',
+          '1': 'Fair',
+          '2': 'Poor',
+        },
       },
       list: {
         adminlist: 'Admin',
