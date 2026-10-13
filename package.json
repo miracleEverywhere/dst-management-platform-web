@@ -19,6 +19,7 @@
     "axios": "^1.19.0",
     "codemirror": "^5.65.5",
     "crypto-js": "^4.2.0",
+    "dompurify": "^3.4.17",
     "echarts": "^5.5.1",
     "js-bbcode-parser": "^5.1.0",
     "lodash": "4.17.23",
