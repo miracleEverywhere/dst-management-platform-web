@@ -259,7 +259,7 @@
             class="map-page__search"
           />
           <div
-            v-if="searchQuery.trim()"
+            v-if="searchKeyword"
             class="map-search-results"
           >
             <div
@@ -839,12 +839,15 @@ const labelObjectCount = computed(() => {
   return count
 })
 
+// clearable 的 v-text-field 点击清除按钮后会把 model 置为 null，这里统一兜底成字符串。
+const searchKeyword = computed(() => (searchQuery.value || '').trim())
+
 const searchResults = computed(() => {
-  if (!mapData.value || !searchQuery.value.trim()) {
+  if (!mapData.value || !searchKeyword.value) {
     return []
   }
 
-  return searchPrefabs(mapData.value, searchQuery.value, lang.value).slice(0, 20)
+  return searchPrefabs(mapData.value, searchKeyword.value, lang.value).slice(0, 20)
 })
 
 const playersStatusText = computed(() => {
