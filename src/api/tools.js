@@ -39,6 +39,12 @@ export default {
     get: async function (data) {
       return await http.get(this.url, data)
     },
+    players: {
+      url: `/tools/map/players`,
+      get: async function (data) {
+        return await http.get(this.url, data)
+      },
+    },
   },
   token: {
     url: `/tools/token`,

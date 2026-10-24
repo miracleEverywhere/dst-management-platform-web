@@ -382,7 +382,9 @@ const pluginConfigs = {
   },
   tmi: {
     showOsInfo: true,
-    defaultProxy: 'https://ghfast.top/',
+
+    // 安装已改用后端内置 TEX 解包，不再下载 Stex，也不需要代理
+    installProxy: false,
   },
   'ai_chat': {
     defaultProxy: 'https://ghfast.top/',
@@ -405,6 +407,17 @@ const getPluginConfig = pluginName => {
   }
 }
 
+// 内置 TEX 解包只需要 apt 与 unzip，Ubuntu/Debian 系默认勾选图片解析；macOS 不支持。
+const supportsImageParse = () => {
+  if (osType.value === Darwin) {
+    return false
+  }
+
+  const platform = osPlatform.value.toLowerCase()
+
+  return platform === 'ubuntu' || platform === 'debian'
+}
+
 const handleAction = (action, item) => {
   currentPlugin.value = item.name
 
@@ -418,8 +431,7 @@ const handleAction = (action, item) => {
       name: item.name,
       proxy: getPluginConfig(item.name).defaultProxy,
       ...(item.name === 'tmi' && {
-        imageParse: osPlatform.value.toLowerCase() === 'ubuntu'
-          && osPlatformVersion.value === '24.04',
+        imageParse: supportsImageParse(),
       }),
     }
     installDialogVisible.value = true
