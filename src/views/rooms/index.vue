@@ -135,6 +135,21 @@
                       </v-list-item-title>
                     </v-list-item>
                     <v-list-item
+                      class="text-primary"
+                      :disabled="room.gameName===''"
+                      @click="openFavorite(room)"
+                    >
+                      <template #prepend>
+                        <v-icon
+                          icon="ri-bookmark-3-line"
+                          size="22"
+                        />
+                      </template>
+                      <v-list-item-title>
+                        {{ t('rooms.card.success.header.menu.favorite') }}
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
                       class="text-error"
                       :disabled="userStore.userInfo.role!=='admin'"
                       @click="handleAction('delete', room)"
@@ -360,6 +375,51 @@
     @confirm="deleteRoom"
     @cancel="confirmVisible=false"
   />
+  <v-dialog
+    v-model="favoriteVisible"
+    max-width="460"
+    persistent
+  >
+    <v-card :title="t('game.favorite.save.title')">
+      <v-card-text>
+        <v-text-field
+          :model-value="favoriteRoom?.gameName"
+          :label="t('game.favorite.save.gameName')"
+          readonly
+          variant="outlined"
+          density="compact"
+        />
+        <v-text-field
+          v-model="favoriteForm.remark"
+          :label="t('game.favorite.save.remark')"
+          :placeholder="t('game.favorite.save.remarkPlaceholder')"
+          maxlength="100"
+          persistent-placeholder
+          counter
+          class="mt-4"
+        />
+        <div class="text-caption text-medium-emphasis">
+          {{ t('game.favorite.save.tip') }}
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          variant="text"
+          @click="favoriteVisible=false"
+        >
+          {{ t('game.favorite.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :loading="favoriteLoading"
+          @click="createFavorite"
+        >
+          {{ t('game.favorite.confirm') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -423,21 +483,31 @@ const getRooms = async () => {
   getRoomsLoading.value = false
 }
 
-const handleCreate = async event => {
-  createLoading.value = true
+const favoriteVisible = ref(false)
+const favoriteLoading = ref(false)
+const favoriteRoom = ref(null)
 
-  const results = await event
-  if (!results.valid) {
-    createLoading.value = false
-    
-    return
-  }
-  roomApi.base.post(createForm.value).then(response => {
-    createDialog.value = false
-    getRooms()
+const favoriteForm = ref({
+  remark: '',
+})
+
+const openFavorite = room => {
+  favoriteRoom.value = room
+  favoriteForm.value.remark = ''
+  favoriteVisible.value = true
+}
+
+const createFavorite = () => {
+  favoriteLoading.value = true
+
+  roomApi.favorite.base.post({
+    roomID: favoriteRoom.value.id,
+    remark: favoriteForm.value.remark,
+  }).then(response => {
+    favoriteVisible.value = false
     showSnackbar(response.message)
   }).finally(() => {
-    createLoading.value = false
+    favoriteLoading.value = false
   })
 }
 

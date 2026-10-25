@@ -66,6 +66,7 @@ export default {
     gameBase: 'Base',
     gameMod: 'Mod',
     gamePlayer: 'Player',
+    gameFavorite: 'Favorites',
     upload: 'Upload',
     install: 'Install',
     tools: 'Tools',
@@ -145,6 +146,7 @@ export default {
             delete: 'Delete',
             select: 'Select',
             copy: 'Copy Info',
+            favorite: 'Favorite',
           },
         },
         text: {
@@ -185,6 +187,56 @@ export default {
     next: {
       button: 'Next',
       save: 'Save',
+    },
+    favorite: {
+      title: 'Room Favorites',
+      refresh: 'Refresh',
+      noRemark: 'No Remark',
+      gameMode: 'Game Mode',
+      worlds: 'Worlds',
+      mods: 'Mods',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      columns: {
+        gameName: 'Room Name',
+        remark: 'Remark',
+        gameMode: 'Game Mode',
+        worlds: 'Worlds',
+        mods: 'Mods',
+        createdAt: 'Favorited At',
+        actions: 'Actions',
+      },
+      actions: {
+        apply: 'Create From Favorite',
+        rename: 'Edit Remark',
+        delete: 'Delete',
+      },
+      empty: {
+        title: 'No Favorites',
+        subTitle: 'Choose "Favorite" in a room card menu, or click "Favorite Current Room" in the upper right corner',
+      },
+      save: {
+        title: 'Favorite Current Room',
+        gameName: 'Room Name',
+        remark: 'Remark',
+        remarkPlaceholder: 'Optional, helps distinguish favorites',
+        tip: 'Saves the current room, world and system settings as a template for creating new rooms',
+      },
+      apply: {
+        title: 'Create Room From Favorite',
+        name: 'New Room Name',
+        namePlaceholder: 'Please input new room name',
+        nameRequired: 'Please input Room Name',
+        tip: 'A new room will be created with the room, world and system settings in this favorite. Ports are assigned automatically',
+      },
+      rename: {
+        title: 'Edit Remark',
+        label: 'Remark',
+      },
+      delete: {
+        title: 'Delete Favorite',
+        content: 'Are you sure you want to delete this favorite? This action cannot be undone.',
+      },
     },
     base: {
       loading: 'Loading',

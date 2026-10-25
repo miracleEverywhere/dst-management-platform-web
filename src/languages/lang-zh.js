@@ -66,6 +66,7 @@ export default {
     gameBase: '房间设置',
     gameMod: '模组设置',
     gamePlayer: '玩家设置',
+    gameFavorite: '房间收藏',
     upload: '存档导入',
     install: '游戏安装',
     tools: '平台工具',
@@ -145,6 +146,7 @@ export default {
             delete: '删除',
             select: '选择',
             copy: '复制信息',
+            favorite: '收藏',
           },
         },
         text: {
@@ -185,6 +187,56 @@ export default {
     next: {
       button: '下一步',
       save: '保存',
+    },
+    favorite: {
+      title: '房间收藏',
+      refresh: '刷新',
+      noRemark: '无备注',
+      gameMode: '游戏模式',
+      worlds: '世界个数',
+      mods: '模组个数',
+      cancel: '取消',
+      confirm: '确定',
+      columns: {
+        gameName: '房间名',
+        remark: '备注',
+        gameMode: '游戏模式',
+        worlds: '世界个数',
+        mods: '模组个数',
+        createdAt: '收藏时间',
+        actions: '操作',
+      },
+      actions: {
+        apply: '使用收藏创建',
+        rename: '修改备注',
+        delete: '删除',
+      },
+      empty: {
+        title: '暂无收藏',
+        subTitle: '在房间总览的卡片菜单中选择“收藏”，或点击右上角“收藏当前房间”',
+      },
+      save: {
+        title: '收藏当前房间',
+        gameName: '房间名',
+        remark: '备注',
+        remarkPlaceholder: '可选，用于区分不同的收藏',
+        tip: '保存当前房间的房间、世界和系统配置，之后可用它快速创建新房间',
+      },
+      apply: {
+        title: '使用收藏创建房间',
+        name: '新房间名',
+        namePlaceholder: '请输入新房间名',
+        nameRequired: '请输入房间名',
+        tip: '将使用收藏中的房间、世界和系统配置创建新房间，端口由平台自动分配',
+      },
+      rename: {
+        title: '修改备注',
+        label: '备注',
+      },
+      delete: {
+        title: '删除收藏',
+        content: '确定要删除该收藏吗？此操作不可恢复。',
+      },
     },
     base: {
       loading: '拼命加载中',
