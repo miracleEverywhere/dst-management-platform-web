@@ -103,19 +103,69 @@
               @cursor="cursor = $event"
             />
 
-            <div class="map-hud map-hud--top-left">
-              <div class="map-hud__title">
-                {{ mapData.payload.worldName }}
-              </div>
-              <div class="map-hud__sub">
-                {{ worldClockText }}
-              </div>
+            <div
+              class="map-hud map-hud--top-left"
+              :class="{ 'map-hud--collapsed': infoCollapsed }"
+            >
+              <button
+                v-if="infoCollapsed"
+                type="button"
+                class="map-hud__expand"
+                :title="t('tools.map.expandWorldInfo')"
+                aria-expanded="false"
+                @click="infoCollapsed = false"
+              >
+                <v-icon size="16">
+                  ri-map-2-line
+                </v-icon>
+                <v-icon
+                  size="14"
+                  class="map-hud__chevron"
+                >
+                  ri-arrow-down-s-line
+                </v-icon>
+              </button>
+              <template v-else>
+                <button
+                  type="button"
+                  class="map-hud__head"
+                  :title="t('tools.map.collapseWorldInfo')"
+                  aria-expanded="true"
+                  @click="infoCollapsed = true"
+                >
+                  <span
+                    class="map-hud__title"
+                    :title="mapData.payload.worldName"
+                  >{{ mapData.payload.worldName }}</span>
+                  <v-icon
+                    size="14"
+                    class="map-hud__chevron"
+                  >
+                    ri-arrow-up-s-line
+                  </v-icon>
+                </button>
+                <div class="map-hud__sub">
+                  {{ worldClockText }}
+                </div>
+              </template>
             </div>
 
             <div class="map-hud map-hud--top-right">
-              <div class="map-players">
-                <div class="map-players__head">
-                  <span>{{ t('tools.map.onlinePlayers') }}</span>
+              <div
+                class="map-players"
+                :class="{ 'map-players--collapsed': playersCollapsed }"
+              >
+                <button
+                  v-if="playersCollapsed"
+                  type="button"
+                  class="map-players__summary map-players__summary--collapsed"
+                  :title="t('tools.map.expandPlayers')"
+                  aria-expanded="false"
+                  @click="playersCollapsed = false"
+                >
+                  <v-icon size="14">
+                    ri-team-line
+                  </v-icon>
                   <v-chip
                     size="x-small"
                     :color="playersMeta.worldRunning ? 'success' : 'default'"
@@ -123,39 +173,73 @@
                   >
                     {{ players.length }}
                   </v-chip>
-                  <v-btn
-                    icon="ri-refresh-line"
-                    size="x-small"
-                    variant="text"
-                    :loading="refreshingPlayers"
-                    :title="t('tools.map.refreshPlayers')"
-                    @click="refreshPlayers({ manual: true })"
-                  />
-                </div>
-                <div class="map-players__status">
-                  {{ playersStatusText }}
-                </div>
-                <div
-                  v-if="players.length"
-                  class="map-players__list"
-                >
-                  <button
-                    v-for="player in players"
-                    :key="player.uid"
-                    type="button"
-                    class="map-players__row"
-                    :title="getDstRoleName(player.prefab, lang)"
-                    @click="focusWorldPoint(player.x, player.z, 18)"
-                  >
-                    <img
-                      class="map-players__avatar"
-                      :src="playerImageUrl(player.prefab)"
-                      alt=""
+                  <v-icon size="14">
+                    ri-arrow-down-s-line
+                  </v-icon>
+                </button>
+                <template v-else>
+                  <div class="map-players__head">
+                    <button
+                      type="button"
+                      class="map-players__summary"
+                      :title="t('tools.map.collapsePlayers')"
+                      aria-expanded="true"
+                      @click="playersCollapsed = true"
                     >
-                    <span class="map-players__name">{{ player.name || player.uid }}</span>
-                    <span class="map-players__coord">{{ Math.round(player.x) }}, {{ Math.round(player.z) }}</span>
-                  </button>
-                </div>
+                      <span>{{ t('tools.map.onlinePlayers') }}</span>
+                      <v-chip
+                        size="x-small"
+                        :color="playersMeta.worldRunning ? 'success' : 'default'"
+                        variant="flat"
+                      >
+                        {{ players.length }}
+                      </v-chip>
+                    </button>
+                    <v-btn
+                      icon="ri-refresh-line"
+                      size="x-small"
+                      variant="text"
+                      :loading="refreshingPlayers"
+                      :title="t('tools.map.refreshPlayers')"
+                      @click="refreshPlayers({ manual: true })"
+                    />
+                    <button
+                      type="button"
+                      class="map-players__toggle"
+                      :title="t('tools.map.collapsePlayers')"
+                      aria-expanded="true"
+                      @click="playersCollapsed = true"
+                    >
+                      <v-icon size="14">
+                        ri-arrow-up-s-line
+                      </v-icon>
+                    </button>
+                  </div>
+                  <div class="map-players__status">
+                    {{ playersStatusText }}
+                  </div>
+                  <div
+                    v-if="players.length"
+                    class="map-players__list"
+                  >
+                    <button
+                      v-for="player in players"
+                      :key="player.uid"
+                      type="button"
+                      class="map-players__row"
+                      :title="getDstRoleName(player.prefab, lang)"
+                      @click="focusWorldPoint(player.x, player.z, 18)"
+                    >
+                      <img
+                        class="map-players__avatar"
+                        :src="playerImageUrl(player.prefab)"
+                        alt=""
+                      >
+                      <span class="map-players__name">{{ player.name || player.uid }}</span>
+                      <span class="map-players__coord">{{ Math.round(player.x) }}, {{ Math.round(player.z) }}</span>
+                    </button>
+                  </div>
+                </template>
               </div>
             </div>
 
@@ -659,7 +743,7 @@ import WorldMapCanvas from './world-map/WorldMapCanvas.vue'
 
 const globalStore = useGlobalStore()
 const { t, locale } = useI18n()
-const { mobile } = useDisplay()
+const { mobile, smAndDown } = useDisplay()
 const { height: windowHeight } = useWindowSize()
 
 const otherHeight = 210
@@ -677,6 +761,15 @@ const worlds = ref([])
 const selectedWorldID = ref()
 const autoRefreshPlayers = ref(true)
 const openPanels = ref([0, 2])
+
+// 移动端默认收起地图上的悬浮信息，避免遮挡地图；切回宽屏时恢复展开。
+const infoCollapsed = ref(smAndDown.value)
+const playersCollapsed = ref(smAndDown.value)
+
+watch(smAndDown, collapsed => {
+  infoCollapsed.value = collapsed
+  playersCollapsed.value = collapsed
+})
 
 const visibleLayers = ref([])
 
@@ -1480,7 +1573,7 @@ onUnmounted(() => {
   left: 14px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 2px;
   padding: 8px 12px;
   border-radius: 10px;
@@ -1488,9 +1581,63 @@ onUnmounted(() => {
   backdrop-filter: blur(4px);
 }
 
+.map-hud--top-left.map-hud--collapsed {
+  gap: 0;
+  padding: 2px 4px;
+}
+
+.map-hud__expand {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.map-hud__expand:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.map-hud__head {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.map-hud__head:hover .map-hud__chevron {
+  color: #fff;
+}
+
 .map-hud__title {
+  flex: 1 1 auto;
+  max-width: min(280px, 32vw);
+  overflow: hidden;
   font-weight: 600;
   font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.map-hud__chevron {
+  flex: 0 0 auto;
+  color: rgba(203, 213, 225, 0.72);
 }
 
 .map-hud__sub {
@@ -1516,6 +1663,11 @@ onUnmounted(() => {
   backdrop-filter: blur(4px);
 }
 
+.map-players--collapsed {
+  width: auto;
+  padding: 0;
+}
+
 .map-players__head {
   display: flex;
   gap: 6px;
@@ -1524,8 +1676,58 @@ onUnmounted(() => {
   font-size: 12px;
 }
 
-.map-players__head > span:first-child {
+.map-players__summary {
+  display: flex;
   flex: 1 1 auto;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.map-players__summary > span:first-child {
+  flex: 1 1 auto;
+}
+
+.map-players__summary:hover {
+  color: #fff;
+}
+
+.map-players__summary--collapsed {
+  padding: 5px 8px 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.map-players__summary--collapsed:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.map-players__toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: rgba(203, 213, 225, 0.72);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.map-players__toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 .map-players__status {
