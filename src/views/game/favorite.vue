@@ -31,7 +31,7 @@
               <span v-if="!mobile">{{ t('game.favorite.title') }}</span>
             </v-toolbar-title>
             <v-btn
-              prepend-icon="ri-bookmark-line"
+              prepend-icon="ri-bookmark-3-line"
               color="primary"
               :disabled="!globalStore.room.id"
               @click="openSaveDialog"
@@ -58,11 +58,13 @@
           </div>
         </template>
         <template #item.remark="{ item }">
-          <div
-            class="text-truncate"
-            :title="item.remark || ''"
-          >
-            <span v-if="item.remark">{{ item.remark }}</span>
+          <div class="text-truncate">
+            <span
+              v-if="item.remark"
+              v-tooltip="item.remark"
+            >
+              {{ item.remark }}
+            </span>
             <span
               v-else
               class="text-medium-emphasis"
@@ -78,9 +80,7 @@
           >
             <v-chip
               label
-              size="small"
               color="info"
-              variant="tonal"
               style="max-width: 100%"
             >
               {{ gameModeName(item) }}
@@ -88,20 +88,17 @@
           </div>
         </template>
         <template #item.worlds="{ item }">
-          {{ worldCount(item) }}
+          <v-chip label>
+            {{ worldCount(item) }}
+          </v-chip>
         </template>
         <template #item.mods="{ item }">
-          {{ modCount(item) }}
+          <v-chip label>
+            {{ modCount(item) }}
+          </v-chip>
         </template>
         <template #item.createdAt="{ item }">
-          <v-chip
-            size="small"
-            label
-            color="primary"
-            :title="timestamp2time(item.createdAt)"
-          >
-            {{ timestamp2time(item.createdAt) }}
-          </v-chip>
+          {{ timestamp2time(item.createdAt) }}
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex align-center justify-end flex-nowrap">
@@ -110,10 +107,25 @@
                 <v-btn
                   v-bind="tooltipProps"
                   icon="ri-play-line"
+                  size="small"
                   color="success"
-                  variant="tonal"
+                  variant="text"
                   :disabled="!canCreate"
                   @click="openApply(item)"
+                />
+              </template>
+            </v-tooltip>
+            <v-tooltip :text="t('game.favorite.actions.viewMods')">
+              <template #activator="{ props: tooltipProps }">
+                <v-btn
+                  v-bind="tooltipProps"
+                  icon="ri-rocket-2-line"
+                  size="small"
+                  color="primary"
+                  variant="text"
+                  class="ml-1"
+                  :disabled="modCount(item) === 0"
+                  @click="openMods(item)"
                 />
               </template>
             </v-tooltip>
@@ -122,6 +134,7 @@
                 <v-btn
                   v-bind="tooltipProps"
                   icon="ri-price-tag-3-line"
+                  size="small"
                   color="info"
                   variant="text"
                   class="ml-1"
@@ -134,8 +147,10 @@
                 <v-btn
                   v-bind="tooltipProps"
                   icon="ri-delete-bin-line"
+                  size="small"
                   color="error"
                   variant="text"
+                  class="ml-1"
                   @click="openDelete(item)"
                 />
               </template>
@@ -163,7 +178,7 @@
 
     <v-dialog
       v-model="applyVisible"
-      max-width="460"
+      :max-width="mobile?'90%':'40%'"
       persistent
     >
       <v-card :title="t('game.favorite.apply.title')">
@@ -181,10 +196,10 @@
               autofocus
             />
           </v-form>
-          <div class="text-caption text-medium-emphasis">
+          <div class="mt-6">
             {{ t('game.favorite.apply.tip') }}
           </div>
-          <div class="text-caption text-medium-emphasis mt-1">
+          <div class="mt-2">
             {{ t('game.favorite.gameMode') }}: {{ gameModeName(applyTarget) }}
             · {{ t('game.favorite.worlds') }}: {{ worldCount(applyTarget) }}
             · {{ t('game.favorite.mods') }}: {{ modCount(applyTarget) }}
@@ -211,7 +226,7 @@
 
     <v-dialog
       v-model="renameVisible"
-      max-width="460"
+      :max-width="mobile?'90%':'40%'"
       persistent
     >
       <v-card :title="t('game.favorite.rename.title')">
@@ -246,7 +261,7 @@
 
     <v-dialog
       v-model="saveVisible"
-      max-width="460"
+      :max-width="mobile?'90%':'40%'"
       persistent
     >
       <v-card :title="t('game.favorite.save.title')">
@@ -267,7 +282,7 @@
             counter
             class="mt-4"
           />
-          <div class="text-caption text-medium-emphasis">
+          <div>
             {{ t('game.favorite.save.tip') }}
           </div>
         </v-card-text>
@@ -290,6 +305,79 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog
+      v-model="modsVisible"
+      :width="mobile ? '90%' : '60%'"
+    >
+      <v-card :title="t('game.favorite.actions.viewMods')">
+        <v-card-text v-if="!modsLoading">
+          <v-sheet
+            border
+            rounded
+            class="mt-4"
+          >
+            <v-data-table
+              :headers="modHeaders"
+              :items="modList"
+            >
+              <template #item.preview_url="{ value }">
+                <v-img
+                  :src="value"
+                  :width="100"
+                  cover
+                  rounded
+                  aspect-ratio="1"
+                  class="ma-2"
+                >
+                  <template #placeholder>
+                    <div class="d-flex align-center justify-center fill-height">
+                      <v-progress-circular
+                        color="grey-lighten-4"
+                        indeterminate
+                      />
+                    </div>
+                  </template>
+                </v-img>
+              </template>
+              <template #item.name="{ value }">
+                <v-chip
+                  label
+                  color="info"
+                >
+                  {{ value || '-' }}
+                </v-chip>
+              </template>
+              <template #item.serverSize="{ value }">
+                <v-chip
+                  label
+                  color="primary"
+                >
+                  {{ formatBytes(parseInt(value) || 0) }}
+                </v-chip>
+              </template>
+              <template #item.id="{ value }">
+                <v-chip label>
+                  {{ value }}
+                </v-chip>
+              </template>
+              <template #no-data>
+                <div class="text-medium-emphasis py-6">
+                  {{ t('game.favorite.noMods') }}
+                </div>
+              </template>
+            </v-data-table>
+          </v-sheet>
+        </v-card-text>
+        <v-card-text v-else>
+          <result
+            type="info"
+            :title="t('game.base.loading')"
+            :height="200"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <confirm-box
       v-model="deleteVisible"
       type="error"
@@ -308,9 +396,10 @@
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import roomApi from "@/api/room"
+import modApi from "@/api/mod"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
-import { parseModLua, timestamp2time } from "@/utils/tools"
+import { formatBytes, parseModLua, timestamp2time } from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar"
 
 const { mobile } = useDisplay()
@@ -334,8 +423,8 @@ const headers = computed(() => {
     return [
       { title: t('game.favorite.columns.gameName'), key: 'gameName', sortable: false, width: 120 },
       { title: t('game.favorite.columns.remark'), key: 'remark', sortable: false, width: 150 },
-      { title: t('game.favorite.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center', width: 130 },
-      { title: t('game.favorite.columns.actions'), key: 'actions', sortable: false, align: 'end', width: 170 },
+      { title: t('game.favorite.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center', width: 240 },
+      { title: t('game.favorite.columns.actions'), key: 'actions', sortable: false, align: 'end', width: 210 },
     ]
   }
 
@@ -345,8 +434,8 @@ const headers = computed(() => {
     { title: t('game.favorite.columns.gameMode'), key: 'gameMode', sortable: false, align: 'center', width: 110 },
     { title: t('game.favorite.columns.worlds'), key: 'worlds', sortable: false, align: 'center', width: 100 },
     { title: t('game.favorite.columns.mods'), key: 'mods', sortable: false, align: 'center', width: 100 },
-    { title: t('game.favorite.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center', width: 170 },
-    { title: t('game.favorite.columns.actions'), key: 'actions', sortable: false, align: 'end', width: 170 },
+    { title: t('game.favorite.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center', width: 240 },
+    { title: t('game.favorite.columns.actions'), key: 'actions', sortable: false, align: 'end', width: 210 },
   ]
 })
 
@@ -374,18 +463,67 @@ const gameModeName = item => {
   return name === key ? roomData.gameMode : name
 }
 
-const modCount = item => {
+const favoriteModData = item => {
   const data = item?.data
 
   if (!data) {
-    return 0
+    return ''
   }
 
-  const modData = data.roomData?.modInOne
+  return data.roomData?.modInOne
     ? data.roomData?.modData
     : data.worldData?.[0]?.modData
+}
 
-  return parseModLua(modData || '').length
+const modCount = item => {
+  return parseModLua(favoriteModData(item) || '').length
+}
+
+const favoriteModIDs = item => {
+  const ids = parseModLua(favoriteModData(item) || '')
+    .map(mod => Number(String(mod).replace(/^workshop-/, '')))
+    .filter(id => Number.isInteger(id) && id > 0)
+
+  return [...new Set(ids)]
+}
+
+const modsVisible = ref(false)
+const modsLoading = ref(false)
+const modList = ref([])
+let modsRequestToken = 0
+
+const modHeaders = computed(() => [
+  { key: 'preview_url', title: t('game.mod.add.preview') },
+  { key: 'name', title: t('game.mod.add.name') },
+  { key: 'serverSize', title: t('game.mod.add.size') },
+  { key: 'id', title: 'ID' },
+])
+
+const openMods = async item => {
+  const token = ++modsRequestToken
+  const modIDs = favoriteModIDs(item)
+
+  modList.value = []
+  modsVisible.value = true
+  modsLoading.value = true
+
+  try {
+    if (modIDs.length === 0) {
+      return
+    }
+
+    const response = await modApi.info.post({ modIDs })
+
+    if (token === modsRequestToken) {
+      modList.value = response.data || []
+    }
+  } catch {
+    // 接口异常由 Axios 拦截器统一提示
+  } finally {
+    if (token === modsRequestToken) {
+      modsLoading.value = false
+    }
+  }
 }
 
 const getFavorites = async () => {

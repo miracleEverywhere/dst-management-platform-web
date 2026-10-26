@@ -208,9 +208,12 @@ export default {
       },
       actions: {
         apply: 'Create From Favorite',
+        viewMods: 'View Mods',
         rename: 'Edit Remark',
         delete: 'Delete',
       },
+      noMods: 'No mods to display',
+      close: 'Close',
       empty: {
         title: 'No Favorites',
         subTitle: 'Choose "Favorite" in a room card menu, or click "Favorite Current Room" in the upper right corner',

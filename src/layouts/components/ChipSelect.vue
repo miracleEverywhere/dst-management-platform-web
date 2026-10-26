@@ -95,8 +95,8 @@ import { computed, mergeProps, nextTick, onMounted, ref, watch } from 'vue'
 import { useI18n } from "vue-i18n"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
-import {useRouter} from "vue-router";
-import eventBus from "@/utils/eventBus.js";
+import { useRouter } from "vue-router"
+import eventBus from "@/utils/eventBus.js"
 
 const props = defineProps({
   items: {

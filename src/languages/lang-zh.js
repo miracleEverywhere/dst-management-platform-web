@@ -208,9 +208,12 @@ export default {
       },
       actions: {
         apply: '使用收藏创建',
+        viewMods: '查看模组',
         rename: '修改备注',
         delete: '删除',
       },
+      noMods: '没有可显示的模组',
+      close: '关闭',
       empty: {
         title: '暂无收藏',
         subTitle: '在房间总览的卡片菜单中选择“收藏”，或点击右上角“收藏当前房间”',

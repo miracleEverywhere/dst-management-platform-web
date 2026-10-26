@@ -19,6 +19,12 @@ export default {
       return await http.get(this.url, data)
     },
   },
+  info: {
+    url: `/mod/info`,
+    post: async function(data){
+      return await http.post(this.url, data)
+    },
+  },
   downloaded: {
     url: `/mod/downloaded`,
     get: async function(data){
