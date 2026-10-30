@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { createDynamicRouter, staticRouter } from './routes'
 import useUserStore from "@store/user"
 import nprogress from "@/utils/nprogress"
+import { IsLite } from '@/config'
 
 
 const router = createRouter({
@@ -18,7 +19,7 @@ router.beforeEach(async (to, from, next) => {
 
   // 1. 如果有token且尝试访问登录页，重定向到首页
   if (hasToken && to.path === '/login') {
-    next({ path: '/rooms' })
+    next({ path: IsLite ? '/dashboard' : '/rooms' })
     
     return
   }

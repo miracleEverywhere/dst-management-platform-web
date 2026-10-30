@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:lite": "vite --mode lite",
     "build": "vite build",
+    "build:lite": "vite build --mode lite --outDir dist-lite",
     "preview": "vite preview --port 5050",
     "lint": "eslint . --fix",
     "build:icons": "tsx src/plugins/iconify/build-icons.js",

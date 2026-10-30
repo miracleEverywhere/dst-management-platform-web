@@ -12,15 +12,26 @@
           @click="toggleVerticalOverlayNavActive(true)"
         />
 
-        <header-main />
+        <header-main v-if="!IsLite" />
+
+        <v-chip
+          v-if="IsLite"
+          color="primary"
+          variant="elevated"
+          class="me-4 cursor-default"
+        >
+          DMP Lite
+        </v-chip>
+
+        <lite-header-info v-if="IsLite" />
 
         <v-spacer />
 
         <github v-if="!mobile" />
 
-        <document v-if="!mobile" />
+        <document v-if="!mobile && !IsLite" />
 
-        <lang-select />
+        <lang-select v-if="!IsLite" />
 
         <navbar-theme-switcher class="me-2" />
 
@@ -62,6 +73,8 @@ import Github from "@/layouts/components/Github.vue"
 import Document from "@/layouts/components/Document.vue"
 import NavHeader from "@/layouts/components/NavHeader.vue"
 import HeaderMain from "@/layouts/components/HeaderMain.vue"
+import LiteHeaderInfo from "@/layouts/components/LiteHeaderInfo.vue"
+import { IsLite } from '@/config'
 import { useDisplay } from "vuetify/framework"
 
 const { mobile } = useDisplay()

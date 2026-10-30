@@ -1,4 +1,5 @@
 .idea
 dist
+dist-lite
 node_modules
 .pnpm*

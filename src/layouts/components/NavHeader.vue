@@ -6,12 +6,13 @@
   />
 
   <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-    {{ $t('global.title') }}
+    {{ IsLite ? '饥荒管理平台' : $t('global.title') }}
   </h1>
 </template>
 
 <script setup>
 import { generateLogo } from "@/utils/logo.js"
+import { IsLite } from '@/config'
 
 const logo = generateLogo()
 </script>
@@ -22,5 +23,3 @@ const logo = generateLogo()
   height: 2em!important;
 }
 </style>
-
-

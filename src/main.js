@@ -7,11 +7,16 @@ import directives from "@/directives"
 import '@core/scss/template/index.scss'
 import '@layouts/styles/index.scss'
 import { printLogo } from "@/utils/logo.js"
+import { IsLite } from '@/config'
 
 // Create vue app
 const app = createApp(App)
 
 printLogo()
+
+if (IsLite) {
+  document.title = 'DMP Lite'
+}
 
 // Register plugins
 registerPlugins(app)

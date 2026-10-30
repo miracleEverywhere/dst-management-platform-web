@@ -43,14 +43,17 @@
             </template>
 
             <v-list-item-title class="font-weight-semibold">
-              {{ userInfo.nickname }}
+              {{ userInfo.nickname || userInfo.username }}
             </v-list-item-title>
             <v-list-item-subtitle>{{ userInfo.username }}</v-list-item-subtitle>
           </v-list-item>
           <v-divider class="my-2" />
 
-          <!-- 👉 Profile -->
-          <v-list-item to="/profile">
+          <!-- 👉 Profile (lite 没有个人资料页) -->
+          <v-list-item
+            v-if="!IsLite"
+            to="/profile"
+          >
             <template #prepend>
               <v-icon
                 icon="ri-user-line"
@@ -58,14 +61,11 @@
               />
             </template>
 
-            <v-list-item-title>{{ t('global.profile') }}</v-list-item-title>
+            <v-list-item-title>{{ IsLite ? '个人中心' : t('global.profile') }}</v-list-item-title>
           </v-list-item>
 
           <!-- 👉 Logout -->
-          <v-list-item
-            to="/login"
-            @click="handleLogout"
-          >
+          <v-list-item @click="handleLogout">
             <template #prepend>
               <v-icon
                 icon="ri-logout-box-r-line"
@@ -73,7 +73,7 @@
               />
             </template>
 
-            <v-list-item-title>{{ t('global.logout') }}</v-list-item-title>
+            <v-list-item-title>{{ IsLite ? '退出平台' : t('global.logout') }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -90,9 +90,12 @@ import avatar4 from '@images/avatars/avatar-4.png'
 import useUserStore from '@store/user'
 import { useI18n } from "vue-i18n"
 import userApi from "@/api/user"
+import { IsLite } from '@/config'
+import { useRouter } from 'vue-router'
 
 
 const { t } = useI18n()
+const router = useRouter()
 const userStore = useUserStore()
 const userInfo = userStore.userInfo
 const avatarImage = ref()
@@ -116,9 +119,13 @@ switch (userInfo.avatar) {
 
 const handleLogout = async () => {
   await userStore.clearStore()
+  await router.push('/login')
 }
 
 onMounted(async () => {
+  // lite 的菜单在登录时已经写入 store，这里不需要再请求主版本接口
+  if (IsLite) return
+
   const resMenu = await userApi.menu.get()
 
   userStore.menus = resMenu.data

@@ -23,7 +23,7 @@
   <!-- 应用主内容 -->
   <v-app v-if="!showInitialLoading">
     <message />
-    <readme-dialog />
+    <readme-dialog v-if="!IsLite" />
     <router-view
       v-if="showRouter"
       :key="routerKey"
@@ -37,6 +37,7 @@ import { useI18n } from "vue-i18n"
 import { getBrowserLang } from "@/utils/tools.js"
 import { useLocale } from "vuetify/framework"
 import useGlobalStore from '@store/global'
+import { IsLite } from '@/config'
 
 const router = useRouter()
 const route = useRoute()

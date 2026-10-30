@@ -73,6 +73,8 @@ pnpm run build:icons  # 构建 Iconify 图标包（postinstall 时自动运行�
 
 项目包含两个语言文件：`lang-zh.js` 和 `lang-en.js`。国际化基于 `vue-i18n`，使用 Composition API 模式。语言设置会持久化到全局 Store；首次加载时根据浏览器语言初始化。Vuetify 的语言环境会单独同步。
 
+Lite 版本不使用 i18n：`src/views/lite/**`、`src/views/login/lite.vue` 等 lite 专属页面的文案直接写中文；共享布局组件通过 `IsLite` 分支给出中文，因此 lite 界面不受语言设置影响。
+
 ### 路径别名（定义于 `vite.config.js`）
 
 | 别名 | 路径 |
@@ -83,6 +85,7 @@ pnpm run build:icons  # 构建 Iconify 图标包（postinstall 时自动运行�
 | `@images` | `src/assets/images/` |
 | `@styles` | `src/assets/styles/` |
 | `@store` | `src/plugins/store/` |
+| `@views-registry` | 视图注册表：standard 用 `src/plugins/router/views.js`，lite 用 `views.lite.js`（由 `vite.config.js` 按 `VITE_APP_MODE` 选择） |
 
 ### 自动导入
 

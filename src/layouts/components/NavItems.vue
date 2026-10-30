@@ -9,7 +9,7 @@
       v-if="menu.type==='group'"
       :key="menu.id"
       :item="{
-        title: t('menu.'+menu.title),
+        title: menuTitle(menu.title),
         badgeContent: menu.badgeContent,
         badgeClass: menu.badgeClass,
         icon: menu.icon
@@ -21,7 +21,7 @@
         v-for="link in menu.links"
         :key="link.id"
         :item="{
-          title: t('menu.'+link.title),
+          title: menuTitle(link.title),
           icon: link.icon,
           to: link.to,
           href: link.href,
@@ -34,7 +34,7 @@
       v-if="menu.type==='link'"
       :key="menu.id"
       :item="{
-        title: t('menu.'+menu.title),
+        title: menuTitle(menu.title),
         icon: menu.icon,
         to: menu.to,
         href: menu.href,
@@ -52,12 +52,26 @@ import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import useUserStore from '@store/user'
 import { useI18n } from "vue-i18n"
+import { IsLite } from '@/config'
 import eventBus from '@/utils/eventBus'
 import { useRoute } from 'vue-router'
 
 const userStore = useUserStore()
 const { t } = useI18n()
 const route = useRoute()
+
+// lite 菜单标题直接写死中文，不再从语言包读取
+const liteMenuTitles = {
+  dashboard: '控制面板',
+  room: '房间设置',
+  worldGround: '地面设置',
+  worldCave: '洞穴设置',
+  worldMod: '模组设置',
+  logGame: '游戏日志',
+  logChat: '聊天日志',
+}
+
+const menuTitle = title => (IsLite ? liteMenuTitles[title] || title : t(`menu.${title}`))
 
 const menus = userStore.menus
 

@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    v-tooltip="t('global.github')"
+    v-tooltip="IsLite ? '点击访问Github源码' : t('global.github')"
     icon="ri-github-line"
     color="default"
     variant="text"
@@ -12,6 +12,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n"
+import { IsLite } from '@/config'
 
 const { t } = useI18n()
 </script>

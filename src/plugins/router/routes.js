@@ -1,12 +1,19 @@
+import { IsLite } from '@/config'
+
+// 视图注册表按构建形态选择（见 vite.config.js 的 @views-registry 别名）
+import viewModules, { loginView } from '@views-registry'
+
+const homePath = IsLite ? '/dashboard' : '/rooms'
+
 export const staticRouter = [
   {
     path: '/',
-    redirect: '/rooms',
+    redirect: homePath,
     component: () => import('@/layouts/blank.vue'),
     children: [
       {
         path: '/login',
-        component: () => import('@/views/login/index.vue'),
+        component: loginView,
       },
       {
         path: '/:pathMatch(.*)*',
@@ -24,28 +31,43 @@ export const createDynamicRouter = (router, menus) => {
     children: [],
   }
 
-  let modules = import.meta.glob("@/views/**/*.vue")
+  // lite 没有个人资料页，也不应该调用主版本的用户接口
+  if (!IsLite) {
+    dynamic.children.push({
+      name: 'profile',
+      path: '/profile',
+      component: viewModules[`/src/views/profile/index.vue`],
+    })
+  }
 
-  dynamic.children.push({
-    name: 'profile',
-    path: '/profile',
-    component: modules[`/src/views/profile/index.vue`],
-  })
-
-  for (let menu of menus) {
+  for (const menu of menus) {
     if (menu.type === 'group') {
-      for (let link of menu.links) {
+      for (const link of menu.links) {
+        const component = viewModules[`/src/views/${link.component}.vue`]
+
+        if (!component) {
+          console.warn(`未找到菜单组件: ${link.component}`)
+          continue
+        }
+
         dynamic.children.push({
           name: link.component,
           path: link.to,
-          component: modules[`/src/views/${link.component}.vue`],
+          component,
         })
       }
     } else {
+      const component = viewModules[`/src/views/${menu.component}.vue`]
+
+      if (!component) {
+        console.warn(`未找到菜单组件: ${menu.component}`)
+        continue
+      }
+
       dynamic.children.push({
         name: menu.component,
         path: menu.to,
-        component: modules[`/src/views/${menu.component}.vue`],
+        component,
       })
     }
   }

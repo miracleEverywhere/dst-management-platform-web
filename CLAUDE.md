@@ -69,6 +69,8 @@ Application layouts live in `src/layouts/`:
 
 Two locale files: `lang-zh.js` and `lang-en.js`. Uses `vue-i18n` with Composition API mode. Language is persisted in the global store and initialized from browser language on first load. Vuetify locale is synced separately.
 
+Lite does not use i18n: copy in lite-only pages (`src/views/lite/**`, `src/views/login/lite.vue`, etc.) is written as literal Chinese; shared layout components branch on `IsLite` to render Chinese, so the lite UI is unaffected by language settings.
+
 ### Path aliases (from `vite.config.js`)
 
 | Alias | Path |
@@ -79,6 +81,7 @@ Two locale files: `lang-zh.js` and `lang-en.js`. Uses `vue-i18n` with Compositio
 | `@images` | `src/assets/images/` |
 | `@styles` | `src/assets/styles/` |
 | `@store` | `src/plugins/store/` |
+| `@views-registry` | View registry: `src/plugins/router/views.js` for standard, `views.lite.js` for lite (selected in `vite.config.js` by `VITE_APP_MODE`) |
 
 ### Auto-imports
 

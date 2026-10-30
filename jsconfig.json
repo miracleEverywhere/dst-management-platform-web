@@ -37,6 +37,9 @@
       ],
       "@styles/*": [
         "./src/styles/*"
+      ],
+      "@views-registry": [
+        "./src/plugins/router/views.js"
       ]
     },
     "types": [
