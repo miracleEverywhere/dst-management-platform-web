@@ -27,6 +27,7 @@
           :address="address"
           :loaded="roomLoaded"
           :mod-count="modCount"
+          :players="players"
           @refresh="refreshAll"
           @update="handleUpdate"
         />
@@ -104,6 +105,7 @@ const room = ref({})
 const roomLoaded = ref(false)
 const roomError = ref(false)
 const address = ref('-')
+const players = ref([])
 
 // 模组数量：null 表示尚未取到（加载中或接口失败），卡片显示「—」
 const modCount = ref(null)
@@ -227,6 +229,14 @@ const loadMod = async () => {
   }
 }
 
+const loadPlayers = async () => {
+  liteApi.players.get().then(response => {
+    players.value = response.data || []
+  }).catch(() => {
+    // 错误提示由 axios 拦截器统一处理
+  })
+}
+
 const handleExec = async (cmdType, worldName) => {
   const form = {
     cmdType: cmdType,
@@ -277,6 +287,7 @@ const refreshAll = async () => {
       // eslint-disable-next-line sonarjs/no-use-of-empty-return-value
       loadCC(),
       loadMod(),
+      loadPlayers(),
     ])
   } finally {
     manualRefreshing.value = false

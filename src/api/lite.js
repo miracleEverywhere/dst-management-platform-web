@@ -89,4 +89,10 @@ export default {
       return await http.post(this.url, data)
     },
   },
+  players: {
+    url: `/players`,
+    get: async function(data) {
+      return await http.get(this.url, data)
+    },
+  },
 }

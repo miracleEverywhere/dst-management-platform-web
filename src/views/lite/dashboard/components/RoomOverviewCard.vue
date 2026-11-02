@@ -47,12 +47,11 @@
               <div class="room-fact-label">
                 玩家数量
               </div>
-              <div class="room-fact-value">
-                {{ room.maxPlayer || '—' }}
-                <span
-                  v-if="room.maxPlayer"
-                  class="room-fact-unit"
-                >人</span>
+              <div
+                v-tooltip="props.players.join(', ')"
+                class="room-fact-value"
+              >
+                {{ props.players.length }}/{{ room.maxPlayer || '—' }}
               </div>
             </div>
           </div>
@@ -211,6 +210,10 @@ const props = defineProps({
   loaded: {
     type: Boolean,
     default: false,
+  },
+  players: {
+    type: Array,
+    default: () => ([]),
   },
 
   // null 表示尚未取到模组数据，显示「—」

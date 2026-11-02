@@ -4,7 +4,9 @@
     :height="height"
   >
     <v-card-title class="flex-none d-flex align-center ga-2 py-2 pr-2">
-      <span class="text-subtitle-1 font-weight-medium">{{ title }}</span>
+      <span>
+        {{ title }}
+      </span>
       <span class="text-caption text-medium-emphasis d-none d-sm-inline">最近 100 行</span>
       <v-spacer />
       <v-switch
@@ -78,11 +80,13 @@
           sub-title="世界运行后，这里会显示最新日志。"
           :height="stateHeight"
         />
-        <pre
+        <div
           v-else
           class="log-text"
           :class="{ 'log-text--paused': autoRefresh && !follow }"
-        >{{ content }}</pre>
+        >
+          {{ content }}
+        </div>
       </div>
 
       <v-btn
@@ -308,7 +312,6 @@ onBeforeUnmount(() => {
   margin: 0;
   padding: 12px 16px;
   color: rgba(var(--v-theme-on-surface), 0.87);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 13px;
   line-height: 1.7;
   white-space: pre-wrap;
