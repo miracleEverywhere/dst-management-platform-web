@@ -236,6 +236,31 @@
             </v-slider>
           </v-col>
         </v-row>
+        <!-- 启动类型 -->
+        <v-row>
+          <v-col>
+            <v-radio-group
+              v-model="roomForm.startType"
+              inline
+            >
+              <template #prepend>
+                <v-chip v-tooltip="'启动32位游戏还是64位游戏'">
+                  启动类型
+                </v-chip>
+              </template>
+              <v-radio
+                label="32位"
+                value="32-bit"
+                class="mr-4"
+              />
+              <v-radio
+                label="64位"
+                value="64-bit"
+                class="mr-4"
+              />
+            </v-radio-group>
+          </v-col>
+        </v-row>
         <!-- 密码 -->
         <v-row>
           <v-col>
@@ -488,6 +513,7 @@ const roomForm = ref({
   masterIP: '',
   masterPort: 0,
   clusterKey: '',
+  startType: '',
   whitelist: [],
   adminlist: [],
   blocklist: [],
