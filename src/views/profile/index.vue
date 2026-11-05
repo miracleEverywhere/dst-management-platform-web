@@ -246,7 +246,7 @@ const handleResize = () => {
 }
 
 const calculateContainerSize = () => {
-  const other = 120
+  const other = 300
   
   return Math.max(2, Math.floor(windowHeight.value - other))
 }

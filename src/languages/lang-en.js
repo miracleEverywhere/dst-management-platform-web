@@ -184,6 +184,7 @@ export default {
       lastSync: 'Last sync',
       linkedAt: 'Linked at',
       neverSynced: 'Never synced',
+      refreshTip: 'The cloud account refresh token is valid for 30 days. If the platform has not been used for more than 30 days, you will need to log in again with your cloud account',
     },
     favorite: {
       localTab: 'Local favorites',

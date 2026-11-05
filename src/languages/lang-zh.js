@@ -184,6 +184,7 @@ export default {
       lastSync: '最近同步',
       linkedAt: '绑定时间',
       neverSynced: '从未同步',
+      refreshTip: '云账号refresh token有效期为30天，如超过30天未使用平台，则需要重新使用云账号登录',
     },
     favorite: {
       localTab: '本地收藏',

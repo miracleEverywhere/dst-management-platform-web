@@ -45,6 +45,7 @@
         </v-chip>
         <v-spacer />
         <v-btn
+          v-if="!mobile"
           class="mt-2 mt-sm-0 ml-sm-2"
           color="info"
           prepend-icon="ri-link"
@@ -53,6 +54,7 @@
           {{ t('cloud.account.rebind') }}
         </v-btn>
         <v-btn
+          v-if="!mobile"
           class="mt-2 mt-sm-0 ml-sm-2"
           color="error"
           prepend-icon="ri-link-unlink"
@@ -60,6 +62,25 @@
         >
           {{ t('cloud.account.unbind') }}
         </v-btn>
+
+        <v-btn
+          v-if="mobile"
+          v-tooltip="t('cloud.account.rebind')"
+          class="mt-2 mt-sm-0 ml-sm-2 mr-2"
+          color="info"
+          icon="ri-link"
+          variant="tonal"
+          @click="openBindDialog"
+        />
+        <v-btn
+          v-if="mobile"
+          v-tooltip="t('cloud.account.unbind')"
+          class="mt-2 mt-sm-0 ml-sm-2"
+          color="error"
+          icon="ri-link-unlink"
+          variant="tonal"
+          @click="openUnbindDialog"
+        />
       </div>
 
       <v-row class="my-4">
@@ -72,8 +93,7 @@
             :label="t('cloud.account.cloudUsername')"
             prepend-inner-icon="ri-user-line"
             readonly
-            variant="outlined"
-            density="compact"
+            density="comfortable"
           />
         </v-col>
         <v-col
@@ -85,8 +105,7 @@
             :label="t('cloud.account.cloudEmail')"
             prepend-inner-icon="ri-mail-line"
             readonly
-            variant="outlined"
-            density="compact"
+            density="comfortable"
           />
         </v-col>
       </v-row>
@@ -95,32 +114,52 @@
         <v-col
           v-for="quota in quotas"
           :key="quota.key"
-          cols="6"
-          sm="4"
-          lg="2"
         >
-          <v-card
-            variant="tonal"
-            :color="quota.color"
-            height="100%"
-          >
+          <v-card height="100%">
             <v-card-text class="pa-3">
-              <div class="text-caption">
+              <div>
                 {{ quota.label }}
               </div>
-              <div class="text-h6">
+              <v-chip
+                label
+                :color="quota.color"
+                class="mt-4"
+              >
                 {{ quota.limit }}
-              </div>
+              </v-chip>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
 
-      <div class="text-medium-emphasis mt-8">
-        {{ t('cloud.account.lastSync') }}: {{ lastSyncText }}
-        <span class="mx-2">·</span>
-        {{ t('cloud.account.linkedAt') }}: {{ unix2time(status.linkedAt) }}
-      </div>
+      <v-row>
+        <v-col>
+          <v-alert
+            color="info"
+            border="start"
+            variant="tonal"
+          >
+            <span>
+              {{ t('cloud.account.lastSync') }}: {{ lastSyncText }}
+              <span class="mx-2">·</span>
+              {{ t('cloud.account.linkedAt') }}: {{ unix2time(status.linkedAt) }}
+            </span>
+          </v-alert>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          <v-alert
+            border="start"
+            variant="tonal"
+          >
+            <span>
+              {{ t('cloud.account.refreshTip') }}
+            </span>
+          </v-alert>
+        </v-col>
+      </v-row>
     </template>
 
     <!-- 绑定 / 重新绑定 -->
