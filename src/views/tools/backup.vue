@@ -12,7 +12,10 @@
       {{ t('cloud.archives.tab') }}
     </v-tab>
   </v-tabs>
-  <v-tabs-window v-model="activeTab">
+  <v-tabs-window
+    v-model="activeTab"
+    class="mt-2"
+  >
     <v-tabs-window-item value="local">
       <check
         :category="['game', 'room']"

@@ -1588,6 +1588,7 @@ export default {
       multiDelete: 'Multi Delete',
       deleteMessage1: 'Deleted Backups: ',
       deleteMessage2: '',
+      localTab: 'Local Backup',
     },
     announce: {
       title: 'Announce',
@@ -1967,6 +1968,7 @@ export default {
       zipTip: 'please upload .zip file',
       uploadTypeTip: 'please choose a upload type',
     },
+    tabName: 'Local',
   },
   logs: {
     current: 'Current Log',

@@ -20,6 +20,7 @@
         {{ t('cloud.archives.quota', { used: quota.used, quota: quota.quota }) }}
       </v-chip>
       <v-btn
+        v-tooltip="t('cloud.archives.uploadTip')"
         class="ml-2"
         prepend-icon="ri-upload-cloud-2-line"
         color="success"
@@ -76,14 +77,6 @@
       <template #loading>
         <v-skeleton-loader type="table-row@5" />
       </template>
-      <template #top>
-        <div class="px-4 pb-2 text-caption text-medium-emphasis">
-          {{ t('cloud.archives.uploadTip') }}
-          <span v-if="quota.maxBytes > 0">
-            · {{ t('cloud.archives.maxBytes', { size: formatBytes(quota.maxBytes) }) }}
-          </span>
-        </div>
-      </template>
       <template #item.name="{ item }">
         <div class="text-truncate font-weight-medium">
           {{ item.name || '-' }}
@@ -94,7 +87,9 @@
           class="text-truncate"
           :title="item.remark"
         >
-          {{ item.remark || '-' }}
+          <span v-tooltip="item.remark || '-'">
+            {{ item.remark || '-' }}
+          </span>
         </div>
       </template>
       <template #item.sizeBytes="{ item }">
@@ -106,7 +101,10 @@
         {{ unix2time(item.createdAt) }}
       </template>
       <template #item.downloadCount="{ item }">
-        <v-chip label>
+        <v-chip
+          color="info"
+          label
+        >
           {{ item.downloadCount || 0 }}
         </v-chip>
       </template>
@@ -182,11 +180,11 @@ const quota = ref({
 
 const headers = computed(() => [
   { title: t('cloud.archives.columns.name'), key: 'name', sortable: false },
-  { title: t('cloud.archives.columns.remark'), key: 'remark', sortable: false },
+  { title: t('cloud.archives.columns.remark'), key: 'remark', sortable: false, maxWidth: 220 },
   { title: t('cloud.archives.columns.size'), key: 'sizeBytes', sortable: false, align: 'center' },
-  { title: t('cloud.archives.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center' },
-  { title: t('cloud.archives.columns.downloadCount'), key: 'downloadCount', sortable: false, align: 'center' },
-  { title: t('cloud.archives.columns.actions'), key: 'actions', sortable: false, align: 'end' },
+  { title: t('cloud.archives.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center', minWidth: 220 },
+  { title: t('cloud.archives.columns.downloadCount'), key: 'downloadCount', sortable: false, align: 'center', minWidth: 120 },
+  { title: t('cloud.archives.columns.actions'), key: 'actions', sortable: false, align: 'center', minWidth: 220 },
 ])
 
 const getArchives = async () => {

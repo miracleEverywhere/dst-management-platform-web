@@ -59,7 +59,7 @@
                   <v-form ref="userInfoRef">
                     <v-text-field
                       v-model="userInfo.username"
-                      disabled
+                      readonly
                       :label="t('profile.username')"
                       class="mb-8"
                     />

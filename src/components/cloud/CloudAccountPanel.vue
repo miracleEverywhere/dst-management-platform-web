@@ -43,22 +43,7 @@
         >
           {{ planLabel }}
         </v-chip>
-        <v-chip
-          class="ml-2"
-          variant="tonal"
-        >
-          {{ t('cloud.account.autoSync') }}: {{ status.autoSync ? t('cloud.account.enabled') : t('cloud.account.disabled') }}
-        </v-chip>
         <v-spacer />
-        <v-btn
-          class="mt-2 mt-sm-0"
-          color="primary"
-          prepend-icon="ri-refresh-line"
-          :loading="syncLoading"
-          @click="handleSync"
-        >
-          {{ t('cloud.sync.now') }}
-        </v-btn>
         <v-btn
           class="mt-2 mt-sm-0 ml-sm-2"
           color="info"
@@ -77,7 +62,7 @@
         </v-btn>
       </div>
 
-      <v-row>
+      <v-row class="my-4">
         <v-col
           cols="12"
           md="6"
@@ -124,22 +109,14 @@
                 {{ quota.label }}
               </div>
               <div class="text-h6">
-                {{ quota.used === null ? quota.limit : `${quota.used} / ${quota.limit}` }}
+                {{ quota.limit }}
               </div>
-              <v-progress-linear
-                v-if="quota.percent !== null"
-                class="mt-2"
-                :model-value="quota.percent"
-                :color="quota.color"
-                height="4"
-                rounded
-              />
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
 
-      <div class="text-body-2 text-medium-emphasis mt-4">
+      <div class="text-medium-emphasis mt-8">
         {{ t('cloud.account.lastSync') }}: {{ lastSyncText }}
         <span class="mx-2">·</span>
         {{ t('cloud.account.linkedAt') }}: {{ unix2time(status.linkedAt) }}
@@ -182,6 +159,7 @@
               :label="t('cloud.account.password')"
               :rules="passwordRules"
               prepend-inner-icon="ri-lock-line"
+              class="mt-4"
               @click:append-inner="passwordVisible = !passwordVisible"
             />
           </v-form>

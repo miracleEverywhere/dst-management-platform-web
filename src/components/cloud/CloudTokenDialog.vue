@@ -39,12 +39,16 @@
         <v-list
           v-else-if="items.length > 0"
           lines="two"
+          class="my-4"
         >
           <v-list-item
             v-for="item in items"
             :key="item.id"
             :title="item.name"
             :subtitle="item.remark || '-'"
+            rounded
+            variant="outlined"
+            class="mt-2"
             @click="handleSelect(item)"
           >
             <template #prepend>
@@ -80,7 +84,7 @@
         </div>
       </v-card-text>
       <v-divider />
-      <v-card-actions>
+      <v-card-actions class="mt-2">
         <span class="text-caption text-medium-emphasis">{{ t('cloud.token.tip') }}</span>
         <v-spacer />
         <v-btn

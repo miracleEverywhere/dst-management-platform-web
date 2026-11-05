@@ -3,62 +3,6 @@
     :category="['game']"
     :other-height="otherHeight"
   >
-    <v-sheet
-      border
-      rounded
-      class="px-2 py-1 d-flex flex-wrap align-center"
-    >
-      <v-chip
-        v-if="cloudStatus.linked"
-        color="success"
-        variant="tonal"
-        prepend-icon="ri-cloud-line"
-        class="mr-2 my-1"
-      >
-        {{ t('cloud.favorite.linkedChip', { plan: planLabel, used: cloudStatus.favoriteCount, quota: cloudStatus.favoriteQuota }) }}
-      </v-chip>
-      <v-chip
-        v-else
-        color="warning"
-        variant="tonal"
-        prepend-icon="ri-cloud-off-line"
-        class="mr-2 my-1"
-        @click="goProfile"
-      >
-        {{ t('cloud.common.unlinked') }}
-      </v-chip>
-      <v-btn
-        v-tooltip="t('cloud.sync.now')"
-        icon="ri-refresh-line"
-        size="small"
-        color="primary"
-        variant="text"
-        :disabled="!cloudStatus.linked"
-        :loading="syncLoading === 'both'"
-        @click="handleSync('both')"
-      />
-      <v-btn
-        v-tooltip="canUpload ? t('cloud.sync.upload') : t('cloud.sync.quotaTip')"
-        icon="ri-upload-2-line"
-        size="small"
-        color="info"
-        variant="text"
-        :disabled="!cloudStatus.linked || !canUpload"
-        :loading="syncLoading === 'upload'"
-        @click="handleSync('upload')"
-      />
-      <v-btn
-        v-tooltip="t('cloud.sync.download')"
-        icon="ri-download-2-line"
-        size="small"
-        color="success"
-        variant="text"
-        :disabled="!cloudStatus.linked"
-        :loading="syncLoading === 'download'"
-        @click="handleSync('download')"
-      />
-    </v-sheet>
-
     <v-tabs
       v-model="activeTab"
       class="mt-2"
@@ -104,6 +48,56 @@
                   />
                   <span v-if="!mobile">{{ t('game.favorite.title') }}</span>
                 </v-toolbar-title>
+                <v-chip
+                  v-if="cloudStatus.linked"
+                  color="primary"
+                  variant="tonal"
+                  prepend-icon="ri-cloud-line"
+                  label
+                  class="mr-2 my-1"
+                >
+                  {{ t('cloud.favorite.linkedChip', { plan: planLabel, used: cloudStatus.favoriteCount, quota: cloudStatus.favoriteQuota }) }}
+                </v-chip>
+                <v-chip
+                  v-else
+                  color="warning"
+                  variant="tonal"
+                  prepend-icon="ri-cloud-off-line"
+                  class="mr-2 my-1"
+                  @click="goProfile"
+                >
+                  {{ t('cloud.common.unlinked') }}
+                </v-chip>
+                <v-btn
+                  v-tooltip="t('cloud.sync.now')"
+                  icon="ri-refresh-line"
+                  size="small"
+                  color="primary"
+                  variant="text"
+                  :disabled="!cloudStatus.linked"
+                  :loading="syncLoading === 'both'"
+                  @click="handleSync('both')"
+                />
+                <v-btn
+                  v-tooltip="canUpload ? t('cloud.sync.upload') : t('cloud.sync.quotaTip')"
+                  icon="ri-upload-2-line"
+                  size="small"
+                  color="info"
+                  variant="text"
+                  :disabled="!cloudStatus.linked || !canUpload"
+                  :loading="syncLoading === 'upload'"
+                  @click="handleSync('upload')"
+                />
+                <v-btn
+                  v-tooltip="t('cloud.sync.download')"
+                  icon="ri-download-2-line"
+                  size="small"
+                  color="success"
+                  variant="text"
+                  :disabled="!cloudStatus.linked"
+                  :loading="syncLoading === 'download'"
+                  @click="handleSync('download')"
+                />
                 <v-btn
                   prepend-icon="ri-bookmark-3-line"
                   color="primary"

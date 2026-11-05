@@ -3,170 +3,195 @@
     :category="['game']"
     :other-height="otherHeight"
   >
-    <v-row>
-      <v-col>
-        <v-sheet
-          border
-          rounded
-        >
-          <v-toolbar flat>
-            <v-toolbar-title>
-              <v-icon
-                icon="ri-contacts-book-upload-line"
-                start
-              />
-              <span v-if="!mobile">{{ t('upload.title') }}</span>
-            </v-toolbar-title>
-            <v-dialog
-              v-model="uploadDialogVisible"
-              :persistent="uploadLoading"
-              class="flex-wrap"
-              :width="mobile?'90%':'40%'"
+    <v-tabs
+      v-model="activeTab"
+      color="primary"
+      align-tabs="start"
+      show-arrows
+    >
+      <v-tab value="local">
+        {{ t('upload.tabName') }}
+      </v-tab>
+      <v-tab value="cloud">
+        {{ t('cloud.archives.tab') }}
+      </v-tab>
+    </v-tabs>
+
+    <v-tabs-window
+      v-model="activeTab"
+      class="mt-2"
+    >
+      <v-tabs-window-item value="local">
+        <v-row>
+          <v-col>
+            <v-sheet
+              border
+              rounded
             >
-              <template #activator="{ props: activatorProps }">
-                <v-btn
-                  class="mr-2"
-                  color="primary"
-                  prepend-icon="ri-upload-line"
-                  v-bind="activatorProps"
+              <v-toolbar flat>
+                <v-toolbar-title>
+                  <v-icon
+                    icon="ri-contacts-book-upload-line"
+                    start
+                  />
+                  <span v-if="!mobile">{{ t('upload.title') }}</span>
+                </v-toolbar-title>
+                <v-dialog
+                  v-model="uploadDialogVisible"
+                  :persistent="uploadLoading"
+                  class="flex-wrap"
+                  :width="mobile?'90%':'40%'"
                 >
-                  {{ t('upload.button') }}
-                </v-btn>
-              </template>
-              <!-- eslint-disable-next-line vue/no-unused-vars -->
-              <template #default="{ isActive }">
-                <v-card
-                  :title="t('upload.dialog.title')"
-                  min-height="500"
-                >
-                  <v-card-text>
-                    <template v-if="!uploadLoading">
-                      <v-alert
-                        color="warning"
-                        density="compact"
-                        class="mt-2 mb-2"
-                      >
-                        {{ t('upload.dialog.tip') }}
-                      </v-alert>
-                      <v-radio-group
-                        v-model="uploadType"
-                        inline
-                        color="primary"
-                        class="my-4"
-                      >
-                        <template #prepend>
-                          <v-chip>
-                            {{ t('upload.dialog.uploadType') }}
-                          </v-chip>
+                  <template #activator="{ props: activatorProps }">
+                    <v-btn
+                      class="mr-2"
+                      color="primary"
+                      prepend-icon="ri-upload-line"
+                      v-bind="activatorProps"
+                    >
+                      {{ t('upload.button') }}
+                    </v-btn>
+                  </template>
+                  <!-- eslint-disable-next-line vue/no-unused-vars -->
+                  <template #default="{ isActive }">
+                    <v-card
+                      :title="t('upload.dialog.title')"
+                      min-height="500"
+                    >
+                      <v-card-text>
+                        <template v-if="!uploadLoading">
+                          <v-alert
+                            color="warning"
+                            density="compact"
+                            class="mt-2 mb-2"
+                          >
+                            {{ t('upload.dialog.tip') }}
+                          </v-alert>
+                          <v-radio-group
+                            v-model="uploadType"
+                            inline
+                            color="primary"
+                            class="my-4"
+                          >
+                            <template #prepend>
+                              <v-chip>
+                                {{ t('upload.dialog.uploadType') }}
+                              </v-chip>
+                            </template>
+                            <v-radio
+                              :label="t('upload.dialog.uploadNew')"
+                              :disabled="!canCreateRoom()"
+                              value="new"
+                            />
+                            <v-radio
+                              :label="t('upload.dialog.uploadOld')"
+                              :disabled="globalStore.room.id===0"
+                              value="old"
+                            />
+                          </v-radio-group>
+                          <v-file-upload
+                            density="default"
+                            icon="ri-upload-cloud-2-line"
+                            @update:model-value="handleUpload"
+                          />
                         </template>
-                        <v-radio
-                          :label="t('upload.dialog.uploadNew')"
-                          :disabled="!canCreateRoom()"
-                          value="new"
-                        />
-                        <v-radio
-                          :label="t('upload.dialog.uploadOld')"
-                          :disabled="globalStore.room.id===0"
-                          value="old"
-                        />
-                      </v-radio-group>
-                      <v-file-upload
-                        density="default"
-                        icon="ri-upload-cloud-2-line"
-                        @update:model-value="handleUpload"
-                      />
-                    </template>
-                    <template v-else>
-                      <result
-                        :height="400"
-                        type="info"
-                        :title="t('upload.dialog.uploadingTitle')"
-                        :sub-title="t('upload.dialog.uploadingSubTitle')"
-                      />
-                    </template>
-                  </v-card-text>
-                </v-card>
-              </template>
-            </v-dialog>
-          </v-toolbar>
-          <v-expansion-panels>
-            <v-expansion-panel :text="t('upload.expansions.panel1.text')">
-              <template #title>
-                <v-icon
-                  icon="ri-error-warning-line"
-                  start
-                  color="error"
-                />
-                <span class="text-error">
+                        <template v-else>
+                          <result
+                            :height="400"
+                            type="info"
+                            :title="t('upload.dialog.uploadingTitle')"
+                            :sub-title="t('upload.dialog.uploadingSubTitle')"
+                          />
+                        </template>
+                      </v-card-text>
+                    </v-card>
+                  </template>
+                </v-dialog>
+              </v-toolbar>
+              <v-expansion-panels>
+                <v-expansion-panel :text="t('upload.expansions.panel1.text')">
+                  <template #title>
+                    <v-icon
+                      icon="ri-error-warning-line"
+                      start
+                      color="error"
+                    />
+                    <span class="text-error">
                   {{ t('upload.expansions.panel1.title') }}
                 </span>
-              </template>
-            </v-expansion-panel>
-            <v-expansion-panel :text="t('upload.expansions.panel2.text')">
-              <template #title>
-                <v-icon
-                  icon="ri-error-warning-line"
-                  start
-                  color="error"
-                />
-                <span class="text-error">
+                  </template>
+                </v-expansion-panel>
+                <v-expansion-panel :text="t('upload.expansions.panel2.text')">
+                  <template #title>
+                    <v-icon
+                      icon="ri-error-warning-line"
+                      start
+                      color="error"
+                    />
+                    <span class="text-error">
                   {{ t('upload.expansions.panel2.title') }}
                 </span>
-              </template>
-            </v-expansion-panel>
-            <v-expansion-panel :text="t('upload.expansions.panel3.text')">
-              <template #title>
-                <v-icon
-                  icon="ri-error-warning-line"
-                  start
-                  color="error"
-                />
-                <span class="text-error">
+                  </template>
+                </v-expansion-panel>
+                <v-expansion-panel :text="t('upload.expansions.panel3.text')">
+                  <template #title>
+                    <v-icon
+                      icon="ri-error-warning-line"
+                      start
+                      color="error"
+                    />
+                    <span class="text-error">
                   {{ t('upload.expansions.panel3.title') }}
                 </span>
+                  </template>
+                </v-expansion-panel>
+                <v-expansion-panel
+                  :title="t('upload.expansions.panel4.title')"
+                  :text="t('upload.expansions.panel4.text')"
+                />
+              </v-expansion-panels>
+            </v-sheet>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-treeview
+              v-model:opened="open"
+              :items="items"
+              item-value="id"
+              variant="flat"
+              density="compact"
+              activatable
+              open-on-click
+              no-filter
+            >
+              <template #prepend="{ item, isOpen }">
+                <v-icon
+                  v-if="!item.file"
+                  :icon="isOpen ? 'ri-folder-open-fill' : 'ri-folder-fill'"
+                />
+                <v-icon
+                  v-else
+                  :icon="files[item.file]"
+                />
               </template>
-            </v-expansion-panel>
-            <v-expansion-panel
-              :title="t('upload.expansions.panel4.title')"
-              :text="t('upload.expansions.panel4.text')"
-            />
-          </v-expansion-panels>
-        </v-sheet>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-treeview
-          v-model:opened="open"
-          :items="items"
-          item-value="id"
-          variant="flat"
-          density="compact"
-          activatable
-          open-on-click
-          no-filter
-        >
-          <template #prepend="{ item, isOpen }">
-            <v-icon
-              v-if="!item.file"
-              :icon="isOpen ? 'ri-folder-open-fill' : 'ri-folder-fill'"
-            />
-            <v-icon
-              v-else
-              :icon="files[item.file]"
-            />
-          </template>
 
-          <template #append="{ item }">
-            <v-icon
-              v-if="item.required"
-              icon="ri-pushpin-fill"
-              color="error"
-            />
-          </template>
-        </v-treeview>
-      </v-col>
-    </v-row>
+              <template #append="{ item }">
+                <v-icon
+                  v-if="item.required"
+                  icon="ri-pushpin-fill"
+                  color="error"
+                />
+              </template>
+            </v-treeview>
+          </v-col>
+        </v-row>
+      </v-tabs-window-item>
+      <v-tabs-window-item value="cloud">
+        <cloud-archive-panel v-if="activeTab === 'cloud'" />
+      </v-tabs-window-item>
+    </v-tabs-window>
+
   </check>
 </template>
 
@@ -178,6 +203,7 @@ import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global.js"
 import useUserStore from "@store/user.js"
 import { debounce } from "@/utils/tools"
+import CloudArchivePanel from "@/components/cloud/CloudArchivePanel.vue"
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
@@ -188,6 +214,8 @@ const uploadLoading = ref(false)
 const uploadDialogVisible = ref(false)
 const uploadType = ref('')
 const otherHeight = 150
+
+const activeTab = ref('local')
 
 const checkUploadFile = param => {
   const zipPattern = /\.zip$/i
