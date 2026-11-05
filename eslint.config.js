@@ -84,6 +84,7 @@ export default [
       'src/plugins/iconify/*.js',
       'node_modules/',
       'dist/',
+      'dist-lite/',
       '**/*.d.ts',
       'vendor/',
       '**/*.json',

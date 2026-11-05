@@ -103,6 +103,27 @@ const http = {
         responseType: 'blob',
       })
 
+      // 后端业务错误仍以 HTTP 200 + JSON 返回，这里需要还原成错误提示
+      if (response.data?.type?.includes('application/json')) {
+        const payload = JSON.parse(await response.data.text())
+        const status = Number(payload.status ?? payload.code)
+
+        if (status === 420) {
+          const userStore = useUserStore()
+
+          showSnackbar(payload.message || '登录已过期', 'error')
+          await userStore.clearStore()
+          if (window.location.hash !== '#/login') {
+            window.location.href = '/#/login'
+          }
+
+          throw payload
+        }
+
+        showSnackbar(payload.message || '下载文件失败', 'error')
+        throw payload
+      }
+
       // 创建 Blob 对象
       const blob = new Blob([response.data])
 
@@ -119,9 +140,14 @@ const http = {
         // 尝试从响应头获取文件名
         const contentDisposition = response.headers['content-disposition']
         if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(/filename\*?=(?:utf-8'')?([^;]+)/i)
-          if (filenameMatch && filenameMatch[1]) {
-            link.download = decodeURIComponent(filenameMatch[1])
+          // 优先使用 RFC 5987 的 filename*，服务端同时返回两个字段时避免拿到 ASCII 占位名
+          const encodedMatch = contentDisposition.match(/filename\*=utf-8''([^;]+)/i)
+          const plainMatch = contentDisposition.match(/filename="?([^";]+)"?/i)
+
+          if (encodedMatch && encodedMatch[1]) {
+            link.download = decodeURIComponent(encodedMatch[1])
+          } else if (plainMatch && plainMatch[1]) {
+            link.download = plainMatch[1]
           }
         } else {
           // 如果没有文件名，使用默认文件名

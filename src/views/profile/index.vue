@@ -6,6 +6,7 @@
           {{ t('profile.title') }}
         </span>
         <v-btn
+          v-if="activeTab === 'profile'"
           :loading="submitLoading"
           @click="handleSubmit"
         >
@@ -13,100 +14,130 @@
         </v-btn>
       </div>
     </v-card-title>
-    <v-card-text class="mx-4 mt-4">
-      <v-row>
-        <v-col
-          v-if="!mobile"
-          cols="12"
-          md="6"
+    <v-tabs
+      v-model="activeTab"
+      color="primary"
+      align-tabs="start"
+    >
+      <v-tab value="profile">
+        {{ t('profile.title') }}
+      </v-tab>
+      <v-tab value="cloud">
+        {{ t('cloud.account.title') }}
+      </v-tab>
+    </v-tabs>
+    <v-tabs-window
+      v-model="activeTab"
+      class="profile-window"
+    >
+      <v-tabs-window-item value="profile">
+        <div
+          class="profile-scroll"
+          :style="{height: contentHeight + 'px'}"
         >
-          <div
-            class="fcc"
-            :style="{height: calculateContainerSize()-54+'px'}"
-          >
-            <v-img
-              :src="avatarImageFull"
-              height="356"
-              width="178"
-            />
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-          :style="{height: calculateContainerSize()-54+'px'}"
-          class="d-flex justify-center align-center"
-        >
-          <div class="form-container">
-            <v-form ref="userInfoRef">
-              <v-text-field
-                v-model="userInfo.username"
-                disabled
-                :label="t('profile.username')"
-                class="mb-8"
-              />
-              <v-text-field
-                v-model="userInfo.nickname"
-                :label="t('profile.nickname')"
-                class="mb-8"
-              />
-              <v-row class="mb-8">
-                <v-col
-                  :cols="mobile?4:2"
-                  class="d-flex align-center"
-                >
-                  <v-row>
-                    <v-col>
-                      <v-chip v-tooltip="t('platform.user.form.avatar.tip')">
-                        {{ t('platform.user.form.avatar.title') }}
-                      </v-chip>
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <v-col :cols="mobile?8:10">
-                  <v-row>
-                    <v-col
-                      v-for="i in 4"
-                      :key="i"
-                      :cols="mobile?6:3"
-                    >
-                      <v-badge
-                        dot
-                        location="bottom right"
-                        offset-x="3"
-                        offset-y="3"
-                        color="success"
-                        :model-value="userInfo.avatar === i.toString()"
+          <v-card-text class="mx-4 mt-4">
+            <v-row>
+              <v-col
+                v-if="!mobile"
+                cols="12"
+                md="6"
+              >
+                <div class="fcc">
+                  <v-img
+                    :src="avatarImageFull"
+                    height="356"
+                    width="178"
+                  />
+                </div>
+              </v-col>
+              <v-col
+                cols="12"
+                md="6"
+                class="d-flex justify-center align-center"
+              >
+                <div class="form-container">
+                  <v-form ref="userInfoRef">
+                    <v-text-field
+                      v-model="userInfo.username"
+                      disabled
+                      :label="t('profile.username')"
+                      class="mb-8"
+                    />
+                    <v-text-field
+                      v-model="userInfo.nickname"
+                      :label="t('profile.nickname')"
+                      class="mb-8"
+                    />
+                    <v-row class="mb-8">
+                      <v-col
+                        :cols="mobile?4:2"
+                        class="d-flex align-center"
                       >
-                        <v-avatar
-                          v-ripple
-                          color="primary"
-                          variant="tonal"
-                          @click="userInfo.avatar = i.toString()"
-                        >
-                          <v-img :src="getAvatar(i)" />
-                        </v-avatar>
-                      </v-badge>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-              <v-text-field
-                v-model="userInfo.password"
-                v-tooltip="t('platform.user.form.password.tip')"
-                :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
-                :type="isPasswordVisible ? 'text' : 'password'"
-                autocomplete="password"
-                :label="t('platform.user.form.password.title')"
-                :rules="userInfoRules.password"
-                clearable
-                @click:append-inner="isPasswordVisible = !isPasswordVisible"
-              />
-            </v-form>
+                        <v-row>
+                          <v-col>
+                            <v-chip v-tooltip="t('platform.user.form.avatar.tip')">
+                              {{ t('platform.user.form.avatar.title') }}
+                            </v-chip>
+                          </v-col>
+                        </v-row>
+                      </v-col>
+                      <v-col :cols="mobile?8:10">
+                        <v-row>
+                          <v-col
+                            v-for="i in 4"
+                            :key="i"
+                            :cols="mobile?6:3"
+                          >
+                            <v-badge
+                              dot
+                              location="bottom right"
+                              offset-x="3"
+                              offset-y="3"
+                              color="success"
+                              :model-value="userInfo.avatar === i.toString()"
+                            >
+                              <v-avatar
+                                v-ripple
+                                color="primary"
+                                variant="tonal"
+                                @click="userInfo.avatar = i.toString()"
+                              >
+                                <v-img :src="getAvatar(i)" />
+                              </v-avatar>
+                            </v-badge>
+                          </v-col>
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                    <v-text-field
+                      v-model="userInfo.password"
+                      v-tooltip="t('platform.user.form.password.tip')"
+                      :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
+                      :type="isPasswordVisible ? 'text' : 'password'"
+                      autocomplete="password"
+                      :label="t('platform.user.form.password.title')"
+                      :rules="userInfoRules.password"
+                      clearable
+                      @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                    />
+                  </v-form>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </div>
+      </v-tabs-window-item>
+      <v-tabs-window-item value="cloud">
+        <div
+          class="profile-scroll"
+          :style="{height: contentHeight + 'px'}"
+        >
+          <div class="pa-4">
+            <cloud-account-panel />
           </div>
-        </v-col>
-      </v-row>
-    </v-card-text>
+        </div>
+      </v-tabs-window-item>
+    </v-tabs-window>
   </v-card>
 </template>
 
@@ -126,12 +157,15 @@ import { sleep } from "@/utils/tools.js"
 import userApi from "@/api/user.js"
 import { showSnackbar } from "@/utils/snackbar.js"
 import { useRouter } from "vue-router"
+import CloudAccountPanel from "@/components/cloud/CloudAccountPanel.vue"
 
 
 const userStore = useUserStore()
 const router = useRouter()
 const { mobile } = useDisplay()
 const { t } = useI18n()
+
+const activeTab = ref('profile')
 
 const userInfo = ref({
   username: userStore.userInfo.username,
@@ -217,6 +251,11 @@ const calculateContainerSize = () => {
   return Math.max(2, Math.floor(windowHeight.value - other))
 }
 
+// 卡片高度减去标题和 Tabs 后，留给内容区滚动
+const contentHeight = computed(() => {
+  return Math.max(2, calculateContainerSize() - 112)
+})
+
 onMounted(async () => {
   window.addEventListener('resize', handleResize)
 })
@@ -255,5 +294,9 @@ watch(() => userInfo.value.avatar, () => {
   width: 100%;
   margin: 0 auto;
   padding: 20px;
+}
+
+.profile-scroll {
+  overflow-y: auto;
 }
 </style>

@@ -175,6 +175,13 @@ export const timestamp2time = timestamp => {
   )
 }
 
+// 云服务时间戳是 Unix 秒，本地收藏时间戳是毫秒
+export const unix2time = seconds => {
+  if (!seconds) return '-'
+
+  return timestamp2time(seconds * 1000)
+}
+
 export const isoTime2time = dateStr => {
   const date = new Date(dateStr)
 

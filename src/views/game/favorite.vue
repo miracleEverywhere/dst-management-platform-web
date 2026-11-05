@@ -6,175 +6,262 @@
     <v-sheet
       border
       rounded
+      class="px-2 py-1 d-flex flex-wrap align-center"
     >
-      <v-data-table-server
-        v-model:page="page"
-        v-model:items-per-page="pageSize"
-        class="favorite-table"
-        :headers="headers"
-        :items="items"
-        :items-length="total"
-        :items-per-page-options="[10, 20, 50]"
-        :loading="loading"
-        @update:options="getFavorites"
+      <v-chip
+        v-if="cloudStatus.linked"
+        color="success"
+        variant="tonal"
+        prepend-icon="ri-cloud-line"
+        class="mr-2 my-1"
       >
-        <template #loading>
-          <v-skeleton-loader type="table-row@10" />
-        </template>
-        <template #top>
-          <v-toolbar flat>
-            <v-toolbar-title>
-              <v-icon
-                icon="ri-bookmark-3-line"
-                start
-              />
-              <span v-if="!mobile">{{ t('game.favorite.title') }}</span>
-            </v-toolbar-title>
-            <v-btn
-              prepend-icon="ri-bookmark-3-line"
-              color="primary"
-              :disabled="!globalStore.room.id"
-              @click="openSaveDialog"
-            >
-              {{ t('game.favorite.save.title') }}
-            </v-btn>
-            <v-btn
-              prepend-icon="ri-refresh-line"
-              color="default"
-              class="ml-2"
-              :loading="loading"
-              @click="getFavorites"
-            >
-              {{ t('game.favorite.refresh') }}
-            </v-btn>
-          </v-toolbar>
-        </template>
-        <template #item.gameName="{ item }">
-          <div
-            class="text-truncate font-weight-medium"
-            :title="favoriteName(item)"
-          >
-            {{ favoriteName(item) }}
-          </div>
-        </template>
-        <template #item.remark="{ item }">
-          <div class="text-truncate">
-            <span
-              v-if="item.remark"
-              v-tooltip="item.remark"
-            >
-              {{ item.remark }}
-            </span>
-            <span
-              v-else
-              class="text-medium-emphasis"
-            >
-              {{ t('game.favorite.noRemark') }}
-            </span>
-          </div>
-        </template>
-        <template #item.gameMode="{ item }">
-          <div
-            class="text-truncate"
-            :title="gameModeName(item)"
-          >
-            <v-chip
-              label
-              color="info"
-              style="max-width: 100%"
-            >
-              {{ gameModeName(item) }}
-            </v-chip>
-          </div>
-        </template>
-        <template #item.worlds="{ item }">
-          <v-chip label>
-            {{ worldCount(item) }}
-          </v-chip>
-        </template>
-        <template #item.mods="{ item }">
-          <v-chip label>
-            {{ modCount(item) }}
-          </v-chip>
-        </template>
-        <template #item.createdAt="{ item }">
-          {{ timestamp2time(item.createdAt) }}
-        </template>
-        <template #item.actions="{ item }">
-          <div class="d-flex align-center justify-end flex-nowrap">
-            <v-tooltip :text="t('game.favorite.actions.apply')">
-              <template #activator="{ props: tooltipProps }">
-                <v-btn
-                  v-bind="tooltipProps"
-                  icon="ri-play-line"
-                  size="small"
-                  color="success"
-                  variant="text"
-                  :disabled="!canCreate"
-                  @click="openApply(item)"
-                />
-              </template>
-            </v-tooltip>
-            <v-tooltip :text="t('game.favorite.actions.viewMods')">
-              <template #activator="{ props: tooltipProps }">
-                <v-btn
-                  v-bind="tooltipProps"
-                  icon="ri-rocket-2-line"
-                  size="small"
-                  color="primary"
-                  variant="text"
-                  class="ml-1"
-                  :disabled="modCount(item) === 0"
-                  @click="openMods(item)"
-                />
-              </template>
-            </v-tooltip>
-            <v-tooltip :text="t('game.favorite.actions.rename')">
-              <template #activator="{ props: tooltipProps }">
-                <v-btn
-                  v-bind="tooltipProps"
-                  icon="ri-price-tag-3-line"
-                  size="small"
-                  color="info"
-                  variant="text"
-                  class="ml-1"
-                  @click="openRename(item)"
-                />
-              </template>
-            </v-tooltip>
-            <v-tooltip :text="t('game.favorite.actions.delete')">
-              <template #activator="{ props: tooltipProps }">
-                <v-btn
-                  v-bind="tooltipProps"
-                  icon="ri-delete-bin-line"
-                  size="small"
-                  color="error"
-                  variant="text"
-                  class="ml-1"
-                  @click="openDelete(item)"
-                />
-              </template>
-            </v-tooltip>
-          </div>
-        </template>
-        <template #no-data>
-          <div class="d-flex flex-column align-center py-10">
-            <v-icon
-              icon="ri-star-smile-line"
-              size="48"
-              color="grey"
-              class="mb-4"
-            />
-            <div class="text-subtitle-1">
-              {{ t('game.favorite.empty.title') }}
-            </div>
-            <div class="text-body-2 text-medium-emphasis mt-2">
-              {{ t('game.favorite.empty.subTitle') }}
-            </div>
-          </div>
-        </template>
-      </v-data-table-server>
+        {{ t('cloud.favorite.linkedChip', { plan: planLabel, used: cloudStatus.favoriteCount, quota: cloudStatus.favoriteQuota }) }}
+      </v-chip>
+      <v-chip
+        v-else
+        color="warning"
+        variant="tonal"
+        prepend-icon="ri-cloud-off-line"
+        class="mr-2 my-1"
+        @click="goProfile"
+      >
+        {{ t('cloud.common.unlinked') }}
+      </v-chip>
+      <v-btn
+        v-tooltip="t('cloud.sync.now')"
+        icon="ri-refresh-line"
+        size="small"
+        color="primary"
+        variant="text"
+        :disabled="!cloudStatus.linked"
+        :loading="syncLoading === 'both'"
+        @click="handleSync('both')"
+      />
+      <v-btn
+        v-tooltip="canUpload ? t('cloud.sync.upload') : t('cloud.sync.quotaTip')"
+        icon="ri-upload-2-line"
+        size="small"
+        color="info"
+        variant="text"
+        :disabled="!cloudStatus.linked || !canUpload"
+        :loading="syncLoading === 'upload'"
+        @click="handleSync('upload')"
+      />
+      <v-btn
+        v-tooltip="t('cloud.sync.download')"
+        icon="ri-download-2-line"
+        size="small"
+        color="success"
+        variant="text"
+        :disabled="!cloudStatus.linked"
+        :loading="syncLoading === 'download'"
+        @click="handleSync('download')"
+      />
     </v-sheet>
+
+    <v-tabs
+      v-model="activeTab"
+      class="mt-2"
+      color="primary"
+      align-tabs="start"
+    >
+      <v-tab value="local">
+        {{ t('cloud.favorite.localTab') }}
+      </v-tab>
+      <v-tab value="cloud">
+        {{ t('cloud.favorite.cloudTab') }}
+      </v-tab>
+    </v-tabs>
+    <v-tabs-window
+      v-model="activeTab"
+      class="mt-2"
+    >
+      <v-tabs-window-item value="local">
+        <v-sheet
+          border
+          rounded
+        >
+          <v-data-table-server
+            v-model:page="page"
+            v-model:items-per-page="pageSize"
+            class="favorite-table"
+            :headers="headers"
+            :items="items"
+            :items-length="total"
+            :items-per-page-options="[10, 20, 50]"
+            :loading="loading"
+            @update:options="getFavorites"
+          >
+            <template #loading>
+              <v-skeleton-loader type="table-row@10" />
+            </template>
+            <template #top>
+              <v-toolbar flat>
+                <v-toolbar-title>
+                  <v-icon
+                    icon="ri-bookmark-3-line"
+                    start
+                  />
+                  <span v-if="!mobile">{{ t('game.favorite.title') }}</span>
+                </v-toolbar-title>
+                <v-btn
+                  prepend-icon="ri-bookmark-3-line"
+                  color="primary"
+                  :disabled="!globalStore.room.id"
+                  @click="openSaveDialog"
+                >
+                  {{ t('game.favorite.save.title') }}
+                </v-btn>
+                <v-btn
+                  prepend-icon="ri-refresh-line"
+                  color="default"
+                  class="ml-2"
+                  :loading="loading"
+                  @click="getFavorites"
+                >
+                  {{ t('game.favorite.refresh') }}
+                </v-btn>
+              </v-toolbar>
+            </template>
+            <template #item.gameName="{ item }">
+              <div
+                class="text-truncate font-weight-medium"
+                :title="favoriteName(item)"
+              >
+                {{ favoriteName(item) }}
+              </div>
+            </template>
+            <template #item.remark="{ item }">
+              <div class="text-truncate">
+                <span
+                  v-if="item.remark"
+                  v-tooltip="item.remark"
+                >
+                  {{ item.remark }}
+                </span>
+                <span
+                  v-else
+                  class="text-medium-emphasis"
+                >
+                  {{ t('game.favorite.noRemark') }}
+                </span>
+              </div>
+            </template>
+            <template #item.gameMode="{ item }">
+              <div
+                class="text-truncate"
+                :title="gameModeName(item)"
+              >
+                <v-chip
+                  label
+                  color="info"
+                  style="max-width: 100%"
+                >
+                  {{ gameModeName(item) }}
+                </v-chip>
+              </div>
+            </template>
+            <template #item.worlds="{ item }">
+              <v-chip label>
+                {{ worldCount(item) }}
+              </v-chip>
+            </template>
+            <template #item.mods="{ item }">
+              <v-chip label>
+                {{ modCount(item) }}
+              </v-chip>
+            </template>
+            <template #item.createdAt="{ item }">
+              {{ timestamp2time(item.createdAt) }}
+            </template>
+            <template #item.actions="{ item }">
+              <div class="d-flex align-center justify-end flex-nowrap">
+                <v-tooltip :text="t('game.favorite.actions.apply')">
+                  <template #activator="{ props: tooltipProps }">
+                    <v-btn
+                      v-bind="tooltipProps"
+                      icon="ri-play-line"
+                      size="small"
+                      color="success"
+                      variant="text"
+                      :disabled="!canCreate"
+                      @click="openApply(item)"
+                    />
+                  </template>
+                </v-tooltip>
+                <v-tooltip :text="t('game.favorite.actions.viewMods')">
+                  <template #activator="{ props: tooltipProps }">
+                    <v-btn
+                      v-bind="tooltipProps"
+                      icon="ri-rocket-2-line"
+                      size="small"
+                      color="primary"
+                      variant="text"
+                      class="ml-1"
+                      :disabled="modCount(item) === 0"
+                      @click="openMods(item)"
+                    />
+                  </template>
+                </v-tooltip>
+                <v-tooltip :text="t('game.favorite.actions.rename')">
+                  <template #activator="{ props: tooltipProps }">
+                    <v-btn
+                      v-bind="tooltipProps"
+                      icon="ri-price-tag-3-line"
+                      size="small"
+                      color="info"
+                      variant="text"
+                      class="ml-1"
+                      @click="openRename(item)"
+                    />
+                  </template>
+                </v-tooltip>
+                <v-tooltip :text="t('game.favorite.actions.delete')">
+                  <template #activator="{ props: tooltipProps }">
+                    <v-btn
+                      v-bind="tooltipProps"
+                      icon="ri-delete-bin-line"
+                      size="small"
+                      color="error"
+                      variant="text"
+                      class="ml-1"
+                      @click="openDelete(item)"
+                    />
+                  </template>
+                </v-tooltip>
+              </div>
+            </template>
+            <template #no-data>
+              <div class="d-flex flex-column align-center py-10">
+                <v-icon
+                  icon="ri-star-smile-line"
+                  size="48"
+                  color="grey"
+                  class="mb-4"
+                />
+                <div class="text-subtitle-1">
+                  {{ t('game.favorite.empty.title') }}
+                </div>
+                <div class="text-body-2 text-medium-emphasis mt-2">
+                  {{ t('game.favorite.empty.subTitle') }}
+                </div>
+              </div>
+            </template>
+          </v-data-table-server>
+        </v-sheet>
+      </v-tabs-window-item>
+      <v-tabs-window-item value="cloud">
+        <v-sheet
+          border
+          rounded
+        >
+          <cloud-favorites-table
+            ref="cloudTableRef"
+            :linked="cloudStatus.linked"
+          />
+        </v-sheet>
+      </v-tabs-window-item>
+    </v-tabs-window>
 
     <v-dialog
       v-model="applyVisible"
@@ -382,7 +469,7 @@
       v-model="deleteVisible"
       type="error"
       :title="t('game.favorite.delete.title')"
-      :content="t('game.favorite.delete.content')"
+      :content="deleteContent"
       :confirm-text="t('game.favorite.confirm')"
       :cancel-text="t('game.favorite.cancel')"
       :confirm-loading="deleteLoading"
@@ -395,17 +482,22 @@
 <script setup>
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
 import roomApi from "@/api/room"
 import modApi from "@/api/mod"
+import cloudApi from "@/api/cloud"
+import CloudFavoritesTable from "@/components/cloud/CloudFavoritesTable.vue"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { formatBytes, parseModLua, timestamp2time } from "@/utils/tools"
+import { cloudSyncSummary } from "@/utils/cloud"
 import { showSnackbar } from "@/utils/snackbar"
 
 const { mobile } = useDisplay()
 const { t } = useI18n()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
+const router = useRouter()
 
 const otherHeight = 150
 const loading = ref(false)
@@ -413,6 +505,73 @@ const items = ref([])
 const page = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
+
+const activeTab = ref('local')
+const cloudTableRef = ref()
+
+const cloudStatus = ref({
+  linked: false,
+  favoriteCount: 0,
+  favoriteQuota: 0,
+})
+
+const syncLoading = ref('')
+
+const planLabel = computed(() => {
+  const key = `cloud.plan.${cloudStatus.value.plan}`
+  const name = t(key)
+
+  return name === key ? (cloudStatus.value.planName || cloudStatus.value.plan || '-') : name
+})
+
+const canUpload = computed(() => {
+  const quota = cloudStatus.value.favoriteQuota
+
+  if (!quota || quota <= 0) return true
+
+  return (cloudStatus.value.favoriteCount || 0) < quota
+})
+
+const deleteContent = computed(() => {
+  if (!cloudStatus.value.linked) return t('game.favorite.delete.content')
+
+  return `${t('game.favorite.delete.content')} ${t('cloud.favorite.deleteTip')}`
+})
+
+const getCloudStatus = async () => {
+  try {
+    const response = await cloudApi.status.get()
+
+    cloudStatus.value = response.data || { linked: false }
+  } catch {
+    cloudStatus.value = { linked: false }
+  }
+}
+
+const goProfile = () => {
+  router.push('/profile')
+}
+
+const handleSync = async direction => {
+  if (!cloudStatus.value.linked) {
+    showSnackbar(t('cloud.sync.notLinkedTip'), 'warning')
+
+    return
+  }
+
+  syncLoading.value = direction
+  try {
+    const response = await cloudApi.sync.post({ direction })
+
+    showSnackbar(cloudSyncSummary(t, response.data))
+    await Promise.all([getCloudStatus(), getFavorites()])
+    cloudTableRef.value?.refresh()
+  } catch {
+    // 接口异常由 Axios 拦截器统一提示
+  } finally {
+    syncLoading.value = ''
+  }
+}
 
 const canCreate = computed(() => {
   return userStore.userInfo.role === 'admin' || Boolean(userStore.userInfo.roomCreation)
@@ -687,6 +846,10 @@ const deleteFavorite = () => {
     deleteLoading.value = false
   })
 }
+
+onMounted(() => {
+  getCloudStatus()
+})
 </script>
 
 <style scoped>

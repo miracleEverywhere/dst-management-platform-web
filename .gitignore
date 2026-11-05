@@ -3,3 +3,4 @@ dist
 dist-lite
 node_modules
 .pnpm*
+AGENTS_WORK.md

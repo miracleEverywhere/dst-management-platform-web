@@ -10,6 +10,16 @@
         </span>
         <div>
           <v-btn
+            v-if="cloudKind"
+            class="mr-2"
+            color="info"
+            prepend-icon="ri-cloud-line"
+            :loading="listChangeLoading"
+            @click="cloudDialogVisible = true"
+          >
+            {{ cloudKind === 'admin' ? t('cloud.gameEntry.selectAdmin') : t('cloud.gameEntry.selectSlot') }}
+          </v-btn>
+          <v-btn
             v-if="props.listType === 'blocklist' && !mobile"
             :loading="listChangeLoading"
             class="mr-2"
@@ -187,6 +197,15 @@
     @confirm="handleConfirm"
     @cancel="confirmSettings.visible = false"
   />
+
+  <cloud-game-entry-dialog
+    v-model="cloudDialogVisible"
+    :kind="cloudKind || 'admin'"
+    :title="cloudDialogTitle"
+    :existing="listData"
+    :loading="listChangeLoading"
+    @confirm="handleCloudConfirm"
+  />
 </template>
 
 <script setup>
@@ -194,6 +213,7 @@ import useGlobalStore from "@store/global.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import playerApi from "@/api/player"
+import CloudGameEntryDialog from "@/components/cloud/CloudGameEntryDialog.vue"
 import { showSnackbar } from "@/utils/snackbar"
 
 const props = defineProps({
@@ -213,6 +233,41 @@ const { t } = useI18n()
 
 const listData = ref([])
 const getListDataLoading = ref(false)
+
+const cloudKind = computed(() => {
+  if (props.listType === 'adminlist') return 'admin'
+  if (props.listType === 'whitelist') return 'slot'
+
+  return ''
+})
+
+const cloudDialogTitle = computed(() => {
+  return cloudKind.value === 'slot'
+    ? t('cloud.gameEntry.titleSlot')
+    : t('cloud.gameEntry.titleAdmin')
+})
+
+const cloudDialogVisible = ref(false)
+
+const handleCloudConfirm = uids => {
+  if (uids.length === 0) return
+
+  listChangeLoading.value = true
+
+  const reqForm = {
+    roomID: globalStore.room.id,
+    listType: props.listType,
+    uids: uids,
+    actionType: 'add',
+  }
+
+  playerApi.list.post(reqForm).then(response => {
+    showSnackbar(response.message)
+    getListData()
+  }).finally(() => {
+    listChangeLoading.value = false
+  })
+}
 
 const getListData = (tip=false) => {
   getListDataLoading.value = true

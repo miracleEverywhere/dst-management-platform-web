@@ -261,6 +261,26 @@
           density="comfortable"
           variant="text"
           class="ml-4"
+          color="primary"
+          prepend-icon="ri-cloud-line"
+          @click="tokenDialogVisible = true"
+        >
+          {{ t('cloud.token.select') }}
+        </v-btn>
+        <v-btn
+          v-else
+          density="comfortable"
+          variant="text"
+          class="ml-2"
+          color="primary"
+          icon="ri-cloud-line"
+          @click="tokenDialogVisible = true"
+        />
+        <v-btn
+          v-if="!mobile"
+          density="comfortable"
+          variant="text"
+          class="ml-4"
           color="info"
           href="https://accounts.klei.com"
           target="_blank"
@@ -495,6 +515,11 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <cloud-token-dialog
+    v-model="tokenDialogVisible"
+    @select="handleCloudTokenSelect"
+  />
 </template>
 
 <script setup>
@@ -503,6 +528,7 @@ import { useI18n } from "vue-i18n"
 import { GamePortFactor } from "@/config/index.js"
 import { generateRandomString, getDstToken } from "@/utils/tools.js"
 import Emoji from "@/views/game/components/base/emoji.js"
+import CloudTokenDialog from "@/components/cloud/CloudTokenDialog.vue"
 import { showSnackbar } from "@/utils/snackbar.js"
 
 const props = defineProps({
@@ -612,6 +638,12 @@ const isClusterKeyVisible = ref(false)
 
 const handleAddToken = () => {
   roomForm.value.token = getDstToken()
+}
+
+const tokenDialogVisible = ref(false)
+
+const handleCloudTokenSelect = token => {
+  roomForm.value.token = token.token || ''
 }
 
 const emojiGameName = ref(false) // 游戏名为true 游戏描述为false
