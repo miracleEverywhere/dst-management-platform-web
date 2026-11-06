@@ -77,11 +77,61 @@ $cloud-warm: #ffb86b;
     linear-gradient(90deg, rgba(30, 16, 70, 0.05) 1px, transparent 1px);
 }
 
-// 极光光斑
+// 极光色带：两条超大渐变缓慢旋转，让背景颜色持续流动
+.cloud-backdrop__beam {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  inline-size: 180vmax;
+  block-size: 180vmax;
+  margin-block-start: -90vmax;
+  margin-inline-start: -90vmax;
+  border-radius: 50%;
+  background: linear-gradient(
+    115deg,
+    transparent 6%,
+    rgba($cloud-primary, 0.2) 28%,
+    rgba($cloud-accent, 0.12) 44%,
+    rgba(196, 174, 255, 0.16) 58%,
+    transparent 82%
+  );
+  animation: cloud-beam-spin 34s linear infinite;
+  will-change: transform;
+}
+
+.cloud-backdrop__beam--alt {
+  background: linear-gradient(
+    300deg,
+    transparent 8%,
+    rgba($cloud-warm, 0.14) 32%,
+    transparent 56%,
+    rgba($cloud-primary, 0.16) 74%,
+    transparent 92%
+  );
+  animation-duration: 53s;
+  animation-direction: reverse;
+}
+
+.v-theme--light .cloud-backdrop__beam {
+  opacity: 0.4;
+}
+
+@keyframes cloud-beam-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 极光光斑：每颗用不同周期缓慢漂移、呼吸
 .cloud-backdrop__orb {
   position: absolute;
   border-radius: 50%;
-  animation: cloud-orb-float 28s ease-in-out infinite alternate;
+  animation: cloud-orb-drift 16s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
 .cloud-backdrop__orb--one {
@@ -90,6 +140,7 @@ $cloud-warm: #ffb86b;
   inline-size: 36rem;
   block-size: 36rem;
   background: radial-gradient(circle, rgba($cloud-primary, 0.5), transparent 68%);
+  animation-delay: -6s;
 }
 
 .cloud-backdrop__orb--two {
@@ -97,8 +148,9 @@ $cloud-warm: #ffb86b;
   inset-inline-end: -16rem;
   inline-size: 44rem;
   block-size: 44rem;
-  background: radial-gradient(circle, rgba($cloud-accent, 0.24), transparent 68%);
-  animation-delay: -9s;
+  background: radial-gradient(circle, rgba($cloud-accent, 0.26), transparent 68%);
+  animation-duration: 20s;
+  animation-delay: -18s;
 }
 
 .cloud-backdrop__orb--three {
@@ -106,17 +158,35 @@ $cloud-warm: #ffb86b;
   inset-inline-start: 26%;
   inline-size: 38rem;
   block-size: 38rem;
-  background: radial-gradient(circle, rgba($cloud-warm, 0.18), transparent 70%);
-  animation-delay: -17s;
+  background: radial-gradient(circle, rgba($cloud-warm, 0.2), transparent 70%);
+  animation-duration: 24s;
+  animation-delay: -30s;
 }
 
-@keyframes cloud-orb-float {
+.cloud-backdrop__orb--four {
+  inset-block-start: 30%;
+  inset-inline-start: 34%;
+  inline-size: 34rem;
+  block-size: 34rem;
+  background: radial-gradient(circle, rgba(196, 174, 255, 0.18), transparent 70%);
+  animation-duration: 17s;
+  animation-delay: -12s;
+}
+
+@keyframes cloud-orb-drift {
   0% {
+    opacity: 0.85;
     transform: translate3d(0, 0, 0) scale(1);
   }
 
+  45% {
+    opacity: 1;
+    transform: translate3d(3.5rem, -3rem, 0) scale(1.1);
+  }
+
   100% {
-    transform: translate3d(3rem, -2.5rem, 0) scale(1.08);
+    opacity: 0.7;
+    transform: translate3d(-2.5rem, 3rem, 0) scale(0.96);
   }
 }
 
@@ -512,7 +582,8 @@ $cloud-warm: #ffb86b;
 
 // 👉 降低动态效果
 @media (prefers-reduced-motion: reduce) {
-  .cloud-backdrop__orb {
+  .cloud-backdrop__orb,
+  .cloud-backdrop__beam {
     animation: none;
   }
 

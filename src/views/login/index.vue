@@ -17,10 +17,13 @@
       class="cloud-backdrop"
       aria-hidden="true"
     >
+      <span class="cloud-backdrop__beam" />
+      <span class="cloud-backdrop__beam cloud-backdrop__beam--alt" />
       <span class="cloud-backdrop__grid" />
       <span class="cloud-backdrop__orb cloud-backdrop__orb--one" />
       <span class="cloud-backdrop__orb cloud-backdrop__orb--two" />
       <span class="cloud-backdrop__orb cloud-backdrop__orb--three" />
+      <span class="cloud-backdrop__orb cloud-backdrop__orb--four" />
     </div>
   </transition>
 
