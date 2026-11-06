@@ -80,7 +80,7 @@
                 />
                 <v-btn
                   v-tooltip="canUpload ? t('cloud.sync.upload') : t('cloud.sync.quotaTip')"
-                  icon="ri-upload-2-line"
+                  icon="ri-arrow-up-line"
                   size="small"
                   color="info"
                   variant="text"
@@ -90,7 +90,7 @@
                 />
                 <v-btn
                   v-tooltip="t('cloud.sync.download')"
-                  icon="ri-download-2-line"
+                  icon="ri-arrow-down-line"
                   size="small"
                   color="success"
                   variant="text"

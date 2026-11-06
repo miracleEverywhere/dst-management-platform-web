@@ -233,7 +233,7 @@ export default {
       unlinkedTip: '请先在个人中心绑定云账号',
     },
     archives: {
-      tab: '云存档',
+      tab: '云存档导入',
       title: '云存档',
       upload: '上传当前房间',
       uploadTip: '上传当前房间存档到云端，每个会话只保留最近 2 个快照，单包不超过 50MB',
@@ -1969,7 +1969,7 @@ export default {
       zipTip: '请上传zip文件',
       uploadTypeTip: '请选择导入模式',
     },
-    tabName: '本地上传',
+    tabName: '本地导入',
   },
   logs: {
     current: '当前日志',
