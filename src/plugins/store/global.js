@@ -41,6 +41,11 @@ const globalStore = defineStore("global", {
         updateTime: 0, // 上次请求成功的时间戳，用于判断缓存是否过期
         ok: false, // 上次请求是否成功
       },
+
+      // DMP Cloud
+      dmpCloud: {
+        loginMode: 'local',
+      },
     }
   },
   actions: {

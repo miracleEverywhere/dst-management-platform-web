@@ -94,12 +94,6 @@
           v-if="isCloudMode"
           class="cloud-head"
         >
-          <span class="cloud-head__mark">
-            <v-icon
-              icon="ri-cloud-line"
-              size="24"
-            />
-          </span>
           <span class="cloud-head__text">
             <span class="cloud-head__title">DMP Cloud</span>
             <span class="cloud-head__sub">{{ t('cloud.login.cardSubtitle') }}</span>
@@ -121,6 +115,7 @@
           align-tabs="center"
           :class="{ 'cloud-tabs': isCloudMode }"
           style="border-bottom: none"
+          @update:model-value="saveLoginMode"
         >
           <v-tab value="local">
             <v-icon
@@ -341,12 +336,7 @@
                   >
                     {{ t('cloud.login.firstUseTip') }}
                   </v-alert>
-                  <div
-                    v-else
-                    class="text-caption text-medium-emphasis"
-                  >
-                    {{ t('cloud.login.tip') }}
-                  </div>
+
                   <div class="cloud-foot">
                     <span class="cloud-foot__note">
                       <v-icon
@@ -801,8 +791,19 @@ const getRegistered = () => {
   })
 }
 
+const setLastLoginMode = () => {
+  if (globalStore.dmpCloud.loginMode) {
+    loginMode.value = globalStore.dmpCloud.loginMode
+  }
+}
+
+const saveLoginMode = () => {
+  globalStore.dmpCloud.loginMode = loginMode.value
+}
+
 onMounted(() => {
   getRegistered()
+  setLastLoginMode()
 })
 </script>
 

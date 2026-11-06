@@ -464,7 +464,7 @@ $cloud-warm: #ffb86b;
   :deep(.cloud-tabs .v-tab--selected) {
     color: #fff !important;
     background: linear-gradient(135deg, $cloud-primary, $cloud-primary-deep);
-    box-shadow: 0 6px 16px rgba($cloud-primary-deep, 0.3);
+    box-shadow: 0 3px 3px rgba($cloud-primary-deep, 0.3);
   }
 
   :deep(.cloud-tabs .v-tab__slider) {
@@ -502,7 +502,7 @@ $cloud-warm: #ffb86b;
   border-radius: 14px;
   background: linear-gradient(135deg, #9a6bff 0%, #7c4bf0 45%, $cloud-primary-deep 100%) !important;
   box-shadow:
-    0 14px 30px rgba($cloud-primary-deep, 0.36),
+    0 3px 3px rgba($cloud-primary-deep, 0.36),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
   transition:
     transform 0.25s ease,
@@ -511,7 +511,7 @@ $cloud-warm: #ffb86b;
 
   &:hover {
     filter: brightness(1.06);
-    box-shadow: 0 18px 36px rgba($cloud-primary-deep, 0.44);
+    box-shadow: 0 9px 6px rgba($cloud-primary-deep, 0.44);
     transform: translateY(-1px);
   }
 
