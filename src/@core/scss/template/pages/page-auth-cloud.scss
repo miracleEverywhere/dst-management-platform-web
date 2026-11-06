@@ -1,0 +1,528 @@
+// 云账号登录：极光背景 + 玻璃拟态卡片，与本地账号登录形成明显区分
+// 配色取自 DMP Cloud 官网（https://dmp-cloud.miraclesses.top/）
+
+$cloud-primary: #8c57ff;
+$cloud-primary-deep: #6d3ff2;
+$cloud-accent: #8c57ff;
+$cloud-warm: #ffb86b;
+
+// 👉 舞台：云模式下改为居中的双栏（品牌介绍 + 登录卡片）
+.login-stage {
+  position: relative;
+  z-index: 1;
+  align-items: flex-start;
+}
+
+// 桌面端铺满视口高度：底部插画按视口定位，场景淡出时也不会随内容高度跳动
+@media (min-width: 960px) {
+  .login-stage {
+    min-block-size: calc(100dvh - 72px);
+  }
+}
+
+.login-stage--cloud {
+  min-block-size: calc(100dvh - 72px);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+// 👉 背景层
+.cloud-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 60% at 12% 4%, rgba($cloud-primary, 0.22), transparent 62%),
+    radial-gradient(58% 58% at 88% 18%, rgba($cloud-accent, 0.12), transparent 64%),
+    radial-gradient(60% 45% at 50% 100%, rgba($cloud-warm, 0.09), transparent 72%),
+    #07060c;
+}
+
+.v-theme--light .cloud-backdrop {
+  background:
+    radial-gradient(70% 60% at 12% 4%, rgba($cloud-primary, 0.16), transparent 62%),
+    radial-gradient(58% 58% at 88% 18%, rgba($cloud-accent, 0.12), transparent 64%),
+    radial-gradient(60% 45% at 50% 100%, rgba($cloud-warm, 0.14), transparent 72%),
+    #f7f4ff;
+}
+
+.cloud-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(4, 3, 8, 0.55) 100%);
+}
+
+.v-theme--light .cloud-backdrop::after {
+  background: none;
+}
+
+// 网格底纹
+.cloud-backdrop__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(85% 65% at 50% 0%, #000 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(85% 65% at 50% 0%, #000 20%, transparent 78%);
+}
+
+.v-theme--light .cloud-backdrop__grid {
+  background-image:
+    linear-gradient(rgba(30, 16, 70, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 16, 70, 0.05) 1px, transparent 1px);
+}
+
+// 极光光斑
+.cloud-backdrop__orb {
+  position: absolute;
+  border-radius: 50%;
+  animation: cloud-orb-float 28s ease-in-out infinite alternate;
+}
+
+.cloud-backdrop__orb--one {
+  inset-block-start: -14rem;
+  inset-inline-start: -10rem;
+  inline-size: 36rem;
+  block-size: 36rem;
+  background: radial-gradient(circle, rgba($cloud-primary, 0.5), transparent 68%);
+}
+
+.cloud-backdrop__orb--two {
+  inset-block-start: 16rem;
+  inset-inline-end: -16rem;
+  inline-size: 44rem;
+  block-size: 44rem;
+  background: radial-gradient(circle, rgba($cloud-accent, 0.24), transparent 68%);
+  animation-delay: -9s;
+}
+
+.cloud-backdrop__orb--three {
+  inset-block-end: -18rem;
+  inset-inline-start: 26%;
+  inline-size: 38rem;
+  block-size: 38rem;
+  background: radial-gradient(circle, rgba($cloud-warm, 0.18), transparent 70%);
+  animation-delay: -17s;
+}
+
+@keyframes cloud-orb-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate3d(3rem, -2.5rem, 0) scale(1.08);
+  }
+}
+
+// 👉 品牌介绍栏（桌面端）
+.cloud-brand {
+  --cloud-brand-fg: #f3eeff;
+  --cloud-brand-muted: rgba(243, 238, 255, 0.66);
+  --cloud-brand-line: rgba(255, 255, 255, 0.08);
+  --cloud-brand-icon: #bda6ff;
+  --cloud-brand-surface: rgba(140, 87, 255, 0.16);
+
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  inline-size: min(420px, 38vw);
+  padding: clamp(1.8rem, 3vw, 2.4rem);
+  overflow: hidden;
+  color: var(--cloud-brand-fg);
+  border: 1px solid var(--cloud-brand-line);
+  border-radius: 30px;
+  background:
+    radial-gradient(120% 120% at 10% 0, rgba($cloud-primary, 0.3), transparent 55%),
+    radial-gradient(100% 100% at 100% 100%, rgba($cloud-accent, 0.18), transparent 55%),
+    #0d0a16;
+  box-shadow: 0 30px 80px rgba(6, 2, 16, 0.5);
+  animation: cloud-brand-slide-in 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// 品牌栏随场景淡入时从左侧轻微滑入
+@keyframes cloud-brand-slide-in {
+  from {
+    transform: translateX(-24px);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.v-theme--light .cloud-brand {
+  --cloud-brand-fg: #241a3d;
+  --cloud-brand-muted: rgba(36, 26, 61, 0.62);
+  --cloud-brand-line: rgba(35, 20, 80, 0.08);
+  --cloud-brand-icon: #6d3ff2;
+  --cloud-brand-surface: rgba(140, 87, 255, 0.1);
+
+  background:
+    radial-gradient(120% 120% at 10% 0, rgba($cloud-primary, 0.18), transparent 55%),
+    radial-gradient(100% 100% at 100% 100%, rgba($cloud-accent, 0.14), transparent 55%),
+    #fbf9ff;
+  box-shadow: 0 26px 60px rgba(45, 24, 90, 0.12);
+}
+
+.cloud-brand__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.32rem 0.72rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--cloud-brand-icon);
+  text-transform: uppercase;
+  border: 1px solid rgba($cloud-primary, 0.24);
+  border-radius: 999px;
+  background: var(--cloud-brand-surface);
+}
+
+.cloud-brand__dot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: $cloud-accent;
+  box-shadow: 0 0 0 4px rgba($cloud-accent, 0.16);
+}
+
+.cloud-brand__title {
+  margin: 1.2rem 0 0;
+  font-size: clamp(1.7rem, 2.3vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+
+.cloud-brand__desc {
+  max-inline-size: 22rem;
+  margin: 1rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.8;
+  color: var(--cloud-brand-muted);
+}
+
+.cloud-brand__points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 1.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cloud-brand__point {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+
+.cloud-brand__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  color: var(--cloud-brand-icon);
+  border: 1px solid rgba($cloud-primary, 0.18);
+  border-radius: 10px;
+  background: rgba($cloud-primary, 0.14);
+}
+
+.cloud-brand__point-title {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.cloud-brand__point-desc {
+  display: block;
+  margin-block-start: 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--cloud-brand-muted);
+}
+
+.cloud-brand__site {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-block-start: auto;
+  padding-block-start: 1.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--cloud-brand-icon);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+// 渐变文字
+.cloud-gradient-text {
+  color: transparent;
+  background: linear-gradient(110deg, #c4aeff 0%, #8c57ff 48%, #2dd4bf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.v-theme--light .cloud-gradient-text {
+  background: linear-gradient(110deg, #4a259f 0%, #6d3ff2 48%, #0f9e8c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+// 👉 登录卡片
+.auth-card--cloud {
+  border: 1px solid transparent;
+  border-radius: 28px;
+  background:
+    linear-gradient(165deg, rgba(21, 17, 33, 0.94), rgba(12, 10, 20, 0.9)) padding-box,
+    linear-gradient(140deg, rgba($cloud-primary, 0.55), rgba(255, 255, 255, 0.08) 42%, rgba($cloud-accent, 0.4)) border-box;
+  box-shadow:
+    0 34px 90px rgba(5, 2, 14, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+}
+
+.v-theme--light .auth-card--cloud {
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.92), rgba(250, 247, 255, 0.88)) padding-box,
+    linear-gradient(140deg, rgba($cloud-primary, 0.45), rgba(255, 255, 255, 0.6) 45%, rgba($cloud-accent, 0.32)) border-box;
+  box-shadow:
+    0 34px 80px rgba(45, 24, 90, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+// 卡片头部品牌标识
+.cloud-head {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.cloud-head__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 46px;
+  block-size: 46px;
+  color: #fff;
+  border-radius: 15px;
+  background: linear-gradient(140deg, #a37bff, #7a45f0);
+  box-shadow:
+    0 12px 26px rgba($cloud-primary, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.cloud-head__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.cloud-head__title {
+  font-size: 1.32rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: transparent;
+  background: linear-gradient(110deg, #c4aeff 0%, #8c57ff 48%, #2dd4bf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.v-theme--light .cloud-head__title {
+  background: linear-gradient(110deg, #4a259f 0%, #6d3ff2 48%, #0f9e8c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.cloud-head__sub {
+  margin-block-start: 0.18rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.01em;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+}
+
+// 分段式 Tabs
+.auth-card--cloud {
+  // Vuetify 把 tabs 固定成 $tabs-height（38px），这里改成自适应，
+  // 否则分段控件上下内边距会被裁掉、选中胶囊会贴着轨道边缘
+  :deep(.cloud-tabs) {
+    block-size: auto;
+  }
+
+  :deep(.cloud-tabs .v-slide-group__content) {
+    gap: 6px;
+    inline-size: 100%;
+    padding: 6px;
+    border: 1px solid rgba($cloud-primary, 0.16);
+    border-radius: 999px;
+    background: rgba($cloud-primary, 0.1);
+  }
+
+  :deep(.cloud-tabs .v-tab) {
+    flex: 1 1 0;
+    min-block-size: 36px;
+    padding-inline: 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+    text-transform: none;
+    border-radius: 999px;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  :deep(.cloud-tabs .v-tab--selected) {
+    color: #fff !important;
+    background: linear-gradient(135deg, $cloud-primary, $cloud-primary-deep);
+    box-shadow: 0 6px 16px rgba($cloud-primary-deep, 0.3);
+  }
+
+  :deep(.cloud-tabs .v-tab__slider) {
+    display: none;
+  }
+
+  // 输入框：更圆润的描边与聚焦光晕
+  :deep(.v-field) {
+    border-radius: 14px;
+    background: rgba($cloud-primary, 0.04);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  :deep(.v-field--focused) {
+    background: rgba($cloud-primary, 0.08);
+    box-shadow: 0 8px 22px rgba($cloud-primary, 0.14);
+  }
+}
+
+.v-theme--light .auth-card--cloud :deep(.v-field) {
+  background: rgba($cloud-primary, 0.03);
+}
+
+.v-theme--light .auth-card--cloud :deep(.v-field--focused) {
+  background: rgba($cloud-primary, 0.06);
+}
+
+// 提交按钮
+.cloud-submit {
+  min-block-size: 46px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff !important;
+  text-transform: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #9a6bff 0%, #7c4bf0 45%, $cloud-primary-deep 100%) !important;
+  box-shadow:
+    0 14px 30px rgba($cloud-primary-deep, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+
+  &:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 18px 36px rgba($cloud-primary-deep, 0.44);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// 卡片底部说明
+.cloud-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: 1.1rem;
+  padding-block-start: 0.9rem;
+  font-size: 0.72rem;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  border-block-start: 1px solid rgba($cloud-primary, 0.14);
+}
+
+.cloud-foot__note {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.cloud-foot__link {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font-weight: 600;
+  color: #bda6ff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.v-theme--light .cloud-foot__link {
+  color: $cloud-primary-deep;
+}
+
+// 👉 云账号背景的淡入淡出（场景淡出 / 淡入由 JS 驱动，见 index.vue）
+.cloud-backdrop-fade-enter-active,
+.cloud-backdrop-fade-leave-active {
+  transition: opacity 0.45s ease;
+}
+
+.cloud-backdrop-fade-enter-from,
+.cloud-backdrop-fade-leave-to {
+  opacity: 0;
+}
+
+// 👉 移动端
+@media (max-width: 599px) {
+  .login-stage--cloud {
+    min-block-size: auto;
+  }
+
+  .auth-card--cloud {
+    border-radius: 24px;
+  }
+}
+
+// 👉 降低动态效果
+@media (prefers-reduced-motion: reduce) {
+  .cloud-backdrop__orb {
+    animation: none;
+  }
+
+  .cloud-brand {
+    animation: none;
+  }
+
+  .cloud-submit,
+  .cloud-backdrop-fade-enter-active,
+  .cloud-backdrop-fade-leave-active {
+    transition: none;
+  }
+}

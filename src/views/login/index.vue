@@ -10,15 +10,102 @@
       <navbar-theme-switcher />
     </div>
   </div>
-  <div class="d-flex align-center justify-center pa-4">
+  <!-- 云账号背景（固定在舞台之外，切换时只淡入淡出，不随场景缩放） -->
+  <transition name="cloud-backdrop-fade">
+    <div
+      v-if="isCloudMode"
+      class="cloud-backdrop"
+      aria-hidden="true"
+    >
+      <span class="cloud-backdrop__grid" />
+      <span class="cloud-backdrop__orb cloud-backdrop__orb--one" />
+      <span class="cloud-backdrop__orb cloud-backdrop__orb--two" />
+      <span class="cloud-backdrop__orb cloud-backdrop__orb--three" />
+    </div>
+  </transition>
+
+  <div
+    ref="stageRef"
+    class="login-stage d-flex justify-center pa-4"
+    :class="{ 'login-stage--cloud': isCloudMode }"
+  >
+    <!-- 云账号品牌介绍（桌面端） -->
+    <aside
+      v-if="isCloudMode"
+      class="cloud-brand d-none d-lg-flex"
+    >
+      <span class="cloud-brand__badge">
+        <span class="cloud-brand__dot" />
+        DMP Cloud
+      </span>
+      <h2 class="cloud-brand__title">
+        {{ t('cloud.login.brandTitle') }}
+        <br>
+        <span class="cloud-gradient-text">{{ t('cloud.login.brandHighlight') }}</span>
+      </h2>
+      <p class="cloud-brand__desc">
+        {{ t('cloud.login.brandDesc') }}
+      </p>
+      <ul class="cloud-brand__points">
+        <li
+          v-for="point in cloudPoints"
+          :key="point.title"
+          class="cloud-brand__point"
+        >
+          <span class="cloud-brand__icon">
+            <v-icon
+              :icon="point.icon"
+              size="18"
+            />
+          </span>
+          <span>
+            <span class="cloud-brand__point-title">{{ point.title }}</span>
+            <span class="cloud-brand__point-desc">{{ point.desc }}</span>
+          </span>
+        </li>
+      </ul>
+      <a
+        class="cloud-brand__site"
+        :href="cloudSiteUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <v-icon
+          icon="ri-external-link-line"
+          size="15"
+        />
+        {{ t('cloud.login.officialSite') }}
+      </a>
+    </aside>
+
     <!-- 登录卡片 -->
     <v-card
-      width="448"
+      ref="cardRef"
+      :width="isCloudMode ? 460 : 448"
       class="auth-card"
-      :style="mobile?{'margin-top': '10vh'}:{'margin-top': '25vh'}"
+      :class="{ 'auth-card--cloud': isCloudMode }"
+      :style="cardStyle"
     >
       <v-card-text class="mt-4">
-        <span style="font-size: 1.5em">
+        <div
+          v-if="isCloudMode"
+          class="cloud-head"
+        >
+          <span class="cloud-head__mark">
+            <v-icon
+              icon="ri-cloud-line"
+              size="24"
+            />
+          </span>
+          <span class="cloud-head__text">
+            <span class="cloud-head__title">DMP Cloud</span>
+            <span class="cloud-head__sub">{{ t('cloud.login.cardSubtitle') }}</span>
+          </span>
+        </div>
+        <span
+          v-else
+          style="font-size: 1.5em"
+        >
           {{ $t('login.welcome') }}
         </span>
       </v-card-text>
@@ -26,18 +113,34 @@
       <v-card-text class="mt-6">
         <v-tabs
           v-model="loginMode"
+          grow
           color="primary"
           align-tabs="center"
+          :class="{ 'cloud-tabs': isCloudMode }"
+          style="border-bottom: none"
         >
           <v-tab value="local">
+            <v-icon
+              v-if="isCloudMode"
+              icon="ri-hard-drive-3-line"
+              size="16"
+              class="me-2"
+            />
             {{ t('cloud.login.localTab') }}
           </v-tab>
           <v-tab value="cloud">
+            <v-icon
+              v-if="isCloudMode"
+              icon="ri-cloud-line"
+              size="16"
+              class="me-2"
+            />
             {{ t('cloud.login.cloudTab') }}
           </v-tab>
         </v-tabs>
         <v-tabs-window
-          v-model="loginMode"
+          :model-value="visualMode"
+          :transition-duration="0"
           class="mt-4"
         >
           <v-tabs-window-item value="local">
@@ -215,10 +318,16 @@
                   />
                   <v-btn
                     block
-                    class="my-6"
+                    class="my-6 cloud-submit"
                     type="submit"
                     :loading="cloudLoginLoading"
                   >
+                    <v-icon
+                      v-if="!cloudLoginLoading"
+                      icon="ri-cloud-line"
+                      size="18"
+                      class="me-2"
+                    />
                     {{ t('cloud.login.submit') }}
                   </v-btn>
                   <v-alert
@@ -235,6 +344,27 @@
                   >
                     {{ t('cloud.login.tip') }}
                   </div>
+                  <div class="cloud-foot">
+                    <span class="cloud-foot__note">
+                      <v-icon
+                        icon="ri-shield-check-line"
+                        size="14"
+                      />
+                      {{ t('cloud.login.footnote') }}
+                    </span>
+                    <a
+                      class="cloud-foot__link d-flex d-lg-none"
+                      :href="cloudSiteUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ t('cloud.login.officialSite') }}
+                      <v-icon
+                        icon="ri-arrow-right-up-line"
+                        size="14"
+                      />
+                    </a>
+                  </div>
                 </v-col>
               </v-row>
             </v-form>
@@ -243,25 +373,27 @@
       </v-card-text>
     </v-card>
 
-    <v-img
-      :src="authV1Tree"
-      :width="250"
-      class="auth-footer-start-tree d-none d-md-block"
-      style="z-index: 1!important;"
-    />
+    <template v-if="!isCloudMode">
+      <v-img
+        :src="authV1Tree"
+        :width="250"
+        class="auth-footer-start-tree d-none d-md-block"
+        style="z-index: 1!important;"
+      />
 
-    <v-img
-      :src="authV1Tree2"
-      :width="350"
-      class="auth-footer-end-tree d-none d-md-block"
-      style="z-index: 1!important;"
-    />
+      <v-img
+        :src="authV1Tree2"
+        :width="350"
+        class="auth-footer-end-tree d-none d-md-block"
+        style="z-index: 1!important;"
+      />
 
-    <v-img
-      :src="authThemeMask"
-      class="auth-footer-mask d-none d-md-block"
-      style="z-index: 0!important;"
-    />
+      <v-img
+        :src="authThemeMask"
+        class="auth-footer-mask d-none d-md-block"
+        style="z-index: 0!important;"
+      />
+    </template>
   </div>
 </template>
 
@@ -305,6 +437,143 @@ const loginForm = ref({
 })
 
 const loginMode = ref('local')
+
+// DMP Cloud 官网地址
+const cloudSiteUrl = 'https://dmp-cloud.miraclesses.top/'
+
+// 实际渲染的形态：切换时先让旧场景淡出，等完全不可见后再替换布局、配色与表单
+const visualMode = ref('local')
+
+const isCloudMode = computed(() => visualMode.value === 'cloud')
+
+const stageRef = ref()
+const cardRef = ref()
+
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+const waitFrame = () => new Promise(resolve => requestAnimationFrame(() => resolve()))
+
+let sceneSwitching = false
+let pendingMode = null
+let sceneAnimations = []
+let sceneDisposed = false
+
+const stopSceneAnimations = () => {
+  sceneAnimations.forEach(animation => animation.cancel())
+  sceneAnimations = []
+}
+
+// stage 负责整体淡入淡出，卡片额外做一点下沉 / 回弹，读屏和表单状态都不受影响
+const playSceneAnimation = async (from, to, duration, easing) => {
+  const stage = stageRef.value
+  const card = cardRef.value?.$el
+
+  if (!stage) return
+
+  const animations = [
+    stage.animate(
+      [{ opacity: from.opacity }, { opacity: to.opacity }],
+      { duration, easing, fill: 'forwards' },
+    ),
+  ]
+
+  if (card) {
+    animations.push(card.animate(
+      [{ transform: from.transform }, { transform: to.transform }],
+      { duration, easing, fill: 'forwards' },
+    ))
+  }
+
+  sceneAnimations.push(...animations)
+  await Promise.all(animations.map(animation => animation.finished.catch(() => {})))
+}
+
+const runSceneSwitch = async mode => {
+  if (prefersReducedMotion()) {
+    visualMode.value = mode
+
+    return
+  }
+
+  await playSceneAnimation(
+    { opacity: 1, transform: 'translateY(0) scale(1)' },
+    { opacity: 0, transform: 'translateY(10px) scale(0.985)' },
+    170,
+    'cubic-bezier(0.4, 0, 1, 1)',
+  )
+
+  if (sceneDisposed) return
+
+  // 旧场景已经不可见，此时替换布局与配色不会产生跳变
+  visualMode.value = mode
+  await nextTick()
+  await waitFrame()
+
+  if (sceneDisposed) return
+
+  await playSceneAnimation(
+    { opacity: 0, transform: 'translateY(10px) scale(0.985)' },
+    { opacity: 1, transform: 'translateY(0) scale(1)' },
+    420,
+    'cubic-bezier(0.22, 1, 0.36, 1)',
+  )
+
+  stopSceneAnimations()
+}
+
+const flushSceneSwitch = async () => {
+  if (sceneSwitching) return
+
+  sceneSwitching = true
+
+  while (pendingMode && pendingMode !== visualMode.value) {
+    const mode = pendingMode
+
+    pendingMode = null
+    await runSceneSwitch(mode)
+  }
+
+  sceneSwitching = false
+}
+
+watch(loginMode, mode => {
+  if (mode === visualMode.value && !sceneSwitching) return
+
+  pendingMode = mode
+  flushSceneSwitch()
+})
+
+onBeforeUnmount(() => {
+  sceneDisposed = true
+  stopSceneAnimations()
+})
+
+// 云账号模式下卡片垂直居中，本地账号保持原有位置
+const cardStyle = computed(() => {
+  if (isCloudMode.value) return { marginTop: '0px' }
+
+  return mobile.value ? { marginTop: '10vh' } : { marginTop: '25vh' }
+})
+
+// 云账号品牌介绍要点
+const cloudPoints = computed(() => [
+  {
+    icon: 'ri-heart-3-line',
+    title: t('cloud.login.pointFavoriteTitle'),
+    desc: t('cloud.login.pointFavoriteDesc'),
+  },
+  {
+    icon: 'ri-key-2-line',
+    title: t('cloud.login.pointTokenTitle'),
+    desc: t('cloud.login.pointTokenDesc'),
+  },
+  {
+    icon: 'ri-archive-2-line',
+    title: t('cloud.login.pointArchiveTitle'),
+    desc: t('cloud.login.pointArchiveDesc'),
+  },
+])
 
 const cloudLoginForm = ref({
   identity: '',
@@ -536,7 +805,11 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @use "@core/scss/template/pages/page-auth";
+@use "@core/scss/template/pages/page-auth-cloud";
+
 .header {
+  position: relative;
+  z-index: 3;
   padding: 16px;
   width: 100%;
   display: flex;
