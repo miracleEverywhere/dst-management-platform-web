@@ -166,7 +166,7 @@ const headers = computed(() => [
   { title: t('cloud.favorite.columns.worlds'), key: 'worlds', sortable: false, align: 'center' },
   { title: t('cloud.favorite.columns.mods'), key: 'mods', sortable: false, align: 'center' },
   { title: t('cloud.favorite.columns.local'), key: 'local', sortable: false, align: 'center' },
-  { title: t('cloud.favorite.columns.updatedAt'), key: 'updatedAt', sortable: false, align: 'center' },
+  { title: t('cloud.favorite.columns.updatedAt'), key: 'updatedAt', sortable: false, align: 'center', minWidth: 200 },
 ])
 
 const favoriteName = item => {

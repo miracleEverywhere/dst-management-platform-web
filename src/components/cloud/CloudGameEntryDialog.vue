@@ -19,7 +19,10 @@
         </v-chip>
       </v-card-title>
       <v-divider />
-      <v-card-text style="min-height: 260px">
+      <v-card-text
+        class="mt-4"
+        style="min-height: 260px"
+      >
         <div
           v-if="loading"
           class="d-flex justify-center py-10"

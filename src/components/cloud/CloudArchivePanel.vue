@@ -179,9 +179,9 @@ const quota = ref({
 })
 
 const headers = computed(() => [
-  { title: t('cloud.archives.columns.name'), key: 'name', sortable: false },
-  { title: t('cloud.archives.columns.remark'), key: 'remark', sortable: false, maxWidth: 220 },
-  { title: t('cloud.archives.columns.size'), key: 'sizeBytes', sortable: false, align: 'center' },
+  { title: t('cloud.archives.columns.name'), key: 'name', sortable: false, minWidth: 120 },
+  { title: t('cloud.archives.columns.remark'), key: 'remark', sortable: false, maxWidth: 220, minWidth: 120 },
+  { title: t('cloud.archives.columns.size'), key: 'sizeBytes', sortable: false, align: 'center', minWidth: 120 },
   { title: t('cloud.archives.columns.createdAt'), key: 'createdAt', sortable: false, align: 'center', minWidth: 220 },
   { title: t('cloud.archives.columns.downloadCount'), key: 'downloadCount', sortable: false, align: 'center', minWidth: 120 },
   { title: t('cloud.archives.columns.actions'), key: 'actions', sortable: false, align: 'center', minWidth: 220 },

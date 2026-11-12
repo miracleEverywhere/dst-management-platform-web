@@ -19,7 +19,10 @@
         </v-chip>
       </v-card-title>
       <v-divider />
-      <v-card-text style="min-height: 200px">
+      <v-card-text
+        class="mt-4"
+        style="min-height: 200px"
+      >
         <div
           v-if="loading"
           class="d-flex justify-center py-10"
@@ -85,7 +88,9 @@
       </v-card-text>
       <v-divider />
       <v-card-actions class="mt-2">
-        <span class="text-caption text-medium-emphasis">{{ t('cloud.token.tip') }}</span>
+        <span class="text-info">
+          {{ t('cloud.token.tip') }}
+        </span>
         <v-spacer />
         <v-btn
           variant="text"
