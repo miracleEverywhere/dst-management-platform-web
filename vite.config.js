@@ -46,6 +46,16 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 5173,
       strictPort: true,
+      proxy: {
+        '/v3': {
+          // eslint-disable-next-line sonarjs/no-clear-text-protocols
+          target: 'http://aliyun:80',
+          changeOrigin: true,
+          headers: {
+            'Host': '127.0.0.1:80',
+          },
+        },
+      },
     },
     plugins: [
       vue(),
