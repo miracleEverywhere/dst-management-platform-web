@@ -8,7 +8,7 @@ description: 如果你对一些接口有疑问，可以查看本项目的后端�
 
 # 后端项目
 后端项目名为dst-management-platform-api，在本机磁盘
-如果当前系统是macos，则位于~/Documents/goland_projects/dst-management-platform-api
+如果当前系统是macos，则位于~/GolandProjects/dst-management-platform-api
 如果当前系统是windows，则位于%USERPROFILE%\GolandProjects\dst-management-platform-api
 
 # 后端代码查阅规范
