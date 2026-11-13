@@ -11,6 +11,7 @@ export default {
     document: "查看文档",
     light: "明亮",
     dark: "黑暗",
+    system: "自动",
     profile: "个人中心",
     logout: "退出平台",
     refresh: '刷新页面',

@@ -499,6 +499,7 @@ import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 import { formatBytes, getToken } from "@/utils/tools.js"
 import useGlobalStore from "@store/global.js"
+import { resolveTheme } from "@/utils/theme.js"
 import platformApi from "@/api/platform.js"
 import { sleep } from "@antfu/utils"
 import { useI18n } from "vue-i18n"
@@ -522,7 +523,7 @@ const { t } = useI18n()
 const terminalInitialized = ref(false)
 const fitAddonLoaded = ref(false)
 
-const theme = computed(() => globalStore.theme)
+const theme = computed(() => resolveTheme(globalStore.theme))
 
 const installing = ref(false)
 

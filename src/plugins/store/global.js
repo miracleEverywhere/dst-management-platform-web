@@ -14,7 +14,8 @@ const globalStore = defineStore("global", {
   // 存储数据state
   state: () => {
     return {
-      theme: '',
+      // system 跟随系统；light / dark 为用户手动选择，默认为跟随系统
+      theme: 'system',
       language: '',
       room: {
         id: 0,

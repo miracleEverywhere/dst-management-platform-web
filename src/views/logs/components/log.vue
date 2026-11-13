@@ -13,6 +13,7 @@
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import useGlobalStore from "@store/global.js"
+import { resolveTheme } from "@/utils/theme.js"
 import { getEditorLang } from "@/utils/tools.js"
 
 
@@ -28,7 +29,7 @@ const props = defineProps({
 })
 
 const globalStore = useGlobalStore()
-const editorTheme = computed(() => globalStore.theme)
+const editorTheme = computed(() => resolveTheme(globalStore.theme))
 const editorLanguage = computed(() => getEditorLang(globalStore.language))
 
 // 日志内容是不可信数据（例如访问日志会记录请求路径，攻击者可注入换行与 Markdown 语法）。

@@ -68,6 +68,7 @@
 import { useI18n } from "vue-i18n"
 import { debounce, getEditorLang } from "@/utils/tools.js"
 import useGlobalStore from "@store/global.js"
+import { resolveTheme } from "@/utils/theme.js"
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import { showSnackbar } from "@/utils/snackbar.js"
@@ -76,7 +77,7 @@ import toolsApi from "@/api/tools.js"
 const { t } = useI18n()
 const globalStore = useGlobalStore()
 
-const editorTheme = computed(() => globalStore.theme)
+const editorTheme = computed(() => resolveTheme(globalStore.theme))
 const editorLanguage = computed(() => getEditorLang(globalStore.language))
 
 const reqForm = ref({

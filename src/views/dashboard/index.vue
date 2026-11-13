@@ -1200,6 +1200,7 @@
 import { debounce, formatBytes, getEditorLang, parseModLua, truncateString } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
+import { resolveTheme } from "@/utils/theme.js"
 import colors from 'vuetify/lib/util/colors'
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
@@ -1492,7 +1493,7 @@ const checkLobby = (isOpen=false) => {
 }
 
 const quickCmdDialog = ref(false)
-const editorTheme = computed(() => globalStore.theme)
+const editorTheme = computed(() => resolveTheme(globalStore.theme))
 const quickCmdType = ref('player')
 const quickCmdPlayerId = ref() // 玩家命令ID
 const quickCmdUid = ref('')

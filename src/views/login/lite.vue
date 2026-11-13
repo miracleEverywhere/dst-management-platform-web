@@ -224,9 +224,6 @@ const handleLogin = async () => {
 
     // lite 固定中文
     globalStore.language = 'zh'
-    if (globalStore.theme === '') {
-      globalStore.theme = 'light'
-    }
 
     const redirect = router.currentRoute.value.query.redirect
     const target = typeof redirect === 'string' && redirect !== '/login' ? redirect : '/dashboard'

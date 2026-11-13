@@ -5,6 +5,7 @@ import { icons } from './icons'
 import { themes } from './theme'
 import { zhHans, en } from "vuetify/locale"
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
+import { getInitialThemeName } from '@/utils/theme'
 
 // Styles
 import '@core/scss/template/libs/vuetify/index.scss'
@@ -22,7 +23,8 @@ export default function (app) {
       VFileUpload,
     },
     theme: {
-      defaultTheme: 'light',
+      // 首次渲染前就按持久化偏好（或系统偏好）确定主题，避免深色用户首屏闪白
+      defaultTheme: getInitialThemeName(),
       themes,
     },
     locale: {

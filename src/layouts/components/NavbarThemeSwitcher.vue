@@ -1,6 +1,10 @@
 <script setup>
 const themes = [
   {
+    name: 'system',
+    icon: 'ri-computer-line',
+  },
+  {
     name: 'light',
     icon: 'ri-sun-line',
   },

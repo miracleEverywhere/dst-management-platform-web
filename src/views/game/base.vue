@@ -116,7 +116,7 @@
               :form-data="worldData"
               :game-mode="roomData.gameMode"
               :max-worlds="userStore.userInfo.role==='admin'?0:userStore.userInfo.maxWorlds"
-              :theme="globalStore.theme"
+              :theme="resolvedTheme"
               :tab-window-height="calculateContainerSize()-300"
             />
           </v-container>
@@ -138,7 +138,7 @@
               :worlds="worldData"
               :mod="roomData.modData"
               :mod-in-one="roomData.modInOne"
-              :theme="globalStore.theme"
+              :theme="resolvedTheme"
               :tab-window-height="calculateContainerSize()-110"
             />
           </v-container>
@@ -218,6 +218,7 @@
 import { debounce } from "@/utils/tools.js"
 import useUserStore from "@store/user.js"
 import useGlobalStore from "@store/global.js"
+import { resolveTheme } from "@/utils/theme.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 import room from "@/views/game/components/base/room.vue"
@@ -232,6 +233,9 @@ const windowHeight = ref(window.innerHeight)
 const otherHeight = 304
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
+
+// world / mod 组件只认 light / dark，这里把跟随系统的偏好解析成实际主题
+const resolvedTheme = computed(() => resolveTheme(globalStore.theme))
 const { mobile } = useDisplay()
 const router = useRouter()
 const { t } = useI18n()

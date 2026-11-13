@@ -11,6 +11,7 @@ export default {
     document: "Check the Documents",
     light: "Light",
     dark: "Dark",
+    system: "System",
     profile: "Profile",
     logout: "Logout",
     refresh: 'Refresh Page',

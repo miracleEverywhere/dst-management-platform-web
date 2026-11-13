@@ -38,12 +38,18 @@ import { getBrowserLang } from "@/utils/tools.js"
 import { useLocale } from "vuetify/framework"
 import useGlobalStore from '@store/global'
 import { IsLite } from '@/config'
+import { useThemeMode } from '@/utils/theme'
 
 const router = useRouter()
 const route = useRoute()
 const i18n = useI18n()
 const globalStore = useGlobalStore()
 const { current } = useLocale()
+
+// 主题偏好（跟随系统 / 明亮 / 黑暗）解析出的实际明暗主题，统一在这里同步给 Vuetify
+const { resolvedTheme, applyResolvedTheme } = useThemeMode()
+
+watch(resolvedTheme, value => applyResolvedTheme(value), { immediate: true })
 
 const showRouter = ref(true)
 const routerKey = ref(0)

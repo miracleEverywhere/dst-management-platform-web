@@ -1,17 +1,56 @@
 <template>
-  <v-btn
-    v-tooltip="t('global.'+globalStore.theme)"
-    :icon="props.themes[currentThemeIndex].icon"
-    color="default"
-    variant="text"
-    @click="changeTheme"
-  />
+  <v-menu
+    v-model="menuOpen"
+    location="bottom end"
+    :offset="8"
+  >
+    <template #activator="{ props: activatorProps }">
+      <v-btn
+        v-tooltip="t('global.' + mode)"
+        v-bind="{ ...$attrs, ...activatorProps }"
+        :icon="currentTheme.icon"
+        color="default"
+        variant="text"
+      />
+    </template>
+
+    <v-list
+      density="compact"
+      class="pa-1"
+    >
+      <v-list-item
+        v-for="theme in props.themes"
+        :key="theme.name"
+        :value="theme.name"
+        :active="theme.name === mode"
+        color="primary"
+        rounded="sm"
+        @click="changeTheme(theme.name)"
+      >
+        <template #prepend>
+          <v-icon
+            :icon="theme.icon"
+            size="20"
+          />
+        </template>
+
+        <v-list-item-title>{{ t('global.' + theme.name) }}</v-list-item-title>
+
+        <template #append>
+          <v-icon
+            v-if="theme.name === mode"
+            icon="ri-check-line"
+            size="18"
+          />
+        </template>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script setup>
-import { useTheme } from 'vuetify'
-import useGlobalStore from "@store/global"
-import { useI18n } from "vue-i18n"
+import { useI18n } from 'vue-i18n'
+import { resolveTheme, useThemeMode } from '@/utils/theme'
 
 const props = defineProps({
   themes: {
@@ -20,51 +59,51 @@ const props = defineProps({
   },
 })
 
-const globalStore = useGlobalStore()
+// v-menu 渲染的是 fragment（激活器 + Teleport），无法自动继承 class 等属性，改为手动透传给激活按钮
+defineOptions({ inheritAttrs: false })
+
 const { t } = useI18n()
 
-const {
-  name: themeName,
-  global: globalTheme,
-} = useTheme()
+const { mode, resolvedTheme, setMode, applyResolvedTheme } = useThemeMode()
 
-const theme = useTheme()
+const menuOpen = ref(false)
 
-const {
-  state: currentThemeName,
-  next: getNextThemeName,
-  index: currentThemeIndex,
-} = useCycleList(props.themes.map(t => t.name), { initialValue: globalStore.theme })
+const currentTheme = computed(() => props.themes.find(theme => theme.name === mode.value) ?? props.themes[0])
 
-onMounted(() => {
-  if (globalStore.theme === "") {
-    globalStore.theme = theme.global.name.value
-  } else {
-    theme.change(globalStore.theme)
-    document.documentElement.className = globalStore.theme
-  }
-})
+// 先写入偏好，再等一次视图更新后同步主题，保证视图过渡捕获到切换后的画面
+const applyNextTheme = async name => {
+  setMode(name)
 
-const changeTheme = async event => {
-  // 定义主题切换逻辑
-  const updateTheme = () => {
-    const nextTheme = getNextThemeName()
+  await nextTick()
 
-    theme.change(nextTheme)
-    globalStore.theme = nextTheme
-    document.documentElement.className = nextTheme
-  }
+  applyResolvedTheme(resolvedTheme.value)
+}
 
-  // 启动视图过渡
-  if (!document.startViewTransition) {
-    updateTheme()
-    
+const changeTheme = async name => {
+  menuOpen.value = false
+
+  // 偏好未变化，或明暗没有实际变化（如切回跟随系统但系统与当前一致）时不需要过渡动画
+  if (name === mode.value || resolveTheme(name) === resolvedTheme.value) {
+    setMode(name)
+
     return
   }
 
-  const transition = document.startViewTransition(updateTheme)
+  // 浏览器不支持视图过渡时直接切换
+  if (!document.startViewTransition) {
+    await applyNextTheme(name)
 
-  await transition.ready
+    return
+  }
+
+  const transition = document.startViewTransition(() => applyNextTheme(name))
+
+  // 过渡被浏览器跳过（例如连续快速切换）时 ready 会 reject，此时主题已经应用，不用继续播动画
+  try {
+    await transition.ready
+  } catch {
+    return
+  }
 
   // 执行淡入淡出动画
   document.documentElement.animate(
@@ -73,8 +112,8 @@ const changeTheme = async event => {
     },
     {
       duration: 300,
-      easing: "ease-in-out",
-      pseudoElement: "::view-transition-new(root)",
+      easing: 'ease-in-out',
+      pseudoElement: '::view-transition-new(root)',
     },
   )
 
@@ -85,15 +124,11 @@ const changeTheme = async event => {
     },
     {
       duration: 300,
-      easing: "ease-in-out",
-      pseudoElement: "::view-transition-old(root)",
+      easing: 'ease-in-out',
+      pseudoElement: '::view-transition-old(root)',
     },
   )
 }
-
-watch(() => theme.global.name.value, val => {
-  currentThemeName.value = val
-})
 </script>
 
 <style>

@@ -628,9 +628,6 @@ const handleLogin = async () => {
     if (globalStore.language === "") {
       globalStore.language = getBrowserLang()
     }
-    if (globalStore.theme === "") {
-      globalStore.theme = "light"
-    }
     await router.push(redirect)
     showSnackbar(t('login.loginSuccess'))
   }).finally(() => {
@@ -674,9 +671,6 @@ const handleCloudLogin = async () => {
 
     if (globalStore.language === "") {
       globalStore.language = getBrowserLang()
-    }
-    if (globalStore.theme === "") {
-      globalStore.theme = "light"
     }
     await router.push(redirect)
 

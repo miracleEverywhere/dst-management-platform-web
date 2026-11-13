@@ -31,7 +31,18 @@
   <script type="module" src="/src/main.js"></script>
   <script>
     (function () {
-      const loaderColor = localStorage.getItem('materio-initial-loader-bg') || '#FFFFFF'
+      // 首屏 loading 的底色要与主题偏好保持一致，否则深色用户会先看到一屏白色
+      let savedTheme = ''
+
+      try {
+        savedTheme = JSON.parse(localStorage.getItem('dmp-global') || '{}').theme || ''
+      } catch (error) {
+        savedTheme = ''
+      }
+
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const isDark = savedTheme === 'dark' || (savedTheme !== 'light' && systemDark)
+      const loaderColor = localStorage.getItem('materio-initial-loader-bg') || (isDark ? '#28243D' : '#FFFFFF')
       const primaryColor = localStorage.getItem('materio-initial-loader-color') || '#9155FD'
 
       document.documentElement.style.setProperty('--initial-loader-bg', loaderColor)
