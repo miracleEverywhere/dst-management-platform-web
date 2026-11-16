@@ -1,4 +1,5 @@
-.idea
+.idea/
+.openidea/
 dist
 dist-lite
 node_modules
