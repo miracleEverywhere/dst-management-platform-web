@@ -17,16 +17,12 @@ import { cleanupSVG, importDirectory, isEmptyColor, parseColors, runSVGO } from 
 import { getIcons, getIconsCSS, stringToIcon } from '@iconify/utils';
 const sources = {
     svg: [
-    // {
-    //   dir: 'src/assets/images/iconify-svg',
-    //   monotone: true,
-    //   prefix: 'custom',
-    // },
-    // {
-    //   dir: 'emojis',
-    //   monotone: false,
-    //   prefix: 'emoji',
-    // },
+        // 本地补充图标统一挂在 ri 前缀下，与 Remix Icon 一起打包进 icons.css
+        {
+            dir: 'src/assets/images/iconify-svg',
+            monotone: true,
+            prefix: 'ri',
+        },
     ],
     icons: [
     // 'mdi:home',

@@ -2,7 +2,7 @@
 const themes = [
   {
     name: 'system',
-    icon: 'ri-computer-line',
+    icon: 'ri-dmp-theme-auto',
   },
   {
     name: 'light',

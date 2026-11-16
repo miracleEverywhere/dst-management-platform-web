@@ -12959,3 +12959,17 @@
 .bxl-linkedin {
   --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Ccircle cx='4.983' cy='5.009' r='2.188' fill='black'/%3E%3Cpath fill='black' d='M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118c1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783c-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66zm-6.142 0H6.87v12.139H3.095z'/%3E%3C/svg%3E");
 }
+
+.ri-dmp-theme-auto {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M10.634.91a2 2 0 012.733 0l2.326 2.176 3.183.105a2 2 0 011.933 1.933l.105 3.184 2.177 2.325a2 2 0 010 2.734l-2.177 2.325-.105 3.184a2 2 0 01-1.933 1.933l-3.183.105-2.326 2.176a2 2 0 01-2.733 0l-2.326-2.176-3.183-.105a2 2 0 01-1.933-1.933l-.105-3.184L.91 13.367a2 2 0 010-2.734l2.177-2.325.105-3.184a2 2 0 011.933-1.933l3.183-.105zM8.583 5.634a7 7 0 110 12.73 1 1 0 010-1.818 5 5 0 000-9.094 1 1 0 010-1.818' clip-rule='evenodd'/%3E%3C/svg%3E");
+}
