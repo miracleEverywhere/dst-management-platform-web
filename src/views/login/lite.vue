@@ -16,7 +16,13 @@
       :style="mobile?{'margin-top': '10vh'}:{'margin-top': '25vh'}"
     >
       <v-card-text class="mt-4">
-        <v-badge location="top right" color="primary" content="Lite" :offset-x="-16" :offset-y="-8">
+        <v-badge
+          location="top right"
+          color="primary"
+          content="Lite"
+          :offset-x="-16"
+          :offset-y="-8"
+        >
           <span style="font-size: 1.5em">
             欢迎使用饥荒管理平台
           </span>

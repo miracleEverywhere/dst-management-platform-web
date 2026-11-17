@@ -117,8 +117,8 @@
                       color="error"
                     />
                     <span class="text-error">
-                  {{ t('upload.expansions.panel1.title') }}
-                </span>
+                      {{ t('upload.expansions.panel1.title') }}
+                    </span>
                   </template>
                 </v-expansion-panel>
                 <v-expansion-panel :text="t('upload.expansions.panel2.text')">
@@ -129,8 +129,8 @@
                       color="error"
                     />
                     <span class="text-error">
-                  {{ t('upload.expansions.panel2.title') }}
-                </span>
+                      {{ t('upload.expansions.panel2.title') }}
+                    </span>
                   </template>
                 </v-expansion-panel>
                 <v-expansion-panel :text="t('upload.expansions.panel3.text')">
@@ -141,8 +141,8 @@
                       color="error"
                     />
                     <span class="text-error">
-                  {{ t('upload.expansions.panel3.title') }}
-                </span>
+                      {{ t('upload.expansions.panel3.title') }}
+                    </span>
                   </template>
                 </v-expansion-panel>
                 <v-expansion-panel
@@ -191,7 +191,6 @@
         <cloud-archive-panel v-if="activeTab === 'cloud'" />
       </v-tabs-window-item>
     </v-tabs-window>
-
   </check>
 </template>
 

@@ -628,7 +628,7 @@
                         variant="tonal"
                         color="primary"
                         class="mb-4"
-                        >
+                      >
                         <span>
                           {{ t('dashboard.card3.update.restartTip') }}
                         </span>
