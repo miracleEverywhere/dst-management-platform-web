@@ -1366,6 +1366,8 @@ export default {
         title: 'Update',
         tip: 'Update DST Dedicated Server, when updating is finished, please refresh the page',
         type: 'Updating Type',
+        restartTip: 'After the update is complete, you need to restart the game for it to take effect. ',
+        restartTipAdmin: 'Or go to: Platform - Settings page, and turn on the "Restart After Updating" switch.',
         frontend: {
           title: 'Frontend',
           tip: 'If you close or refresh the page, the update will be interrupted, but you can still see the update progress',

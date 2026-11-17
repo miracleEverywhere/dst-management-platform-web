@@ -624,6 +624,18 @@
                       {{ t('dashboard.card3.update.title') }}
                     </v-card-title>
                     <v-card-text>
+                      <v-alert
+                        variant="tonal"
+                        color="primary"
+                        class="mb-4"
+                        >
+                        <span>
+                          {{ t('dashboard.card3.update.restartTip') }}
+                        </span>
+                        <span v-if="userStore.userInfo.role==='admin'">
+                          {{ t('dashboard.card3.update.restartTipAdmin') }}
+                        </span>
+                      </v-alert>
                       <v-radio-group
                         v-model="updateType"
                         inline
