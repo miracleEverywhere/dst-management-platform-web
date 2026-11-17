@@ -540,8 +540,19 @@
           md="6"
         >
           <v-card min-height="295">
-            <v-card-title>
+            <v-card-title class="card-header">
               {{ t('dashboard.card3.title') }}
+              <div>
+                <v-btn
+                  v-tooltip="t('diagnosis.start.tip')"
+                  variant="text"
+                  :color="colors.deepPurple.base"
+                  prepend-icon="ri-stethoscope-line"
+                  to="/tools/ai-diagnosis"
+                >
+                  {{ t('diagnosis.title') }}
+                </v-btn>
+              </div>
             </v-card-title>
             <v-card-text class="mx-4">
               <v-row class="mt-4">
@@ -1221,7 +1232,6 @@ import useUserStore from "@store/user.js"
 import modApi from "@/api/mod.js"
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
-
 
 const windowHeight = ref(window.innerHeight)
 const otherHeight = 150
