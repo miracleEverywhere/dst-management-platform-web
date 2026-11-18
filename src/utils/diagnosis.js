@@ -20,6 +20,7 @@ const ACTION_TITLE_KEYS = new Map([
   ['restart_world', 'diagnosis.action.restartWorld'],
   ['restart_room', 'diagnosis.action.restartRoom'],
   ['clean_logs', 'diagnosis.action.cleanLogs'],
+  ['use_default_token', 'diagnosis.action.useDefaultToken'],
   ['disable_mod', 'diagnosis.action.disableMod'],
   ['enable_mod', 'diagnosis.action.enableMod'],
   ['delete_snapshot', 'diagnosis.action.deleteSnapshot'],

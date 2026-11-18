@@ -36,15 +36,7 @@
         </v-alert>
 
         <v-alert
-          v-if="source === 'aichat'"
-          type="info"
-          variant="tonal"
-          class="mb-4"
-        >
-          {{ t('diagnosis.settings.fallbackAichat') }}
-        </v-alert>
-        <v-alert
-          v-else-if="source === 'none'"
+          v-if="source === 'none'"
           type="warning"
           variant="tonal"
           class="mb-4"
@@ -202,7 +194,6 @@ const sourceText = computed(() => t(`diagnosis.settings.source.${source.value}`)
 
 const sourceColor = computed(() => {
   if (source.value === 'diagnosis') return 'primary'
-  if (source.value === 'aichat') return 'info'
 
   return 'warning'
 })

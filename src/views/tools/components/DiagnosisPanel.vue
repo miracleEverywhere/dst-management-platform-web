@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    class="diagnosis-card"
+    :height="height > 0 ? height : undefined"
+  >
     <v-toolbar
       flat
       color="transparent"
@@ -41,6 +44,7 @@
 
     <v-tabs
       v-model="tab"
+      class="flex-shrink-0"
       color="primary"
       align-tabs="start"
       show-arrows
@@ -59,9 +63,33 @@
       </v-tab>
     </v-tabs>
 
-    <v-card-text>
+    <v-card-text
+      ref="scrollContainer"
+      class="diagnosis-card-body"
+      @wheel="handleScrollWheel"
+      @touchstart.passive="handleScrollTouchStart"
+      @touchmove.passive="handleScrollTouchMove"
+      @scroll.passive="handleScroll"
+    >
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="diagnosis">
+          <v-textarea
+            v-model="description"
+            :label="t('diagnosis.start.description.label')"
+            :placeholder="t('diagnosis.start.description.placeholder')"
+            :hint="t('diagnosis.start.description.hint')"
+            :counter="DESCRIPTION_MAX"
+            :maxlength="DESCRIPTION_MAX"
+            rows="2"
+            auto-grow
+            clearable
+            variant="outlined"
+            density="comfortable"
+            persistent-hint
+            class="my-4"
+            :disabled="busy"
+          />
+
           <v-row
             align="center"
             class="mb-2"
@@ -71,26 +99,44 @@
               cols="12"
               md="5"
             >
-              <v-btn-toggle
+              <v-radio-group
                 v-model="scope"
+                :label="t('diagnosis.scope.label')"
                 color="primary"
-                mandatory
-                divided
+                inline
+                hide-details
+                density="compact"
                 :disabled="busy"
+                class="diagnosis-scope-group"
               >
-                <v-btn
+                <v-radio
                   value="room"
-                  icon="ri-home-4-line"
+                  class="mr-4"
                 >
-                  <!-- {{ t('diagnosis.scope.room') }} -->
-                </v-btn>
-                <v-btn
-                  value="platform"
-                  icon="ri-server-line"
-                >
-                  <!-- {{ t('diagnosis.scope.platform') }} -->
-                </v-btn>
-              </v-btn-toggle>
+                  <template #label>
+                    <span class="d-inline-flex align-center">
+                      <v-icon
+                        icon="ri-home-4-line"
+                        size="18"
+                        class="me-1"
+                      />
+                      {{ t('diagnosis.scope.room') }}
+                    </span>
+                  </template>
+                </v-radio>
+                <v-radio value="platform">
+                  <template #label>
+                    <span class="d-inline-flex align-center">
+                      <v-icon
+                        icon="ri-server-line"
+                        size="18"
+                        class="me-1"
+                      />
+                      {{ t('diagnosis.scope.platform') }}
+                    </span>
+                  </template>
+                </v-radio>
+              </v-radio-group>
             </v-col>
             <v-col
               cols="12"
@@ -289,12 +335,22 @@
             </div>
           </v-sheet>
 
+          <v-alert
+            v-if="phase === 'streaming'"
+            type="info"
+            variant="tonal"
+            class="mb-4"
+          >
+            {{ t('diagnosis.report.pendingDetails') }}
+          </v-alert>
+
           <diagnosis-report
             v-if="report"
             :report="report"
             :selection="selectedActionIDs"
             :selectable="canApply"
             :streaming="phase === 'streaming'"
+            :complete="detailsReady"
             @toggle="toggleAction"
           />
 
@@ -308,12 +364,14 @@
           </v-alert>
 
           <v-sheet
-            v-if="report && actions.length"
+            v-if="phase === 'report_ready' && actions.length"
             rounded
             border
-            class="mt-4 pa-4"
+            class="diagnosis-apply-bar mt-4 pa-4"
           >
             <div class="d-flex align-center flex-wrap ga-2">
+              <v-icon icon="ri-play-list-2-line" />
+              <span class="text-subtitle-1">{{ t('diagnosis.apply.selectTitle') }}</span>
               <v-chip
                 size="small"
                 label
@@ -588,6 +646,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  height: {
+    type: Number,
+    default: 0,
+  },
   roomId: {
     type: Number,
     default: 0,
@@ -612,6 +674,7 @@ const emptySession = () => ({
   scope: 'room',
   roomID: props.roomId || 0,
   roomName: props.roomName || '',
+  description: '',
   status: 'idle',
   createdAt: '',
   finishedAt: '',
@@ -620,6 +683,8 @@ const emptySession = () => ({
 })
 
 const tab = ref('diagnosis')
+const DESCRIPTION_MAX = 1000
+const description = ref('')
 const scope = ref(props.roomId > 0 || userStore.userInfo.role !== 'admin' ? 'room' : 'platform')
 const phase = ref('idle')
 const session = ref(emptySession())
@@ -643,6 +708,8 @@ const confirmationError = ref('')
 const confirmError = ref('')
 const applyLoading = ref(false)
 const now = ref(Date.now())
+const scrollContainer = ref(null)
+const autoScroll = ref(true)
 
 const PHASE_COLORS = {
   starting: 'info',
@@ -687,6 +754,12 @@ const canApply = computed(() => (
   phase.value === 'report_ready' &&
   session.value.canApply &&
   actions.value.some(action => action.available !== false)
+))
+
+// 报告正文输出完成（或诊断已终止）后，才展示结构化结论、修复建议、Token 用量与动作选择。
+const detailsReady = computed(() => (
+  !!report.value &&
+  !['idle', 'starting', 'running', 'streaming'].includes(phase.value)
 ))
 
 const selectedActions = computed(() => actions.value.filter(action => selectedActionIDs.value.includes(action.actionID)))
@@ -747,6 +820,96 @@ let controller = null
 let deltaBuffer = ''
 let deltaTimer = null
 let restoreToken = 0
+const bottomThreshold = 16
+let lastTouchY = null
+let scrollTimer = null
+
+const getScrollElement = () => scrollContainer.value?.$el || scrollContainer.value
+
+const getScrollMetrics = element => {
+  const maxScrollTop = Math.max(0, element.scrollHeight - element.clientHeight)
+  const scrollTop = Math.min(Math.max(element.scrollTop, 0), maxScrollTop)
+
+  return {
+    distanceToBottom: maxScrollTop - scrollTop,
+  }
+}
+
+const handleScrollWheel = event => {
+  if (event.deltaY < 0 && getScrollMetrics(event.currentTarget).distanceToBottom > bottomThreshold) {
+    autoScroll.value = false
+  }
+}
+
+const handleScrollTouchStart = event => {
+  lastTouchY = event.touches[0]?.clientY ?? null
+}
+
+const handleScrollTouchMove = event => {
+  const currentTouchY = event.touches[0]?.clientY
+  if (currentTouchY === undefined || lastTouchY === null) return
+
+  const isMovingDown = currentTouchY > lastTouchY + 2
+  const { distanceToBottom } = getScrollMetrics(event.currentTarget)
+
+  if (isMovingDown && distanceToBottom > bottomThreshold) {
+    autoScroll.value = false
+  }
+
+  lastTouchY = currentTouchY
+}
+
+const handleScroll = event => {
+  if (getScrollMetrics(event.currentTarget).distanceToBottom <= bottomThreshold) {
+    autoScroll.value = true
+  }
+}
+
+const scrollToBottom = () => {
+  if (!autoScroll.value || tab.value !== 'diagnosis' || scrollTimer) return
+
+  scrollTimer = setTimeout(() => {
+    scrollTimer = null
+    if (!autoScroll.value || tab.value !== 'diagnosis') return
+
+    // 报告已完成时结果区域会一次性追加，不再追底，避免跳过刚展示的结论与问题列表。
+    if (detailsReady.value && phase.value !== 'applying') return
+
+    const element = getScrollElement()
+    if (!element) return
+
+    element.scrollTo({
+      top: element.scrollHeight,
+      behavior: 'smooth',
+    })
+  }, 100)
+}
+
+const scrollOnContentChange = () => {
+  if (!autoScroll.value || tab.value !== 'diagnosis') return
+  nextTick(scrollToBottom)
+}
+
+watch(reportMarkdown, scrollOnContentChange)
+watch(reportMeta, scrollOnContentChange, { deep: true })
+watch(steps, scrollOnContentChange, { deep: true })
+watch(notices, scrollOnContentChange, { deep: true })
+watch(applyState, scrollOnContentChange, { deep: true })
+watch(detailsReady, ready => {
+  if (!ready) return
+
+  // 报告完成时结构化结果会一次性追加，取消已排队的“滚到底部”，避免跳过刚出现的结论与问题列表。
+  if (scrollTimer) {
+    clearTimeout(scrollTimer)
+    scrollTimer = null
+  }
+})
+watch(phase, value => {
+  if (value === 'running' || value === 'streaming') scrollOnContentChange()
+})
+watch(tab, value => {
+  if (value === 'diagnosis') scrollOnContentChange()
+})
 
 const startTicker = () => {
   stopTicker()
@@ -864,6 +1027,8 @@ const handleDiagnosisEvent = event => {
       if (data.diagnosisID) session.value.diagnosisID = data.diagnosisID
       if (data.scope) session.value.scope = data.scope
       if (data.roomID) session.value.roomID = data.roomID
+      if (typeof data.description === 'string') session.value.description = data.description
+      if (data.description && !description.value) description.value = data.description
       if (!session.value.createdAt && data.startedAt) session.value.createdAt = data.startedAt
       if (data.status) session.value.status = data.status
       if (['starting', 'idle'].includes(phase.value)) phase.value = 'running'
@@ -1008,12 +1173,14 @@ const applySnapshot = (data, reconnect = true, markRestored = false) => {
     scope: snapshotScope,
     roomID: data.roomID || 0,
     roomName: data.roomName || (snapshotScope === 'room' ? props.roomName : ''),
+    description: data.description || '',
     status: data.status || 'idle',
     createdAt: data.createdAt || '',
     finishedAt: data.finishedAt || '',
     canApply: !!data.canApply,
     error: data.error || '',
   }
+  if (data.description && !description.value) description.value = data.description
   steps.value = [...(data.steps || [])].sort((a, b) => (a.index || 0) - (b.index || 0))
   applyState.value = data.apply || null
   selectedActionIDs.value = []
@@ -1061,6 +1228,11 @@ const applySnapshot = (data, reconnect = true, markRestored = false) => {
     phase.value = 'canceled'
   } else {
     phase.value = 'failed'
+  }
+
+  // 页面刷新/切换范围后恢复到已完成的报告时停留在顶部，避免直接跳到最后。
+  if (markRestored && data.status === 'succeeded' && data.report?.markdown) {
+    autoScroll.value = false
   }
 }
 
@@ -1199,6 +1371,12 @@ const resetSessionState = () => {
     clearTimeout(deltaTimer)
     deltaTimer = null
   }
+  if (scrollTimer) {
+    clearTimeout(scrollTimer)
+    scrollTimer = null
+  }
+  autoScroll.value = true
+  lastTouchY = null
   phase.value = 'idle'
 }
 
@@ -1240,21 +1418,28 @@ const startDiagnosis = async () => {
   errorMessage.value = ''
   connectionLost.value = false
   phase.value = 'starting'
+  autoScroll.value = true
+  lastTouchY = null
 
   try {
+    const descriptionText = description.value.trim()
+
     const response = await diagnosisApi.start.post({
       scope: scope.value,
       roomID: scope.value === 'room' ? props.roomId : 0,
+      description: descriptionText,
     })
 
     const data = response.data || {}
 
     resetSessionState()
+    description.value = descriptionText
     session.value = {
       diagnosisID: data.diagnosisID || '',
       scope: data.scope || scope.value,
       roomID: scope.value === 'room' ? props.roomId : 0,
       roomName: scope.value === 'room' ? props.roomName : '',
+      description: descriptionText,
       status: data.status || 'running',
       createdAt: new Date().toISOString(),
       finishedAt: '',
@@ -1433,6 +1618,7 @@ watch(scope, () => {
   restoreToken += 1
   closeStream()
   resetSessionState()
+  description.value = ''
   restoreSession()
 })
 
@@ -1442,6 +1628,7 @@ watch(() => props.roomId, () => {
   restoreToken += 1
   closeStream()
   resetSessionState()
+  description.value = ''
   restoreSession()
 })
 
@@ -1459,11 +1646,34 @@ onBeforeUnmount(() => {
     clearTimeout(deltaTimer)
     deltaTimer = null
   }
+  if (scrollTimer) {
+    clearTimeout(scrollTimer)
+    scrollTimer = null
+  }
   deltaBuffer = ''
 })
 </script>
 
 <style scoped>
+.v-card.diagnosis-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.v-card-text.diagnosis-card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.diagnosis-apply-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background: rgb(var(--v-theme-surface));
+}
+
 .diagnosis-spin {
   animation: diagnosis-spin 1s linear infinite;
 }

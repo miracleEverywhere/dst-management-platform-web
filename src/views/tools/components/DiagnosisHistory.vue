@@ -97,6 +97,15 @@
         <template #item.summary="{ value }">
           <span class="text-body-2">{{ value || '-' }}</span>
         </template>
+        <template #item.description="{ value }">
+          <span
+            class="text-body-2 d-inline-block text-truncate"
+            style="max-width: 260px"
+            :title="value || ''"
+          >
+            {{ value || '-' }}
+          </span>
+        </template>
         <template #item.appliedCount="{ item }">
           <v-chip
             size="small"
@@ -206,6 +215,20 @@
               </v-chip>
             </div>
 
+            <v-sheet
+              v-if="detailSnapshot.description"
+              rounded
+              border
+              class="mb-4 pa-4"
+            >
+              <div class="text-caption text-medium-emphasis mb-1">
+                {{ t('diagnosis.history.description') }}
+              </div>
+              <div class="text-body-2 diagnosis-description">
+                {{ detailSnapshot.description }}
+              </div>
+            </v-sheet>
+
             <diagnosis-report
               v-if="detailSnapshot.report"
               :report="detailSnapshot.report"
@@ -279,6 +302,7 @@ const headers = computed(() => [
   { title: t('diagnosis.history.columns.status'), key: 'status' },
   { title: t('diagnosis.history.columns.severity'), key: 'severity' },
   { title: t('diagnosis.history.columns.summary'), key: 'summary' },
+  { title: t('diagnosis.history.columns.description'), key: 'description' },
   { title: t('diagnosis.history.columns.actions'), key: 'appliedCount' },
   { title: t('diagnosis.history.columns.operation'), key: 'actions', sortable: false },
 ])
@@ -355,3 +379,10 @@ const openDetail = async item => {
   }
 }
 </script>
+
+<style scoped>
+.diagnosis-description {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+</style>
