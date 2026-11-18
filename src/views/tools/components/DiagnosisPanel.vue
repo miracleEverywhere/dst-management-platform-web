@@ -824,6 +824,9 @@ const bottomThreshold = 16
 let lastTouchY = null
 let scrollTimer = null
 
+// 标记本次诊断是刚刚完成（而不是恢复历史报告），完成时才强制滚到底部。
+let completeScrollPending = false
+
 const getScrollElement = () => scrollContainer.value?.$el || scrollContainer.value
 
 const getScrollMetrics = element => {
@@ -872,9 +875,6 @@ const scrollToBottom = () => {
     scrollTimer = null
     if (!autoScroll.value || tab.value !== 'diagnosis') return
 
-    // 报告已完成时结果区域会一次性追加，不再追底，避免跳过刚展示的结论与问题列表。
-    if (detailsReady.value && phase.value !== 'applying') return
-
     const element = getScrollElement()
     if (!element) return
 
@@ -896,13 +896,12 @@ watch(steps, scrollOnContentChange, { deep: true })
 watch(notices, scrollOnContentChange, { deep: true })
 watch(applyState, scrollOnContentChange, { deep: true })
 watch(detailsReady, ready => {
-  if (!ready) return
+  if (!ready || !completeScrollPending) return
 
-  // 报告完成时结构化结果会一次性追加，取消已排队的“滚到底部”，避免跳过刚出现的结论与问题列表。
-  if (scrollTimer) {
-    clearTimeout(scrollTimer)
-    scrollTimer = null
-  }
+  // 报告输出完成后，等结构化结果渲染到 DOM，再把滚动条移到最下方。
+  completeScrollPending = false
+  autoScroll.value = true
+  nextTick(scrollToBottom)
 })
 watch(phase, value => {
   if (value === 'running' || value === 'streaming') scrollOnContentChange()
@@ -1064,6 +1063,7 @@ const handleDiagnosisEvent = event => {
       if (data.usage) reportUsage.value = data.usage
       if (data.status === 'succeeded') {
         session.value.canApply = actions.value.some(action => action.available !== false)
+        completeScrollPending = true
         phase.value = 'report_ready'
       } else if (data.status === 'canceled') {
         clearStoredDiagnosis(scope.value, props.roomId)
@@ -1223,7 +1223,12 @@ const applySnapshot = (data, reconnect = true, markRestored = false) => {
     // 报告正文仍在流式生成时，快照里的 finishedAt 已经落下，清空以继续显示实时耗时。
     if (reportStreaming) session.value.finishedAt = ''
     phase.value = reportStreaming ? 'running' : 'report_ready'
-    if (reportStreaming && reconnect) connectDiagnosisStream(diagnosisEventsURL(session.value.diagnosisID))
+    if (reportStreaming && reconnect) {
+      connectDiagnosisStream(diagnosisEventsURL(session.value.diagnosisID))
+    } else if (!reportStreaming && !markRestored) {
+      // 流结束/重连后由快照确认报告已完成，同样滚到底部。
+      completeScrollPending = true
+    }
   } else if (data.status === 'canceled') {
     phase.value = 'canceled'
   } else {
@@ -1376,6 +1381,7 @@ const resetSessionState = () => {
     scrollTimer = null
   }
   autoScroll.value = true
+  completeScrollPending = false
   lastTouchY = null
   phase.value = 'idle'
 }
