@@ -17,7 +17,7 @@
             color="warning"
             label
             class="mr-4"
-            >
+          >
             {{ t('diagnosis.scope.platform') }}
           </v-chip>
           <v-chip
@@ -25,7 +25,7 @@
             size="small"
             label
             class="mr-4"
-            >
+          >
             {{ session.roomName || roomName || t('diagnosis.scope.room') }}
           </v-chip>
         </template>
@@ -302,10 +302,10 @@
                 </v-list-item-subtitle>
                 <template #append>
                   <span
-                    v-if="step.durationMs"
+                    v-if="step.status !== 'running'"
                     class="text-caption text-medium-emphasis"
                   >
-                    {{ formatDuration(step.durationMs) }}
+                    {{ formatStepDuration(step.durationMs) }}
                   </span>
                 </template>
               </v-list-item>
@@ -627,6 +627,7 @@ import {
   diagnosisToolLabel,
   formatDateTime,
   formatDuration,
+  formatStepDuration,
   isBackupAction,
   parseStoredDiagnosis,
   splitReport,
@@ -667,7 +668,7 @@ const { t } = useI18n()
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
 
-  const { mobile } = useDisplay()
+const { mobile } = useDisplay()
 
 const locale = computed(() => globalStore.language)
 const isAdmin = computed(() => userStore.userInfo.role === 'admin')

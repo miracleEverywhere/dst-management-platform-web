@@ -1518,7 +1518,7 @@ export default {
       done: '已取消诊断',
     },
     progress: {
-      title: '诊断进度',
+      title: '诊断用时',
       reconnect: '重新连接',
       reconnecting: '连接中断，正在第 {num} 次重连',
       waiting: '正在等待诊断结果...',

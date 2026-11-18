@@ -161,6 +161,20 @@ export const formatDuration = ms => {
   return `${minutes}m ${seconds}s`
 }
 
+// 后端按整毫秒计时（duration.Milliseconds()），不足 1ms 的调用会得到 0。
+// 直接隐藏 0 会让人误以为这一步没有计时，这里统一显示成 <1ms。
+export const formatStepDuration = ms => {
+  if (ms === null || ms === undefined || ms === '') return ''
+
+  const value = Number(ms)
+
+  if (!Number.isFinite(value)) return ''
+
+  if (value <= 0) return '<1ms'
+
+  return formatDuration(value)
+}
+
 export const formatDateTime = (value, locale) => {
   if (!value) return '-'
 
