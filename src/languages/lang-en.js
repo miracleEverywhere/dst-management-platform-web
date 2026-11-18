@@ -993,7 +993,11 @@ export default {
       },
     },
     install: {
-      alert: 'Attention!!! Do not close or refresh this page during the installation process or Updating process, as it may cause the action to fail',
+      alert: 'The installation or update keeps running in the background; refreshing or closing this page will not interrupt it. Reopen this page to reattach the live log',
+      waiting: 'Waiting for output…',
+      reconnecting: 'Log connection lost, retrying…',
+      retry: 'Reconnect log',
+      busy: 'An installation or update task is already running (started by a scheduled task, the console or a diagnosis repair). Please wait until it finishes',
       success: 'Game Install Success',
       fail: 'Game Install Failed',
       confirm: 'Got it',

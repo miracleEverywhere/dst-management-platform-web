@@ -4,6 +4,15 @@
       v-if="!installing"
       fluid
     >
+      <v-alert
+        v-if="blocked"
+        color="warning"
+        density="compact"
+        variant="tonal"
+        class="mb-4"
+      >
+        {{ t('install.install.busy') }}
+      </v-alert>
       <v-row>
         <v-col
           cols="12"
@@ -413,6 +422,7 @@
                   v-if="globalStore.gameVersion.local===0"
                   color="info"
                   class="mt-4"
+                  :disabled="blocked"
                   @click="handleInstall"
                 >
                   {{ t('install.prepare.right.install') }}
@@ -421,6 +431,7 @@
                   v-if="globalStore.gameVersion.local!==0"
                   color="warning"
                   class="mt-4"
+                  :disabled="blocked"
                   @click="handleInstall"
                 >
                   {{ t('install.prepare.right.reinstall') }}
@@ -429,6 +440,7 @@
                   v-if="globalStore.gameVersion.local!==0"
                   color="primary"
                   class="mt-4"
+                  :disabled="blocked"
                   @click="handleUpdate"
                 >
                   {{ t('install.prepare.right.update') }}
@@ -439,7 +451,10 @@
         </v-col>
       </v-row>
     </v-container>
-    <div v-else>
+    <div
+      v-else
+      class="install-log-wrapper"
+    >
       <v-alert
         color="warning"
         density="compact"
@@ -448,10 +463,37 @@
         {{ t('install.install.alert') }}
       </v-alert>
       <div
-        ref="terminalEl"
-        class="terminal"
+        ref="logEl"
+        class="install-log"
         :style="{height: `${calculateContainerSize()-78}px`}"
-      />
+      >
+        <div
+          v-if="lines.length===0"
+          class="install-log-empty"
+        >
+          {{ t('install.install.waiting') }}
+        </div>
+        <div
+          v-for="(line, index) in lines"
+          :key="index"
+          class="install-log-line"
+        >
+          {{ line }}
+        </div>
+      </div>
+      <div
+        v-if="disconnected"
+        class="install-log-retry"
+      >
+        <v-btn
+          color="primary"
+          variant="flat"
+          size="small"
+          @click="restore"
+        >
+          {{ t('install.install.retry') }}
+        </v-btn>
+      </div>
     </div>
   </transition>
   <confirm-box
@@ -493,39 +535,53 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
-import 'xterm/css/xterm.css'
-import { formatBytes, getToken } from "@/utils/tools.js"
-import useGlobalStore from "@store/global.js"
-import { resolveTheme } from "@/utils/theme.js"
-import platformApi from "@/api/platform.js"
-import { sleep } from "@antfu/utils"
-import { useI18n } from "vue-i18n"
-import { showSnackbar } from "@/utils/snackbar.js"
-import { ApiVersion } from "@/config"
-import { useDisplay } from "vuetify/framework"
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify/framework'
+import { formatBytes, getToken } from '@/utils/tools.js'
+import useGlobalStore from '@store/global.js'
+import platformApi, { gameInstallStreamURL } from '@/api/platform.js'
+import { openSSE } from '@/utils/sse.js'
+import { showSnackbar } from '@/utils/snackbar.js'
 
-// 响应式数据
-const terminalContainer = ref(null)
-const terminalEl = ref(null)
-const term = ref(null)
-const fitAddon = ref(null)
-const ws = ref(null)
-const connected = ref(false)
-const customCommand = ref('')
+// 日志面板最多保留的行数，安装输出可能有上千行
+const MAX_LINES = 2000
+
+// 断线自动重连次数，超过后交给「重新连接日志」按钮
+const MAX_RETRY = 3
+
+// 外部任务（定时更新、控制台、诊断修复）占用安装锁时，轮询状态的间隔
+const BUSY_POLL_INTERVAL = 10000
+
 const globalStore = useGlobalStore()
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
-// 添加状态跟踪
-const terminalInitialized = ref(false)
-const fitAddonLoaded = ref(false)
+// 准备页上展示「外部任务进行中」的提示条，并禁用三颗按钮
+const blocked = ref(false)
 
-const theme = computed(() => resolveTheme(globalStore.theme))
-
+// 是否处于日志视图
 const installing = ref(false)
+
+const lines = ref([])
+const logEl = ref(null)
+const disconnected = ref(false)
+
+// install / update，用于选择结果弹窗文案
+const runningAction = ref('')
+
+// 已收到的输出字节偏移，续传时作为 after 传给后端
+let offset = 0
+let abort = null
+let busyTimer = null
+
+// 组件卸载后不再建立新连接（恢复流程里有 await，可能晚于卸载返回）
+let disposed = false
+
+const installSuccessDialog = ref(false)
+const installErrorDialog = ref(false)
+const updateSuccessDialog = ref(false)
+const updateErrorDialog = ref(false)
 
 const osInfo = ref({
   Architecture: "",
@@ -573,275 +629,296 @@ const rating = computed(() => {
 
 const ratingLabels = ref(['hell', 'bad', 'ok', 'good', 'great'])
 
-const handleInstall = async () => {
-  showSnackbar(t('install.prepare.right.tip'))
-  installing.value = true
-  await initTerminal()
-  await connectWebSocket()
-
-  await sleep(2000)
-  await sendCommand('bash manual_install.sh')
-}
-
-const handleUpdate = async () => {
-  installing.value = true
-  await initTerminal()
-  await connectWebSocket()
-
-  await sleep(2000)
-  await sendCommand('bash manual_update.sh')
-}
-
 const windowHeight = ref(window.innerHeight)
 
-// 初始化终端
-const initTerminal = async () => {
-  // 先清理现有的终端实例
-  cleanupTerminal()
+const handleInstall = () => start('install')
+const handleUpdate = () => start('update')
 
-  term.value = new Terminal({
-    cursorBlink: true,
-    fontSize: 15,
-    theme: {
-      background: theme.value === 'dark' ? '#1e1e1e' : '#ffffff',
-      foreground: theme.value === 'dark' ? '#ffffff' : '#1e1e1e',
-      cursor: theme.value === 'dark' ? '#ffffff' : '#000000',
-      cursorAccent: theme.value === 'dark' ? '#1e1e1e' : '#ffffff',
-    },
-    cols: 120,
-    rows: 30,
-    convertEol: true,
-    disableStdin: false,
-    cursorStyle: 'block',
-    scrollback: 1000,
-    tabStopWidth: 8,
-    bellStyle: 'none',
-  })
+// 一次 GET 请求既是启动也是订阅：action 有值表示启动新任务，为空表示接回已有任务
+const start = async action => {
+  if (action === 'install') {
+    showSnackbar(t('install.prepare.right.tip'))
+  }
+  resetLog(action)
+  await attach({ action })
+}
 
-  fitAddon.value = new FitAddon()
+// 手动重连：从上次收到的偏移继续订阅，不会重启任务
+const restore = async () => {
+  disconnected.value = false
+  await attach({})
+}
+
+const fetchState = async () => {
+  try {
+    const response = await platformApi.gameInstall.state.get()
+
+    return response?.data || null
+  } catch {
+    // 查不到状态不影响安装本身，按空闲处理
+    return null
+  }
+}
+
+const resetLog = action => {
+  runningAction.value = action || ''
+  lines.value = []
+  offset = 0
+  disconnected.value = false
+  installing.value = true
+}
+
+const attach = async ({ action } = {}) => {
+  if (disposed) return
+
+  abort?.abort()
+
+  const current = new AbortController()
+
+  abort = current
+
+  let finished = false
 
   try {
-    term.value.loadAddon(fitAddon.value)
-    fitAddonLoaded.value = true
+    await openSSE(gameInstallStreamURL({ action, after: offset }), {
+      token: getToken(),
+      lang: globalStore.language,
+      lastEventID: offset,
+      signal: current.signal,
+      maxRetries: MAX_RETRY,
+
+      // 续传参数走查询串（after 是字节偏移），重连时用最新偏移重拼地址
+      buildURL: lastEventID => gameInstallStreamURL({ action, after: lastEventID }),
+
+      // 指数退避：1s、2s、4s
+      retryDelay: count => 1000 * 2 ** (count - 1),
+      onRetry: () => {
+        showSnackbar(t('install.install.reconnecting'), 'warning')
+      },
+      onEvent: ({ type, data, id }) => {
+        if (type === 'chunk') {
+          offset = Number(id) || offset
+          appendText(data?.c)
+
+          return
+        }
+        if (type === 'done') {
+          finished = true
+          finish(data || {})
+
+          // 终止事件，不再重连
+          return false
+        }
+      },
+    })
+
+    // 重试到上限仍未收到 done：留一个手动重连入口
+    if (!finished && !disposed && current === abort) {
+      disconnected.value = true
+    }
   } catch (error) {
-    console.error('Failed to load fit addon:', error)
-    fitAddonLoaded.value = false
+    if (disposed || error?.name === 'AbortError') return
+
+    await handleStreamError(error)
   }
+}
 
-  await nextTick()
+const handleStreamError = async error => {
+  const code = Number(error?.code) || 0
 
-  if (terminalEl.value) {
-    term.value.open(terminalEl.value)
+  // 已有任务在跑：改为只订阅现有任务
+  if (code === 5068) {
+    showSnackbar(error.message || t('install.install.busy'), 'warning')
 
-    if (fitAddonLoaded.value) {
-      try {
-        fitAddon.value.fit()
-      } catch (error) {
-        console.warn('Fit addon fit failed:', error)
-      }
+    const state = await fetchState()
+
+    if (state?.running && state.streamed) {
+      resetLog(state.action)
+      await attach({})
+
+      return
+    }
+    installing.value = false
+    if (state?.running) {
+      blocked.value = true
+      startBusyPolling()
     }
 
-    terminalInitialized.value = true
+    return
   }
 
-  // 添加窗口大小调整监听
-  window.addEventListener('resize', handleResize)
+  // 没有可订阅的任务 / 脚本缺失：提示后回到准备页
+  if (code === 5069 || code === 5070) {
+    showSnackbar(error.message || t('install.install.fail'), 'error')
+    installing.value = false
+
+    return
+  }
+
+  // 420 已由 sse.js 清理登录态并跳转，这里不再重复提示
+  if (code === 420) return
+
+  // 传输层故障：自动重连已到上限，交给「重新连接日志」按钮
+  if (error?.transport) {
+    disconnected.value = true
+
+    return
+  }
+
+  showSnackbar(error?.message || t('install.install.reconnecting'), 'error')
+  disconnected.value = true
+}
+
+// 后端保证每段输出都以换行结尾，按行拆开追加（保留内容里的空行，只去掉末尾那次换行）
+const appendText = text => {
+  if (!text) return
+
+  const incoming = text.replace(/\n$/, '').split('\n')
+  const next = lines.value.concat(incoming)
+
+  lines.value = next.length > MAX_LINES ? next.slice(next.length - MAX_LINES) : next
+  scrollToBottom()
+}
+
+const scrollToBottom = async () => {
+  await nextTick()
+
+  const el = logEl.value
+
+  if (el) {
+    el.scrollTop = el.scrollHeight
+  }
+}
+
+const finish = data => {
+  const action = data.action || runningAction.value
+
+  if (action === 'update') {
+    if (data.success) {
+      updateSuccessDialog.value = true
+    } else {
+      updateErrorDialog.value = true
+    }
+
+    return
+  }
+
+  if (data.success) {
+    installSuccessDialog.value = true
+  } else {
+    installErrorDialog.value = true
+  }
+}
+
+const stopBusyPolling = () => {
+  if (busyTimer) {
+    clearInterval(busyTimer)
+    busyTimer = null
+  }
+}
+
+// 外部任务没有输出流，只能轮询状态等它结束；期间若换成网页发起的任务则接回日志
+const startBusyPolling = () => {
+  stopBusyPolling()
+  busyTimer = setInterval(async () => {
+    const state = await fetchState()
+
+    if (disposed) {
+      stopBusyPolling()
+
+      return
+    }
+    if (!state?.running) {
+      blocked.value = false
+      stopBusyPolling()
+
+      return
+    }
+    if (state.streamed) {
+      blocked.value = false
+      stopBusyPolling()
+      resetLog(state.action)
+      await attach({})
+    }
+  }, BUSY_POLL_INTERVAL)
 }
 
 // 处理窗口大小调整
 const handleResize = () => {
   windowHeight.value = window.innerHeight
-  if (fitAddonLoaded.value && fitAddon.value) {
-    try {
-      fitAddon.value.fit()
-      sendResizeMessage()
-    } catch (error) {
-      console.warn('Resize fit failed:', error)
-    }
-  }
 }
 
 const calculateContainerSize = () => {
   const other = 120
-  
+
   return Math.max(2, Math.floor(windowHeight.value - other))
 }
-
-// 发送终端大小信息
-const sendResizeMessage = () => {
-  if (!ws.value || ws.value.readyState !== WebSocket.OPEN) return
-
-  const dimensions = {
-    cols: term.value.cols,
-    rows: term.value.rows,
-    type: 'resize',
-  }
-
-  ws.value.send(JSON.stringify(dimensions))
-}
-
-// 发送命令到终端
-const sendCommand = command => {
-  if (!ws.value || ws.value.readyState !== WebSocket.OPEN) {
-    console.error('WebSocket未连接')
-    
-    return
-  }
-
-  const commandToSend = command + '\r'
-
-  ws.value.send(commandToSend)
-}
-
-const installSuccessDialog = ref(false)
-const installErrorDialog = ref(false)
-const updateSuccessDialog = ref(false)
-const updateErrorDialog = ref(false)
 
 const reloadPage = () => {
   window.location.reload()
 }
 
-// 连接WebSocket
-const connectWebSocket = () => {
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const token = getToken()
-  const wsUrl = `${protocol}//${window.location.host}/${ApiVersion}/platform/webssh?token=${token}`
-  const regexSuccess = /==>dmp@@ 安装完成 @@dmp<==/
-  const regexFail = /==>dmp@@ 安装失败 @@dmp<==/
-  const regexUpdateSuccess = /==>dmp@@ 更新完成 @@dmp<==/
-  const regexUpdateFail = /==>dmp@@ 更新失败 @@dmp<==/
+const cpu = ref(0)
 
-  ws.value = new WebSocket(wsUrl)
-
-  ws.value.onopen = () => {
-    connected.value = true
-    sendResizeMessage()
-    if (term.value) {
-      term.value.focus()
-      term.value.write('\r\n\x1b[0m')
-    }
-  }
-
-  ws.value.onmessage = event => {
-    if (!term.value) return
-
-    if (event.data instanceof Blob) {
-      const reader = new FileReader()
-
-      reader.onload = () => {
-        term.value.write(reader.result)
-
-        const str = reader.result || ''
-        if (str.match(regexSuccess)) {
-          installSuccessDialog.value = true
-        }
-        if (str.match(regexFail)) {
-          installErrorDialog.value = true
-        }
-        if (str.match(regexUpdateSuccess)) {
-          updateSuccessDialog.value = true
-        }
-        if (str.match(regexUpdateFail)) {
-          updateErrorDialog.value = true
-        }
-      }
-      reader.readAsText(event.data)
-    } else {
-      term.value.write(event.data)
-    }
-  }
-
-  ws.value.onclose = event => {
-    connected.value = false
-    if (!term.value) return
-
-    if (!event.wasClean) {
-      term.value.write('\r\n\x1b[31m连接异常关闭，5秒后尝试重新连接...\x1b[0m\r\n')
-      setTimeout(reconnect, 5000)
-    } else {
-      term.value.write('\r\n\x1b[33m连接已关闭\x1b[0m\r\n')
-    }
-  }
-
-  ws.value.onerror = error => {
-    console.error('WebSocket error:', error)
-    connected.value = false
-  }
-
-  // 终端输入处理
-  if (term.value) {
-    term.value.onData(data => {
-      if (ws.value && ws.value.readyState === WebSocket.OPEN) {
-        ws.value.send(data)
-      }
-    })
-
-    term.value.onBinary(data => {
-      if (ws.value && ws.value.readyState === WebSocket.OPEN) {
-        ws.value.send(data)
-      }
-    })
-  }
-}
-
-// 重新连接
-const reconnect = () => {
-  cleanup()
-  setTimeout(() => {
-    connectWebSocket()
-  }, 1000)
-}
-
-// 清理终端资源
-const cleanupTerminal = () => {
-  if (term.value) {
-    try {
-      // 先移除所有事件监听器
-      term.value.dispose()
-    } catch (error) {
-      console.warn('Error disposing terminal:', error)
-    }
-    term.value = null
-  }
-
-  fitAddon.value = null
-  fitAddonLoaded.value = false
-  terminalInitialized.value = false
-}
-
-// 清理所有资源
 const cleanup = () => {
-  if (ws.value) {
-    ws.value.close()
-    ws.value = null
-  }
-
-  cleanupTerminal()
+  disposed = true
+  stopBusyPolling()
+  abort?.abort()
+  abort = null
   window.removeEventListener('resize', handleResize)
 }
-
-const cpu = ref(0)
 
 // 生命周期
 onMounted(async () => {
   window.addEventListener('resize', handleResize)
   getOSInfo()
+
+  // 刷新页面后若任务还在跑，直接接回日志视图；不是网页发起的任务没有输出流，只能提示等待
+  const state = await fetchState()
+
+  // 状态回来之前用户可能已经点了按钮，此时不要再重置一遍日志视图
+  if (disposed || installing.value || !state?.running) return
+
+  if (state.streamed) {
+    resetLog(state.action)
+    await attach({})
+
+    return
+  }
+
+  blocked.value = true
+  startBusyPolling()
 })
 
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
-  cleanup()
-})
+onUnmounted(cleanup)
 </script>
 
 <style scoped>
-.terminal {
+.install-log {
   width: 100%;
+  overflow-y: auto;
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(var(--v-theme-surface-variant), 0.4);
+  font-family: Menlo, Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
-:deep(.xterm) * {
-  letter-spacing: normal !important;
+.install-log-line {
+  min-height: 1.5em;
+}
+
+.install-log-empty {
+  opacity: 0.6;
+}
+
+.install-log-retry {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
 }
 
 .fade-enter-active,

@@ -43,28 +43,25 @@
     "vue3-count-to": "^1.1.2",
     "vue3-perfect-scrollbar": "^2.0.0",
     "vuetify": "3.12.1",
-    "webfontloader": "^1.6.28",
-    "xterm": "^5.3.0",
-    "xterm-addon-fit": "^0.8.0"
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.10",
-    "@stylistic/eslint-plugin": "^4.0.0",
     "@iconify-json/ri": "^1.2.10",
     "@iconify/tools": "^4.0.7",
     "@iconify/utils": "^2.1.13",
     "@iconify/vue": "4.1.2",
+    "@stylistic/eslint-plugin": "^4.0.0",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vitejs/plugin-vue-jsx": "^5.1.5",
     "eslint": "10.4.0",
-    "globals": "^16.0.0",
     "eslint-import-resolver-typescript": "^4.0.0",
     "eslint-plugin-import-x": "^4.6.0",
     "eslint-plugin-promise": "^7.0.0",
     "eslint-plugin-regexp": "^2.6.0",
     "eslint-plugin-sonarjs": "^4.0.0",
     "eslint-plugin-vue": "^10.0.0",
-    "vue-eslint-parser": "^10.3.0",
+    "globals": "^16.0.0",
     "postcss-html": "^1.7.0",
     "postcss-scss": "^4.0.9",
     "sass": "~1.76.0",
@@ -77,7 +74,8 @@
     "vite-plugin-image-optimizer": "^2.0.3",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vite-plugin-vuetify": "2.1.3",
-    "vite-svg-loader": "^5.1.1"
+    "vite-svg-loader": "^5.1.1",
+    "vue-eslint-parser": "^10.3.0"
   },
   "resolutions": {
     "postcss": "^8",

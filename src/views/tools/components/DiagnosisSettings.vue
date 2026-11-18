@@ -44,7 +44,6 @@
               <v-text-field
                 v-model="form.chatBaseURL"
                 :label="t('diagnosis.settings.form.baseURL')"
-                placeholder="https://api.example.com/v1"
                 density="comfortable"
                 clearable
               />

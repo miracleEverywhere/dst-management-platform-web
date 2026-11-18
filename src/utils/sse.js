@@ -228,8 +228,10 @@ export async function connectSSE(url, { token, lang, lastEventID = 0, signal, on
   }
 }
 
-// 在 connectSSE 之上增加 Last-Event-ID 断线重连，最多重连 maxRetries 次。
+// 在 connectSSE 之上增加断点续传重连，最多重连 maxRetries 次。
 // onEvent 返回 false 表示已经收到终止事件，不再重连。
+// buildURL 用于续传参数走查询串的接口（例如游戏安装的 after）：重连时会用最新偏移重新拼地址；
+// 不传则沿用 url，并把偏移放在 Last-Event-ID 头里。
 export async function openSSE(url, {
   token,
   lang,
@@ -239,6 +241,7 @@ export async function openSSE(url, {
   onRetry,
   maxRetries = 3,
   retryDelay = 2000,
+  buildURL,
 }) {
   let eventID = Number(lastEventID) || 0
   let retries = 0
@@ -254,10 +257,10 @@ export async function openSSE(url, {
 
   while (!signal?.aborted) {
     try {
-      eventID = await connectSSE(url, {
+      eventID = await connectSSE(buildURL ? buildURL(eventID) : url, {
         token,
         lang,
-        lastEventID: eventID,
+        lastEventID: buildURL ? 0 : eventID,
         signal,
         onEvent: handleEvent,
       })
@@ -277,7 +280,10 @@ export async function openSSE(url, {
       onRetry?.(retries)
     }
 
-    await wait(retryDelay * retries, signal)
+    // retryDelay 可以是固定间隔，也可以是按重连次数计算的函数（指数退避）
+    const delay = typeof retryDelay === 'function' ? retryDelay(retries) : retryDelay * retries
+
+    await wait(delay, signal)
   }
 
   return eventID
