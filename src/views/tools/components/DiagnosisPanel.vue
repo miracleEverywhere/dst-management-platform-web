@@ -10,23 +10,25 @@
       <v-toolbar-title class="d-flex align-center flex-wrap ga-2">
         <v-icon icon="ri-stethoscope-line" />
         <span class="mr-4">{{ t('diagnosis.title') }}</span>
-        <v-chip
-          v-if="scope === 'platform'"
-          size="small"
-          color="warning"
-          label
-          class="mr-4"
-        >
-          {{ t('diagnosis.scope.platform') }}
-        </v-chip>
-        <v-chip
-          v-else
-          size="small"
-          label
-          class="mr-4"
-        >
-          {{ session.roomName || roomName || t('diagnosis.scope.room') }}
-        </v-chip>
+        <template v-if="!mobile">
+          <v-chip
+            v-if="scope === 'platform'"
+            size="small"
+            color="warning"
+            label
+            class="mr-4"
+            >
+            {{ t('diagnosis.scope.platform') }}
+          </v-chip>
+          <v-chip
+            v-else
+            size="small"
+            label
+            class="mr-4"
+            >
+            {{ session.roomName || roomName || t('diagnosis.scope.room') }}
+          </v-chip>
+        </template>
         <v-chip
           v-if="phase !== 'idle'"
           size="small"
@@ -614,6 +616,7 @@ import { showSnackbar } from '@/utils/snackbar'
 import { getToken } from '@/utils/tools'
 import useGlobalStore from '@store/global'
 import useUserStore from '@store/user'
+import { useDisplay } from 'vuetify/framework'
 import diagnosisApi, { diagnosisApplyEventsURL, diagnosisEventsURL } from '@/api/diagnosis'
 import { openSSE } from '@/utils/sse'
 import {
@@ -663,6 +666,8 @@ const emit = defineEmits(['close', 'applied'])
 const { t } = useI18n()
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
+
+  const { mobile } = useDisplay()
 
 const locale = computed(() => globalStore.language)
 const isAdmin = computed(() => userStore.userInfo.role === 'admin')

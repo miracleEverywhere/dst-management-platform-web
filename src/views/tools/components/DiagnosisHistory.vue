@@ -95,11 +95,14 @@
           <span v-else>-</span>
         </template>
         <template #item.summary="{ value }">
-          <span class="text-body-2">{{ value || '-' }}</span>
+          <div v-tooltip="value || '-'" class="text-truncate" style="width: 220px;">{{ value || '-' }}</div>
+        </template>
+        <template #item.roomName="{ value }">
+          <span class="text-truncate">{{ value || '-' }}</span>
         </template>
         <template #item.description="{ value }">
           <span
-            class="text-body-2 d-inline-block text-truncate"
+            class="d-inline-block text-truncate"
             style="max-width: 260px"
             :title="value || ''"
           >
@@ -134,7 +137,7 @@
 
     <v-dialog
       v-model="detailDialog"
-      max-width="1000"
+      :width="mobile?'90%':'55%'"
       scrollable
     >
       <v-card>
@@ -144,11 +147,12 @@
           </v-toolbar-title>
           <v-btn
             icon="ri-close-line"
+            color="x"
             variant="text"
             @click="detailDialog = false"
           />
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="my-4">
           <v-progress-linear
             v-if="detailLoading"
             indeterminate
@@ -267,10 +271,13 @@ import {
   severityColor,
   statusColor,
 } from '@/utils/diagnosis'
+import { useDisplay } from 'vuetify/framework'
 import DiagnosisReport from './DiagnosisReport.vue'
 
 const { t } = useI18n()
 const globalStore = useGlobalStore()
+
+const { mobile } = useDisplay()
 
 const locale = computed(() => globalStore.language)
 
@@ -296,11 +303,11 @@ const statusItems = computed(() => [
 ])
 
 const headers = computed(() => [
-  { title: t('diagnosis.history.columns.createdAt'), key: 'createdAt' },
-  { title: t('diagnosis.history.columns.scope'), key: 'scope' },
-  { title: t('diagnosis.history.columns.room'), key: 'roomName' },
-  { title: t('diagnosis.history.columns.status'), key: 'status' },
-  { title: t('diagnosis.history.columns.severity'), key: 'severity' },
+  { title: t('diagnosis.history.columns.createdAt'), key: 'createdAt', minWidth: 120 },
+  { title: t('diagnosis.history.columns.scope'), key: 'scope', minWidth: 120 },
+  { title: t('diagnosis.history.columns.room'), key: 'roomName', minWidth: 220 },
+  { title: t('diagnosis.history.columns.status'), key: 'status', minWidth: 120 },
+  { title: t('diagnosis.history.columns.severity'), key: 'severity', minWidth: 140 },
   { title: t('diagnosis.history.columns.summary'), key: 'summary' },
   { title: t('diagnosis.history.columns.description'), key: 'description' },
   { title: t('diagnosis.history.columns.actions'), key: 'appliedCount' },
