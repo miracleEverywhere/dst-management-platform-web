@@ -8,7 +8,6 @@
       <v-checkbox-btn
         v-if="selectable"
         :model-value="selected"
-        :disabled="action.available === false"
         color="primary"
         @update:model-value="emit('toggle', action.actionID)"
       />
@@ -56,16 +55,6 @@
       >
         {{ t('diagnosis.actionCard.reason') }}：{{ action.reason }}
       </div>
-
-      <v-alert
-        v-if="action.available === false"
-        type="warning"
-        variant="tonal"
-        density="compact"
-        class="mb-2"
-      >
-        {{ t('diagnosis.actionCard.unavailable') }}：{{ action.unavailableReason || '-' }}
-      </v-alert>
 
       <v-expansion-panels
         v-if="evidence.length || hasParams"

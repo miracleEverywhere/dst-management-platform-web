@@ -193,7 +193,7 @@
           :key="action.actionID"
           :action="action"
           :selected="selection.includes(action.actionID)"
-          :selectable="selectable && action.available !== false"
+          :selectable="selectable"
           :evidence="actionEvidence(action)"
           @toggle="emit('toggle', $event)"
         />

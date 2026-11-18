@@ -750,8 +750,7 @@ const actions = computed(() => report.value?.actions || [])
 
 const canApply = computed(() => (
   phase.value === 'report_ready' &&
-  session.value.canApply &&
-  actions.value.some(action => action.available !== false)
+  session.value.canApply
 ))
 
 // 报告正文输出完成（或诊断已终止）后，才展示结构化结论、修复建议、Token 用量与动作选择。
@@ -1060,7 +1059,7 @@ const handleDiagnosisEvent = event => {
       session.value.finishedAt = data.finishedAt || new Date().toISOString()
       if (data.usage) reportUsage.value = data.usage
       if (data.status === 'succeeded') {
-        session.value.canApply = actions.value.some(action => action.available !== false)
+        session.value.canApply = actions.value.length > 0
         completeScrollPending = true
         phase.value = 'report_ready'
       } else if (data.status === 'canceled') {
@@ -1079,9 +1078,6 @@ const handleDiagnosisEvent = event => {
       phase.value = 'failed'
 
       return false
-    case 'reset':
-      refreshSnapshot(true)
-      break
     default:
       break
   }
