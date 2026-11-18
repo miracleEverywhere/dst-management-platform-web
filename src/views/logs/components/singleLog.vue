@@ -58,7 +58,7 @@
             class="mr-4"
             max-width="120"
           />
-          <v-btn @click="getLogContent">
+          <v-btn @click="reloadLog">
             {{ t('logs.pull') }}
           </v-btn>
         </v-col>
@@ -70,7 +70,7 @@
 <script setup>
 import Log from "@/views/logs/components/log.vue"
 import useGlobalStore from "@store/global.js"
-import logsApi from "@/api/logs.js"
+import { useLogStream } from "@/utils/logStream.js"
 import { debounce } from "@/utils/tools.js"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify/framework"
@@ -90,46 +90,25 @@ const globalStore = useGlobalStore()
 const { mobile } = useDisplay()
 const { t } = useI18n()
 
-const content = ref('')
-const autoPull= ref(true)
+const autoPull = ref(true)
 const lines = ref(0)
 
-const firstPullFinished = ref(false)
-
-const getLogContent = () => {
-  const reqForm = {
+// 当前日志走 SSE 实时推送，自动刷新开关控制是否保持连接
+const stream = useLogStream({
+  autoRefresh: autoPull,
+  getParams: () => ({
     roomID: globalStore.room.id,
     worldID: 0,
     logType: props.type,
     lines: lines.value,
-  }
+  }),
+})
 
-  logsApi.content.get(reqForm).then(response => {
-    if (response.data === null) {
-      content.value = ""
-    } else {
-      content.value = response.data.join("\n")
-    }
-    firstPullFinished.value = true
-  })
-}
+const { content, firstPullFinished } = stream
 
-let intervalId = null
+const reloadLog = debounce(() => stream.reload(), 300)
 
-const startRequests = () => {
-  intervalId = setInterval(() => {
-    if (autoPull.value) {
-      getLogContent()
-    }
-  }, 2000)
-}
-
-const cancelRequests = () => {
-  if (intervalId) {
-    clearInterval(intervalId)
-    intervalId = null
-  }
-}
+const windowHeight = ref(window.innerHeight)
 
 const calculateLines = () => {
   let other = 390
@@ -148,27 +127,33 @@ const calculateHeight = () => {
   if (props.chat) {
     other = 37
   }
-  
+
   return Math.max(2, Math.floor(windowHeight.value - 160 - other))
 }
-
-const windowHeight = ref(window.innerHeight)
 
 const handleResize = debounce(() => {
   windowHeight.value = window.innerHeight
   lines.value = calculateLines()
 }, 200)
 
-onMounted(async () => {
+// 首次挂载时设置行数会触发 watcher，跳过这一次，避免重复建立连接
+let skipLineWatch = true
+
+onMounted(() => {
   window.addEventListener('resize', handleResize)
   lines.value = calculateLines()
-  startRequests()
+  stream.start()
+  nextTick(() => {
+    skipLineWatch = false
+  })
+})
+
+watch(lines, () => {
+  if (skipLineWatch) return
+  reloadLog()
 })
 
 onBeforeUnmount(() => {
-  cancelRequests()
-  window.removeEventListener('beforeunload', cancelRequests)
   window.removeEventListener('resize', handleResize)
 })
 </script>
-

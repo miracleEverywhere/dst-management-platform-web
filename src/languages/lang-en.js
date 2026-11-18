@@ -2220,6 +2220,8 @@ export default {
     fetching: 'Fetching',
     noContent: 'No Content',
     noLogFile: 'Please Select a log file',
+    streamLost: 'Log stream disconnected, reconnecting',
+    refreshFailed: 'Failed to refresh the log, please try again later',
     clean: {
       title: 'Logs Clean',
       selectAll: 'Select All',

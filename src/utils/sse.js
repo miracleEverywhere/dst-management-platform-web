@@ -14,11 +14,12 @@ export class SSEError extends Error {
   }
 }
 
-// 诊断业务错误码（10001-10999）与 420 都不应该重试。
+// 业务错误码（含 420，例如日志模块的 6xxx、诊断模块的 10xxx）不应该重试；
+// HTTP 状态码（4xx/5xx）可能只是网关临时故障，继续重试。
 const shouldStopRetry = code => {
   const value = Number(code) || 0
 
-  return value === 420 || (value >= 10000 && value < 11000)
+  return value === 420 || value >= 1000
 }
 
 const handleAuthExpired = async message => {
@@ -135,6 +136,13 @@ export async function connectSSE(url, { token, lang, lastEventID = 0, signal, on
 
   if (!response.ok) {
     throw await buildHTTPError(response)
+  }
+
+  // 与 axios 拦截器一致：忽略 SSE 响应里的新令牌会一直使用即将过期的 token。
+  const newToken = response.headers.get('x-dmp-new-token') || ''
+
+  if (newToken && newToken !== getToken()) {
+    useUserStore().token = newToken
   }
 
   const contentType = response.headers.get('content-type') || ''

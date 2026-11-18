@@ -2220,6 +2220,8 @@ export default {
     fetching: '正在获取中',
     noContent: '日志无内容',
     noLogFile: '请选择一个日志文件',
+    streamLost: '日志实时连接已断开，正在尝试重新连接',
+    refreshFailed: '日志刷新失败，请稍后重试',
     clean: {
       title: '日志清理',
       selectAll: '全选',
