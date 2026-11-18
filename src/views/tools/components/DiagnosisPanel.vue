@@ -9,12 +9,13 @@
     >
       <v-toolbar-title class="d-flex align-center flex-wrap ga-2">
         <v-icon icon="ri-stethoscope-line" />
-        <span>{{ t('diagnosis.title') }}</span>
+        <span class="mr-4">{{ t('diagnosis.title') }}</span>
         <v-chip
           v-if="scope === 'platform'"
           size="small"
           color="warning"
           label
+          class="mr-4"
         >
           {{ t('diagnosis.scope.platform') }}
         </v-chip>
@@ -22,6 +23,7 @@
           v-else
           size="small"
           label
+          class="mr-4"
         >
           {{ session.roomName || roomName || t('diagnosis.scope.room') }}
         </v-chip>
@@ -30,6 +32,7 @@
           size="small"
           label
           :color="phaseColor"
+          class="mr-4"
         >
           {{ t(`diagnosis.status.${phase}`) }}
         </v-chip>
@@ -76,7 +79,6 @@
           <v-textarea
             v-model="description"
             :label="t('diagnosis.start.description.label')"
-            :placeholder="t('diagnosis.start.description.placeholder')"
             :hint="t('diagnosis.start.description.hint')"
             :counter="DESCRIPTION_MAX"
             :maxlength="DESCRIPTION_MAX"
@@ -243,10 +245,6 @@
             class="mb-4 pa-4"
           >
             <div class="d-flex align-center flex-wrap ga-2 mb-2">
-              <v-icon
-                icon="ri-loader-4-line"
-                :class="{ 'diagnosis-spin': running }"
-              />
               <span class="text-subtitle-1">{{ t('diagnosis.progress.title') }}</span>
               <v-chip
                 size="small"
