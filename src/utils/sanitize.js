@@ -29,6 +29,56 @@ const ALLOWED_TAGS = [
 // 允许的属性：事件属性（onerror、onclick 等）不在白名单内，会被直接剔除。
 const ALLOWED_ATTR = ['alt', 'href', 'src', 'style', 'title']
 
+// Markdown 报告（AI 生成）比 bbcode 描述多出表格、引用块、分割线等结构，
+// 单独维护一份白名单，避免复用上面那份时把报告的表格和引用块整块丢掉。
+const MARKDOWN_TAGS = [
+  'a',
+  'abbr',
+  'b',
+  'blockquote',
+  'br',
+  'code',
+  'dd',
+  'del',
+  'div',
+  'dl',
+  'dt',
+  'em',
+  'figcaption',
+  'figure',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'hr',
+  'i',
+  'img',
+  'kbd',
+  'li',
+  'mark',
+  'ol',
+  'p',
+  'pre',
+  's',
+  'span',
+  'strong',
+  'sub',
+  'sup',
+  'table',
+  'tbody',
+  'td',
+  'th',
+  'thead',
+  'tr',
+  'u',
+  'ul',
+]
+
+// class 用于 md-editor-v3 的代码高亮类名，id 用于标题锚点；colspan/rowspan 用于表格合并。
+const MARKDOWN_ATTR = ['align', 'alt', 'class', 'colspan', 'href', 'id', 'rowspan', 'src', 'style', 'title']
+
 // [color=...] / [size=...] 会生成 style 属性。DOMPurify 默认不限制 CSS，
 // 而 background-image:url(...) 之类会让浏览器向外部发起请求（可用于追踪管理员 IP），
 // 因此这里只保留无副作用的纯色/字号类内联样式。
@@ -70,4 +120,18 @@ DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
 export const sanitizeHtml = html => DOMPurify.sanitize(html ?? '', {
   ALLOWED_TAGS,
   ALLOWED_ATTR,
+})
+
+/**
+ * 净化 Markdown 渲染后的 HTML，供 MdPreview 的 sanitize 属性使用。
+ *
+ * MdPreview 的 sanitize 默认是恒等函数，而它内部用 markdown-it 的 html: true 解析，
+ * 因此不可信的 Markdown（例如模型生成的诊断报告）会把原始 HTML 直接写进 DOM。
+ *
+ * @param {String} html markdown-it 渲染出的 HTML
+ * @returns {String} 净化后的 HTML
+ */
+export const sanitizeMarkdown = html => DOMPurify.sanitize(html ?? '', {
+  ALLOWED_TAGS: MARKDOWN_TAGS,
+  ALLOWED_ATTR: MARKDOWN_ATTR,
 })

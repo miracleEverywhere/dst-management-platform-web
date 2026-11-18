@@ -36,6 +36,7 @@
           :model-value="report.markdown"
           :theme="editorTheme"
           :language="editorLanguage"
+          :sanitize="sanitizeMarkdown"
           preview-theme="github"
           class="diagnosis-markdown"
         />
@@ -277,6 +278,7 @@ import 'md-editor-v3/lib/preview.css'
 import useGlobalStore from '@store/global'
 import { getEditorLang } from '@/utils/tools'
 import { resolveTheme } from '@/utils/theme'
+import { sanitizeMarkdown } from '@/utils/sanitize'
 import { severityColor } from '@/utils/diagnosis'
 import DiagnosisActionCard from './DiagnosisActionCard.vue'
 

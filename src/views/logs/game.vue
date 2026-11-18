@@ -75,7 +75,11 @@
             </template>
             <v-row class="my-4">
               <v-spacer v-if="!mobile" />
-              <v-col class="d-flex align-center justify-end">
+              <v-col
+                class="d-flex align-center justify-end"
+                @focusout="applyLines"
+                @keydown.enter="applyLines"
+              >
                 <v-number-input
                   v-model="lines"
                   :label="t('logs.line')"
@@ -193,7 +197,7 @@ const stream = useLogStream({
       roomID: globalStore.room.id,
       worldID: selectedWorldID.value,
       logType: 'game',
-      lines: lines.value,
+      lines: resolveLines(),
     }
   },
 })
@@ -278,13 +282,31 @@ const calculateHeight = () => {
 
 const windowHeight = ref(window.innerHeight)
 
+// 行数输入框被清空时回退到按窗口高度算出的行数：后端把 0 行当成“不返回任何行”
+const resolveLines = () => (lines.value > 0 ? lines.value : calculateLines())
+
+// 已经生效的行数，用来避免失焦/回车与下面的 watcher 重复重连
+let appliedLines = 0
+
+// 行数真正变化才重连：失焦、回车立即生效，输入过程中由 applyLinesLater 兜底
+const applyLines = () => {
+  const next = resolveLines()
+
+  if (next === appliedLines) return
+
+  appliedLines = next
+  reloadLog()
+}
+
+// 输入框每敲一个字符都会改 lines，等编辑停下来再重连，避免半截的数字触发重连
+const applyLinesLater = debounce(applyLines, 800)
+
+watch(lines, applyLinesLater)
+
 const handleResize = debounce(() => {
   windowHeight.value = window.innerHeight
   lines.value = calculateLines()
 }, 200)
-
-// 首次挂载时设置行数会触发 watcher，跳过这一次，避免重复建立连接
-let skipLineWatch = true
 
 onMounted(async () => {
   if (globalStore.room.id === 0) {
@@ -294,15 +316,10 @@ onMounted(async () => {
   await getWorlds()
   getList()
   lines.value = calculateLines()
-  stream.start()
-  nextTick(() => {
-    skipLineWatch = false
-  })
-})
 
-watch(lines, () => {
-  if (skipLineWatch) return
-  reloadLog()
+  // 首次挂载由 stream.start() 建立连接，先记下当前行数，避免 watcher 再触发一次
+  appliedLines = resolveLines()
+  stream.start()
 })
 
 onBeforeUnmount(() => {

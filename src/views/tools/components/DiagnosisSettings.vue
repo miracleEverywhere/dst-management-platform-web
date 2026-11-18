@@ -118,7 +118,6 @@ const saving = ref(false)
 const errorMessage = ref('')
 const source = ref('none')
 const configured = ref(false)
-const effective = ref({})
 
 const form = ref({
   chatBaseURL: '',
@@ -126,18 +125,9 @@ const form = ref({
   chatModel: '',
 })
 
-const sourceText = computed(() => t(`diagnosis.settings.source.${source.value}`))
-
-const sourceColor = computed(() => {
-  if (source.value === 'diagnosis') return 'primary'
-
-  return 'warning'
-})
-
 const applyData = data => {
   source.value = data?.source || 'none'
   configured.value = !!data?.configured
-  effective.value = data?.effective || {}
 
   const setting = data?.setting || {}
 

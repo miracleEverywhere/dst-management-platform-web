@@ -11,7 +11,19 @@ export class SSEError extends Error {
     this.name = 'SSEError'
     this.code = Number(code) || 0
     this.retryable = retryable
+
+    // message 是前端自己拼的技术文案（没有后端文案可展示），页面应改用本地化提示。
+    this.transport = false
   }
+}
+
+// 传输层故障：没有可展示给用户的后端文案，标记出来交给页面本地化。
+const transportError = (message, code = 0, retryable = false) => {
+  const error = new SSEError(message, code, retryable)
+
+  error.transport = true
+
+  return error
 }
 
 // 业务错误码（含 420，例如日志模块的 6xxx、诊断模块的 10xxx）不应该重试；
@@ -57,13 +69,20 @@ const buildHTTPError = async response => {
   const rawMessage = typeof payload?.message === 'string' ? payload.message.trim() : ''
 
   // 非 JSON 响应（例如网关返回 HTML 错误页）不直接展示整页内容。
-  const message = rawMessage && rawMessage.length <= 300 ? rawMessage : `SSE HTTP ${response.status}`
+  const hasServerMessage = !!rawMessage && rawMessage.length <= 300
+  const message = hasServerMessage ? rawMessage : `SSE HTTP ${response.status}`
 
   if (code === 420) {
-    await handleAuthExpired(message)
+    // 没有后端文案时用通用提示，避免把 "SSE HTTP 420" 这类技术串弹给用户
+    await handleAuthExpired(hasServerMessage ? message : '')
   }
 
-  return new SSEError(message, code, false)
+  // 有后端文案时它就是经过 X-I18n-Lang 本地化的提示，可以直接展示。
+  const error = new SSEError(message, code, false)
+
+  error.transport = !hasServerMessage
+
+  return error
 }
 
 const parseBlock = (block, fallbackID) => {
@@ -152,7 +171,7 @@ export async function connectSSE(url, { token, lang, lastEventID = 0, signal, on
     throw await buildHTTPError(response)
   }
   if (!response.body) {
-    throw new SSEError('SSE response body is not readable')
+    throw transportError('SSE response body is not readable')
   }
 
   const reader = response.body.getReader()
@@ -247,7 +266,7 @@ export async function openSSE(url, {
 
       // 服务端正常关闭但未收到终止事件，按断线处理。
       if (retries >= maxRetries) {
-        throw new SSEError('SSE connection lost')
+        throw transportError('SSE connection lost')
       }
       retries += 1
       onRetry?.(retries)

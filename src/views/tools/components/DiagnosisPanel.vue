@@ -965,9 +965,17 @@ const appendMarkdown = delta => {
   }, 80)
 }
 
+// 传输层故障（连接中断、没有后端文案的 HTTP 错误）的错误文案是前端拼的技术串，
+// 直接展示会是英文且对用户无意义，这里统一换成诊断页的本地化提示。
+const errorText = (error, fallbackKey = 'diagnosis.error.unknown') => {
+  if (error?.transport) return t('diagnosis.error.sseLost')
+
+  return error?.message || t(fallbackKey)
+}
+
 const setError = error => {
   errorCode.value = Number(error?.code) || 0
-  errorMessage.value = error?.message || t('diagnosis.error.unknown')
+  errorMessage.value = errorText(error)
   if ([10041, 10042].includes(errorCode.value)) {
     clearStoredDiagnosis(scope.value, props.roomId)
   }
@@ -1245,6 +1253,13 @@ const handleStreamError = error => {
   const code = Number(error?.code) || 0
   const terminal = code === 420 || (code >= 10000 && code < 11000)
 
+  // 传输层故障统一由 connectionLost 的告警说明，避免同一句话重复出现两次
+  if (!terminal && error?.transport) {
+    connectionLost.value = true
+
+    return
+  }
+
   setError(error)
   if (terminal) {
     session.value.finishedAt = new Date().toISOString()
@@ -1326,26 +1341,31 @@ const connectApplyStream = async (eventsURL, lastEventID = 0) => {
     }
   } catch (error) {
     if (currentController.signal.aborted || error?.name === 'AbortError') return
+
     const code = Number(error?.code) || 0
     const terminal = code === 420 || (code >= 10000 && code < 11000)
-    const message = error?.message || t('diagnosis.error.sseLost')
 
-    if (phase.value === 'applying') {
-      await refreshSnapshot(false)
-      if (phase.value === 'applying') {
-        errorCode.value = code
-        errorMessage.value = message
-        if (terminal) {
-          session.value.finishedAt = new Date().toISOString()
-          connectionLost.value = false
-          phase.value = 'apply_failed'
-        } else {
-          connectionLost.value = true
-        }
-      }
+    // 传输层故障的文案由 connectionLost 告警统一说明，不再写进 errorMessage
+    const transport = !terminal && !!error?.transport
+
+    if (phase.value !== 'applying') {
+      handleStreamError(error)
+
+      return
+    }
+
+    await refreshSnapshot(false)
+
+    if (phase.value !== 'applying') return
+
+    errorCode.value = code
+    if (!transport) errorMessage.value = errorText(error, 'diagnosis.error.sseLost')
+    if (terminal) {
+      session.value.finishedAt = new Date().toISOString()
+      connectionLost.value = false
+      phase.value = 'apply_failed'
     } else {
-      setError(error)
-      connectionLost.value = !terminal
+      connectionLost.value = true
     }
   } finally {
     if (controller === currentController) controller = null
@@ -1457,9 +1477,16 @@ const startDiagnosis = async () => {
     connectDiagnosisStream(data.eventsURL || diagnosisEventsURL(data.diagnosisID))
   } catch (error) {
     setError(error)
-    phase.value = previousDiagnosisID && previousPhase !== 'idle' && previousPhase !== 'starting'
-      ? previousPhase
-      : 'failed'
+
+    const canRestore = previousDiagnosisID && previousPhase !== 'idle' && previousPhase !== 'starting'
+
+    phase.value = canRestore ? previousPhase : 'failed'
+
+    // 开始请求失败不代表上一轮诊断已经结束，但它的流在发请求前就被断开了：
+    // 这里同时给出重连入口，否则界面会停在“运行中”却既无数据也无法重新开始。
+    if (canRestore && ['running', 'streaming', 'applying'].includes(previousPhase)) {
+      connectionLost.value = true
+    }
   }
 }
 

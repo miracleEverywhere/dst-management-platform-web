@@ -34,8 +34,13 @@ export const useLogStream = ({ getParams, autoRefresh }) => {
 
   let controller = null
   let retryTimer = null
-  let lineLimit = 1
   let lostNotified = false
+
+  // 本地裁剪上限，0 表示不裁剪：请求里的行数为空或 0 时不要退回“只留 1 行”。
+  let lineLimit = 0
+
+  // 组件卸载后不再建立新连接（刷新按钮的 debounce 定时器可能晚于卸载触发）。
+  let disposed = false
 
   // 当前连接是否是一次性刷新（关闭自动刷新时点刷新）
   let oneShot = false
@@ -120,6 +125,8 @@ export const useLogStream = ({ getParams, autoRefresh }) => {
   }
 
   const connect = ({ once = false } = {}) => {
+    if (disposed) return
+
     stop()
 
     oneShot = once
@@ -133,7 +140,10 @@ export const useLogStream = ({ getParams, autoRefresh }) => {
       return
     }
 
-    lineLimit = Math.max(1, Math.floor(Number(params.lines) || 0))
+    // 行数为空（输入框被清空）时保持上一次的上限，避免把内容裁到只剩 1 行
+    const requestedLines = Math.floor(Number(params.lines))
+
+    if (Number.isFinite(requestedLines) && requestedLines > 0) lineLimit = requestedLines
 
     const current = new AbortController()
 
@@ -191,7 +201,10 @@ export const useLogStream = ({ getParams, autoRefresh }) => {
     }
   })
 
-  onBeforeUnmount(stop)
+  onBeforeUnmount(() => {
+    disposed = true
+    stop()
+  })
 
   return { content, firstPullFinished, start, stop, reload, reset }
 }
