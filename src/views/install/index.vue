@@ -849,7 +849,11 @@ const handleResize = () => {
 }
 
 const calculateContainerSize = () => {
-  const other = 120
+  let other = 120
+
+  if (blocked.value) {
+    other = other + 42 + 24
+  }
 
   return Math.max(2, Math.floor(windowHeight.value - other))
 }
