@@ -32,7 +32,17 @@ const props = defineProps({
         class="nav-item-badge"
         :class="item.badgeClass"
       >
-        {{ item.badgeContent }}
+        <v-chip
+          v-if="item.badgeContent"
+          variant="flat"
+          size="small"
+          color="error"
+        >
+          {{ item.badgeContent }}
+        </v-chip>
+        <span v-else>
+          {{ item.badgeContent }}
+        </span>
       </span>
     </Component>
   </li>

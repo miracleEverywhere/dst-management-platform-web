@@ -8,7 +8,6 @@
       align-tabs="start"
       color="primary"
       show-arrows
-      @update:model-value="handleTabClick"
     >
       <v-tab value="current">
         {{ t('logs.current') }}
@@ -37,7 +36,7 @@
                   :label="t('logs.world')"
                   density="compact"
                   class="mr-4"
-                  @update:model-value="content='';firstPullFinished=false"
+                  @update:model-value="handleWorldChange"
                 />
                 <v-switch
                   v-model="autoPull"
@@ -76,7 +75,11 @@
             </template>
             <v-row class="my-4">
               <v-spacer v-if="!mobile" />
-              <v-col class="d-flex align-center justify-end">
+              <v-col
+                class="d-flex align-center justify-end"
+                @focusout="applyLines"
+                @keydown.enter="applyLines"
+              >
                 <v-number-input
                   v-model="lines"
                   :label="t('logs.line')"
@@ -85,7 +88,7 @@
                   class="mr-4"
                   max-width="120"
                 />
-                <v-btn @click="getLogContent">
+                <v-btn @click="reloadLog">
                   {{ t('logs.pull') }}
                 </v-btn>
               </v-col>
@@ -110,7 +113,7 @@
                   density="compact"
                   class="mr-4"
                   min-width="100px"
-                  @update:model-value="content=''"
+                  @update:model-value="handleHistoryWorldChange"
                 />
                 <v-select
                   v-model="selectedFilename"
@@ -165,58 +168,56 @@ import logsApi from "@/api/logs.js"
 import roomApi from "@/api/room.js"
 import useGlobalStore from "@store/global.js"
 import { debounce } from "@/utils/tools.js"
-import useUserStore from "@store/user.js"
+import { useLogStream } from "@/utils/logStream.js"
 import { useDisplay } from "vuetify/framework"
 import { useI18n } from "vue-i18n"
 
 
 const globalStore = useGlobalStore()
-const userStore = useUserStore()
 const { mobile } = useDisplay()
 const { t } = useI18n()
 const activeTabName = ref('current')
 const otherHeight = 197
 
-const content = ref('')
 const selectedWorldID = ref(0)
-const autoPull= ref(true)
+const autoPull = ref(true)
 const lines = ref(0)
 
-const handleTabClick = tab => {
-  if (tab === "current") {
-    shouldPull.value = true
+// 只有停留在“当前日志”页且自动刷新开启时才保持 SSE 连接
+const streamEnabled = computed(() => autoPull.value && activeTabName.value === 'current')
+
+const stream = useLogStream({
+  autoRefresh: streamEnabled,
+  getParams: () => {
+    if (globalStore.room.id === 0 || selectedWorldID.value === 0) {
+      return null
+    }
+
+    return {
+      roomID: globalStore.room.id,
+      worldID: selectedWorldID.value,
+      logType: 'game',
+      lines: resolveLines(),
+    }
+  },
+})
+
+const { content, firstPullFinished } = stream
+
+const reloadLog = debounce(() => {
+  if (activeTabName.value === 'current') {
+    stream.reload()
   }
-  if (tab === "history") {
-    shouldPull.value = false
-  }
+}, 300)
+
+const handleWorldChange = () => {
+  stream.reset()
+  stream.reload()
 }
 
-const firstPullFinished = ref(false)
-const shouldPull = ref(true)
-
-const getLogContent = () => {
-  if (selectedWorldID.value === 0) {
-    return
-  }
-  if (!shouldPull.value) {
-    return
-  }
-
-  const reqForm = {
-    roomID: globalStore.room.id,
-    worldID: selectedWorldID.value,
-    logType: 'game',
-    lines: lines.value,
-  }
-
-  logsApi.content.get(reqForm).then(response => {
-    if (response.data === null) {
-      content.value = ""
-    } else {
-      content.value = response.data.join("\n")
-    }
-    firstPullFinished.value = true
-  })
+const handleHistoryWorldChange = () => {
+  historyContent.value = ''
+  getList()
 }
 
 const worlds = ref([])
@@ -268,23 +269,6 @@ const getHistoryFileContent = () => {
   })
 }
 
-let intervalId = null
-
-const startRequests = () => {
-  intervalId = setInterval(() => {
-    if (autoPull.value) {
-      getLogContent()
-    }
-  }, 2000)
-}
-
-const cancelRequests = () => {
-  if (intervalId) {
-    clearInterval(intervalId)
-    intervalId = null
-  }
-}
-
 const calculateLines = () => {
   const other = 390 + 37
 
@@ -297,6 +281,27 @@ const calculateHeight = () => {
 }
 
 const windowHeight = ref(window.innerHeight)
+
+// 行数输入框被清空时回退到按窗口高度算出的行数：后端把 0 行当成“不返回任何行”
+const resolveLines = () => (lines.value > 0 ? lines.value : calculateLines())
+
+// 已经生效的行数，用来避免失焦/回车与下面的 watcher 重复重连
+let appliedLines = 0
+
+// 行数真正变化才重连：失焦、回车立即生效，输入过程中由 applyLinesLater 兜底
+const applyLines = () => {
+  const next = resolveLines()
+
+  if (next === appliedLines) return
+
+  appliedLines = next
+  reloadLog()
+}
+
+// 输入框每敲一个字符都会改 lines，等编辑停下来再重连，避免半截的数字触发重连
+const applyLinesLater = debounce(applyLines, 800)
+
+watch(lines, applyLinesLater)
 
 const handleResize = debounce(() => {
   windowHeight.value = window.innerHeight
@@ -311,13 +316,13 @@ onMounted(async () => {
   await getWorlds()
   getList()
   lines.value = calculateLines()
-  startRequests()
+
+  // 首次挂载由 stream.start() 建立连接，先记下当前行数，避免 watcher 再触发一次
+  appliedLines = resolveLines()
+  stream.start()
 })
 
 onBeforeUnmount(() => {
-  cancelRequests()
-  window.removeEventListener('beforeunload', cancelRequests)
   window.removeEventListener('resize', handleResize)
 })
 </script>
-

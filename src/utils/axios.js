@@ -33,6 +33,16 @@ instance.interceptors.request.use(
   },
 )
 
+// 业务错误：保留后端错误码，页面可以按 code 做针对性处理（例如 10061 引导配置 AI 模型）
+const buildBusinessError = data => {
+  const error = new Error(data?.message || "服务器偷偷跑到火星去玩了")
+
+  error.code = Number(data?.code ?? data?.status) || 0
+  error.data = data || {}
+
+  return error
+}
+
 // 响应拦截器：处理响应数据
 instance.interceptors.response.use(
   async response => {
@@ -69,7 +79,7 @@ instance.interceptors.response.use(
     } else {
       showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
 
-      return Promise.reject(response.data.message || "服务器偷偷跑到火星去玩了") // 可以将异常信息延续到页面中处理，使用try{}catch(error){};
+      return Promise.reject(buildBusinessError(response.data)) // 异常对象保留 code/data，页面可按错误码处理
     }
   },
   error => {
