@@ -98,7 +98,7 @@
                   :disabled="!detail.connectionCode"
                   class="text-none"
                   @click="copy(detail.connectionCode)"
-                  >
+                >
                   {{ detail.connectionCode || '-' }}
                 </v-btn>
               </div>
@@ -191,16 +191,14 @@
               hide-default-footer
               class="elevation-0"
             >
-              <template #item.prefab="{ item }">
+              <template #item.prefab="{ value }">
                 <div class="d-flex align-center ga-2">
-                  <v-img
-                    :src="playerImageUrl(item.prefab)"
-                    :width="32"
-                    :height="32"
-                    cover
-                    class="rounded flex-shrink-0"
-                  />
-                  <span>{{ getDstRoleName(item.prefab, language) || item.prefab || '-' }}</span>
+                  <v-chip
+                    color="info"
+                    label
+                  >
+                    {{ getDstRoleName(value, language) || value || '-' }}
+                  </v-chip>
                 </div>
               </template>
               <template #item.colour="{ item }">
@@ -348,6 +346,12 @@ const playerHeaders = computed(() => [
   {
     title: t('tools.lobby.detailPage.players.columns.name'),
     key: 'name',
+    sortable: false,
+    minWidth: 160,
+  },
+  {
+    title: t('tools.lobby.detailPage.players.columns.prefab'),
+    key: 'prefab',
     sortable: false,
     minWidth: 160,
   },

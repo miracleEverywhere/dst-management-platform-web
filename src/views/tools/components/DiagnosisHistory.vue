@@ -95,7 +95,13 @@
           <span v-else>-</span>
         </template>
         <template #item.summary="{ value }">
-          <div v-tooltip="value || '-'" class="text-truncate" style="width: 220px;">{{ value || '-' }}</div>
+          <div
+            v-tooltip="value || '-'"
+            class="text-truncate"
+            style="width: 220px;"
+          >
+            {{ value || '-' }}
+          </div>
         </template>
         <template #item.roomName="{ value }">
           <span class="text-truncate">{{ value || '-' }}</span>
