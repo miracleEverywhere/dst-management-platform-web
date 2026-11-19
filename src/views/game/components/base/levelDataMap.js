@@ -2434,6 +2434,24 @@ export const overrides = {
       en: 'chest_mimics',
     },
   },
+  rocky_boss: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'rocky_boss.png',
+    i18n: {
+      zh: '岩石大师',
+      en: 'rocky_boss',
+    },
+  },
+  bat_boss: {
+    configs: ["never", "rare", "default", "often", "always"],
+    modelValue: 'default',
+    image: 'bat_boss.png',
+    i18n: {
+      zh: '猎犬蝙蝠',
+      en: 'bat_boss',
+    },
+  },
   daywalker: {
     configs: ["never", "rare", "default", "often", "always"],
     modelValue: 'default',
@@ -3305,6 +3323,8 @@ export const cavesWorldRule = {
     'spider_dropper',
     'spider_warriors',
     'nightmarecreatures',
+    'rocky_boss',
+    'bat_boss',
   ],
   giants: [
     'fruitfly', 'liefs', 'daywalker', 'toadstool', 'spiderqueen',
