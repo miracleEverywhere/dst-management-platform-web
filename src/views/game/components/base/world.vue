@@ -1407,6 +1407,71 @@ const handleIsMasterChange = () => {
 
 const canCreateWorld = ref(false)
 
+// 2026年11月19日
+// 关于ISSUE #176，世界规则 - 活动之前是可以同步的，不知道什么时候不同步了
+// 年份事件属于全局设定，从世界必须与主世界保持一致
+const YEAR_EVENT_OVERRIDES = [
+  'year_of_the_beefalo',
+  'year_of_the_bunnyman',
+  'year_of_the_carrat',
+  'year_of_the_catcoon',
+  'year_of_the_dragonfly',
+  'year_of_the_gobbler',
+  'year_of_the_knight',
+  'year_of_the_pig',
+  'year_of_the_snake',
+  'year_of_the_varg',
+  'winters_feast',
+]
+
+// 把主世界的年份事件配置写入所有从世界的 levelData
+// 没有主世界或只有一个世界时无需处理；某个世界缺少这些字段时保持原样
+const syncYearEventOverrides = () => {
+  if (worldForm.value.length <= 1) {
+    return
+  }
+
+  const masterWorld = worldForm.value.find(world => world.isMaster)
+
+  if (!masterWorld) {
+    return
+  }
+
+  let masterValues = {}
+
+  try {
+    masterValues = readLevelDataOverrides(masterWorld.levelData).values
+  } catch {
+    return
+  }
+
+  for (const world of worldForm.value) {
+    if (world === masterWorld) {
+      continue
+    }
+
+    try {
+      const { entries } = readLevelDataOverrides(world.levelData)
+
+      for (const entry of entries) {
+        if (entry.type !== 'string' || !YEAR_EVENT_OVERRIDES.includes(entry.name)) {
+          continue
+        }
+
+        const masterValue = masterValues[entry.name]
+
+        if (masterValue === undefined || masterValue === entry.value) {
+          continue
+        }
+
+        world.levelData = replaceLevelDataOverride(world.levelData, entry.name, 'string', masterValue)
+      }
+    } catch {
+      // 单个世界解析或替换失败时跳过，不影响其他世界
+    }
+  }
+}
+
 const validate = async () => {
   const returnData = {
     validate: false,
@@ -1435,6 +1500,8 @@ const validate = async () => {
       return returnData
     }
   }
+
+  syncYearEventOverrides()
 
   returnData.validate = true
   returnData.formData = worldForm.value
