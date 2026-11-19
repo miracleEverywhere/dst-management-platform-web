@@ -53,7 +53,7 @@
           />
           <template v-else-if="detail">
             <div class="d-flex flex-wrap align-center ga-3">
-              <span class="text-h5">{{ detail.name || '-' }}</span>
+              <span style="font-size: 1.5rem;">{{ detail.name || '-' }}</span>
               <v-chip
                 size="small"
                 :color="lobbyIntentColor(detail.intent)"
@@ -79,7 +79,7 @@
                 {{ t('tools.lobby.detailPage.info.password') }}
               </v-chip>
             </div>
-            <div class="text-body-2 text-medium-emphasis mt-2">
+            <div class="mt-2 font-weight-thin">
               {{ detail.desc || t('tools.lobby.detailPage.descEmpty') }}
             </div>
 
@@ -89,10 +89,15 @@
               class="pa-4 mt-4"
             >
               <div class="card-header">
-                {{ t('tools.lobby.detailPage.connectionCode') }}
+                <v-chip label>
+                  <span style="font-size: 1rem;">
+                    {{ t('tools.lobby.detailPage.connectionCode') }}
+                  </span>
+                </v-chip>
+
                 <v-btn
                   size="small"
-                  variant="tonal"
+                  variant="text"
                   color="primary"
                   prepend-icon="ri-file-copy-line"
                   :disabled="!detail.connectionCode"
@@ -112,70 +117,46 @@
                 v-for="item in statItems"
                 :key="item.label"
                 cols="6"
-                sm="4"
-                md="2"
+                md="4"
               >
                 <v-sheet
                   border
                   rounded
                   class="pa-3 h-100"
                 >
-                  <div>
-                    {{ item.label }}
-                  </div>
-                  <div class="text-body-2 font-weight-medium text-truncate">
-                    {{ item.value }}
+                  <v-chip label>
+                    <span style="font-size: 1rem;">
+                      {{ item.label }}
+                    </span>
+                  </v-chip>
+                  <div class="mt-2 text-right">
+                    <v-chip color="info">
+                      {{ item.value }}
+                    </v-chip>
                   </div>
                 </v-sheet>
               </v-col>
             </v-row>
 
-            <v-sheet
-              v-if="secondaries.length > 0"
-              border
-              rounded
-              class="pa-4 mt-4"
+            <v-alert
+              variant="tonal"
+              color="info"
+              class="my-4"
             >
-              <div>
-                {{ t('tools.lobby.detailPage.info.secondaries') }}
-              </div>
-              <div
-                v-for="shard in secondaries"
-                :key="shard.id"
-                class="d-flex flex-wrap align-center ga-2 mt-2"
-              >
+              <div class="d-flex align-center justify-space-between">
+                <div>
+                  {{ t('tools.lobby.detailPage.players.title') }}
+                </div>
                 <v-chip
+                  color="info"
                   size="small"
-                  label
-                  variant="tonal"
+                  variant="elevated"
                 >
-                  {{ shard.id }}
+                  {{ (detail.players || []).length }} / {{ detail.maxConnections || '-' }}
                 </v-chip>
-                <span>{{ shard.addr }}:{{ shard.port }}</span>
-                <v-btn
-                  size="x-small"
-                  variant="text"
-                  prepend-icon="ri-file-copy-line"
-                  class="text-none"
-                  :disabled="!shard.connectionCode"
-                  @click="copy(shard.connectionCode)"
-                >
-                  {{ shard.connectionCode }}
-                </v-btn>
               </div>
-            </v-sheet>
+            </v-alert>
 
-            <div class="d-flex align-center justify-space-between mt-8 mb-2">
-              <div class="text-subtitle-1 font-weight-medium">
-                {{ t('tools.lobby.detailPage.players.title') }}
-              </div>
-              <v-chip
-                size="small"
-                variant="tonal"
-              >
-                {{ (detail.players || []).length }} / {{ detail.maxConnections || '-' }}
-              </v-chip>
-            </div>
             <v-alert
               v-if="detail.playersParsed === false"
               type="warning"
@@ -213,17 +194,24 @@
               </template>
             </v-data-table>
 
-            <div class="d-flex align-center justify-space-between mt-8 mb-2">
-              <div class="text-subtitle-1 font-weight-medium">
-                {{ t('tools.lobby.detailPage.mods.title') }}
+            <v-alert
+              variant="tonal"
+              color="info"
+              class="my-4"
+            >
+              <div class="d-flex align-center justify-space-between">
+                <div>
+                  {{ t('tools.lobby.detailPage.mods.title') }}
+                </div>
+                <v-chip
+                  color="info"
+                  size="small"
+                  variant="elevated"
+                >
+                  {{ modRows.length }}
+                </v-chip>
               </div>
-              <v-chip
-                size="small"
-                variant="tonal"
-              >
-                {{ modRows.length }}
-              </v-chip>
-            </div>
+            </v-alert>
             <v-alert
               v-if="modInfoFailed"
               type="warning"

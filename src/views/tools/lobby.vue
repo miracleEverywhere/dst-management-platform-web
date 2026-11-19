@@ -137,7 +137,10 @@
             size="18"
             class="mr-1"
           />
-          {{ lobbySeasonLabel(t, item.season) }}
+
+          <span :class="'text-'+lobbySeasonColor(item.season)">
+            {{ lobbySeasonLabel(t, item.season) }}
+          </span>
         </template>
         <template #item.dedicated="{ item }">
           <v-icon
