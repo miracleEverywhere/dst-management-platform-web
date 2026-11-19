@@ -46,6 +46,20 @@ export default {
       },
     },
   },
+  lobby: {
+    search: {
+      url: `/tools/lobby/search`,
+      post: async function (data) {
+        return await http.post(this.url, data)
+      },
+    },
+    detail: {
+      url: `/tools/lobby/detail`,
+      post: async function (data) {
+        return await http.post(this.url, data)
+      },
+    },
+  },
   token: {
     url: `/tools/token`,
     post: async function (data) {
