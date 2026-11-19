@@ -1411,17 +1411,19 @@ const canCreateWorld = ref(false)
 // 关于ISSUE #176，世界规则 - 活动之前是可以同步的，不知道什么时候不同步了
 // 年份事件属于全局设定，从世界必须与主世界保持一致
 const YEAR_EVENT_OVERRIDES = [
-  'year_of_the_beefalo',
-  'year_of_the_bunnyman',
-  'year_of_the_carrat',
-  'year_of_the_catcoon',
-  'year_of_the_dragonfly',
-  'year_of_the_gobbler',
-  'year_of_the_knight',
-  'year_of_the_pig',
-  'year_of_the_snake',
-  'year_of_the_varg',
-  'winters_feast',
+  'year_of_the_beefalo',   // 皮弗娄牛之年（牛年活动）
+  'year_of_the_bunnyman',  // 兔人之年（兔年活动）
+  'year_of_the_carrat',    // 胡萝卜鼠之年
+  'year_of_the_catcoon',   // 浣猫之年
+  'year_of_the_dragonfly', // 龙蝇之年（龙年活动）
+  'year_of_the_gobbler',   // 火鸡之年
+  'year_of_the_knight',    // 骑士之年
+  'year_of_the_pig',       // 猪人之年（猪年活动）
+  'year_of_the_snake',     // 洞穴蠕虫之年
+  'year_of_the_varg',      // 座狼之年
+  'winters_feast',         // 冬季盛宴
+  'hallowed_nights',       // 万圣夜
+  'crow_carnival',         // 盛夏鸦年华 / 鸦年华
 ]
 
 // 把主世界的年份事件配置写入所有从世界的 levelData
