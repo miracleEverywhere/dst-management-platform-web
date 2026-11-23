@@ -39,6 +39,7 @@
               :rules="roomFormRules.gameName"
               label="房间名"
               append-inner-icon="ri-emotion-happy-line"
+              placeholder="输入房间名"
               @click:append-inner="emojiDialog=true;emojiGameName=true"
             />
           </v-col>
@@ -51,6 +52,7 @@
               v-tooltip="'按Tab键显示在游戏房间名下方的文字'"
               label="房间描述"
               append-inner-icon="ri-emotion-happy-line"
+              placeholder="输入房间描述"
               @click:append-inner="emojiDialog=true;emojiGameName=false"
             />
           </v-col>
@@ -271,6 +273,7 @@
               label="游戏密码"
               :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
               :type="isPasswordVisible ? 'text' : 'password'"
+              placeholder="输入游戏密码，可留空"
               @click:append-inner="isPasswordVisible = !isPasswordVisible"
             />
           </v-col>
@@ -286,6 +289,7 @@
               :append-inner-icon="isTokenVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
               :type="isTokenVisible ? 'text' : 'password'"
               class="w-100"
+              placeholder="输入科雷游戏令牌"
               @click:append-inner="isTokenVisible = !isTokenVisible"
             />
             <v-btn
@@ -324,6 +328,7 @@
               v-tooltip="'如果所有世界都在当前云服务器，则无需更改，详细解释见文档'"
               :rules="roomFormRules.masterIP"
               label="主世界IP"
+              placeholder="例如：127.0.0.1"
             />
           </v-col>
           <v-col :cols="mobile?12:3">
@@ -348,6 +353,7 @@
               label="世界认证密码"
               :append-inner-icon="isClusterKeyVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
               :type="isClusterKeyVisible ? 'text' : 'password'"
+              placeholder="输入世界认证密码"
               @click:append-inner="isClusterKeyVisible = !isClusterKeyVisible"
             />
           </v-col>
@@ -450,12 +456,14 @@
             ref="emojiInputNameRef"
             v-model="roomForm.gameName"
             label="房间名"
+            placeholder="输入房间名"
           />
           <v-text-field
             v-else
             ref="emojiInputDescriptionRef"
             v-model="roomForm.description"
             label="房间描述"
+            placeholder="输入房间描述"
           />
         </div>
         <div class="emoji-container mt-8">

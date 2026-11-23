@@ -94,6 +94,7 @@
             prepend-inner-icon="ri-user-line"
             readonly
             density="comfortable"
+            :placeholder="t('cloud.account.cloudUsername')"
           />
         </v-col>
         <v-col
@@ -106,6 +107,7 @@
             prepend-inner-icon="ri-mail-line"
             readonly
             density="comfortable"
+            :placeholder="t('cloud.account.cloudEmail')"
           />
         </v-col>
       </v-row>
@@ -189,6 +191,7 @@
               prepend-inner-icon="ri-user-line"
               autocomplete="username"
               clearable
+              :placeholder="t('placeholders.cloud.accountIdentity')"
             />
             <v-text-field
               v-model="bindForm.password"
@@ -199,6 +202,7 @@
               :rules="passwordRules"
               prepend-inner-icon="ri-lock-line"
               class="mt-4"
+              :placeholder="t('placeholders.cloud.accountPassword')"
               @click:append-inner="passwordVisible = !passwordVisible"
             />
           </v-form>
@@ -246,6 +250,7 @@
             :label="t('cloud.account.unbindPasswordLabel')"
             :rules="unbindPasswordRules"
             prepend-inner-icon="ri-lock-line"
+            :placeholder="t('placeholders.cloud.unbindPassword')"
             @click:append-inner="passwordVisible = !passwordVisible"
           />
         </v-card-text>

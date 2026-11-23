@@ -267,6 +267,7 @@
                 v-tooltip="t('platform.user.form.username.tip')"
                 :rules="userFormRules.username"
                 :label="t('platform.user.form.username.title')"
+                :placeholder="t('placeholders.platform.username')"
               />
             </v-col>
           </v-row>
@@ -277,6 +278,7 @@
                 v-tooltip="t('platform.user.form.nickname.tip')"
                 :rules="userFormRules.nickname"
                 :label="t('platform.user.form.nickname.title')"
+                :placeholder="t('placeholders.platform.nickname')"
               />
             </v-col>
           </v-row>
@@ -386,6 +388,7 @@
                 :label="t('platform.user.form.password.title')"
                 :rules="userFormRules.password"
                 clearable
+                :placeholder="t('placeholders.platform.password')"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
             </v-col>

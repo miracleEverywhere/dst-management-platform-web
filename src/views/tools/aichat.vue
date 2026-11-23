@@ -156,6 +156,7 @@
                       :label="t('tools.ai.form.prefix.name')"
                       :rules="roomFormRules.prefix"
                       counter="64"
+                      :placeholder="t('placeholders.tools.aiPrefix')"
                     />
                   </v-col>
                   <v-col
@@ -290,6 +291,7 @@
                       v-tooltip="t('tools.ai.form.chatBaseURL.tip')"
                       :label="t('tools.ai.form.chatBaseURL.name')"
                       :rules="baseFormRules.chatBaseURL"
+                      :placeholder="t('placeholders.tools.chatBaseURL')"
                     />
                   </v-col>
                   <v-col
@@ -302,6 +304,7 @@
                       :label="t('tools.ai.form.chatModel.name')"
                       :rules="baseFormRules.chatModel"
                       counter="256"
+                      :placeholder="t('placeholders.tools.chatModel')"
                     />
                   </v-col>
                   <v-col cols="12">
@@ -313,6 +316,7 @@
                       :rules="baseFormRules.apiKey"
                       :type="isChatApiKeyVisible ? 'text' : 'password'"
                       autocomplete="off"
+                      :placeholder="t('placeholders.tools.chatApiKey')"
                       @click:append-inner="isChatApiKeyVisible = !isChatApiKeyVisible"
                     />
                   </v-col>
@@ -353,6 +357,7 @@
                       v-tooltip="t('tools.ai.form.embeddingBaseURL.tip')"
                       :label="t('tools.ai.form.embeddingBaseURL.name')"
                       :rules="baseFormRules.embeddingBaseURL"
+                      :placeholder="t('placeholders.tools.embeddingBaseURL')"
                     />
                   </v-col>
                   <v-col
@@ -365,6 +370,7 @@
                       :label="t('tools.ai.form.embeddingModel.name')"
                       :rules="baseFormRules.embeddingModel"
                       counter="256"
+                      :placeholder="t('placeholders.tools.embeddingModel')"
                     />
                   </v-col>
                   <v-col
@@ -392,6 +398,7 @@
                       :rules="baseFormRules.apiKey"
                       :type="isEmbeddingApiKeyVisible ? 'text' : 'password'"
                       autocomplete="off"
+                      :placeholder="t('placeholders.tools.embeddingApiKey')"
                       @click:append-inner="isEmbeddingApiKeyVisible = !isEmbeddingApiKeyVisible"
                     />
                   </v-col>
@@ -423,6 +430,7 @@
                       auto-grow
                       counter="8000"
                       rows="4"
+                      :placeholder="t('placeholders.tools.systemPrompt')"
                     />
                   </v-col>
                   <v-col

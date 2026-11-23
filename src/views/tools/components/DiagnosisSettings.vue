@@ -46,6 +46,7 @@
                 :label="t('diagnosis.settings.form.baseURL')"
                 density="comfortable"
                 clearable
+                :placeholder="t('placeholders.tools.diagnosisBaseURL')"
               />
             </v-col>
             <v-col
@@ -57,6 +58,7 @@
                 :label="t('diagnosis.settings.form.model')"
                 density="comfortable"
                 clearable
+                :placeholder="t('placeholders.tools.diagnosisModel')"
               />
             </v-col>
             <v-col cols="12">
@@ -67,6 +69,7 @@
                 autocomplete="off"
                 density="comfortable"
                 clearable
+                :placeholder="t('placeholders.tools.diagnosisApiKey')"
               />
             </v-col>
           </v-row>

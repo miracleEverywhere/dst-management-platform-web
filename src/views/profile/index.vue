@@ -62,11 +62,13 @@
                       readonly
                       :label="t('profile.username')"
                       class="mb-8"
+                      :placeholder="t('profile.username')"
                     />
                     <v-text-field
                       v-model="userInfo.nickname"
                       :label="t('profile.nickname')"
                       class="mb-8"
+                      :placeholder="t('placeholders.profile.nickname')"
                     />
                     <v-row class="mb-8">
                       <v-col
@@ -118,6 +120,7 @@
                       :label="t('platform.user.form.password.title')"
                       :rules="userInfoRules.password"
                       clearable
+                      :placeholder="t('placeholders.profile.password')"
                       @click:append-inner="isPasswordVisible = !isPasswordVisible"
                     />
                   </v-form>

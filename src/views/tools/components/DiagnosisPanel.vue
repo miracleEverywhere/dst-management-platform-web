@@ -92,6 +92,7 @@
             persistent-hint
             class="my-4"
             :disabled="busy"
+            :placeholder="t('placeholders.tools.diagnosisDescription')"
           />
 
           <v-row
@@ -545,6 +546,7 @@
             :error="!!confirmationError"
             :error-messages="confirmationError"
             autofocus
+            :placeholder="t('diagnosis.apply.typedPlaceholder')"
           />
           <v-alert
             v-if="confirmError"

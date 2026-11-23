@@ -10,6 +10,7 @@
         density="compact"
         hide-details
         variant="outlined"
+        :placeholder="t('placeholders.game.levelString')"
         @change="emitChange()"
       />
       <v-text-field
@@ -19,6 +20,7 @@
         hide-details
         type="number"
         variant="outlined"
+        :placeholder="t('placeholders.game.levelNumber')"
         @change="emitChange()"
       />
       <v-switch
@@ -42,6 +44,7 @@
         disabled
         rows="2"
         variant="outlined"
+        :placeholder="t('placeholders.game.levelRaw')"
       />
 
       <div

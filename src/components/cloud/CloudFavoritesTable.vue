@@ -19,6 +19,7 @@
           variant="outlined"
           style="max-width: 240px"
           clearable
+          :placeholder="t('placeholders.cloud.favoriteKeyword')"
           @keyup.enter="handleSearch"
           @click:clear="handleSearch"
         />

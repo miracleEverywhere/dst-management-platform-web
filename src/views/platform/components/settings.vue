@@ -189,6 +189,7 @@
               v-tooltip="t('platform.settings.form.autoUpdateSetting.tip')"
               :disabled="!globalSettingsForm.autoUpdateEnable"
               :label="t('platform.settings.form.autoUpdateSetting.title')"
+              :placeholder="t('placeholders.platform.autoUpdateTime')"
             >
               <v-menu
                 :close-on-content-click="false"
@@ -251,6 +252,7 @@
                       :label="t('platform.settings.form.webhook.form.name')"
                       :rules="[v => !!v || t('platform.settings.form.webhook.form.nameRequired')]"
                       density="compact"
+                      :placeholder="t('placeholders.platform.webhookName')"
                     />
                   </v-col>
                   <v-col :cols="mobile?12:6">
@@ -259,6 +261,7 @@
                       :label="t('platform.settings.form.webhook.form.url')"
                       :rules="[v => !!v || t('platform.settings.form.webhook.form.urlRequired')]"
                       density="compact"
+                      :placeholder="t('placeholders.platform.webhookUrl')"
                     />
                   </v-col>
                   <v-col :cols="mobile?12:6">
@@ -298,6 +301,7 @@
                       :type="isWebhookSecretVisible ? 'text' : 'password'"
                       :label="t('platform.settings.form.webhook.form.secret')"
                       density="compact"
+                      :placeholder="t('placeholders.platform.webhookSecret')"
                       @click:append-inner="isWebhookSecretVisible = !isWebhookSecretVisible"
                     />
                   </v-col>

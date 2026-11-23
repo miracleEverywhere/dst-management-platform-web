@@ -7,6 +7,7 @@
         append-inner-icon="ri-search-line"
         class="mr-4"
         :loading="getRoomsLoading"
+        :placeholder="t('placeholders.rooms.search')"
         @click:append-inner="getRooms"
         @keyup.enter="getRooms"
       />
@@ -388,6 +389,7 @@
           readonly
           variant="outlined"
           density="compact"
+          :placeholder="t('game.favorite.save.gameName')"
         />
         <v-text-field
           v-model="favoriteForm.remark"

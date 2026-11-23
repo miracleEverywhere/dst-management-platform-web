@@ -188,6 +188,7 @@
         variant="outlined"
         hide-details
         single-line
+        :placeholder="t('placeholders.game.modSearch')"
       >
         <template #append>
           <v-btn
@@ -452,6 +453,8 @@ const multiEnableLoading = ref(false)
 
 const multiEnable = async () => {
   let allSuccess = true
+  const messages = []
+
   multiEnableLoading.value = true
   for (let mod of selectedMods.value) {
     const reqForm = {
@@ -463,7 +466,11 @@ const multiEnable = async () => {
     }
 
     try {
-      await modApi.add.enable.post(reqForm)
+      const response = await modApi.add.enable.post(reqForm)
+
+      if (response?.message) {
+        messages.push(response.message)
+      }
     } catch {
       allSuccess = false
       showSnackbar(`${mod.name} ${t('game.mod.add.enableMultiFail')}`, 'error')
@@ -472,7 +479,11 @@ const multiEnable = async () => {
 
   if (allSuccess) {
     selectedMods.value = []
-    showSnackbar(t('game.mod.add.enableMultiSuccess'))
+
+    // 单个模组的提示可能包含“已被全局屏蔽”等额外信息，去重后合并成一条
+    const uniqueMessages = [...new Set(messages)]
+
+    showSnackbar(uniqueMessages.length > 0 ? uniqueMessages.join('；') : t('game.mod.add.enableMultiSuccess'))
   }
 
   multiEnableLoading.value = false

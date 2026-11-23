@@ -20,6 +20,7 @@
               label="直连端口"
               readonly
               hide-details
+              placeholder="直连端口"
             />
           </v-col>
           <v-col
@@ -32,6 +33,7 @@
               label="Steam连接端口"
               readonly
               hide-details
+              placeholder="Steam连接端口"
             />
           </v-col>
           <v-col
@@ -44,6 +46,7 @@
               label="Steam认证端口"
               readonly
               hide-details
+              placeholder="Steam认证端口"
             />
           </v-col>
         </v-row>

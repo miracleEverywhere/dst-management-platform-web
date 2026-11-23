@@ -172,6 +172,7 @@
               v-tooltip="t('tools.announce.form.content.tip')"
               :label="t('tools.announce.form.content.title')"
               :rules="announceFormRules.content"
+              :placeholder="t('placeholders.tools.announce')"
             />
           </v-row>
         </v-card-text>

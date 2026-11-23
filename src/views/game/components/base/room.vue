@@ -9,6 +9,7 @@
           :rules="roomFormRules.gameName"
           :label="t('game.base.step1.gameName.name')"
           append-inner-icon="ri-emotion-happy-line"
+          :placeholder="t('placeholders.game.roomName')"
           @click:append-inner="emojiDialog=true;emojiGameName=true"
         />
       </v-col>
@@ -21,6 +22,7 @@
           v-tooltip="t('game.base.step1.description.tip')"
           :label="t('game.base.step1.description.name')"
           append-inner-icon="ri-emotion-happy-line"
+          :placeholder="t('placeholders.game.description')"
           @click:append-inner="emojiDialog=true;emojiGameName=false"
         />
       </v-col>
@@ -83,6 +85,7 @@
             :rules="roomFormRules.customGameMode"
             :label="t('game.base.step1.gameMode.modes.custom.label')"
             density="compact"
+            :placeholder="t('placeholders.game.customGameMode')"
           />
         </v-radio-group>
       </v-col>
@@ -228,6 +231,7 @@
           :label="t('game.base.step1.password.name')"
           :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
           :type="isPasswordVisible ? 'text' : 'password'"
+          :placeholder="t('placeholders.game.password')"
           @click:append-inner="isPasswordVisible = !isPasswordVisible"
         />
       </v-col>
@@ -243,6 +247,7 @@
           :append-inner-icon="isTokenVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
           :type="isTokenVisible ? 'text' : 'password'"
           class="w-100"
+          :placeholder="t('placeholders.game.token')"
           @click:append-inner="isTokenVisible = !isTokenVisible"
         />
         <v-btn
@@ -301,6 +306,7 @@
           v-tooltip="t('game.base.step1.masterIP.tip')"
           :rules="roomFormRules.masterIP"
           :label="t('game.base.step1.masterIP.name')"
+          :placeholder="t('placeholders.game.masterIP')"
         />
       </v-col>
       <v-col :cols="mobile?12:3">
@@ -325,6 +331,7 @@
           :label="t('game.base.step1.clusterKey.name')"
           :append-inner-icon="isClusterKeyVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
           :type="isClusterKeyVisible ? 'text' : 'password'"
+          :placeholder="t('placeholders.game.clusterKey')"
           @click:append-inner="isClusterKeyVisible = !isClusterKeyVisible"
         />
       </v-col>
@@ -389,6 +396,7 @@
           v-model="roomForm.steamGroupID"
           v-tooltip="t('game.base.step1.steamGroupID.tip')"
           :label="t('game.base.step1.steamGroupID.name')"
+          :placeholder="t('placeholders.game.steamGroupID')"
         />
       </v-col>
     </v-row>
@@ -483,12 +491,14 @@
             ref="emojiInputNameRef"
             v-model="roomForm.gameName"
             :label="t('game.base.step1.gameName.name')"
+            :placeholder="t('placeholders.game.roomName')"
           />
           <v-text-field
             v-else
             ref="emojiInputDescriptionRef"
             v-model="roomForm.description"
             :label="t('game.base.step1.description.name')"
+            :placeholder="t('placeholders.game.description')"
           />
         </div>
         <div class="emoji-container mt-8">

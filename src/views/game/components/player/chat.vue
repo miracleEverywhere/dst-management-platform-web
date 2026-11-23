@@ -63,6 +63,7 @@
                   <v-col cols="12">
                     <v-text-field
                       v-model="sendMessage"
+                      :placeholder="t('placeholders.game.chatMessage')"
                       @keyup.enter="handleSendMessage"
                     >
                       <template #append>

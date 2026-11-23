@@ -257,6 +257,7 @@
           v-model="installForm.proxy"
           v-tooltip="t('platform.plugin.install.proxy.tip')"
           :label="t('platform.plugin.install.proxy.name')"
+          :placeholder="t('placeholders.platform.proxy')"
         />
         <v-checkbox
           v-if="currentPlugin === 'tmi'"

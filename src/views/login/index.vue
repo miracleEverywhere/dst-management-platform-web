@@ -148,6 +148,7 @@
                   <v-text-field
                     v-model="loginForm.username"
                     :label="t('login.loginForm.username')"
+                    :placeholder="t('placeholders.login.username')"
                   />
                 </v-col>
 
@@ -158,6 +159,7 @@
                     :type="isPasswordVisible ? 'text' : 'password'"
                     autocomplete="password"
                     :label="t('login.loginForm.password')"
+                    :placeholder="t('placeholders.login.password')"
                     @click:append-inner="isPasswordVisible = !isPasswordVisible"
                   />
                   <v-btn
@@ -199,6 +201,7 @@
                                 :label="t('login.registerForm.username')"
                                 clearable
                                 :rules="registerFormRules.username"
+                                :placeholder="t('placeholders.login.username')"
                               />
                             </v-row>
                             <v-row>
@@ -208,6 +211,7 @@
                                 :label="t('login.registerForm.nickname')"
                                 clearable
                                 :rules="registerFormRules.nickname"
+                                :placeholder="t('placeholders.login.nickname')"
                               />
                             </v-row>
                             <v-row class="mb-6">
@@ -262,6 +266,7 @@
                                 :label="t('login.registerForm.password')"
                                 :rules="registerFormRules.password"
                                 clearable
+                                :placeholder="t('placeholders.login.password')"
                                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
                               />
                             </v-row>
@@ -301,6 +306,7 @@
                     autocomplete="username"
                     prepend-inner-icon="ri-user-line"
                     clearable
+                    :placeholder="t('placeholders.login.cloudIdentity')"
                   />
                 </v-col>
                 <v-col cols="12">
@@ -312,6 +318,7 @@
                     :label="t('cloud.login.password')"
                     :rules="cloudRules.password"
                     prepend-inner-icon="ri-lock-line"
+                    :placeholder="t('placeholders.login.cloudPassword')"
                     @click:append-inner="isPasswordVisible = !isPasswordVisible"
                   />
                   <v-btn

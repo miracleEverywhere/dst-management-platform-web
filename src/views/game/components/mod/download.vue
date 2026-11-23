@@ -14,6 +14,7 @@
           :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
           clearable
           density="compact"
+          :placeholder="t('placeholders.game.modSearchText')"
           @keyup.enter="handleModSearch"
         >
           <template #append>
@@ -33,6 +34,7 @@
         :label="modSearchForm.searchType==='text'?t('game.mod.download.searchPlaceholderName'):t('game.mod.download.searchPlaceholderID')"
         clearable
         class="my-2"
+        :placeholder="t('placeholders.game.modSearchText')"
         @keyup.enter="handleModSearch"
       >
         <template #prepend>

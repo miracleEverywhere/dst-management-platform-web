@@ -42,6 +42,7 @@
           clearable
           hide-details
           maxlength="64"
+          :placeholder="t('placeholders.tools.lobbySearch')"
           @keyup.enter="applyFilters"
           @click:clear="applyFilters"
         />

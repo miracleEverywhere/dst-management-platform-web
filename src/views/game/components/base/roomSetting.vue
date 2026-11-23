@@ -50,6 +50,7 @@
           :disabled="!roomSettingForm.backup.enable"
           append-icon="ri-close-line"
           :label="t('game.base.step4.form.backup.time')"
+          :placeholder="t('placeholders.game.backupTime')"
           @click:append="deleteBackupTime(i.time)"
         >
           <v-menu
@@ -176,6 +177,7 @@
           v-tooltip="t('game.base.step4.form.restart.tip.time')"
           :disabled="!roomSettingForm.restart.enable"
           :label="t('game.base.step4.form.restart.time')"
+          :placeholder="t('placeholders.game.restartTime')"
         >
           <v-menu
             :close-on-content-click="false"
@@ -259,6 +261,7 @@
           v-tooltip="t('game.base.step4.form.reset.tip.time')"
           :disabled="!roomSettingForm.reset.enable"
           :label="t('game.base.step4.form.reset.time')"
+          :placeholder="t('placeholders.game.resetTime')"
         >
           <v-menu
             :close-on-content-click="false"
@@ -387,6 +390,7 @@
           v-tooltip="t('game.base.step4.form.scheduledStartStop.tip.start')"
           :disabled="!roomSettingForm.scheduledStartStop.enable"
           :label="t('game.base.step4.form.scheduledStartStop.time.start')"
+          :placeholder="t('placeholders.game.startTime')"
         >
           <v-menu
             :close-on-content-click="false"
@@ -406,6 +410,7 @@
           v-tooltip="t('game.base.step4.form.scheduledStartStop.tip.stop')"
           :disabled="!roomSettingForm.scheduledStartStop.enable"
           :label="t('game.base.step4.form.scheduledStartStop.time.stop')"
+          :placeholder="t('placeholders.game.stopTime')"
         >
           <v-menu
             :close-on-content-click="false"
@@ -601,6 +606,7 @@
                   :label="t('game.base.step4.form.webhook.form.name')"
                   :rules="[v => !!v || t('game.base.step4.form.webhook.form.nameRequired')]"
                   density="compact"
+                  :placeholder="t('placeholders.game.webhookName')"
                 />
               </v-col>
               <v-col :cols="mobile?12:6">
@@ -609,6 +615,7 @@
                   :label="t('game.base.step4.form.webhook.form.url')"
                   :rules="[v => !!v || t('game.base.step4.form.webhook.form.urlRequired')]"
                   density="compact"
+                  :placeholder="t('placeholders.game.webhookUrl')"
                 />
               </v-col>
               <v-col :cols="12">
@@ -647,6 +654,7 @@
                   :label="t('game.base.step4.form.webhook.form.secret')"
                   density="compact"
                   class="mt-2"
+                  :placeholder="t('placeholders.game.webhookSecret')"
                   @click:append-inner="isWebhookSecretVisible = !isWebhookSecretVisible"
                 />
               </v-col>

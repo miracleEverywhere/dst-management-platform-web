@@ -39,7 +39,10 @@
         v-else
         class="mt-8"
       >
-        <v-text-field v-model="token">
+        <v-text-field
+          v-model="token"
+          :placeholder="t('placeholders.tools.token')"
+        >
           <template #append-inner>
             <v-btn
               v-copy="token"

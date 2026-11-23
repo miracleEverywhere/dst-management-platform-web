@@ -90,6 +90,7 @@
                             :rules="customConnectionCodeFormRules.ip"
                             :label="t('dashboard.card1.item.custom.ip.title')"
                             class="mb-8"
+                            :placeholder="t('placeholders.dashboard.customIp')"
                           />
                           <v-number-input
                             v-model="customConnectionCodeForm.port"
@@ -847,6 +848,7 @@
                           <v-text-field
                             v-model="quickCmdUid"
                             :label="t('dashboard.card3.quickCmd.playerUid')"
+                            :placeholder="t('placeholders.dashboard.quickUid')"
                           />
                         </v-col>
                       </v-row>
@@ -1075,6 +1077,7 @@
                     class="w-100"
                     :label="t('dashboard.card4.announce')"
                     clearable
+                    :placeholder="t('placeholders.dashboard.announce')"
                     @click:append-inner="handleGameExec({type:'announce',extra:announceMsg})"
                     @keyup.enter="handleGameExec({type:'announce',extra:announceMsg})"
                   />
@@ -1088,6 +1091,7 @@
                     class="w-100"
                     :label="t('dashboard.card4.systemMsg')"
                     clearable
+                    :placeholder="t('placeholders.dashboard.systemMsg')"
                     @click:append-inner="handleGameExec({type:'systemMsg',extra:systemMsg})"
                     @keyup.enter="handleGameExec({type:'systemMsg',extra:systemMsg})"
                   />
@@ -1117,6 +1121,7 @@
                     :label="t('dashboard.card4.cmd')"
                     clearable
                     :disabled="consoleForm.selectedWorldID===undefined"
+                    :placeholder="t('placeholders.dashboard.consoleCmd')"
                     @click:append-inner="handleGameExec({type:'console',extra:consoleForm.cmd,worldID:consoleForm.selectedWorldID})"
                     @keyup.enter="handleGameExec({type:'console',extra:consoleForm.cmd,worldID:consoleForm.selectedWorldID})"
                   />

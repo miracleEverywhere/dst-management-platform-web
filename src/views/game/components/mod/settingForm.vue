@@ -86,6 +86,7 @@
                     v-model="formData[field.name][index]"
                     :label="`${t('game.mod.setting.item')} ${index + 1}`"
                     variant="outlined"
+                    :placeholder="t('placeholders.game.modItem')"
                     @update:model-value="handleArrayChange(field.name, index, $event)"
                   />
                   <v-btn
@@ -121,6 +122,7 @@
                     :label="t('game.mod.setting.key')"
                     variant="outlined"
                     class="mr-2"
+                    :placeholder="t('placeholders.game.modKey')"
                     @update:model-value="handleObjectKeyChange(field.name, key, index, $event)"
                   />
                   <v-text-field
@@ -129,6 +131,7 @@
                     variant="outlined"
                     class="mr-2"
                     :type="getInputType(value)"
+                    :placeholder="t('placeholders.game.modValue')"
                     @update:model-value="handleObjectValueChange(field.name, key, $event)"
                   />
                   <v-btn

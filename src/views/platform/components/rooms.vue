@@ -371,6 +371,7 @@
               :label="t('platform.rooms.customDialog.label')"
               density="compact"
               clearable
+              :placeholder="t('placeholders.platform.customStartup')"
             >
               <template
                 v-if="!mobile"

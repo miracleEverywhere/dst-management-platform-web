@@ -44,6 +44,7 @@
                 v-model="loginForm.username"
                 label="用户名"
                 autocomplete="username"
+                placeholder="请输入用户名"
               />
             </v-col>
 
@@ -54,6 +55,7 @@
                 :type="isPasswordVisible ? 'text' : 'password'"
                 autocomplete="password"
                 label="密码"
+                placeholder="请输入密码"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
               <v-btn
@@ -123,6 +125,7 @@
             label="用户名"
             :rules="registerFormRules.username"
             clearable
+            placeholder="请输入用户名"
           />
           <v-text-field
             v-model="registerForm.password"
@@ -132,6 +135,7 @@
             label="密码"
             :rules="registerFormRules.password"
             clearable
+            placeholder="请输入密码"
             @click:append-inner="isPasswordVisible = !isPasswordVisible"
           />
           <v-card-actions class="mt-6">

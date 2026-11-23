@@ -166,6 +166,7 @@
               :disabled="(props.formData?.length||0) !== 0"
               :rules="worldFormRules.worldName"
               :label="t('game.base.step2.worldName.name')"
+              :placeholder="t('placeholders.game.worldName')"
             />
           </v-col>
         </v-row>
