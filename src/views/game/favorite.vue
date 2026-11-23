@@ -353,6 +353,7 @@
             readonly
             variant="outlined"
             density="compact"
+            :placeholder="t('game.favorite.save.gameName')"
           />
           <v-text-field
             v-model="saveForm.remark"

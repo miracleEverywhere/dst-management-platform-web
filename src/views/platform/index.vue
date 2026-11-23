@@ -24,6 +24,9 @@
     <v-tab value="Plugins">
       {{ t('platform.tab.plugins') }}
     </v-tab>
+    <v-tab value="BannedMods">
+      {{ t('platform.tab.bannedMods') }}
+    </v-tab>
   </v-tabs>
   <v-tabs-window v-model="activeTabName">
     <v-tabs-window-item value="Overview">
@@ -92,6 +95,17 @@
         <plugins />
       </v-container>
     </v-tabs-window-item>
+    <v-tabs-window-item value="BannedMods">
+      <v-container
+        fluid
+        :height="calculateContainerSize()"
+        width="100%"
+        class="w-100"
+        style="overflow-y: auto"
+      >
+        <banned-mods />
+      </v-container>
+    </v-tabs-window-item>
   </v-tabs-window>
 </template>
 
@@ -104,6 +118,7 @@ import Metrics from "@/views/platform/components/metrics.vue"
 import Settings from "@/views/platform/components/settings.vue"
 import Rooms from "@/views/platform/components/rooms.vue"
 import Plugins from "@/views/platform/components/plugins.vue"
+import BannedMods from "@/views/platform/components/bannedMods.vue"
 
 
 const { t } = useI18n()
