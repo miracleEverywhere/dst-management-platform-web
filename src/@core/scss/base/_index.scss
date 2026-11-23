@@ -17,12 +17,8 @@
 // Misc
 @use "misc";
 
-// Dark
-@use "dark";
-
 // libs
 @use "libs/scrollbar";
-@use "libs/perfect-scrollbar";
 
 a {
   color: rgb(var(--v-theme-primary));

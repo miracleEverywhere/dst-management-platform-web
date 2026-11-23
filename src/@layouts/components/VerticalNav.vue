@@ -31,10 +31,9 @@
       :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled"
     >
       <!--
-        ℹ️ 这里刻意用原生滚动而不是 perfect-scrollbar：
-        perfect-scrollbar 在挂载时测量到的内容高度会比实际大 1~2px，
-        于是即使菜单没有溢出也会被打上 ps--active-y，鼠标移上去冒出一个无法滚动的滑块。
-        原生 overflow 只在真正溢出时才出现滚动条。
+        ℹ️ 滚动由原生 overflow 负责（滚轮 / 触控板 / 键盘 / 屏幕阅读器都正常）。
+        滚动条外观交给全局的覆盖式滚动条（src/plugins/overlayScrollbar），
+        原生滚动条在全站范围内已被隐藏 —— 内容没溢出时不会有任何滚动条出现。
       -->
       <ul
         class="nav-items"
@@ -155,7 +154,7 @@ const handleNavScroll = evt => {
     overflow-x: hidden;
     overflow-y: auto;
 
-    // 内容滚动到底部时不要把滚轮事件继续传给页面（替代 perfect-scrollbar 的 wheelPropagation: false）
+    // 内容滚动到底部时不要把滚轮事件继续传给页面
     overscroll-behavior: contain;
   }
 

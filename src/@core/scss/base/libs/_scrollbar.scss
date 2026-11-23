@@ -1,49 +1,110 @@
-// 👉 全局原生滚动条：与 dmp-cloud 保持一致（10px 轨道、2px 内缩、primary 半透明滑块）
-// ℹ️ Chromium / Safari 走 ::-webkit-scrollbar；标准属性 scrollbar-color 会让浏览器忽略
-//    WebKit 伪元素样式，因此只在「不支持 ::-webkit-scrollbar」的环境（Firefox 等）里生效
-
-$scrollbar-size: 10px;
-$scrollbar-thumb-inset: 2px;
-$scrollbar-thumb-opacity: 0.28;
-$scrollbar-thumb-hover-opacity: 0.5;
+// 👉 全局滚动条
+//
+// 视觉统一为 dmp-cloud 方案（primary 半透明滑块、10px 轨道、2px 内缩），
+// 但呈现方式改成「覆盖式 + 悬停才出现」，由 src/plugins/overlayScrollbar 负责绘制：
+//   - 支持 hover 的设备：隐藏原生滚动条（这里），指针进入可滚动区域时由 JS 在可见边缘画出滑块
+//   - 触屏设备（hover: none）：保留系统滚动条，避免和手势拖动打架
 
 // 👉 根元素的滚动条只在页面真正可滚动时出现
-// ℹ️ Vuetify 默认给 html 设置了 overflow-y: scroll，这会让右侧长期保留一条空滚动条槽位（看起来像多出的分隔线）。
+// ℹ️ Vuetify 默认给 html 设置了 overflow-y: scroll，会让右侧长期保留一条空滚动条槽位。
 //    弹窗锁滚动时 Vuetify 会给 html 加 .overflow-y-hidden（带 !important 且选择器优先级更高），仍然生效。
 html {
   overflow-y: auto;
 }
 
-*::-webkit-scrollbar {
-  block-size: $scrollbar-size;
-  inline-size: $scrollbar-size;
-}
-
-// 隐藏滚动条两端的箭头按钮，避免经典滚动条模式下多出两条“边框”
-*::-webkit-scrollbar-button {
-  display: none;
-  block-size: 0;
-  inline-size: 0;
-}
-
-*::-webkit-scrollbar-track,
-*::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  border: $scrollbar-thumb-inset solid transparent;
-  border-radius: 999px;
-  background-clip: content-box;
-  background-color: rgba(var(--v-theme-primary), $scrollbar-thumb-opacity);
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(var(--v-theme-primary), $scrollbar-thumb-hover-opacity);
-}
-
-@supports not selector(::-webkit-scrollbar) {
+@media (hover: hover) {
   * {
-    scrollbar-color: rgba(var(--v-theme-primary), $scrollbar-thumb-opacity) transparent;
+    scrollbar-width: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+    block-size: 0;
+    inline-size: 0;
+  }
+}
+
+// 触屏设备（没有 hover）保留系统滚动条，但同样使用 primary 半透明配色
+@media (hover: none) {
+  * {
+    scrollbar-color: rgba(var(--v-theme-primary), 0.28) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    block-size: 10px;
+    inline-size: 10px;
+  }
+
+  *::-webkit-scrollbar-button {
+    display: none;
+    block-size: 0;
+    inline-size: 0;
+  }
+
+  *::-webkit-scrollbar-track,
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background-clip: content-box;
+    background-color: rgba(var(--v-theme-primary), 0.28);
+  }
+}
+
+// 👉 覆盖式滚动条（由 overlayScrollbar 插件创建并定位）
+.overlay-scrollbars {
+  position: fixed;
+  z-index: 100000;
+  pointer-events: none;
+  inset: 0;
+}
+
+.overlay-scrollbars__bar {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.overlay-scrollbars__bar.is-visible {
+  opacity: 1;
+}
+
+.overlay-scrollbars__thumb {
+  position: absolute;
+  border-radius: 999px;
+  background-color: rgba(var(--v-theme-primary), 0.28);
+  // 滚动条上保持默认光标（不使用 grab / grabbing）
+  cursor: default;
+  pointer-events: none;
+  touch-action: none;
+  transition: background-color 0.15s ease;
+}
+
+.overlay-scrollbars__bar.is-visible .overlay-scrollbars__thumb {
+  pointer-events: auto;
+}
+
+.overlay-scrollbars__thumb:hover,
+.overlay-scrollbars__bar.is-dragging .overlay-scrollbars__thumb {
+  background-color: rgba(var(--v-theme-primary), 0.5);
+}
+
+// 拖拽过程中同样保持默认光标，避免经过文字/链接时闪现 I-beam、pointer
+body.overlay-scrollbars--dragging,
+body.overlay-scrollbars--dragging * {
+  cursor: default !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay-scrollbars__bar {
+    transition: none;
+  }
+
+  .overlay-scrollbars__thumb {
+    transition: none;
   }
 }
