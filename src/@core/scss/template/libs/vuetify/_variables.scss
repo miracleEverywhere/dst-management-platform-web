@@ -1,5 +1,7 @@
-$font-family-custom: "Inter", sans-serif, -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
-  "Helvetica Neue", arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+// 与 @layouts/styles/custom.css 的全局字体保持一致。
+// Vuetify 的 .text-* 排版类会显式输出 font-family（优先级高于 * 通配符），
+// 若不在这里覆盖，加了 text-h2 / text-subtitle-1 等类后字体会退回模板自带的 Inter 字体栈。
+$font-family-custom: "ZhuZiAYuanJWD", "DstEmojiChangGeMenTu", Helvetica, "Microsoft YaHei", sans-serif;
 /* stylelint-disable length-zero-no-unit */
 @forward "../../../base/libs/vuetify/variables" with (
   $body-font-family: $font-family-custom !default,

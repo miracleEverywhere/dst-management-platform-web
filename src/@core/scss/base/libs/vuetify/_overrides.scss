@@ -245,13 +245,14 @@ body,
 }
 
 // 👉 placeholders
+// 只统一占位符颜色，不强制 opacity：Vuetify 会在「有 label 且未激活」时把 placeholder 设为 opacity 0，
+// 若这里用 opacity: 1 !important 覆盖，placeholder 会和静止状态的 label 重叠。
 .v-field__input {
   @at-root {
     & input::placeholder,
     input#{&}::placeholder,
     textarea#{&}::placeholder {
       color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity)) !important;
-      opacity: 1 !important;
     }
   }
 }
