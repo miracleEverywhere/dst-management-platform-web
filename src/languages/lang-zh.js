@@ -1609,6 +1609,7 @@ export default {
       searchKB: '正在检索知识库',
       proposeAction: '正在整理修复动作',
       finish: '正在生成诊断结论',
+      modInfo: '正在获取模组详细信息',
       unknown: '正在执行：{tool}',
     },
     apply: {

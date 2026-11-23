@@ -84,11 +84,6 @@
       }
     }
 
-    // ℹ️ Setting z-index 1 will make perfect scrollbar thumb appear on top of vertical nav items shadow;
-    .ps__rail-y {
-      z-index: 1;
-    }
-
     // 👉 Nav section title
     .nav-section-title {
       @extend %vertical-nav-item;

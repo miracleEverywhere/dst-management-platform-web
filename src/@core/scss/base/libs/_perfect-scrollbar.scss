@@ -2,6 +2,10 @@ $ps-size: 0.25rem;
 $ps-hover-size: 0.375rem;
 $ps-track-size: 0.5rem;
 
+// 与全局原生滚动条（dmp-cloud 方案）保持一致的 primary 半透明观感
+$ps-thumb-opacity: 0.28;
+$ps-thumb-hover-opacity: 0.5;
+
 .ps__thumb-y {
   inline-size: $ps-size !important;
   inset-inline-end: 0.0625rem;
@@ -9,7 +13,7 @@ $ps-track-size: 0.5rem;
 
 .ps__thumb-y,
 .ps__thumb-x {
-  background-color: rgb(var(--v-theme-perfect-scrollbar-thumb)) !important;
+  background-color: rgba(var(--v-theme-primary), $ps-thumb-opacity) !important;
 }
 
 .ps__thumb-x {
@@ -26,6 +30,15 @@ $ps-track-size: 0.5rem;
   inline-size: $ps-track-size !important;
   inset-inline-end: 0.125rem !important;
   inset-inline-start: unset !important;
+}
+
+.ps__rail-x.ps--clicking .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-y.ps--clicking .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y:hover > .ps__thumb-y {
+  background-color: rgba(var(--v-theme-primary), $ps-thumb-hover-opacity) !important;
 }
 
 .ps__rail-y.ps--clicking .ps__thumb-y,

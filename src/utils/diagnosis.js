@@ -7,6 +7,7 @@ const TOOL_LABEL_KEYS = new Map([
   ['get_world_status', 'diagnosis.tool.worldStatus'],
   ['get_logs', 'diagnosis.tool.logs'],
   ['get_mods', 'diagnosis.tool.mods'],
+  ['get_mod_info', 'diagnosis.tool.modInfo'],
   ['get_game_version', 'diagnosis.tool.gameVersion'],
   ['get_scheduler', 'diagnosis.tool.scheduler'],
   ['get_backups', 'diagnosis.tool.backups'],

@@ -1609,6 +1609,7 @@ export default {
       searchKB: 'Searching knowledge base',
       proposeAction: 'Preparing repair actions',
       finish: 'Generating diagnosis conclusion',
+      modInfo: 'Reading detailed mod info',
       unknown: 'Running: {tool}',
     },
     apply: {

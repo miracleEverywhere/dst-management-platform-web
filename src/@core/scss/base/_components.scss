@@ -1,5 +1,4 @@
 @use "mixins";
-@use "@layouts/styles/placeholders";
 @use "@layouts/styles/mixins" as layoutMixins;
 @use "@configured-variables" as variables;
 @use "@styles/variables/_vuetify.scss" as vuetify;
@@ -97,10 +96,6 @@
     .v-btn__overlay {
       display: none;
     }
-  }
-
-  .v-card {
-    @extend %style-scroll-bar;
   }
 }
 

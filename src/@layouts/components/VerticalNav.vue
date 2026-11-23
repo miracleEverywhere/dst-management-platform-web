@@ -30,21 +30,24 @@
       name="nav-items"
       :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled"
     >
-      <perfect-scrollbar
-        tag="ul"
+      <!--
+        ℹ️ 这里刻意用原生滚动而不是 perfect-scrollbar：
+        perfect-scrollbar 在挂载时测量到的内容高度会比实际大 1~2px，
+        于是即使菜单没有溢出也会被打上 ps--active-y，鼠标移上去冒出一个无法滚动的滑块。
+        原生 overflow 只在真正溢出时才出现滚动条。
+      -->
+      <ul
         class="nav-items"
-        :options="{ wheelPropagation: false }"
-        @ps-scroll-y="handleNavScroll"
+        @scroll.passive="handleNavScroll"
       >
         <slot />
-      </perfect-scrollbar>
+      </ul>
     </slot>
     <slot name="after-nav-items" />
   </Component>
 </template>
 
 <script setup>
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useDisplay } from 'vuetify'
 
 // import logo from '@images/logo.svg?raw'
@@ -149,12 +152,11 @@ const handleNavScroll = evt => {
 
   .nav-items {
     block-size: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 
-    // ℹ️ We no loner needs this overflow styles as perfect scrollbar applies it
-    // overflow-x: hidden;
-
-    // // ℹ️ We used `overflow-y` instead of `overflow` to mitigate overflow x. Revert back if any issue found.
-    // overflow-y: auto;
+    // 内容滚动到底部时不要把滚轮事件继续传给页面（替代 perfect-scrollbar 的 wheelPropagation: false）
+    overscroll-behavior: contain;
   }
 
   .nav-item-title {
