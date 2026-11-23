@@ -302,6 +302,26 @@ export const parseModLua = modLua => {
   }
 }
 
+// 从 modoverrides.lua 中提取数字模组ID（workshop-123456 → 123456），去重并过滤非法值
+export const parseModIDs = modData => {
+  const ids = parseModLua(modData || '')
+    .map(mod => Number(String(mod).replace(/^workshop-/, '')))
+    .filter(id => Number.isInteger(id) && id > 0)
+
+  return [...new Set(ids)]
+}
+
+// 找出 modData 中命中全局屏蔽名单（/mod/banned）的模组ID
+export const findBannedModIDs = (modData, bannedIDs) => {
+  if (!Array.isArray(bannedIDs) || bannedIDs.length === 0) {
+    return []
+  }
+
+  const banned = new Set(bannedIDs)
+
+  return parseModIDs(modData).filter(id => banned.has(id))
+}
+
 export const getDstToken = () => {
   let decoded = "VjFSQ2ExVXlWbkpsUm1oaFVqRmFWVlJXV21GaVZsWnlZVWRHV0dKV1JqUldNakI0V1ZaS1YyTkhlRlpOVjFKeVZrUkJOVkpzY0VkYVJtaFVVakpSZVZac1dsTlNNazE0VW14a1VtSlZXbWhVVlZKelUyeHJlRlZyT1ZaaVJscEpWMnRTUzFac1NYbFVXSEJhWld0YWRsa3haRWRYVms1VlZHeGtWMDFZUWtoV01qRjNZbTFXV0Zac1dtcFNSVXB2V2xkd1FrOVJQVDA9"
   const times = 5

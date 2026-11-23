@@ -223,15 +223,26 @@
                   >
                     {{ t('dashboard.card1.item.mods') }}
                   </v-chip>
-                  <v-chip v-if="(baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length)===0">
-                    {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
+                  <v-chip v-if="modCount===0">
+                    {{ modCount }}
                   </v-chip>
-                  <v-chip
+                  <v-badge
                     v-else
-                    @click="modDialog=true;getEnabledMods()"
+                    :model-value="bannedModHits.length>0"
+                    color="error"
+                    dot
                   >
-                    {{ baseInfo.room.modInOne?parseModLua(baseInfo.room.modData).length:parseModLua(baseInfo.worlds[0].modData).length }}
-                  </v-chip>
+                    <v-chip @click="modDialog=true;getEnabledMods()">
+                      {{ modCount }}
+                      <v-tooltip
+                        v-if="bannedModHits.length>0"
+                        activator="parent"
+                        location="top"
+                      >
+                        {{ t('dashboard.card1.item.modsBannedTip', { count: bannedModHits.length, ids: bannedModHits.join(', ') }) }}
+                      </v-tooltip>
+                    </v-chip>
+                  </v-badge>
                   <v-dialog
                     v-model="modDialog"
                     :width="mobile?'90%':'60%'"
@@ -1225,7 +1236,7 @@
 </template>
 
 <script setup>
-import { debounce, formatBytes, getEditorLang, parseModLua, truncateString } from "@/utils/tools.js"
+import { debounce, findBannedModIDs, formatBytes, getEditorLang, parseModLua, truncateString } from "@/utils/tools.js"
 import dashboardApi from "@/api/dashboard.js"
 import useGlobalStore from "@store/global.js"
 import { resolveTheme } from "@/utils/theme.js"
@@ -1263,6 +1274,34 @@ const getBaseInfo = async () => {
   const response = await dashboardApi.info.base.get(reqForm)
 
   baseInfo.value = response.data
+}
+
+// modInOne 为 true 时取房间的 modData，否则取第一个世界的 modData
+const modData = computed(() => {
+  if (!baseInfo.value?.room) {
+    return ''
+  }
+
+  return baseInfo.value.room.modInOne
+    ? baseInfo.value.room.modData
+    : baseInfo.value.worlds?.[0]?.modData
+})
+
+const modCount = computed(() => parseModLua(modData.value || '').length)
+
+const bannedModIDs = ref([])
+
+const bannedModHits = computed(() => findBannedModIDs(modData.value, bannedModIDs.value))
+
+// 屏蔽名单对所有用户可读，用于在模组个数上提示已启用的屏蔽模组
+const getBannedModIDs = async () => {
+  try {
+    const response = await modApi.banned.get()
+
+    bannedModIDs.value = Array.isArray(response.data) ? response.data : []
+  } catch {
+    // 读取失败由 Axios 拦截器统一提示
+  }
 }
 
 const sysInfo = ref()
@@ -1735,7 +1774,7 @@ const calculateContainerSize = () => {
 const dataGot = ref(false)
 
 onMounted(async () => {
-  await Promise.all([getBaseInfo(), getSysInfo()])
+  await Promise.all([getBaseInfo(), getSysInfo(), getBannedModIDs()])
   dataGot.value = true
   getConnectionCode()
   consoleForm.value.worlds = baseInfo.value?.worlds || []

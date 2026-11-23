@@ -313,6 +313,7 @@ export default {
             gameMode: 'Game Mode',
             worldNum: 'Worlds',
             modNum: 'Mods',
+            modNumBannedTip: 'This room includes {count} banned mod(s): {ids}',
             playerNum: 'Players',
           },
           right: {
@@ -1351,6 +1352,7 @@ export default {
         gameSeason: 'Season',
         gamePhase: 'Phase',
         mods: 'Mods',
+        modsBannedTip: 'This room includes {count} banned mod(s): {ids}',
         players: 'Players',
         custom: {
           button: 'Custom',

@@ -313,6 +313,7 @@ export default {
             gameMode: '游戏模式',
             worldNum: '世界个数',
             modNum: '模组个数',
+            modNumBannedTip: '该房间包含 {count} 个被屏蔽的模组：{ids}',
             playerNum: '玩家个数',
           },
           right: {
@@ -1351,6 +1352,7 @@ export default {
         gameSeason: '游戏季节',
         gamePhase: '游戏阶段',
         mods: '游戏模组',
+        modsBannedTip: '该房间包含 {count} 个被屏蔽的模组：{ids}',
         players: '游戏玩家',
         custom: {
           button: '自定义',

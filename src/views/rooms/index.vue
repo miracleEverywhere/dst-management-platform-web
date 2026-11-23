@@ -228,12 +228,25 @@
                         </span>
                       </v-col>
                       <v-col cols="6">
-                        <v-chip
-                          color="info"
-                          label
+                        <v-badge
+                          :model-value="(bannedModHitsMap[room.id]?.length || 0)>0"
+                          color="error"
+                          dot
                         >
-                          {{ room.modInOne?parseModLua(room.modData).length:parseModLua(room.worlds[0].modData).length }}
-                        </v-chip>
+                          <v-chip
+                            color="info"
+                            label
+                          >
+                            {{ room.modInOne?parseModLua(room.modData).length:parseModLua(room.worlds[0].modData).length }}
+                            <v-tooltip
+                              v-if="bannedModHitsMap[room.id]?.length"
+                              activator="parent"
+                              location="top"
+                            >
+                              {{ t('rooms.card.success.text.left.modNumBannedTip', { count: bannedModHitsMap[room.id].length, ids: bannedModHitsMap[room.id].join(', ') }) }}
+                            </v-tooltip>
+                          </v-chip>
+                        </v-badge>
                       </v-col>
                     </v-row>
                     <v-row>
@@ -431,7 +444,7 @@ import { CountTo } from "vue3-count-to"
 import useUserStore from "@store/user"
 import useGlobalStore from "@store/global"
 import { useI18n } from "vue-i18n"
-import { debounce, parseModLua, truncateString } from "@/utils/tools"
+import { debounce, findBannedModIDs, parseModLua, truncateString } from "@/utils/tools"
 import { showSnackbar } from "@/utils/snackbar"
 import { useRouter } from "vue-router"
 import eventBus from '@/utils/eventBus'
@@ -488,6 +501,32 @@ const getRooms = async () => {
 const favoriteVisible = ref(false)
 const favoriteLoading = ref(false)
 const favoriteRoom = ref(null)
+
+const bannedModIDs = ref([])
+
+// 按房间缓存命中的屏蔽模组，避免模板里重复解析 modoverrides.lua
+const bannedModHitsMap = computed(() => {
+  const map = {}
+
+  for (const room of rooms.value) {
+    const modData = room.modInOne ? room.modData : room.worlds?.[0]?.modData
+
+    map[room.id] = findBannedModIDs(modData, bannedModIDs.value)
+  }
+
+  return map
+})
+
+// 屏蔽名单对所有用户可读，用于在模组个数上提示已启用的屏蔽模组
+const getBannedModIDs = async () => {
+  try {
+    const response = await modApi.banned.get()
+
+    bannedModIDs.value = Array.isArray(response.data) ? response.data : []
+  } catch {
+    // 读取失败由 Axios 拦截器统一提示
+  }
+}
 
 const favoriteForm = ref({
   remark: '',
@@ -745,7 +784,7 @@ const generateGameInfo = async room => {
 
 onMounted(async () => {
   reqForm.value.pageSize = calculateCardSize()
-  await getRooms()
+  await Promise.all([getRooms(), getBannedModIDs()])
   if (cardRef.value) {
     cardWidth.value = cardRef.value.$el.offsetWidth
   }
