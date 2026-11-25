@@ -268,6 +268,70 @@
         </v-card-text>
       </v-card>
     </v-col>
+    <v-col
+      cols="12"
+      md="6"
+    >
+      <v-card>
+        <template #prepend>
+          <v-icon
+            color="primary"
+            class="me-8"
+            icon="ri-restart-line"
+            size="48"
+          />
+          <span>
+            {{ t('platform.overview.dmpVersion') }}
+          </span>
+        </template>
+        <template #append>
+          <v-btn
+            v-if="canUpdate"
+            color="warning"
+            size="small"
+            variant="text"
+            @click="openSelfUpdateDialog"
+          >
+            {{ t('selfUpdate.updateNow') }}
+          </v-btn>
+          <v-btn
+            v-else-if="dmpVersion.updatable"
+            size="small"
+            variant="text"
+            disabled
+          >
+            {{ t('selfUpdate.updateNow') }}
+          </v-btn>
+          <v-btn
+            v-else
+            size="small"
+            variant="text"
+            :loading="dmpVersion.loading"
+            @click="checkVersion"
+          >
+            {{ t('selfUpdate.checkNow') }}
+          </v-btn>
+        </template>
+        <v-card-text class="d-flex align-center justify-end ga-2">
+          <span>{{ dmpVersion.current || '--' }}</span>
+          <v-chip
+            v-if="dmpVersion.updatable"
+            color="success"
+            size="x-small"
+            variant="tonal"
+          >
+            {{ dmpVersion.latest }}
+          </v-chip>
+          <v-icon
+            v-if="statusText"
+            v-tooltip="statusText"
+            class="text-medium-emphasis"
+            icon="ri-information-line"
+            size="16"
+          />
+        </v-card-text>
+      </v-card>
+    </v-col>
   </v-row>
 </template>
 
@@ -277,11 +341,39 @@ import { formatBytes } from "@/utils/tools"
 import { CountTo } from "vue3-count-to"
 import { useI18n } from "vue-i18n"
 import useGlobalStore from "@store/global"
+import useUserStore from "@store/user"
+import { dmpVersion, fetchDmpVersion, openSelfUpdateDialog } from "@/utils/selfUpdate.js"
 
 
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
 
-const { t } = useI18n()
+const { t, te } = useI18n()
+
+const canUpdate = computed(() => dmpVersion.updatable && dmpVersion.canSelfUpdate && userStore.userInfo.role === 'admin')
+
+const reasonText = computed(() => {
+  if (!dmpVersion.updatable) return ''
+  if (userStore.userInfo.role !== 'admin') return t('selfUpdate.notAdmin')
+  if (dmpVersion.canSelfUpdate) return ''
+
+  const key = `selfUpdate.reason.${dmpVersion.reason || 'unsupported'}`
+
+  return te(key) ? t(key) : t('selfUpdate.reason.unsupported')
+})
+
+// 状态说明收进 tooltip，避免卡片比同行其它卡片多出一行
+const statusText = computed(() => {
+  if (reasonText.value) return reasonText.value
+  if (dmpVersion.checkFailed) return t('selfUpdate.checkFailed')
+  if (dmpVersion.loaded && !dmpVersion.updatable) return t('selfUpdate.upToDate')
+
+  return ''
+})
+
+const checkVersion = () => {
+  fetchDmpVersion({ refresh: true })
+}
 
 const overviewData = ref({
   runningTime: undefined,
@@ -309,6 +401,9 @@ const getOverviewData = () => {
 
 onMounted(() => {
   getOverviewData()
+
+  // 顶部版本 chip 通常已经查过，这里只补一次
+  if (!dmpVersion.loaded) fetchDmpVersion()
 })
 </script>
 

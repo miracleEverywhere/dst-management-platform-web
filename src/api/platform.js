@@ -16,6 +16,18 @@ export const gameInstallStreamURL = ({ action, after } = {}) => {
   return `/${ApiVersion}/platform/game/install/stream${search ? `?${search}` : ''}`
 }
 
+// 平台自更新进度同样是 SSE 流，同样需要 X-DMP-TOKEN，因此走 utils/sse.js 的 fetch 版客户端。
+// after 是已收到的事件序号，刷新页面或断线续传时传上一条事件的 id。
+export const selfUpdateStreamURL = ({ after } = {}) => {
+  const query = new URLSearchParams()
+
+  if (after) query.set('after', String(after))
+
+  const search = query.toString()
+
+  return `/${ApiVersion}/platform/update/stream${search ? `?${search}` : ''}`
+}
+
 export default {
   overview: {
     url: `/platform/overview`,
@@ -27,6 +39,28 @@ export default {
     url: `/platform/game_version`,
     get: async function (data) {
       return await http.get(this.url, data)
+    },
+  },
+
+  // 平台版本检查：refresh=1 让后端忽略 10 分钟缓存重新查询 GitHub
+  version: {
+    url: `/platform/version`,
+    get: async function (data, config) {
+      return await http.get(this.url, data, config)
+    },
+  },
+
+  // 平台自更新：POST 发起任务，state 用于刷新页面后恢复进度
+  selfUpdate: {
+    url: `/platform/update`,
+    post: async function (data, config) {
+      return await http.post(this.url, data, config)
+    },
+    state: {
+      url: `/platform/update/state`,
+      get: async function (data, config) {
+        return await http.get(this.url, data, config)
+      },
     },
   },
   gameInstall: {

@@ -51,69 +51,114 @@
       </v-chip>
     </div>
     <div>
-      <template v-if="dmpVersionGap&&!globalStore.dmpVersion.noTip">
-        <v-tooltip>
-          <template #activator="{ props }">
-            <v-badge
-              v-bind="props"
-              location="top right"
-              color="error"
-              offset-x="24"
-              class="cursor-pointer"
-            >
-              <template #badge>
-                <div class="fcc">
-                  <span @click="noTip">
-                    New
-                  </span>
-                </div>
-              </template>
-              <v-chip
-                color="info"
-                class="mr-4"
-                prepend-icon="ri-medal-2-line"
-              >
-                {{ t('global.dmpVersion') + Version }}
-              </v-chip>
-            </v-badge>
-          </template>
-          <div>
-            {{ latestVersion }}
+      <v-badge
+        :model-value="showUpdateBadge"
+        location="top right"
+        color="error"
+        offset-x="24"
+      >
+        <template #badge>
+          <div class="fcc cursor-pointer">
+            <span @click="dismissUpdateTip">
+              New
+            </span>
           </div>
-          <div
-            v-for="(line, i) in releaseInfo"
-            :key="i"
-          >
-            {{ line }}
-          </div>
-        </v-tooltip>
-      </template>
-      <template v-else>
+        </template>
         <v-chip
           color="info"
           class="mr-4"
           prepend-icon="ri-medal-2-line"
         >
-          {{ t('global.dmpVersion') + Version }}
+          <v-tooltip
+            activator="parent"
+            interactive
+            location="bottom"
+          >
+            <div style="max-width: 340px;">
+              <span class="mr-4">
+                {{ t('global.current') + (dmpVersion.current || '--') }}
+              </span>
+              <span v-if="dmpVersion.latest">
+                {{ t('global.latest') + dmpVersion.latest }}
+              </span>
+              <div
+                v-if="dmpVersion.checkFailed"
+                class="mt-1"
+              >
+                {{ t('selfUpdate.checkFailed') }}
+              </div>
+              <template v-else>
+                <div class="mt-2">
+                  {{ t('selfUpdate.notes') }}
+                </div>
+                <v-container style="max-height: 200px; overflow: auto;">
+                  <div
+                    v-for="(line, index) in notesLines"
+                    :key="index"
+                  >
+                    {{ line }}
+                  </div>
+                </v-container>
+              </template>
+              <div
+                v-if="reasonText"
+                class="mt-1"
+              >
+                {{ reasonText }}
+              </div>
+              <div class="d-flex align-center my-4">
+                <v-btn
+                  v-if="canUpdate"
+                  size="small"
+                  color="primary"
+                  variant="tonal"
+                  @click="openUpdateDialog"
+                >
+                  {{ t('selfUpdate.updateNow') }}
+                </v-btn>
+                <v-btn
+                  v-else-if="dmpVersion.updatable"
+                  size="small"
+                  variant="tonal"
+                  disabled
+                >
+                  {{ t('selfUpdate.updateNow') }}
+                </v-btn>
+                <v-btn
+                  v-else
+                  size="small"
+                  variant="tonal"
+                  :loading="dmpVersion.loading"
+                  @click="checkVersion(true)"
+                >
+                  {{ t('selfUpdate.checkNow') }}
+                </v-btn>
+              </div>
+            </div>
+          </v-tooltip>
+          {{ t('global.dmpVersion') + (dmpVersion.current || '--') }}
         </v-chip>
-      </template>
+      </v-badge>
     </div>
   </div>
+  <dmp-update-dialog />
 </template>
 
 <script setup>
-import { Version } from "@/config/index"
 import { useI18n } from "vue-i18n"
 import { useDisplay } from "vuetify"
 import useGlobalStore from "@store/global"
+import useUserStore from "@store/user"
 import platformApi from "@/api/platform.js"
 import roomApi from "@/api/room.js"
+import { dmpVersion, fetchDmpVersion, openSelfUpdateDialog, releaseNoteLines } from "@/utils/selfUpdate.js"
 import ChipSelect from "./ChipSelect.vue"
 
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const { mobile } = useDisplay()
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
 const refresh = inject('refresh')
 
 const gameVersion = ref({
@@ -157,38 +202,43 @@ const getColor = () => {
   return 'success'
 }
 
-const dmpVersionGap = computed(() => {
-  return !!globalStore.latestRelease.latestVersion
-    && globalStore.latestRelease.latestVersion !== Version
+const isAdmin = computed(() => userStore.userInfo.role === 'admin')
+
+// 服务端最新 Release 的说明，tooltip 里去掉 Markdown 控制字符并截断
+const notesLines = computed(() => releaseNoteLines(dmpVersion.notes))
+
+// 有更新且当前环境能在网页上升级，才允许点「立即更新」
+const canUpdate = computed(() => dmpVersion.updatable && dmpVersion.canSelfUpdate && isAdmin.value)
+
+const reasonText = computed(() => {
+  if (!dmpVersion.updatable) return ''
+  if (!isAdmin.value) return t('selfUpdate.notAdmin')
+  if (dmpVersion.canSelfUpdate) return ''
+
+  const key = `selfUpdate.reason.${dmpVersion.reason || 'unsupported'}`
+
+  return te(key) ? t(key) : t('selfUpdate.reason.unsupported')
 })
 
-// 最新版本信息的缓存有效时长：1 小时
-const latestVersionCacheTime = 60 * 60 * 1000
+// New 角标的显示与关闭规则：关掉后只在出现更新的版本时再提醒
+const showUpdateBadge = computed(() => {
+  if (!dmpVersion.updatable) return false
+  if (!globalStore.dmpVersion.noTip) return true
 
-const latestVersion = computed(() => globalStore.latestRelease.latestVersion)
-const releaseInfo = computed(() => globalStore.latestRelease.releaseInfo)
+  return dmpVersion.latest !== globalStore.dmpVersion.closeVersion
+})
 
-const getLatestVersion = async () => {
-  // 缓存未过期时直接使用缓存，不再请求 GitHub，避免触发限流
-  const { updateTime } = globalStore.latestRelease
-  if (updateTime !== 0 && Date.now() - updateTime < latestVersionCacheTime) {
-    return
-  }
-
-  const success = await globalStore.fetchLatestRelease()
-
-  if (!success) {
-    return
-  }
-
-  if (globalStore.latestRelease.latestVersion !== globalStore.dmpVersion.closeVersion) {
-    globalStore.dmpVersion.noTip = false
-  }
+const dismissUpdateTip = () => {
+  globalStore.dmpVersion.noTip = true
+  globalStore.dmpVersion.closeVersion = dmpVersion.latest
 }
 
-const noTip = () => {
-  globalStore.dmpVersion.noTip = true
-  globalStore.dmpVersion.closeVersion = latestVersion.value
+const checkVersion = refresh => {
+  fetchDmpVersion({ refresh })
+}
+
+const openUpdateDialog = () => {
+  openSelfUpdateDialog()
 }
 
 const handleRoomChange = async () => {
@@ -199,7 +249,6 @@ const handleRoomChange = async () => {
 onMounted(async () => {
   await getGameVersion()
   getRoomPermittedBasic()
-  await getLatestVersion()
+  fetchDmpVersion()
 })
 </script>
-

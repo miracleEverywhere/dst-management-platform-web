@@ -19,6 +19,7 @@ declare module 'vue' {
     CloudTokenDialog: typeof import('./src/components/cloud/CloudTokenDialog.vue')['default']
     CodeEditor: typeof import('./src/components/CodeEditor.vue')['default']
     ConfirmBox: typeof import('./src/components/ConfirmBox.vue')['default']
+    DmpUpdateDialog: typeof import('./src/components/DmpUpdateDialog.vue')['default']
     ErrorHeader: typeof import('./src/components/ErrorHeader.vue')['default']
     Message: typeof import('./src/components/Message.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']

@@ -33,6 +33,10 @@ instance.interceptors.request.use(
   },
 )
 
+// 请求配置里带 silent: true 时不再弹全局错误提示，由页面自己展示状态。
+// 用于版本检查、更新进度轮询这类会周期性失败（服务重启中）或需要静默降级的请求。
+const isSilent = config => config?.silent === true
+
 // 业务错误：保留后端错误码，页面可以按 code 做针对性处理（例如 10061 引导配置 AI 模型）
 const buildBusinessError = data => {
   const error = new Error(data?.message || "服务器偷偷跑到火星去玩了")
@@ -77,7 +81,9 @@ instance.interceptors.response.use(
 
       return Promise.reject(response.data)
     } else {
-      showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
+      if (!isSilent(response.config)) {
+        showSnackbar(response.data.message || "服务器偷偷跑到火星去玩了", 'error')
+      }
 
       return Promise.reject(buildBusinessError(response.data)) // 异常对象保留 code/data，页面可按错误码处理
     }
@@ -86,10 +92,14 @@ instance.interceptors.response.use(
     // 响应错误处理
     error.data = error.data || {}
     if (error.data.message) {
-      showSnackbar(error.status + " " + error.data.message, 'error')
+      if (!isSilent(error.config)) {
+        showSnackbar(error.status + " " + error.data.message, 'error')
+      }
     } else {
       error.data.message = "连接到服务器失败"
-      showSnackbar(error.data.message, 'error')
+      if (!isSilent(error.config)) {
+        showSnackbar(error.data.message, 'error')
+      }
     }
 
     return Promise.reject(error) // 将错误返回给 try{} catch(){} 中进行捕获，就算不进行捕获，上方 res.data.status != 200也会抛出提示。
@@ -98,12 +108,13 @@ instance.interceptors.response.use(
 
 // 封装常用的请求方法
 const http = {
-  get: (url, params) => instance.get(url, { params }),
-  post: (url, data) => instance.post(url, data),
-  put: (url, data) => instance.put(url, data),
-  delete: (url, data) => instance.delete(url, {
+  get: (url, params, config) => instance.get(url, { params, ...config }),
+  post: (url, data, config) => instance.post(url, data, config),
+  put: (url, data, config) => instance.put(url, data, config),
+  delete: (url, data, config) => instance.delete(url, {
     headers: { 'Content-Type': 'application/json' },
     data: data,
+    ...config,
   }),
   download: async (url, params, filename) => {
     try {
