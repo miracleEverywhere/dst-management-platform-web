@@ -314,9 +314,9 @@ const headers = computed(() => [
   { title: t('diagnosis.history.columns.room'), key: 'roomName', minWidth: 220 },
   { title: t('diagnosis.history.columns.status'), key: 'status', minWidth: 120 },
   { title: t('diagnosis.history.columns.severity'), key: 'severity', minWidth: 140 },
-  { title: t('diagnosis.history.columns.summary'), key: 'summary' },
-  { title: t('diagnosis.history.columns.description'), key: 'description' },
-  { title: t('diagnosis.history.columns.actions'), key: 'appliedCount' },
+  { title: t('diagnosis.history.columns.summary'), key: 'summary', minWidth: 120 },
+  { title: t('diagnosis.history.columns.description'), key: 'description', minWidth: 120 },
+  { title: t('diagnosis.history.columns.actions'), key: 'appliedCount', minWidth: 140 },
   { title: t('diagnosis.history.columns.operation'), key: 'actions', sortable: false },
 ])
 

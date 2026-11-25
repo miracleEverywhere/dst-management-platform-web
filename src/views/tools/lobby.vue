@@ -310,7 +310,7 @@ const headers = computed(() => {
       key: 'season',
       sortable: false,
       align: 'center',
-      minWidth: 90,
+      minWidth: 120,
     },
     {
       title: t('tools.lobby.columns.dedicated'),
