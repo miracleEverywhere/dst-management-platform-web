@@ -558,7 +558,7 @@
                 <v-btn
                   v-tooltip="t('diagnosis.start.tip')"
                   variant="text"
-                  :color="colors.deepPurple.base"
+                  color="primary"
                   prepend-icon="ri-stethoscope-line"
                   to="/tools/ai-diagnosis"
                 >
